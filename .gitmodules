@@ -1,0 +1,3 @@
+[submodule "gen/Space-Debugger"]
+	path = gen/Space-Debugger
+	url = https://github.com/olegkutkov/Space-Debugger

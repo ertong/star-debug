@@ -1,0 +1,28 @@
+general:
+  lang: Українська
+  app_name: Ubib24
+  close: Закрити
+  cancel: Скасувати
+  next: Далі
+  back: Назад
+  save: Зберегти
+  no_changes: Немає змін
+  try_again: Повторити
+  loading: Завантаження ...
+  loading_error: Помилка завантаження
+  error_occured: Виникла помилка
+  refresh: Оновити
+  copied_to_clipboard: Скопійовано в буфер обміну
+  confirm: Підтвердити
+  reject: Відхилити
+  no_items: Пустий список
+  got_it: Зрозуміло
+  ok: OK
+  select_lang: Оберіть мову
+  change_language: Змінити мову
+  dish: Тарілка
+  router: Роутер
+  device_app: Додаток
+  open_json_file: Відкрити JSON файл
+  debug_data_viewer: Перегляд Debug Data
+  no_data_found: Дані не знайдено

@@ -1,0 +1,29 @@
+
+general:
+  lang: 'English'
+  app_name: 'Star Debug'
+  close: Close
+  cancel: Cancel
+  next: Next
+  back: Back
+  save: Save
+  no_changes: No changes
+  try_again: Try again
+  loading: Loading ...
+  loading_error: Loading error occurred
+  error_occured: Error occurred
+  refresh: Refresh
+  copied_to_clipboard: Copied to clipboard
+  confirm: Confirm
+  reject: Reject
+  no_items: No items
+  got_it: Got it
+  ok: OK
+  select_lang: Select language
+  change_language: Change language
+  dish: Dish
+  router: Router
+  device_app: Device App
+  open_json_file: Open JSON file
+  debug_data_viewer: Debug Data Viewer
+  no_data_found: No data found
