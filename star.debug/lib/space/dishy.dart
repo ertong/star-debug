@@ -46,11 +46,11 @@ class Dishy extends Entity {
     Map<String, dynamic> deviceInfo = json_object[DEVICE_INFO_KEY];
     Map<String, dynamic> deviceState = json_object[DEVICE_STATE_KEY];
 
-    res.deviceId = deviceInfo[DEVICE_INFO_ID_KEY] ?? _('Unknown');
-    res.swVersion = deviceInfo[DEVICE_INFO_SW_VER_KEY] ?? _('Unknown');
-    res.hwVersion = deviceInfo[DEVICE_INFO_HW_VER_KEY] ?? _('Unknown');
-    res.mfVersion = deviceInfo[DEVICE_INFO_MF_VER_KEY] ?? _('Unknown');
-    res.countryCode = deviceInfo[DEVICE_INFO_CC_KEY] ?? _('Unknown');
+    res.deviceId = "${deviceInfo[DEVICE_INFO_ID_KEY] ?? _('Unknown')}";
+    res.swVersion = "${deviceInfo[DEVICE_INFO_SW_VER_KEY] ?? _('Unknown')}";
+    res.hwVersion = "${deviceInfo[DEVICE_INFO_HW_VER_KEY] ?? _('Unknown')}";
+    res.mfVersion = "${deviceInfo[DEVICE_INFO_MF_VER_KEY] ?? _('Unknown')}";
+    res.countryCode = "${deviceInfo[DEVICE_INFO_CC_KEY] ?? _('Unknown')}";
     res.utcOffHours = deviceInfo[DEVICE_INFO_UTC_OFF_KEY] ?? 0;
     res.swPartsEq = deviceInfo[DEVICE_INFO_SW_PARTS_EQ_KEY] ?? false;
     res.isDeveloper = deviceInfo[DEVICE_INFO_IS_DEV_KEY] ?? false;

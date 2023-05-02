@@ -42,10 +42,10 @@ class Router extends Entity {
     Map<String, dynamic> device_info = json_object[DEVICE_INFO_KEY];
     Map<String, dynamic> device_state = json_object[DEVICE_STATE_KEY];
 
-    res.device_id = device_info[DEVICE_INFO_ID_KEY] ?? _('Unknown');
-    res.sw_version = device_info[DEVICE_INFO_SW_VER_KEY] ?? _('Unknown');
-    res.hw_version = device_info[DEVICE_INFO_HW_VER_KEY] ?? _('Unknown');
-    res.mf_version = device_info[DEVICE_INFO_MF_VER_KEY] ?? _('Unknown');
+    res.device_id = "${device_info[DEVICE_INFO_ID_KEY] ?? _('Unknown')}";
+    res.sw_version = "${device_info[DEVICE_INFO_SW_VER_KEY] ?? _('Unknown')}";
+    res.hw_version = "${device_info[DEVICE_INFO_HW_VER_KEY] ?? _('Unknown')}";
+    res.mf_version = "${device_info[DEVICE_INFO_MF_VER_KEY] ?? _('Unknown')}";
     res.gen_number = "${device_info[DEVICE_INFO_GEN_NUMBER] ?? _('Unknown')}";
     res.country_code = device_info[DEVICE_INFO_CC_KEY] ?? _('Unknown');
     res.utc_off_hours = (device_info[DEVICE_INFO_UTC_OFF_KEY] ?? 0).toInt();
@@ -121,7 +121,7 @@ class RouterNetwork extends EntityModule {
 
   static RouterNetwork? of(Map<String, dynamic> jsonObject) {
     var res = RouterNetwork();
-    res.wanIpv4 = jsonObject[ROUTER_WAN_IPV4_ADDRESS_KEY] ?? '0.0.0.0';
+    res.wanIpv4 = "${jsonObject[ROUTER_WAN_IPV4_ADDRESS_KEY] ?? '0.0.0.0'}";
     res.pingDropRate = (jsonObject[ROUTER_PING_DROP_RATE_KEY] ?? 0).toInt();
     res.dishPingDropRate = (jsonObject[ROUTER_DISH_PING_DROP_RATE_KEY] ?? 0).toInt();
     res.dishPingLatencyMs = (jsonObject[ROUTER_DISH_PING_LATENCY_MS_KEY] ?? 0).toInt();
