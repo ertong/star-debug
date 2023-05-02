@@ -84,6 +84,7 @@ class GeneralMessages {
   String get router => """Router""";
   String get device_app => """Device App""";
   String get open_json_file => """Open JSON file""";
+  String get open_clipboard => """Open JSON from clipboard""";
   String get debug_data_viewer => """Debug Data Viewer""";
   String get no_data_found => """No data found""";
 }
@@ -114,6 +115,7 @@ Map<String, String> get messagesMap => {
       """general.router""": """Router""",
       """general.device_app""": """Device App""",
       """general.open_json_file""": """Open JSON file""",
+      """general.open_clipboard""": """Open JSON from clipboard""",
       """general.debug_data_viewer""": """Debug Data Viewer""",
       """general.no_data_found""": """No data found""",
     };

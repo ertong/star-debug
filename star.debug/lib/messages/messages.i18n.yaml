@@ -25,5 +25,6 @@ general:
   router: Router
   device_app: Device App
   open_json_file: Open JSON file
+  open_clipboard: Open JSON from clipboard
   debug_data_viewer: Debug Data Viewer
   no_data_found: No data found

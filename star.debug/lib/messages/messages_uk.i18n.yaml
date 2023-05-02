@@ -24,5 +24,6 @@ general:
   router: Роутер
   device_app: Додаток
   open_json_file: Відкрити JSON файл
+  open_clipboard: Відкрити JSON з буфера обміну
   debug_data_viewer: Перегляд Debug Data
   no_data_found: Дані не знайдено

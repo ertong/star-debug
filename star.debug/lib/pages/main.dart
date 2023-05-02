@@ -98,17 +98,33 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
               child:
                   (parser?.hasData() ?? false)
                     ? SingleChildScrollView(controller: scrollController, child: Column(children: _buildSpace(),),)
-                    : Center(child: TextButton(
-                        onPressed: onOpenClicked,
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(Icons.add_circle),
-                            Container(width: 5, height: 5,),
-                            Text(M.general.open_json_file),
-                          ],
-                        )
-                      ),),
+                    : Center(child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        TextButton(
+                            onPressed: onOpenClicked,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(Icons.add_circle),
+                                Container(width: 5, height: 5,),
+                                Text(M.general.open_json_file),
+                              ],
+                            )
+                          ),
+                        TextButton(
+                            onPressed: onOpenClipboardClicked,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(Icons.paste),
+                                Container(width: 5, height: 5,),
+                                Text(M.general.open_clipboard),
+                              ],
+                            )
+                          ),
+                      ],
+                    ),),
             ),
           ],
         ),
@@ -225,6 +241,20 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
     return rows;
   }
 
+
+  void onOpenClipboardClicked() async {
+    try {
+      var str = await FlutterClipboard.paste();
+      var data = jsonDecode(str);
+      newData(data);
+      setState(() {});
+    } catch (e, s) {
+      LogUtils.ers(_TAG, "Opening clipboard", e, s);
+      R.showSnackBarText("$e");
+    }
+
+  }
+
   void onOpenClicked() async {
     parser = null;
     final FilePickerResult? result = await FilePicker.platform.pickFiles(
@@ -254,10 +284,17 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
       title: Text(M.general.debug_data_viewer),
       centerTitle: true,
       actions: [
-        TextButton(
-            onPressed: onOpenClicked,
-            child: Icon(Icons.add_circle, color: Colors.white,)
-        )
+        if (parser!=null)
+          TextButton(
+              onPressed: (){
+                _selectedIndex=0;
+                pages.clear();
+                parser = null;
+                obstructions = null;
+                setState(() {});
+              },
+              child: Icon(Icons.clear, color: Colors.white,)
+          )
       ],
     );
   }

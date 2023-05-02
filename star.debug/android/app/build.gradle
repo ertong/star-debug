@@ -54,6 +54,9 @@ android {
         targetSdkVersion 33 //flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        ndk {
+            abiFilters "x86_64", "armeabi-v7a", "arm64-v8a"
+        }
     }
 
     signingConfigs {
@@ -84,7 +87,6 @@ flutter {
 
 dependencies {
     implementation platform('com.google.firebase:firebase-bom:31.0.0')
-    implementation "androidx.multidex:multidex:2.0.1"
 }
 
 //apply plugin: 'com.google.firebase.crashlytics'

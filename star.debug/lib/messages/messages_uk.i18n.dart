@@ -85,6 +85,7 @@ class GeneralMessagesUk extends GeneralMessages {
   String get router => """Роутер""";
   String get device_app => """Додаток""";
   String get open_json_file => """Відкрити JSON файл""";
+  String get open_clipboard => """Відкрити JSON з буфера обміну""";
   String get debug_data_viewer => """Перегляд Debug Data""";
   String get no_data_found => """Дані не знайдено""";
 }
@@ -115,6 +116,7 @@ Map<String, String> get messagesUkMap => {
       """general.router""": """Роутер""",
       """general.device_app""": """Додаток""",
       """general.open_json_file""": """Відкрити JSON файл""",
+      """general.open_clipboard""": """Відкрити JSON з буфера обміну""",
       """general.debug_data_viewer""": """Перегляд Debug Data""",
       """general.no_data_found""": """Дані не знайдено""",
     };
