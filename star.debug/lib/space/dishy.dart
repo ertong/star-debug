@@ -54,11 +54,11 @@ class Dishy extends Entity {
     res.utcOffHours = deviceInfo[DEVICE_INFO_UTC_OFF_KEY] ?? 0;
     res.swPartsEq = deviceInfo[DEVICE_INFO_SW_PARTS_EQ_KEY] ?? false;
     res.isDeveloper = deviceInfo[DEVICE_INFO_IS_DEV_KEY] ?? false;
-    res.bootCount = deviceInfo[DEVICE_INFO_BOOT_COUNT_KEY] ?? 0;
-    res.antiRollbackVersion = deviceInfo[DEVICE_INFO_ANTI_ROLLBACK_KEY] ?? 0;
+    res.bootCount = (deviceInfo[DEVICE_INFO_BOOT_COUNT_KEY] ?? 0).toInt();
+    res.antiRollbackVersion = (deviceInfo[DEVICE_INFO_ANTI_ROLLBACK_KEY] ?? 0).toInt();
 
-    res.timestamp = json_object[DEVICE_TIMESTAMP_KEY] ?? 0;
-    res.uptime = deviceState[DEVICE_UPTIME_KEY] ?? 0;
+    res.timestamp = (json_object[DEVICE_TIMESTAMP_KEY] ?? 0).toInt();
+    res.uptime = (deviceState[DEVICE_UPTIME_KEY] ?? 0).toInt();
 
     res.hasActuators = ActuatorState.byVal(json_object[DEVICE_HAS_ACTUATORS_KEY] ?? 0);
     res.stowRequested = json_object[DEVICE_STOW_REQUESTED_KEY] ?? false;
@@ -155,12 +155,12 @@ class DishyNetwork extends EntityModule {
   static DishyNetwork of(Map<String, dynamic> jsonObject) {
     var res = DishyNetwork();
     res.etherSpeed = jsonObject[DEVICE_ETHER_SPEED_KEY] ?? 100;
-    res.downlinkTputBps = 1.0*(jsonObject[NET_DOWNLINK_TPUT_BPS_KEY] ?? 0.0);
-    res.uplinkTputBps = 1.0*(jsonObject[NET_UPLINK_TPUT_BPS_KEY] ?? 0.0);
-    res.popPingLatency = 1.0*(jsonObject[NET_POP_PING_LATENCY_MS_KEY] ?? 0.0);
-    res.popPingDropRate = jsonObject[NET_POP_PING_DROP_RATE_KEY] ?? 0;
+    res.downlinkTputBps = (jsonObject[NET_DOWNLINK_TPUT_BPS_KEY] ?? 0.0).toDouble();
+    res.uplinkTputBps = (jsonObject[NET_UPLINK_TPUT_BPS_KEY] ?? 0.0).toDouble();
+    res.popPingLatency = (jsonObject[NET_POP_PING_LATENCY_MS_KEY] ?? 0.0).toDouble();
+    res.popPingDropRate = (jsonObject[NET_POP_PING_DROP_RATE_KEY] ?? 0).toInt();
     res.secondsToFirstNonEmptySlot =
-        jsonObject[NET_SECONDS_TO_FIRST_NON_EMPTY_SLOT_KEY] ?? 0;
+        (jsonObject[NET_SECONDS_TO_FIRST_NON_EMPTY_SLOT_KEY] ?? 0).toInt();
 
     return res;
   }
@@ -195,7 +195,7 @@ class DishyGPS extends EntityModule {
     final gpsStats = jsonObject[DEVICE_GPS_STATS_KEY];
 
     res.gpsValid = gpsStats[DEVICE_GPS_STATS_GPS_VALID_KEY] ?? false;
-    res.gpsSats = gpsStats[DEVICE_GPS_STATS_GPS_SATS_KEY] ?? 0;
+    res.gpsSats = (gpsStats[DEVICE_GPS_STATS_GPS_SATS_KEY] ?? 0).toInt();
     res.gpsNoSatsAfterFix = gpsStats[DEVICE_GPS_STATS_NO_SATS_AFTER_FFIX] ?? false;
 
     return res;
@@ -223,8 +223,8 @@ class DishyAntenna extends EntityModule {
     DishyAntenna res = DishyAntenna();
     res.snrAboveNoiseFloor = jsonObject[DEVICE_IS_SNR_ABOVE_NOISE_FLOOR_KEY] ?? false;
     res.snrPersistentlyLow = jsonObject[DEVICE_IS_SNR_PERSISTENTLY_LOW_KEY] ?? false;
-    res.boresightAzDeg = jsonObject[DEVICE_BORESIGHT_AZIMUTH_DEG_KEY] ?? 0;
-    res.boresightElDeg = jsonObject[DEVICE_BORESIGHT_ELEVATION_DEG_KEY] ?? 0;
+    res.boresightAzDeg = (jsonObject[DEVICE_BORESIGHT_AZIMUTH_DEG_KEY] ?? 0).toInt();
+    res.boresightElDeg = (jsonObject[DEVICE_BORESIGHT_ELEVATION_DEG_KEY] ?? 0).toInt();
 
     return res;
   }
@@ -302,8 +302,8 @@ class DishyOutage extends EntityModule {
     final outageData = jsonObject[DEVICE_OUTAGE_KEY];
 
     res.cause = OutageCause.byVal(outageData[DEVICE_OUTAGE_CAUSE_KEY] ?? 0);
-    res.startTimestampNs = outageData[DEVICE_OUTAGE_START_TIMESTAMP_NS_KEY] ?? 0;
-    res.outageDurationNs = outageData[DEVICE_OUTAGE_DURATION_NS_KEY] ?? 0;
+    res.startTimestampNs = (outageData[DEVICE_OUTAGE_START_TIMESTAMP_NS_KEY] ?? 0).toInt();
+    res.outageDurationNs = (outageData[DEVICE_OUTAGE_DURATION_NS_KEY] ?? 0).toInt();
     res.didSwitch = outageData[DEVICE_OUTAGE_DID_SWITCH_KEY] ?? false;
 
     return res;
@@ -344,13 +344,13 @@ class DishyObstructions extends EntityModule {
     Map<String, dynamic> obstr_data = json_object[DEVICE_OBSTRUCTION_STATS_KEY];
 
     res.currently_obstructed = obstr_data[DEVICE_OBSTRUCTION_STATS_CURRENTLY_OBSTRUCTED_KEY] ?? false;
-    res.fraction_obstructed = 1.0*(obstr_data[DEVICE_OBSTRUCTION_STATS_FRACTION_OBSTRUCTED_KEY] ?? 0);
-    res.time_obstructed = obstr_data[DEVICE_OBSTRUCTION_STATS_TIME_OBSTRUCTED_KEY] ?? 0;
-    res.valid_sec = obstr_data[DEVICE_OBSTRUCTION_STATS_VALID_SEC_KEY] ?? 0;
-    res.frac_obstr_list = [for (var f in obstr_data[DEVICE_OBSTRUCTION_STATS_WEDGE_FRAC_OBSTRUCTED_LIST_KEY] ?? []) f*1.0 ];
+    res.fraction_obstructed = (obstr_data[DEVICE_OBSTRUCTION_STATS_FRACTION_OBSTRUCTED_KEY] ?? 0.0).toDouble();
+    res.time_obstructed = (obstr_data[DEVICE_OBSTRUCTION_STATS_TIME_OBSTRUCTED_KEY] ?? 0).toInt();
+    res.valid_sec = (obstr_data[DEVICE_OBSTRUCTION_STATS_VALID_SEC_KEY] ?? 0).toInt();
+    res.frac_obstr_list = [for (var f in obstr_data[DEVICE_OBSTRUCTION_STATS_WEDGE_FRAC_OBSTRUCTED_LIST_KEY] ?? []) f.toDouble() ];
     res.abs_obstr_list = obstr_data[DEVICE_OBSTRUCTION_STATS_WEDGE_ABS_OBSTRUCTED_LIST_KEY]?.cast<bool>() ?? [];
-    res.avg_pr_dur_sec = obstr_data[DEVICE_OBSTRUCTION_STATS_AVG_PROLONGED_OBSTR_DURATION_SEC_KEY] ?? 0;
-    res.avg_pr_int_sec = obstr_data[DEVICE_OBSTRUCTION_STATS_AVG_PROLONGED_OBSTR_INTERVAL_SEC_KEY] ?? 0;
+    res.avg_pr_dur_sec = (obstr_data[DEVICE_OBSTRUCTION_STATS_AVG_PROLONGED_OBSTR_DURATION_SEC_KEY] ?? 0).toInt();
+    res.avg_pr_int_sec = (obstr_data[DEVICE_OBSTRUCTION_STATS_AVG_PROLONGED_OBSTR_INTERVAL_SEC_KEY] ?? 0).toInt();
     res.avg_pr_valid = obstr_data[DEVICE_OBSTRUCTION_STATS_AVG_PROLONGED_OBSTR_VALID] ?? false;
 
     res.image = null;

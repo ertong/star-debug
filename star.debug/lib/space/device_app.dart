@@ -35,37 +35,28 @@ class DeviceApp extends Entity {
 
     dynamic device_app = json_object[DEVICE_APP_KEY];
 
-    res.device_app_version =
-      device_app.containsKey(DEVICE_APP_VERSION_KEY) ? device_app[DEVICE_APP_VERSION_KEY] : _('Unknown');
-    res.device_app_environment =
-      device_app.containsKey(DEVICE_APP_ENVIRONMENT_KEY) ? device_app[DEVICE_APP_ENVIRONMENT_KEY] : _('Unknown');
-    res.device_app_build = device_app.containsKey(DEVICE_APP_BUILD_KEY) ? device_app[DEVICE_APP_BUILD_KEY] : '';
-    res.device_app_hash = device_app.containsKey(DEVICE_APP_HASH_KEY) ? device_app[DEVICE_APP_HASH_KEY] : '';
-    res.device_app_timestamp =
-      device_app.containsKey(DEVICE_APP_TIMESTAMP_KEY) ? device_app[DEVICE_APP_TIMESTAMP_KEY] : 0;
+    res.device_app_version = device_app[DEVICE_APP_VERSION_KEY] ?? _('Unknown');
+    res.device_app_environment = device_app[DEVICE_APP_ENVIRONMENT_KEY] ?? _('Unknown');
+    res.device_app_build = device_app[DEVICE_APP_BUILD_KEY] ?? '';
+    res.device_app_hash = device_app[DEVICE_APP_HASH_KEY] ?? '';
+    res.device_app_timestamp = (device_app[DEVICE_APP_TIMESTAMP_KEY] ?? 0).toInt();
 
     res.platform_os = 'unknown';
 
     if (json_object.containsKey(DEVICE_PLATFORM_KEY)) {
-      res.platform_os = json_object[DEVICE_PLATFORM_KEY].containsKey(DEVICE_PLATFORM_OS_KEY)
-          ? json_object[DEVICE_PLATFORM_KEY][DEVICE_PLATFORM_OS_KEY]
-          : 'unknown';
+      res.platform_os = json_object[DEVICE_PLATFORM_KEY][DEVICE_PLATFORM_OS_KEY] ?? 'unknown';
     }
 
     res.plugins = [];
 
     if (res.platform_os != 'web' && res.platform_os != 'unknown') {
-      res.platform_os_version = json_object[DEVICE_PLATFORM_KEY].containsKey(DEVICE_PLATFORM_VERSION_KEY)
-          ? json_object[DEVICE_PLATFORM_KEY][DEVICE_PLATFORM_VERSION_KEY]
-          : '';
-      res.timestamp = json_object.containsKey(DEVICE_TIMESTAMP_KEY) ? json_object[DEVICE_TIMESTAMP_KEY] : 0;
-      res.uptime = json_object.containsKey(DEVICE_UPTIME_KEY) ? json_object[DEVICE_UPTIME_KEY] : 0;
-      res.device = json_object.containsKey(DEVICE_NAME_KEY) ? json_object[DEVICE_NAME_KEY] : '';
-      res.device_model = json_object.containsKey(DEVICE_MODEL_KEY) ? json_object[DEVICE_MODEL_KEY] : '';
-      res.device_id = json_object.containsKey(DEVICE_ID_KEY) ? json_object[DEVICE_ID_KEY] : '';
-      res.wifi_ip = json_object[DEVICE_WIFI_KEY].containsKey(DEVICE_WIFI_IP_ADDR_KEY)
-          ? json_object[DEVICE_WIFI_KEY][DEVICE_WIFI_IP_ADDR_KEY]
-          : '0.0.0.0';
+      res.platform_os_version = json_object[DEVICE_PLATFORM_KEY][DEVICE_PLATFORM_VERSION_KEY] ?? '';
+      res.timestamp = (json_object[DEVICE_TIMESTAMP_KEY] ?? 0).toInt();
+      res.uptime = (json_object[DEVICE_UPTIME_KEY] ?? 0).toInt();
+      res.device = json_object[DEVICE_NAME_KEY] ?? '';
+      res.device_model = json_object[DEVICE_MODEL_KEY] ?? '';
+      res.device_id = json_object[DEVICE_ID_KEY] ?? '';
+      res.wifi_ip = json_object[DEVICE_WIFI_KEY][DEVICE_WIFI_IP_ADDR_KEY] ?? '0.0.0.0';
 
       res.plugins.add(DeviceNetwork.of(json_object));
       res.plugins.add(DeviceSensors.of(json_object));
@@ -134,12 +125,12 @@ class DeviceNetwork extends EntityModule {
     Map<String, dynamic> networkInfo = network[DEVICE_NETWORK_NETINFO_KEY];
     Map<String, dynamic> networkInfoDetails = networkInfo[DEVICE_NETWORK_NETINFO_DETAILS_KEY];
 
-    res.isVpn = network.containsKey(DEVICE_NETWORK_VPN_KEY) ? network[DEVICE_NETWORK_VPN_KEY] : false;
-    res.gatewayIp = network.containsKey(DEVICE_NETWORK_GATEWAY_IP_ADDR_KEY) ? network[DEVICE_NETWORK_GATEWAY_IP_ADDR_KEY] : '0.0.0.0';
-    res.netType = networkInfo.containsKey(DEVICE_NETWORK_NETINFO_TYPE_KEY) ? networkInfo[DEVICE_NETWORK_NETINFO_TYPE_KEY] : 'wifi';
-    res.isConnected = networkInfo.containsKey(DEVICE_NETWORK_NETINFO_IS_CONNECTED_KEY) ? networkInfo[DEVICE_NETWORK_NETINFO_IS_CONNECTED_KEY] : false;
-    res.isInternetAvailable = networkInfo.containsKey(DEVICE_NETWORK_IS_INTERNET_REACHABLE) ? networkInfo[DEVICE_NETWORK_IS_INTERNET_REACHABLE] : false;
-    res.ipAddr = networkInfoDetails.containsKey(DEVICE_NETWORK_NETINFO_DETAILS_IP_ADDR_KEY) ? networkInfoDetails[DEVICE_NETWORK_NETINFO_DETAILS_IP_ADDR_KEY] : '0.0.0.0';
+    res.isVpn = network[DEVICE_NETWORK_VPN_KEY] ?? false;
+    res.gatewayIp = network[DEVICE_NETWORK_GATEWAY_IP_ADDR_KEY] ?? '0.0.0.0';
+    res.netType = networkInfo[DEVICE_NETWORK_NETINFO_TYPE_KEY] ?? 'wifi';
+    res.isConnected = networkInfo[DEVICE_NETWORK_NETINFO_IS_CONNECTED_KEY] ?? false;
+    res.isInternetAvailable = networkInfo[DEVICE_NETWORK_IS_INTERNET_REACHABLE] ?? false;
+    res.ipAddr = networkInfoDetails[DEVICE_NETWORK_NETINFO_DETAILS_IP_ADDR_KEY] ?? '0.0.0.0';
 
     return res;
   }

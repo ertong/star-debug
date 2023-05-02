@@ -48,14 +48,14 @@ class Router extends Entity {
     res.mf_version = device_info[DEVICE_INFO_MF_VER_KEY] ?? _('Unknown');
     res.gen_number = "${device_info[DEVICE_INFO_GEN_NUMBER] ?? _('Unknown')}";
     res.country_code = device_info[DEVICE_INFO_CC_KEY] ?? _('Unknown');
-    res.utc_off_hours = device_info[DEVICE_INFO_UTC_OFF_KEY] ?? 0;
+    res.utc_off_hours = (device_info[DEVICE_INFO_UTC_OFF_KEY] ?? 0).toInt();
     res.sw_parts_eq = device_info[DEVICE_INFO_SW_PARTS_EQ_KEY] ?? false;
     res.is_developer = device_info[DEVICE_INFO_IS_DEV_KEY] ?? false;
-    res.boot_count = device_info[DEVICE_INFO_BOOT_COUNT_KEY] ?? 0;
-    res.anti_rollback_version = device_info[DEVICE_INFO_ANTI_ROLLBACK_KEY] ?? 0;
+    res.boot_count = (device_info[DEVICE_INFO_BOOT_COUNT_KEY] ?? 0).toInt();
+    res.anti_rollback_version = (device_info[DEVICE_INFO_ANTI_ROLLBACK_KEY] ?? 0).toInt();
 
-    res.timestamp = json_object[DEVICE_TIMESTAMP_KEY] ?? 0;
-    res.uptime = device_state[DEVICE_UPTIME_KEY] ?? 0;
+    res.timestamp = (json_object[DEVICE_TIMESTAMP_KEY] ?? 0).toInt();
+    res.uptime = (device_state[DEVICE_UPTIME_KEY] ?? 0).toInt();
 
     res.is_aviation = json_object[ROUTER_IS_AVIATION_KEY] ?? false;
     res.captiva_portal_enabled = json_object[ROUTER_CAPTIVE_PORTAL_ENABLED_KEY] ?? false;
@@ -122,11 +122,11 @@ class RouterNetwork extends EntityModule {
   static RouterNetwork? of(Map<String, dynamic> jsonObject) {
     var res = RouterNetwork();
     res.wanIpv4 = jsonObject[ROUTER_WAN_IPV4_ADDRESS_KEY] ?? '0.0.0.0';
-    res.pingDropRate = jsonObject[ROUTER_PING_DROP_RATE_KEY] ?? 0;
-    res.dishPingDropRate = jsonObject[ROUTER_DISH_PING_DROP_RATE_KEY] ?? 0;
-    res.dishPingLatencyMs = jsonObject[ROUTER_DISH_PING_LATENCY_MS_KEY] ?? 0;
-    res.popPingDropRate = jsonObject[ROUTER_POP_PING_DROP_RATE_KEY] ?? 0;
-    res.popPingLatencyMs = jsonObject[ROUTER_POP_PING_LATENCY_MS_KEY] ?? 0;
+    res.pingDropRate = (jsonObject[ROUTER_PING_DROP_RATE_KEY] ?? 0).toInt();
+    res.dishPingDropRate = (jsonObject[ROUTER_DISH_PING_DROP_RATE_KEY] ?? 0).toInt();
+    res.dishPingLatencyMs = (jsonObject[ROUTER_DISH_PING_LATENCY_MS_KEY] ?? 0).toInt();
+    res.popPingDropRate = (jsonObject[ROUTER_POP_PING_DROP_RATE_KEY] ?? 0).toInt();
+    res.popPingLatencyMs = (jsonObject[ROUTER_POP_PING_LATENCY_MS_KEY] ?? 0).toInt();
 
     return res;
   }
@@ -159,7 +159,7 @@ class BootInfo extends EntityModule {
     var res = BootInfo();
 
     res.lastReason = BootReason.byVal(bootInfo[ROUTER_BOOT_LAST_REASON] ?? 0);
-    res.lastCount = bootInfo[ROUTER_BOOT_LAST_COUNT] ?? 0;
+    res.lastCount = (bootInfo[ROUTER_BOOT_LAST_COUNT] ?? 0).toInt();
     for (var v in bootInfo[ROUTER_BOOT_COUNT_BY_REASON_MAP_KEY] ?? [])
       res.countByReasonMap[v[0]] = v[1];
 
