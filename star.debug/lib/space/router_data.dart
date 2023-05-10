@@ -1,4 +1,8 @@
 // Generated file. DO NOT edit manually
+import 'package:star_debug/preloaded.dart';
+
+var _ = R.text.t;
+
 var dev_images = {
   'v1': 'resources/devices/router_v1.png',
   'v2': 'resources/devices/router_v2.png',
@@ -14,6 +18,7 @@ enum BootReason {
   ;
   final int val;
   final String str;
+  String get strt => _(str);
   const BootReason(this.val, this.str);
   static BootReason byVal(int val) {
     var res = BootReason.values.where((e) => e.val==val);
@@ -22,6 +27,7 @@ enum BootReason {
 }
 
 const DEVICE_ALERTS_KEY = 'alerts';
+const DEVICE_FEATURES_KEY = 'features';
 const DEVICE_INFO_ANTI_ROLLBACK_KEY = 'antiRollbackVersion';
 const DEVICE_INFO_BOOT_COUNT_KEY = 'bootcount';
 const DEVICE_INFO_CC_KEY = 'countryCode';
@@ -45,6 +51,7 @@ const ROUTER_CAPTIVE_PORTAL_ENABLED_KEY = 'captivePortalEnabled';
 const ROUTER_CLOUD_ACCESS_KEY = 'cloud';
 const ROUTER_DISH_PING_DROP_RATE_KEY = 'dishPingDropRate';
 const ROUTER_DISH_PING_LATENCY_MS_KEY = 'dishPingLatencyMs';
+const ROUTER_IS_AVIATION_CONFORMED_KEY = 'isAviationConformed';
 const ROUTER_IS_AVIATION_KEY = 'isAviation';
 const ROUTER_KEY = 'router';
 const ROUTER_PING_DROP_RATE_KEY = 'pingDropRate';
@@ -52,5 +59,7 @@ const ROUTER_PING_LATENCY_MS_KEY = 'pingLatencyMs';
 const ROUTER_POP_PING_DROP_RATE_KEY = 'popPingDropRate';
 const ROUTER_POP_PING_LATENCY_MS_KEY = 'popPingLatencyMs';
 const ROUTER_REACHABLE_KEY = 'reachable';
+const ROUTER_WAN_DHPS_SERVERS_LIST_KEY = 'dhcpServersList';
 const ROUTER_WAN_IPV4_ADDRESS_KEY = 'ipv4WanAddress';
+const ROUTER_WAN_IPV6_ADDRESS_LIST_KEY = 'ipv6WanAddressesList';
 

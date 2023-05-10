@@ -17,6 +17,7 @@ class Dishy extends Entity {
   var utcOffHours = 0;
   bool swPartsEq = false;
   bool isDeveloper = false;
+  bool dishyCohoused = false;
   int bootCount = 0;
   int antiRollbackVersion = 0;
   int timestamp = 0;
@@ -56,6 +57,7 @@ class Dishy extends Entity {
     res.isDeveloper = deviceInfo[DEVICE_INFO_IS_DEV_KEY] ?? false;
     res.bootCount = (deviceInfo[DEVICE_INFO_BOOT_COUNT_KEY] ?? 0).toInt();
     res.antiRollbackVersion = (deviceInfo[DEVICE_INFO_ANTI_ROLLBACK_KEY] ?? 0).toInt();
+    res.dishyCohoused = deviceInfo[DEVICE_DISH_COHOUSED_KEY] ?? false;
 
     res.timestamp = (json_object[DEVICE_TIMESTAMP_KEY] ?? 0).toInt();
     res.uptime = (deviceState[DEVICE_UPTIME_KEY] ?? 0).toInt();
@@ -74,6 +76,7 @@ class Dishy extends Entity {
     res.plugins.add(DishyNetwork.of(json_object));
     res.plugins.add(DishyGPS.of(json_object));
     res.plugins.add(DishyAntenna.of(json_object));
+    res.plugins.add(Features.of(json_object));
     res.plugins.add(DishyReadyStates.of(json_object));
     res.plugins.add(DishyOutage.of(json_object));
     res.plugins.add(DishyObstructions.of(json_object));
@@ -110,6 +113,7 @@ class Dishy extends Entity {
     kv.kv(_('Software update state'), _(softwareUpdState.str));
     kv.kv(_('User terminal ID'), deviceId);
     kv.kv(_('Development hardware'), yes_or_no(isDeveloper));
+    kv.kv(_('Starlink cohoused'), yes_or_no(dishyCohoused));
     kv.kv(_('Actuators'), _(hasActuators.str));
     kv.kv(_('Stow requested'), yes_or_no(stowRequested));
 
@@ -185,6 +189,7 @@ class DishyGPS extends EntityModule {
   bool gpsValid = false;
   int gpsSats = 0;
   bool gpsNoSatsAfterFix = false;
+  bool gpsInhibit = false;
 
   static DishyGPS? of(Map<String, dynamic> jsonObject) {
     if (!jsonObject.containsKey(DEVICE_GPS_STATS_KEY))
@@ -196,7 +201,8 @@ class DishyGPS extends EntityModule {
 
     res.gpsValid = gpsStats[DEVICE_GPS_STATS_GPS_VALID_KEY] ?? false;
     res.gpsSats = (gpsStats[DEVICE_GPS_STATS_GPS_SATS_KEY] ?? 0).toInt();
-    res.gpsNoSatsAfterFix = gpsStats[DEVICE_GPS_STATS_NO_SATS_AFTER_FFIX] ?? false;
+    res.gpsNoSatsAfterFix = gpsStats[DEVICE_GPS_STATS_NO_SATS_AFTER_FFIX_KEY] ?? false;
+    res.gpsInhibit = gpsStats[DEVICE_GPS_INHIBIT_KEY] ?? false;
 
     return res;
   }
@@ -209,6 +215,7 @@ class DishyGPS extends EntityModule {
       kv.kv(_('GPS valid'), yes_or_no(gpsValid));
       kv.kv(_('GPS satellites'), gpsSats);
       kv.kv(_('No GPS satellites after first fix'), yes_or_no(gpsNoSatsAfterFix));
+      kv.kv(_('Don\'t trust Dishy\'s GPS'), yes_or_no(gpsInhibit));
   }
 
 }
@@ -328,6 +335,7 @@ class DishyObstructions extends EntityModule {
   double fraction_obstructed = 0;
   int time_obstructed = 0;
   int valid_sec = 0;
+  int patches_valid = 0;
   List<double> frac_obstr_list = [];
   List<bool> abs_obstr_list = [];
   int avg_pr_dur_sec = 0;
@@ -347,6 +355,7 @@ class DishyObstructions extends EntityModule {
     res.fraction_obstructed = (obstr_data[DEVICE_OBSTRUCTION_STATS_FRACTION_OBSTRUCTED_KEY] ?? 0.0).toDouble();
     res.time_obstructed = (obstr_data[DEVICE_OBSTRUCTION_STATS_TIME_OBSTRUCTED_KEY] ?? 0).toInt();
     res.valid_sec = (obstr_data[DEVICE_OBSTRUCTION_STATS_VALID_SEC_KEY] ?? 0).toInt();
+    res.patches_valid = (obstr_data[DEVICE_OBSTRUCTION_STATS_PATCHES_VALID_KEY] ?? 0).toInt();
     res.frac_obstr_list = [for (var f in obstr_data[DEVICE_OBSTRUCTION_STATS_WEDGE_FRAC_OBSTRUCTED_LIST_KEY] ?? []) f.toDouble() ];
     res.abs_obstr_list = obstr_data[DEVICE_OBSTRUCTION_STATS_WEDGE_ABS_OBSTRUCTED_LIST_KEY]?.cast<bool>() ?? [];
     res.avg_pr_dur_sec = (obstr_data[DEVICE_OBSTRUCTION_STATS_AVG_PROLONGED_OBSTR_DURATION_SEC_KEY] ?? 0).toInt();
@@ -371,6 +380,7 @@ class DishyObstructions extends EntityModule {
       kv.kv(_('Fraction obstructed'), fraction_obstructed);
       kv.kv(_('Time obstructed'), time_obstructed);
       kv.kv(_('Time valid, sec'), valid_sec);
+      kv.kv(_('Patches valid'), patches_valid);
       kv.kv(_('Average prolonged obstruction duration, sec'), avg_pr_dur_sec);
       kv.kv(_('Average prolonged obstruction interval, sec'), avg_pr_int_sec);
       kv.kv(_('Average prolonged obstruction valid'), yes_or_no(avg_pr_valid));

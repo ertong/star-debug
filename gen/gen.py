@@ -54,10 +54,16 @@ def consts_top(module):
     lines.append("\n")
     return lines
 
+header="""// Generated file. DO NOT edit manually
+import 'package:star_debug/preloaded.dart';
+
+var _ = R.text.t;
+
+"""
 
 with open(DIR+"/../star.debug/lib/space/dishy_data.dart", "w") as f:
     import dishy_data
-    f.writelines("// Generated file. DO NOT edit manually\n")
+    f.writelines(header)
     f.writelines(map_str2str("dev_images", dishy_data.dev_images))
     f.writelines(enum("MobylityClass", 'int', dishy_data.MobylityClass, dishy_data.mobility_class_str))
     f.writelines(enum("ServiceClass", 'int', dishy_data.ServiceClass, dishy_data.service_class_str))
@@ -69,19 +75,19 @@ with open(DIR+"/../star.debug/lib/space/dishy_data.dart", "w") as f:
 
 with open(DIR+"/../star.debug/lib/space/router_data.dart", "w") as f:
     import router_data
-    f.writelines("// Generated file. DO NOT edit manually\n")
+    f.writelines(header)
     f.writelines(map_str2str("dev_images", router_data.dev_images))
     f.writelines(enum("BootReason", 'int', router_data.BootReason, router_data.boot_reason_str))
     f.writelines(consts_top(router_data))
 
 with open(DIR+"/../star.debug/lib/space/app_data.dart", "w") as f:
     import app_data
-    f.writelines("// Generated file. DO NOT edit manually\n")
+    f.writelines(header)
     f.writelines(map_str2str("dev_images", app_data.dev_images))
     f.writelines(consts_top(app_data))
 
 with open(DIR+"/../star.debug/lib/space/common_data.dart", "w") as f:
     import common_data
-    f.writelines("// Generated file. DO NOT edit manually\n")
+    f.writelines(header)
     f.writelines(consts_top(common_data))
 

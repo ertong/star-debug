@@ -23,6 +23,7 @@ class Router extends Entity {
   int timestamp = 0;
   int uptime = 0;
   bool is_aviation = false;
+  bool is_aviation_conformed = false;
   bool captiva_portal_enabled = false;
 
 
@@ -58,6 +59,7 @@ class Router extends Entity {
     res.uptime = (device_state[DEVICE_UPTIME_KEY] ?? 0).toInt();
 
     res.is_aviation = json_object[ROUTER_IS_AVIATION_KEY] ?? false;
+    res.is_aviation_conformed = json_object[ROUTER_IS_AVIATION_CONFORMED_KEY] ?? false;
     res.captiva_portal_enabled = json_object[ROUTER_CAPTIVE_PORTAL_ENABLED_KEY] ?? false;
 
     res.plugins = [];
@@ -66,6 +68,7 @@ class Router extends Entity {
     res.alertsCount = alerts.data.length;
     res.plugins.add(alerts);
     res.plugins.add(RouterNetwork.of(json_object));
+    res.plugins.add(Features.of(json_object));
     res.plugins.add(BootInfo.of(json_object));
 
     return res;
@@ -106,6 +109,7 @@ class Router extends Entity {
     kv.spacer();
 
     kv.kv(_('Aviation'), yes_or_no(is_aviation));
+    kv.kv(_('Aviation conformed'), yes_or_no(is_aviation_conformed));
     kv.kv(_('Captive portal enabled'), yes_or_no(captiva_portal_enabled));
   }
 
@@ -113,6 +117,8 @@ class Router extends Entity {
 
 class RouterNetwork extends EntityModule {
   String wanIpv4 = "";
+  List<String> wanIpv6 = [];
+  List<String> dhcpServers = [];
   int pingDropRate = 0;
   int dishPingDropRate = 0;
   int dishPingLatencyMs = 0;
@@ -122,6 +128,8 @@ class RouterNetwork extends EntityModule {
   static RouterNetwork? of(Map<String, dynamic> jsonObject) {
     var res = RouterNetwork();
     res.wanIpv4 = "${jsonObject[ROUTER_WAN_IPV4_ADDRESS_KEY] ?? '0.0.0.0'}";
+    res.wanIpv6 = list_from_json(jsonObject[ROUTER_WAN_IPV6_ADDRESS_LIST_KEY]);
+    res.dhcpServers = list_from_json(jsonObject[ROUTER_WAN_DHPS_SERVERS_LIST_KEY]);
     res.pingDropRate = (jsonObject[ROUTER_PING_DROP_RATE_KEY] ?? 0).toInt();
     res.dishPingDropRate = (jsonObject[ROUTER_DISH_PING_DROP_RATE_KEY] ?? 0).toInt();
     res.dishPingLatencyMs = (jsonObject[ROUTER_DISH_PING_LATENCY_MS_KEY] ?? 0).toInt();
@@ -137,6 +145,8 @@ class RouterNetwork extends EntityModule {
   @override
   void get_data(KVConsumer kv) {
       kv.kv(_('WAN IPv4'), wanIpv4);
+      kv.kv(_('WAN IPv6'), wanIpv6);
+      kv.kv(_('DHCP servers'), dhcpServers);
       kv.kv(_('Ping drop rate'), pingDropRate);
       kv.kv(_('Starlink ping drop rate'), dishPingDropRate);
       kv.kv(_('Starlink ping latency, ms'), dishPingLatencyMs);

@@ -1,4 +1,8 @@
 // Generated file. DO NOT edit manually
+import 'package:star_debug/preloaded.dart';
+
+var _ = R.text.t;
+
 var dev_images = {
   'rev1_pre_production': 'resources/devices/dishy_v1.png',
   'rev1_production': 'resources/devices/dishy_v1.png',
@@ -26,6 +30,7 @@ enum MobylityClass {
   ;
   final int val;
   final String str;
+  String get strt => _(str);
   const MobylityClass(this.val, this.str);
   static MobylityClass byVal(int val) {
     var res = MobylityClass.values.where((e) => e.val==val);
@@ -42,6 +47,7 @@ enum ServiceClass {
   ;
   final int val;
   final String str;
+  String get strt => _(str);
   const ServiceClass(this.val, this.str);
   static ServiceClass byVal(int val) {
     var res = ServiceClass.values.where((e) => e.val==val);
@@ -62,6 +68,7 @@ enum SoftwareUpdateState {
   ;
   final int val;
   final String str;
+  String get strt => _(str);
   const SoftwareUpdateState(this.val, this.str);
   static SoftwareUpdateState byVal(int val) {
     var res = SoftwareUpdateState.values.where((e) => e.val==val);
@@ -76,6 +83,7 @@ enum ActuatorState {
   ;
   final int val;
   final String str;
+  String get strt => _(str);
   const ActuatorState(this.val, this.str);
   static ActuatorState byVal(int val) {
     var res = ActuatorState.values.where((e) => e.val==val);
@@ -93,6 +101,7 @@ enum DisablementCode {
   ;
   final int val;
   final String str;
+  String get strt => _(str);
   const DisablementCode(this.val, this.str);
   static DisablementCode byVal(int val) {
     var res = DisablementCode.values.where((e) => e.val==val);
@@ -117,6 +126,7 @@ enum OutageCause {
   ;
   final int val;
   final String str;
+  String get strt => _(str);
   const OutageCause(this.val, this.str);
   static OutageCause byVal(int val) {
     var res = OutageCause.values.where((e) => e.val==val);
@@ -141,11 +151,14 @@ const DEVICE_BORESIGHT_AZIMUTH_DEG_KEY = 'boresightAzimuthDeg';
 const DEVICE_BORESIGHT_ELEVATION_DEG_KEY = 'boresightElevationDeg';
 const DEVICE_CLASS_OF_SERVICE_KEY = 'classOfService';
 const DEVICE_DISABLEMENT_CODE_KEY = 'disablementCode';
+const DEVICE_DISH_COHOUSED_KEY = 'dishCohoused';
 const DEVICE_ETHER_SPEED_KEY = 'ethSpeedMbps';
+const DEVICE_FEATURES_KEY = 'features';
+const DEVICE_GPS_INHIBIT_KEY = 'inhibitGps';
 const DEVICE_GPS_STATS_GPS_SATS_KEY = 'gpsSats';
 const DEVICE_GPS_STATS_GPS_VALID_KEY = 'gpsValid';
 const DEVICE_GPS_STATS_KEY = 'gpsStats';
-const DEVICE_GPS_STATS_NO_SATS_AFTER_FFIX = 'noSatsAfterTtff';
+const DEVICE_GPS_STATS_NO_SATS_AFTER_FFIX_KEY = 'noSatsAfterTtff';
 const DEVICE_HAS_ACTUATORS_KEY = 'hasActuators';
 const DEVICE_INFO_ANTI_ROLLBACK_KEY = 'antiRollbackVersion';
 const DEVICE_INFO_BOOT_COUNT_KEY = 'bootcount';
@@ -168,6 +181,7 @@ const DEVICE_OBSTRUCTION_STATS_AVG_PROLONGED_OBSTR_VALID = 'avgProlongedObstruct
 const DEVICE_OBSTRUCTION_STATS_CURRENTLY_OBSTRUCTED_KEY = 'currentlyObstructed';
 const DEVICE_OBSTRUCTION_STATS_FRACTION_OBSTRUCTED_KEY = 'fractionObstructed';
 const DEVICE_OBSTRUCTION_STATS_KEY = 'obstructionStats';
+const DEVICE_OBSTRUCTION_STATS_PATCHES_VALID_KEY = 'patchesValid';
 const DEVICE_OBSTRUCTION_STATS_TIME_OBSTRUCTED_KEY = 'timeObstructed';
 const DEVICE_OBSTRUCTION_STATS_VALID_SEC_KEY = 'validS';
 const DEVICE_OBSTRUCTION_STATS_WEDGE_ABS_OBSTRUCTED_LIST_KEY = 'wedgeAbsFractionObstructedList';

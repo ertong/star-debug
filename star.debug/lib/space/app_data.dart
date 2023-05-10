@@ -1,4 +1,8 @@
 // Generated file. DO NOT edit manually
+import 'package:star_debug/preloaded.dart';
+
+var _ = R.text.t;
+
 var dev_images = {
   'unknown': 'resources/devices/unknown_app.png',
   'ios': 'resources/devices/ios_app.png',
@@ -14,6 +18,7 @@ const DEVICE_APP_HASH_KEY = 'hash';
 const DEVICE_APP_KEY = 'app';
 const DEVICE_APP_TIMESTAMP_KEY = 'timestamp';
 const DEVICE_APP_VERSION_KEY = 'version';
+const DEVICE_FEATURES_KEY = 'features';
 const DEVICE_ID_KEY = 'deviceId';
 const DEVICE_INFO_ANTI_ROLLBACK_KEY = 'antiRollbackVersion';
 const DEVICE_INFO_BOOT_COUNT_KEY = 'bootcount';

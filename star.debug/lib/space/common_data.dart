@@ -1,5 +1,10 @@
 // Generated file. DO NOT edit manually
+import 'package:star_debug/preloaded.dart';
+
+var _ = R.text.t;
+
 const DEVICE_ALERTS_KEY = 'alerts';
+const DEVICE_FEATURES_KEY = 'features';
 const DEVICE_INFO_ANTI_ROLLBACK_KEY = 'antiRollbackVersion';
 const DEVICE_INFO_BOOT_COUNT_KEY = 'bootcount';
 const DEVICE_INFO_CC_KEY = 'countryCode';
