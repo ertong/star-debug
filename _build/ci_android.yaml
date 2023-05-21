@@ -13,6 +13,21 @@ test:
     <<: *cache
     key: android
 
+build_android:
+  stage: build
+  only:
+    - branches
+  script:
+    - cd $CI_PROJECT_DIR/star.debug
+    - flutter doctor -v
+    - flutter packages get
+    - flutter clean
+    - flutter build apk --debug
+  needs: ["test"]
+  cache:
+    <<: *cache
+    key: android
+
 publish_play_market:
   stage: publish
   only:
@@ -20,6 +35,8 @@ publish_play_market:
       - /\d+\.\d+b.*/
     variables:
       - "$ANDROID_JKS"
+  except:
+    - branches
   script:
     - cd $CI_PROJECT_DIR/star.debug
     - echo "$ANDROID_JKS" | base64 -d > android/release-key.jks
@@ -33,5 +50,3 @@ publish_play_market:
   cache:
     <<: *cache
     key: android
-  except:
-    - branches
