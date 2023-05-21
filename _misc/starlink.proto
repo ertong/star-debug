@@ -7,6 +7,8 @@ syntax = "proto3";
 
 package SpaceX.API.Device;
 
+import "status.proto";
+
 service Device {
     rpc Handle ( .SpaceX.API.Device.Request ) returns ( .SpaceX.API.Device.Response );
 //    rpc Stream ( stream .SpaceX.API.Device.ToDevice ) returns ( stream .SpaceX.API.Device.FromDevice );
@@ -79,7 +81,7 @@ message Request {
 //SpaceX.API.Device.Response is a message:
 message Response {
     uint64 id = 1;
-//    .SpaceX.API.Status.Status status = 2;
+    .SpaceX.API.Status.Status status = 2;
     uint64 api_version = 3;
     oneof response {
 //        .SpaceX.API.Device.RebootResponse reboot = 1001;

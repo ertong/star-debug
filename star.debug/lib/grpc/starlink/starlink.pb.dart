@@ -10,6 +10,8 @@ import 'dart:core' as $core;
 import 'package:fixnum/fixnum.dart' as $fixnum;
 import 'package:protobuf/protobuf.dart' as $pb;
 
+import 'status.pb.dart' as $1;
+
 import 'starlink.pbenum.dart';
 
 export 'starlink.pbenum.dart';
@@ -151,6 +153,7 @@ class Response extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'Response', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'SpaceX.API.Device'), createEmptyInstance: create)
     ..oo(0, [1004, 2004])
     ..a<$fixnum.Int64>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'id', $pb.PbFieldType.OU6, defaultOrMaker: $fixnum.Int64.ZERO)
+    ..aOM<$1.Status>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'status', subBuilder: $1.Status.create)
     ..a<$fixnum.Int64>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'apiVersion', $pb.PbFieldType.OU6, defaultOrMaker: $fixnum.Int64.ZERO)
     ..aOM<GetDeviceInfoResponse>(1004, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'getDeviceInfo', subBuilder: GetDeviceInfoResponse.create)
     ..aOM<DishGetStatusResponse>(2004, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'dishGetStatus', subBuilder: DishGetStatusResponse.create)
@@ -160,6 +163,7 @@ class Response extends $pb.GeneratedMessage {
   Response._() : super();
   factory Response({
     $fixnum.Int64? id,
+    $1.Status? status,
     $fixnum.Int64? apiVersion,
     GetDeviceInfoResponse? getDeviceInfo,
     DishGetStatusResponse? dishGetStatus,
@@ -167,6 +171,9 @@ class Response extends $pb.GeneratedMessage {
     final _result = create();
     if (id != null) {
       _result.id = id;
+    }
+    if (status != null) {
+      _result.status = status;
     }
     if (apiVersion != null) {
       _result.apiVersion = apiVersion;
@@ -212,36 +219,47 @@ class Response extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   void clearId() => clearField(1);
 
+  @$pb.TagNumber(2)
+  $1.Status get status => $_getN(1);
+  @$pb.TagNumber(2)
+  set status($1.Status v) { setField(2, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasStatus() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearStatus() => clearField(2);
+  @$pb.TagNumber(2)
+  $1.Status ensureStatus() => $_ensure(1);
+
   @$pb.TagNumber(3)
-  $fixnum.Int64 get apiVersion => $_getI64(1);
+  $fixnum.Int64 get apiVersion => $_getI64(2);
   @$pb.TagNumber(3)
-  set apiVersion($fixnum.Int64 v) { $_setInt64(1, v); }
+  set apiVersion($fixnum.Int64 v) { $_setInt64(2, v); }
   @$pb.TagNumber(3)
-  $core.bool hasApiVersion() => $_has(1);
+  $core.bool hasApiVersion() => $_has(2);
   @$pb.TagNumber(3)
   void clearApiVersion() => clearField(3);
 
   @$pb.TagNumber(1004)
-  GetDeviceInfoResponse get getDeviceInfo => $_getN(2);
+  GetDeviceInfoResponse get getDeviceInfo => $_getN(3);
   @$pb.TagNumber(1004)
   set getDeviceInfo(GetDeviceInfoResponse v) { setField(1004, v); }
   @$pb.TagNumber(1004)
-  $core.bool hasGetDeviceInfo() => $_has(2);
+  $core.bool hasGetDeviceInfo() => $_has(3);
   @$pb.TagNumber(1004)
   void clearGetDeviceInfo() => clearField(1004);
   @$pb.TagNumber(1004)
-  GetDeviceInfoResponse ensureGetDeviceInfo() => $_ensure(2);
+  GetDeviceInfoResponse ensureGetDeviceInfo() => $_ensure(3);
 
   @$pb.TagNumber(2004)
-  DishGetStatusResponse get dishGetStatus => $_getN(3);
+  DishGetStatusResponse get dishGetStatus => $_getN(4);
   @$pb.TagNumber(2004)
   set dishGetStatus(DishGetStatusResponse v) { setField(2004, v); }
   @$pb.TagNumber(2004)
-  $core.bool hasDishGetStatus() => $_has(3);
+  $core.bool hasDishGetStatus() => $_has(4);
   @$pb.TagNumber(2004)
   void clearDishGetStatus() => clearField(2004);
   @$pb.TagNumber(2004)
-  DishGetStatusResponse ensureDishGetStatus() => $_ensure(3);
+  DishGetStatusResponse ensureDishGetStatus() => $_ensure(4);
 }
 
 class GetStatusRequest extends $pb.GeneratedMessage {

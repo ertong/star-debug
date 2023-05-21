@@ -111,6 +111,7 @@ const Response$json = const {
   '1': 'Response',
   '2': const [
     const {'1': 'id', '3': 1, '4': 1, '5': 4, '10': 'id'},
+    const {'1': 'status', '3': 2, '4': 1, '5': 11, '6': '.SpaceX.API.Status.Status', '10': 'status'},
     const {'1': 'api_version', '3': 3, '4': 1, '5': 4, '10': 'apiVersion'},
     const {'1': 'get_device_info', '3': 1004, '4': 1, '5': 11, '6': '.SpaceX.API.Device.GetDeviceInfoResponse', '9': 0, '10': 'getDeviceInfo'},
     const {'1': 'dish_get_status', '3': 2004, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishGetStatusResponse', '9': 0, '10': 'dishGetStatus'},
@@ -128,7 +129,7 @@ const Response$json = const {
 };
 
 /// Descriptor for `Response`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List responseDescriptor = $convert.base64Decode('CghSZXNwb25zZRIOCgJpZBgBIAEoBFICaWQSHwoLYXBpX3ZlcnNpb24YAyABKARSCmFwaVZlcnNpb24SUwoPZ2V0X2RldmljZV9pbmZvGOwHIAEoCzIoLlNwYWNlWC5BUEkuRGV2aWNlLkdldERldmljZUluZm9SZXNwb25zZUgAUg1nZXREZXZpY2VJbmZvElMKD2Rpc2hfZ2V0X3N0YXR1cxjUDyABKAsyKC5TcGFjZVguQVBJLkRldmljZS5EaXNoR2V0U3RhdHVzUmVzcG9uc2VIAFINZGlzaEdldFN0YXR1c0IKCghyZXNwb25zZUoGCPoHEPsHSgYIgggQgwhKBgjpDxDqD0oGCMMXEMQXSgYIxhcQxxc=');
+final $typed_data.Uint8List responseDescriptor = $convert.base64Decode('CghSZXNwb25zZRIOCgJpZBgBIAEoBFICaWQSMQoGc3RhdHVzGAIgASgLMhkuU3BhY2VYLkFQSS5TdGF0dXMuU3RhdHVzUgZzdGF0dXMSHwoLYXBpX3ZlcnNpb24YAyABKARSCmFwaVZlcnNpb24SUwoPZ2V0X2RldmljZV9pbmZvGOwHIAEoCzIoLlNwYWNlWC5BUEkuRGV2aWNlLkdldERldmljZUluZm9SZXNwb25zZUgAUg1nZXREZXZpY2VJbmZvElMKD2Rpc2hfZ2V0X3N0YXR1cxjUDyABKAsyKC5TcGFjZVguQVBJLkRldmljZS5EaXNoR2V0U3RhdHVzUmVzcG9uc2VIAFINZGlzaEdldFN0YXR1c0IKCghyZXNwb25zZUoGCPoHEPsHSgYIgggQgwhKBgjpDxDqD0oGCMMXEMQXSgYIxhcQxxc=');
 @$core.Deprecated('Use getStatusRequestDescriptor instead')
 const GetStatusRequest$json = const {
   '1': 'GetStatusRequest',
