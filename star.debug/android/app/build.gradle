@@ -35,12 +35,13 @@ def keystorePropertiesFile = rootProject.file('key.properties')
 if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }else{
-    keystoreProperties.put("storePassword", System.getenv("STORE_PASSWORD"))
-    keystoreProperties.put("keyPassword", System.getenv("KEY_PASSWORD"))
+    keystoreProperties.put("storePassword", System.getenv().getOrDefault("ANDROID_KEY_PASSWORD", ""))
+    keystoreProperties.put("keyPassword", System.getenv().getOrDefault("ANDROID_KEY_PASSWORD", ""))
 }
 
 android {
     compileSdkVersion 33 //flutter.compileSdkVersion
+    buildToolsVersion "33.0.2"
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -76,7 +77,7 @@ android {
 }
 
 play {
-    serviceAccountCredentials.set(file("../service_account.json"))
+    serviceAccountCredentials.set(file("../stardebug-4be77abc4bec.json"))
     track = "internal"
     artifactDir = file("../../build/app/outputs/bundle/release/app-release.aab")
 }

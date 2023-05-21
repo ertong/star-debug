@@ -1,0 +1,21 @@
+image: respo/android-runner:cirrus-3.10.1-api33
+
+variables:
+  PUB_CACHE: ${CI_PROJECT_DIR}/.cache/.pub-cache
+  GRADLE_USER_HOME: ${CI_PROJECT_DIR}/.cache/.gradle
+  GIT_STRATEGY: fetch
+  GIT_DEPTH: "1"
+
+stages:
+  - test
+  - build
+  - publish
+
+before_script:
+  - . ci-parse-tag.sh
+  - export LC_ALL=en_US.UTF-8
+  - export LANG=en_US.UTF-8
+
+include:
+  - local: _build/ci_android.yaml
+#  - local: _build/ci_ios.yaml    
