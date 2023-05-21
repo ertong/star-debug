@@ -146,7 +146,7 @@ class RouterNetwork extends EntityModule {
   void get_data(KVConsumer kv) {
       kv.kv(_('WAN IPv4'), wanIpv4);
       kv.kv(_('WAN IPv6'), wanIpv6);
-      kv.kv(_('DHCP servers'), dhcpServers);
+      // kv.kv(_('DHCP servers'), dhcpServers);
       kv.kv(_('Ping drop rate'), pingDropRate);
       kv.kv(_('Starlink ping drop rate'), dishPingDropRate);
       kv.kv(_('Starlink ping latency, ms'), dishPingLatencyMs);

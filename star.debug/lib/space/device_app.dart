@@ -109,11 +109,20 @@ class DeviceApp extends Entity {
 
 class DeviceNetwork extends EntityModule {
   bool isVpn = false;
-  String gatewayIp = "";
-  String netType = "";
+  String gateway_ip = "";
+  String public_ip = "";
+  bool is_starlink_conn = false;
+  String net_type = "";
+  bool is_bypass_mode = false;
   bool isConnected = false;
   bool isInternetAvailable = false;
-  String ipAddr = "";
+  String ip_addr = "";
+
+  String local_link_speed = "";
+  int wifi_link_freq = 0;
+  String wifi_ssid = "";
+  String wifi_bssid = "";
+  int wifi_signal_level = 0;
 
   static DeviceNetwork? of(Map<String, dynamic> jsonObject) {
     if (!jsonObject.containsKey(DEVICE_NETWORK_KEY))
@@ -126,11 +135,22 @@ class DeviceNetwork extends EntityModule {
     Map<String, dynamic> networkInfoDetails = networkInfo[DEVICE_NETWORK_NETINFO_DETAILS_KEY];
 
     res.isVpn = network[DEVICE_NETWORK_VPN_KEY] ?? false;
-    res.gatewayIp = "${network[DEVICE_NETWORK_GATEWAY_IP_ADDR_KEY] ?? '0.0.0.0'}";
-    res.netType = "${networkInfo[DEVICE_NETWORK_NETINFO_TYPE_KEY] ?? 'wifi'}";
+    res.gateway_ip = "${network[DEVICE_NETWORK_GATEWAY_IP_ADDR_KEY] ?? '0.0.0.0'}";
+    res.public_ip = "${network[DEVICE_NETWORK_PUBLIC_IP_KEY] ?? '0.0.0.0'}";
+    res.is_starlink_conn = network[DEVICE_NETWORK_IS_STARLINK_KEY] ?? false;
+
+    res.net_type = "${networkInfo[DEVICE_NETWORK_NETINFO_TYPE_KEY] ?? 'wifi'}";
+    res.is_bypass_mode = !(networkInfo[DEVICE_NETWORK_NETINFO_WIFI_ENABLED_KEY] ?? true);
     res.isConnected = networkInfo[DEVICE_NETWORK_NETINFO_IS_CONNECTED_KEY] ?? false;
     res.isInternetAvailable = networkInfo[DEVICE_NETWORK_IS_INTERNET_REACHABLE] ?? false;
-    res.ipAddr = "${networkInfoDetails[DEVICE_NETWORK_NETINFO_DETAILS_IP_ADDR_KEY] ?? '0.0.0.0'}";
+
+    res.ip_addr = "${networkInfoDetails[DEVICE_NETWORK_NETINFO_DETAILS_IP_ADDR_KEY] ?? '0.0.0.0'}";
+    res.local_link_speed =  "${networkInfoDetails[DEVICE_NETWORK_NETINFO_DETAILS_LINK_SPEED_KEY] ?? 0}  Mbps";
+
+    res.wifi_link_freq = (networkInfoDetails[DEVICE_NETWORK_NETINFO_DETAILS_FREQ_KEY] ?? 0).toInt();
+    res.wifi_ssid = "${networkInfoDetails[DEVICE_NETWORK_NETINFO_DETAILS_SSID_KEY] ?? ''}";
+    res.wifi_bssid = "${networkInfoDetails[DEVICE_NETWORK_NETINFO_DETAILS_BSSID_KEY] ?? ''}";
+    res.wifi_signal_level = (networkInfoDetails[DEVICE_NETWORK_NETINFO_DTAILS_SIGNAL_LEVEL_KEY] ?? 150).toInt();
 
     return res;
   }
@@ -140,12 +160,23 @@ class DeviceNetwork extends EntityModule {
 
   @override
   void get_data(KVConsumer kv) {
-      kv.kv(_('Connection type'), this.netType);
+      kv.kv(_('Local connection type'), this.net_type);
+      kv.kv(_('Local connection speed'), this.local_link_speed);
       kv.kv(_('Is VPN'), yes_or_no(this.isVpn));
       kv.kv(_('Is connected'), yes_or_no(this.isConnected));
       kv.kv(_('Internet available'), yes_or_no(this.isInternetAvailable));
-      kv.kv(_('IP address'), this.ipAddr);
-      kv.kv(_('Gateway IP address'), this.gatewayIp);
+      kv.kv(_('Connected via Starlink'), yes_or_no(is_starlink_conn));
+      kv.kv(_('Starlink router bypass mode'), yes_or_no(is_bypass_mode));
+      kv.kv(_('Local IP address'), ip_addr);
+      kv.kv(_('Gateway IP address'), gateway_ip);
+      kv.kv(_('Public IP address'), public_ip);
+
+      if (net_type == 'wifi') {
+        kv.kv(_('WiFi SSID'), wifi_ssid);
+        kv.kv(_('WiFi BSSID'), wifi_bssid);
+        kv.kv(_('WiFi frequency'), wifi_link_freq);
+        kv.kv(_('WiFi signal strength'), wifi_signal_level);
+      }
   }
 }
 
