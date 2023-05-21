@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'pages/debug.dart';
 import 'pages/main.dart';
 
 class Routes {
@@ -14,6 +15,8 @@ class Routes {
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
+      case DEBUG:
+        return MaterialPageRoute(settings: settings, builder: (context) => DebugPage(route: settings.name!));
       case MAIN:
       case MAIN_NOTIFICATIONS:
       case MAIN_HOME:

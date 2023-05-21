@@ -1,0 +1,52 @@
+cache: &cache
+  paths:
+    - .cache
+
+test:
+  stage: test
+  script:
+    - source ~/.bashrc
+    - cd $CI_PROJECT_DIR/star.debug
+    - flutter doctor -v
+    - flutter test
+  cache:
+    <<: *cache
+    key: android
+
+build_android:
+  stage: build
+  only:
+    - branches
+  script:
+    - cd $CI_PROJECT_DIR/star.debug
+    - flutter doctor -v
+    - flutter packages get
+    - flutter clean
+    - flutter build apk --debug
+  needs: ["test"]
+  cache:
+    <<: *cache
+    key: android
+
+publish_play_market:
+  stage: publish
+  only:
+    refs:
+      - /\d+\.\d+b.*/
+    variables:
+      - "$ANDROID_JKS"
+  except:
+    - branches
+  script:
+    - cd $CI_PROJECT_DIR/star.debug
+    - echo "$ANDROID_JKS" | base64 -d > android/release-key.jks
+    - echo "$ANDROID_SERVICE_ACCOUNT" > android/stardebug-4be77abc4bec.json
+    - flutter doctor -v
+    - flutter clean
+    - flutter packages pub get
+    - flutter build appbundle $BUILD_OPTS
+    - cd android
+    - ./gradlew publishReleaseBundle
+  cache:
+    <<: *cache
+    key: android
