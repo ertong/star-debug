@@ -81,16 +81,26 @@ class GrpcConnection {
   }
 
   int timeLastChannel = 0;
+  int timeConnectingStart = 0;
 
   Future tick() async {
     int now = DateTime.now().millisecondsSinceEpoch;
 
-    if (connState==ConnectionState.idle || now-dishGetStatus.receivedTime>5000) {
-      if (now-timeLastChannel>9000) {
+    if (channel!=null && connState==ConnectionState.connecting && now-timeConnectingStart>5000){
+      LogUtils.d(_TAG, "Connecting for too long");
+      channel?.shutdown();
+      channel = null;
+    }
+
+    if (channel!=null
+        && (connState==ConnectionState.idle || now-dishGetStatus.receivedTime>5000)
+        && (now-timeLastChannel>9000)
+    ) {
+        LogUtils.d(_TAG, "No messages for too long");
         channel?.shutdown();
         channel = null;
-      }
     }
+
 
     if (channel==null) {
       _shutdown();
@@ -112,6 +122,13 @@ class GrpcConnection {
           connState = event;
           if (connState==ConnectionState.ready)
             lastChannelError = null;
+
+          if (connState==ConnectionState.connecting) {
+            if (timeConnectingStart == 0)
+              timeConnectingStart = DateTime.now().millisecondsSinceEpoch;
+          } else
+            timeConnectingStart = 0;
+
           notify();
         },
         onError: (e, s){

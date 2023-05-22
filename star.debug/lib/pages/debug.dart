@@ -154,7 +154,6 @@ class _DebugPageState extends State<DebugPage> with TickerProviderStateMixin {
     return await withConnected((stub, channel) async {
       var resp = await stub.handle(req);
 
-      LogUtils.d(_TAG, "RECEIVED: ${jsonEncode(resp.toProto3Json())}");
       log("Received response: ${jsonEncode(resp.toProto3Json())}");
 
       return JsonEncoder.withIndent("  ").convert(resp.toProto3Json());
