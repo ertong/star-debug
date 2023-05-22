@@ -163,6 +163,55 @@ const MeshAuth$json = const {
 
 /// Descriptor for `MeshAuth`. Decode as a `google.protobuf.EnumDescriptorProto`.
 final $typed_data.Uint8List meshAuthDescriptor = $convert.base64Decode('CghNZXNoQXV0aBIVChFNRVNIX0FVVEhfVU5LTk9XThAAEhEKDU1FU0hfQVVUSF9ORVcQARIVChFNRVNIX0FVVEhfVFJVU1RFRBACEhcKE01FU0hfQVVUSF9VTlRSVVNURUQQAw==');
+@$core.Deprecated('Use transceiverModulatorStateDescriptor instead')
+const TransceiverModulatorState$json = const {
+  '1': 'TransceiverModulatorState',
+  '2': const [
+    const {'1': 'MODSTATE_UNKNOWN', '2': 0},
+    const {'1': 'MODSTATE_ENABLED', '2': 1},
+    const {'1': 'MODSTATE_DISABLED', '2': 2},
+  ],
+};
+
+/// Descriptor for `TransceiverModulatorState`. Decode as a `google.protobuf.EnumDescriptorProto`.
+final $typed_data.Uint8List transceiverModulatorStateDescriptor = $convert.base64Decode('ChlUcmFuc2NlaXZlck1vZHVsYXRvclN0YXRlEhQKEE1PRFNUQVRFX1VOS05PV04QABIUChBNT0RTVEFURV9FTkFCTEVEEAESFQoRTU9EU1RBVEVfRElTQUJMRUQQAg==');
+@$core.Deprecated('Use transceiverTxRxStateDescriptor instead')
+const TransceiverTxRxState$json = const {
+  '1': 'TransceiverTxRxState',
+  '2': const [
+    const {'1': 'TXRX_UNKNOWN', '2': 0},
+    const {'1': 'TXRX_ENABLED', '2': 1},
+    const {'1': 'TXRX_DISABLED', '2': 2},
+  ],
+};
+
+/// Descriptor for `TransceiverTxRxState`. Decode as a `google.protobuf.EnumDescriptorProto`.
+final $typed_data.Uint8List transceiverTxRxStateDescriptor = $convert.base64Decode('ChRUcmFuc2NlaXZlclR4UnhTdGF0ZRIQCgxUWFJYX1VOS05PV04QABIQCgxUWFJYX0VOQUJMRUQQARIRCg1UWFJYX0RJU0FCTEVEEAI=');
+@$core.Deprecated('Use dishStateDescriptor instead')
+const DishState$json = const {
+  '1': 'DishState',
+  '2': const [
+    const {'1': 'UNKNOWN', '2': 0},
+    const {'1': 'CONNECTED', '2': 1},
+    const {'1': 'SEARCHING', '2': 2},
+    const {'1': 'BOOTING', '2': 3},
+  ],
+};
+
+/// Descriptor for `DishState`. Decode as a `google.protobuf.EnumDescriptorProto`.
+final $typed_data.Uint8List dishStateDescriptor = $convert.base64Decode('CglEaXNoU3RhdGUSCwoHVU5LTk9XThAAEg0KCUNPTk5FQ1RFRBABEg0KCVNFQVJDSElORxACEgsKB0JPT1RJTkcQAw==');
+@$core.Deprecated('Use transceiverTransmitBlankingStateDescriptor instead')
+const TransceiverTransmitBlankingState$json = const {
+  '1': 'TransceiverTransmitBlankingState',
+  '2': const [
+    const {'1': 'TB_UNKNOWN', '2': 0},
+    const {'1': 'TB_ENABLED', '2': 1},
+    const {'1': 'TB_DISABLED', '2': 2},
+  ],
+};
+
+/// Descriptor for `TransceiverTransmitBlankingState`. Decode as a `google.protobuf.EnumDescriptorProto`.
+final $typed_data.Uint8List transceiverTransmitBlankingStateDescriptor = $convert.base64Decode('CiBUcmFuc2NlaXZlclRyYW5zbWl0QmxhbmtpbmdTdGF0ZRIOCgpUQl9VTktOT1dOEAASDgoKVEJfRU5BQkxFRBABEg8KC1RCX0RJU0FCTEVEEAI=');
 @$core.Deprecated('Use toDeviceDescriptor instead')
 const ToDevice$json = const {
   '1': 'ToDevice',
@@ -383,6 +432,7 @@ const Request$json = const {
     const {'1': 'get_persistent_stats', '3': 1022, '4': 1, '5': 11, '6': '.SpaceX.API.Device.GetPersistentStatsRequest', '9': 0, '10': 'getPersistentStats'},
     const {'1': 'get_connections', '3': 1023, '4': 1, '5': 11, '6': '.SpaceX.API.Device.GetConnectionsRequest', '9': 0, '10': 'getConnections'},
     const {'1': 'dish_stow', '3': 2002, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishStowRequest', '9': 0, '10': 'dishStow'},
+    const {'1': 'dish_get_obstruction_map', '3': 2008, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishGetObstructionMapRequest', '9': 0, '10': 'dishGetObstructionMap'},
     const {'1': 'dish_set_config', '3': 2010, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishSetConfigRequest', '9': 0, '10': 'dishSetConfig'},
     const {'1': 'dish_get_config', '3': 2011, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishGetConfigRequest', '9': 0, '10': 'dishGetConfig'},
     const {'1': 'dish_inhibit_gps', '3': 2014, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishInhibitGpsRequest', '9': 0, '10': 'dishInhibitGps'},
@@ -390,6 +440,8 @@ const Request$json = const {
     const {'1': 'wifi_get_clients', '3': 3002, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiGetClientsRequest', '9': 0, '10': 'wifiGetClients'},
     const {'1': 'wifi_get_diagnostics', '3': 3008, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiGetDiagnosticsRequest', '9': 0, '10': 'wifiGetDiagnostics'},
     const {'1': 'wifi_get_config', '3': 3009, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiGetConfigRequest', '9': 0, '10': 'wifiGetConfig'},
+    const {'1': 'transceiver_get_status', '3': 4003, '4': 1, '5': 11, '6': '.SpaceX.API.Device.TransceiverGetStatusRequest', '9': 0, '10': 'transceiverGetStatus'},
+    const {'1': 'transceiver_get_telemetry', '3': 4004, '4': 1, '5': 11, '6': '.SpaceX.API.Device.TransceiverGetTelemetryRequest', '9': 0, '10': 'transceiverGetTelemetry'},
   ],
   '8': const [
     const {'1': 'request'},
@@ -404,7 +456,7 @@ const Request$json = const {
 };
 
 /// Descriptor for `Request`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List requestDescriptor = $convert.base64Decode('CgdSZXF1ZXN0Eg4KAmlkGAEgASgEUgJpZBIbCgl0YXJnZXRfaWQYDSABKAlSCHRhcmdldElkEhkKCGVwb2NoX2lkGA4gASgEUgdlcG9jaElkEjsKBnJlYm9vdBjpByABKAsyIC5TcGFjZVguQVBJLkRldmljZS5SZWJvb3RSZXF1ZXN0SABSBnJlYm9vdBJFCgpnZXRfc3RhdHVzGOwHIAEoCzIjLlNwYWNlWC5BUEkuRGV2aWNlLkdldFN0YXR1c1JlcXVlc3RIAFIJZ2V0U3RhdHVzElIKD2dldF9kZXZpY2VfaW5mbxjwByABKAsyJy5TcGFjZVguQVBJLkRldmljZS5HZXREZXZpY2VJbmZvUmVxdWVzdEgAUg1nZXREZXZpY2VJbmZvEksKDGdldF9sb2NhdGlvbhj5ByABKAsyJS5TcGFjZVguQVBJLkRldmljZS5HZXRMb2NhdGlvblJlcXVlc3RIAFILZ2V0TG9jYXRpb24SYQoUZ2V0X3BlcnNpc3RlbnRfc3RhdHMY/gcgASgLMiwuU3BhY2VYLkFQSS5EZXZpY2UuR2V0UGVyc2lzdGVudFN0YXRzUmVxdWVzdEgAUhJnZXRQZXJzaXN0ZW50U3RhdHMSVAoPZ2V0X2Nvbm5lY3Rpb25zGP8HIAEoCzIoLlNwYWNlWC5BUEkuRGV2aWNlLkdldENvbm5lY3Rpb25zUmVxdWVzdEgAUg5nZXRDb25uZWN0aW9ucxJCCglkaXNoX3N0b3cY0g8gASgLMiIuU3BhY2VYLkFQSS5EZXZpY2UuRGlzaFN0b3dSZXF1ZXN0SABSCGRpc2hTdG93ElIKD2Rpc2hfc2V0X2NvbmZpZxjaDyABKAsyJy5TcGFjZVguQVBJLkRldmljZS5EaXNoU2V0Q29uZmlnUmVxdWVzdEgAUg1kaXNoU2V0Q29uZmlnElIKD2Rpc2hfZ2V0X2NvbmZpZxjbDyABKAsyJy5TcGFjZVguQVBJLkRldmljZS5EaXNoR2V0Q29uZmlnUmVxdWVzdEgAUg1kaXNoR2V0Q29uZmlnElUKEGRpc2hfaW5oaWJpdF9ncHMY3g8gASgLMiguU3BhY2VYLkFQSS5EZXZpY2UuRGlzaEluaGliaXRHcHNSZXF1ZXN0SABSDmRpc2hJbmhpYml0R3BzElIKD3dpZmlfc2V0X2NvbmZpZxi5FyABKAsyJy5TcGFjZVguQVBJLkRldmljZS5XaWZpU2V0Q29uZmlnUmVxdWVzdEgAUg13aWZpU2V0Q29uZmlnElUKEHdpZmlfZ2V0X2NsaWVudHMYuhcgASgLMiguU3BhY2VYLkFQSS5EZXZpY2UuV2lmaUdldENsaWVudHNSZXF1ZXN0SABSDndpZmlHZXRDbGllbnRzEmEKFHdpZmlfZ2V0X2RpYWdub3N0aWNzGMAXIAEoCzIsLlNwYWNlWC5BUEkuRGV2aWNlLldpZmlHZXREaWFnbm9zdGljc1JlcXVlc3RIAFISd2lmaUdldERpYWdub3N0aWNzElIKD3dpZmlfZ2V0X2NvbmZpZxjBFyABKAsyJy5TcGFjZVguQVBJLkRldmljZS5XaWZpR2V0Q29uZmlnUmVxdWVzdEgAUg13aWZpR2V0Q29uZmlnQgkKB3JlcXVlc3RKBgj6BxD7B0oGCIEIEIIISgYIgggQgwhKBgjDFxDEF0oGCMYXEMcX');
+final $typed_data.Uint8List requestDescriptor = $convert.base64Decode('CgdSZXF1ZXN0Eg4KAmlkGAEgASgEUgJpZBIbCgl0YXJnZXRfaWQYDSABKAlSCHRhcmdldElkEhkKCGVwb2NoX2lkGA4gASgEUgdlcG9jaElkEjsKBnJlYm9vdBjpByABKAsyIC5TcGFjZVguQVBJLkRldmljZS5SZWJvb3RSZXF1ZXN0SABSBnJlYm9vdBJFCgpnZXRfc3RhdHVzGOwHIAEoCzIjLlNwYWNlWC5BUEkuRGV2aWNlLkdldFN0YXR1c1JlcXVlc3RIAFIJZ2V0U3RhdHVzElIKD2dldF9kZXZpY2VfaW5mbxjwByABKAsyJy5TcGFjZVguQVBJLkRldmljZS5HZXREZXZpY2VJbmZvUmVxdWVzdEgAUg1nZXREZXZpY2VJbmZvEksKDGdldF9sb2NhdGlvbhj5ByABKAsyJS5TcGFjZVguQVBJLkRldmljZS5HZXRMb2NhdGlvblJlcXVlc3RIAFILZ2V0TG9jYXRpb24SYQoUZ2V0X3BlcnNpc3RlbnRfc3RhdHMY/gcgASgLMiwuU3BhY2VYLkFQSS5EZXZpY2UuR2V0UGVyc2lzdGVudFN0YXRzUmVxdWVzdEgAUhJnZXRQZXJzaXN0ZW50U3RhdHMSVAoPZ2V0X2Nvbm5lY3Rpb25zGP8HIAEoCzIoLlNwYWNlWC5BUEkuRGV2aWNlLkdldENvbm5lY3Rpb25zUmVxdWVzdEgAUg5nZXRDb25uZWN0aW9ucxJCCglkaXNoX3N0b3cY0g8gASgLMiIuU3BhY2VYLkFQSS5EZXZpY2UuRGlzaFN0b3dSZXF1ZXN0SABSCGRpc2hTdG93EmsKGGRpc2hfZ2V0X29ic3RydWN0aW9uX21hcBjYDyABKAsyLy5TcGFjZVguQVBJLkRldmljZS5EaXNoR2V0T2JzdHJ1Y3Rpb25NYXBSZXF1ZXN0SABSFWRpc2hHZXRPYnN0cnVjdGlvbk1hcBJSCg9kaXNoX3NldF9jb25maWcY2g8gASgLMicuU3BhY2VYLkFQSS5EZXZpY2UuRGlzaFNldENvbmZpZ1JlcXVlc3RIAFINZGlzaFNldENvbmZpZxJSCg9kaXNoX2dldF9jb25maWcY2w8gASgLMicuU3BhY2VYLkFQSS5EZXZpY2UuRGlzaEdldENvbmZpZ1JlcXVlc3RIAFINZGlzaEdldENvbmZpZxJVChBkaXNoX2luaGliaXRfZ3BzGN4PIAEoCzIoLlNwYWNlWC5BUEkuRGV2aWNlLkRpc2hJbmhpYml0R3BzUmVxdWVzdEgAUg5kaXNoSW5oaWJpdEdwcxJSCg93aWZpX3NldF9jb25maWcYuRcgASgLMicuU3BhY2VYLkFQSS5EZXZpY2UuV2lmaVNldENvbmZpZ1JlcXVlc3RIAFINd2lmaVNldENvbmZpZxJVChB3aWZpX2dldF9jbGllbnRzGLoXIAEoCzIoLlNwYWNlWC5BUEkuRGV2aWNlLldpZmlHZXRDbGllbnRzUmVxdWVzdEgAUg53aWZpR2V0Q2xpZW50cxJhChR3aWZpX2dldF9kaWFnbm9zdGljcxjAFyABKAsyLC5TcGFjZVguQVBJLkRldmljZS5XaWZpR2V0RGlhZ25vc3RpY3NSZXF1ZXN0SABSEndpZmlHZXREaWFnbm9zdGljcxJSCg93aWZpX2dldF9jb25maWcYwRcgASgLMicuU3BhY2VYLkFQSS5EZXZpY2UuV2lmaUdldENvbmZpZ1JlcXVlc3RIAFINd2lmaUdldENvbmZpZxJnChZ0cmFuc2NlaXZlcl9nZXRfc3RhdHVzGKMfIAEoCzIuLlNwYWNlWC5BUEkuRGV2aWNlLlRyYW5zY2VpdmVyR2V0U3RhdHVzUmVxdWVzdEgAUhR0cmFuc2NlaXZlckdldFN0YXR1cxJwChl0cmFuc2NlaXZlcl9nZXRfdGVsZW1ldHJ5GKQfIAEoCzIxLlNwYWNlWC5BUEkuRGV2aWNlLlRyYW5zY2VpdmVyR2V0VGVsZW1ldHJ5UmVxdWVzdEgAUhd0cmFuc2NlaXZlckdldFRlbGVtZXRyeUIJCgdyZXF1ZXN0SgYI+gcQ+wdKBgiBCBCCCEoGCIIIEIMISgYIwxcQxBdKBgjGFxDHFw==');
 @$core.Deprecated('Use responseDescriptor instead')
 const Response$json = const {
   '1': 'Response',
@@ -418,6 +470,7 @@ const Response$json = const {
     const {'1': 'get_connections', '3': 1023, '4': 1, '5': 11, '6': '.SpaceX.API.Device.GetConnectionsResponse', '9': 0, '10': 'getConnections'},
     const {'1': 'dish_stow', '3': 2002, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishStowResponse', '9': 0, '10': 'dishStow'},
     const {'1': 'dish_get_status', '3': 2004, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishGetStatusResponse', '9': 0, '10': 'dishGetStatus'},
+    const {'1': 'dish_get_obstruction_map', '3': 2008, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishGetObstructionMapResponse', '9': 0, '10': 'dishGetObstructionMap'},
     const {'1': 'dish_set_config', '3': 2010, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishSetConfigResponse', '9': 0, '10': 'dishSetConfig'},
     const {'1': 'dish_get_config', '3': 2011, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishGetConfigResponse', '9': 0, '10': 'dishGetConfig'},
     const {'1': 'dish_inhibit_gps', '3': 2013, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishInhibitGpsResponse', '9': 0, '10': 'dishInhibitGps'},
@@ -426,6 +479,8 @@ const Response$json = const {
     const {'1': 'wifi_get_diagnostics', '3': 3008, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiGetDiagnosticsResponse', '9': 0, '10': 'wifiGetDiagnostics'},
     const {'1': 'wifi_get_config', '3': 3009, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiGetConfigResponse', '9': 0, '10': 'wifiGetConfig'},
     const {'1': 'wifi_get_persistent_stats', '3': 3022, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiGetPersistentStatsResponse', '9': 0, '10': 'wifiGetPersistentStats'},
+    const {'1': 'transceiver_get_status', '3': 4003, '4': 1, '5': 11, '6': '.SpaceX.API.Device.TransceiverGetStatusResponse', '9': 0, '10': 'transceiverGetStatus'},
+    const {'1': 'transceiver_get_telemetry', '3': 4004, '4': 1, '5': 11, '6': '.SpaceX.API.Device.TransceiverGetTelemetryResponse', '9': 0, '10': 'transceiverGetTelemetry'},
   ],
   '8': const [
     const {'1': 'response'},
@@ -440,7 +495,7 @@ const Response$json = const {
 };
 
 /// Descriptor for `Response`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List responseDescriptor = $convert.base64Decode('CghSZXNwb25zZRIOCgJpZBgBIAEoBFICaWQSMQoGc3RhdHVzGAIgASgLMhkuU3BhY2VYLkFQSS5TdGF0dXMuU3RhdHVzUgZzdGF0dXMSHwoLYXBpX3ZlcnNpb24YAyABKARSCmFwaVZlcnNpb24SPAoGcmVib290GOkHIAEoCzIhLlNwYWNlWC5BUEkuRGV2aWNlLlJlYm9vdFJlc3BvbnNlSABSBnJlYm9vdBJTCg9nZXRfZGV2aWNlX2luZm8Y7AcgASgLMiguU3BhY2VYLkFQSS5EZXZpY2UuR2V0RGV2aWNlSW5mb1Jlc3BvbnNlSABSDWdldERldmljZUluZm8STAoMZ2V0X2xvY2F0aW9uGPkHIAEoCzImLlNwYWNlWC5BUEkuRGV2aWNlLkdldExvY2F0aW9uUmVzcG9uc2VIAFILZ2V0TG9jYXRpb24SVQoPZ2V0X2Nvbm5lY3Rpb25zGP8HIAEoCzIpLlNwYWNlWC5BUEkuRGV2aWNlLkdldENvbm5lY3Rpb25zUmVzcG9uc2VIAFIOZ2V0Q29ubmVjdGlvbnMSQwoJZGlzaF9zdG93GNIPIAEoCzIjLlNwYWNlWC5BUEkuRGV2aWNlLkRpc2hTdG93UmVzcG9uc2VIAFIIZGlzaFN0b3cSUwoPZGlzaF9nZXRfc3RhdHVzGNQPIAEoCzIoLlNwYWNlWC5BUEkuRGV2aWNlLkRpc2hHZXRTdGF0dXNSZXNwb25zZUgAUg1kaXNoR2V0U3RhdHVzElMKD2Rpc2hfc2V0X2NvbmZpZxjaDyABKAsyKC5TcGFjZVguQVBJLkRldmljZS5EaXNoU2V0Q29uZmlnUmVzcG9uc2VIAFINZGlzaFNldENvbmZpZxJTCg9kaXNoX2dldF9jb25maWcY2w8gASgLMiguU3BhY2VYLkFQSS5EZXZpY2UuRGlzaEdldENvbmZpZ1Jlc3BvbnNlSABSDWRpc2hHZXRDb25maWcSVgoQZGlzaF9pbmhpYml0X2dwcxjdDyABKAsyKS5TcGFjZVguQVBJLkRldmljZS5EaXNoSW5oaWJpdEdwc1Jlc3BvbnNlSABSDmRpc2hJbmhpYml0R3BzElMKD3dpZmlfc2V0X2NvbmZpZxi5FyABKAsyKC5TcGFjZVguQVBJLkRldmljZS5XaWZpU2V0Q29uZmlnUmVzcG9uc2VIAFINd2lmaVNldENvbmZpZxJWChB3aWZpX2dldF9jbGllbnRzGLoXIAEoCzIpLlNwYWNlWC5BUEkuRGV2aWNlLldpZmlHZXRDbGllbnRzUmVzcG9uc2VIAFIOd2lmaUdldENsaWVudHMSYgoUd2lmaV9nZXRfZGlhZ25vc3RpY3MYwBcgASgLMi0uU3BhY2VYLkFQSS5EZXZpY2UuV2lmaUdldERpYWdub3N0aWNzUmVzcG9uc2VIAFISd2lmaUdldERpYWdub3N0aWNzElMKD3dpZmlfZ2V0X2NvbmZpZxjBFyABKAsyKC5TcGFjZVguQVBJLkRldmljZS5XaWZpR2V0Q29uZmlnUmVzcG9uc2VIAFINd2lmaUdldENvbmZpZxJvChl3aWZpX2dldF9wZXJzaXN0ZW50X3N0YXRzGM4XIAEoCzIxLlNwYWNlWC5BUEkuRGV2aWNlLldpZmlHZXRQZXJzaXN0ZW50U3RhdHNSZXNwb25zZUgAUhZ3aWZpR2V0UGVyc2lzdGVudFN0YXRzQgoKCHJlc3BvbnNlSgYI+gcQ+wdKBgiCCBCDCEoGCOkPEOoPSgYIwxcQxBdKBgjGFxDHFw==');
+final $typed_data.Uint8List responseDescriptor = $convert.base64Decode('CghSZXNwb25zZRIOCgJpZBgBIAEoBFICaWQSMQoGc3RhdHVzGAIgASgLMhkuU3BhY2VYLkFQSS5TdGF0dXMuU3RhdHVzUgZzdGF0dXMSHwoLYXBpX3ZlcnNpb24YAyABKARSCmFwaVZlcnNpb24SPAoGcmVib290GOkHIAEoCzIhLlNwYWNlWC5BUEkuRGV2aWNlLlJlYm9vdFJlc3BvbnNlSABSBnJlYm9vdBJTCg9nZXRfZGV2aWNlX2luZm8Y7AcgASgLMiguU3BhY2VYLkFQSS5EZXZpY2UuR2V0RGV2aWNlSW5mb1Jlc3BvbnNlSABSDWdldERldmljZUluZm8STAoMZ2V0X2xvY2F0aW9uGPkHIAEoCzImLlNwYWNlWC5BUEkuRGV2aWNlLkdldExvY2F0aW9uUmVzcG9uc2VIAFILZ2V0TG9jYXRpb24SVQoPZ2V0X2Nvbm5lY3Rpb25zGP8HIAEoCzIpLlNwYWNlWC5BUEkuRGV2aWNlLkdldENvbm5lY3Rpb25zUmVzcG9uc2VIAFIOZ2V0Q29ubmVjdGlvbnMSQwoJZGlzaF9zdG93GNIPIAEoCzIjLlNwYWNlWC5BUEkuRGV2aWNlLkRpc2hTdG93UmVzcG9uc2VIAFIIZGlzaFN0b3cSUwoPZGlzaF9nZXRfc3RhdHVzGNQPIAEoCzIoLlNwYWNlWC5BUEkuRGV2aWNlLkRpc2hHZXRTdGF0dXNSZXNwb25zZUgAUg1kaXNoR2V0U3RhdHVzEmwKGGRpc2hfZ2V0X29ic3RydWN0aW9uX21hcBjYDyABKAsyMC5TcGFjZVguQVBJLkRldmljZS5EaXNoR2V0T2JzdHJ1Y3Rpb25NYXBSZXNwb25zZUgAUhVkaXNoR2V0T2JzdHJ1Y3Rpb25NYXASUwoPZGlzaF9zZXRfY29uZmlnGNoPIAEoCzIoLlNwYWNlWC5BUEkuRGV2aWNlLkRpc2hTZXRDb25maWdSZXNwb25zZUgAUg1kaXNoU2V0Q29uZmlnElMKD2Rpc2hfZ2V0X2NvbmZpZxjbDyABKAsyKC5TcGFjZVguQVBJLkRldmljZS5EaXNoR2V0Q29uZmlnUmVzcG9uc2VIAFINZGlzaEdldENvbmZpZxJWChBkaXNoX2luaGliaXRfZ3BzGN0PIAEoCzIpLlNwYWNlWC5BUEkuRGV2aWNlLkRpc2hJbmhpYml0R3BzUmVzcG9uc2VIAFIOZGlzaEluaGliaXRHcHMSUwoPd2lmaV9zZXRfY29uZmlnGLkXIAEoCzIoLlNwYWNlWC5BUEkuRGV2aWNlLldpZmlTZXRDb25maWdSZXNwb25zZUgAUg13aWZpU2V0Q29uZmlnElYKEHdpZmlfZ2V0X2NsaWVudHMYuhcgASgLMikuU3BhY2VYLkFQSS5EZXZpY2UuV2lmaUdldENsaWVudHNSZXNwb25zZUgAUg53aWZpR2V0Q2xpZW50cxJiChR3aWZpX2dldF9kaWFnbm9zdGljcxjAFyABKAsyLS5TcGFjZVguQVBJLkRldmljZS5XaWZpR2V0RGlhZ25vc3RpY3NSZXNwb25zZUgAUhJ3aWZpR2V0RGlhZ25vc3RpY3MSUwoPd2lmaV9nZXRfY29uZmlnGMEXIAEoCzIoLlNwYWNlWC5BUEkuRGV2aWNlLldpZmlHZXRDb25maWdSZXNwb25zZUgAUg13aWZpR2V0Q29uZmlnEm8KGXdpZmlfZ2V0X3BlcnNpc3RlbnRfc3RhdHMYzhcgASgLMjEuU3BhY2VYLkFQSS5EZXZpY2UuV2lmaUdldFBlcnNpc3RlbnRTdGF0c1Jlc3BvbnNlSABSFndpZmlHZXRQZXJzaXN0ZW50U3RhdHMSaAoWdHJhbnNjZWl2ZXJfZ2V0X3N0YXR1cxijHyABKAsyLy5TcGFjZVguQVBJLkRldmljZS5UcmFuc2NlaXZlckdldFN0YXR1c1Jlc3BvbnNlSABSFHRyYW5zY2VpdmVyR2V0U3RhdHVzEnEKGXRyYW5zY2VpdmVyX2dldF90ZWxlbWV0cnkYpB8gASgLMjIuU3BhY2VYLkFQSS5EZXZpY2UuVHJhbnNjZWl2ZXJHZXRUZWxlbWV0cnlSZXNwb25zZUgAUhd0cmFuc2NlaXZlckdldFRlbGVtZXRyeUIKCghyZXNwb25zZUoGCPoHEPsHSgYIgggQgwhKBgjpDxDqD0oGCMMXEMQXSgYIxhcQxxc=');
 @$core.Deprecated('Use getStatusRequestDescriptor instead')
 const GetStatusRequest$json = const {
   '1': 'GetStatusRequest',
@@ -1589,3 +1644,106 @@ const WifiScanResults_Network_Source$json = const {
 
 /// Descriptor for `WifiScanResults`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List wifiScanResultsDescriptor = $convert.base64Decode('Cg9XaWZpU2NhblJlc3VsdHMSRgoIbmV0d29ya3MYASADKAsyKi5TcGFjZVguQVBJLkRldmljZS5XaWZpU2NhblJlc3VsdHMuTmV0d29ya1IIbmV0d29ya3MalgMKB05ldHdvcmsSSQoGc291cmNlGAEgASgOMjEuU3BhY2VYLkFQSS5EZXZpY2UuV2lmaVNjYW5SZXN1bHRzLk5ldHdvcmsuU291cmNlUgZzb3VyY2USEgoEc3NpZBgCIAEoCVIEc3NpZBIUCgVic3NpZBgDIAEoCVIFYnNzaWQSIwoNZnJlcXVlbmN5X2doehgEIAEoCVIMZnJlcXVlbmN5R2h6EhgKB2NoYW5uZWwYBSABKAVSB2NoYW5uZWwSKAoQc2lnbmFsX2xldmVsX2RibRgGIAEoBVIOc2lnbmFsTGV2ZWxEYm0SJgoPbm9pc2VfbGV2ZWxfZGJtGAcgASgFUg1ub2lzZUxldmVsRGJtEiwKEmhhc19lbmNyeXB0aW9uX2tleRgIIAEoCFIQaGFzRW5jcnlwdGlvbktleRIgCgxwaHlfbW9kZV9zdHIYCSABKAlSCnBoeU1vZGVTdHIiNQoGU291cmNlEgsKB1VOS05PV04QABIPCgtTQ0FOXzJfNEdIWhABEg0KCVNDQU5fNUdIWhAC');
+@$core.Deprecated('Use transceiverGetStatusRequestDescriptor instead')
+const TransceiverGetStatusRequest$json = const {
+  '1': 'TransceiverGetStatusRequest',
+};
+
+/// Descriptor for `TransceiverGetStatusRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List transceiverGetStatusRequestDescriptor = $convert.base64Decode('ChtUcmFuc2NlaXZlckdldFN0YXR1c1JlcXVlc3Q=');
+@$core.Deprecated('Use transceiverGetStatusResponseDescriptor instead')
+const TransceiverGetStatusResponse$json = const {
+  '1': 'TransceiverGetStatusResponse',
+  '2': const [
+    const {'1': 'mod_state', '3': 1, '4': 1, '5': 14, '6': '.SpaceX.API.Device.TransceiverModulatorState', '10': 'modState'},
+    const {'1': 'demod_state', '3': 2, '4': 1, '5': 14, '6': '.SpaceX.API.Device.TransceiverModulatorState', '10': 'demodState'},
+    const {'1': 'tx_state', '3': 3, '4': 1, '5': 14, '6': '.SpaceX.API.Device.TransceiverTxRxState', '10': 'txState'},
+    const {'1': 'rx_state', '3': 4, '4': 1, '5': 14, '6': '.SpaceX.API.Device.TransceiverTxRxState', '10': 'rxState'},
+    const {'1': 'state', '3': 1006, '4': 1, '5': 14, '6': '.SpaceX.API.Device.DishState', '10': 'state'},
+    const {'1': 'faults', '3': 1007, '4': 1, '5': 11, '6': '.SpaceX.API.Device.TransceiverFaults', '10': 'faults'},
+    const {'1': 'transmit_blanking_state', '3': 1008, '4': 1, '5': 14, '6': '.SpaceX.API.Device.TransceiverTransmitBlankingState', '10': 'transmitBlankingState'},
+    const {'1': 'modem_asic_temp', '3': 1009, '4': 1, '5': 2, '10': 'modemAsicTemp'},
+    const {'1': 'tx_if_temp', '3': 1010, '4': 1, '5': 2, '10': 'txIfTemp'},
+  ],
+};
+
+/// Descriptor for `TransceiverGetStatusResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List transceiverGetStatusResponseDescriptor = $convert.base64Decode('ChxUcmFuc2NlaXZlckdldFN0YXR1c1Jlc3BvbnNlEkkKCW1vZF9zdGF0ZRgBIAEoDjIsLlNwYWNlWC5BUEkuRGV2aWNlLlRyYW5zY2VpdmVyTW9kdWxhdG9yU3RhdGVSCG1vZFN0YXRlEk0KC2RlbW9kX3N0YXRlGAIgASgOMiwuU3BhY2VYLkFQSS5EZXZpY2UuVHJhbnNjZWl2ZXJNb2R1bGF0b3JTdGF0ZVIKZGVtb2RTdGF0ZRJCCgh0eF9zdGF0ZRgDIAEoDjInLlNwYWNlWC5BUEkuRGV2aWNlLlRyYW5zY2VpdmVyVHhSeFN0YXRlUgd0eFN0YXRlEkIKCHJ4X3N0YXRlGAQgASgOMicuU3BhY2VYLkFQSS5EZXZpY2UuVHJhbnNjZWl2ZXJUeFJ4U3RhdGVSB3J4U3RhdGUSMwoFc3RhdGUY7gcgASgOMhwuU3BhY2VYLkFQSS5EZXZpY2UuRGlzaFN0YXRlUgVzdGF0ZRI9CgZmYXVsdHMY7wcgASgLMiQuU3BhY2VYLkFQSS5EZXZpY2UuVHJhbnNjZWl2ZXJGYXVsdHNSBmZhdWx0cxJsChd0cmFuc21pdF9ibGFua2luZ19zdGF0ZRjwByABKA4yMy5TcGFjZVguQVBJLkRldmljZS5UcmFuc2NlaXZlclRyYW5zbWl0QmxhbmtpbmdTdGF0ZVIVdHJhbnNtaXRCbGFua2luZ1N0YXRlEicKD21vZGVtX2FzaWNfdGVtcBjxByABKAJSDW1vZGVtQXNpY1RlbXASHQoKdHhfaWZfdGVtcBjyByABKAJSCHR4SWZUZW1w');
+@$core.Deprecated('Use transceiverFaultsDescriptor instead')
+const TransceiverFaults$json = const {
+  '1': 'TransceiverFaults',
+  '2': const [
+    const {'1': 'over_temp_modem_asic_fault', '3': 1, '4': 1, '5': 8, '10': 'overTempModemAsicFault'},
+    const {'1': 'over_temp_pcba_fault', '3': 2, '4': 1, '5': 8, '10': 'overTempPcbaFault'},
+    const {'1': 'dc_voltage_fault', '3': 3, '4': 1, '5': 8, '10': 'dcVoltageFault'},
+  ],
+};
+
+/// Descriptor for `TransceiverFaults`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List transceiverFaultsDescriptor = $convert.base64Decode('ChFUcmFuc2NlaXZlckZhdWx0cxI6ChpvdmVyX3RlbXBfbW9kZW1fYXNpY19mYXVsdBgBIAEoCFIWb3ZlclRlbXBNb2RlbUFzaWNGYXVsdBIvChRvdmVyX3RlbXBfcGNiYV9mYXVsdBgCIAEoCFIRb3ZlclRlbXBQY2JhRmF1bHQSKAoQZGNfdm9sdGFnZV9mYXVsdBgDIAEoCFIOZGNWb2x0YWdlRmF1bHQ=');
+@$core.Deprecated('Use transceiverGetTelemetryRequestDescriptor instead')
+const TransceiverGetTelemetryRequest$json = const {
+  '1': 'TransceiverGetTelemetryRequest',
+};
+
+/// Descriptor for `TransceiverGetTelemetryRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List transceiverGetTelemetryRequestDescriptor = $convert.base64Decode('Ch5UcmFuc2NlaXZlckdldFRlbGVtZXRyeVJlcXVlc3Q=');
+@$core.Deprecated('Use transceiverGetTelemetryResponseDescriptor instead')
+const TransceiverGetTelemetryResponse$json = const {
+  '1': 'TransceiverGetTelemetryResponse',
+  '2': const [
+    const {'1': 'antenna_pointing_mode', '3': 1001, '4': 1, '5': 13, '10': 'antennaPointingMode'},
+    const {'1': 'antenna_pitch', '3': 1002, '4': 1, '5': 2, '10': 'antennaPitch'},
+    const {'1': 'antenna_roll', '3': 1003, '4': 1, '5': 2, '10': 'antennaRoll'},
+    const {'1': 'antenna_rx_theta', '3': 1004, '4': 1, '5': 2, '10': 'antennaRxTheta'},
+    const {'1': 'antenna_true_heading', '3': 1005, '4': 1, '5': 2, '10': 'antennaTrueHeading'},
+    const {'1': 'rx_channel', '3': 1006, '4': 1, '5': 13, '10': 'rxChannel'},
+    const {'1': 'current_cell_id', '3': 1007, '4': 1, '5': 13, '10': 'currentCellId'},
+    const {'1': 'seconds_until_slot_end', '3': 1008, '4': 1, '5': 2, '10': 'secondsUntilSlotEnd'},
+    const {'1': 'wb_rssi_peak_mag_db', '3': 1009, '4': 1, '5': 2, '10': 'wbRssiPeakMagDb'},
+    const {'1': 'pop_ping_drop_rate', '3': 1010, '4': 1, '5': 2, '10': 'popPingDropRate'},
+    const {'1': 'snr_db', '3': 1011, '4': 1, '5': 2, '10': 'snrDb'},
+    const {'1': 'l1_snr_avg_db', '3': 1012, '4': 1, '5': 2, '10': 'l1SnrAvgDb'},
+    const {'1': 'l1_snr_min_db', '3': 1013, '4': 1, '5': 2, '10': 'l1SnrMinDb'},
+    const {'1': 'l1_snr_max_db', '3': 1014, '4': 1, '5': 2, '10': 'l1SnrMaxDb'},
+    const {'1': 'lmac_satellite_id', '3': 1015, '4': 1, '5': 13, '10': 'lmacSatelliteId'},
+    const {'1': 'target_satellite_id', '3': 1016, '4': 1, '5': 13, '10': 'targetSatelliteId'},
+    const {'1': 'grant_mcs', '3': 1017, '4': 1, '5': 13, '10': 'grantMcs'},
+    const {'1': 'grant_symbols_avg', '3': 1018, '4': 1, '5': 2, '10': 'grantSymbolsAvg'},
+    const {'1': 'ded_grant', '3': 1019, '4': 1, '5': 13, '10': 'dedGrant'},
+    const {'1': 'mobility_proactive_slot_change', '3': 1020, '4': 1, '5': 13, '10': 'mobilityProactiveSlotChange'},
+    const {'1': 'mobility_reactive_slot_change', '3': 1021, '4': 1, '5': 13, '10': 'mobilityReactiveSlotChange'},
+    const {'1': 'rfp_total_syn_failed', '3': 1022, '4': 1, '5': 13, '10': 'rfpTotalSynFailed'},
+    const {'1': 'num_out_of_seq', '3': 1023, '4': 1, '5': 13, '10': 'numOutOfSeq'},
+    const {'1': 'num_ulmap_drop', '3': 1024, '4': 1, '5': 13, '10': 'numUlmapDrop'},
+    const {'1': 'current_seconds_of_schedule', '3': 1025, '4': 1, '5': 2, '10': 'currentSecondsOfSchedule'},
+    const {'1': 'send_label_switch_to_ground_failed_calls', '3': 1026, '4': 1, '5': 13, '10': 'sendLabelSwitchToGroundFailedCalls'},
+    const {'1': 'ema_velocity_x', '3': 1027, '4': 1, '5': 1, '10': 'emaVelocityX'},
+    const {'1': 'ema_velocity_y', '3': 1028, '4': 1, '5': 1, '10': 'emaVelocityY'},
+    const {'1': 'ema_velocity_z', '3': 1029, '4': 1, '5': 1, '10': 'emaVelocityZ'},
+    const {'1': 'ce_rssi_db', '3': 1030, '4': 1, '5': 2, '10': 'ceRssiDb'},
+  ],
+};
+
+/// Descriptor for `TransceiverGetTelemetryResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List transceiverGetTelemetryResponseDescriptor = $convert.base64Decode('Ch9UcmFuc2NlaXZlckdldFRlbGVtZXRyeVJlc3BvbnNlEjMKFWFudGVubmFfcG9pbnRpbmdfbW9kZRjpByABKA1SE2FudGVubmFQb2ludGluZ01vZGUSJAoNYW50ZW5uYV9waXRjaBjqByABKAJSDGFudGVubmFQaXRjaBIiCgxhbnRlbm5hX3JvbGwY6wcgASgCUgthbnRlbm5hUm9sbBIpChBhbnRlbm5hX3J4X3RoZXRhGOwHIAEoAlIOYW50ZW5uYVJ4VGhldGESMQoUYW50ZW5uYV90cnVlX2hlYWRpbmcY7QcgASgCUhJhbnRlbm5hVHJ1ZUhlYWRpbmcSHgoKcnhfY2hhbm5lbBjuByABKA1SCXJ4Q2hhbm5lbBInCg9jdXJyZW50X2NlbGxfaWQY7wcgASgNUg1jdXJyZW50Q2VsbElkEjQKFnNlY29uZHNfdW50aWxfc2xvdF9lbmQY8AcgASgCUhNzZWNvbmRzVW50aWxTbG90RW5kEi0KE3diX3Jzc2lfcGVha19tYWdfZGIY8QcgASgCUg93YlJzc2lQZWFrTWFnRGISLAoScG9wX3BpbmdfZHJvcF9yYXRlGPIHIAEoAlIPcG9wUGluZ0Ryb3BSYXRlEhYKBnNucl9kYhjzByABKAJSBXNuckRiEiIKDWwxX3Nucl9hdmdfZGIY9AcgASgCUgpsMVNuckF2Z0RiEiIKDWwxX3Nucl9taW5fZGIY9QcgASgCUgpsMVNuck1pbkRiEiIKDWwxX3Nucl9tYXhfZGIY9gcgASgCUgpsMVNuck1heERiEisKEWxtYWNfc2F0ZWxsaXRlX2lkGPcHIAEoDVIPbG1hY1NhdGVsbGl0ZUlkEi8KE3RhcmdldF9zYXRlbGxpdGVfaWQY+AcgASgNUhF0YXJnZXRTYXRlbGxpdGVJZBIcCglncmFudF9tY3MY+QcgASgNUghncmFudE1jcxIrChFncmFudF9zeW1ib2xzX2F2Zxj6ByABKAJSD2dyYW50U3ltYm9sc0F2ZxIcCglkZWRfZ3JhbnQY+wcgASgNUghkZWRHcmFudBJECh5tb2JpbGl0eV9wcm9hY3RpdmVfc2xvdF9jaGFuZ2UY/AcgASgNUhttb2JpbGl0eVByb2FjdGl2ZVNsb3RDaGFuZ2USQgodbW9iaWxpdHlfcmVhY3RpdmVfc2xvdF9jaGFuZ2UY/QcgASgNUhptb2JpbGl0eVJlYWN0aXZlU2xvdENoYW5nZRIwChRyZnBfdG90YWxfc3luX2ZhaWxlZBj+ByABKA1SEXJmcFRvdGFsU3luRmFpbGVkEiQKDm51bV9vdXRfb2Zfc2VxGP8HIAEoDVILbnVtT3V0T2ZTZXESJQoObnVtX3VsbWFwX2Ryb3AYgAggASgNUgxudW1VbG1hcERyb3ASPgobY3VycmVudF9zZWNvbmRzX29mX3NjaGVkdWxlGIEIIAEoAlIYY3VycmVudFNlY29uZHNPZlNjaGVkdWxlElUKKHNlbmRfbGFiZWxfc3dpdGNoX3RvX2dyb3VuZF9mYWlsZWRfY2FsbHMYggggASgNUiJzZW5kTGFiZWxTd2l0Y2hUb0dyb3VuZEZhaWxlZENhbGxzEiUKDmVtYV92ZWxvY2l0eV94GIMIIAEoAVIMZW1hVmVsb2NpdHlYEiUKDmVtYV92ZWxvY2l0eV95GIQIIAEoAVIMZW1hVmVsb2NpdHlZEiUKDmVtYV92ZWxvY2l0eV96GIUIIAEoAVIMZW1hVmVsb2NpdHlaEh0KCmNlX3Jzc2lfZGIYhgggASgCUghjZVJzc2lEYg==');
+@$core.Deprecated('Use dishGetObstructionMapRequestDescriptor instead')
+const DishGetObstructionMapRequest$json = const {
+  '1': 'DishGetObstructionMapRequest',
+};
+
+/// Descriptor for `DishGetObstructionMapRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List dishGetObstructionMapRequestDescriptor = $convert.base64Decode('ChxEaXNoR2V0T2JzdHJ1Y3Rpb25NYXBSZXF1ZXN0');
+@$core.Deprecated('Use dishGetObstructionMapResponseDescriptor instead')
+const DishGetObstructionMapResponse$json = const {
+  '1': 'DishGetObstructionMapResponse',
+  '2': const [
+    const {'1': 'num_rows', '3': 1, '4': 1, '5': 13, '10': 'numRows'},
+    const {'1': 'num_cols', '3': 2, '4': 1, '5': 13, '10': 'numCols'},
+    const {'1': 'snr', '3': 3, '4': 3, '5': 2, '10': 'snr'},
+    const {'1': 'min_elevation_deg', '3': 4, '4': 1, '5': 2, '10': 'minElevationDeg'},
+  ],
+};
+
+/// Descriptor for `DishGetObstructionMapResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List dishGetObstructionMapResponseDescriptor = $convert.base64Decode('Ch1EaXNoR2V0T2JzdHJ1Y3Rpb25NYXBSZXNwb25zZRIZCghudW1fcm93cxgBIAEoDVIHbnVtUm93cxIZCghudW1fY29scxgCIAEoDVIHbnVtQ29scxIQCgNzbnIYAyADKAJSA3NuchIqChFtaW5fZWxldmF0aW9uX2RlZxgEIAEoAlIPbWluRWxldmF0aW9uRGVn');

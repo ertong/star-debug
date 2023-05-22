@@ -249,6 +249,76 @@ class MeshAuth extends $pb.ProtobufEnum {
   const MeshAuth._($core.int v, $core.String n) : super(v, n);
 }
 
+class TransceiverModulatorState extends $pb.ProtobufEnum {
+  static const TransceiverModulatorState MODSTATE_UNKNOWN = TransceiverModulatorState._(0, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'MODSTATE_UNKNOWN');
+  static const TransceiverModulatorState MODSTATE_ENABLED = TransceiverModulatorState._(1, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'MODSTATE_ENABLED');
+  static const TransceiverModulatorState MODSTATE_DISABLED = TransceiverModulatorState._(2, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'MODSTATE_DISABLED');
+
+  static const $core.List<TransceiverModulatorState> values = <TransceiverModulatorState> [
+    MODSTATE_UNKNOWN,
+    MODSTATE_ENABLED,
+    MODSTATE_DISABLED,
+  ];
+
+  static final $core.Map<$core.int, TransceiverModulatorState> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static TransceiverModulatorState? valueOf($core.int value) => _byValue[value];
+
+  const TransceiverModulatorState._($core.int v, $core.String n) : super(v, n);
+}
+
+class TransceiverTxRxState extends $pb.ProtobufEnum {
+  static const TransceiverTxRxState TXRX_UNKNOWN = TransceiverTxRxState._(0, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'TXRX_UNKNOWN');
+  static const TransceiverTxRxState TXRX_ENABLED = TransceiverTxRxState._(1, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'TXRX_ENABLED');
+  static const TransceiverTxRxState TXRX_DISABLED = TransceiverTxRxState._(2, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'TXRX_DISABLED');
+
+  static const $core.List<TransceiverTxRxState> values = <TransceiverTxRxState> [
+    TXRX_UNKNOWN,
+    TXRX_ENABLED,
+    TXRX_DISABLED,
+  ];
+
+  static final $core.Map<$core.int, TransceiverTxRxState> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static TransceiverTxRxState? valueOf($core.int value) => _byValue[value];
+
+  const TransceiverTxRxState._($core.int v, $core.String n) : super(v, n);
+}
+
+class DishState extends $pb.ProtobufEnum {
+  static const DishState UNKNOWN = DishState._(0, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'UNKNOWN');
+  static const DishState CONNECTED = DishState._(1, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'CONNECTED');
+  static const DishState SEARCHING = DishState._(2, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'SEARCHING');
+  static const DishState BOOTING = DishState._(3, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'BOOTING');
+
+  static const $core.List<DishState> values = <DishState> [
+    UNKNOWN,
+    CONNECTED,
+    SEARCHING,
+    BOOTING,
+  ];
+
+  static final $core.Map<$core.int, DishState> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static DishState? valueOf($core.int value) => _byValue[value];
+
+  const DishState._($core.int v, $core.String n) : super(v, n);
+}
+
+class TransceiverTransmitBlankingState extends $pb.ProtobufEnum {
+  static const TransceiverTransmitBlankingState TB_UNKNOWN = TransceiverTransmitBlankingState._(0, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'TB_UNKNOWN');
+  static const TransceiverTransmitBlankingState TB_ENABLED = TransceiverTransmitBlankingState._(1, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'TB_ENABLED');
+  static const TransceiverTransmitBlankingState TB_DISABLED = TransceiverTransmitBlankingState._(2, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'TB_DISABLED');
+
+  static const $core.List<TransceiverTransmitBlankingState> values = <TransceiverTransmitBlankingState> [
+    TB_UNKNOWN,
+    TB_ENABLED,
+    TB_DISABLED,
+  ];
+
+  static final $core.Map<$core.int, TransceiverTransmitBlankingState> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static TransceiverTransmitBlankingState? valueOf($core.int value) => _byValue[value];
+
+  const TransceiverTransmitBlankingState._($core.int v, $core.String n) : super(v, n);
+}
+
 class WifiClient_Interface extends $pb.ProtobufEnum {
   static const WifiClient_Interface UNKNOWN = WifiClient_Interface._(0, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'UNKNOWN');
   static const WifiClient_Interface ETH = WifiClient_Interface._(1, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'ETH');

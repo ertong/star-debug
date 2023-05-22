@@ -56,9 +56,11 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
         drawer: AppDrawer(selectedRoute: Routes.MAIN),
         body: Container(
           padding: EdgeInsets.all(10.0),
-          child: Center(
-            child: Column(children:
-              _buildBody(),),
+          child: SingleChildScrollView(
+            child: Center(
+              child: Column(children:
+                _buildBody(),),
+            ),
           ),
         )
     );
@@ -87,17 +89,23 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
             b.kv("UptimeS", status.deviceState.uptimeS);
         }
 
+        if (status.hasStowRequested()) {
+          b.kv("StowRequested", status.stowRequested);
+        }
+
         if (status.hasSecondsToFirstNonemptySlot())
           b.kv("SecondsToFirstNonemptySlot", status.secondsToFirstNonemptySlot);
 
-        if (status.hasAlerts()) {
-          var alerts = status.alerts.toProto3Json() as Map<String, dynamic>;
+        if (status.hasMobilityClass()) {
+          b.kv("MobilityClass", status.mobilityClass);
+        }
 
-          b.kv("Alerts", [
-            for (var e in alerts.entries)
-              if (e.value)
-                e.key
-          ].join(", "));
+        if (status.hasClassOfService()) {
+          b.kv("ClassOfService", status.classOfService);
+        }
+
+        if (status.hasHasActuators()) {
+          b.kv("HasActuators", status.hasActuators);
         }
 
         if (status.hasOutage()) {
@@ -112,6 +120,51 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
         if (status.hasSoftwareUpdateState()) {
           b.kv("SoftwareUpdateState", status.softwareUpdateState);
         }
+
+        rows.addAll(b.widgets);
+      }
+
+      if (status.hasAlerts()) {
+        var alerts = status.alerts.toProto3Json() as Map<String, dynamic>;
+
+        var b = KVWidgetBuilder();
+        if (alerts.isEmpty) {
+          rows.add(_buildHeader("Alerts"));
+          b.kv("", "No alerts");
+        } else {
+          rows.add(_buildHeader("Alerts", isAlert: true));
+          for (var e in alerts.entries)
+            if (e.value)
+              b.kv("", "${e.key}".toUpperCase());
+        }
+
+        rows.addAll(b.widgets);
+      }
+
+      {
+        rows.add(_buildHeader("Signal"));
+
+        var b = KVWidgetBuilder();
+
+        if (status.hasDownlinkThroughputBps())
+          b.kv("DownlinkThroughputBps", status.downlinkThroughputBps);
+
+        if (status.hasUplinkThroughputBps())
+          b.kv("UplinkThroughputBps", status.uplinkThroughputBps);
+
+        if (status.hasPopPingDropRate())
+          b.kv("PopPingDropRate", status.popPingDropRate);
+
+        if (status.hasPopPingLatencyMs())
+          b.kv("PopPingLatencyMs", status.popPingLatencyMs);
+
+        if (status.hasEthSpeedMbps())
+          b.kv("EthSpeedMbps", status.ethSpeedMbps);
+
+        if (status.hasIsSnrAboveNoiseFloor())
+          b.kv("IsSnrAboveNoiseFloor", status.isSnrAboveNoiseFloor);
+        if (status.hasIsSnrPersistentlyLow())
+          b.kv("IsSnrPersistentlyLow", status.isSnrPersistentlyLow);
 
         rows.addAll(b.widgets);
       }
@@ -154,6 +207,60 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
         rows.addAll(b.widgets);
       }
 
+      if (status.hasGpsStats()){
+        var b = KVWidgetBuilder();
+        var stats = status.gpsStats;
+        rows.add(_buildHeader("GPS Stats"));
+        if (stats.hasGpsValid())
+          b.kv("GpsValid", stats.gpsValid);
+        if (stats.hasGpsSats())
+          b.kv("GpsSats", stats.gpsSats);
+        if (stats.hasNoSatsAfterTtff())
+          b.kv("NoSatsAfterTtff", stats.noSatsAfterTtff);
+        if (stats.hasInhibitGps())
+          b.kv("InhibitGps", stats.inhibitGps);
+
+        rows.addAll(b.widgets);
+      }
+
+      {
+        var b = KVWidgetBuilder();
+        rows.add(_buildHeader("Antenna"));
+        if (status.hasBoresightAzimuthDeg())
+          b.kv("BoresightAzimuthDeg", status.boresightAzimuthDeg);
+        if (status.hasBoresightElevationDeg())
+          b.kv("BoresightElevationDeg", status.boresightElevationDeg);
+
+        rows.addAll(b.widgets);
+      }
+
+      if (status.hasReadyStates()){
+        var b = KVWidgetBuilder();
+        var states = status.readyStates;
+        for (var e in (states.toProto3Json() as Map<String, dynamic>).entries)
+          b.kv("${e.key}", "${e.value}");
+
+        if (status.hasObstructionStats()){
+          var stats = status.obstructionStats;
+          if (stats.hasFractionObstructed())
+            b.kv("FractionObstructed", stats.fractionObstructed);
+
+          if (stats.hasValidS())
+            b.kv("ValidS", stats.validS);
+
+          // bool currently_obstructed = 5;
+          // float avg_prolonged_obstruction_duration_s = 6;
+          // float avg_prolonged_obstruction_interval_s = 7;
+          // bool avg_prolonged_obstruction_valid = 8;
+          // float time_obstructed = 9;
+          // uint32 patches_valid = 10;
+        }
+
+        if (b.widgets.isNotEmpty) {
+          rows.add(_buildHeader("Ready States"));
+          rows.addAll(b.widgets);
+        }
+      }
     }
 
     return rows;
@@ -175,38 +282,26 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
   }
 
   Widget _buildBar(BuildContext context) {
+
+    var color = Colors.red;
+
+    final conn = R.grpc.conn;
+    if (conn!=null && conn.subsChannel!=null)
+      color = Colors.yellow;
+
+    if (conn!=null && conn.isReady())
+      color = Colors.green;
+
     return AppBar(
-      title: Text(M.live.starlink_live),
+      title: Row(
+        children: [
+          Text(M.live.starlink_live),
+          Container(width:5),
+          Icon(Icons.circle, color: color,)
+        ],
+      ),
       centerTitle: true,
     );
   }
 
-
-  // Future test() async {
-  //   print('try test');
-  //   final channel = ClientChannel(
-  //     // 'dev.z.min.org.ua', port: 20192,
-  //     '192.168.100.1', port: 9200,
-  //     options: ChannelOptions(
-  //       credentials: ChannelCredentials.insecure(),
-  //       codecRegistry: CodecRegistry(codecs: const [GzipCodec(), IdentityCodec()]),
-  //     ),
-  //   );
-  //   final stub = DeviceClient(channel);
-  //
-  //   try {
-  //     final response = await stub.handle(
-  //       // Request()..getDeviceInfo = GetDeviceInfoRequest()
-  //       Request()..getStatus = GetStatusRequest()
-  //     );
-  //     print('client received: ${response}');
-  //
-  //     setState(() {
-  //       text = '${response}';
-  //     });
-  //   } catch (e) {
-  //     print('Caught error: $e');
-  //   }
-  //   await channel.shutdown();
-  // }
 }

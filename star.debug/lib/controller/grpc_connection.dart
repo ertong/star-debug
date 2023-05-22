@@ -65,11 +65,19 @@ class GrpcConnection {
     channel?.shutdown();
     channel = null;
 
+    dishGetStatus.receivedTime = 0;
+    dishGetStatus.sentTime = 0;
+
     LogUtils.d(_TAG, "Connection is shutdown: $this");
   }
 
   void close(){
     isClosed = true;
+  }
+
+  bool isReady(){
+    int now = DateTime.now().millisecondsSinceEpoch;
+    return subsChannel!=null && subsStream!=null && now-dishGetStatus.receivedTime<3500;
   }
 
   int timeLastChannel = 0;
@@ -183,8 +191,9 @@ class GrpcConnection {
     if (msg.hasResponse()) {
       var resp = msg.response;
       var respJson = resp.toProto3Json();
-      if (respJson is Map<String, dynamic>)
+      if (respJson is Map<String, dynamic>) {
         LogUtils.d(_TAG, "Received response: ${respJson.keys}");
+      }
 
       if (resp.hasDishGetStatus())
         dishGetStatus.setData(now, resp.dishGetStatus);

@@ -188,7 +188,7 @@ message Request {
         .SpaceX.API.Device.DishStowRequest dish_stow = 2002;
 //        .SpaceX.API.Device.DishGetContextRequest dish_get_context = 2003;
 //        .SpaceX.API.Device.DishSetEmcRequest dish_set_emc = 2007;
-//        .SpaceX.API.Device.DishGetObstructionMapRequest dish_get_obstruction_map = 2008;
+        .SpaceX.API.Device.DishGetObstructionMapRequest dish_get_obstruction_map = 2008;
 //        .SpaceX.API.Device.DishGetEmcRequest dish_get_emc = 2009;
         .SpaceX.API.Device.DishSetConfigRequest dish_set_config = 2010;
         .SpaceX.API.Device.DishGetConfigRequest dish_get_config = 2011;
@@ -208,8 +208,8 @@ message Request {
 //        .SpaceX.API.Device.WifiSetClientGivenNameRequest wifi_set_client_given_name = 3017;
 //        .SpaceX.API.Device.WifiSelfTestRequest wifi_self_test = 3018;
 //        .SpaceX.API.Device.TransceiverIFLoopbackTestRequest transceiver_if_loopback_test = 4001;
-//        .SpaceX.API.Device.TransceiverGetStatusRequest transceiver_get_status = 4003;
-//        .SpaceX.API.Device.TransceiverGetTelemetryRequest transceiver_get_telemetry = 4004;
+        .SpaceX.API.Device.TransceiverGetStatusRequest transceiver_get_status = 4003;
+        .SpaceX.API.Device.TransceiverGetTelemetryRequest transceiver_get_telemetry = 4004;
     }
     reserved 1018, 1025, 1026, 3011, 3014;
 }
@@ -250,7 +250,7 @@ message Response {
 //        .SpaceX.API.Device.DishAuthenticateResponse dish_authenticate = 2005;
 //        .SpaceX.API.Device.DishGetHistoryResponse dish_get_history = 2006;
 //        .SpaceX.API.Device.DishSetEmcResponse dish_set_emc = 2007;
-//        .SpaceX.API.Device.DishGetObstructionMapResponse dish_get_obstruction_map = 2008;
+        .SpaceX.API.Device.DishGetObstructionMapResponse dish_get_obstruction_map = 2008;
 //        .SpaceX.API.Device.DishGetEmcResponse dish_get_emc = 2009;
         .SpaceX.API.Device.DishSetConfigResponse dish_set_config = 2010;
         .SpaceX.API.Device.DishGetConfigResponse dish_get_config = 2011;
@@ -271,8 +271,8 @@ message Response {
 //        .SpaceX.API.Device.WifiSelfTestResponse wifi_self_test = 3016;
         .SpaceX.API.Device.WifiGetPersistentStatsResponse wifi_get_persistent_stats = 3022;
 //        .SpaceX.API.Device.TransceiverIFLoopbackTestResponse transceiver_if_loopback_test = 4001;
-//        .SpaceX.API.Device.TransceiverGetStatusResponse transceiver_get_status = 4003;
-//        .SpaceX.API.Device.TransceiverGetTelemetryResponse transceiver_get_telemetry = 4004;
+        .SpaceX.API.Device.TransceiverGetStatusResponse transceiver_get_status = 4003;
+        .SpaceX.API.Device.TransceiverGetTelemetryResponse transceiver_get_telemetry = 4004;
     }
     reserved 1018, 1026, 2025, 3011, 3014;
 }
@@ -958,4 +958,108 @@ message WifiScanResults {
             SCAN_5GHZ = 2;
         }
     }
+}
+
+
+//SpaceX.API.Device.TransceiverGetStatusRequest is a message:
+message TransceiverGetStatusRequest {
+}
+
+//SpaceX.API.Device.TransceiverGetStatusResponse is a message:
+message TransceiverGetStatusResponse {
+    .SpaceX.API.Device.TransceiverModulatorState mod_state = 1;
+    .SpaceX.API.Device.TransceiverModulatorState demod_state = 2;
+    .SpaceX.API.Device.TransceiverTxRxState tx_state = 3;
+    .SpaceX.API.Device.TransceiverTxRxState rx_state = 4;
+    .SpaceX.API.Device.DishState state = 1006;
+    .SpaceX.API.Device.TransceiverFaults faults = 1007;
+    .SpaceX.API.Device.TransceiverTransmitBlankingState transmit_blanking_state = 1008;
+    float modem_asic_temp = 1009;
+    float tx_if_temp = 1010;
+}
+
+//SpaceX.API.Device.TransceiverModulatorState is an enum:
+enum TransceiverModulatorState {
+    MODSTATE_UNKNOWN = 0;
+    MODSTATE_ENABLED = 1;
+    MODSTATE_DISABLED = 2;
+}
+
+//SpaceX.API.Device.TransceiverTxRxState is an enum:
+enum TransceiverTxRxState {
+    TXRX_UNKNOWN = 0;
+    TXRX_ENABLED = 1;
+    TXRX_DISABLED = 2;
+}
+
+//SpaceX.API.Device.DishState is an enum:
+enum DishState {
+    UNKNOWN = 0;
+    CONNECTED = 1;
+    SEARCHING = 2;
+    BOOTING = 3;
+}
+
+//SpaceX.API.Device.TransceiverFaults is a message:
+message TransceiverFaults {
+    bool over_temp_modem_asic_fault = 1;
+    bool over_temp_pcba_fault = 2;
+    bool dc_voltage_fault = 3;
+}
+
+//SpaceX.API.Device.TransceiverTransmitBlankingState is an enum:
+enum TransceiverTransmitBlankingState {
+    TB_UNKNOWN = 0;
+    TB_ENABLED = 1;
+    TB_DISABLED = 2;
+}
+
+//SpaceX.API.Device.TransceiverGetTelemetryRequest is a message:
+message TransceiverGetTelemetryRequest {
+}
+
+//SpaceX.API.Device.TransceiverGetTelemetryResponse is a message:
+message TransceiverGetTelemetryResponse {
+    uint32 antenna_pointing_mode = 1001;
+    float antenna_pitch = 1002;
+    float antenna_roll = 1003;
+    float antenna_rx_theta = 1004;
+    float antenna_true_heading = 1005;
+    uint32 rx_channel = 1006;
+    uint32 current_cell_id = 1007;
+    float seconds_until_slot_end = 1008;
+    float wb_rssi_peak_mag_db = 1009;
+    float pop_ping_drop_rate = 1010;
+    float snr_db = 1011;
+    float l1_snr_avg_db = 1012;
+    float l1_snr_min_db = 1013;
+    float l1_snr_max_db = 1014;
+    uint32 lmac_satellite_id = 1015;
+    uint32 target_satellite_id = 1016;
+    uint32 grant_mcs = 1017;
+    float grant_symbols_avg = 1018;
+    uint32 ded_grant = 1019;
+    uint32 mobility_proactive_slot_change = 1020;
+    uint32 mobility_reactive_slot_change = 1021;
+    uint32 rfp_total_syn_failed = 1022;
+    uint32 num_out_of_seq = 1023;
+    uint32 num_ulmap_drop = 1024;
+    float current_seconds_of_schedule = 1025;
+    uint32 send_label_switch_to_ground_failed_calls = 1026;
+    double ema_velocity_x = 1027;
+    double ema_velocity_y = 1028;
+    double ema_velocity_z = 1029;
+    float ce_rssi_db = 1030;
+}
+
+//SpaceX.API.Device.DishGetObstructionMapRequest is a message:
+message DishGetObstructionMapRequest {
+}
+
+//SpaceX.API.Device.DishGetObstructionMapResponse is a message:
+message DishGetObstructionMapResponse {
+    uint32 num_rows = 1;
+    uint32 num_cols = 2;
+    repeated float snr = 3;
+    float min_elevation_deg = 4;
 }

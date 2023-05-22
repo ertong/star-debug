@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 import 'dart:convert';
 
@@ -68,7 +69,13 @@ class _DebugPageState extends State<DebugPage> with TickerProviderStateMixin {
     //   test();
     // }, child: Text("test")));
 
-    res.add(reqButton("GetStatus", () => Request(getStatus: GetStatusRequest())));
+    res.add(Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        reqButton("GetStatus", () => Request(getStatus: GetStatusRequest())),
+        reqButton("GetObstructionMap", () => Request(dishGetObstructionMap: DishGetObstructionMapRequest())),
+      ],
+    ));
 
     // res.add(reqButton("getLocation", () => Request(getLocation: GetLocationRequest(source: PositionSource.AUTO))));
 
@@ -89,6 +96,15 @@ class _DebugPageState extends State<DebugPage> with TickerProviderStateMixin {
       ],
     ));
 
+    // UNIMPLEMENTED
+    // res.add(Row(
+    //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+    //   children: [
+    //     reqButton("TransceiverGetStatus", () => Request(transceiverGetStatus: TransceiverGetStatusRequest()), router: false),
+    //     reqButton("TransceiverGetTelemetry", () => Request(transceiverGetTelemetry: TransceiverGetTelemetryRequest()), router: false),
+    //   ],
+    // ));
+
     res.add(Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
@@ -97,7 +113,7 @@ class _DebugPageState extends State<DebugPage> with TickerProviderStateMixin {
       ],
     ));
 
-    // NOT IMPLEMENTED, NO PERMISSION
+    // UNIMPLEMENTED, NO PERMISSION
     // res.add(Row(
     //   mainAxisAlignment: MainAxisAlignment.spaceAround,
     //   children: [
@@ -132,6 +148,7 @@ class _DebugPageState extends State<DebugPage> with TickerProviderStateMixin {
       var resp = await stub.handle(req);
 
       LogUtils.d(_TAG, "RECEIVED: ${jsonEncode(resp.toProto3Json())}");
+      log("Received response: ${jsonEncode(resp.toProto3Json())}");
 
       return JsonEncoder.withIndent("  ").convert(resp.toProto3Json());
     }, router: router);
@@ -139,7 +156,6 @@ class _DebugPageState extends State<DebugPage> with TickerProviderStateMixin {
 
   Future<String> withConnected(Future<String> Function(DeviceClient stub, ClientChannel channel) callback, {bool router = false} ) async {
     final channel = ClientChannel(
-      // 'dev.z.min.org.ua', port: 20192,
       router ? '192.168.1.1' : '192.168.100.1',
       port: router ? 9000 : 9200,
       options: ChannelOptions(
@@ -164,8 +180,4 @@ class _DebugPageState extends State<DebugPage> with TickerProviderStateMixin {
     return "";
   }
 
-  Future test() async {
-    print('try test');
-
-  }
 }
