@@ -110,7 +110,7 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
 
     return Scaffold(
       appBar: _buildBar(context) as PreferredSizeWidget?,
-      drawer: AppDrawer(selectedRoute: Routes.MAIN),
+      drawer: AppDrawer(selectedRoute: Routes.LIVE),
       bottomNavigationBar: bar,
       body: Stack(
         children: [

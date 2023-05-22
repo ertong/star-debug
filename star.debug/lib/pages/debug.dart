@@ -49,7 +49,7 @@ class _DebugPageState extends State<DebugPage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: _buildBar(context) as PreferredSizeWidget?,
-        drawer: AppDrawer(selectedRoute: Routes.MAIN),
+        drawer: AppDrawer(selectedRoute: Routes.DEBUG),
         body: SingleChildScrollView(
           child: Center(
             child: Column(
