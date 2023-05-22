@@ -72,7 +72,7 @@ class _DebugPageState extends State<DebugPage> with TickerProviderStateMixin {
     res.add(Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        reqButton("GetStatus", () => Request(getStatus: GetStatusRequest())),
+        reqButton("GetStatus", () => Request(getStatus: GetStatusRequest()), router: false),
         reqButton("GetObstructionMap", () => Request(dishGetObstructionMap: DishGetObstructionMapRequest())),
       ],
     ));

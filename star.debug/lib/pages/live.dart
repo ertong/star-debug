@@ -179,14 +179,32 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
           b.kv("HardwareVersion", deviceInfo.hardwareVersion);
         if (deviceInfo.hasSoftwareVersion())
           b.kv("SoftwareVersion", deviceInfo.softwareVersion);
+        if (deviceInfo.hasCountryCode())
+          b.kv("CountryCode", deviceInfo.countryCode);
+        if (deviceInfo.hasUtcOffsetS())
+          b.kv("UtcOffsetS", deviceInfo.utcOffsetS);
+        // bool software_partitions_equal = 6;
+        // bool is_dev = 7;
         if (deviceInfo.hasBootcount())
           b.kv("BootCount", deviceInfo.bootcount);
+        // int32 anti_rollback_version = 9;
+        // bool is_hitl = 10;
         if (deviceInfo.hasManufacturedVersion())
           b.kv("ManufacturedVersion", deviceInfo.manufacturedVersion);
         if (deviceInfo.hasGenerationNumber())
           b.kv("GenerationNumber", deviceInfo.generationNumber);
         if (deviceInfo.hasDishCohoused())
           b.kv("DishCohoused", deviceInfo.dishCohoused);
+
+        if (deviceInfo.hasBoot()){
+          var boot = deviceInfo.boot;
+          // map<int32, int32> count_by_reason = 1;
+          // int32 last_count = 3;
+          // map<int32, int32> count_by_reason_delta = 4;
+          if (boot.hasLastReason())
+            b.kv("Boot.LastReason", boot.lastReason);
+        }
+
         rows.addAll(b.widgets);
       }
 
@@ -225,20 +243,11 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
 
       {
         var b = KVWidgetBuilder();
-        rows.add(_buildHeader("Antenna"));
+
         if (status.hasBoresightAzimuthDeg())
           b.kv("BoresightAzimuthDeg", status.boresightAzimuthDeg);
         if (status.hasBoresightElevationDeg())
           b.kv("BoresightElevationDeg", status.boresightElevationDeg);
-
-        rows.addAll(b.widgets);
-      }
-
-      if (status.hasReadyStates()){
-        var b = KVWidgetBuilder();
-        var states = status.readyStates;
-        for (var e in (states.toProto3Json() as Map<String, dynamic>).entries)
-          b.kv("${e.key}", "${e.value}");
 
         if (status.hasObstructionStats()){
           var stats = status.obstructionStats;
@@ -255,6 +264,20 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
           // float time_obstructed = 9;
           // uint32 patches_valid = 10;
         }
+
+        if (b.widgets.isNotEmpty) {
+          rows.add(_buildHeader("Antenna"));
+          rows.addAll(b.widgets);
+        }
+
+        rows.addAll(b.widgets);
+      }
+
+      if (status.hasReadyStates()){
+        var b = KVWidgetBuilder();
+        var states = status.readyStates;
+        for (var e in (states.toProto3Json() as Map<String, dynamic>).entries)
+          b.kv("${e.key}", "${e.value}");
 
         if (b.widgets.isNotEmpty) {
           rows.add(_buildHeader("Ready States"));
