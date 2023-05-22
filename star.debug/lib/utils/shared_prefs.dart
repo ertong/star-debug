@@ -6,20 +6,22 @@ class Prefs{
   String? lang;
   String? lastSystemLang;
 
+  bool darkMode = false;
+
   Prefs();
 }
 
 class SharedPrefs {
   static const String TAG = "SharedPrefs";
 
-  Prefs? _data;
+  late Prefs _data;
 
   final StreamController _streamController = StreamController.broadcast();
   Stream get stream => _streamController.stream;
   final Completer<void> initialized = Completer();
   late SharedPreferences prefs;
 
-  Prefs? get data {
+  Prefs get data {
     return _data;
   }
 
@@ -30,6 +32,7 @@ class SharedPrefs {
 
     res.lang = prefs.getString("lang");
     res.lastSystemLang = prefs.getString("lastSystemLang");
+    res.darkMode = prefs.getBool("darkMode") ?? false;
 
     return res;
   }
@@ -75,6 +78,9 @@ class SharedPrefs {
 
     if (saved.lastSystemLang!=data.lastSystemLang)
         await setString("lastSystemLang", data.lastSystemLang);
+
+    if (saved.darkMode!=data.darkMode)
+      await setBool("darkMode", data.darkMode);
 
     _data = await _load();
     _streamController.add(_data);

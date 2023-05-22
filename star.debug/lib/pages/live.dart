@@ -38,7 +38,10 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
     super.dispose();
   }
 
+  ThemeData theme = ThemeData.fallback();
+
   Widget build(BuildContext context) {
+    theme = Theme.of(context);
     return Scaffold(
         appBar: _buildBar(context) as PreferredSizeWidget?,
         drawer: AppDrawer(selectedRoute: Routes.MAIN),
@@ -72,9 +75,8 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
       DishGetStatusResponse status = conn.dishGetStatus.data!;
 
       {
-        rows.add(_buildHeader("General"));
-
-        var b = KVWidgetBuilder();
+        var b = KVWidgetBuilder(theme);
+        b.header("General");
 
         if (status.hasDeviceState()) {
           if (status.deviceState.hasUptimeS())
@@ -119,12 +121,12 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
       if (status.hasAlerts()) {
         var alerts = status.alerts.toProto3Json() as Map<String, dynamic>;
 
-        var b = KVWidgetBuilder();
+        var b = KVWidgetBuilder(theme);
         if (alerts.isEmpty) {
-          rows.add(_buildHeader("Alerts"));
+          b.header("Alerts");
           b.kv("", "No alerts");
         } else {
-          rows.add(_buildHeader("Alerts", isAlert: true));
+          b.header("Alerts", isAlert: true);
           for (var e in alerts.entries)
             if (e.value)
               b.kv("", "${e.key}".toUpperCase());
@@ -134,9 +136,9 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
       }
 
       {
-        rows.add(_buildHeader("Signal"));
+        var b = KVWidgetBuilder(theme);
 
-        var b = KVWidgetBuilder();
+        b.header("Signal");
 
         if (status.hasDownlinkThroughputBps())
           b.kv("DownlinkThroughputBps", status.downlinkThroughputBps);
@@ -162,9 +164,9 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
       }
 
       if (status.hasDeviceInfo()){
-        var b = KVWidgetBuilder();
+        var b = KVWidgetBuilder(theme);
         var deviceInfo = status.deviceInfo;
-        rows.add(_buildHeader("DeviceInfo"));
+        b.header("DeviceInfo");
         if (deviceInfo.hasId())
           b.kv("Id", deviceInfo.id);
         if (deviceInfo.hasHardwareVersion())
@@ -201,9 +203,9 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
       }
 
       if (status.hasConfig()){
-        var b = KVWidgetBuilder();
+        var b = KVWidgetBuilder(theme);
         var config = status.config;
-        rows.add(_buildHeader("Config"));
+        b.header("Config");
         if (config.hasSnowMeltMode())
           b.kv("SnowMeltMode", config.snowMeltMode);
         if (config.hasLocationRequestMode())
@@ -218,7 +220,8 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
       }
 
       if (status.hasGpsStats()){
-        var b = KVWidgetBuilder();
+        var b = KVWidgetBuilder(theme);
+        b.header("GPS Stats");
         var stats = status.gpsStats;
         if (stats.hasGpsValid())
           b.kv("GpsValid", stats.gpsValid);
@@ -229,14 +232,14 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
         if (stats.hasInhibitGps())
           b.kv("InhibitGps", stats.inhibitGps);
 
-        if (b.widgets.isNotEmpty) {
-          rows.add(_buildHeader("GPS Stats"));
+        if (b.widgets.length>1) {
           rows.addAll(b.widgets);
         }
       }
 
       {
-        var b = KVWidgetBuilder();
+        var b = KVWidgetBuilder(theme);
+        b.header("Antenna");
 
         if (status.hasBoresightAzimuthDeg())
           b.kv("BoresightAzimuthDeg", status.boresightAzimuthDeg);
@@ -259,8 +262,7 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
           // uint32 patches_valid = 10;
         }
 
-        if (b.widgets.isNotEmpty) {
-          rows.add(_buildHeader("Antenna"));
+        if (b.widgets.length>1) {
           rows.addAll(b.widgets);
         }
 
@@ -268,34 +270,19 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
       }
 
       if (status.hasReadyStates()){
-        var b = KVWidgetBuilder();
+        var b = KVWidgetBuilder(theme);
+        b.header("Ready States");
         var states = status.readyStates;
         for (var e in (states.toProto3Json() as Map<String, dynamic>).entries)
           b.kv("${e.key}", "${e.value}");
 
-        if (b.widgets.isNotEmpty) {
-          rows.add(_buildHeader("Ready States"));
+        if (b.widgets.length>1) {
           rows.addAll(b.widgets);
         }
       }
     }
 
     return rows;
-  }
-
-  Widget _buildHeader(String name, {bool isAlert = false}){
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 4, 0, 2),
-      child: Container(
-          padding: EdgeInsets.fromLTRB(3, 3, 3, 3),
-          color: isAlert ? Colors.red.shade100 : Colors.lightBlue.shade100,
-          child: Row(
-            children: [
-              Text(name),
-            ],
-          )
-      ),
-    );
   }
 
   Widget _buildBar(BuildContext context) {

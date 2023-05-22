@@ -54,7 +54,7 @@ void main() async {
       onLoaded: (context) {
           return StreamBuilder(
               stream: I18n.instance.onChange,
-              builder: (context, asyncSnapshot) => StarDebugApp(),
+              builder: (context, asyncSnapshot) => StarDebugApp(key: R.appKey),
             );
       },
     ));

@@ -27,6 +27,7 @@ general:
   open_clipboard: Відкрити JSON з буфера обміну
   debug_data_viewer: Перегляд Debug Data
   no_data_found: Дані не знайдено
+  dark_mode: Dark mode
 
 live:
   starlink_live: "Starlink Live"

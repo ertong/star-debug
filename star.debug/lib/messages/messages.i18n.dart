@@ -88,6 +88,7 @@ class GeneralMessages {
   String get open_clipboard => """Open JSON from clipboard""";
   String get debug_data_viewer => """Debug Data Viewer""";
   String get no_data_found => """No data found""";
+  String get dark_mode => """Dark mode""";
 }
 
 class LiveMessages {
@@ -125,5 +126,6 @@ Map<String, String> get messagesMap => {
       """general.open_clipboard""": """Open JSON from clipboard""",
       """general.debug_data_viewer""": """Debug Data Viewer""",
       """general.no_data_found""": """No data found""",
+      """general.dark_mode""": """Dark mode""",
       """live.starlink_live""": """Starlink Live""",
     };

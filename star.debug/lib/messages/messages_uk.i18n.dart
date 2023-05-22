@@ -89,6 +89,7 @@ class GeneralMessagesUk extends GeneralMessages {
   String get open_clipboard => """Відкрити JSON з буфера обміну""";
   String get debug_data_viewer => """Перегляд Debug Data""";
   String get no_data_found => """Дані не знайдено""";
+  String get dark_mode => """Dark mode""";
 }
 
 class LiveMessagesUk extends LiveMessages {
@@ -126,5 +127,6 @@ Map<String, String> get messagesUkMap => {
       """general.open_clipboard""": """Відкрити JSON з буфера обміну""",
       """general.debug_data_viewer""": """Перегляд Debug Data""",
       """general.no_data_found""": """Дані не знайдено""",
+      """general.dark_mode""": """Dark mode""",
       """live.starlink_live""": """Starlink Live""",
     };

@@ -13,6 +13,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:sqlite3_flutter_libs/sqlite3_flutter_libs.dart';
 import 'package:star_debug/controller/grpc_controller.dart';
 import 'package:star_debug/space/space_text.dart';
+import 'package:star_debug/stardebug_app.dart';
 import 'package:star_debug/utils/log_utils.dart';
 import 'package:time_machine/time_machine.dart';
 
@@ -36,8 +37,9 @@ class Preloaded{
 
   LifecycleObserver lifecycleObserver = LifecycleObserver();
 
-  final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
-  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey();
+  final GlobalKey<StarDebugAppState> appKey = GlobalKey();
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
   late FirebaseAnalytics analytics;
 

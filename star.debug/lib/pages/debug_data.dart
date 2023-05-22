@@ -59,8 +59,9 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
     super.dispose();
   }
 
+  ThemeData theme = ThemeData.fallback();
   Widget build(BuildContext context) {
-
+    theme = Theme.of(context);
     Widget? bar = null;
 
     if (pages.isNotEmpty)
@@ -174,7 +175,7 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
     }
 
     {
-      var b = KVWidgetBuilder();
+      var b = KVWidgetBuilder(theme);
       entity.get_readable_params(b);
       rows.addAll(b.widgets);
     }
@@ -184,25 +185,13 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
 
       bool is_alert = (p is ModuleAlerts) && p.data.isNotEmpty;
 
-      var b = KVWidgetBuilder();
+      var b = KVWidgetBuilder(theme);
+      b.header(p.get_name(), isAlert: is_alert);
       p.get_data(b);
 
-      if (b.widgets.isEmpty)
+      if (b.widgets.length<=1)
         continue;
 
-      var name = p.get_name();
-      rows.add(Padding(
-        padding: const EdgeInsets.fromLTRB(0, 4, 0, 2),
-        child: Container(
-            padding: EdgeInsets.fromLTRB(3, 3, 3, 3),
-            color: is_alert ? Colors.red.shade100 : Colors.lightBlue.shade100,
-            child: Row(
-              children: [
-                Text(name),
-              ],
-            )
-        ),
-      ));
       // var data = p.get_data();
       rows.addAll(b.widgets);
 

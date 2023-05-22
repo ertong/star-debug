@@ -15,15 +15,15 @@ import 'utils/log_utils.dart';
 const String _TAG = "UbibApp";
 
 class StarDebugApp extends StatefulWidget {
-  // This widget is the root of your application.
+  StarDebugApp({super.key});
+
   @override
-  _StarDebugAppState createState() => _StarDebugAppState();
+  StarDebugAppState createState() => StarDebugAppState();
 }
 
-class _StarDebugAppState extends State<StarDebugApp>
+class StarDebugAppState extends State<StarDebugApp>
 {
   StreamSubscription? subsNotification;
-
 
   @override
   void initState() {
@@ -43,9 +43,7 @@ class _StarDebugAppState extends State<StarDebugApp>
 
   @override
   Widget build(BuildContext context) {
-    var theme = ThemeData.light();
-    // var darkTheme = ThemeData.dark();
-    var darkTheme = theme;
+    // var theme = ThemeData.light();
     return MaterialApp(
       scaffoldMessengerKey: R.scaffoldMessengerKey,
       localizationsDelegates: const [
@@ -61,44 +59,10 @@ class _StarDebugAppState extends State<StarDebugApp>
 
       onGenerateTitle: (BuildContext context) => M.general.app_name,
 
-      // theme: theme.copyWith(
-      //   colorScheme: theme.colorScheme.copyWith(secondary: Color(0xff434d2a), primary: Color(0xff202e19)),
-      //   primaryTextTheme: GoogleFonts.philosopherTextTheme(theme.primaryTextTheme),
-      //   textTheme: GoogleFonts.openSansTextTheme(theme.textTheme),
-      //   appBarTheme: theme.appBarTheme.copyWith(
-      //     titleTextStyle:  GoogleFonts.philosopherTextTheme(theme.primaryTextTheme)
-      //         .bodyText1?.copyWith(fontSize: 22),
-      //   ),
-      //   bottomNavigationBarTheme: theme.bottomNavigationBarTheme.copyWith(
-      //     selectedItemColor: Color(0xffd8a837),
-      //     selectedLabelStyle: GoogleFonts.openSans(fontSize: 12),
-      //     unselectedItemColor: Colors.white,
-      //     unselectedLabelStyle: GoogleFonts.openSans(fontSize: 11),
-      //     showSelectedLabels: true,
-      //     showUnselectedLabels: true,
-      //     type: BottomNavigationBarType.fixed,
-      //     backgroundColor: Theme.of(context).colorScheme.primary,
-      //   ),
-      // ),
-      // darkTheme: darkTheme.copyWith(
-      //   colorScheme: theme.colorScheme.copyWith(secondary: Color(0xff434d2a), primary: Color(0xff202e19)),
-      //   primaryTextTheme: GoogleFonts.philosopherTextTheme(theme.primaryTextTheme),
-      //   textTheme: GoogleFonts.openSansTextTheme(theme.textTheme),
-      //   appBarTheme: theme.appBarTheme.copyWith(
-      //     titleTextStyle:  GoogleFonts.philosopherTextTheme(theme.primaryTextTheme)
-      //         .bodyText1?.copyWith(fontSize: 22),
-      //   ),
-      //   bottomNavigationBarTheme: theme.bottomNavigationBarTheme.copyWith(
-      //     selectedItemColor: Color(0xffd8a837),
-      //     selectedLabelStyle: GoogleFonts.openSans(fontSize: 12),
-      //     unselectedItemColor: Colors.white,
-      //     unselectedLabelStyle: GoogleFonts.openSans(fontSize: 11),
-      //     showSelectedLabels: true,
-      //     showUnselectedLabels: true,
-      //     type: BottomNavigationBarType.fixed,
-      //     backgroundColor: Theme.of(context).colorScheme.primary,
-      //   ),
-      // ),
+      theme: R.prefs.data.darkMode
+          ? ThemeData.dark(useMaterial3: true)
+          : ThemeData.light(useMaterial3: true),
+
       navigatorObservers: [
         // FirebaseAnalyticsObserver(analytics: R.analytics),
         _MyNavigatorObserver(),

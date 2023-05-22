@@ -9,7 +9,11 @@ import 'package:star_debug/space/entity.dart';
 
 class KVWidgetBuilder extends KVConsumer{
 
+  ThemeData theme;
+
   List<Widget> widgets = [];
+
+  KVWidgetBuilder(this.theme);
 
   @override
   void kvs(String k, String v) {
@@ -42,12 +46,28 @@ class KVWidgetBuilder extends KVConsumer{
     ));
   }
 
+  void header(String name, {bool isAlert = false}){
+    widgets.add(Padding(
+      padding: const EdgeInsets.fromLTRB(0, 4, 0, 2),
+      child: Container(
+          padding: EdgeInsets.fromLTRB(3, 3, 3, 3),
+          color: isAlert
+              ? theme.colorScheme.tertiaryContainer
+              : theme.secondaryHeaderColor,
+          child: Row(
+            children: [
+              Text(name),
+            ],
+          )
+      ),
+    ));
+  }
+
   @override
   void spacer() {
     widgets.add(
       SizedBox(height: 15,)
     );
-
   }
 
 }
