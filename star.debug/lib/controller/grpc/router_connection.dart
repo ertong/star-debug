@@ -11,6 +11,7 @@ import 'grpc_connection.dart';
 class RouterConnection extends GrpcConnection {
 
   PooledRequest<WifiGetConfigResponse> wifiGetConfig = PooledRequest(2000);
+  PooledRequest<WifiGetClientsResponse> wifiGetClients = PooledRequest(2000);
 
   RouterConnection({required super.notifyStream}):super(host: '192.168.1.1', port: 9000,) {
     TAG = "RouterConnection";
@@ -24,6 +25,12 @@ class RouterConnection extends GrpcConnection {
           wifiGetConfig: WifiGetConfigRequest()
       )));
       wifiGetConfig.sentTime = now;
+    }
+    if (wifiGetClients.needSend(now)) {
+      reqStream.add(ToDevice(request: Request(
+          wifiGetClients: WifiGetClientsRequest()
+      )));
+      wifiGetClients.sentTime = now;
     }
   }
 
@@ -47,6 +54,10 @@ class RouterConnection extends GrpcConnection {
       if (resp.hasWifiGetConfig()) {
         wifiGetConfig.setData(now, resp.wifiGetConfig);
         statusReceivedTime = now;
+      }
+
+      if (resp.hasWifiGetClients()) {
+        wifiGetClients.setData(now, resp.wifiGetClients);
       }
     }
 

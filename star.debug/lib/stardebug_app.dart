@@ -60,8 +60,8 @@ class StarDebugAppState extends State<StarDebugApp>
       onGenerateTitle: (BuildContext context) => M.general.app_name,
 
       theme: R.prefs.data.darkMode
-          ? ThemeData.dark(useMaterial3: true)
-          : ThemeData.light(useMaterial3: true),
+          ? ThemeData.dark(useMaterial3: false)
+          : ThemeData.light(useMaterial3: false),
 
       navigatorObservers: [
         // FirebaseAnalyticsObserver(analytics: R.analytics),
