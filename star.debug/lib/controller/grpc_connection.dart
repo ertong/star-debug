@@ -4,6 +4,7 @@ import 'package:grpc/grpc.dart';
 import 'package:star_debug/grpc/starlink/starlink.pbgrpc.dart';
 import 'package:star_debug/utils/log_utils.dart';
 import 'package:star_debug/utils/wait_notify.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 const String _TAG = "GrpcConnection";
 
@@ -15,6 +16,7 @@ class GrpcConnection {
   DeviceClient? stub;
   StreamSubscription? subsChannel;
   StreamSubscription? subsStream;
+  StreamSubscription<ConnectivityResult>? subsConnectivity;
   StreamController notifyStream;
 
   bool isClosed = false;
@@ -29,6 +31,12 @@ class GrpcConnection {
 
   GrpcConnection({required this.notifyStream}){
     LogUtils.d(_TAG, "New connection: $this");
+    subsConnectivity = Connectivity().onConnectivityChanged.listen((event) {
+      LogUtils.d(_TAG, "Connectivity change: $event");
+      channel?.shutdown();
+      channel = null;
+      waitNotify.notifyAll();
+    });
     unawaited(run());
   }
 
@@ -36,6 +44,7 @@ class GrpcConnection {
     while (true) {
       try {
         if (isClosed) {
+          subsConnectivity?.cancel();
           _shutdown();
           return;
         }
@@ -101,9 +110,11 @@ class GrpcConnection {
         channel = null;
     }
 
-
     if (channel==null) {
       _shutdown();
+      connState=ConnectionState.idle;
+      timeConnectingStart=0;
+
       channel = ClientChannel(
         // 'dev.z.min.org.ua', port: 20192,
         '192.168.100.1', port: 9200,

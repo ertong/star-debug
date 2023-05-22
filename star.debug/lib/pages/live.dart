@@ -1,25 +1,13 @@
 import 'dart:async';
-import 'dart:io';
-import 'dart:convert';
 
-import 'package:clipboard/clipboard.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart' hide Notification, Card;
-import 'package:grpc/grpc.dart';
+import 'package:flutter/material.dart' hide Notification, Card, ConnectionState;
 import 'package:star_debug/drawer.dart';
 import 'package:star_debug/grpc/starlink/starlink.pbgrpc.dart';
 import 'package:star_debug/messages/I18n.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/routes.dart';
-import 'package:star_debug/space/dishy.dart';
-import 'package:star_debug/space/entity.dart';
-import 'package:star_debug/space/obstructions.dart';
-import 'package:star_debug/space/space_parser.dart';
-import 'package:star_debug/utils/log_utils.dart';
-import 'package:star_debug/utils/shared_prefs.dart';
-
 import '../utils/kv_widget.dart';
+import 'package:grpc/grpc.dart';
 
 const String _TAG="StarlinkPage";
 
@@ -74,9 +62,13 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
 
     List<Widget> rows = [];
 
-    rows.add(Text("State: ${conn.connState}"));
+    int now = DateTime.now().millisecondsSinceEpoch;
 
-    if (conn.dishGetStatus.data!=null) {
+    if (conn.connState!=ConnectionState.ready || now-conn.dishGetStatus.receivedTime>4000) {
+      rows.add(Text("Channel: ${conn.connState}"));
+    }
+
+    if (conn.dishGetStatus.data!=null && now-conn.dishGetStatus.receivedTime<5000) {
       DishGetStatusResponse status = conn.dishGetStatus.data!;
 
       {
@@ -228,7 +220,6 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
       if (status.hasGpsStats()){
         var b = KVWidgetBuilder();
         var stats = status.gpsStats;
-        rows.add(_buildHeader("GPS Stats"));
         if (stats.hasGpsValid())
           b.kv("GpsValid", stats.gpsValid);
         if (stats.hasGpsSats())
@@ -238,7 +229,10 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
         if (stats.hasInhibitGps())
           b.kv("InhibitGps", stats.inhibitGps);
 
-        rows.addAll(b.widgets);
+        if (b.widgets.isNotEmpty) {
+          rows.add(_buildHeader("GPS Stats"));
+          rows.addAll(b.widgets);
+        }
       }
 
       {
