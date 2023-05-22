@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package SpaceX.API.Satellites.Network;
+
+enum UtDisablementCode {
+	UNKNOWN_STATE = 0;
+	OKAY = 1;
+	NO_ACTIVE_ACCOUNT = 2;
+	TOO_FAR_FROM_SERVICE_ADDRESS = 3;
+	IN_OCEAN = 4;
+	INVALID_COUNTRY = 5;
+}

@@ -11,6 +11,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:sqlite3_flutter_libs/sqlite3_flutter_libs.dart';
+import 'package:star_debug/controller/grpc_controller.dart';
 import 'package:star_debug/space/space_text.dart';
 import 'package:star_debug/utils/log_utils.dart';
 import 'package:time_machine/time_machine.dart';
@@ -39,6 +40,8 @@ class Preloaded{
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
   late FirebaseAnalytics analytics;
+
+  late GrpcController grpc;
 
   var initialized = Completer();
 
@@ -89,10 +92,11 @@ class Preloaded{
     await Future.wait(futs);
 
     // analytics = FirebaseAnalytics.instance;
+    grpc = GrpcController();
+    await grpc.init();
 
     LogUtils.d("Preload", "Preload finish");
   }
-
 
   void showSnackBarText(String text, {int sec = 2}){
     showSnackBar(SnackBar(

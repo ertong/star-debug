@@ -54,6 +54,7 @@ class Messages {
   String get locale => "en";
   String get languageCode => "en";
   GeneralMessages get general => GeneralMessages(this);
+  LiveMessages get live => LiveMessages(this);
 }
 
 class GeneralMessages {
@@ -89,6 +90,12 @@ class GeneralMessages {
   String get no_data_found => """No data found""";
 }
 
+class LiveMessages {
+  final Messages _parent;
+  const LiveMessages(this._parent);
+  String get starlink_live => """Starlink Live""";
+}
+
 Map<String, String> get messagesMap => {
       """general.lang""": """English""",
       """general.app_name""": """Star Debug""",
@@ -118,4 +125,5 @@ Map<String, String> get messagesMap => {
       """general.open_clipboard""": """Open JSON from clipboard""",
       """general.debug_data_viewer""": """Debug Data Viewer""",
       """general.no_data_found""": """No data found""",
+      """live.starlink_live""": """Starlink Live""",
     };

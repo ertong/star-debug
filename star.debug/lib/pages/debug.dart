@@ -20,7 +20,7 @@ import 'package:star_debug/utils/log_utils.dart';
 
 import '../utils/kv_widget.dart';
 
-final String _TAG="MainPage";
+final String _TAG="DebugPage";
 
 class DebugPage extends StatefulWidget {
   final String route;
@@ -49,9 +49,14 @@ class _DebugPageState extends State<DebugPage> with TickerProviderStateMixin {
     return Scaffold(
         appBar: _buildBar(context) as PreferredSizeWidget?,
         drawer: AppDrawer(selectedRoute: Routes.MAIN),
-        body: Center(
-          child: Column(children:
-            _buildBody(),),
+        body: SingleChildScrollView(
+          child: Center(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: _buildBody(),
+            ),
+          ),
         )
     );
   }
@@ -59,28 +64,84 @@ class _DebugPageState extends State<DebugPage> with TickerProviderStateMixin {
   List<Widget> _buildBody(){
     List<Widget> res = [];
 
-    res.add(TextButton(onPressed: (){
-      test();
-    }, child: Text("test")));
+    // res.add(OutlinedButton(onPressed: (){
+    //   test();
+    // }, child: Text("test")));
+
+    res.add(reqButton("GetStatus", () => Request(getStatus: GetStatusRequest())));
+
+    // res.add(reqButton("getLocation", () => Request(getLocation: GetLocationRequest(source: PositionSource.AUTO))));
+
+    res.add(Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        reqButton("Reboot", () => Request(reboot: RebootRequest())),
+        reqButton("Stow", () => Request(dishStow: DishStowRequest(unstow: false))),
+        reqButton("UnStow", () => Request(dishStow: DishStowRequest(unstow: true)))
+      ],
+    ));
+
+    res.add(Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        reqButton("InhibitGPS", () => Request(dishInhibitGps: DishInhibitGpsRequest(inhibitGps: true)), router: false),
+        reqButton("NoInhibitGPS", () => Request(dishInhibitGps: DishInhibitGpsRequest(inhibitGps: false)), router: false),
+      ],
+    ));
+
+    res.add(Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        reqButton("WifiGetConfig", () => Request(wifiGetConfig: WifiGetConfigRequest()), router: true),
+        reqButton("WifiGetClients", () => Request(wifiGetClients: WifiGetClientsRequest()), router: true),
+      ],
+    ));
+
+    // NOT IMPLEMENTED, NO PERMISSION
+    // res.add(Row(
+    //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+    //   children: [
+    //     reqButton("GetPersistentStats", () => Request(getPersistentStats: GetPersistentStatsRequest()), router: true),
+    //     reqButton("WifiGetDiagnostics", () => Request(wifiGetDiagnostics: WifiGetDiagnosticsRequest()), router: true),
+    //   ],
+    // ));
+
+
 
     res.add(Text(text));
 
     return res;
   }
 
+  Widget reqButton(String name, Request Function() reqBuilder, {bool router = false}){
+    return OutlinedButton(onPressed: () async {
+      text = await withConnectedHandleJson(reqBuilder(), router: router);
+      setState(() {});
+    }, child: Text(name));
+  }
+
   Widget _buildBar(BuildContext context) {
     return AppBar(
-      title: Text(M.general.debug_data_viewer),
+      title: Text("Sandbox"),
       centerTitle: true,
     );
   }
 
+  Future<String> withConnectedHandleJson( Request req, {bool router = false}) async {
+    return await withConnected((stub, channel) async {
+      var resp = await stub.handle(req);
 
-  Future test() async {
-    print('try test');
+      LogUtils.d(_TAG, "RECEIVED: ${jsonEncode(resp.toProto3Json())}");
+
+      return JsonEncoder.withIndent("  ").convert(resp.toProto3Json());
+    }, router: router);
+  }
+
+  Future<String> withConnected(Future<String> Function(DeviceClient stub, ClientChannel channel) callback, {bool router = false} ) async {
     final channel = ClientChannel(
-      'dev.z.min.org.ua',
-      port: 20192,
+      // 'dev.z.min.org.ua', port: 20192,
+      router ? '192.168.1.1' : '192.168.100.1',
+      port: router ? 9000 : 9200,
       options: ChannelOptions(
         credentials: ChannelCredentials.insecure(),
         codecRegistry: CodecRegistry(codecs: const [GzipCodec(), IdentityCodec()]),
@@ -89,18 +150,22 @@ class _DebugPageState extends State<DebugPage> with TickerProviderStateMixin {
     final stub = DeviceClient(channel);
 
     try {
-      final response = await stub.handle(
-        // Request()..getDeviceInfo = GetDeviceInfoRequest()
-        Request()..getStatus = GetStatusRequest()
-      );
-      print('client received: ${response}');
+      String res = await callback(stub, channel);
 
-      setState(() {
-        text = '${response}';
-      });
-    } catch (e) {
-      print('Caught error: $e');
+      return res;
+    } catch (e, s) {
+      LogUtils.ers(_TAG, "", e, s);
+      R.showSnackBarText("$e");
     }
-    await channel.shutdown();
+    finally {
+      await channel.shutdown();
+    }
+
+    return "";
+  }
+
+  Future test() async {
+    print('try test');
+
   }
 }

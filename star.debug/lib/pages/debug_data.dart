@@ -20,13 +20,13 @@ import '../utils/kv_widget.dart';
 
 final String _TAG="MainPage";
 
-class MainPage extends StatefulWidget {
+class DebugDataPage extends StatefulWidget {
   final String route;
 
-  const MainPage({super.key, this.route = Routes.MAIN});
+  const DebugDataPage({super.key, this.route = Routes.MAIN});
 
   @override
-  _MainPageState createState() => _MainPageState();
+  _DebugDataPageState createState() => _DebugDataPageState();
 }
 
 class _Page {
@@ -38,7 +38,7 @@ class _Page {
   _Page(this.id, this.icon, this.label, this.entity);
 }
 
-class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
+class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateMixin {
 
   int _selectedIndex=0;
   List<_Page> pages = [];

@@ -1,6 +1,6 @@
 general:
   lang: Українська
-  app_name: Ubib24
+  app_name: Star Debug
   close: Закрити
   cancel: Скасувати
   next: Далі
@@ -27,3 +27,6 @@ general:
   open_clipboard: Відкрити JSON з буфера обміну
   debug_data_viewer: Перегляд Debug Data
   no_data_found: Дані не знайдено
+
+live:
+  starlink_live: "Starlink Live"

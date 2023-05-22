@@ -5,7 +5,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:star_debug/pages/main.dart';
+import 'package:star_debug/pages/debug_data.dart';
 import 'package:star_debug/preloaded.dart';
 
 import 'messages/I18n.dart';
@@ -104,7 +104,7 @@ class _StarDebugAppState extends State<StarDebugApp>
         _MyNavigatorObserver(),
       ],
       onGenerateRoute: Routes.generateRoute,
-      home: MainPage(),
+      home: DebugDataPage(),
     );
   }
 }

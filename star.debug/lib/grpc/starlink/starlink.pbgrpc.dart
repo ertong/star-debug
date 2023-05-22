@@ -18,6 +18,10 @@ class DeviceClient extends $grpc.Client {
       '/SpaceX.API.Device.Device/Handle',
       ($0.Request value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.Response.fromBuffer(value));
+  static final _$stream = $grpc.ClientMethod<$0.ToDevice, $0.FromDevice>(
+      '/SpaceX.API.Device.Device/Stream',
+      ($0.ToDevice value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.FromDevice.fromBuffer(value));
 
   DeviceClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
@@ -27,6 +31,11 @@ class DeviceClient extends $grpc.Client {
   $grpc.ResponseFuture<$0.Response> handle($0.Request request,
       {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$handle, request, options: options);
+  }
+
+  $grpc.ResponseStream<$0.FromDevice> stream($async.Stream<$0.ToDevice> request,
+      {$grpc.CallOptions? options}) {
+    return $createStreamingCall(_$stream, request, options: options);
   }
 }
 
@@ -41,6 +50,13 @@ abstract class DeviceServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.Request.fromBuffer(value),
         ($0.Response value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.ToDevice, $0.FromDevice>(
+        'Stream',
+        stream,
+        true,
+        true,
+        ($core.List<$core.int> value) => $0.ToDevice.fromBuffer(value),
+        ($0.FromDevice value) => value.writeToBuffer()));
   }
 
   $async.Future<$0.Response> handle_Pre(
@@ -49,4 +65,6 @@ abstract class DeviceServiceBase extends $grpc.Service {
   }
 
   $async.Future<$0.Response> handle($grpc.ServiceCall call, $0.Request request);
+  $async.Stream<$0.FromDevice> stream(
+      $grpc.ServiceCall call, $async.Stream<$0.ToDevice> request);
 }

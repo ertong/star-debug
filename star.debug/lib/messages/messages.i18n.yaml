@@ -28,3 +28,6 @@ general:
   open_clipboard: Open JSON from clipboard
   debug_data_viewer: Debug Data Viewer
   no_data_found: No data found
+
+live:
+  starlink_live: "Starlink Live"

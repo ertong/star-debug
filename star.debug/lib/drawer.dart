@@ -54,7 +54,8 @@ class _AppDrawerState extends State<AppDrawer> {
           _createHeader(),
 //          _createDrawerItemRoute(context, Icons.contacts, 'Test main page', Routes.MAIN),
           _createDrawerItemRoute(context, Icons.bug_report, M.general.debug_data_viewer, Routes.MAIN),
-          _createDrawerItemRoute(context, Icons.bug_report, "Debug", Routes.DEBUG),
+          _createDrawerItemRoute(context, Icons.play_arrow, "Strarlink Live", Routes.LIVE),
+          _createDrawerItemRoute(context, Icons.smart_toy, "Sandbox", Routes.DEBUG),
           _createDrawerItem(context, Icons.language, '${M.general.change_language}', () async{
             var lang = await showDialog<String>(context: context, builder: (c){ return SelectLangDialog(); });
             if (lang!=null){

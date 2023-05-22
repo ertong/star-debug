@@ -122,6 +122,173 @@ class HasActuators extends $pb.ProtobufEnum {
   const HasActuators._($core.int v, $core.String n) : super(v, n);
 }
 
+class PositionSource extends $pb.ProtobufEnum {
+  static const PositionSource AUTO = PositionSource._(0, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'AUTO');
+  static const PositionSource NONE = PositionSource._(1, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'NONE');
+  static const PositionSource UT_INFO = PositionSource._(2, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'UT_INFO');
+  static const PositionSource EXTERNAL = PositionSource._(3, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'EXTERNAL');
+  static const PositionSource GPS = PositionSource._(4, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'GPS');
+  static const PositionSource STARLINK = PositionSource._(5, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'STARLINK');
+
+  static const $core.List<PositionSource> values = <PositionSource> [
+    AUTO,
+    NONE,
+    UT_INFO,
+    EXTERNAL,
+    GPS,
+    STARLINK,
+  ];
+
+  static final $core.Map<$core.int, PositionSource> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static PositionSource? valueOf($core.int value) => _byValue[value];
+
+  const PositionSource._($core.int v, $core.String n) : super(v, n);
+}
+
+class Capability extends $pb.ProtobufEnum {
+  static const Capability READ = Capability._(0, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'READ');
+  static const Capability WRITE = Capability._(1, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'WRITE');
+  static const Capability DEBUG = Capability._(2, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'DEBUG');
+  static const Capability ADMIN = Capability._(3, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'ADMIN');
+  static const Capability SETUP = Capability._(4, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'SETUP');
+  static const Capability SET_SKU = Capability._(5, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'SET_SKU');
+  static const Capability REFRESH = Capability._(6, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'REFRESH');
+  static const Capability READ_PRIVATE = Capability._(7, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'READ_PRIVATE');
+  static const Capability FUSE = Capability._(8, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'FUSE');
+  static const Capability RESET = Capability._(9, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'RESET');
+  static const Capability TEST = Capability._(10, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'TEST');
+  static const Capability WRITE_PERSISTENT = Capability._(11, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'WRITE_PERSISTENT');
+  static const Capability SSH = Capability._(12, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'SSH');
+  static const Capability READ_INTERNAL = Capability._(13, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'READ_INTERNAL');
+  static const Capability LOCAL = Capability._(14, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'LOCAL');
+
+  static const $core.List<Capability> values = <Capability> [
+    READ,
+    WRITE,
+    DEBUG,
+    ADMIN,
+    SETUP,
+    SET_SKU,
+    REFRESH,
+    READ_PRIVATE,
+    FUSE,
+    RESET,
+    TEST,
+    WRITE_PERSISTENT,
+    SSH,
+    READ_INTERNAL,
+    LOCAL,
+  ];
+
+  static final $core.Map<$core.int, Capability> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static Capability? valueOf($core.int value) => _byValue[value];
+
+  const Capability._($core.int v, $core.String n) : super(v, n);
+}
+
+class IfaceType extends $pb.ProtobufEnum {
+  static const IfaceType IFACE_TYPE_UNKNOWN = IfaceType._(0, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'IFACE_TYPE_UNKNOWN');
+  static const IfaceType IFACE_TYPE_ETH = IfaceType._(1, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'IFACE_TYPE_ETH');
+  static const IfaceType IFACE_TYPE_RF_2GHZ = IfaceType._(2, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'IFACE_TYPE_RF_2GHZ');
+  static const IfaceType IFACE_TYPE_RF_5GHZ = IfaceType._(5, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'IFACE_TYPE_RF_5GHZ');
+  static const IfaceType IFACE_TYPE_RF_5GHZ_HIGH = IfaceType._(6, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'IFACE_TYPE_RF_5GHZ_HIGH');
+
+  static const $core.List<IfaceType> values = <IfaceType> [
+    IFACE_TYPE_UNKNOWN,
+    IFACE_TYPE_ETH,
+    IFACE_TYPE_RF_2GHZ,
+    IFACE_TYPE_RF_5GHZ,
+    IFACE_TYPE_RF_5GHZ_HIGH,
+  ];
+
+  static final $core.Map<$core.int, IfaceType> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static IfaceType? valueOf($core.int value) => _byValue[value];
+
+  const IfaceType._($core.int v, $core.String n) : super(v, n);
+}
+
+class TxPowerLevel extends $pb.ProtobufEnum {
+  static const TxPowerLevel TX_POWER_LEVEL_100 = TxPowerLevel._(0, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'TX_POWER_LEVEL_100');
+  static const TxPowerLevel TX_POWER_LEVEL_80 = TxPowerLevel._(1, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'TX_POWER_LEVEL_80');
+  static const TxPowerLevel TX_POWER_LEVEL_50 = TxPowerLevel._(2, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'TX_POWER_LEVEL_50');
+  static const TxPowerLevel TX_POWER_LEVEL_25 = TxPowerLevel._(3, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'TX_POWER_LEVEL_25');
+  static const TxPowerLevel TX_POWER_LEVEL_12 = TxPowerLevel._(4, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'TX_POWER_LEVEL_12');
+  static const TxPowerLevel TX_POWER_LEVEL_6 = TxPowerLevel._(5, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'TX_POWER_LEVEL_6');
+
+  static const $core.List<TxPowerLevel> values = <TxPowerLevel> [
+    TX_POWER_LEVEL_100,
+    TX_POWER_LEVEL_80,
+    TX_POWER_LEVEL_50,
+    TX_POWER_LEVEL_25,
+    TX_POWER_LEVEL_12,
+    TX_POWER_LEVEL_6,
+  ];
+
+  static final $core.Map<$core.int, TxPowerLevel> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static TxPowerLevel? valueOf($core.int value) => _byValue[value];
+
+  const TxPowerLevel._($core.int v, $core.String n) : super(v, n);
+}
+
+class MeshAuth extends $pb.ProtobufEnum {
+  static const MeshAuth MESH_AUTH_UNKNOWN = MeshAuth._(0, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'MESH_AUTH_UNKNOWN');
+  static const MeshAuth MESH_AUTH_NEW = MeshAuth._(1, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'MESH_AUTH_NEW');
+  static const MeshAuth MESH_AUTH_TRUSTED = MeshAuth._(2, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'MESH_AUTH_TRUSTED');
+  static const MeshAuth MESH_AUTH_UNTRUSTED = MeshAuth._(3, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'MESH_AUTH_UNTRUSTED');
+
+  static const $core.List<MeshAuth> values = <MeshAuth> [
+    MESH_AUTH_UNKNOWN,
+    MESH_AUTH_NEW,
+    MESH_AUTH_TRUSTED,
+    MESH_AUTH_UNTRUSTED,
+  ];
+
+  static final $core.Map<$core.int, MeshAuth> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static MeshAuth? valueOf($core.int value) => _byValue[value];
+
+  const MeshAuth._($core.int v, $core.String n) : super(v, n);
+}
+
+class WifiClient_Interface extends $pb.ProtobufEnum {
+  static const WifiClient_Interface UNKNOWN = WifiClient_Interface._(0, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'UNKNOWN');
+  static const WifiClient_Interface ETH = WifiClient_Interface._(1, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'ETH');
+  static const WifiClient_Interface RF_2GHZ = WifiClient_Interface._(2, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'RF_2GHZ');
+  static const WifiClient_Interface RF_5GHZ = WifiClient_Interface._(3, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'RF_5GHZ');
+  static const WifiClient_Interface RF_5GHZ_HIGH = WifiClient_Interface._(4, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'RF_5GHZ_HIGH');
+
+  static const $core.List<WifiClient_Interface> values = <WifiClient_Interface> [
+    UNKNOWN,
+    ETH,
+    RF_2GHZ,
+    RF_5GHZ,
+    RF_5GHZ_HIGH,
+  ];
+
+  static final $core.Map<$core.int, WifiClient_Interface> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static WifiClient_Interface? valueOf($core.int value) => _byValue[value];
+
+  const WifiClient_Interface._($core.int v, $core.String n) : super(v, n);
+}
+
+class WifiClient_Role extends $pb.ProtobufEnum {
+  static const WifiClient_Role ROLE_UNKNOWN = WifiClient_Role._(0, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'ROLE_UNKNOWN');
+  static const WifiClient_Role CLIENT = WifiClient_Role._(1, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'CLIENT');
+  static const WifiClient_Role REPEATER = WifiClient_Role._(2, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'REPEATER');
+  static const WifiClient_Role CONTROLLER = WifiClient_Role._(3, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'CONTROLLER');
+
+  static const $core.List<WifiClient_Role> values = <WifiClient_Role> [
+    ROLE_UNKNOWN,
+    CLIENT,
+    REPEATER,
+    CONTROLLER,
+  ];
+
+  static final $core.Map<$core.int, WifiClient_Role> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static WifiClient_Role? valueOf($core.int value) => _byValue[value];
+
+  const WifiClient_Role._($core.int v, $core.String n) : super(v, n);
+}
+
 class DishOutage_Cause extends $pb.ProtobufEnum {
   static const DishOutage_Cause UNKNOWN = DishOutage_Cause._(0, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'UNKNOWN');
   static const DishOutage_Cause BOOTING = DishOutage_Cause._(1, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'BOOTING');
@@ -204,5 +371,152 @@ class DishConfig_SnowMeltMode extends $pb.ProtobufEnum {
   static DishConfig_SnowMeltMode? valueOf($core.int value) => _byValue[value];
 
   const DishConfig_SnowMeltMode._($core.int v, $core.String n) : super(v, n);
+}
+
+class WifiConfig_Band extends $pb.ProtobufEnum {
+  static const WifiConfig_Band RF_UNKNOWN = WifiConfig_Band._(0, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'RF_UNKNOWN');
+  static const WifiConfig_Band RF_2GHZ = WifiConfig_Band._(2, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'RF_2GHZ');
+  static const WifiConfig_Band RF_5GHZ = WifiConfig_Band._(5, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'RF_5GHZ');
+  static const WifiConfig_Band RF_5GHZ_HIGH = WifiConfig_Band._(6, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'RF_5GHZ_HIGH');
+
+  static const $core.List<WifiConfig_Band> values = <WifiConfig_Band> [
+    RF_UNKNOWN,
+    RF_2GHZ,
+    RF_5GHZ,
+    RF_5GHZ_HIGH,
+  ];
+
+  static final $core.Map<$core.int, WifiConfig_Band> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static WifiConfig_Band? valueOf($core.int value) => _byValue[value];
+
+  const WifiConfig_Band._($core.int v, $core.String n) : super(v, n);
+}
+
+class WifiConfig_HTBandwidth extends $pb.ProtobufEnum {
+  static const WifiConfig_HTBandwidth HT_BANDWIDTH_DEFAULT = WifiConfig_HTBandwidth._(0, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'HT_BANDWIDTH_DEFAULT');
+  static const WifiConfig_HTBandwidth HT_BANDWIDTH_20_MHZ = WifiConfig_HTBandwidth._(1, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'HT_BANDWIDTH_20_MHZ');
+  static const WifiConfig_HTBandwidth HT_BANDWIDTH_20_OR_40_MHZ = WifiConfig_HTBandwidth._(2, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'HT_BANDWIDTH_20_OR_40_MHZ');
+
+  static const $core.List<WifiConfig_HTBandwidth> values = <WifiConfig_HTBandwidth> [
+    HT_BANDWIDTH_DEFAULT,
+    HT_BANDWIDTH_20_MHZ,
+    HT_BANDWIDTH_20_OR_40_MHZ,
+  ];
+
+  static final $core.Map<$core.int, WifiConfig_HTBandwidth> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static WifiConfig_HTBandwidth? valueOf($core.int value) => _byValue[value];
+
+  const WifiConfig_HTBandwidth._($core.int v, $core.String n) : super(v, n);
+}
+
+class WifiConfig_Security extends $pb.ProtobufEnum {
+  static const WifiConfig_Security UNKNOWN = WifiConfig_Security._(0, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'UNKNOWN');
+  static const WifiConfig_Security WPA2 = WifiConfig_Security._(1, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'WPA2');
+  static const WifiConfig_Security WPA3 = WifiConfig_Security._(2, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'WPA3');
+  static const WifiConfig_Security WPA2WPA3 = WifiConfig_Security._(3, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'WPA2WPA3');
+
+  static const $core.List<WifiConfig_Security> values = <WifiConfig_Security> [
+    UNKNOWN,
+    WPA2,
+    WPA3,
+    WPA2WPA3,
+  ];
+
+  static final $core.Map<$core.int, WifiConfig_Security> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static WifiConfig_Security? valueOf($core.int value) => _byValue[value];
+
+  const WifiConfig_Security._($core.int v, $core.String n) : super(v, n);
+}
+
+class WifiConfig_VHTBandwidth extends $pb.ProtobufEnum {
+  static const WifiConfig_VHTBandwidth VHT_BANDWIDTH_DEFAULT = WifiConfig_VHTBandwidth._(0, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'VHT_BANDWIDTH_DEFAULT');
+  static const WifiConfig_VHTBandwidth VHT_BANDWIDTH_DISABLED = WifiConfig_VHTBandwidth._(1, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'VHT_BANDWIDTH_DISABLED');
+  static const WifiConfig_VHTBandwidth VHT_BANDWIDTH_80_MHZ = WifiConfig_VHTBandwidth._(2, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'VHT_BANDWIDTH_80_MHZ');
+  static const WifiConfig_VHTBandwidth VHT_BANDWIDTH_160_MHZ = WifiConfig_VHTBandwidth._(3, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'VHT_BANDWIDTH_160_MHZ');
+  static const WifiConfig_VHTBandwidth VHT_BANDWIDTH_80_PLUS_80_MHZ = WifiConfig_VHTBandwidth._(4, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'VHT_BANDWIDTH_80_PLUS_80_MHZ');
+
+  static const $core.List<WifiConfig_VHTBandwidth> values = <WifiConfig_VHTBandwidth> [
+    VHT_BANDWIDTH_DEFAULT,
+    VHT_BANDWIDTH_DISABLED,
+    VHT_BANDWIDTH_80_MHZ,
+    VHT_BANDWIDTH_160_MHZ,
+    VHT_BANDWIDTH_80_PLUS_80_MHZ,
+  ];
+
+  static final $core.Map<$core.int, WifiConfig_VHTBandwidth> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static WifiConfig_VHTBandwidth? valueOf($core.int value) => _byValue[value];
+
+  const WifiConfig_VHTBandwidth._($core.int v, $core.String n) : super(v, n);
+}
+
+class WifiConfig_WirelessMode extends $pb.ProtobufEnum {
+  static const WifiConfig_WirelessMode WIRELESS_MODE_DEFAULT = WifiConfig_WirelessMode._(0, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'WIRELESS_MODE_DEFAULT');
+  static const WifiConfig_WirelessMode A_ONLY = WifiConfig_WirelessMode._(1, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'A_ONLY');
+  static const WifiConfig_WirelessMode B_ONLY = WifiConfig_WirelessMode._(2, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'B_ONLY');
+  static const WifiConfig_WirelessMode G_ONLY = WifiConfig_WirelessMode._(3, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'G_ONLY');
+  static const WifiConfig_WirelessMode N_ONLY = WifiConfig_WirelessMode._(4, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'N_ONLY');
+  static const WifiConfig_WirelessMode B_G_MIXED = WifiConfig_WirelessMode._(5, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'B_G_MIXED');
+  static const WifiConfig_WirelessMode A_N_MIXED = WifiConfig_WirelessMode._(6, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'A_N_MIXED');
+  static const WifiConfig_WirelessMode G_N_MIXED = WifiConfig_WirelessMode._(7, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'G_N_MIXED');
+  static const WifiConfig_WirelessMode B_G_N_MIXED = WifiConfig_WirelessMode._(8, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'B_G_N_MIXED');
+  static const WifiConfig_WirelessMode A_AN_AC_MIXED = WifiConfig_WirelessMode._(9, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'A_AN_AC_MIXED');
+  static const WifiConfig_WirelessMode AN_AC_MIXED = WifiConfig_WirelessMode._(10, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'AN_AC_MIXED');
+  static const WifiConfig_WirelessMode B_G_N_AX_MIXED = WifiConfig_WirelessMode._(11, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'B_G_N_AX_MIXED');
+  static const WifiConfig_WirelessMode A_AN_AC_AX_MIXED = WifiConfig_WirelessMode._(12, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'A_AN_AC_AX_MIXED');
+
+  static const $core.List<WifiConfig_WirelessMode> values = <WifiConfig_WirelessMode> [
+    WIRELESS_MODE_DEFAULT,
+    A_ONLY,
+    B_ONLY,
+    G_ONLY,
+    N_ONLY,
+    B_G_MIXED,
+    A_N_MIXED,
+    G_N_MIXED,
+    B_G_N_MIXED,
+    A_AN_AC_MIXED,
+    AN_AC_MIXED,
+    B_G_N_AX_MIXED,
+    A_AN_AC_AX_MIXED,
+  ];
+
+  static final $core.Map<$core.int, WifiConfig_WirelessMode> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static WifiConfig_WirelessMode? valueOf($core.int value) => _byValue[value];
+
+  const WifiConfig_WirelessMode._($core.int v, $core.String n) : super(v, n);
+}
+
+class WifiNetwork_Band extends $pb.ProtobufEnum {
+  static const WifiNetwork_Band WIFI_UNKNOWN = WifiNetwork_Band._(0, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'WIFI_UNKNOWN');
+  static const WifiNetwork_Band WIFI_2_4GHZ = WifiNetwork_Band._(1, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'WIFI_2_4GHZ');
+  static const WifiNetwork_Band WIFI_5GHZ = WifiNetwork_Band._(2, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'WIFI_5GHZ');
+
+  static const $core.List<WifiNetwork_Band> values = <WifiNetwork_Band> [
+    WIFI_UNKNOWN,
+    WIFI_2_4GHZ,
+    WIFI_5GHZ,
+  ];
+
+  static final $core.Map<$core.int, WifiNetwork_Band> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static WifiNetwork_Band? valueOf($core.int value) => _byValue[value];
+
+  const WifiNetwork_Band._($core.int v, $core.String n) : super(v, n);
+}
+
+class WifiScanResults_Network_Source extends $pb.ProtobufEnum {
+  static const WifiScanResults_Network_Source UNKNOWN = WifiScanResults_Network_Source._(0, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'UNKNOWN');
+  static const WifiScanResults_Network_Source SCAN_2_4GHZ = WifiScanResults_Network_Source._(1, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'SCAN_2_4GHZ');
+  static const WifiScanResults_Network_Source SCAN_5GHZ = WifiScanResults_Network_Source._(2, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'SCAN_5GHZ');
+
+  static const $core.List<WifiScanResults_Network_Source> values = <WifiScanResults_Network_Source> [
+    UNKNOWN,
+    SCAN_2_4GHZ,
+    SCAN_5GHZ,
+  ];
+
+  static final $core.Map<$core.int, WifiScanResults_Network_Source> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static WifiScanResults_Network_Source? valueOf($core.int value) => _byValue[value];
+
+  const WifiScanResults_Network_Source._($core.int v, $core.String n) : super(v, n);
 }
 

@@ -55,13 +55,14 @@ class MessagesUk extends Messages {
   String get locale => "uk";
   String get languageCode => "uk";
   GeneralMessagesUk get general => GeneralMessagesUk(this);
+  LiveMessagesUk get live => LiveMessagesUk(this);
 }
 
 class GeneralMessagesUk extends GeneralMessages {
   final MessagesUk _parent;
   const GeneralMessagesUk(this._parent) : super(_parent);
   String get lang => """Українська""";
-  String get app_name => """Ubib24""";
+  String get app_name => """Star Debug""";
   String get close => """Закрити""";
   String get cancel => """Скасувати""";
   String get next => """Далі""";
@@ -90,9 +91,15 @@ class GeneralMessagesUk extends GeneralMessages {
   String get no_data_found => """Дані не знайдено""";
 }
 
+class LiveMessagesUk extends LiveMessages {
+  final MessagesUk _parent;
+  const LiveMessagesUk(this._parent) : super(_parent);
+  String get starlink_live => """Starlink Live""";
+}
+
 Map<String, String> get messagesUkMap => {
       """general.lang""": """Українська""",
-      """general.app_name""": """Ubib24""",
+      """general.app_name""": """Star Debug""",
       """general.close""": """Закрити""",
       """general.cancel""": """Скасувати""",
       """general.next""": """Далі""",
@@ -119,4 +126,5 @@ Map<String, String> get messagesUkMap => {
       """general.open_clipboard""": """Відкрити JSON з буфера обміну""",
       """general.debug_data_viewer""": """Перегляд Debug Data""",
       """general.no_data_found""": """Дані не знайдено""",
+      """live.starlink_live""": """Starlink Live""",
     };
