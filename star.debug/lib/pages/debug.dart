@@ -122,9 +122,16 @@ class _DebugPageState extends State<DebugPage> with TickerProviderStateMixin {
     //   ],
     // ));
 
-
-
-    res.add(Text(text));
+    res.add(InkWell(
+      onTap: () async {
+        await FlutterClipboard.copy(text);
+        R.showSnackBar(SnackBar(
+          duration: Duration(seconds: 2),
+          content: Text("Copied response json"),
+        ));
+      },
+      child: Text(text),
+    ));
 
     return res;
   }
