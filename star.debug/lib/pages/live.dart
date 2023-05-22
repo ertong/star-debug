@@ -27,7 +27,7 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    grpcSubs = R.grpc.stream.listen((event) {
+    grpcSubs = R.grpc.dishHolder.stream.listen((event) {
       setState(() {});
     });
   }
@@ -58,7 +58,7 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
   }
 
   List<Widget> _buildBody(){
-    final conn = R.grpc.conn;
+    final conn = R.grpc.dish;
 
     if (conn==null || conn.isClosed)
       return [ Text("Connection not initialized") ];
@@ -289,7 +289,7 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
 
     var color = Colors.red;
 
-    final conn = R.grpc.conn;
+    final conn = R.grpc.dish;
     if (conn!=null && conn.subsChannel!=null)
       color = Colors.yellow;
 

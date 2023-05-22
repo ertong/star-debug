@@ -6,9 +6,12 @@ import 'package:star_debug/utils/log_utils.dart';
 import 'package:star_debug/utils/wait_notify.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
-const String _TAG = "GrpcConnection";
 
 class GrpcConnection {
+  String TAG = "GrpcConnection";
+
+  String host;
+  int port;
 
   WaitNotify waitNotify = WaitNotify();
 
@@ -27,12 +30,12 @@ class GrpcConnection {
 
   StreamController<ToDevice> reqStream = StreamController();
 
-  PooledRequest<DishGetStatusResponse> dishGetStatus = PooledRequest(2000);
+  int statusReceivedTime = 0;
 
-  GrpcConnection({required this.notifyStream}){
-    LogUtils.d(_TAG, "New connection: $this");
+  GrpcConnection({required this.notifyStream, required this.host, required this.port}){
+    LogUtils.d(TAG, "New connection: $this");
     subsConnectivity = Connectivity().onConnectivityChanged.listen((event) {
-      LogUtils.d(_TAG, "Connectivity change: $event");
+      LogUtils.d(TAG, "Connectivity change: $event");
       channel?.shutdown();
       channel = null;
       waitNotify.notifyAll();
@@ -54,7 +57,7 @@ class GrpcConnection {
         await waitNotify.waitOrTimeout(1000);
       }
       catch (e, s) {
-        LogUtils.ers(_TAG, "", e, s);
+        LogUtils.ers(TAG, "", e, s);
         await Future.delayed(Duration(seconds: 1));
       }
     }
@@ -74,10 +77,9 @@ class GrpcConnection {
     channel?.shutdown();
     channel = null;
 
-    dishGetStatus.receivedTime = 0;
-    dishGetStatus.sentTime = 0;
+    statusReceivedTime = 0;
 
-    LogUtils.d(_TAG, "Connection is shutdown: $this");
+    LogUtils.d(TAG, "Connection is shutdown: $this");
   }
 
   void close(){
@@ -86,7 +88,7 @@ class GrpcConnection {
 
   bool isReady(){
     int now = DateTime.now().millisecondsSinceEpoch;
-    return subsChannel!=null && subsStream!=null && now-dishGetStatus.receivedTime<3500;
+    return subsChannel!=null && subsStream!=null && now-statusReceivedTime<3500;
   }
 
   int timeLastChannel = 0;
@@ -96,16 +98,16 @@ class GrpcConnection {
     int now = DateTime.now().millisecondsSinceEpoch;
 
     if (channel!=null && connState==ConnectionState.connecting && now-timeConnectingStart>5000){
-      LogUtils.d(_TAG, "Connecting for too long");
+      LogUtils.d(TAG, "Connecting for too long");
       channel?.shutdown();
       channel = null;
     }
 
     if (channel!=null
-        && (connState==ConnectionState.idle || now-dishGetStatus.receivedTime>5000)
+        && (connState==ConnectionState.idle || now-statusReceivedTime>5000)
         && (now-timeLastChannel>9000)
     ) {
-        LogUtils.d(_TAG, "No messages for too long");
+        LogUtils.d(TAG, "No messages for too long");
         channel?.shutdown();
         channel = null;
     }
@@ -116,8 +118,7 @@ class GrpcConnection {
       timeConnectingStart=0;
 
       channel = ClientChannel(
-        // 'dev.z.min.org.ua', port: 20192,
-        '192.168.100.1', port: 9200,
+        host, port: port,
         options: ChannelOptions(
           credentials: ChannelCredentials.insecure(),
           codecRegistry: CodecRegistry(codecs: const [GzipCodec(), IdentityCodec()]),
@@ -129,7 +130,7 @@ class GrpcConnection {
       timeLastChannel = now;
       subsChannel = channel!.onConnectionStateChanged.listen(
         (ConnectionState event) {
-          LogUtils.d(_TAG, "CONN: $event");
+          LogUtils.d(TAG, "CONN: $event");
           connState = event;
           if (connState==ConnectionState.ready)
             lastChannelError = null;
@@ -143,7 +144,7 @@ class GrpcConnection {
           notify();
         },
         onError: (e, s){
-          LogUtils.ers(_TAG, "Channel error", e, s);
+          LogUtils.ers(TAG, "Channel error", e, s);
           subsChannel?.cancel();
           subsChannel = null;
           channel = null;
@@ -152,7 +153,7 @@ class GrpcConnection {
           notify();
         },
         onDone: (){
-          LogUtils.d(_TAG, "Channel done");
+          LogUtils.d(TAG, "Channel done");
           subsChannel?.cancel();
           subsChannel = null;
           channel = null;
@@ -167,7 +168,7 @@ class GrpcConnection {
     }
 
     if (subsStream==null){
-      LogUtils.d(_TAG, "Open new stream");
+      LogUtils.d(TAG, "Open new stream");
       subsStream?.cancel();
       reqStream = StreamController();
       ResponseStream<FromDevice> stream = stub!.stream(reqStream.stream);
@@ -177,14 +178,14 @@ class GrpcConnection {
           lastStreamError = null;
         },
         onError: (e, s){
-          LogUtils.ers(_TAG, "Stream error", e, s);
+          LogUtils.ers(TAG, "Stream error", e, s);
           subsStream?.cancel();
           lastStreamError = "$e";
           subsStream = null;
           notify();
         },
         onDone: (){
-          LogUtils.d(_TAG, "Stream done");
+          LogUtils.d(TAG, "Stream done");
           subsStream?.cancel();
           subsStream = null;
           lastStreamError = "Stream is done";
@@ -198,36 +199,11 @@ class GrpcConnection {
   }
 
   Future tickConnected(ClientChannel channel, DeviceClient stub) async {
-    int now = DateTime.now().millisecondsSinceEpoch;
-    if (dishGetStatus.needSend(now)) {
-      reqStream.add(ToDevice(request: Request(
-        getStatus: GetStatusRequest()
-      )));
-      dishGetStatus.sentTime = now;
-    }
+
   }
 
   Future onReceived(FromDevice msg) async {
-    int now = DateTime.now().millisecondsSinceEpoch;
 
-    if (msg.hasEvent())
-      LogUtils.d(_TAG, "Received event: ${msg.event}");
-
-    if (msg.hasHealthCheck())
-      LogUtils.d(_TAG, "Received health check: ${msg.healthCheck}");
-
-    if (msg.hasResponse()) {
-      var resp = msg.response;
-      var respJson = resp.toProto3Json();
-      if (respJson is Map<String, dynamic>) {
-        LogUtils.d(_TAG, "Received response: ${respJson.keys}");
-      }
-
-      if (resp.hasDishGetStatus())
-        dishGetStatus.setData(now, resp.dishGetStatus);
-    }
-
-    notify();
   }
 }
 
