@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/widgets.dart';
 import 'package:star_debug/utils/log_utils.dart';
 import 'package:star_debug/utils/wait_notify.dart';
 
@@ -14,6 +15,7 @@ class GrpcController {
 
   int listened = 0;
   int timeListenedZero = 0;
+  int timePaused = 0;
   bool isRunning = false;
   WaitNotify waitNotify = WaitNotify();
 
@@ -37,17 +39,34 @@ class GrpcController {
     unawaited(run());
   }
 
+  AppLifecycleState _appState = AppLifecycleState.resumed;
+  void processAppState(AppLifecycleState state){
+    if (_appState==AppLifecycleState.resumed && state!=AppLifecycleState.resumed){
+      timePaused = DateTime.now().millisecondsSinceEpoch;
+    }
+    _appState = state;
+    if (_appState==AppLifecycleState.resumed) {
+      timePaused = 0;
+      waitNotify.notifyAll();
+    }
+  }
+
   Future run() async{
     isRunning = true;
     try {
       while (true) {
         try {
-          if (listened > 0 && conn == null) {
+          if (listened > 0 && conn == null && timePaused==0) {
             conn = GrpcConnection(notifyStream: _streamController);
           }
 
           int now = DateTime.now().millisecondsSinceEpoch;
           if (listened == 0 && now - timeListenedZero > 5000) {
+            conn?.close();
+            conn = null;
+          }
+
+          if (timePaused>0 && now-timePaused>5000) {
             conn?.close();
             conn = null;
           }

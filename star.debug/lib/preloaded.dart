@@ -136,6 +136,7 @@ class LifecycleObserver extends WidgetsBindingObserver{
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
+    R.grpc.processAppState(state);
     LogUtils.d(_TAG, "ChangeAppLifecycleState: $state");
   }
 
