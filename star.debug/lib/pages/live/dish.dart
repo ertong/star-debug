@@ -211,8 +211,11 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
         var b = KVWidgetBuilder(theme);
         b.header(M.header.ready_states);
         var states = status.readyStates;
-        for (var e in (states.toProto3Json() as Map<String, dynamic>).entries)
-          b.kv("${R.i18n.map["grpc.DishReadyStates.${e.key}"] ?? e.key}", "${e.value}");
+        for (var e in (states.info_.byName).entries) {
+          var key = e.key;
+          var val = states.getField(e.value.tagNumber) ?? false;
+          b.kv("${key} (${R.i18n.map["grpc.DishReadyStates.${key}"] ?? key})", "${val}");
+        }
 
         if (b.widgets.length>1) {
           rows.addAll(b.widgets);

@@ -161,7 +161,7 @@ message Request {
         .SpaceX.API.Device.GetStatusRequest get_status = 1004;
 //        .SpaceX.API.Device.AuthenticateRequest authenticate = 1005;
 //        .SpaceX.API.Device.GetNextIdRequest get_next_id = 1006;
-//        .SpaceX.API.Device.GetHistoryRequest get_history = 1007;
+        .SpaceX.API.Device.GetHistoryRequest get_history = 1007;
         .SpaceX.API.Device.GetDeviceInfoRequest get_device_info = 1008;
 //        .SpaceX.API.Device.GetPingRequest get_ping = 1009;
 //        .SpaceX.API.Device.SetTrustedKeysRequest set_trusted_keys = 1010;
@@ -248,7 +248,7 @@ message Response {
 //        .SpaceX.API.Device.DishGetContextResponse dish_get_context = 2003;
         .SpaceX.API.Device.DishGetStatusResponse dish_get_status = 2004;
 //        .SpaceX.API.Device.DishAuthenticateResponse dish_authenticate = 2005;
-//        .SpaceX.API.Device.DishGetHistoryResponse dish_get_history = 2006;
+        .SpaceX.API.Device.DishGetHistoryResponse dish_get_history = 2006;
 //        .SpaceX.API.Device.DishSetEmcResponse dish_set_emc = 2007;
         .SpaceX.API.Device.DishGetObstructionMapResponse dish_get_obstruction_map = 2008;
 //        .SpaceX.API.Device.DishGetEmcResponse dish_get_emc = 2009;
@@ -261,7 +261,7 @@ message Response {
 //        .SpaceX.API.Device.WifiSetupResponse wifi_setup = 3003;
         .SpaceX.API.Device.WifiGetStatusResponse wifi_get_status = 3004;
 //        .SpaceX.API.Device.WifiAuthenticateResponse wifi_authenticate = 3005;
-//        .SpaceX.API.Device.WifiGetHistoryResponse wifi_get_history = 3006;
+        .SpaceX.API.Device.WifiGetHistoryResponse wifi_get_history = 3006;
 //        .SpaceX.API.Device.WifiGetPingMetricsResponse wifi_get_ping_metrics = 3007;
         .SpaceX.API.Device.WifiGetDiagnosticsResponse wifi_get_diagnostics = 3008;
         .SpaceX.API.Device.WifiGetConfigResponse wifi_get_config = 3009;
@@ -1126,4 +1126,23 @@ message DhcpLease {
     string hostname = 3;
     string expires_time = 4;
     bool active = 5;
+}
+
+message GetHistoryRequest {
+}
+
+message DishGetHistoryResponse {
+    uint64 current = 1;
+    repeated float pop_ping_drop_rate = 1001;
+    repeated float pop_ping_latency_ms = 1002;
+    repeated float downlink_throughput_bps = 1003;
+    repeated float uplink_throughput_bps = 1004;
+    repeated .SpaceX.API.Device.DishOutage outages = 1009;
+    reserved 1005, 1006, 1007, 1008;
+}
+
+message WifiGetHistoryResponse {
+    uint64 current = 1;
+    repeated float ping_drop_rate = 1001;
+    repeated float ping_latency_ms = 1002;
 }

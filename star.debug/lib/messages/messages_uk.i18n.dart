@@ -216,9 +216,9 @@ class DishObstructionStatsGrpcMessagesUk
   String get valid_s => """Time valid, sec""";
   String get currently_obstructed => """Є перешкода""";
   String get avg_prolonged_obstruction_duration_s =>
-      """Average prolonged obstruction duration, sec""";
+      """Середній час тривалих перешкод, с""";
   String get avg_prolonged_obstruction_interval_s =>
-      """Average prolonged obstruction interval, sec""";
+      """Середній час між тривалими перешкодами, с""";
   String get avg_prolonged_obstruction_valid =>
       """Average prolonged obstruction valid""";
   String get time_obstructed => """Тривалість перешкоди""";
@@ -228,9 +228,9 @@ class DishObstructionStatsGrpcMessagesUk
 class DishGetStatusGrpcMessagesUk extends DishGetStatusGrpcMessages {
   final GrpcMessagesUk _parent;
   const DishGetStatusGrpcMessagesUk(this._parent) : super(_parent);
-  String get uptime_s => """Uptime""";
+  String get uptime_s => """Час після завантаження, с""";
   String get seconds_to_first_nonempty_slot =>
-      """Seconds to first non-empty slot""";
+      """Час до першого непорожнього слота""";
   String get pop_ping_drop_rate => """PoP ping drop rate""";
   String get fraction_obstructed => """fraction_obstructed""";
   String get valid_s => """valid_s""";
@@ -247,17 +247,16 @@ class DishGetStatusGrpcMessagesUk extends DishGetStatusGrpcMessages {
   String get uplink_throughput_bps => """Uplink Throughput, B/s""";
   String get pop_ping_latency_ms => """PoP ping latency, ms""";
   String get stow_requested => """Stow requested""";
-  String get boresight_azimuth_deg => """Panel boresight Azimuth angle, deg""";
-  String get boresight_elevation_deg =>
-      """Panel boresight Elevation agngle, deg""";
+  String get boresight_azimuth_deg => """Азимут осі панелі, град""";
+  String get boresight_elevation_deg => """Кут підйому панелі, град""";
   String get eth_speed_mbps => """Ethernet speed""";
-  String get mobility_class => """Mobility class""";
+  String get mobility_class => """Клас мобільності""";
   String get is_snr_above_noise_floor => """SNR above noise floor""";
-  String get class_of_service => """Class of service""";
-  String get software_update_state => """Software update state""";
+  String get class_of_service => """Клас сервісу""";
+  String get software_update_state => """Стан оновлення""";
   String get is_snr_persistently_low => """SNR persistently low""";
-  String get has_actuators => """Actuators""";
-  String get disablement_code => """Service state""";
+  String get has_actuators => """Наявність приводу""";
+  String get disablement_code => """Стан сервісу""";
 }
 
 class ClientNameGrpcMessagesUk extends ClientNameGrpcMessages {
@@ -293,13 +292,13 @@ class BasicServiceSetGrpcMessagesUk extends BasicServiceSetGrpcMessages {
 class WifiConfigGrpcMessagesUk extends WifiConfigGrpcMessages {
   final GrpcMessagesUk _parent;
   const WifiConfigGrpcMessagesUk(this._parent) : super(_parent);
-  String get country_code => """Country code""";
-  String get setup_complete => """Setup complete""";
-  String get version => """Version""";
+  String get country_code => """Код країни""";
+  String get setup_complete => """Налаштування працює""";
+  String get version => """Версія""";
   String get channel_2ghz => """channel_2ghz""";
   String get channel_5ghz => """channel_5ghz""";
   String get is_repeater => """is_repeater""";
-  String get boot_count => """Boot count""";
+  String get boot_count => """Кількість завантаженнь""";
   String get string => """string""";
   String get bypass_mode => """bypass_mode""";
   String get apply_dynamic_keys => """apply_dynamic_keys""";
@@ -364,14 +363,14 @@ class WifiClientGrpcMessagesUk extends WifiClientGrpcMessages {
   final GrpcMessagesUk _parent;
   const WifiClientGrpcMessagesUk(this._parent) : super(_parent);
   String get name => """name""";
-  String get mac_address => """MAC address""";
-  String get ip_address => """IP address""";
-  String get signal_strength => """Signal strength""";
+  String get mac_address => """MAC адреса""";
+  String get ip_address => """IP адреса""";
+  String get signal_strength => """Рівень сигналу""";
   String get rx_stats => """rx_stats""";
   String get tx_stats => """tx_stats""";
   String get associated_time_s => """Associated time, s""";
   String get mode_str => """mode_str""";
-  String get iface => """Interface""";
+  String get iface => """Інтерфейс""";
   String get snr => """Signal to noice""";
   String get psmode => """psmode""";
   String get channel_width => """channel_width""";
@@ -402,7 +401,7 @@ class WifiClientGrpcMessagesUk extends WifiClientGrpcMessages {
   String get software_version => """software_version""";
   String get api_version => """api_version""";
   String get ping_metrics => """ping_metrics""";
-  String get ipv6_addresses => """IPv6 addresses""";
+  String get ipv6_addresses => """IPv6 адреси""";
   String get x_rx_bytes => """Received""";
   String get x_tx_bytes => """Transmitted""";
 }
@@ -411,7 +410,7 @@ class WifiGetStatusGrpcMessagesUk extends WifiGetStatusGrpcMessages {
   final GrpcMessagesUk _parent;
   const WifiGetStatusGrpcMessagesUk(this._parent) : super(_parent);
   String get captive_portal_enabled => """Captive portal enabled""";
-  String get uptime_s => """Uptime""";
+  String get uptime_s => """Час після завантаження, с""";
   String get ipv4_wan_address => """WAN IPv4""";
   String get ping_drop_rate => """Ping drop rate""";
   String get ping_latency_ms => """Ping latency, ms""";
@@ -514,17 +513,17 @@ Map<String, String> get messagesUkMap => {
       """grpc.DishObstructionStats.valid_s""": """Time valid, sec""",
       """grpc.DishObstructionStats.currently_obstructed""": """Є перешкода""",
       """grpc.DishObstructionStats.avg_prolonged_obstruction_duration_s""":
-          """Average prolonged obstruction duration, sec""",
+          """Середній час тривалих перешкод, с""",
       """grpc.DishObstructionStats.avg_prolonged_obstruction_interval_s""":
-          """Average prolonged obstruction interval, sec""",
+          """Середній час між тривалими перешкодами, с""",
       """grpc.DishObstructionStats.avg_prolonged_obstruction_valid""":
           """Average prolonged obstruction valid""",
       """grpc.DishObstructionStats.time_obstructed""":
           """Тривалість перешкоди""",
       """grpc.DishObstructionStats.patches_valid""": """Patches valid""",
-      """grpc.DishGetStatus.uptime_s""": """Uptime""",
+      """grpc.DishGetStatus.uptime_s""": """Час після завантаження, с""",
       """grpc.DishGetStatus.seconds_to_first_nonempty_slot""":
-          """Seconds to first non-empty slot""",
+          """Час до першого непорожнього слота""",
       """grpc.DishGetStatus.pop_ping_drop_rate""": """PoP ping drop rate""",
       """grpc.DishGetStatus.fraction_obstructed""": """fraction_obstructed""",
       """grpc.DishGetStatus.valid_s""": """valid_s""",
@@ -544,20 +543,19 @@ Map<String, String> get messagesUkMap => {
       """grpc.DishGetStatus.pop_ping_latency_ms""": """PoP ping latency, ms""",
       """grpc.DishGetStatus.stow_requested""": """Stow requested""",
       """grpc.DishGetStatus.boresight_azimuth_deg""":
-          """Panel boresight Azimuth angle, deg""",
+          """Азимут осі панелі, град""",
       """grpc.DishGetStatus.boresight_elevation_deg""":
-          """Panel boresight Elevation agngle, deg""",
+          """Кут підйому панелі, град""",
       """grpc.DishGetStatus.eth_speed_mbps""": """Ethernet speed""",
-      """grpc.DishGetStatus.mobility_class""": """Mobility class""",
+      """grpc.DishGetStatus.mobility_class""": """Клас мобільності""",
       """grpc.DishGetStatus.is_snr_above_noise_floor""":
           """SNR above noise floor""",
-      """grpc.DishGetStatus.class_of_service""": """Class of service""",
-      """grpc.DishGetStatus.software_update_state""":
-          """Software update state""",
+      """grpc.DishGetStatus.class_of_service""": """Клас сервісу""",
+      """grpc.DishGetStatus.software_update_state""": """Стан оновлення""",
       """grpc.DishGetStatus.is_snr_persistently_low""":
           """SNR persistently low""",
-      """grpc.DishGetStatus.has_actuators""": """Actuators""",
-      """grpc.DishGetStatus.disablement_code""": """Service state""",
+      """grpc.DishGetStatus.has_actuators""": """Наявність приводу""",
+      """grpc.DishGetStatus.disablement_code""": """Стан сервісу""",
       """grpc.ClientName.mac_address""": """mac_address""",
       """grpc.ClientName.given_name""": """given_name""",
       """grpc.Network.ipv4""": """ipv4""",
@@ -573,13 +571,13 @@ Map<String, String> get messagesUkMap => {
       """grpc.BasicServiceSet.hidden""": """hidden""",
       """grpc.BasicServiceSet.iface_name""": """iface_name""",
       """grpc.BasicServiceSet.auth""": """auth""",
-      """grpc.WifiConfig.country_code""": """Country code""",
-      """grpc.WifiConfig.setup_complete""": """Setup complete""",
-      """grpc.WifiConfig.version""": """Version""",
+      """grpc.WifiConfig.country_code""": """Код країни""",
+      """grpc.WifiConfig.setup_complete""": """Налаштування працює""",
+      """grpc.WifiConfig.version""": """Версія""",
       """grpc.WifiConfig.channel_2ghz""": """channel_2ghz""",
       """grpc.WifiConfig.channel_5ghz""": """channel_5ghz""",
       """grpc.WifiConfig.is_repeater""": """is_repeater""",
-      """grpc.WifiConfig.boot_count""": """Boot count""",
+      """grpc.WifiConfig.boot_count""": """Кількість завантаженнь""",
       """grpc.WifiConfig.string""": """string""",
       """grpc.WifiConfig.bypass_mode""": """bypass_mode""",
       """grpc.WifiConfig.apply_dynamic_keys""": """apply_dynamic_keys""",
@@ -639,14 +637,14 @@ Map<String, String> get messagesUkMap => {
       """grpc.RxTxStats.phy_mode""": """phy_mode""",
       """grpc.RxTxStats.success_bytes""": """success_bytes""",
       """grpc.WifiClient.name""": """name""",
-      """grpc.WifiClient.mac_address""": """MAC address""",
-      """grpc.WifiClient.ip_address""": """IP address""",
-      """grpc.WifiClient.signal_strength""": """Signal strength""",
+      """grpc.WifiClient.mac_address""": """MAC адреса""",
+      """grpc.WifiClient.ip_address""": """IP адреса""",
+      """grpc.WifiClient.signal_strength""": """Рівень сигналу""",
       """grpc.WifiClient.rx_stats""": """rx_stats""",
       """grpc.WifiClient.tx_stats""": """tx_stats""",
       """grpc.WifiClient.associated_time_s""": """Associated time, s""",
       """grpc.WifiClient.mode_str""": """mode_str""",
-      """grpc.WifiClient.iface""": """Interface""",
+      """grpc.WifiClient.iface""": """Інтерфейс""",
       """grpc.WifiClient.snr""": """Signal to noice""",
       """grpc.WifiClient.psmode""": """psmode""",
       """grpc.WifiClient.channel_width""": """channel_width""",
@@ -679,12 +677,12 @@ Map<String, String> get messagesUkMap => {
       """grpc.WifiClient.software_version""": """software_version""",
       """grpc.WifiClient.api_version""": """api_version""",
       """grpc.WifiClient.ping_metrics""": """ping_metrics""",
-      """grpc.WifiClient.ipv6_addresses""": """IPv6 addresses""",
+      """grpc.WifiClient.ipv6_addresses""": """IPv6 адреси""",
       """grpc.WifiClient.x_rx_bytes""": """Received""",
       """grpc.WifiClient.x_tx_bytes""": """Transmitted""",
       """grpc.WifiGetStatus.captive_portal_enabled""":
           """Captive portal enabled""",
-      """grpc.WifiGetStatus.uptime_s""": """Uptime""",
+      """grpc.WifiGetStatus.uptime_s""": """Час після завантаження, с""",
       """grpc.WifiGetStatus.ipv4_wan_address""": """WAN IPv4""",
       """grpc.WifiGetStatus.ping_drop_rate""": """Ping drop rate""",
       """grpc.WifiGetStatus.ping_latency_ms""": """Ping latency, ms""",

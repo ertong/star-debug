@@ -136,6 +136,14 @@ class _DebugPageState extends State<DebugPage> with TickerProviderStateMixin {
       ],
     ));
 
+    res.add(Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        reqButton("GetHistory", () => Request(getHistory: GetHistoryRequest()), router: false),
+        reqButton("WifiGetHistory", () => Request(getHistory: GetHistoryRequest()), router: true),
+      ],
+    ));
+
     // UNIMPLEMENTED, NO PERMISSION
     // res.add(Row(
     //   mainAxisAlignment: MainAxisAlignment.spaceAround,

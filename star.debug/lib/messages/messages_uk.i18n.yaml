@@ -88,18 +88,16 @@ grpc:
     fraction_obstructed: Частка часу с перешкодами
     valid_s: Time valid, sec
     currently_obstructed: Є перешкода
-    avg_prolonged_obstruction_duration_s: Average prolonged obstruction duration,
-      sec
-    avg_prolonged_obstruction_interval_s: Average prolonged obstruction interval,
-      sec
+    avg_prolonged_obstruction_duration_s: Середній час тривалих перешкод, с
+    avg_prolonged_obstruction_interval_s: Середній час між тривалими перешкодами, с
     avg_prolonged_obstruction_valid: Average prolonged obstruction valid
     time_obstructed: Тривалість перешкоди
     patches_valid: Patches valid
   DishGetStatus:
-    uptime_s: Uptime
-    seconds_to_first_nonempty_slot: Seconds to first non-empty slot
+    uptime_s: Час після завантаження, с
+    seconds_to_first_nonempty_slot: Час до першого непорожнього слота
     pop_ping_drop_rate: PoP ping drop rate
-    fraction_obstructed: fraction_obstructed
+    fraction_obstructed: Частка часу с перешкодами
     valid_s: valid_s
     currently_obstructed: currently_obstructed
     avg_prolonged_obstruction_duration_s: avg_prolonged_obstruction_duration_s
@@ -109,18 +107,18 @@ grpc:
     patches_valid: patches_valid
     downlink_throughput_bps: Downlink Throughput, B/s
     uplink_throughput_bps: Uplink Throughput, B/s
-    pop_ping_latency_ms: PoP ping latency, ms
-    stow_requested: Stow requested
-    boresight_azimuth_deg: Panel boresight Azimuth angle, deg
-    boresight_elevation_deg: Panel boresight Elevation agngle, deg
-    eth_speed_mbps: Ethernet speed
-    mobility_class: Mobility class
-    is_snr_above_noise_floor: SNR above noise floor
-    class_of_service: Class of service
-    software_update_state: Software update state
-    is_snr_persistently_low: SNR persistently low
-    has_actuators: Actuators
-    disablement_code: Service state
+    pop_ping_latency_ms: PoP ping затримка, мс
+    stow_requested: Stow в черзі
+    boresight_azimuth_deg: Азимут осі панелі, град
+    boresight_elevation_deg: Кут підйому панелі, град
+    eth_speed_mbps: Швидкість Ethernet
+    mobility_class: Клас мобільності
+    is_snr_above_noise_floor: SNR вище за рівень шуму
+    class_of_service: Клас сервісу
+    software_update_state: Стан оновлення
+    is_snr_persistently_low: SNR стабільно низький
+    has_actuators: Наявність приводу
+    disablement_code: Стан сервісу
   ClientName:
     mac_address: mac_address
     given_name: given_name
@@ -140,13 +138,13 @@ grpc:
     iface_name: iface_name
     auth: auth
   WifiConfig:
-    country_code: Country code
-    setup_complete: Setup complete
-    version: Version
+    country_code: Код країни
+    setup_complete: Налаштування працює
+    version: Версія
     channel_2ghz: channel_2ghz
     channel_5ghz: channel_5ghz
     is_repeater: is_repeater
-    boot_count: Boot count
+    boot_count: Кількість завантаженнь
     string: string
     bypass_mode: bypass_mode
     apply_dynamic_keys: apply_dynamic_keys
@@ -199,14 +197,14 @@ grpc:
     success_bytes: success_bytes
   WifiClient:
     name: name
-    mac_address: MAC address
-    ip_address: IP address
-    signal_strength: Signal strength
+    mac_address: MAC адреса
+    ip_address: IP адреса
+    signal_strength: Рівень сигналу
     rx_stats: rx_stats
     tx_stats: tx_stats
     associated_time_s: Associated time, s
     mode_str: mode_str
-    iface: Interface
+    iface: Інтерфейс
     snr: Signal to noice
     psmode: psmode
     channel_width: channel_width
@@ -234,12 +232,12 @@ grpc:
     software_version: software_version
     api_version: api_version
     ping_metrics: ping_metrics
-    ipv6_addresses: IPv6 addresses
+    ipv6_addresses: IPv6 адреси
     x_rx_bytes: Received
     x_tx_bytes: Transmitted
   WifiGetStatus:
     captive_portal_enabled: Captive portal enabled
-    uptime_s: Uptime
+    uptime_s: Час після завантаження, с
     ipv4_wan_address: WAN IPv4
     ping_drop_rate: Ping drop rate
     ping_latency_ms: Ping latency, ms
