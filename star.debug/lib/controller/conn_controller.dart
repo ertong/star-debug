@@ -1,41 +1,27 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
-import 'package:star_debug/controller/grpc/dish_connection.dart';
 import 'package:star_debug/utils/log_utils.dart';
 import 'package:star_debug/utils/wait_notify.dart';
 
-import 'grpc/grpc_connection.dart';
-import 'grpc/router_connection.dart';
-
 const String _TAG = "GrpcController";
 
-class GrpcController {
+class ConnController {
 
   int timePaused = 0;
   bool isRunning = false;
   WaitNotify waitNotify = WaitNotify();
 
-  DishConnection? get dish => dishHolder.conn;
-  RouterConnection? get router => routerHolder.conn;
+  List<ConnectionHolder> holders = [];
 
-  late ConnectionHolder<DishConnection> dishHolder;
-  late ConnectionHolder<RouterConnection> routerHolder;
-
-  Future init() async {
-    dishHolder = ConnectionHolder((notifyStream)=>DishConnection(notifyStream: notifyStream),() {
+  ConnectionHolder<T> newHolder<T extends BaseConnection>(T Function(StreamController notifyStream) builder) {
+    var holder = ConnectionHolder(builder,() {
       waitNotify.notifyAll();
       if (!isRunning)
-        unawaited(run());
+      unawaited(run());
     });
-
-    routerHolder = ConnectionHolder((notifyStream)=>RouterConnection(notifyStream: notifyStream),() {
-      waitNotify.notifyAll();
-      if (!isRunning)
-        unawaited(run());
-    });
-
-    unawaited(run());
+    holders.add(holder);
+    return holder;
   }
 
   AppLifecycleState _appState = AppLifecycleState.resumed;
@@ -55,10 +41,14 @@ class GrpcController {
     try {
       while (true) {
         try {
-          dishHolder.tick(timePaused);
-          routerHolder.tick(timePaused);
+          bool empty = true;
+          for (var h in holders) {
+            h.tick(timePaused);
+            if (!h.isEmpty())
+              empty = false;
+          }
 
-          if (dishHolder.isEmpty() && routerHolder.isEmpty())
+          if (empty)
             return;
 
           await waitNotify.waitOrTimeout(1000);
@@ -74,7 +64,11 @@ class GrpcController {
   }
 }
 
-class ConnectionHolder<T extends GrpcConnection> {
+class BaseConnection {
+  void close(){}
+}
+
+class ConnectionHolder<T extends BaseConnection> {
 
   final StreamController _streamController = StreamController.broadcast();
   Stream get stream => _streamController.stream;

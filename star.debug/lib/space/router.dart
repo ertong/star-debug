@@ -1,6 +1,4 @@
-import 'dart:convert';
 import 'dart:core';
-import 'package:intl/intl.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/space/router_data.dart';
 
@@ -74,6 +72,7 @@ class Router extends Entity {
     return res;
   }
 
+  @override
   String get_device_image_file() {
     if (!dev_images.containsKey(hw_version)) {
       return dev_images['unknown']!;
@@ -81,14 +80,17 @@ class Router extends Entity {
     return dev_images[hw_version]!;
   }
 
+  @override
   bool is_sx_device() {
     return true;
   }
 
+  @override
   String get_module_readable_name() {
     return _('Router');
   }
 
+  @override
   void get_readable_params(KVConsumer kv) {
     kv.kv(_('Hardware revision'), hw_version);
     kv.kv(_('Router ID'), device_id);

@@ -29,6 +29,7 @@ general:
   debug_data_viewer: Debug Data Viewer
   no_data_found: No data found
   dark_mode: Dark mode
+  online: Online
 
 live:
   starlink_live: "Starlink Live"

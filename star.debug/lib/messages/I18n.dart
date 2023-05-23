@@ -62,9 +62,9 @@ class I18n{
   }
 
   Future<void> checkSystemLang()async{
-    var lang = R.prefs.data!.lang;
+    var lang = R.prefs.data.lang;
 
-    var lastSystemLang = R.prefs.data!.lastSystemLang;
+    var lastSystemLang = R.prefs.data.lastSystemLang;
     var systemLang = await getSystemLang();
 
     LogUtils.d("I18n", "Saved lang: $lang, lastSystemLang: $lastSystemLang, systemLang: $systemLang");

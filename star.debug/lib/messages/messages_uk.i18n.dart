@@ -92,6 +92,7 @@ class GeneralMessagesUk extends GeneralMessages {
   String get debug_data_viewer => """Перегляд Debug Data""";
   String get no_data_found => """Дані не знайдено""";
   String get dark_mode => """Темна схема""";
+  String get online => """Онлайн""";
 }
 
 class LiveMessagesUk extends LiveMessages {
@@ -232,7 +233,7 @@ class DishGetStatusGrpcMessagesUk extends DishGetStatusGrpcMessages {
   String get seconds_to_first_nonempty_slot =>
       """Час до першого непорожнього слота""";
   String get pop_ping_drop_rate => """PoP ping drop rate""";
-  String get fraction_obstructed => """fraction_obstructed""";
+  String get fraction_obstructed => """Частка часу с перешкодами""";
   String get valid_s => """valid_s""";
   String get currently_obstructed => """currently_obstructed""";
   String get avg_prolonged_obstruction_duration_s =>
@@ -245,16 +246,16 @@ class DishGetStatusGrpcMessagesUk extends DishGetStatusGrpcMessages {
   String get patches_valid => """patches_valid""";
   String get downlink_throughput_bps => """Downlink Throughput, B/s""";
   String get uplink_throughput_bps => """Uplink Throughput, B/s""";
-  String get pop_ping_latency_ms => """PoP ping latency, ms""";
-  String get stow_requested => """Stow requested""";
+  String get pop_ping_latency_ms => """PoP ping затримка, мс""";
+  String get stow_requested => """Stow в черзі""";
   String get boresight_azimuth_deg => """Азимут осі панелі, град""";
   String get boresight_elevation_deg => """Кут підйому панелі, град""";
-  String get eth_speed_mbps => """Ethernet speed""";
+  String get eth_speed_mbps => """Швидкість Ethernet""";
   String get mobility_class => """Клас мобільності""";
-  String get is_snr_above_noise_floor => """SNR above noise floor""";
+  String get is_snr_above_noise_floor => """SNR вище за рівень шуму""";
   String get class_of_service => """Клас сервісу""";
   String get software_update_state => """Стан оновлення""";
-  String get is_snr_persistently_low => """SNR persistently low""";
+  String get is_snr_persistently_low => """SNR стабільно низький""";
   String get has_actuators => """Наявність приводу""";
   String get disablement_code => """Стан сервісу""";
 }
@@ -456,6 +457,7 @@ Map<String, String> get messagesUkMap => {
       """general.debug_data_viewer""": """Перегляд Debug Data""",
       """general.no_data_found""": """Дані не знайдено""",
       """general.dark_mode""": """Темна схема""",
+      """general.online""": """Онлайн""",
       """live.starlink_live""": """Starlink Live""",
       """header.general""": """Загальне""",
       """header.signal""": """Сигнал""",
@@ -525,7 +527,8 @@ Map<String, String> get messagesUkMap => {
       """grpc.DishGetStatus.seconds_to_first_nonempty_slot""":
           """Час до першого непорожнього слота""",
       """grpc.DishGetStatus.pop_ping_drop_rate""": """PoP ping drop rate""",
-      """grpc.DishGetStatus.fraction_obstructed""": """fraction_obstructed""",
+      """grpc.DishGetStatus.fraction_obstructed""":
+          """Частка часу с перешкодами""",
       """grpc.DishGetStatus.valid_s""": """valid_s""",
       """grpc.DishGetStatus.currently_obstructed""": """currently_obstructed""",
       """grpc.DishGetStatus.avg_prolonged_obstruction_duration_s""":
@@ -540,20 +543,20 @@ Map<String, String> get messagesUkMap => {
           """Downlink Throughput, B/s""",
       """grpc.DishGetStatus.uplink_throughput_bps""":
           """Uplink Throughput, B/s""",
-      """grpc.DishGetStatus.pop_ping_latency_ms""": """PoP ping latency, ms""",
-      """grpc.DishGetStatus.stow_requested""": """Stow requested""",
+      """grpc.DishGetStatus.pop_ping_latency_ms""": """PoP ping затримка, мс""",
+      """grpc.DishGetStatus.stow_requested""": """Stow в черзі""",
       """grpc.DishGetStatus.boresight_azimuth_deg""":
           """Азимут осі панелі, град""",
       """grpc.DishGetStatus.boresight_elevation_deg""":
           """Кут підйому панелі, град""",
-      """grpc.DishGetStatus.eth_speed_mbps""": """Ethernet speed""",
+      """grpc.DishGetStatus.eth_speed_mbps""": """Швидкість Ethernet""",
       """grpc.DishGetStatus.mobility_class""": """Клас мобільності""",
       """grpc.DishGetStatus.is_snr_above_noise_floor""":
-          """SNR above noise floor""",
+          """SNR вище за рівень шуму""",
       """grpc.DishGetStatus.class_of_service""": """Клас сервісу""",
       """grpc.DishGetStatus.software_update_state""": """Стан оновлення""",
       """grpc.DishGetStatus.is_snr_persistently_low""":
-          """SNR persistently low""",
+          """SNR стабільно низький""",
       """grpc.DishGetStatus.has_actuators""": """Наявність приводу""",
       """grpc.DishGetStatus.disablement_code""": """Стан сервісу""",
       """grpc.ClientName.mac_address""": """mac_address""",

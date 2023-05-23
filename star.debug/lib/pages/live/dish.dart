@@ -1,12 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart' hide Notification, Card, ConnectionState;
-import 'package:star_debug/drawer.dart';
 import 'package:star_debug/grpc/starlink/starlink.pbgrpc.dart';
 import 'package:star_debug/messages/I18n.dart';
 import 'package:star_debug/pages/live/common.dart';
 import 'package:star_debug/preloaded.dart';
-import 'package:star_debug/routes.dart';
 import 'package:grpc/grpc.dart';
 import 'package:star_debug/utils/kv_widget.dart';
 
@@ -16,7 +14,7 @@ class DishTab extends StatefulWidget {
   const DishTab({super.key});
 
   @override
-  _DishTabState createState() => _DishTabState();
+  State createState() => _DishTabState();
 }
 
 class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
@@ -26,7 +24,7 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    grpcSubs = R.grpc.dishHolder.stream.listen((event) {
+    grpcSubs = R.dishHolder.stream.listen((event) {
       setState(() {});
     });
   }
@@ -39,6 +37,7 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
 
   ThemeData theme = ThemeData.fallback();
 
+  @override
   Widget build(BuildContext context) {
     theme = Theme.of(context);
     return Center(
@@ -48,7 +47,7 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
   }
 
   List<Widget> _buildBody(){
-    final conn = R.grpc.dish;
+    final conn = R.dish;
 
     if (conn==null || conn.isClosed)
       return [ Text("Connection not initialized") ];

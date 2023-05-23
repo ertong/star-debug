@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:star_debug/stardebug_app.dart';
@@ -37,12 +36,12 @@ void main() async {
           await I18n.instance.init(context);
           {
             //device pixels for logical pixel
-            double dpr = WidgetsBinding.instance.window.devicePixelRatio;
+            // double dpr = WidgetsBinding.instance.window.devicePixelRatio;
 
             // By definition, there are roughly 38 logical pixels per centimeter, or about 96 logical pixels per inch, of the physical display.
-            int dpi = (dpr * 96).round();
-            int height = (WidgetsBinding.instance.window.physicalSize.height).round();
-            int width = (WidgetsBinding.instance.window.physicalSize.width).round();
+            // int dpi = (dpr * 96).round();
+            // int height = (WidgetsBinding.instance.window.physicalSize.height).round();
+            // int width = (WidgetsBinding.instance.window.physicalSize.width).round();
 
           }
         } catch(e,s){

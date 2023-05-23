@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:star_debug/preloaded.dart';
 import 'package:time_machine/time_machine.dart';
 
@@ -110,10 +109,12 @@ class ModuleAlerts extends EntityModule {
     });
   }
 
+  @override
   String get_name() {
     return _('Alerts');
   }
 
+  @override
   void get_data(KVConsumer kv) {
     if (data.isEmpty) {
       kv.kv("", _('No alerts'));
@@ -147,10 +148,12 @@ class Features extends EntityModule {
     return res;
   }
 
+  @override
   String get_name() {
     return _('Features');
   }
 
+  @override
   void get_data(KVConsumer kv) {
     if (data.isEmpty) {
       kv.kv("", _('No features'));

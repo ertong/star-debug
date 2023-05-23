@@ -1,13 +1,14 @@
 import 'dart:async';
 
 import 'package:grpc/grpc.dart';
+import 'package:star_debug/controller/conn_controller.dart';
 import 'package:star_debug/grpc/starlink/starlink.pbgrpc.dart';
 import 'package:star_debug/utils/log_utils.dart';
 import 'package:star_debug/utils/wait_notify.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
 
-class GrpcConnection {
+abstract class GrpcConnection extends BaseConnection {
   String TAG = "GrpcConnection";
 
   String host;
@@ -82,6 +83,7 @@ class GrpcConnection {
     LogUtils.d(TAG, "Connection is shutdown: $this");
   }
 
+  @override
   void close(){
     isClosed = true;
   }

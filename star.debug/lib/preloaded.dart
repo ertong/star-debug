@@ -1,23 +1,18 @@
 import 'dart:async';
-import 'dart:io';
-import 'dart:isolate';
 
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:sqlite3_flutter_libs/sqlite3_flutter_libs.dart';
-import 'package:star_debug/controller/grpc_controller.dart';
+import 'package:star_debug/controller/conn_controller.dart';
+import 'package:star_debug/controller/conn/dish_connection.dart';
+import 'package:star_debug/controller/conn/router_connection.dart';
 import 'package:star_debug/space/space_text.dart';
 import 'package:star_debug/stardebug_app.dart';
 import 'package:star_debug/utils/log_utils.dart';
 import 'package:time_machine/time_machine.dart';
-
-import 'package:http/http.dart' as http;
 
 import 'messages/I18n.dart';
 import 'utils/shared_prefs.dart';
@@ -43,7 +38,12 @@ class Preloaded{
 
   late FirebaseAnalytics analytics;
 
-  late GrpcController grpc;
+  late ConnController conn;
+  late ConnectionHolder<DishConnection> dishHolder;
+  late ConnectionHolder<RouterConnection> routerHolder;
+
+  DishConnection? get dish => dishHolder.conn;
+  RouterConnection? get router => routerHolder.conn;
 
   I18n get i18n => I18n.instance;
 
@@ -96,8 +96,10 @@ class Preloaded{
     await Future.wait(futs);
 
     // analytics = FirebaseAnalytics.instance;
-    grpc = GrpcController();
-    await grpc.init();
+    conn = ConnController();
+
+    dishHolder = conn.newHolder((notifyStream) => DishConnection(notifyStream: notifyStream));
+    routerHolder = conn.newHolder((notifyStream) => RouterConnection(notifyStream: notifyStream));
 
     LogUtils.d("Preload", "Preload finish");
   }
@@ -140,7 +142,7 @@ class LifecycleObserver extends WidgetsBindingObserver{
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    R.grpc.processAppState(state);
+    R.conn.processAppState(state);
     LogUtils.d(_TAG, "ChangeAppLifecycleState: $state");
   }
 

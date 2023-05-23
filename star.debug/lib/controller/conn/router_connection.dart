@@ -3,30 +3,29 @@ import 'dart:async';
 import 'package:grpc/grpc.dart';
 import 'package:star_debug/grpc/starlink/starlink.pbgrpc.dart';
 import 'package:star_debug/utils/log_utils.dart';
-import 'package:star_debug/utils/wait_notify.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 
 import 'grpc_connection.dart';
 
-class DishConnection extends GrpcConnection {
+class RouterConnection extends GrpcConnection {
 
-  PooledRequest<DishGetStatusResponse> dishGetStatus = PooledRequest(2000);
+  PooledRequest<WifiGetStatusResponse> wifiGetStatus = PooledRequest(2000);
 
-  DishConnection({required super.notifyStream}):super(host: '192.168.100.1', port: 9200,) {
-    TAG = "DishConnection";
+  RouterConnection({required super.notifyStream}):super(host: '192.168.1.1', port: 9000,) {
+    TAG = "RouterConnection";
   }
 
   @override
   Future tickConnected(ClientChannel channel, DeviceClient stub) async {
     int now = DateTime.now().millisecondsSinceEpoch;
-    if (dishGetStatus.needSend(now)) {
+    if (wifiGetStatus.needSend(now)) {
       reqStream.add(ToDevice(request: Request(
           getStatus: GetStatusRequest()
       )));
-      dishGetStatus.sentTime = now;
+      wifiGetStatus.sentTime = now;
     }
   }
 
+  @override
   Future onReceived(FromDevice msg) async {
     int now = DateTime.now().millisecondsSinceEpoch;
 
@@ -43,8 +42,8 @@ class DishConnection extends GrpcConnection {
         LogUtils.d(TAG, "Received response: ${respJson.keys}");
       }
 
-      if (resp.hasDishGetStatus()) {
-        dishGetStatus.setData(now, resp.dishGetStatus);
+      if (resp.hasWifiGetStatus()) {
+        wifiGetStatus.setData(now, resp.wifiGetStatus);
         statusReceivedTime = now;
       }
     }

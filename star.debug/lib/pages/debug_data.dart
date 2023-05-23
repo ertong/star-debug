@@ -1,10 +1,8 @@
-import 'dart:async';
 import 'dart:io';
 import 'dart:convert';
 
 import 'package:clipboard/clipboard.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart' hide Notification, Card;
 import 'package:star_debug/drawer.dart';
 import 'package:star_debug/messages/I18n.dart';
@@ -18,7 +16,7 @@ import 'package:star_debug/utils/log_utils.dart';
 
 import '../utils/kv_widget.dart';
 
-final String _TAG="MainPage";
+const String _TAG="MainPage";
 
 class DebugDataPage extends StatefulWidget {
   final String route;
@@ -26,7 +24,7 @@ class DebugDataPage extends StatefulWidget {
   const DebugDataPage({super.key, this.route = Routes.MAIN});
 
   @override
-  _DebugDataPageState createState() => _DebugDataPageState();
+  State createState() => _DebugDataPageState();
 }
 
 class _Page {
@@ -60,9 +58,10 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
   }
 
   ThemeData theme = ThemeData.fallback();
+  @override
   Widget build(BuildContext context) {
     theme = Theme.of(context);
-    Widget? bar = null;
+    Widget? bar;
 
     if (pages.isNotEmpty)
       bar = BottomNavigationBar(

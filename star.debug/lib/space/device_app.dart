@@ -65,6 +65,7 @@ class DeviceApp extends Entity {
     return res;
   }
 
+  @override
   String? get_device_image_file() {
     return dev_images[platform_os] ?? dev_images['unknown'];
   }
@@ -79,6 +80,7 @@ class DeviceApp extends Entity {
     return false;
   }
 
+  @override
   void get_readable_params(KVConsumer kv) {
     kv.kv(_('App version'), device_app_version);
     kv.kv(_('App environment'), device_app_environment);
@@ -195,8 +197,10 @@ class DeviceSensors extends EntityModule {
     return res;
   }
 
+  @override
   String get_name() => _('Sensors');
 
+  @override
   void get_data(KVConsumer kv) {
     for (var sensor in sensorsData.keys) {
       var sensorInfo = sensorsData[sensor];

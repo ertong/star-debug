@@ -104,9 +104,10 @@ class Dishy extends Entity {
       }
     }
 
-    return dev_images[hwVersion ?? 'unknown']!;
+    return dev_images[hwVersion] ?? 'unknown';
   }
 
+  @override
   void get_readable_params(KVConsumer kv) {
     kv.kv(_('Hardware revision'), hwVersion);
     kv.kv(_('Software version'), swVersion);
@@ -364,17 +365,19 @@ class DishyObstructions extends EntityModule {
 
     res.image = null;
 
-    if (res.frac_obstr_list.length > 0) {
+    if (res.frac_obstr_list.isNotEmpty) {
       // image = generateImgFromList(frac_obstr_list);
     }
 
     return res;
   }
 
+  @override
   String get_name() {
     return _('Obstructions');
   }
 
+  @override
   void get_data(KVConsumer kv) {
       kv.kv(_('Currently obstructed'), yes_or_no(currently_obstructed));
       kv.kv(_('Fraction obstructed'), fraction_obstructed);

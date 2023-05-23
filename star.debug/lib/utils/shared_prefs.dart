@@ -71,8 +71,6 @@ class SharedPrefs {
     var data = await _load();
     change(data);
 
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
     if (saved.lang!=data.lang)
         await setString("lang", data.lang);
 

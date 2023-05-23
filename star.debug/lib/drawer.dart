@@ -14,7 +14,7 @@ class AppDrawer extends StatefulWidget {
   static int countBackClick=0;
 
   @override
-  _AppDrawerState createState() => _AppDrawerState();
+  State createState() => _AppDrawerState();
 
   static bool willPopFunc(BuildContext context) {
     if (Scaffold.of(context).hasDrawer)

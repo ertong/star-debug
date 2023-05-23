@@ -9,6 +9,16 @@
 # packages, and plugins designed to encourage good coding practices.
 include: package:flutter_lints/flutter.yaml
 
+analyzer:
+  exclude:
+    - '**.i18n.dart'
+    - '**.pb.dart'
+    - '**.pbenum.dart'
+    - '**.pbjson.dart'
+    - '**.pbgrpc.dart'
+  #- '**.freezed.dart'
+  #- '**.g.dart'
+
 linter:
   # The lint rules applied to this project can be customized in the
   # section below to disable rules from the `package:flutter_lints/flutter.yaml`
@@ -39,6 +49,8 @@ linter:
     unnecessary_await_in_return: false
     unnecessary_parenthesis: false
     avoid_redundant_argument_values: false
+
+    non_constant_identifier_names: false
 
     # avoid_print: false  # Uncomment to disable the `avoid_print` rule
 

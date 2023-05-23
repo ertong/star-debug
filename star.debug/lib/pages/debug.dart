@@ -1,29 +1,18 @@
 import 'dart:async';
 import 'dart:developer';
-import 'dart:io';
 import 'dart:convert';
-import 'dart:typed_data';
 
 import 'package:clipboard/clipboard.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart' hide Notification, Card;
 import 'package:grpc/grpc.dart';
 import 'package:star_debug/drawer.dart';
 import 'package:star_debug/grpc/starlink/starlink.pbgrpc.dart';
-import 'package:star_debug/messages/I18n.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/routes.dart';
-import 'package:star_debug/space/dishy.dart';
-import 'package:star_debug/space/entity.dart';
-import 'package:star_debug/space/obstructions.dart';
-import 'package:star_debug/space/space_parser.dart';
 import 'package:star_debug/utils/log_utils.dart';
 import 'package:star_debug/utils/obstructions.dart';
 
-import '../utils/kv_widget.dart';
-
-final String _TAG="DebugPage";
+const String _TAG="DebugPage";
 
 class DebugPage extends StatefulWidget {
   final String route;
@@ -31,7 +20,7 @@ class DebugPage extends StatefulWidget {
   const DebugPage({super.key, this.route = Routes.MAIN});
 
   @override
-  _DebugPageState createState() => _DebugPageState();
+  State createState() => _DebugPageState();
 }
 
 class _DebugPageState extends State<DebugPage> with TickerProviderStateMixin {
@@ -49,6 +38,7 @@ class _DebugPageState extends State<DebugPage> with TickerProviderStateMixin {
     super.dispose();
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: _buildBar(context) as PreferredSizeWidget?,
@@ -98,7 +88,8 @@ class _DebugPageState extends State<DebugPage> with TickerProviderStateMixin {
       ],
     ));
 
-    // res.add(reqButton("getLocation", () => Request(getLocation: GetLocationRequest(source: PositionSource.AUTO))));
+    // PERMISSION_DENIED, message: GetLocation requests are not enabled on this device
+    // res.add(reqButton("getLocation", () => Request(getLocation: GetLocationRequest(source: PositionSource.AUTO)), router: false));
 
     res.add(Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,

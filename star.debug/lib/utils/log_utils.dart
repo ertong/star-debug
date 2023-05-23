@@ -14,28 +14,12 @@ class LogUtils {
   }
 
   static void er(String tag, String msg, dynamic ex) {
-//    if (ex is Error)
-//    {
-//      print(ex.stackTrace);
-//      logger.e("[$tag]: $msg", ex, ex.stackTrace);
-//    }
-//    else
       logger.e("[$tag]: $msg", ex);
-//      Crashlytics.log(1, TAG, ex.toString());
-//    Crashlytics.logException(ex);
   }
 
   static void ers(String tag, String msg, dynamic ex, StackTrace stacktrace) {
-//    if (ex is Error)
-//    {
-//      print(ex.stackTrace);
-//      logger.e("[$tag]: $msg", ex, ex.stackTrace);
-//    }
-//    else
-    print(stacktrace);
+    // print(stacktrace);
     logger.e("[$tag]: $msg", ex, stacktrace);
-//      Crashlytics.log(1, TAG, ex.toString());
-//    Crashlytics.logException(ex);
   }
 
 }

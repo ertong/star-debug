@@ -28,6 +28,7 @@ general:
   debug_data_viewer: Перегляд Debug Data
   no_data_found: Дані не знайдено
   dark_mode: Темна схема
+  online: Онлайн
 live:
   starlink_live: Starlink Live
 header:
@@ -89,7 +90,8 @@ grpc:
     valid_s: Time valid, sec
     currently_obstructed: Є перешкода
     avg_prolonged_obstruction_duration_s: Середній час тривалих перешкод, с
-    avg_prolonged_obstruction_interval_s: Середній час між тривалими перешкодами, с
+    avg_prolonged_obstruction_interval_s: Середній час між тривалими перешкодами,
+      с
     avg_prolonged_obstruction_valid: Average prolonged obstruction valid
     time_obstructed: Тривалість перешкоди
     patches_valid: Patches valid

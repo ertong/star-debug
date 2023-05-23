@@ -1,16 +1,14 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart' hide Notification, Card, ConnectionState;
-import 'package:star_debug/controller/grpc/grpc_connection.dart';
-import 'package:star_debug/controller/grpc_controller.dart';
+import 'package:star_debug/controller/conn_controller.dart';
+import 'package:star_debug/controller/conn/grpc_connection.dart';
 import 'package:star_debug/drawer.dart';
-import 'package:star_debug/grpc/starlink/starlink.pbgrpc.dart';
 import 'package:star_debug/messages/I18n.dart';
 import 'package:star_debug/pages/live/dish.dart';
+import 'package:star_debug/pages/live/online.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/routes.dart';
-import '../utils/kv_widget.dart';
-import 'package:grpc/grpc.dart';
 
 import 'live/router.dart';
 
@@ -22,16 +20,16 @@ class LivePage extends StatefulWidget {
   const LivePage({super.key, this.route = Routes.MAIN});
 
   @override
-  _LivePageState createState() => _LivePageState();
+  State createState() => _LivePageState();
 }
 
 class _Page {
   IconData icon;
   String label;
   Widget Function() builder;
-  ConnectionHolder holder;
+  Color Function() color;
 
-  _Page(this.icon, this.label, this.holder, this.builder);
+  _Page(this.icon, this.label, this.color, this.builder);
 }
 
 class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
@@ -45,25 +43,31 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    subDish = R.grpc.dishHolder.stream.listen((event) {
+    subDish = R.dishHolder.stream.listen((event) {
       setState(() {});
     });
-    subRouter = R.grpc.routerHolder.stream.listen((event) {
+    subRouter = R.routerHolder.stream.listen((event) {
       setState(() {});
     });
 
     pages.add(_Page(
         Icons.settings_input_antenna,
         M.general.dish,
-        R.grpc.dishHolder,
+        () => colorOf(R.dishHolder),
         () => DishTab()
     ));
     pages.add(_Page(
         Icons.router,
         M.general.router,
-        R.grpc.routerHolder,
+        () => colorOf(R.routerHolder),
         () => RouterTab()
     ));
+    // pages.add(_Page(
+    //     Icons.public,
+    //     M.general.online,
+    //     ()=>Colors.black,
+    //     () => OnlineTab()
+    // ));
   }
 
   @override
@@ -75,11 +79,11 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
 
   ThemeData theme = ThemeData.fallback();
 
+  @override
   Widget build(BuildContext context) {
     theme = Theme.of(context);
 
-    Widget? bar = null;
-
+    Widget? bar;
 
     if (pages.isNotEmpty) {
       List<BottomNavigationBarItem> items = [];
@@ -87,15 +91,14 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
         var p = pages[i];
         items.add(BottomNavigationBarItem(
           label: p.label,
-          icon: Icon(p.icon, color: colorOf(p).withAlpha(_selectedIndex==i?255:100),),
+          icon: Icon(p.icon, color: p.color().withAlpha(_selectedIndex==i?255:100),),
           // icon: Badge(
           //   backgroundColor: colorOf(p),
           //   label: Icon(Icons.circle),
           //   child: Icon(p.icon),
           // ),
         ));
-
-    }
+      }
       bar = BottomNavigationBar(
         items: items,
         currentIndex: _selectedIndex,
@@ -124,10 +127,10 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
     );
   }
 
-  Color colorOf(_Page page) {
+  Color colorOf(ConnectionHolder<GrpcConnection> holder) {
     var color = Colors.red;
 
-    final conn = page.holder.conn;
+    final conn = holder.conn;
     if (conn!=null && conn.subsChannel!=null)
       color = Colors.amber;
 

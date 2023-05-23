@@ -91,6 +91,7 @@ class GeneralMessages {
   String get debug_data_viewer => """Debug Data Viewer""";
   String get no_data_found => """No data found""";
   String get dark_mode => """Dark mode""";
+  String get online => """Online""";
 }
 
 class LiveMessages {
@@ -454,6 +455,7 @@ Map<String, String> get messagesMap => {
       """general.debug_data_viewer""": """Debug Data Viewer""",
       """general.no_data_found""": """No data found""",
       """general.dark_mode""": """Dark mode""",
+      """general.online""": """Online""",
       """live.starlink_live""": """Starlink Live""",
       """header.general""": """General""",
       """header.signal""": """Signal""",

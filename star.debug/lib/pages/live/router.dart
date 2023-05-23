@@ -1,12 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart' hide Notification, Card, ConnectionState;
-import 'package:star_debug/controller/grpc/router_connection.dart';
-import 'package:star_debug/drawer.dart';
+import 'package:star_debug/controller/conn/router_connection.dart';
 import 'package:star_debug/grpc/starlink/starlink.pbgrpc.dart';
 import 'package:star_debug/messages/I18n.dart';
 import 'package:star_debug/preloaded.dart';
-import 'package:star_debug/routes.dart';
 import 'package:grpc/grpc.dart';
 import 'package:star_debug/utils/kv_widget.dart';
 
@@ -18,7 +16,7 @@ class RouterTab extends StatefulWidget {
   const RouterTab({super.key});
 
   @override
-  _RouterTabState createState() => _RouterTabState();
+  State createState() => _RouterTabState();
 }
 
 class _RouterTabState extends State<RouterTab> with TickerProviderStateMixin {
@@ -28,7 +26,7 @@ class _RouterTabState extends State<RouterTab> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    grpcSubs = R.grpc.routerHolder.stream.listen((event) {
+    grpcSubs = R.routerHolder.stream.listen((event) {
       setState(() {});
     });
   }
@@ -41,6 +39,7 @@ class _RouterTabState extends State<RouterTab> with TickerProviderStateMixin {
 
   ThemeData theme = ThemeData.fallback();
 
+  @override
   Widget build(BuildContext context) {
     theme = Theme.of(context);
     return Center(
@@ -50,7 +49,7 @@ class _RouterTabState extends State<RouterTab> with TickerProviderStateMixin {
   }
 
   List<Widget> _buildBody(){
-    final RouterConnection? conn = R.grpc.router;
+    final RouterConnection? conn = R.router;
 
     if (conn==null || conn.isClosed)
       return [ Text("Connection not initialized") ];

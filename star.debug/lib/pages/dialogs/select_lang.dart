@@ -4,10 +4,10 @@ import 'package:star_debug/messages/I18n.dart';
 class SelectLangDialog<TItem> extends StatefulWidget
 {
 
-  SelectLangDialog({Key? key}) : super(key: key);
+  const SelectLangDialog({Key? key}) : super(key: key);
 
   @override
-  _SelectLangDialogState createState() => _SelectLangDialogState<TItem>();
+  State createState() => _SelectLangDialogState<TItem>();
 }
 
 class _SelectLangDialogState<TItem> extends State<SelectLangDialog<TItem>>

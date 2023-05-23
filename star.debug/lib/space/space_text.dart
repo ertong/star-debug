@@ -1,5 +1,3 @@
-
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gettext/gettext.dart';
 import 'package:star_debug/messages/I18n.dart';

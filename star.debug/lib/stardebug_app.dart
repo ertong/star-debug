@@ -1,10 +1,7 @@
-
 import 'dart:async';
 
-import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:star_debug/pages/debug_data.dart';
 import 'package:star_debug/preloaded.dart';
 
@@ -15,7 +12,7 @@ import 'utils/log_utils.dart';
 const String _TAG = "UbibApp";
 
 class StarDebugApp extends StatefulWidget {
-  StarDebugApp({super.key});
+  const StarDebugApp({super.key});
 
   @override
   StarDebugAppState createState() => StarDebugAppState();

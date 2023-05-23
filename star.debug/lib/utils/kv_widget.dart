@@ -3,7 +3,6 @@
 import 'package:clipboard/clipboard.dart';
 import 'package:flex_list/flex_list.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/space/entity.dart';
 
