@@ -55,6 +55,7 @@ class Messages {
   String get languageCode => "en";
   GeneralMessages get general => GeneralMessages(this);
   LiveMessages get live => LiveMessages(this);
+  HeaderMessages get header => HeaderMessages(this);
   GrpcMessages get grpc => GrpcMessages(this);
 }
 
@@ -98,12 +99,27 @@ class LiveMessages {
   String get starlink_live => """Starlink Live""";
 }
 
+class HeaderMessages {
+  final Messages _parent;
+  const HeaderMessages(this._parent);
+  String get general => """General""";
+  String get signal => """Signal""";
+  String get alerts => """Alerts""";
+  String get device_info => """Device Info""";
+  String get config => """Config""";
+  String get gps_stats => """GPS Stats""";
+  String get antenna => """Antenna""";
+  String get ready_states => """Ready States""";
+  String get networks => """Networks""";
+  String get boot => """Boot""";
+  String get client => """Client""";
+}
+
 class GrpcMessages {
   final Messages _parent;
   const GrpcMessages(this._parent);
   DeviceInfoGrpcMessages get DeviceInfo => DeviceInfoGrpcMessages(this);
   BootInfoGrpcMessages get BootInfo => BootInfoGrpcMessages(this);
-  DishAlertsGrpcMessages get DishAlerts => DishAlertsGrpcMessages(this);
   DishOutageGrpcMessages get DishOutage => DishOutageGrpcMessages(this);
   DishGpsStatsGrpcMessages get DishGpsStats => DishGpsStatsGrpcMessages(this);
   DishReadyStatesGrpcMessages get DishReadyStates =>
@@ -121,7 +137,6 @@ class GrpcMessages {
   PingMetricsGrpcMessages get PingMetrics => PingMetricsGrpcMessages(this);
   RxTxStatsGrpcMessages get RxTxStats => RxTxStatsGrpcMessages(this);
   WifiClientGrpcMessages get WifiClient => WifiClientGrpcMessages(this);
-  WifiAlertsGrpcMessages get WifiAlerts => WifiAlertsGrpcMessages(this);
   WifiGetStatusGrpcMessages get WifiGetStatus =>
       WifiGetStatusGrpcMessages(this);
 }
@@ -129,50 +144,26 @@ class GrpcMessages {
 class DeviceInfoGrpcMessages {
   final GrpcMessages _parent;
   const DeviceInfoGrpcMessages(this._parent);
-  String get _ => """Device Info""";
-  String get id => """User terminal ID""";
+  String get id => """Id""";
   String get hardware_version => """Hardware revision""";
   String get software_version => """Software version""";
   String get country_code => """Country code""";
-  String get utc_offset_s => """utc_offset_s""";
+  String get utc_offset_s => """UTC offset, s""";
   String get software_partitions_equal => """Software partitions equal""";
   String get is_dev => """Development hardware""";
   String get bootcount => """Boot count""";
   String get anti_rollback_version => """Anti-Rollback version""";
   String get is_hitl => """is_hitl""";
-  String get manufactured_version => """Manufactured version""";
-  String get generation_number => """generation_number""";
+  String get manufactured_version => """Software version (manufactured)""";
+  String get generation_number => """Generation number""";
   String get dish_cohoused => """Starlink cohoused""";
+  String get x_build_date => """Build date""";
 }
 
 class BootInfoGrpcMessages {
   final GrpcMessages _parent;
   const BootInfoGrpcMessages(this._parent);
-  String get _ => """Boot Info""";
-  String get count_by_reason => """count_by_reason""";
-  String get last_reason => """last_reason""";
-  String get last_count => """last_count""";
-  String get count_by_reason_delta => """count_by_reason_delta""";
-}
-
-class DishAlertsGrpcMessages {
-  final GrpcMessages _parent;
-  const DishAlertsGrpcMessages(this._parent);
-  String get motors_stuck => """motors_stuck""";
-  String get thermal_shutdown => """thermal_shutdown""";
-  String get thermal_throttle => """thermal_throttle""";
-  String get unexpected_location => """unexpected_location""";
-  String get mast_not_near_vertical => """mast_not_near_vertical""";
-  String get slow_ethernet_speeds => """slow_ethernet_speeds""";
-  String get roaming => """roaming""";
-  String get install_pending => """install_pending""";
-  String get is_heating => """is_heating""";
-  String get power_supply_thermal_throttle =>
-      """power_supply_thermal_throttle""";
-  String get is_power_save_idle => """is_power_save_idle""";
-  String get moving_while_not_mobile => """moving_while_not_mobile""";
-  String get moving_fast_while_not_aviation =>
-      """moving_fast_while_not_aviation""";
+  String get last_reason => """Last reason""";
 }
 
 class DishOutageGrpcMessages {
@@ -305,7 +296,7 @@ class WifiConfigGrpcMessages {
   String get channel_2ghz => """channel_2ghz""";
   String get channel_5ghz => """channel_5ghz""";
   String get is_repeater => """is_repeater""";
-  String get boot_count => """boot_count""";
+  String get boot_count => """Boot count""";
   String get string => """string""";
   String get bypass_mode => """bypass_mode""";
   String get apply_dynamic_keys => """apply_dynamic_keys""";
@@ -370,19 +361,19 @@ class WifiClientGrpcMessages {
   final GrpcMessages _parent;
   const WifiClientGrpcMessages(this._parent);
   String get name => """name""";
-  String get mac_address => """mac_address""";
-  String get ip_address => """ip_address""";
-  String get signal_strength => """signal_strength""";
+  String get mac_address => """MAC address""";
+  String get ip_address => """IP address""";
+  String get signal_strength => """Signal strength""";
   String get rx_stats => """rx_stats""";
   String get tx_stats => """tx_stats""";
-  String get associated_time_s => """associated_time_s""";
+  String get associated_time_s => """Associated time, s""";
   String get mode_str => """mode_str""";
-  String get iface => """iface""";
-  String get snr => """snr""";
+  String get iface => """Interface""";
+  String get snr => """Signal to noice""";
   String get psmode => """psmode""";
   String get channel_width => """channel_width""";
   String get upstream_mac_address => """upstream_mac_address""";
-  String get role => """role""";
+  String get role => """Role""";
   String get device_id => """device_id""";
   String get swq_checks => """swq_checks""";
   String get swq_checks_non_empty => """swq_checks_non_empty""";
@@ -408,20 +399,9 @@ class WifiClientGrpcMessages {
   String get software_version => """software_version""";
   String get api_version => """api_version""";
   String get ping_metrics => """ping_metrics""";
-  String get ipv6_addresses => """ipv6_addresses""";
-}
-
-class WifiAlertsGrpcMessages {
-  final GrpcMessages _parent;
-  const WifiAlertsGrpcMessages(this._parent);
-  String get thermal_throttle => """thermal_throttle""";
-  String get install_pending => """install_pending""";
-  String get freshly_fused => """freshly_fused""";
-  String get lan_eth_slow_link_10 => """lan_eth_slow_link_10""";
-  String get lan_eth_slow_link_100 => """lan_eth_slow_link_100""";
-  String get wan_eth_poor_connection => """wan_eth_poor_connection""";
-  String get mesh_topology_changing_often => """mesh_topology_changing_often""";
-  String get mesh_unreliable_backhaul => """mesh_unreliable_backhaul""";
+  String get ipv6_addresses => """IPv6 addresses""";
+  String get x_rx_bytes => """Received""";
+  String get x_tx_bytes => """Transmitted""";
 }
 
 class WifiGetStatusGrpcMessages {
@@ -431,7 +411,7 @@ class WifiGetStatusGrpcMessages {
   String get uptime_s => """Uptime""";
   String get ipv4_wan_address => """WAN IPv4""";
   String get ping_drop_rate => """Ping drop rate""";
-  String get ping_latency_ms => """ping_latency_ms""";
+  String get ping_latency_ms => """Ping latency, ms""";
   String get is_aviation => """Aviation""";
   String get dish_ping_drop_rate => """Dish ping drop rate""";
   String get dish_ping_latency_ms => """Dish ping latency, ms""";
@@ -475,43 +455,34 @@ Map<String, String> get messagesMap => {
       """general.no_data_found""": """No data found""",
       """general.dark_mode""": """Dark mode""",
       """live.starlink_live""": """Starlink Live""",
-      """grpc.DeviceInfo._""": """Device Info""",
-      """grpc.DeviceInfo.id""": """User terminal ID""",
+      """header.general""": """General""",
+      """header.signal""": """Signal""",
+      """header.alerts""": """Alerts""",
+      """header.device_info""": """Device Info""",
+      """header.config""": """Config""",
+      """header.gps_stats""": """GPS Stats""",
+      """header.antenna""": """Antenna""",
+      """header.ready_states""": """Ready States""",
+      """header.networks""": """Networks""",
+      """header.boot""": """Boot""",
+      """header.client""": """Client""",
+      """grpc.DeviceInfo.id""": """Id""",
       """grpc.DeviceInfo.hardware_version""": """Hardware revision""",
       """grpc.DeviceInfo.software_version""": """Software version""",
       """grpc.DeviceInfo.country_code""": """Country code""",
-      """grpc.DeviceInfo.utc_offset_s""": """utc_offset_s""",
+      """grpc.DeviceInfo.utc_offset_s""": """UTC offset, s""",
       """grpc.DeviceInfo.software_partitions_equal""":
           """Software partitions equal""",
       """grpc.DeviceInfo.is_dev""": """Development hardware""",
       """grpc.DeviceInfo.bootcount""": """Boot count""",
       """grpc.DeviceInfo.anti_rollback_version""": """Anti-Rollback version""",
       """grpc.DeviceInfo.is_hitl""": """is_hitl""",
-      """grpc.DeviceInfo.manufactured_version""": """Manufactured version""",
-      """grpc.DeviceInfo.generation_number""": """generation_number""",
+      """grpc.DeviceInfo.manufactured_version""":
+          """Software version (manufactured)""",
+      """grpc.DeviceInfo.generation_number""": """Generation number""",
       """grpc.DeviceInfo.dish_cohoused""": """Starlink cohoused""",
-      """grpc.BootInfo._""": """Boot Info""",
-      """grpc.BootInfo.count_by_reason""": """count_by_reason""",
-      """grpc.BootInfo.last_reason""": """last_reason""",
-      """grpc.BootInfo.last_count""": """last_count""",
-      """grpc.BootInfo.count_by_reason_delta""": """count_by_reason_delta""",
-      """grpc.DishAlerts.motors_stuck""": """motors_stuck""",
-      """grpc.DishAlerts.thermal_shutdown""": """thermal_shutdown""",
-      """grpc.DishAlerts.thermal_throttle""": """thermal_throttle""",
-      """grpc.DishAlerts.unexpected_location""": """unexpected_location""",
-      """grpc.DishAlerts.mast_not_near_vertical""":
-          """mast_not_near_vertical""",
-      """grpc.DishAlerts.slow_ethernet_speeds""": """slow_ethernet_speeds""",
-      """grpc.DishAlerts.roaming""": """roaming""",
-      """grpc.DishAlerts.install_pending""": """install_pending""",
-      """grpc.DishAlerts.is_heating""": """is_heating""",
-      """grpc.DishAlerts.power_supply_thermal_throttle""":
-          """power_supply_thermal_throttle""",
-      """grpc.DishAlerts.is_power_save_idle""": """is_power_save_idle""",
-      """grpc.DishAlerts.moving_while_not_mobile""":
-          """moving_while_not_mobile""",
-      """grpc.DishAlerts.moving_fast_while_not_aviation""":
-          """moving_fast_while_not_aviation""",
+      """grpc.DeviceInfo.x_build_date""": """Build date""",
+      """grpc.BootInfo.last_reason""": """Last reason""",
       """grpc.DishOutage.cause""": """Cause""",
       """grpc.DishOutage.start_timestamp_ns""": """Start timestamp, ns""",
       """grpc.DishOutage.duration_ns""": """Duration, ns""",
@@ -605,7 +576,7 @@ Map<String, String> get messagesMap => {
       """grpc.WifiConfig.channel_2ghz""": """channel_2ghz""",
       """grpc.WifiConfig.channel_5ghz""": """channel_5ghz""",
       """grpc.WifiConfig.is_repeater""": """is_repeater""",
-      """grpc.WifiConfig.boot_count""": """boot_count""",
+      """grpc.WifiConfig.boot_count""": """Boot count""",
       """grpc.WifiConfig.string""": """string""",
       """grpc.WifiConfig.bypass_mode""": """bypass_mode""",
       """grpc.WifiConfig.apply_dynamic_keys""": """apply_dynamic_keys""",
@@ -665,19 +636,19 @@ Map<String, String> get messagesMap => {
       """grpc.RxTxStats.phy_mode""": """phy_mode""",
       """grpc.RxTxStats.success_bytes""": """success_bytes""",
       """grpc.WifiClient.name""": """name""",
-      """grpc.WifiClient.mac_address""": """mac_address""",
-      """grpc.WifiClient.ip_address""": """ip_address""",
-      """grpc.WifiClient.signal_strength""": """signal_strength""",
+      """grpc.WifiClient.mac_address""": """MAC address""",
+      """grpc.WifiClient.ip_address""": """IP address""",
+      """grpc.WifiClient.signal_strength""": """Signal strength""",
       """grpc.WifiClient.rx_stats""": """rx_stats""",
       """grpc.WifiClient.tx_stats""": """tx_stats""",
-      """grpc.WifiClient.associated_time_s""": """associated_time_s""",
+      """grpc.WifiClient.associated_time_s""": """Associated time, s""",
       """grpc.WifiClient.mode_str""": """mode_str""",
-      """grpc.WifiClient.iface""": """iface""",
-      """grpc.WifiClient.snr""": """snr""",
+      """grpc.WifiClient.iface""": """Interface""",
+      """grpc.WifiClient.snr""": """Signal to noice""",
       """grpc.WifiClient.psmode""": """psmode""",
       """grpc.WifiClient.channel_width""": """channel_width""",
       """grpc.WifiClient.upstream_mac_address""": """upstream_mac_address""",
-      """grpc.WifiClient.role""": """role""",
+      """grpc.WifiClient.role""": """Role""",
       """grpc.WifiClient.device_id""": """device_id""",
       """grpc.WifiClient.swq_checks""": """swq_checks""",
       """grpc.WifiClient.swq_checks_non_empty""": """swq_checks_non_empty""",
@@ -705,24 +676,15 @@ Map<String, String> get messagesMap => {
       """grpc.WifiClient.software_version""": """software_version""",
       """grpc.WifiClient.api_version""": """api_version""",
       """grpc.WifiClient.ping_metrics""": """ping_metrics""",
-      """grpc.WifiClient.ipv6_addresses""": """ipv6_addresses""",
-      """grpc.WifiAlerts.thermal_throttle""": """thermal_throttle""",
-      """grpc.WifiAlerts.install_pending""": """install_pending""",
-      """grpc.WifiAlerts.freshly_fused""": """freshly_fused""",
-      """grpc.WifiAlerts.lan_eth_slow_link_10""": """lan_eth_slow_link_10""",
-      """grpc.WifiAlerts.lan_eth_slow_link_100""": """lan_eth_slow_link_100""",
-      """grpc.WifiAlerts.wan_eth_poor_connection""":
-          """wan_eth_poor_connection""",
-      """grpc.WifiAlerts.mesh_topology_changing_often""":
-          """mesh_topology_changing_often""",
-      """grpc.WifiAlerts.mesh_unreliable_backhaul""":
-          """mesh_unreliable_backhaul""",
+      """grpc.WifiClient.ipv6_addresses""": """IPv6 addresses""",
+      """grpc.WifiClient.x_rx_bytes""": """Received""",
+      """grpc.WifiClient.x_tx_bytes""": """Transmitted""",
       """grpc.WifiGetStatus.captive_portal_enabled""":
           """Captive portal enabled""",
       """grpc.WifiGetStatus.uptime_s""": """Uptime""",
       """grpc.WifiGetStatus.ipv4_wan_address""": """WAN IPv4""",
       """grpc.WifiGetStatus.ping_drop_rate""": """Ping drop rate""",
-      """grpc.WifiGetStatus.ping_latency_ms""": """ping_latency_ms""",
+      """grpc.WifiGetStatus.ping_latency_ms""": """Ping latency, ms""",
       """grpc.WifiGetStatus.is_aviation""": """Aviation""",
       """grpc.WifiGetStatus.dish_ping_drop_rate""": """Dish ping drop rate""",
       """grpc.WifiGetStatus.dish_ping_latency_ms""":

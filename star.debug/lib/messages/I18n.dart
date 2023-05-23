@@ -19,10 +19,17 @@ class I18n{
     'uk': ()=>MessagesUk(),
   };
 
+  final Map<String, Map<String, String>> maps = {
+    'en': messagesMap,
+    'uk': messagesUkMap,
+  };
+
   final Map<String, Locale> locales = {
     'en': const Locale('en', 'GB'),
     'uk': const Locale('uk', 'UA'),
   };
+
+  Map<String, String> map = messagesMap;
 
   String _lang = "en";
   Locale locale = const Locale('en', 'GB');
@@ -37,9 +44,7 @@ class I18n{
     onChange = _onChangeController.stream.asBroadcastStream();
   }
 
-
   Future<void> init(BuildContext context) async {
-
     await checkSystemLang();
   }
 
@@ -90,6 +95,7 @@ class I18n{
     _lang = value;
     locale = locales[_lang] ?? locales["en"]!;
     M = langs[_lang]!();
+    map = maps[_lang] ?? messagesMap;
 
     Intl.defaultLocale = _lang;
     await R.text.setLang(lang);

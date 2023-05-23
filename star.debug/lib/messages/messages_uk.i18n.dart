@@ -56,6 +56,7 @@ class MessagesUk extends Messages {
   String get languageCode => "uk";
   GeneralMessagesUk get general => GeneralMessagesUk(this);
   LiveMessagesUk get live => LiveMessagesUk(this);
+  HeaderMessagesUk get header => HeaderMessagesUk(this);
   GrpcMessagesUk get grpc => GrpcMessagesUk(this);
 }
 
@@ -90,7 +91,7 @@ class GeneralMessagesUk extends GeneralMessages {
   String get open_clipboard => """Відкрити JSON з буфера обміну""";
   String get debug_data_viewer => """Перегляд Debug Data""";
   String get no_data_found => """Дані не знайдено""";
-  String get dark_mode => """Dark mode""";
+  String get dark_mode => """Темна схема""";
 }
 
 class LiveMessagesUk extends LiveMessages {
@@ -99,12 +100,27 @@ class LiveMessagesUk extends LiveMessages {
   String get starlink_live => """Starlink Live""";
 }
 
+class HeaderMessagesUk extends HeaderMessages {
+  final MessagesUk _parent;
+  const HeaderMessagesUk(this._parent) : super(_parent);
+  String get general => """Загальне""";
+  String get signal => """Сигнал""";
+  String get alerts => """Попередження""";
+  String get device_info => """Про пристрій""";
+  String get config => """Налаштування""";
+  String get gps_stats => """GPS""";
+  String get antenna => """Антена""";
+  String get ready_states => """Готовність модулей""";
+  String get networks => """Мережі""";
+  String get boot => """Завантаження""";
+  String get client => """Клієнт""";
+}
+
 class GrpcMessagesUk extends GrpcMessages {
   final MessagesUk _parent;
   const GrpcMessagesUk(this._parent) : super(_parent);
   DeviceInfoGrpcMessagesUk get DeviceInfo => DeviceInfoGrpcMessagesUk(this);
   BootInfoGrpcMessagesUk get BootInfo => BootInfoGrpcMessagesUk(this);
-  DishAlertsGrpcMessagesUk get DishAlerts => DishAlertsGrpcMessagesUk(this);
   DishOutageGrpcMessagesUk get DishOutage => DishOutageGrpcMessagesUk(this);
   DishGpsStatsGrpcMessagesUk get DishGpsStats =>
       DishGpsStatsGrpcMessagesUk(this);
@@ -123,7 +139,6 @@ class GrpcMessagesUk extends GrpcMessages {
   PingMetricsGrpcMessagesUk get PingMetrics => PingMetricsGrpcMessagesUk(this);
   RxTxStatsGrpcMessagesUk get RxTxStats => RxTxStatsGrpcMessagesUk(this);
   WifiClientGrpcMessagesUk get WifiClient => WifiClientGrpcMessagesUk(this);
-  WifiAlertsGrpcMessagesUk get WifiAlerts => WifiAlertsGrpcMessagesUk(this);
   WifiGetStatusGrpcMessagesUk get WifiGetStatus =>
       WifiGetStatusGrpcMessagesUk(this);
 }
@@ -131,56 +146,32 @@ class GrpcMessagesUk extends GrpcMessages {
 class DeviceInfoGrpcMessagesUk extends DeviceInfoGrpcMessages {
   final GrpcMessagesUk _parent;
   const DeviceInfoGrpcMessagesUk(this._parent) : super(_parent);
-  String get _ => """Device Info""";
-  String get id => """User terminal ID""";
-  String get hardware_version => """Hardware revision""";
-  String get software_version => """Software version""";
-  String get country_code => """Country code""";
-  String get utc_offset_s => """utc_offset_s""";
+  String get id => """Id""";
+  String get hardware_version => """Версія апаратна""";
+  String get software_version => """Версія прошивки""";
+  String get country_code => """Код країни""";
+  String get utc_offset_s => """UTC зміщення, с""";
   String get software_partitions_equal => """Software partitions equal""";
   String get is_dev => """Development hardware""";
   String get bootcount => """Boot count""";
   String get anti_rollback_version => """Anti-Rollback version""";
   String get is_hitl => """is_hitl""";
-  String get manufactured_version => """Manufactured version""";
+  String get manufactured_version => """Версія прошивки (з заводу)""";
   String get generation_number => """generation_number""";
   String get dish_cohoused => """Starlink cohoused""";
+  String get x_build_date => """Дата прошивки""";
 }
 
 class BootInfoGrpcMessagesUk extends BootInfoGrpcMessages {
   final GrpcMessagesUk _parent;
   const BootInfoGrpcMessagesUk(this._parent) : super(_parent);
-  String get _ => """Boot Info""";
-  String get count_by_reason => """count_by_reason""";
-  String get last_reason => """last_reason""";
-  String get last_count => """last_count""";
-  String get count_by_reason_delta => """count_by_reason_delta""";
-}
-
-class DishAlertsGrpcMessagesUk extends DishAlertsGrpcMessages {
-  final GrpcMessagesUk _parent;
-  const DishAlertsGrpcMessagesUk(this._parent) : super(_parent);
-  String get motors_stuck => """motors_stuck""";
-  String get thermal_shutdown => """thermal_shutdown""";
-  String get thermal_throttle => """thermal_throttle""";
-  String get unexpected_location => """unexpected_location""";
-  String get mast_not_near_vertical => """mast_not_near_vertical""";
-  String get slow_ethernet_speeds => """slow_ethernet_speeds""";
-  String get roaming => """roaming""";
-  String get install_pending => """install_pending""";
-  String get is_heating => """is_heating""";
-  String get power_supply_thermal_throttle =>
-      """power_supply_thermal_throttle""";
-  String get is_power_save_idle => """is_power_save_idle""";
-  String get moving_while_not_mobile => """moving_while_not_mobile""";
-  String get moving_fast_while_not_aviation =>
-      """moving_fast_while_not_aviation""";
+  String get last_reason => """Остання причина""";
 }
 
 class DishOutageGrpcMessagesUk extends DishOutageGrpcMessages {
   final GrpcMessagesUk _parent;
   const DishOutageGrpcMessagesUk(this._parent) : super(_parent);
-  String get cause => """Cause""";
+  String get cause => """Причина""";
   String get start_timestamp_ns => """Start timestamp, ns""";
   String get duration_ns => """Duration, ns""";
   String get did_switch => """Did switch""";
@@ -189,20 +180,20 @@ class DishOutageGrpcMessagesUk extends DishOutageGrpcMessages {
 class DishGpsStatsGrpcMessagesUk extends DishGpsStatsGrpcMessages {
   final GrpcMessagesUk _parent;
   const DishGpsStatsGrpcMessagesUk(this._parent) : super(_parent);
-  String get gps_valid => """GPS valid""";
-  String get gps_sats => """GPS satellites""";
-  String get no_sats_after_ttff => """No GPS satellites after first fix""";
-  String get inhibit_gps => """Don't trust Dishy's GPS""";
+  String get gps_valid => """GPS дійсний""";
+  String get gps_sats => """GPS супутники""";
+  String get no_sats_after_ttff => """Немає супутників після першого фіксу""";
+  String get inhibit_gps => """Не довіряти GPS""";
 }
 
 class DishReadyStatesGrpcMessagesUk extends DishReadyStatesGrpcMessages {
   final GrpcMessagesUk _parent;
   const DishReadyStatesGrpcMessagesUk(this._parent) : super(_parent);
-  String get cady => """Clock generator""";
-  String get scp => """RFFE bus interface""";
-  String get l1l2 => """Modem L1L2""";
-  String get xphy => """Xilinx XPHY interface""";
-  String get aap => """Digital beamformers""";
+  String get cady => """Тактовий генератор""";
+  String get scp => """Інтерфейс шини RFFE""";
+  String get l1l2 => """Модем L1L2""";
+  String get xphy => """Інтерфейс Xilinx XPHY""";
+  String get aap => """Цифрові формувачі променя""";
   String get rf => """RF front end""";
 }
 
@@ -221,16 +212,16 @@ class DishObstructionStatsGrpcMessagesUk
     extends DishObstructionStatsGrpcMessages {
   final GrpcMessagesUk _parent;
   const DishObstructionStatsGrpcMessagesUk(this._parent) : super(_parent);
-  String get fraction_obstructed => """Fraction obstructed""";
+  String get fraction_obstructed => """Частка часу с перешкодами""";
   String get valid_s => """Time valid, sec""";
-  String get currently_obstructed => """Currently obstructed""";
+  String get currently_obstructed => """Є перешкода""";
   String get avg_prolonged_obstruction_duration_s =>
       """Average prolonged obstruction duration, sec""";
   String get avg_prolonged_obstruction_interval_s =>
       """Average prolonged obstruction interval, sec""";
   String get avg_prolonged_obstruction_valid =>
       """Average prolonged obstruction valid""";
-  String get time_obstructed => """Time obstructed""";
+  String get time_obstructed => """Тривалість перешкоди""";
   String get patches_valid => """Patches valid""";
 }
 
@@ -308,7 +299,7 @@ class WifiConfigGrpcMessagesUk extends WifiConfigGrpcMessages {
   String get channel_2ghz => """channel_2ghz""";
   String get channel_5ghz => """channel_5ghz""";
   String get is_repeater => """is_repeater""";
-  String get boot_count => """boot_count""";
+  String get boot_count => """Boot count""";
   String get string => """string""";
   String get bypass_mode => """bypass_mode""";
   String get apply_dynamic_keys => """apply_dynamic_keys""";
@@ -373,19 +364,19 @@ class WifiClientGrpcMessagesUk extends WifiClientGrpcMessages {
   final GrpcMessagesUk _parent;
   const WifiClientGrpcMessagesUk(this._parent) : super(_parent);
   String get name => """name""";
-  String get mac_address => """mac_address""";
-  String get ip_address => """ip_address""";
-  String get signal_strength => """signal_strength""";
+  String get mac_address => """MAC address""";
+  String get ip_address => """IP address""";
+  String get signal_strength => """Signal strength""";
   String get rx_stats => """rx_stats""";
   String get tx_stats => """tx_stats""";
-  String get associated_time_s => """associated_time_s""";
+  String get associated_time_s => """Associated time, s""";
   String get mode_str => """mode_str""";
-  String get iface => """iface""";
-  String get snr => """snr""";
+  String get iface => """Interface""";
+  String get snr => """Signal to noice""";
   String get psmode => """psmode""";
   String get channel_width => """channel_width""";
   String get upstream_mac_address => """upstream_mac_address""";
-  String get role => """role""";
+  String get role => """Role""";
   String get device_id => """device_id""";
   String get swq_checks => """swq_checks""";
   String get swq_checks_non_empty => """swq_checks_non_empty""";
@@ -411,20 +402,9 @@ class WifiClientGrpcMessagesUk extends WifiClientGrpcMessages {
   String get software_version => """software_version""";
   String get api_version => """api_version""";
   String get ping_metrics => """ping_metrics""";
-  String get ipv6_addresses => """ipv6_addresses""";
-}
-
-class WifiAlertsGrpcMessagesUk extends WifiAlertsGrpcMessages {
-  final GrpcMessagesUk _parent;
-  const WifiAlertsGrpcMessagesUk(this._parent) : super(_parent);
-  String get thermal_throttle => """thermal_throttle""";
-  String get install_pending => """install_pending""";
-  String get freshly_fused => """freshly_fused""";
-  String get lan_eth_slow_link_10 => """lan_eth_slow_link_10""";
-  String get lan_eth_slow_link_100 => """lan_eth_slow_link_100""";
-  String get wan_eth_poor_connection => """wan_eth_poor_connection""";
-  String get mesh_topology_changing_often => """mesh_topology_changing_often""";
-  String get mesh_unreliable_backhaul => """mesh_unreliable_backhaul""";
+  String get ipv6_addresses => """IPv6 addresses""";
+  String get x_rx_bytes => """Received""";
+  String get x_tx_bytes => """Transmitted""";
 }
 
 class WifiGetStatusGrpcMessagesUk extends WifiGetStatusGrpcMessages {
@@ -434,7 +414,7 @@ class WifiGetStatusGrpcMessagesUk extends WifiGetStatusGrpcMessages {
   String get uptime_s => """Uptime""";
   String get ipv4_wan_address => """WAN IPv4""";
   String get ping_drop_rate => """Ping drop rate""";
-  String get ping_latency_ms => """ping_latency_ms""";
+  String get ping_latency_ms => """Ping latency, ms""";
   String get is_aviation => """Aviation""";
   String get dish_ping_drop_rate => """Dish ping drop rate""";
   String get dish_ping_latency_ms => """Dish ping latency, ms""";
@@ -476,59 +456,50 @@ Map<String, String> get messagesUkMap => {
       """general.open_clipboard""": """Відкрити JSON з буфера обміну""",
       """general.debug_data_viewer""": """Перегляд Debug Data""",
       """general.no_data_found""": """Дані не знайдено""",
-      """general.dark_mode""": """Dark mode""",
+      """general.dark_mode""": """Темна схема""",
       """live.starlink_live""": """Starlink Live""",
-      """grpc.DeviceInfo._""": """Device Info""",
-      """grpc.DeviceInfo.id""": """User terminal ID""",
-      """grpc.DeviceInfo.hardware_version""": """Hardware revision""",
-      """grpc.DeviceInfo.software_version""": """Software version""",
-      """grpc.DeviceInfo.country_code""": """Country code""",
-      """grpc.DeviceInfo.utc_offset_s""": """utc_offset_s""",
+      """header.general""": """Загальне""",
+      """header.signal""": """Сигнал""",
+      """header.alerts""": """Попередження""",
+      """header.device_info""": """Про пристрій""",
+      """header.config""": """Налаштування""",
+      """header.gps_stats""": """GPS""",
+      """header.antenna""": """Антена""",
+      """header.ready_states""": """Готовність модулей""",
+      """header.networks""": """Мережі""",
+      """header.boot""": """Завантаження""",
+      """header.client""": """Клієнт""",
+      """grpc.DeviceInfo.id""": """Id""",
+      """grpc.DeviceInfo.hardware_version""": """Версія апаратна""",
+      """grpc.DeviceInfo.software_version""": """Версія прошивки""",
+      """grpc.DeviceInfo.country_code""": """Код країни""",
+      """grpc.DeviceInfo.utc_offset_s""": """UTC зміщення, с""",
       """grpc.DeviceInfo.software_partitions_equal""":
           """Software partitions equal""",
       """grpc.DeviceInfo.is_dev""": """Development hardware""",
       """grpc.DeviceInfo.bootcount""": """Boot count""",
       """grpc.DeviceInfo.anti_rollback_version""": """Anti-Rollback version""",
       """grpc.DeviceInfo.is_hitl""": """is_hitl""",
-      """grpc.DeviceInfo.manufactured_version""": """Manufactured version""",
+      """grpc.DeviceInfo.manufactured_version""":
+          """Версія прошивки (з заводу)""",
       """grpc.DeviceInfo.generation_number""": """generation_number""",
       """grpc.DeviceInfo.dish_cohoused""": """Starlink cohoused""",
-      """grpc.BootInfo._""": """Boot Info""",
-      """grpc.BootInfo.count_by_reason""": """count_by_reason""",
-      """grpc.BootInfo.last_reason""": """last_reason""",
-      """grpc.BootInfo.last_count""": """last_count""",
-      """grpc.BootInfo.count_by_reason_delta""": """count_by_reason_delta""",
-      """grpc.DishAlerts.motors_stuck""": """motors_stuck""",
-      """grpc.DishAlerts.thermal_shutdown""": """thermal_shutdown""",
-      """grpc.DishAlerts.thermal_throttle""": """thermal_throttle""",
-      """grpc.DishAlerts.unexpected_location""": """unexpected_location""",
-      """grpc.DishAlerts.mast_not_near_vertical""":
-          """mast_not_near_vertical""",
-      """grpc.DishAlerts.slow_ethernet_speeds""": """slow_ethernet_speeds""",
-      """grpc.DishAlerts.roaming""": """roaming""",
-      """grpc.DishAlerts.install_pending""": """install_pending""",
-      """grpc.DishAlerts.is_heating""": """is_heating""",
-      """grpc.DishAlerts.power_supply_thermal_throttle""":
-          """power_supply_thermal_throttle""",
-      """grpc.DishAlerts.is_power_save_idle""": """is_power_save_idle""",
-      """grpc.DishAlerts.moving_while_not_mobile""":
-          """moving_while_not_mobile""",
-      """grpc.DishAlerts.moving_fast_while_not_aviation""":
-          """moving_fast_while_not_aviation""",
-      """grpc.DishOutage.cause""": """Cause""",
+      """grpc.DeviceInfo.x_build_date""": """Дата прошивки""",
+      """grpc.BootInfo.last_reason""": """Остання причина""",
+      """grpc.DishOutage.cause""": """Причина""",
       """grpc.DishOutage.start_timestamp_ns""": """Start timestamp, ns""",
       """grpc.DishOutage.duration_ns""": """Duration, ns""",
       """grpc.DishOutage.did_switch""": """Did switch""",
-      """grpc.DishGpsStats.gps_valid""": """GPS valid""",
-      """grpc.DishGpsStats.gps_sats""": """GPS satellites""",
+      """grpc.DishGpsStats.gps_valid""": """GPS дійсний""",
+      """grpc.DishGpsStats.gps_sats""": """GPS супутники""",
       """grpc.DishGpsStats.no_sats_after_ttff""":
-          """No GPS satellites after first fix""",
-      """grpc.DishGpsStats.inhibit_gps""": """Don't trust Dishy's GPS""",
-      """grpc.DishReadyStates.cady""": """Clock generator""",
-      """grpc.DishReadyStates.scp""": """RFFE bus interface""",
-      """grpc.DishReadyStates.l1l2""": """Modem L1L2""",
-      """grpc.DishReadyStates.xphy""": """Xilinx XPHY interface""",
-      """grpc.DishReadyStates.aap""": """Digital beamformers""",
+          """Немає супутників після першого фіксу""",
+      """grpc.DishGpsStats.inhibit_gps""": """Не довіряти GPS""",
+      """grpc.DishReadyStates.cady""": """Тактовий генератор""",
+      """grpc.DishReadyStates.scp""": """Інтерфейс шини RFFE""",
+      """grpc.DishReadyStates.l1l2""": """Модем L1L2""",
+      """grpc.DishReadyStates.xphy""": """Інтерфейс Xilinx XPHY""",
+      """grpc.DishReadyStates.aap""": """Цифрові формувачі променя""",
       """grpc.DishReadyStates.rf""": """RF front end""",
       """grpc.DishConfig.snow_melt_mode""": """snow_melt_mode""",
       """grpc.DishConfig.location_request_mode""": """location_request_mode""",
@@ -539,17 +510,17 @@ Map<String, String> get messagesUkMap => {
           """power_save_duration_minutes""",
       """grpc.DishConfig.power_save_mode""": """power_save_mode""",
       """grpc.DishObstructionStats.fraction_obstructed""":
-          """Fraction obstructed""",
+          """Частка часу с перешкодами""",
       """grpc.DishObstructionStats.valid_s""": """Time valid, sec""",
-      """grpc.DishObstructionStats.currently_obstructed""":
-          """Currently obstructed""",
+      """grpc.DishObstructionStats.currently_obstructed""": """Є перешкода""",
       """grpc.DishObstructionStats.avg_prolonged_obstruction_duration_s""":
           """Average prolonged obstruction duration, sec""",
       """grpc.DishObstructionStats.avg_prolonged_obstruction_interval_s""":
           """Average prolonged obstruction interval, sec""",
       """grpc.DishObstructionStats.avg_prolonged_obstruction_valid""":
           """Average prolonged obstruction valid""",
-      """grpc.DishObstructionStats.time_obstructed""": """Time obstructed""",
+      """grpc.DishObstructionStats.time_obstructed""":
+          """Тривалість перешкоди""",
       """grpc.DishObstructionStats.patches_valid""": """Patches valid""",
       """grpc.DishGetStatus.uptime_s""": """Uptime""",
       """grpc.DishGetStatus.seconds_to_first_nonempty_slot""":
@@ -608,7 +579,7 @@ Map<String, String> get messagesUkMap => {
       """grpc.WifiConfig.channel_2ghz""": """channel_2ghz""",
       """grpc.WifiConfig.channel_5ghz""": """channel_5ghz""",
       """grpc.WifiConfig.is_repeater""": """is_repeater""",
-      """grpc.WifiConfig.boot_count""": """boot_count""",
+      """grpc.WifiConfig.boot_count""": """Boot count""",
       """grpc.WifiConfig.string""": """string""",
       """grpc.WifiConfig.bypass_mode""": """bypass_mode""",
       """grpc.WifiConfig.apply_dynamic_keys""": """apply_dynamic_keys""",
@@ -668,19 +639,19 @@ Map<String, String> get messagesUkMap => {
       """grpc.RxTxStats.phy_mode""": """phy_mode""",
       """grpc.RxTxStats.success_bytes""": """success_bytes""",
       """grpc.WifiClient.name""": """name""",
-      """grpc.WifiClient.mac_address""": """mac_address""",
-      """grpc.WifiClient.ip_address""": """ip_address""",
-      """grpc.WifiClient.signal_strength""": """signal_strength""",
+      """grpc.WifiClient.mac_address""": """MAC address""",
+      """grpc.WifiClient.ip_address""": """IP address""",
+      """grpc.WifiClient.signal_strength""": """Signal strength""",
       """grpc.WifiClient.rx_stats""": """rx_stats""",
       """grpc.WifiClient.tx_stats""": """tx_stats""",
-      """grpc.WifiClient.associated_time_s""": """associated_time_s""",
+      """grpc.WifiClient.associated_time_s""": """Associated time, s""",
       """grpc.WifiClient.mode_str""": """mode_str""",
-      """grpc.WifiClient.iface""": """iface""",
-      """grpc.WifiClient.snr""": """snr""",
+      """grpc.WifiClient.iface""": """Interface""",
+      """grpc.WifiClient.snr""": """Signal to noice""",
       """grpc.WifiClient.psmode""": """psmode""",
       """grpc.WifiClient.channel_width""": """channel_width""",
       """grpc.WifiClient.upstream_mac_address""": """upstream_mac_address""",
-      """grpc.WifiClient.role""": """role""",
+      """grpc.WifiClient.role""": """Role""",
       """grpc.WifiClient.device_id""": """device_id""",
       """grpc.WifiClient.swq_checks""": """swq_checks""",
       """grpc.WifiClient.swq_checks_non_empty""": """swq_checks_non_empty""",
@@ -708,24 +679,15 @@ Map<String, String> get messagesUkMap => {
       """grpc.WifiClient.software_version""": """software_version""",
       """grpc.WifiClient.api_version""": """api_version""",
       """grpc.WifiClient.ping_metrics""": """ping_metrics""",
-      """grpc.WifiClient.ipv6_addresses""": """ipv6_addresses""",
-      """grpc.WifiAlerts.thermal_throttle""": """thermal_throttle""",
-      """grpc.WifiAlerts.install_pending""": """install_pending""",
-      """grpc.WifiAlerts.freshly_fused""": """freshly_fused""",
-      """grpc.WifiAlerts.lan_eth_slow_link_10""": """lan_eth_slow_link_10""",
-      """grpc.WifiAlerts.lan_eth_slow_link_100""": """lan_eth_slow_link_100""",
-      """grpc.WifiAlerts.wan_eth_poor_connection""":
-          """wan_eth_poor_connection""",
-      """grpc.WifiAlerts.mesh_topology_changing_often""":
-          """mesh_topology_changing_often""",
-      """grpc.WifiAlerts.mesh_unreliable_backhaul""":
-          """mesh_unreliable_backhaul""",
+      """grpc.WifiClient.ipv6_addresses""": """IPv6 addresses""",
+      """grpc.WifiClient.x_rx_bytes""": """Received""",
+      """grpc.WifiClient.x_tx_bytes""": """Transmitted""",
       """grpc.WifiGetStatus.captive_portal_enabled""":
           """Captive portal enabled""",
       """grpc.WifiGetStatus.uptime_s""": """Uptime""",
       """grpc.WifiGetStatus.ipv4_wan_address""": """WAN IPv4""",
       """grpc.WifiGetStatus.ping_drop_rate""": """Ping drop rate""",
-      """grpc.WifiGetStatus.ping_latency_ms""": """ping_latency_ms""",
+      """grpc.WifiGetStatus.ping_latency_ms""": """Ping latency, ms""",
       """grpc.WifiGetStatus.is_aviation""": """Aviation""",
       """grpc.WifiGetStatus.dish_ping_drop_rate""": """Dish ping drop rate""",
       """grpc.WifiGetStatus.dish_ping_latency_ms""":

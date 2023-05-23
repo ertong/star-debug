@@ -27,61 +27,55 @@ general:
   open_clipboard: Відкрити JSON з буфера обміну
   debug_data_viewer: Перегляд Debug Data
   no_data_found: Дані не знайдено
-  dark_mode: Dark mode
+  dark_mode: Темна схема
 live:
   starlink_live: Starlink Live
+header:
+  general: Загальне
+  signal: Сигнал
+  alerts: Попередження
+  device_info: Про пристрій
+  config: Налаштування
+  gps_stats: GPS
+  antenna: Антена
+  ready_states: Готовність модулей
+  networks: Мережі
+  boot: Завантаження
+  client: Клієнт
 grpc:
   DeviceInfo:
-    _: Device Info
-    id: User terminal ID
-    hardware_version: Hardware revision
-    software_version: Software version
-    country_code: Country code
-    utc_offset_s: utc_offset_s
+    id: Id
+    hardware_version: Версія апаратна
+    software_version: Версія прошивки
+    country_code: Код країни
+    utc_offset_s: UTC зміщення, с
     software_partitions_equal: Software partitions equal
     is_dev: Development hardware
     bootcount: Boot count
     anti_rollback_version: Anti-Rollback version
     is_hitl: is_hitl
-    manufactured_version: Manufactured version
+    manufactured_version: Версія прошивки (з заводу)
     generation_number: generation_number
     dish_cohoused: Starlink cohoused
+    x_build_date: Дата прошивки
   BootInfo:
-    _: Boot Info
-    count_by_reason: count_by_reason
-    last_reason: last_reason
-    last_count: last_count
-    count_by_reason_delta: count_by_reason_delta
-  DishAlerts:
-    motors_stuck: motors_stuck
-    thermal_shutdown: thermal_shutdown
-    thermal_throttle: thermal_throttle
-    unexpected_location: unexpected_location
-    mast_not_near_vertical: mast_not_near_vertical
-    slow_ethernet_speeds: slow_ethernet_speeds
-    roaming: roaming
-    install_pending: install_pending
-    is_heating: is_heating
-    power_supply_thermal_throttle: power_supply_thermal_throttle
-    is_power_save_idle: is_power_save_idle
-    moving_while_not_mobile: moving_while_not_mobile
-    moving_fast_while_not_aviation: moving_fast_while_not_aviation
+    last_reason: Остання причина
   DishOutage:
-    cause: Cause
+    cause: Причина
     start_timestamp_ns: Start timestamp, ns
     duration_ns: Duration, ns
     did_switch: Did switch
   DishGpsStats:
-    gps_valid: GPS valid
-    gps_sats: GPS satellites
-    no_sats_after_ttff: No GPS satellites after first fix
-    inhibit_gps: Don't trust Dishy's GPS
+    gps_valid: GPS дійсний
+    gps_sats: GPS супутники
+    no_sats_after_ttff: Немає супутників після першого фіксу
+    inhibit_gps: Не довіряти GPS
   DishReadyStates:
-    cady: Clock generator
-    scp: RFFE bus interface
-    l1l2: Modem L1L2
-    xphy: Xilinx XPHY interface
-    aap: Digital beamformers
+    cady: Тактовий генератор
+    scp: Інтерфейс шини RFFE
+    l1l2: Модем L1L2
+    xphy: Інтерфейс Xilinx XPHY
+    aap: Цифрові формувачі променя
     rf: RF front end
   DishConfig:
     snow_melt_mode: snow_melt_mode
@@ -91,15 +85,15 @@ grpc:
     power_save_duration_minutes: power_save_duration_minutes
     power_save_mode: power_save_mode
   DishObstructionStats:
-    fraction_obstructed: Fraction obstructed
+    fraction_obstructed: Частка часу с перешкодами
     valid_s: Time valid, sec
-    currently_obstructed: Currently obstructed
+    currently_obstructed: Є перешкода
     avg_prolonged_obstruction_duration_s: Average prolonged obstruction duration,
       sec
     avg_prolonged_obstruction_interval_s: Average prolonged obstruction interval,
       sec
     avg_prolonged_obstruction_valid: Average prolonged obstruction valid
-    time_obstructed: Time obstructed
+    time_obstructed: Тривалість перешкоди
     patches_valid: Patches valid
   DishGetStatus:
     uptime_s: Uptime
@@ -152,7 +146,7 @@ grpc:
     channel_2ghz: channel_2ghz
     channel_5ghz: channel_5ghz
     is_repeater: is_repeater
-    boot_count: boot_count
+    boot_count: Boot count
     string: string
     bypass_mode: bypass_mode
     apply_dynamic_keys: apply_dynamic_keys
@@ -205,19 +199,19 @@ grpc:
     success_bytes: success_bytes
   WifiClient:
     name: name
-    mac_address: mac_address
-    ip_address: ip_address
-    signal_strength: signal_strength
+    mac_address: MAC address
+    ip_address: IP address
+    signal_strength: Signal strength
     rx_stats: rx_stats
     tx_stats: tx_stats
-    associated_time_s: associated_time_s
+    associated_time_s: Associated time, s
     mode_str: mode_str
-    iface: iface
-    snr: snr
+    iface: Interface
+    snr: Signal to noice
     psmode: psmode
     channel_width: channel_width
     upstream_mac_address: upstream_mac_address
-    role: role
+    role: Role
     device_id: device_id
     swq_checks: swq_checks
     swq_checks_non_empty: swq_checks_non_empty
@@ -240,22 +234,15 @@ grpc:
     software_version: software_version
     api_version: api_version
     ping_metrics: ping_metrics
-    ipv6_addresses: ipv6_addresses
-  WifiAlerts:
-    thermal_throttle: thermal_throttle
-    install_pending: install_pending
-    freshly_fused: freshly_fused
-    lan_eth_slow_link_10: lan_eth_slow_link_10
-    lan_eth_slow_link_100: lan_eth_slow_link_100
-    wan_eth_poor_connection: wan_eth_poor_connection
-    mesh_topology_changing_often: mesh_topology_changing_often
-    mesh_unreliable_backhaul: mesh_unreliable_backhaul
+    ipv6_addresses: IPv6 addresses
+    x_rx_bytes: Received
+    x_tx_bytes: Transmitted
   WifiGetStatus:
     captive_portal_enabled: Captive portal enabled
     uptime_s: Uptime
     ipv4_wan_address: WAN IPv4
     ping_drop_rate: Ping drop rate
-    ping_latency_ms: ping_latency_ms
+    ping_latency_ms: Ping latency, ms
     is_aviation: Aviation
     dish_ping_drop_rate: Dish ping drop rate
     dish_ping_latency_ms: Dish ping latency, ms

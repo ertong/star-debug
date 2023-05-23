@@ -45,6 +45,8 @@ class Preloaded{
 
   late GrpcController grpc;
 
+  I18n get i18n => I18n.instance;
+
   var initialized = Completer();
 
   Preloaded();

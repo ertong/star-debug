@@ -33,44 +33,57 @@ general:
 live:
   starlink_live: "Starlink Live"
 
+header:
+  general: General
+  signal: Signal
+  alerts: Alerts
+  device_info: Device Info
+  config: Config
+  gps_stats: GPS Stats
+  antenna: Antenna
+  ready_states: Ready States
+  networks: Networks
+  boot: Boot
+  client: Client
+
 grpc:
   DeviceInfo:
-    _: Device Info
-    id: User terminal ID
+    id: Id
     hardware_version: Hardware revision
     software_version: Software version
     country_code: Country code
-    utc_offset_s: utc_offset_s
+    utc_offset_s: UTC offset, s
     software_partitions_equal: Software partitions equal
     is_dev: Development hardware
     bootcount: Boot count
     anti_rollback_version: Anti-Rollback version
     is_hitl: is_hitl
-    manufactured_version: Manufactured version
-    generation_number: generation_number
+    manufactured_version: Software version (manufactured)
+    generation_number: Generation number
     dish_cohoused: Starlink cohoused
 
-  BootInfo:
-    _: Boot Info
-    count_by_reason: count_by_reason
-    last_reason: last_reason
-    last_count: last_count
-    count_by_reason_delta: count_by_reason_delta
+    x_build_date: Build date
 
-  DishAlerts:
-    motors_stuck: motors_stuck
-    thermal_shutdown: thermal_shutdown
-    thermal_throttle: thermal_throttle
-    unexpected_location: unexpected_location
-    mast_not_near_vertical: mast_not_near_vertical
-    slow_ethernet_speeds: slow_ethernet_speeds
-    roaming: roaming
-    install_pending: install_pending
-    is_heating: is_heating
-    power_supply_thermal_throttle: power_supply_thermal_throttle
-    is_power_save_idle: is_power_save_idle
-    moving_while_not_mobile: moving_while_not_mobile
-    moving_fast_while_not_aviation: moving_fast_while_not_aviation
+  BootInfo:
+#    count_by_reason: Count by reason
+    last_reason: Last reason
+#    last_count: Last count
+#    count_by_reason_delta: Count by reason delta
+
+#  DishAlerts:
+#    motors_stuck: motors_stuck
+#    thermal_shutdown: thermal_shutdown
+#    thermal_throttle: thermal_throttle
+#    unexpected_location: unexpected_location
+#    mast_not_near_vertical: mast_not_near_vertical
+#    slow_ethernet_speeds: slow_ethernet_speeds
+#    roaming: roaming
+#    install_pending: install_pending
+#    is_heating: is_heating
+#    power_supply_thermal_throttle: power_supply_thermal_throttle
+#    is_power_save_idle: is_power_save_idle
+#    moving_while_not_mobile: moving_while_not_mobile
+#    moving_fast_while_not_aviation: moving_fast_while_not_aviation
 
   DishOutage:
     cause: Cause
@@ -167,7 +180,7 @@ grpc:
     channel_5ghz: channel_5ghz
 #  repeated .SpaceX.API.Device.PublicKey dynamic_keys = 22;
     is_repeater: is_repeater
-    boot_count: boot_count
+    boot_count: Boot count
     string: string
     bypass_mode: bypass_mode
 #  map<string, .SpaceX.API.Device.MeshConfig> mesh_configs = 33;
@@ -228,19 +241,19 @@ grpc:
 
   WifiClient:
     name: name
-    mac_address: mac_address
-    ip_address: ip_address
-    signal_strength: signal_strength
+    mac_address: MAC address
+    ip_address: IP address
+    signal_strength: Signal strength
     rx_stats: rx_stats
     tx_stats: tx_stats
-    associated_time_s: associated_time_s
+    associated_time_s: Associated time, s
     mode_str: mode_str
-    iface: iface
-    snr: snr
+    iface: Interface
+    snr: Signal to noice
     psmode: psmode
     channel_width: channel_width
     upstream_mac_address: upstream_mac_address
-    role: role
+    role: Role
     device_id: device_id
     swq_checks: swq_checks
     swq_checks_non_empty: swq_checks_non_empty
@@ -263,17 +276,21 @@ grpc:
     software_version: software_version
     api_version: api_version
     ping_metrics: ping_metrics
-    ipv6_addresses: ipv6_addresses
+    ipv6_addresses: IPv6 addresses
 
-  WifiAlerts:
-    thermal_throttle: thermal_throttle
-    install_pending: install_pending
-    freshly_fused: freshly_fused
-    lan_eth_slow_link_10: lan_eth_slow_link_10
-    lan_eth_slow_link_100: lan_eth_slow_link_100
-    wan_eth_poor_connection: wan_eth_poor_connection
-    mesh_topology_changing_often: mesh_topology_changing_often
-    mesh_unreliable_backhaul: mesh_unreliable_backhaul
+    x_rx_bytes: Received
+    x_tx_bytes: Transmitted
+
+
+#  WifiAlerts:
+#    thermal_throttle: thermal_throttle
+#    install_pending: install_pending
+#    freshly_fused: freshly_fused
+#    lan_eth_slow_link_10: lan_eth_slow_link_10
+#    lan_eth_slow_link_100: lan_eth_slow_link_100
+#    wan_eth_poor_connection: wan_eth_poor_connection
+#    mesh_topology_changing_often: mesh_topology_changing_often
+#    mesh_unreliable_backhaul: mesh_unreliable_backhaul
 
   WifiGetStatus:
     captive_portal_enabled: Captive portal enabled
@@ -281,7 +298,7 @@ grpc:
     uptime_s: Uptime
     ipv4_wan_address: WAN IPv4
     ping_drop_rate: Ping drop rate
-    ping_latency_ms: ping_latency_ms
+    ping_latency_ms: Ping latency, ms
     is_aviation: Aviation
     dish_ping_drop_rate: Dish ping drop rate
     dish_ping_latency_ms: Dish ping latency, ms
