@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:clipboard/clipboard.dart';
 import 'package:file_picker/file_picker.dart';
@@ -18,6 +19,7 @@ import 'package:star_debug/space/entity.dart';
 import 'package:star_debug/space/obstructions.dart';
 import 'package:star_debug/space/space_parser.dart';
 import 'package:star_debug/utils/log_utils.dart';
+import 'package:star_debug/utils/obstructions.dart';
 
 import '../utils/kv_widget.dart';
 
@@ -35,6 +37,7 @@ class DebugPage extends StatefulWidget {
 class _DebugPageState extends State<DebugPage> with TickerProviderStateMixin {
 
   String text = "";
+  Image? img;
 
   @override
   void initState() {
@@ -73,7 +76,25 @@ class _DebugPageState extends State<DebugPage> with TickerProviderStateMixin {
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         reqButton("GetStatus", () => Request(getStatus: GetStatusRequest()), router: false),
-        reqButton("GetObstructionMap", () => Request(dishGetObstructionMap: DishGetObstructionMapRequest())),
+        // reqButton("GetObstructionMap", () => Request(dishGetObstructionMap: DishGetObstructionMapRequest())),
+        OutlinedButton(onPressed: () async {
+          final DishGetObstructionMapResponse? resp = await withConnected<DishGetObstructionMapResponse?>((stub, channel) async {
+            var res = await stub.handle(Request(dishGetObstructionMap: DishGetObstructionMapRequest()));
+            log("Received response: ${jsonEncode(res.toProto3Json())}");
+
+            if (res.hasDishGetObstructionMap())
+              return res.dishGetObstructionMap;
+            else
+              return null;
+          }, router: false);
+
+          text = "";
+          img = null;
+          if (resp!=null)
+            img = Image.memory(await generateObstructionImgFromMap(resp));
+
+          setState(() {});
+        }, child: Text("GetObstructionMap"))
       ],
     ));
 
@@ -132,7 +153,16 @@ class _DebugPageState extends State<DebugPage> with TickerProviderStateMixin {
           content: Text("Copied response json"),
         ));
       },
-      child: Text(text),
+      child: Column(
+        children: [
+          if (img!=null)
+            SizedBox(
+                width: 200,
+                child: img!
+            ),
+          Text(text),
+        ],
+      ),
     ));
 
     return res;
@@ -141,6 +171,7 @@ class _DebugPageState extends State<DebugPage> with TickerProviderStateMixin {
   Widget reqButton(String name, Request Function() reqBuilder, {bool router = false}){
     return OutlinedButton(onPressed: () async {
       text = await withConnectedHandleJson(reqBuilder(), router: router);
+      img = null;
       setState(() {});
     }, child: Text(name));
   }
@@ -159,10 +190,10 @@ class _DebugPageState extends State<DebugPage> with TickerProviderStateMixin {
       log("Received response: ${jsonEncode(resp.toProto3Json())}");
 
       return JsonEncoder.withIndent("  ").convert(resp.toProto3Json());
-    }, router: router);
+    }, router: router) ?? "";
   }
 
-  Future<String> withConnected(Future<String> Function(DeviceClient stub, ClientChannel channel) callback, {bool router = false} ) async {
+  Future<T?> withConnected<T>(Future<T> Function(DeviceClient stub, ClientChannel channel) callback, {bool router = false} ) async {
     final channel = ClientChannel(
       router ? '192.168.1.1' : '192.168.100.1',
       port: router ? 9000 : 9200,
@@ -174,8 +205,7 @@ class _DebugPageState extends State<DebugPage> with TickerProviderStateMixin {
     final stub = DeviceClient(channel);
 
     try {
-      String res = await callback(stub, channel);
-
+      T res = await callback(stub, channel);
       return res;
     } catch (e, s) {
       LogUtils.ers(_TAG, "", e, s);
@@ -185,7 +215,7 @@ class _DebugPageState extends State<DebugPage> with TickerProviderStateMixin {
       await channel.shutdown();
     }
 
-    return "";
+    return null;
   }
 
 }
