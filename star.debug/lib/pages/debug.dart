@@ -108,8 +108,10 @@ class _DebugPageState extends State<DebugPage> with TickerProviderStateMixin {
     res.add(Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        reqButton("WifiGetConfig", () => Request(wifiGetConfig: WifiGetConfigRequest()), router: true),
-        reqButton("WifiGetClients", () => Request(wifiGetClients: WifiGetClientsRequest()), router: true),
+        reqButton("WifiGetStatus", () => Request(getStatus: GetStatusRequest()), router: true),
+        reqButton("WifiRoboot", () => Request(reboot: RebootRequest()), router: true),
+        // reqButton("WifiGetConfig", () => Request(wifiGetConfig: WifiGetConfigRequest()), router: true),
+        // reqButton("WifiGetClients", () => Request(wifiGetClients: WifiGetClientsRequest()), router: true),
       ],
     ));
 

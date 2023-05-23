@@ -4,6 +4,7 @@ import 'package:flutter/material.dart' hide Notification, Card, ConnectionState;
 import 'package:star_debug/drawer.dart';
 import 'package:star_debug/grpc/starlink/starlink.pbgrpc.dart';
 import 'package:star_debug/messages/I18n.dart';
+import 'package:star_debug/pages/live/common.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/routes.dart';
 import 'package:grpc/grpc.dart';
@@ -107,22 +108,8 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
         rows.addAll(b.widgets);
       }
 
-      if (status.hasAlerts()) {
-        var alerts = status.alerts.toProto3Json() as Map<String, dynamic>;
-
-        var b = KVWidgetBuilder(theme);
-        if (alerts.isEmpty) {
-          b.header("Alerts");
-          b.kv("", "No alerts");
-        } else {
-          b.header("Alerts", isAlert: true);
-          for (var e in alerts.entries)
-            if (e.value)
-              b.kv("", "${e.key}".toUpperCase());
-        }
-
-        rows.addAll(b.widgets);
-      }
+      if (status.hasAlerts())
+        rows.addAll(buildAlertsWidget(theme, status.alerts.toProto3Json() as Map<String, dynamic>));
 
       {
         var b = KVWidgetBuilder(theme);
@@ -152,44 +139,8 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
         rows.addAll(b.widgets);
       }
 
-      if (status.hasDeviceInfo()){
-        var b = KVWidgetBuilder(theme);
-        var deviceInfo = status.deviceInfo;
-        b.header("DeviceInfo");
-        if (deviceInfo.hasId())
-          b.kv("Id", deviceInfo.id);
-        if (deviceInfo.hasHardwareVersion())
-          b.kv("HardwareVersion", deviceInfo.hardwareVersion);
-        if (deviceInfo.hasSoftwareVersion())
-          b.kv("SoftwareVersion", deviceInfo.softwareVersion);
-        if (deviceInfo.hasCountryCode())
-          b.kv("CountryCode", deviceInfo.countryCode);
-        if (deviceInfo.hasUtcOffsetS())
-          b.kv("UtcOffsetS", deviceInfo.utcOffsetS);
-        // bool software_partitions_equal = 6;
-        // bool is_dev = 7;
-        if (deviceInfo.hasBootcount())
-          b.kv("BootCount", deviceInfo.bootcount);
-        // int32 anti_rollback_version = 9;
-        // bool is_hitl = 10;
-        if (deviceInfo.hasManufacturedVersion())
-          b.kv("ManufacturedVersion", deviceInfo.manufacturedVersion);
-        if (deviceInfo.hasGenerationNumber())
-          b.kv("GenerationNumber", deviceInfo.generationNumber);
-        if (deviceInfo.hasDishCohoused())
-          b.kv("DishCohoused", deviceInfo.dishCohoused);
-
-        if (deviceInfo.hasBoot()){
-          var boot = deviceInfo.boot;
-          // map<int32, int32> count_by_reason = 1;
-          // int32 last_count = 3;
-          // map<int32, int32> count_by_reason_delta = 4;
-          if (boot.hasLastReason())
-            b.kv("Boot.LastReason", boot.lastReason);
-        }
-
-        rows.addAll(b.widgets);
-      }
+      if (status.hasDeviceInfo())
+        rows.addAll(buildDeviceInfoWidget(theme, status.deviceInfo));
 
       if (status.hasConfig()){
         var b = KVWidgetBuilder(theme);

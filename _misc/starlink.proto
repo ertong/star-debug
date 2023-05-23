@@ -259,7 +259,7 @@ message Response {
         .SpaceX.API.Device.WifiSetConfigResponse wifi_set_config = 3001;
         .SpaceX.API.Device.WifiGetClientsResponse wifi_get_clients = 3002;
 //        .SpaceX.API.Device.WifiSetupResponse wifi_setup = 3003;
-//        .SpaceX.API.Device.WifiGetStatusResponse wifi_get_status = 3004;
+        .SpaceX.API.Device.WifiGetStatusResponse wifi_get_status = 3004;
 //        .SpaceX.API.Device.WifiAuthenticateResponse wifi_authenticate = 3005;
 //        .SpaceX.API.Device.WifiGetHistoryResponse wifi_get_history = 3006;
 //        .SpaceX.API.Device.WifiGetPingMetricsResponse wifi_get_ping_metrics = 3007;
@@ -1062,4 +1062,68 @@ message DishGetObstructionMapResponse {
     uint32 num_cols = 2;
     repeated float snr = 3;
     float min_elevation_deg = 4;
+}
+
+//SpaceX.API.Device.WifiGetStatusResponse is a message:
+message WifiGetStatusResponse {
+    bool captive_portal_enabled = 1;
+    .SpaceX.API.Device.DeviceInfo device_info = 3;
+    .SpaceX.API.Device.DeviceState device_state = 4;
+    string ipv4_wan_address = 1003;
+    float ping_drop_rate = 1004;
+    float ping_latency_ms = 1005;
+    .SpaceX.API.Device.WifiBandStatus rf_2ghz_status = 1008 [deprecated = true];
+    .SpaceX.API.Device.WifiBandStatus rf_5ghz_status = 1009 [deprecated = true];
+    .SpaceX.API.Device.WifiAlerts alerts = 1010;
+    bool is_aviation = 1011;
+    float dish_ping_drop_rate = 1012;
+    float dish_ping_latency_ms = 1013;
+    float pop_ping_drop_rate = 1014;
+    float pop_ping_latency_ms = 1015;
+    bool is_aviation_conformed = 1016;
+    repeated string ipv6_wan_addresses = 1017;
+    float dish_ping_drop_rate_5m = 1018;
+    repeated .SpaceX.API.Device.DhcpServer dhcp_servers = 1019;
+    .SpaceX.API.Device.WifiConfig config = 2000;
+    repeated .SpaceX.API.Device.WifiClient clients = 3000;
+    bool has_client_index = 3001;
+    int32 client_index = 3002;
+    reserved 2, 5, 6, 7, 1001, 1002, 1006, 1007;
+}
+
+message WifiAlerts {
+    bool thermal_throttle = 1;
+    bool install_pending = 2;
+    bool freshly_fused = 3;
+    bool lan_eth_slow_link_10 = 4;
+    bool lan_eth_slow_link_100 = 5;
+    bool wan_eth_poor_connection = 10;
+    bool mesh_topology_changing_often = 11;
+    bool mesh_unreliable_backhaul = 12;
+    reserved 6, 7, 8, 9;
+    reserved "inconsistent_2ghz_antennae_performance_15db", "inconsistent_5ghz_antennae_performance_15db", "poor_2ghz_antennae_performance_80db", "poor_5ghz_antennae_performance_80db";
+}
+
+message WifiBandStatus {
+    float chan_busy_time_fraction = 1;
+    float tx_air_time_fraction = 2;
+    float rx_air_time_fraction = 3;
+    float obss_air_time_fraction = 4;
+    float edcca_air_time_fraction = 5;
+}
+
+//SpaceX.API.Device.DhcpServer is a message:
+message DhcpServer {
+    string domain = 1;
+    string subnet = 2;
+    repeated .SpaceX.API.Device.DhcpLease leases = 3;
+}
+
+//SpaceX.API.Device.DhcpLease is a message:
+message DhcpLease {
+    string ip_address = 1;
+    string mac_address = 2;
+    string hostname = 3;
+    string expires_time = 4;
+    bool active = 5;
 }

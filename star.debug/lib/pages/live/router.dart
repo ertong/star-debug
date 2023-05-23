@@ -10,6 +10,8 @@ import 'package:star_debug/routes.dart';
 import 'package:grpc/grpc.dart';
 import 'package:star_debug/utils/kv_widget.dart';
 
+import 'common.dart';
+
 const String _TAG="RouterTab";
 
 class RouterTab extends StatefulWidget {
@@ -61,15 +63,38 @@ class _RouterTabState extends State<RouterTab> with TickerProviderStateMixin {
       rows.add(Text("Channel: ${conn.connState}"));
     }
 
-    if (conn.wifiGetConfig.data!=null && now-conn.statusReceivedTime<5000) {
-      WifiGetConfigResponse status = conn.wifiGetConfig.data!;
+    if (conn.wifiGetStatus.data!=null && now-conn.statusReceivedTime<5000) {
+      WifiGetStatusResponse status = conn.wifiGetStatus.data!;
 
-      if (status.hasWifiConfig()) {
-        var config = status.wifiConfig;
+      {
+        var b = KVWidgetBuilder(theme);
+        b.header("General");
 
-        {
-          var b = KVWidgetBuilder(theme);
-          b.header("General");
+        if (status.hasDeviceState()) {
+          if (status.deviceState.hasUptimeS())
+            b.kv("UptimeS", status.deviceState.uptimeS);
+        }
+
+        if (status.hasIpv4WanAddress())
+          b.kv("Ipv4WanAddress", status.ipv4WanAddress);
+
+        if (status.ipv6WanAddresses.isNotEmpty)
+          b.kv("Ipv6WanAddresses", status.ipv6WanAddresses.join("\n"));
+
+        if (status.hasPingLatencyMs())
+          b.kv("PingLatencyMs", status.pingLatencyMs);
+
+        if (status.hasDishPingLatencyMs())
+          b.kv("DishPingLatencyMs", status.dishPingLatencyMs);
+
+        if (status.hasDishPingDropRate5m())
+          b.kv("DishPingDropRate5m", status.dishPingDropRate5m);
+
+        if (status.hasPopPingLatencyMs())
+          b.kv("PopPingLatencyMs", status.popPingLatencyMs);
+
+        if (status.hasConfig()) {
+          var config = status.config;
 
           if (config.hasSetupComplete()) {
             b.kv("SetupComplete", config.setupComplete);
@@ -79,19 +104,29 @@ class _RouterTabState extends State<RouterTab> with TickerProviderStateMixin {
             b.kv("CountryCode", config.countryCode);
           }
 
-          if (config.hasBootCount()) {
+          if (config.hasBootCount())
             b.kv("BootCount", config.bootCount);
-          }
-          rows.addAll(b.widgets);
         }
+
+        rows.addAll(b.widgets);
+      }
+
+      if (status.hasAlerts())
+        rows.addAll(buildAlertsWidget(theme, status.alerts.toProto3Json() as Map<String, dynamic>));
+
+      if (status.hasDeviceInfo())
+        rows.addAll(buildDeviceInfoWidget(theme, status.deviceInfo));
+
+      if (status.hasConfig()) {
+        var config = status.config;
 
         if (config.networks.isNotEmpty) {
           var b = KVWidgetBuilder(theme);
           b.header("Networks");
-          for (WifiConfig_Network n in config.networks){
+          for (WifiConfig_Network n in config.networks) {
             if (n.hasIpv4())
               b.kv("ipv4", n.ipv4);
-            for (var srv in n.basicServiceSets){
+            for (var srv in n.basicServiceSets) {
               b.kv("${srv.band}", "${srv.ssid}\n${srv.bssid}");
             }
           }
@@ -105,7 +140,7 @@ class _RouterTabState extends State<RouterTab> with TickerProviderStateMixin {
           if (boot.hasLastReason())
             b.kv("LastReason", boot.lastReason);
           var counts = boot.countByReason.entries.toList();
-          counts.sort((a,b)=>a.key-b.key);
+          counts.sort((a, b) => a.key - b.key);
           for (var e in counts) {
             var reason = BootReason.valueOf(e.key);
             b.kv("$reason cnt", e.value);
@@ -113,15 +148,10 @@ class _RouterTabState extends State<RouterTab> with TickerProviderStateMixin {
           rows.addAll(b.widgets);
         }
       }
-    }
 
-
-    if (conn.wifiGetClients.data!=null && now-conn.wifiGetClients.receivedTime<5000) {
-      WifiGetClientsResponse clients = conn.wifiGetClients.data!;
-
-      if (clients.clients.isNotEmpty) {
+      if (status.clients.isNotEmpty) {
         var b = KVWidgetBuilder(theme);
-        for (var client in clients.clients){
+        for (var client in status.clients) {
           b.header("Client: ${client.name}");
           if (client.hasRole())
             b.kv("Role", "${client.role}");
@@ -129,6 +159,8 @@ class _RouterTabState extends State<RouterTab> with TickerProviderStateMixin {
             b.kv("iface", "${client.iface}");
           if (client.hasIpAddress())
             b.kv("IpAddress", "${client.ipAddress}");
+          if (client.ipv6Addresses.isNotEmpty)
+            b.kv("Ipv6Addresses", client.ipv6Addresses.join("\n"));
           if (client.hasMacAddress())
             b.kv("MacAddress", "${client.macAddress}");
           if (client.hasAssociatedTimeS())
@@ -144,7 +176,6 @@ class _RouterTabState extends State<RouterTab> with TickerProviderStateMixin {
         }
 
         rows.addAll(b.widgets);
-
       }
     }
 

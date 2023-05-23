@@ -476,6 +476,7 @@ const Response$json = const {
     const {'1': 'dish_inhibit_gps', '3': 2013, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishInhibitGpsResponse', '9': 0, '10': 'dishInhibitGps'},
     const {'1': 'wifi_set_config', '3': 3001, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiSetConfigResponse', '9': 0, '10': 'wifiSetConfig'},
     const {'1': 'wifi_get_clients', '3': 3002, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiGetClientsResponse', '9': 0, '10': 'wifiGetClients'},
+    const {'1': 'wifi_get_status', '3': 3004, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiGetStatusResponse', '9': 0, '10': 'wifiGetStatus'},
     const {'1': 'wifi_get_diagnostics', '3': 3008, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiGetDiagnosticsResponse', '9': 0, '10': 'wifiGetDiagnostics'},
     const {'1': 'wifi_get_config', '3': 3009, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiGetConfigResponse', '9': 0, '10': 'wifiGetConfig'},
     const {'1': 'wifi_get_persistent_stats', '3': 3022, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiGetPersistentStatsResponse', '9': 0, '10': 'wifiGetPersistentStats'},
@@ -495,7 +496,7 @@ const Response$json = const {
 };
 
 /// Descriptor for `Response`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List responseDescriptor = $convert.base64Decode('CghSZXNwb25zZRIOCgJpZBgBIAEoBFICaWQSMQoGc3RhdHVzGAIgASgLMhkuU3BhY2VYLkFQSS5TdGF0dXMuU3RhdHVzUgZzdGF0dXMSHwoLYXBpX3ZlcnNpb24YAyABKARSCmFwaVZlcnNpb24SPAoGcmVib290GOkHIAEoCzIhLlNwYWNlWC5BUEkuRGV2aWNlLlJlYm9vdFJlc3BvbnNlSABSBnJlYm9vdBJTCg9nZXRfZGV2aWNlX2luZm8Y7AcgASgLMiguU3BhY2VYLkFQSS5EZXZpY2UuR2V0RGV2aWNlSW5mb1Jlc3BvbnNlSABSDWdldERldmljZUluZm8STAoMZ2V0X2xvY2F0aW9uGPkHIAEoCzImLlNwYWNlWC5BUEkuRGV2aWNlLkdldExvY2F0aW9uUmVzcG9uc2VIAFILZ2V0TG9jYXRpb24SVQoPZ2V0X2Nvbm5lY3Rpb25zGP8HIAEoCzIpLlNwYWNlWC5BUEkuRGV2aWNlLkdldENvbm5lY3Rpb25zUmVzcG9uc2VIAFIOZ2V0Q29ubmVjdGlvbnMSQwoJZGlzaF9zdG93GNIPIAEoCzIjLlNwYWNlWC5BUEkuRGV2aWNlLkRpc2hTdG93UmVzcG9uc2VIAFIIZGlzaFN0b3cSUwoPZGlzaF9nZXRfc3RhdHVzGNQPIAEoCzIoLlNwYWNlWC5BUEkuRGV2aWNlLkRpc2hHZXRTdGF0dXNSZXNwb25zZUgAUg1kaXNoR2V0U3RhdHVzEmwKGGRpc2hfZ2V0X29ic3RydWN0aW9uX21hcBjYDyABKAsyMC5TcGFjZVguQVBJLkRldmljZS5EaXNoR2V0T2JzdHJ1Y3Rpb25NYXBSZXNwb25zZUgAUhVkaXNoR2V0T2JzdHJ1Y3Rpb25NYXASUwoPZGlzaF9zZXRfY29uZmlnGNoPIAEoCzIoLlNwYWNlWC5BUEkuRGV2aWNlLkRpc2hTZXRDb25maWdSZXNwb25zZUgAUg1kaXNoU2V0Q29uZmlnElMKD2Rpc2hfZ2V0X2NvbmZpZxjbDyABKAsyKC5TcGFjZVguQVBJLkRldmljZS5EaXNoR2V0Q29uZmlnUmVzcG9uc2VIAFINZGlzaEdldENvbmZpZxJWChBkaXNoX2luaGliaXRfZ3BzGN0PIAEoCzIpLlNwYWNlWC5BUEkuRGV2aWNlLkRpc2hJbmhpYml0R3BzUmVzcG9uc2VIAFIOZGlzaEluaGliaXRHcHMSUwoPd2lmaV9zZXRfY29uZmlnGLkXIAEoCzIoLlNwYWNlWC5BUEkuRGV2aWNlLldpZmlTZXRDb25maWdSZXNwb25zZUgAUg13aWZpU2V0Q29uZmlnElYKEHdpZmlfZ2V0X2NsaWVudHMYuhcgASgLMikuU3BhY2VYLkFQSS5EZXZpY2UuV2lmaUdldENsaWVudHNSZXNwb25zZUgAUg53aWZpR2V0Q2xpZW50cxJiChR3aWZpX2dldF9kaWFnbm9zdGljcxjAFyABKAsyLS5TcGFjZVguQVBJLkRldmljZS5XaWZpR2V0RGlhZ25vc3RpY3NSZXNwb25zZUgAUhJ3aWZpR2V0RGlhZ25vc3RpY3MSUwoPd2lmaV9nZXRfY29uZmlnGMEXIAEoCzIoLlNwYWNlWC5BUEkuRGV2aWNlLldpZmlHZXRDb25maWdSZXNwb25zZUgAUg13aWZpR2V0Q29uZmlnEm8KGXdpZmlfZ2V0X3BlcnNpc3RlbnRfc3RhdHMYzhcgASgLMjEuU3BhY2VYLkFQSS5EZXZpY2UuV2lmaUdldFBlcnNpc3RlbnRTdGF0c1Jlc3BvbnNlSABSFndpZmlHZXRQZXJzaXN0ZW50U3RhdHMSaAoWdHJhbnNjZWl2ZXJfZ2V0X3N0YXR1cxijHyABKAsyLy5TcGFjZVguQVBJLkRldmljZS5UcmFuc2NlaXZlckdldFN0YXR1c1Jlc3BvbnNlSABSFHRyYW5zY2VpdmVyR2V0U3RhdHVzEnEKGXRyYW5zY2VpdmVyX2dldF90ZWxlbWV0cnkYpB8gASgLMjIuU3BhY2VYLkFQSS5EZXZpY2UuVHJhbnNjZWl2ZXJHZXRUZWxlbWV0cnlSZXNwb25zZUgAUhd0cmFuc2NlaXZlckdldFRlbGVtZXRyeUIKCghyZXNwb25zZUoGCPoHEPsHSgYIgggQgwhKBgjpDxDqD0oGCMMXEMQXSgYIxhcQxxc=');
+final $typed_data.Uint8List responseDescriptor = $convert.base64Decode('CghSZXNwb25zZRIOCgJpZBgBIAEoBFICaWQSMQoGc3RhdHVzGAIgASgLMhkuU3BhY2VYLkFQSS5TdGF0dXMuU3RhdHVzUgZzdGF0dXMSHwoLYXBpX3ZlcnNpb24YAyABKARSCmFwaVZlcnNpb24SPAoGcmVib290GOkHIAEoCzIhLlNwYWNlWC5BUEkuRGV2aWNlLlJlYm9vdFJlc3BvbnNlSABSBnJlYm9vdBJTCg9nZXRfZGV2aWNlX2luZm8Y7AcgASgLMiguU3BhY2VYLkFQSS5EZXZpY2UuR2V0RGV2aWNlSW5mb1Jlc3BvbnNlSABSDWdldERldmljZUluZm8STAoMZ2V0X2xvY2F0aW9uGPkHIAEoCzImLlNwYWNlWC5BUEkuRGV2aWNlLkdldExvY2F0aW9uUmVzcG9uc2VIAFILZ2V0TG9jYXRpb24SVQoPZ2V0X2Nvbm5lY3Rpb25zGP8HIAEoCzIpLlNwYWNlWC5BUEkuRGV2aWNlLkdldENvbm5lY3Rpb25zUmVzcG9uc2VIAFIOZ2V0Q29ubmVjdGlvbnMSQwoJZGlzaF9zdG93GNIPIAEoCzIjLlNwYWNlWC5BUEkuRGV2aWNlLkRpc2hTdG93UmVzcG9uc2VIAFIIZGlzaFN0b3cSUwoPZGlzaF9nZXRfc3RhdHVzGNQPIAEoCzIoLlNwYWNlWC5BUEkuRGV2aWNlLkRpc2hHZXRTdGF0dXNSZXNwb25zZUgAUg1kaXNoR2V0U3RhdHVzEmwKGGRpc2hfZ2V0X29ic3RydWN0aW9uX21hcBjYDyABKAsyMC5TcGFjZVguQVBJLkRldmljZS5EaXNoR2V0T2JzdHJ1Y3Rpb25NYXBSZXNwb25zZUgAUhVkaXNoR2V0T2JzdHJ1Y3Rpb25NYXASUwoPZGlzaF9zZXRfY29uZmlnGNoPIAEoCzIoLlNwYWNlWC5BUEkuRGV2aWNlLkRpc2hTZXRDb25maWdSZXNwb25zZUgAUg1kaXNoU2V0Q29uZmlnElMKD2Rpc2hfZ2V0X2NvbmZpZxjbDyABKAsyKC5TcGFjZVguQVBJLkRldmljZS5EaXNoR2V0Q29uZmlnUmVzcG9uc2VIAFINZGlzaEdldENvbmZpZxJWChBkaXNoX2luaGliaXRfZ3BzGN0PIAEoCzIpLlNwYWNlWC5BUEkuRGV2aWNlLkRpc2hJbmhpYml0R3BzUmVzcG9uc2VIAFIOZGlzaEluaGliaXRHcHMSUwoPd2lmaV9zZXRfY29uZmlnGLkXIAEoCzIoLlNwYWNlWC5BUEkuRGV2aWNlLldpZmlTZXRDb25maWdSZXNwb25zZUgAUg13aWZpU2V0Q29uZmlnElYKEHdpZmlfZ2V0X2NsaWVudHMYuhcgASgLMikuU3BhY2VYLkFQSS5EZXZpY2UuV2lmaUdldENsaWVudHNSZXNwb25zZUgAUg53aWZpR2V0Q2xpZW50cxJTCg93aWZpX2dldF9zdGF0dXMYvBcgASgLMiguU3BhY2VYLkFQSS5EZXZpY2UuV2lmaUdldFN0YXR1c1Jlc3BvbnNlSABSDXdpZmlHZXRTdGF0dXMSYgoUd2lmaV9nZXRfZGlhZ25vc3RpY3MYwBcgASgLMi0uU3BhY2VYLkFQSS5EZXZpY2UuV2lmaUdldERpYWdub3N0aWNzUmVzcG9uc2VIAFISd2lmaUdldERpYWdub3N0aWNzElMKD3dpZmlfZ2V0X2NvbmZpZxjBFyABKAsyKC5TcGFjZVguQVBJLkRldmljZS5XaWZpR2V0Q29uZmlnUmVzcG9uc2VIAFINd2lmaUdldENvbmZpZxJvChl3aWZpX2dldF9wZXJzaXN0ZW50X3N0YXRzGM4XIAEoCzIxLlNwYWNlWC5BUEkuRGV2aWNlLldpZmlHZXRQZXJzaXN0ZW50U3RhdHNSZXNwb25zZUgAUhZ3aWZpR2V0UGVyc2lzdGVudFN0YXRzEmgKFnRyYW5zY2VpdmVyX2dldF9zdGF0dXMYox8gASgLMi8uU3BhY2VYLkFQSS5EZXZpY2UuVHJhbnNjZWl2ZXJHZXRTdGF0dXNSZXNwb25zZUgAUhR0cmFuc2NlaXZlckdldFN0YXR1cxJxChl0cmFuc2NlaXZlcl9nZXRfdGVsZW1ldHJ5GKQfIAEoCzIyLlNwYWNlWC5BUEkuRGV2aWNlLlRyYW5zY2VpdmVyR2V0VGVsZW1ldHJ5UmVzcG9uc2VIAFIXdHJhbnNjZWl2ZXJHZXRUZWxlbWV0cnlCCgoIcmVzcG9uc2VKBgj6BxD7B0oGCIIIEIMISgYI6Q8Q6g9KBgjDFxDEF0oGCMYXEMcX');
 @$core.Deprecated('Use getStatusRequestDescriptor instead')
 const GetStatusRequest$json = const {
   '1': 'GetStatusRequest',
@@ -1747,3 +1748,124 @@ const DishGetObstructionMapResponse$json = const {
 
 /// Descriptor for `DishGetObstructionMapResponse`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List dishGetObstructionMapResponseDescriptor = $convert.base64Decode('Ch1EaXNoR2V0T2JzdHJ1Y3Rpb25NYXBSZXNwb25zZRIZCghudW1fcm93cxgBIAEoDVIHbnVtUm93cxIZCghudW1fY29scxgCIAEoDVIHbnVtQ29scxIQCgNzbnIYAyADKAJSA3NuchIqChFtaW5fZWxldmF0aW9uX2RlZxgEIAEoAlIPbWluRWxldmF0aW9uRGVn');
+@$core.Deprecated('Use wifiGetStatusResponseDescriptor instead')
+const WifiGetStatusResponse$json = const {
+  '1': 'WifiGetStatusResponse',
+  '2': const [
+    const {'1': 'captive_portal_enabled', '3': 1, '4': 1, '5': 8, '10': 'captivePortalEnabled'},
+    const {'1': 'device_info', '3': 3, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DeviceInfo', '10': 'deviceInfo'},
+    const {'1': 'device_state', '3': 4, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DeviceState', '10': 'deviceState'},
+    const {'1': 'ipv4_wan_address', '3': 1003, '4': 1, '5': 9, '10': 'ipv4WanAddress'},
+    const {'1': 'ping_drop_rate', '3': 1004, '4': 1, '5': 2, '10': 'pingDropRate'},
+    const {'1': 'ping_latency_ms', '3': 1005, '4': 1, '5': 2, '10': 'pingLatencyMs'},
+    const {
+      '1': 'rf_2ghz_status',
+      '3': 1008,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiBandStatus',
+      '8': const {'3': true},
+      '10': 'rf2ghzStatus',
+    },
+    const {
+      '1': 'rf_5ghz_status',
+      '3': 1009,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiBandStatus',
+      '8': const {'3': true},
+      '10': 'rf5ghzStatus',
+    },
+    const {'1': 'alerts', '3': 1010, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiAlerts', '10': 'alerts'},
+    const {'1': 'is_aviation', '3': 1011, '4': 1, '5': 8, '10': 'isAviation'},
+    const {'1': 'dish_ping_drop_rate', '3': 1012, '4': 1, '5': 2, '10': 'dishPingDropRate'},
+    const {'1': 'dish_ping_latency_ms', '3': 1013, '4': 1, '5': 2, '10': 'dishPingLatencyMs'},
+    const {'1': 'pop_ping_drop_rate', '3': 1014, '4': 1, '5': 2, '10': 'popPingDropRate'},
+    const {'1': 'pop_ping_latency_ms', '3': 1015, '4': 1, '5': 2, '10': 'popPingLatencyMs'},
+    const {'1': 'is_aviation_conformed', '3': 1016, '4': 1, '5': 8, '10': 'isAviationConformed'},
+    const {'1': 'ipv6_wan_addresses', '3': 1017, '4': 3, '5': 9, '10': 'ipv6WanAddresses'},
+    const {'1': 'dish_ping_drop_rate_5m', '3': 1018, '4': 1, '5': 2, '10': 'dishPingDropRate5m'},
+    const {'1': 'dhcp_servers', '3': 1019, '4': 3, '5': 11, '6': '.SpaceX.API.Device.DhcpServer', '10': 'dhcpServers'},
+    const {'1': 'config', '3': 2000, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiConfig', '10': 'config'},
+    const {'1': 'clients', '3': 3000, '4': 3, '5': 11, '6': '.SpaceX.API.Device.WifiClient', '10': 'clients'},
+    const {'1': 'has_client_index', '3': 3001, '4': 1, '5': 8, '10': 'hasClientIndex'},
+    const {'1': 'client_index', '3': 3002, '4': 1, '5': 5, '10': 'clientIndex'},
+  ],
+  '9': const [
+    const {'1': 2, '2': 3},
+    const {'1': 5, '2': 6},
+    const {'1': 6, '2': 7},
+    const {'1': 7, '2': 8},
+    const {'1': 1001, '2': 1002},
+    const {'1': 1002, '2': 1003},
+    const {'1': 1006, '2': 1007},
+    const {'1': 1007, '2': 1008},
+  ],
+};
+
+/// Descriptor for `WifiGetStatusResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List wifiGetStatusResponseDescriptor = $convert.base64Decode('ChVXaWZpR2V0U3RhdHVzUmVzcG9uc2USNAoWY2FwdGl2ZV9wb3J0YWxfZW5hYmxlZBgBIAEoCFIUY2FwdGl2ZVBvcnRhbEVuYWJsZWQSPgoLZGV2aWNlX2luZm8YAyABKAsyHS5TcGFjZVguQVBJLkRldmljZS5EZXZpY2VJbmZvUgpkZXZpY2VJbmZvEkEKDGRldmljZV9zdGF0ZRgEIAEoCzIeLlNwYWNlWC5BUEkuRGV2aWNlLkRldmljZVN0YXRlUgtkZXZpY2VTdGF0ZRIpChBpcHY0X3dhbl9hZGRyZXNzGOsHIAEoCVIOaXB2NFdhbkFkZHJlc3MSJQoOcGluZ19kcm9wX3JhdGUY7AcgASgCUgxwaW5nRHJvcFJhdGUSJwoPcGluZ19sYXRlbmN5X21zGO0HIAEoAlINcGluZ0xhdGVuY3lNcxJMCg5yZl8yZ2h6X3N0YXR1cxjwByABKAsyIS5TcGFjZVguQVBJLkRldmljZS5XaWZpQmFuZFN0YXR1c0ICGAFSDHJmMmdoelN0YXR1cxJMCg5yZl81Z2h6X3N0YXR1cxjxByABKAsyIS5TcGFjZVguQVBJLkRldmljZS5XaWZpQmFuZFN0YXR1c0ICGAFSDHJmNWdoelN0YXR1cxI2CgZhbGVydHMY8gcgASgLMh0uU3BhY2VYLkFQSS5EZXZpY2UuV2lmaUFsZXJ0c1IGYWxlcnRzEiAKC2lzX2F2aWF0aW9uGPMHIAEoCFIKaXNBdmlhdGlvbhIuChNkaXNoX3BpbmdfZHJvcF9yYXRlGPQHIAEoAlIQZGlzaFBpbmdEcm9wUmF0ZRIwChRkaXNoX3BpbmdfbGF0ZW5jeV9tcxj1ByABKAJSEWRpc2hQaW5nTGF0ZW5jeU1zEiwKEnBvcF9waW5nX2Ryb3BfcmF0ZRj2ByABKAJSD3BvcFBpbmdEcm9wUmF0ZRIuChNwb3BfcGluZ19sYXRlbmN5X21zGPcHIAEoAlIQcG9wUGluZ0xhdGVuY3lNcxIzChVpc19hdmlhdGlvbl9jb25mb3JtZWQY+AcgASgIUhNpc0F2aWF0aW9uQ29uZm9ybWVkEi0KEmlwdjZfd2FuX2FkZHJlc3Nlcxj5ByADKAlSEGlwdjZXYW5BZGRyZXNzZXMSMwoWZGlzaF9waW5nX2Ryb3BfcmF0ZV81bRj6ByABKAJSEmRpc2hQaW5nRHJvcFJhdGU1bRJBCgxkaGNwX3NlcnZlcnMY+wcgAygLMh0uU3BhY2VYLkFQSS5EZXZpY2UuRGhjcFNlcnZlclILZGhjcFNlcnZlcnMSNgoGY29uZmlnGNAPIAEoCzIdLlNwYWNlWC5BUEkuRGV2aWNlLldpZmlDb25maWdSBmNvbmZpZxI4CgdjbGllbnRzGLgXIAMoCzIdLlNwYWNlWC5BUEkuRGV2aWNlLldpZmlDbGllbnRSB2NsaWVudHMSKQoQaGFzX2NsaWVudF9pbmRleBi5FyABKAhSDmhhc0NsaWVudEluZGV4EiIKDGNsaWVudF9pbmRleBi6FyABKAVSC2NsaWVudEluZGV4SgQIAhADSgQIBRAGSgQIBhAHSgQIBxAISgYI6QcQ6gdKBgjqBxDrB0oGCO4HEO8HSgYI7wcQ8Ac=');
+@$core.Deprecated('Use wifiAlertsDescriptor instead')
+const WifiAlerts$json = const {
+  '1': 'WifiAlerts',
+  '2': const [
+    const {'1': 'thermal_throttle', '3': 1, '4': 1, '5': 8, '10': 'thermalThrottle'},
+    const {'1': 'install_pending', '3': 2, '4': 1, '5': 8, '10': 'installPending'},
+    const {'1': 'freshly_fused', '3': 3, '4': 1, '5': 8, '10': 'freshlyFused'},
+    const {'1': 'lan_eth_slow_link_10', '3': 4, '4': 1, '5': 8, '10': 'lanEthSlowLink10'},
+    const {'1': 'lan_eth_slow_link_100', '3': 5, '4': 1, '5': 8, '10': 'lanEthSlowLink100'},
+    const {'1': 'wan_eth_poor_connection', '3': 10, '4': 1, '5': 8, '10': 'wanEthPoorConnection'},
+    const {'1': 'mesh_topology_changing_often', '3': 11, '4': 1, '5': 8, '10': 'meshTopologyChangingOften'},
+    const {'1': 'mesh_unreliable_backhaul', '3': 12, '4': 1, '5': 8, '10': 'meshUnreliableBackhaul'},
+  ],
+  '9': const [
+    const {'1': 6, '2': 7},
+    const {'1': 7, '2': 8},
+    const {'1': 8, '2': 9},
+    const {'1': 9, '2': 10},
+  ],
+  '10': const ['inconsistent_2ghz_antennae_performance_15db', 'inconsistent_5ghz_antennae_performance_15db', 'poor_2ghz_antennae_performance_80db', 'poor_5ghz_antennae_performance_80db'],
+};
+
+/// Descriptor for `WifiAlerts`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List wifiAlertsDescriptor = $convert.base64Decode('CgpXaWZpQWxlcnRzEikKEHRoZXJtYWxfdGhyb3R0bGUYASABKAhSD3RoZXJtYWxUaHJvdHRsZRInCg9pbnN0YWxsX3BlbmRpbmcYAiABKAhSDmluc3RhbGxQZW5kaW5nEiMKDWZyZXNobHlfZnVzZWQYAyABKAhSDGZyZXNobHlGdXNlZBIuChRsYW5fZXRoX3Nsb3dfbGlua18xMBgEIAEoCFIQbGFuRXRoU2xvd0xpbmsxMBIwChVsYW5fZXRoX3Nsb3dfbGlua18xMDAYBSABKAhSEWxhbkV0aFNsb3dMaW5rMTAwEjUKF3dhbl9ldGhfcG9vcl9jb25uZWN0aW9uGAogASgIUhR3YW5FdGhQb29yQ29ubmVjdGlvbhI/ChxtZXNoX3RvcG9sb2d5X2NoYW5naW5nX29mdGVuGAsgASgIUhltZXNoVG9wb2xvZ3lDaGFuZ2luZ09mdGVuEjgKGG1lc2hfdW5yZWxpYWJsZV9iYWNraGF1bBgMIAEoCFIWbWVzaFVucmVsaWFibGVCYWNraGF1bEoECAYQB0oECAcQCEoECAgQCUoECAkQClIraW5jb25zaXN0ZW50XzJnaHpfYW50ZW5uYWVfcGVyZm9ybWFuY2VfMTVkYlIraW5jb25zaXN0ZW50XzVnaHpfYW50ZW5uYWVfcGVyZm9ybWFuY2VfMTVkYlIjcG9vcl8yZ2h6X2FudGVubmFlX3BlcmZvcm1hbmNlXzgwZGJSI3Bvb3JfNWdoel9hbnRlbm5hZV9wZXJmb3JtYW5jZV84MGRi');
+@$core.Deprecated('Use wifiBandStatusDescriptor instead')
+const WifiBandStatus$json = const {
+  '1': 'WifiBandStatus',
+  '2': const [
+    const {'1': 'chan_busy_time_fraction', '3': 1, '4': 1, '5': 2, '10': 'chanBusyTimeFraction'},
+    const {'1': 'tx_air_time_fraction', '3': 2, '4': 1, '5': 2, '10': 'txAirTimeFraction'},
+    const {'1': 'rx_air_time_fraction', '3': 3, '4': 1, '5': 2, '10': 'rxAirTimeFraction'},
+    const {'1': 'obss_air_time_fraction', '3': 4, '4': 1, '5': 2, '10': 'obssAirTimeFraction'},
+    const {'1': 'edcca_air_time_fraction', '3': 5, '4': 1, '5': 2, '10': 'edccaAirTimeFraction'},
+  ],
+};
+
+/// Descriptor for `WifiBandStatus`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List wifiBandStatusDescriptor = $convert.base64Decode('Cg5XaWZpQmFuZFN0YXR1cxI1ChdjaGFuX2J1c3lfdGltZV9mcmFjdGlvbhgBIAEoAlIUY2hhbkJ1c3lUaW1lRnJhY3Rpb24SLwoUdHhfYWlyX3RpbWVfZnJhY3Rpb24YAiABKAJSEXR4QWlyVGltZUZyYWN0aW9uEi8KFHJ4X2Fpcl90aW1lX2ZyYWN0aW9uGAMgASgCUhFyeEFpclRpbWVGcmFjdGlvbhIzChZvYnNzX2Fpcl90aW1lX2ZyYWN0aW9uGAQgASgCUhNvYnNzQWlyVGltZUZyYWN0aW9uEjUKF2VkY2NhX2Fpcl90aW1lX2ZyYWN0aW9uGAUgASgCUhRlZGNjYUFpclRpbWVGcmFjdGlvbg==');
+@$core.Deprecated('Use dhcpServerDescriptor instead')
+const DhcpServer$json = const {
+  '1': 'DhcpServer',
+  '2': const [
+    const {'1': 'domain', '3': 1, '4': 1, '5': 9, '10': 'domain'},
+    const {'1': 'subnet', '3': 2, '4': 1, '5': 9, '10': 'subnet'},
+    const {'1': 'leases', '3': 3, '4': 3, '5': 11, '6': '.SpaceX.API.Device.DhcpLease', '10': 'leases'},
+  ],
+};
+
+/// Descriptor for `DhcpServer`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List dhcpServerDescriptor = $convert.base64Decode('CgpEaGNwU2VydmVyEhYKBmRvbWFpbhgBIAEoCVIGZG9tYWluEhYKBnN1Ym5ldBgCIAEoCVIGc3VibmV0EjQKBmxlYXNlcxgDIAMoCzIcLlNwYWNlWC5BUEkuRGV2aWNlLkRoY3BMZWFzZVIGbGVhc2Vz');
+@$core.Deprecated('Use dhcpLeaseDescriptor instead')
+const DhcpLease$json = const {
+  '1': 'DhcpLease',
+  '2': const [
+    const {'1': 'ip_address', '3': 1, '4': 1, '5': 9, '10': 'ipAddress'},
+    const {'1': 'mac_address', '3': 2, '4': 1, '5': 9, '10': 'macAddress'},
+    const {'1': 'hostname', '3': 3, '4': 1, '5': 9, '10': 'hostname'},
+    const {'1': 'expires_time', '3': 4, '4': 1, '5': 9, '10': 'expiresTime'},
+    const {'1': 'active', '3': 5, '4': 1, '5': 8, '10': 'active'},
+  ],
+};
+
+/// Descriptor for `DhcpLease`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List dhcpLeaseDescriptor = $convert.base64Decode('CglEaGNwTGVhc2USHQoKaXBfYWRkcmVzcxgBIAEoCVIJaXBBZGRyZXNzEh8KC21hY19hZGRyZXNzGAIgASgJUgptYWNBZGRyZXNzEhoKCGhvc3RuYW1lGAMgASgJUghob3N0bmFtZRIhCgxleHBpcmVzX3RpbWUYBCABKAlSC2V4cGlyZXNUaW1lEhYKBmFjdGl2ZRgFIAEoCFIGYWN0aXZl');

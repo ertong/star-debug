@@ -52,7 +52,7 @@ class KVWidgetBuilder extends KVConsumer{
       child: Container(
           padding: EdgeInsets.fromLTRB(3, 3, 3, 3),
           color: isAlert
-              ? theme.colorScheme.tertiaryContainer
+              ? theme.colorScheme.error.withAlpha(150)
               : theme.secondaryHeaderColor,
           child: Row(
             children: [

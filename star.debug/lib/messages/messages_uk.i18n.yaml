@@ -28,6 +28,102 @@ general:
   debug_data_viewer: Перегляд Debug Data
   no_data_found: Дані не знайдено
   dark_mode: Dark mode
-
 live:
-  starlink_live: "Starlink Live"
+  starlink_live: Starlink Live
+grpc:
+  DeviceInfo:
+    _: Device Info
+    id: User terminal ID
+    hardware_version: Hardware revision
+    software_version: Software version
+    country_code: Country code
+    utc_offset_s: utc_offset_s
+    software_partitions_equal: Software partitions equal
+    is_dev: Development hardware
+    bootcount: Boot count
+    anti_rollback_version: Anti-Rollback version
+    is_hitl: is_hitl
+    manufactured_version: Manufactured version
+    generation_number: generation_number
+    dish_cohoused: Starlink cohoused
+  BootInfo:
+    _: Boot Info
+    count_by_reason: count_by_reason
+    last_reason: last_reason
+    last_count: last_count
+    count_by_reason_delta: count_by_reason_delta
+  DishAlerts:
+    motors_stuck: motors_stuck
+    thermal_shutdown: thermal_shutdown
+    thermal_throttle: thermal_throttle
+    unexpected_location: unexpected_location
+    mast_not_near_vertical: mast_not_near_vertical
+    slow_ethernet_speeds: slow_ethernet_speeds
+    roaming: roaming
+    install_pending: install_pending
+    is_heating: is_heating
+    power_supply_thermal_throttle: power_supply_thermal_throttle
+    is_power_save_idle: is_power_save_idle
+    moving_while_not_mobile: moving_while_not_mobile
+    moving_fast_while_not_aviation: moving_fast_while_not_aviation
+  DishOutage:
+    cause: Cause
+    start_timestamp_ns: Start timestamp, ns
+    duration_ns: Duration, ns
+    did_switch: Did switch
+  DishGpsStats:
+    gps_valid: GPS valid
+    gps_sats: GPS satellites
+    no_sats_after_ttff: No GPS satellites after first fix
+    inhibit_gps: Don't trust Dishy's GPS
+  DishReadyStates:
+    cady: Clock generator
+    scp: RFFE bus interface
+    l1l2: Modem L1L2
+    xphy: Xilinx XPHY interface
+    aap: Digital beamformers
+    rf: RF front end
+  DishConfig:
+    snow_melt_mode: snow_melt_mode
+    location_request_mode: location_request_mode
+    level_dish_mode: level_dish_mode
+    power_save_start_minutes: power_save_start_minutes
+    power_save_duration_minutes: power_save_duration_minutes
+    power_save_mode: power_save_mode
+  DishObstructionStats:
+    fraction_obstructed: Fraction obstructed
+    valid_s: Time valid, sec
+    currently_obstructed: Currently obstructed
+    avg_prolonged_obstruction_duration_s: Average prolonged obstruction duration,
+      sec
+    avg_prolonged_obstruction_interval_s: Average prolonged obstruction interval,
+      sec
+    avg_prolonged_obstruction_valid: Average prolonged obstruction valid
+    time_obstructed: Time obstructed
+    patches_valid: Patches valid
+  DishGetStatus:
+    uptime_s: Uptime
+    seconds_to_first_nonempty_slot: Seconds to first non-empty slot
+    pop_ping_drop_rate: PoP ping drop rate
+    fraction_obstructed: fraction_obstructed
+    valid_s: valid_s
+    currently_obstructed: currently_obstructed
+    avg_prolonged_obstruction_duration_s: avg_prolonged_obstruction_duration_s
+    avg_prolonged_obstruction_interval_s: avg_prolonged_obstruction_interval_s
+    avg_prolonged_obstruction_valid: avg_prolonged_obstruction_valid
+    time_obstructed: time_obstructed
+    patches_valid: patches_valid
+    downlink_throughput_bps: Downlink Throughput, B/s
+    uplink_throughput_bps: Uplink Throughput, B/s
+    pop_ping_latency_ms: PoP ping latency, ms
+    stow_requested: Stow requested
+    boresight_azimuth_deg: Panel boresight Azimuth angle, deg
+    boresight_elevation_deg: Panel boresight Elevation agngle, deg
+    eth_speed_mbps: Ethernet speed
+    mobility_class: Mobility class
+    is_snr_above_noise_floor: SNR above noise floor
+    class_of_service: Class of service
+    software_update_state: Software update state
+    is_snr_persistently_low: SNR persistently low
+    has_actuators: Actuators
+    disablement_code: Service state

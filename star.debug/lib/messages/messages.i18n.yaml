@@ -32,3 +32,235 @@ general:
 
 live:
   starlink_live: "Starlink Live"
+
+grpc:
+  DeviceInfo:
+    _: Device Info
+    id: User terminal ID
+    hardware_version: Hardware revision
+    software_version: Software version
+    country_code: Country code
+    utc_offset_s: utc_offset_s
+    software_partitions_equal: Software partitions equal
+    is_dev: Development hardware
+    bootcount: Boot count
+    anti_rollback_version: Anti-Rollback version
+    is_hitl: is_hitl
+    manufactured_version: Manufactured version
+    generation_number: generation_number
+    dish_cohoused: Starlink cohoused
+
+  BootInfo:
+    _: Boot Info
+    count_by_reason: count_by_reason
+    last_reason: last_reason
+    last_count: last_count
+    count_by_reason_delta: count_by_reason_delta
+
+  DishAlerts:
+    motors_stuck: motors_stuck
+    thermal_shutdown: thermal_shutdown
+    thermal_throttle: thermal_throttle
+    unexpected_location: unexpected_location
+    mast_not_near_vertical: mast_not_near_vertical
+    slow_ethernet_speeds: slow_ethernet_speeds
+    roaming: roaming
+    install_pending: install_pending
+    is_heating: is_heating
+    power_supply_thermal_throttle: power_supply_thermal_throttle
+    is_power_save_idle: is_power_save_idle
+    moving_while_not_mobile: moving_while_not_mobile
+    moving_fast_while_not_aviation: moving_fast_while_not_aviation
+
+  DishOutage:
+    cause: Cause
+    start_timestamp_ns: Start timestamp, ns
+    duration_ns: Duration, ns
+    did_switch: Did switch
+
+  DishGpsStats:
+    gps_valid: GPS valid
+    gps_sats: GPS satellites
+    no_sats_after_ttff: No GPS satellites after first fix
+    inhibit_gps: Don't trust Dishy's GPS
+
+  DishReadyStates:
+    cady: Clock generator
+    scp: RFFE bus interface
+    l1l2: Modem L1L2
+    xphy: Xilinx XPHY interface
+    aap: Digital beamformers
+    rf: RF front end
+
+  DishConfig:
+    snow_melt_mode: snow_melt_mode
+    location_request_mode: location_request_mode
+    level_dish_mode: level_dish_mode
+    power_save_start_minutes: power_save_start_minutes
+    power_save_duration_minutes: power_save_duration_minutes
+    power_save_mode: power_save_mode
+
+  DishObstructionStats:
+    fraction_obstructed: Fraction obstructed
+    valid_s: Time valid, sec
+    currently_obstructed: Currently obstructed
+    avg_prolonged_obstruction_duration_s: "Average prolonged obstruction duration, sec"
+    avg_prolonged_obstruction_interval_s: "Average prolonged obstruction interval, sec"
+    avg_prolonged_obstruction_valid: Average prolonged obstruction valid
+    time_obstructed: Time obstructed
+    patches_valid: Patches valid
+
+  DishGetStatus:
+    uptime_s: Uptime
+    seconds_to_first_nonempty_slot: Seconds to first non-empty slot
+    pop_ping_drop_rate: PoP ping drop rate
+    fraction_obstructed: fraction_obstructed
+    valid_s: valid_s
+    currently_obstructed: currently_obstructed
+    avg_prolonged_obstruction_duration_s: avg_prolonged_obstruction_duration_s
+    avg_prolonged_obstruction_interval_s: avg_prolonged_obstruction_interval_s
+    avg_prolonged_obstruction_valid: avg_prolonged_obstruction_valid
+    time_obstructed: time_obstructed
+    patches_valid: patches_valid
+
+    downlink_throughput_bps: Downlink Throughput, B/s
+    uplink_throughput_bps: Uplink Throughput, B/s
+    pop_ping_latency_ms: PoP ping latency, ms
+    stow_requested: Stow requested
+    boresight_azimuth_deg: Panel boresight Azimuth angle, deg
+    boresight_elevation_deg: Panel boresight Elevation agngle, deg
+
+    eth_speed_mbps: Ethernet speed
+    mobility_class: Mobility class
+    is_snr_above_noise_floor: SNR above noise floor
+
+    class_of_service: Class of service
+    software_update_state: Software update state
+    is_snr_persistently_low: SNR persistently low
+    has_actuators: Actuators
+    disablement_code: Service state
+#
+#  ClientName:
+#    mac_address: mac_address
+#    given_name: given_name
+#  Network:
+#    ipv4: ipv4
+#    client_isolation: client_isolation
+#    guest: guest
+#    landing: landing
+#    domain: domain
+#    dhcpv4_start: dhcpv4_start
+#  BasicServiceSet:
+#    bssid: bssid
+#    ssid: ssid
+#    band: band
+#    disable: disable
+#    hidden: hidden
+#    iface_name: iface_name
+#    auth: auth
+#
+#  WifiConfig:
+#    country_code: Country code
+#    setup_complete: Setup complete
+#    version: Version
+#    channel_2ghz: channel_2ghz
+#    channel_5ghz: channel_5ghz
+##  repeated .SpaceX.API.Device.PublicKey dynamic_keys = 22;
+#    is_repeater: is_repeater
+#    boot_count: boot_count
+#    string: string
+#    bypass_mode: bypass_mode
+##  map<string, .SpaceX.API.Device.MeshConfig> mesh_configs = 33;
+#    apply_dynamic_keys: apply_dynamic_keys
+#    dfs_enabled: dfs_enabled
+#    incarnation: incarnation
+#    wireless_mode_2ghz: wireless_mode_2ghz
+#    wireless_mode_5ghz: wireless_mode_5ghz
+#    ht_bandwidth_2ghz: ht_bandwidth_2ghz
+#    ht_bandwidth_5ghz: ht_bandwidth_5ghz
+#    vht_bandwidth: vht_bandwidth
+#    is_aviation: is_aviation
+#    secure_dns: secure_dns
+#    ap_mode: ap_mode
+#    disable_mesh_onboarding: disable_mesh_onboarding
+#    pin_country_code: pin_country_code
+#    custom_power_table: custom_power_table
+#    use_public_services: use_public_services
+#    disable_automated_speedtests: disable_automated_speedtests
+#    channel_5ghz_high: channel_5ghz_high
+#    wireless_mode_5ghz_high: wireless_mode_5ghz_high
+#    ht_bandwidth_5ghz_high: ht_bandwidth_5ghz_high
+#    vht_bandwidth_5ghz_high: vht_bandwidth_5ghz_high
+#    enable_umbilical_vlan: enable_umbilical_vlan
+#    outdoor_mode: outdoor_mode
+#    disable_2ghz: disable_2ghz
+#    disable_5ghz: disable_5ghz
+#    disable_5ghz_high: disable_5ghz_high
+#    disable_x_mesh_backhaul: disable_x_mesh_backhaul
+#    tx_power_level_2ghz: tx_power_level_2ghz
+#    tx_power_level_5ghz: tx_power_level_5ghz
+#    tx_power_level_5ghz_high: tx_power_level_5ghz_high
+##  map<string, .SpaceX.API.Device.MeshConfig> mesh_configs_updates = 3033;
+#
+#  PingMetrics:
+#    in_unhappy_hour_2s: in_unhappy_hour_2s
+#    in_unhappy_hour_5s: in_unhappy_hour_5s
+#    drop_rate_5m: drop_rate_5m
+#    latency_5m: latency_5m
+#
+#  RxTxStats:
+#    #RX
+#    bytes: bytes
+#    count_errors: count_errors
+#    nss: nss
+#    mcs: mcs
+#    bandwidth: bandwidth
+#    guard_ns: guard_ns
+#    rate_mbps: rate_mbps
+#    airtime_fraction_last_1s: airtime_fraction_last_1s
+#    sampled_packets: sampled_packets
+#    sampled_packets_retried: sampled_packets_retried
+#    sampled_packets_dropped: sampled_packets_dropped
+#    phy_mode: phy_mode
+#
+#    #TX
+#    success_bytes: success_bytes
+#
+#  WifiClient:
+#    name: name
+#    mac_address: mac_address
+#    ip_address: ip_address
+#    signal_strength: signal_strength
+#    rx_stats: rx_stats
+#    tx_stats: tx_stats
+#    associated_time_s: associated_time_s
+#    mode_str: mode_str
+#    iface: iface
+#    snr: snr
+#    psmode: psmode
+#    channel_width: channel_width
+#    upstream_mac_address: upstream_mac_address
+#    role: role
+#    device_id: device_id
+#    swq_checks: swq_checks
+#    swq_checks_non_empty: swq_checks_non_empty
+#    mib_steer_state: mib_steer_state
+#    mib_steer_method: mib_steer_method
+#    btm_requests: btm_requests
+#    btm_requests_success: btm_requests_success
+#    domain: domain
+#    dot11v_support: dot11v_support
+#    iface_name: iface_name
+#    steer_req_success_last_1h: steer_req_success_last_1h
+#    steer_req_fail_last_1h: steer_req_fail_last_1h
+#    steer_req_fail_and_dissoc_last_1h: steer_req_fail_and_dissoc_last_1h
+#    steer_state: steer_state
+#    given_name: given_name
+#    hops_from_controller: hops_from_controller
+#    est_tx_rate_mbps_from_controller: est_tx_rate_mbps_from_controller
+#    est_rx_rate_mbps_from_controller: est_rx_rate_mbps_from_controller
+#    hardware_version: hardware_version
+#    software_version: software_version
+#    api_version: api_version
+#    ping_metrics: ping_metrics
+#    ipv6_addresses: ipv6_addresses
