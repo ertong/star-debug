@@ -115,6 +115,17 @@ class GrpcMessagesUk extends GrpcMessages {
       DishObstructionStatsGrpcMessagesUk(this);
   DishGetStatusGrpcMessagesUk get DishGetStatus =>
       DishGetStatusGrpcMessagesUk(this);
+  ClientNameGrpcMessagesUk get ClientName => ClientNameGrpcMessagesUk(this);
+  NetworkGrpcMessagesUk get Network => NetworkGrpcMessagesUk(this);
+  BasicServiceSetGrpcMessagesUk get BasicServiceSet =>
+      BasicServiceSetGrpcMessagesUk(this);
+  WifiConfigGrpcMessagesUk get WifiConfig => WifiConfigGrpcMessagesUk(this);
+  PingMetricsGrpcMessagesUk get PingMetrics => PingMetricsGrpcMessagesUk(this);
+  RxTxStatsGrpcMessagesUk get RxTxStats => RxTxStatsGrpcMessagesUk(this);
+  WifiClientGrpcMessagesUk get WifiClient => WifiClientGrpcMessagesUk(this);
+  WifiAlertsGrpcMessagesUk get WifiAlerts => WifiAlertsGrpcMessagesUk(this);
+  WifiGetStatusGrpcMessagesUk get WifiGetStatus =>
+      WifiGetStatusGrpcMessagesUk(this);
 }
 
 class DeviceInfoGrpcMessagesUk extends DeviceInfoGrpcMessages {
@@ -258,6 +269,184 @@ class DishGetStatusGrpcMessagesUk extends DishGetStatusGrpcMessages {
   String get disablement_code => """Service state""";
 }
 
+class ClientNameGrpcMessagesUk extends ClientNameGrpcMessages {
+  final GrpcMessagesUk _parent;
+  const ClientNameGrpcMessagesUk(this._parent) : super(_parent);
+  String get mac_address => """mac_address""";
+  String get given_name => """given_name""";
+}
+
+class NetworkGrpcMessagesUk extends NetworkGrpcMessages {
+  final GrpcMessagesUk _parent;
+  const NetworkGrpcMessagesUk(this._parent) : super(_parent);
+  String get ipv4 => """ipv4""";
+  String get client_isolation => """client_isolation""";
+  String get guest => """guest""";
+  String get landing => """landing""";
+  String get domain => """domain""";
+  String get dhcpv4_start => """dhcpv4_start""";
+}
+
+class BasicServiceSetGrpcMessagesUk extends BasicServiceSetGrpcMessages {
+  final GrpcMessagesUk _parent;
+  const BasicServiceSetGrpcMessagesUk(this._parent) : super(_parent);
+  String get bssid => """bssid""";
+  String get ssid => """ssid""";
+  String get band => """band""";
+  String get disable => """disable""";
+  String get hidden => """hidden""";
+  String get iface_name => """iface_name""";
+  String get auth => """auth""";
+}
+
+class WifiConfigGrpcMessagesUk extends WifiConfigGrpcMessages {
+  final GrpcMessagesUk _parent;
+  const WifiConfigGrpcMessagesUk(this._parent) : super(_parent);
+  String get country_code => """Country code""";
+  String get setup_complete => """Setup complete""";
+  String get version => """Version""";
+  String get channel_2ghz => """channel_2ghz""";
+  String get channel_5ghz => """channel_5ghz""";
+  String get is_repeater => """is_repeater""";
+  String get boot_count => """boot_count""";
+  String get string => """string""";
+  String get bypass_mode => """bypass_mode""";
+  String get apply_dynamic_keys => """apply_dynamic_keys""";
+  String get dfs_enabled => """dfs_enabled""";
+  String get incarnation => """incarnation""";
+  String get wireless_mode_2ghz => """wireless_mode_2ghz""";
+  String get wireless_mode_5ghz => """wireless_mode_5ghz""";
+  String get ht_bandwidth_2ghz => """ht_bandwidth_2ghz""";
+  String get ht_bandwidth_5ghz => """ht_bandwidth_5ghz""";
+  String get vht_bandwidth => """vht_bandwidth""";
+  String get is_aviation => """is_aviation""";
+  String get secure_dns => """secure_dns""";
+  String get ap_mode => """ap_mode""";
+  String get disable_mesh_onboarding => """disable_mesh_onboarding""";
+  String get pin_country_code => """pin_country_code""";
+  String get custom_power_table => """custom_power_table""";
+  String get use_public_services => """use_public_services""";
+  String get disable_automated_speedtests => """disable_automated_speedtests""";
+  String get channel_5ghz_high => """channel_5ghz_high""";
+  String get wireless_mode_5ghz_high => """wireless_mode_5ghz_high""";
+  String get ht_bandwidth_5ghz_high => """ht_bandwidth_5ghz_high""";
+  String get vht_bandwidth_5ghz_high => """vht_bandwidth_5ghz_high""";
+  String get enable_umbilical_vlan => """enable_umbilical_vlan""";
+  String get outdoor_mode => """outdoor_mode""";
+  String get disable_2ghz => """disable_2ghz""";
+  String get disable_5ghz => """disable_5ghz""";
+  String get disable_5ghz_high => """disable_5ghz_high""";
+  String get disable_x_mesh_backhaul => """disable_x_mesh_backhaul""";
+  String get tx_power_level_2ghz => """tx_power_level_2ghz""";
+  String get tx_power_level_5ghz => """tx_power_level_5ghz""";
+  String get tx_power_level_5ghz_high => """tx_power_level_5ghz_high""";
+}
+
+class PingMetricsGrpcMessagesUk extends PingMetricsGrpcMessages {
+  final GrpcMessagesUk _parent;
+  const PingMetricsGrpcMessagesUk(this._parent) : super(_parent);
+  String get in_unhappy_hour_2s => """in_unhappy_hour_2s""";
+  String get in_unhappy_hour_5s => """in_unhappy_hour_5s""";
+  String get drop_rate_5m => """drop_rate_5m""";
+  String get latency_5m => """latency_5m""";
+}
+
+class RxTxStatsGrpcMessagesUk extends RxTxStatsGrpcMessages {
+  final GrpcMessagesUk _parent;
+  const RxTxStatsGrpcMessagesUk(this._parent) : super(_parent);
+  String get bytes => """bytes""";
+  String get count_errors => """count_errors""";
+  String get nss => """nss""";
+  String get mcs => """mcs""";
+  String get bandwidth => """bandwidth""";
+  String get guard_ns => """guard_ns""";
+  String get rate_mbps => """rate_mbps""";
+  String get airtime_fraction_last_1s => """airtime_fraction_last_1s""";
+  String get sampled_packets => """sampled_packets""";
+  String get sampled_packets_retried => """sampled_packets_retried""";
+  String get sampled_packets_dropped => """sampled_packets_dropped""";
+  String get phy_mode => """phy_mode""";
+  String get success_bytes => """success_bytes""";
+}
+
+class WifiClientGrpcMessagesUk extends WifiClientGrpcMessages {
+  final GrpcMessagesUk _parent;
+  const WifiClientGrpcMessagesUk(this._parent) : super(_parent);
+  String get name => """name""";
+  String get mac_address => """mac_address""";
+  String get ip_address => """ip_address""";
+  String get signal_strength => """signal_strength""";
+  String get rx_stats => """rx_stats""";
+  String get tx_stats => """tx_stats""";
+  String get associated_time_s => """associated_time_s""";
+  String get mode_str => """mode_str""";
+  String get iface => """iface""";
+  String get snr => """snr""";
+  String get psmode => """psmode""";
+  String get channel_width => """channel_width""";
+  String get upstream_mac_address => """upstream_mac_address""";
+  String get role => """role""";
+  String get device_id => """device_id""";
+  String get swq_checks => """swq_checks""";
+  String get swq_checks_non_empty => """swq_checks_non_empty""";
+  String get mib_steer_state => """mib_steer_state""";
+  String get mib_steer_method => """mib_steer_method""";
+  String get btm_requests => """btm_requests""";
+  String get btm_requests_success => """btm_requests_success""";
+  String get domain => """domain""";
+  String get dot11v_support => """dot11v_support""";
+  String get iface_name => """iface_name""";
+  String get steer_req_success_last_1h => """steer_req_success_last_1h""";
+  String get steer_req_fail_last_1h => """steer_req_fail_last_1h""";
+  String get steer_req_fail_and_dissoc_last_1h =>
+      """steer_req_fail_and_dissoc_last_1h""";
+  String get steer_state => """steer_state""";
+  String get given_name => """given_name""";
+  String get hops_from_controller => """hops_from_controller""";
+  String get est_tx_rate_mbps_from_controller =>
+      """est_tx_rate_mbps_from_controller""";
+  String get est_rx_rate_mbps_from_controller =>
+      """est_rx_rate_mbps_from_controller""";
+  String get hardware_version => """hardware_version""";
+  String get software_version => """software_version""";
+  String get api_version => """api_version""";
+  String get ping_metrics => """ping_metrics""";
+  String get ipv6_addresses => """ipv6_addresses""";
+}
+
+class WifiAlertsGrpcMessagesUk extends WifiAlertsGrpcMessages {
+  final GrpcMessagesUk _parent;
+  const WifiAlertsGrpcMessagesUk(this._parent) : super(_parent);
+  String get thermal_throttle => """thermal_throttle""";
+  String get install_pending => """install_pending""";
+  String get freshly_fused => """freshly_fused""";
+  String get lan_eth_slow_link_10 => """lan_eth_slow_link_10""";
+  String get lan_eth_slow_link_100 => """lan_eth_slow_link_100""";
+  String get wan_eth_poor_connection => """wan_eth_poor_connection""";
+  String get mesh_topology_changing_often => """mesh_topology_changing_often""";
+  String get mesh_unreliable_backhaul => """mesh_unreliable_backhaul""";
+}
+
+class WifiGetStatusGrpcMessagesUk extends WifiGetStatusGrpcMessages {
+  final GrpcMessagesUk _parent;
+  const WifiGetStatusGrpcMessagesUk(this._parent) : super(_parent);
+  String get captive_portal_enabled => """Captive portal enabled""";
+  String get uptime_s => """Uptime""";
+  String get ipv4_wan_address => """WAN IPv4""";
+  String get ping_drop_rate => """Ping drop rate""";
+  String get ping_latency_ms => """ping_latency_ms""";
+  String get is_aviation => """Aviation""";
+  String get dish_ping_drop_rate => """Dish ping drop rate""";
+  String get dish_ping_latency_ms => """Dish ping latency, ms""";
+  String get pop_ping_drop_rate => """PoP ping drop rate""";
+  String get pop_ping_latency_ms => """PoP ping latency, ms""";
+  String get is_aviation_conformed => """Aviation conformed""";
+  String get ipv6_wan_addresses => """WAN IPv6""";
+  String get dish_ping_drop_rate_5m => """Dish ping drop rate, 5m""";
+  String get has_client_index => """has_client_index""";
+  String get client_index => """client_index""";
+}
+
 Map<String, String> get messagesUkMap => {
       """general.lang""": """Українська""",
       """general.app_name""": """Star Debug""",
@@ -398,4 +587,155 @@ Map<String, String> get messagesUkMap => {
           """SNR persistently low""",
       """grpc.DishGetStatus.has_actuators""": """Actuators""",
       """grpc.DishGetStatus.disablement_code""": """Service state""",
+      """grpc.ClientName.mac_address""": """mac_address""",
+      """grpc.ClientName.given_name""": """given_name""",
+      """grpc.Network.ipv4""": """ipv4""",
+      """grpc.Network.client_isolation""": """client_isolation""",
+      """grpc.Network.guest""": """guest""",
+      """grpc.Network.landing""": """landing""",
+      """grpc.Network.domain""": """domain""",
+      """grpc.Network.dhcpv4_start""": """dhcpv4_start""",
+      """grpc.BasicServiceSet.bssid""": """bssid""",
+      """grpc.BasicServiceSet.ssid""": """ssid""",
+      """grpc.BasicServiceSet.band""": """band""",
+      """grpc.BasicServiceSet.disable""": """disable""",
+      """grpc.BasicServiceSet.hidden""": """hidden""",
+      """grpc.BasicServiceSet.iface_name""": """iface_name""",
+      """grpc.BasicServiceSet.auth""": """auth""",
+      """grpc.WifiConfig.country_code""": """Country code""",
+      """grpc.WifiConfig.setup_complete""": """Setup complete""",
+      """grpc.WifiConfig.version""": """Version""",
+      """grpc.WifiConfig.channel_2ghz""": """channel_2ghz""",
+      """grpc.WifiConfig.channel_5ghz""": """channel_5ghz""",
+      """grpc.WifiConfig.is_repeater""": """is_repeater""",
+      """grpc.WifiConfig.boot_count""": """boot_count""",
+      """grpc.WifiConfig.string""": """string""",
+      """grpc.WifiConfig.bypass_mode""": """bypass_mode""",
+      """grpc.WifiConfig.apply_dynamic_keys""": """apply_dynamic_keys""",
+      """grpc.WifiConfig.dfs_enabled""": """dfs_enabled""",
+      """grpc.WifiConfig.incarnation""": """incarnation""",
+      """grpc.WifiConfig.wireless_mode_2ghz""": """wireless_mode_2ghz""",
+      """grpc.WifiConfig.wireless_mode_5ghz""": """wireless_mode_5ghz""",
+      """grpc.WifiConfig.ht_bandwidth_2ghz""": """ht_bandwidth_2ghz""",
+      """grpc.WifiConfig.ht_bandwidth_5ghz""": """ht_bandwidth_5ghz""",
+      """grpc.WifiConfig.vht_bandwidth""": """vht_bandwidth""",
+      """grpc.WifiConfig.is_aviation""": """is_aviation""",
+      """grpc.WifiConfig.secure_dns""": """secure_dns""",
+      """grpc.WifiConfig.ap_mode""": """ap_mode""",
+      """grpc.WifiConfig.disable_mesh_onboarding""":
+          """disable_mesh_onboarding""",
+      """grpc.WifiConfig.pin_country_code""": """pin_country_code""",
+      """grpc.WifiConfig.custom_power_table""": """custom_power_table""",
+      """grpc.WifiConfig.use_public_services""": """use_public_services""",
+      """grpc.WifiConfig.disable_automated_speedtests""":
+          """disable_automated_speedtests""",
+      """grpc.WifiConfig.channel_5ghz_high""": """channel_5ghz_high""",
+      """grpc.WifiConfig.wireless_mode_5ghz_high""":
+          """wireless_mode_5ghz_high""",
+      """grpc.WifiConfig.ht_bandwidth_5ghz_high""":
+          """ht_bandwidth_5ghz_high""",
+      """grpc.WifiConfig.vht_bandwidth_5ghz_high""":
+          """vht_bandwidth_5ghz_high""",
+      """grpc.WifiConfig.enable_umbilical_vlan""": """enable_umbilical_vlan""",
+      """grpc.WifiConfig.outdoor_mode""": """outdoor_mode""",
+      """grpc.WifiConfig.disable_2ghz""": """disable_2ghz""",
+      """grpc.WifiConfig.disable_5ghz""": """disable_5ghz""",
+      """grpc.WifiConfig.disable_5ghz_high""": """disable_5ghz_high""",
+      """grpc.WifiConfig.disable_x_mesh_backhaul""":
+          """disable_x_mesh_backhaul""",
+      """grpc.WifiConfig.tx_power_level_2ghz""": """tx_power_level_2ghz""",
+      """grpc.WifiConfig.tx_power_level_5ghz""": """tx_power_level_5ghz""",
+      """grpc.WifiConfig.tx_power_level_5ghz_high""":
+          """tx_power_level_5ghz_high""",
+      """grpc.PingMetrics.in_unhappy_hour_2s""": """in_unhappy_hour_2s""",
+      """grpc.PingMetrics.in_unhappy_hour_5s""": """in_unhappy_hour_5s""",
+      """grpc.PingMetrics.drop_rate_5m""": """drop_rate_5m""",
+      """grpc.PingMetrics.latency_5m""": """latency_5m""",
+      """grpc.RxTxStats.bytes""": """bytes""",
+      """grpc.RxTxStats.count_errors""": """count_errors""",
+      """grpc.RxTxStats.nss""": """nss""",
+      """grpc.RxTxStats.mcs""": """mcs""",
+      """grpc.RxTxStats.bandwidth""": """bandwidth""",
+      """grpc.RxTxStats.guard_ns""": """guard_ns""",
+      """grpc.RxTxStats.rate_mbps""": """rate_mbps""",
+      """grpc.RxTxStats.airtime_fraction_last_1s""":
+          """airtime_fraction_last_1s""",
+      """grpc.RxTxStats.sampled_packets""": """sampled_packets""",
+      """grpc.RxTxStats.sampled_packets_retried""":
+          """sampled_packets_retried""",
+      """grpc.RxTxStats.sampled_packets_dropped""":
+          """sampled_packets_dropped""",
+      """grpc.RxTxStats.phy_mode""": """phy_mode""",
+      """grpc.RxTxStats.success_bytes""": """success_bytes""",
+      """grpc.WifiClient.name""": """name""",
+      """grpc.WifiClient.mac_address""": """mac_address""",
+      """grpc.WifiClient.ip_address""": """ip_address""",
+      """grpc.WifiClient.signal_strength""": """signal_strength""",
+      """grpc.WifiClient.rx_stats""": """rx_stats""",
+      """grpc.WifiClient.tx_stats""": """tx_stats""",
+      """grpc.WifiClient.associated_time_s""": """associated_time_s""",
+      """grpc.WifiClient.mode_str""": """mode_str""",
+      """grpc.WifiClient.iface""": """iface""",
+      """grpc.WifiClient.snr""": """snr""",
+      """grpc.WifiClient.psmode""": """psmode""",
+      """grpc.WifiClient.channel_width""": """channel_width""",
+      """grpc.WifiClient.upstream_mac_address""": """upstream_mac_address""",
+      """grpc.WifiClient.role""": """role""",
+      """grpc.WifiClient.device_id""": """device_id""",
+      """grpc.WifiClient.swq_checks""": """swq_checks""",
+      """grpc.WifiClient.swq_checks_non_empty""": """swq_checks_non_empty""",
+      """grpc.WifiClient.mib_steer_state""": """mib_steer_state""",
+      """grpc.WifiClient.mib_steer_method""": """mib_steer_method""",
+      """grpc.WifiClient.btm_requests""": """btm_requests""",
+      """grpc.WifiClient.btm_requests_success""": """btm_requests_success""",
+      """grpc.WifiClient.domain""": """domain""",
+      """grpc.WifiClient.dot11v_support""": """dot11v_support""",
+      """grpc.WifiClient.iface_name""": """iface_name""",
+      """grpc.WifiClient.steer_req_success_last_1h""":
+          """steer_req_success_last_1h""",
+      """grpc.WifiClient.steer_req_fail_last_1h""":
+          """steer_req_fail_last_1h""",
+      """grpc.WifiClient.steer_req_fail_and_dissoc_last_1h""":
+          """steer_req_fail_and_dissoc_last_1h""",
+      """grpc.WifiClient.steer_state""": """steer_state""",
+      """grpc.WifiClient.given_name""": """given_name""",
+      """grpc.WifiClient.hops_from_controller""": """hops_from_controller""",
+      """grpc.WifiClient.est_tx_rate_mbps_from_controller""":
+          """est_tx_rate_mbps_from_controller""",
+      """grpc.WifiClient.est_rx_rate_mbps_from_controller""":
+          """est_rx_rate_mbps_from_controller""",
+      """grpc.WifiClient.hardware_version""": """hardware_version""",
+      """grpc.WifiClient.software_version""": """software_version""",
+      """grpc.WifiClient.api_version""": """api_version""",
+      """grpc.WifiClient.ping_metrics""": """ping_metrics""",
+      """grpc.WifiClient.ipv6_addresses""": """ipv6_addresses""",
+      """grpc.WifiAlerts.thermal_throttle""": """thermal_throttle""",
+      """grpc.WifiAlerts.install_pending""": """install_pending""",
+      """grpc.WifiAlerts.freshly_fused""": """freshly_fused""",
+      """grpc.WifiAlerts.lan_eth_slow_link_10""": """lan_eth_slow_link_10""",
+      """grpc.WifiAlerts.lan_eth_slow_link_100""": """lan_eth_slow_link_100""",
+      """grpc.WifiAlerts.wan_eth_poor_connection""":
+          """wan_eth_poor_connection""",
+      """grpc.WifiAlerts.mesh_topology_changing_often""":
+          """mesh_topology_changing_often""",
+      """grpc.WifiAlerts.mesh_unreliable_backhaul""":
+          """mesh_unreliable_backhaul""",
+      """grpc.WifiGetStatus.captive_portal_enabled""":
+          """Captive portal enabled""",
+      """grpc.WifiGetStatus.uptime_s""": """Uptime""",
+      """grpc.WifiGetStatus.ipv4_wan_address""": """WAN IPv4""",
+      """grpc.WifiGetStatus.ping_drop_rate""": """Ping drop rate""",
+      """grpc.WifiGetStatus.ping_latency_ms""": """ping_latency_ms""",
+      """grpc.WifiGetStatus.is_aviation""": """Aviation""",
+      """grpc.WifiGetStatus.dish_ping_drop_rate""": """Dish ping drop rate""",
+      """grpc.WifiGetStatus.dish_ping_latency_ms""":
+          """Dish ping latency, ms""",
+      """grpc.WifiGetStatus.pop_ping_drop_rate""": """PoP ping drop rate""",
+      """grpc.WifiGetStatus.pop_ping_latency_ms""": """PoP ping latency, ms""",
+      """grpc.WifiGetStatus.is_aviation_conformed""": """Aviation conformed""",
+      """grpc.WifiGetStatus.ipv6_wan_addresses""": """WAN IPv6""",
+      """grpc.WifiGetStatus.dish_ping_drop_rate_5m""":
+          """Dish ping drop rate, 5m""",
+      """grpc.WifiGetStatus.has_client_index""": """has_client_index""",
+      """grpc.WifiGetStatus.client_index""": """client_index""",
     };

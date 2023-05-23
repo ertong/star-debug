@@ -127,3 +127,142 @@ grpc:
     is_snr_persistently_low: SNR persistently low
     has_actuators: Actuators
     disablement_code: Service state
+  ClientName:
+    mac_address: mac_address
+    given_name: given_name
+  Network:
+    ipv4: ipv4
+    client_isolation: client_isolation
+    guest: guest
+    landing: landing
+    domain: domain
+    dhcpv4_start: dhcpv4_start
+  BasicServiceSet:
+    bssid: bssid
+    ssid: ssid
+    band: band
+    disable: disable
+    hidden: hidden
+    iface_name: iface_name
+    auth: auth
+  WifiConfig:
+    country_code: Country code
+    setup_complete: Setup complete
+    version: Version
+    channel_2ghz: channel_2ghz
+    channel_5ghz: channel_5ghz
+    is_repeater: is_repeater
+    boot_count: boot_count
+    string: string
+    bypass_mode: bypass_mode
+    apply_dynamic_keys: apply_dynamic_keys
+    dfs_enabled: dfs_enabled
+    incarnation: incarnation
+    wireless_mode_2ghz: wireless_mode_2ghz
+    wireless_mode_5ghz: wireless_mode_5ghz
+    ht_bandwidth_2ghz: ht_bandwidth_2ghz
+    ht_bandwidth_5ghz: ht_bandwidth_5ghz
+    vht_bandwidth: vht_bandwidth
+    is_aviation: is_aviation
+    secure_dns: secure_dns
+    ap_mode: ap_mode
+    disable_mesh_onboarding: disable_mesh_onboarding
+    pin_country_code: pin_country_code
+    custom_power_table: custom_power_table
+    use_public_services: use_public_services
+    disable_automated_speedtests: disable_automated_speedtests
+    channel_5ghz_high: channel_5ghz_high
+    wireless_mode_5ghz_high: wireless_mode_5ghz_high
+    ht_bandwidth_5ghz_high: ht_bandwidth_5ghz_high
+    vht_bandwidth_5ghz_high: vht_bandwidth_5ghz_high
+    enable_umbilical_vlan: enable_umbilical_vlan
+    outdoor_mode: outdoor_mode
+    disable_2ghz: disable_2ghz
+    disable_5ghz: disable_5ghz
+    disable_5ghz_high: disable_5ghz_high
+    disable_x_mesh_backhaul: disable_x_mesh_backhaul
+    tx_power_level_2ghz: tx_power_level_2ghz
+    tx_power_level_5ghz: tx_power_level_5ghz
+    tx_power_level_5ghz_high: tx_power_level_5ghz_high
+  PingMetrics:
+    in_unhappy_hour_2s: in_unhappy_hour_2s
+    in_unhappy_hour_5s: in_unhappy_hour_5s
+    drop_rate_5m: drop_rate_5m
+    latency_5m: latency_5m
+  RxTxStats:
+    bytes: bytes
+    count_errors: count_errors
+    nss: nss
+    mcs: mcs
+    bandwidth: bandwidth
+    guard_ns: guard_ns
+    rate_mbps: rate_mbps
+    airtime_fraction_last_1s: airtime_fraction_last_1s
+    sampled_packets: sampled_packets
+    sampled_packets_retried: sampled_packets_retried
+    sampled_packets_dropped: sampled_packets_dropped
+    phy_mode: phy_mode
+    success_bytes: success_bytes
+  WifiClient:
+    name: name
+    mac_address: mac_address
+    ip_address: ip_address
+    signal_strength: signal_strength
+    rx_stats: rx_stats
+    tx_stats: tx_stats
+    associated_time_s: associated_time_s
+    mode_str: mode_str
+    iface: iface
+    snr: snr
+    psmode: psmode
+    channel_width: channel_width
+    upstream_mac_address: upstream_mac_address
+    role: role
+    device_id: device_id
+    swq_checks: swq_checks
+    swq_checks_non_empty: swq_checks_non_empty
+    mib_steer_state: mib_steer_state
+    mib_steer_method: mib_steer_method
+    btm_requests: btm_requests
+    btm_requests_success: btm_requests_success
+    domain: domain
+    dot11v_support: dot11v_support
+    iface_name: iface_name
+    steer_req_success_last_1h: steer_req_success_last_1h
+    steer_req_fail_last_1h: steer_req_fail_last_1h
+    steer_req_fail_and_dissoc_last_1h: steer_req_fail_and_dissoc_last_1h
+    steer_state: steer_state
+    given_name: given_name
+    hops_from_controller: hops_from_controller
+    est_tx_rate_mbps_from_controller: est_tx_rate_mbps_from_controller
+    est_rx_rate_mbps_from_controller: est_rx_rate_mbps_from_controller
+    hardware_version: hardware_version
+    software_version: software_version
+    api_version: api_version
+    ping_metrics: ping_metrics
+    ipv6_addresses: ipv6_addresses
+  WifiAlerts:
+    thermal_throttle: thermal_throttle
+    install_pending: install_pending
+    freshly_fused: freshly_fused
+    lan_eth_slow_link_10: lan_eth_slow_link_10
+    lan_eth_slow_link_100: lan_eth_slow_link_100
+    wan_eth_poor_connection: wan_eth_poor_connection
+    mesh_topology_changing_often: mesh_topology_changing_often
+    mesh_unreliable_backhaul: mesh_unreliable_backhaul
+  WifiGetStatus:
+    captive_portal_enabled: Captive portal enabled
+    uptime_s: Uptime
+    ipv4_wan_address: WAN IPv4
+    ping_drop_rate: Ping drop rate
+    ping_latency_ms: ping_latency_ms
+    is_aviation: Aviation
+    dish_ping_drop_rate: Dish ping drop rate
+    dish_ping_latency_ms: Dish ping latency, ms
+    pop_ping_drop_rate: PoP ping drop rate
+    pop_ping_latency_ms: PoP ping latency, ms
+    is_aviation_conformed: Aviation conformed
+    ipv6_wan_addresses: WAN IPv6
+    dish_ping_drop_rate_5m: Dish ping drop rate, 5m
+    has_client_index: has_client_index
+    client_index: client_index
