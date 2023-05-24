@@ -15,7 +15,7 @@ class KVWidgetBuilder extends KVConsumer{
   KVWidgetBuilder(this.theme);
 
   @override
-  void kvs(String k, String v) {
+  void kvs(String k, String v, {bool? ok}) {
     widgets.add(InkWell(
       onTap: () async {
         await FlutterClipboard.copy(v);
@@ -29,10 +29,21 @@ class KVWidgetBuilder extends KVConsumer{
         horizontalSpacing: 7,
         children: [
           if (k.isNotEmpty)
-            Text("$k:",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                )
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (ok!=null)
+                  ...[
+                    Icon(Icons.circle, color: ok? Colors.green : Colors.red, size: 15,),
+                    SizedBox(width: 4,)
+                  ],
+
+                Text("$k:",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    )
+                ),
+              ],
             ),
           // Container(width: 5,),
           // Expanded(child: Container()),

@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart' hide Notification, Card, ConnectionState;
-import 'package:star_debug/controller/conn_controller.dart';
+import 'package:star_debug/controller/conn/connection.dart';
 import 'package:star_debug/controller/conn/grpc_connection.dart';
 import 'package:star_debug/drawer.dart';
 import 'package:star_debug/messages/I18n.dart';
@@ -9,6 +9,7 @@ import 'package:star_debug/pages/live/dish.dart';
 import 'package:star_debug/pages/live/online.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/routes.dart';
+import 'package:star_debug/space/entity.dart';
 
 import 'live/router.dart';
 
@@ -28,14 +29,16 @@ class _Page {
   String label;
   Widget Function() builder;
   Color Function() color;
+  int Function()? alert;
 
-  _Page(this.icon, this.label, this.color, this.builder);
+  _Page(this.icon, this.label, this.color, this.builder, {this.alert});
 }
 
 class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
 
   StreamSubscription? subDish;
   StreamSubscription? subRouter;
+  StreamSubscription? subOnline;
   var scrollController = ScrollController();
   int _selectedIndex=0;
   List<_Page> pages = [];
@@ -49,31 +52,58 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
     subRouter = R.routerHolder.stream.listen((event) {
       setState(() {});
     });
+    subOnline = R.onlineHolder.stream.listen((event) {
+      setState(() {});
+    });
 
     pages.add(_Page(
         Icons.settings_input_antenna,
         M.general.dish,
         () => colorOf(R.dishHolder),
-        () => DishTab()
+        () => DishTab(),
+        alert: () {
+          var data = R.dish?.dishGetStatus.data;
+          if (data==null) return 0;
+
+          var map = data.alerts.toProto3Json() as Map<String, dynamic>;
+          return map.entries.where((e) => e.value==true).length;
+        }
     ));
     pages.add(_Page(
         Icons.router,
         M.general.router,
         () => colorOf(R.routerHolder),
-        () => RouterTab()
+        () => RouterTab(),
+        alert: () {
+          var data = R.router?.wifiGetStatus.data;
+          if (data==null) return 0;
+
+          var map = data.alerts.toProto3Json() as Map<String, dynamic>;
+          return map.entries.where((e) => e.value==true).length;
+        }
     ));
-    // pages.add(_Page(
-    //     Icons.public,
-    //     M.general.online,
-    //     ()=>Colors.black,
-    //     () => OnlineTab()
-    // ));
+    pages.add(_Page(
+        Icons.public,
+        M.general.online,
+        () {
+          var online = R.online;
+          if (online==null)
+            return Colors.amber;
+
+          return online.cntOk>0 ? Colors.green : Colors.red;
+        },
+        () => OnlineTab(),
+        alert: () {
+          return R.online?.cntNotOk ?? 0;
+        }
+    ));
   }
 
   @override
   void dispose() {
     subDish?.cancel();
     subRouter?.cancel();
+    subOnline?.cancel();
     super.dispose();
   }
 
@@ -89,14 +119,22 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
       List<BottomNavigationBarItem> items = [];
       for(int i=0; i<pages.length; ++i) {
         var p = pages[i];
+
+        int alerts = 0;
+
+        if (p.alert!=null)
+          alerts = p.alert!();
+
+        var icon = Icon(p.icon, color: p.color().withAlpha(_selectedIndex==i?255:100),);
         items.add(BottomNavigationBarItem(
           label: p.label,
-          icon: Icon(p.icon, color: p.color().withAlpha(_selectedIndex==i?255:100),),
-          // icon: Badge(
-          //   backgroundColor: colorOf(p),
-          //   label: Icon(Icons.circle),
-          //   child: Icon(p.icon),
-          // ),
+          icon: alerts==0
+              ? icon
+              : Badge(
+                  backgroundColor: Colors.red,
+                  label: Text("$alerts"),
+                  child: icon,
+                ),
         ));
       }
       bar = BottomNavigationBar(

@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:grpc/grpc.dart';
-import 'package:star_debug/controller/conn_controller.dart';
+import 'package:star_debug/controller/conn/connection.dart';
 import 'package:star_debug/grpc/starlink/starlink.pbgrpc.dart';
 import 'package:star_debug/utils/log_utils.dart';
 import 'package:star_debug/utils/wait_notify.dart';
@@ -209,21 +209,4 @@ abstract class GrpcConnection extends BaseConnection {
   }
 }
 
-class PooledRequest <T> {
-  int poolInterval;
 
-  T? data;
-  int receivedTime = 0;
-  int sentTime = 0;
-
-  PooledRequest(this.poolInterval);
-
-  bool needSend(int now) {
-    return now-sentTime > poolInterval;
-  }
-
-  void setData(int now, T data) {
-    this.receivedTime = now;
-    this.data = data;
-  }
-}

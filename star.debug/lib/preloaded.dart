@@ -6,6 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:sqlite3_flutter_libs/sqlite3_flutter_libs.dart';
+import 'package:star_debug/controller/conn/connection.dart';
+import 'package:star_debug/controller/conn/online_connection.dart';
 import 'package:star_debug/controller/conn_controller.dart';
 import 'package:star_debug/controller/conn/dish_connection.dart';
 import 'package:star_debug/controller/conn/router_connection.dart';
@@ -41,9 +43,11 @@ class Preloaded{
   late ConnController conn;
   late ConnectionHolder<DishConnection> dishHolder;
   late ConnectionHolder<RouterConnection> routerHolder;
+  late ConnectionHolder<OnlineConnection> onlineHolder;
 
   DishConnection? get dish => dishHolder.conn;
   RouterConnection? get router => routerHolder.conn;
+  OnlineConnection? get online => onlineHolder.conn;
 
   I18n get i18n => I18n.instance;
 
@@ -100,6 +104,7 @@ class Preloaded{
 
     dishHolder = conn.newHolder((notifyStream) => DishConnection(notifyStream: notifyStream));
     routerHolder = conn.newHolder((notifyStream) => RouterConnection(notifyStream: notifyStream));
+    onlineHolder = conn.newHolder((notifyStream) => OnlineConnection(notifyStream: notifyStream));
 
     LogUtils.d("Preload", "Preload finish");
   }
