@@ -59,6 +59,7 @@ class OnlineConnection extends BaseConnection {
   bool needIfConfig = false;
   int cntNotOk = 0;
   int cntOk = 0;
+  bool starlinkInternetDetected = false;
 
   void notify(){
     String? myIp;
@@ -86,13 +87,13 @@ class OnlineConnection extends BaseConnection {
     if (getIfConfig.data is Map && !needIfConfig) cntOk++; else cntNotOk++;
 
     {
-      bool ok = false;
+      starlinkInternetDetected = false;
       if (getIfConfig.data is Map && !needIfConfig) {
         var data = getIfConfig.data as Map;
         if (data["asn"]=="AS14593" || "${data["asn-org"]}".toUpperCase().contains("STARLINK"))
-          ok = true;
+          starlinkInternetDetected = true;
       }
-      if (ok)
+      if (starlinkInternetDetected)
         cntOk++;
       else
         cntNotOk++;
@@ -130,17 +131,6 @@ class OnlineConnection extends BaseConnection {
 
       if (needIfConfig)
         getIfConfig.trigger();
-
-      
-      // var resp = await dio.get("http://ifconfig.co/json",
-      //     cancelToken: CancelToken(),
-      //     options: Options(sendTimeout: Duration(seconds: 3), receiveTimeout: Duration(seconds: 3))
-      // );
-      // if (resp.statusCode==200) {
-      //   var data = resp.data;
-      //   pooledIfConfig.setData(DateTime.now().millisecondsSinceEpoch, data);
-      //   LogUtils.d(TAG, "${jsonEncode(data)}");
-      // }
     }
   }
 
@@ -166,25 +156,17 @@ class OnlineConnection extends BaseConnection {
       var data = getIfConfig.data as Map;
       b.kv("ifconfig.co",
           "IP: ${data["ip"]}\n"
-              "Country:  ${data["country"]}\n"
-              "ASN:  ${data["asn"]}\n"
-              "ASN-org:  ${data["asn_org"]}\n"
-              "hostname:  ${data["hostname"]}",
+          "Country:  ${data["country"]}\n"
+          "ASN:  ${data["asn"]}\n"
+          "ASN-org:  ${data["asn_org"]}\n"
+          "hostname:  ${data["hostname"]}",
           ok: true
       );
     } else
       b.kv("ifconfig.co", "", ok: false);
 
-    {
-      b.header("Net");
-      bool ok = false;
-      if (getIfConfig.data is Map && !needIfConfig) {
-        var data = getIfConfig.data as Map;
-        if (data["asn"]=="AS14593" || "${data["asn-org"]}".toUpperCase().contains("STARLINK"))
-          ok = true;
-      }
-      b.kv("Starlink network", ok, ok: ok);
-    }
+    b.header("Net");
+    b.kv("Starlink network", starlinkInternetDetected, ok: starlinkInternetDetected);
   }
 }
 

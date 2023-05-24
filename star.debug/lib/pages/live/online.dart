@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart' hide Notification, Card, ConnectionState;
-import 'package:star_debug/messages/I18n.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/utils/kv_widget.dart';
 
@@ -44,25 +43,15 @@ class _OnlineTabState extends State<OnlineTab> with TickerProviderStateMixin {
   }
 
   List<Widget> _buildBody(){
-    // final RouterConnection? conn = R.grpc.router;
-    //
-    // if (conn==null || conn.isClosed)
-    //   return [ Text("Connection not initialized") ];
+    final online = R.online;
+
+    if (online==null)
+      return [Center(child: Text("Stating ... "))];
 
     List<Widget> rows = [];
 
-    int now = DateTime.now().millisecondsSinceEpoch;
-
-    final online = R.online;
-
-    if (online==null){
-      return [Center(child: Text("Stating ... "))];
-    }
-
     var b = KVWidgetBuilder(theme);
-
     online.consume(b);
-
     rows.addAll(b.widgets);
 
     return rows;
