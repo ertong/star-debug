@@ -12,12 +12,12 @@ class Routes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case DEBUG:
-        return MaterialPageRoute(settings: settings, builder: (context) => DebugPage(route: settings.name!));
+        return MaterialPageRoute(settings: settings, builder: (context) => DebugPage());
       case LIVE:
-        return MaterialPageRoute(settings: settings, builder: (context) => LivePage(route: settings.name!));
+        return MaterialPageRoute(settings: settings, builder: (context) => LivePage());
       case MAIN:
       default:
-        return MaterialPageRoute(settings: settings, builder: (context) => DebugDataPage(route: settings.name!));
+        return MaterialPageRoute(settings: settings, builder: (context) => DebugDataPage());
     }
   }
 }

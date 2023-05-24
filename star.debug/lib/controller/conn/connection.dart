@@ -61,6 +61,7 @@ class ConnectionHolder<T extends BaseConnection> {
 class PooledRequest <T> {
   int poolInterval;
 
+  int apiVersion = 0;
   T? data;
   int receivedTime = 0;
   int sentTime = 0;
@@ -71,8 +72,9 @@ class PooledRequest <T> {
     return now-sentTime > poolInterval;
   }
 
-  void setData(int now, T data) {
+  void setData(int now, T data, int apiVersion) {
     this.receivedTime = now;
+    this.apiVersion = apiVersion;
     this.data = data;
   }
 }

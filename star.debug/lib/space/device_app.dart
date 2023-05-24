@@ -25,7 +25,7 @@ class DeviceApp extends Entity {
   DeviceApp();
 
   static DeviceApp? of(dynamic json_object) {
-    if (!json_object.containsKey(DEVICE_APP_KEY))
+    if (json_object==null || !json_object.containsKey(DEVICE_APP_KEY))
       return null;
 
     var res = DeviceApp();

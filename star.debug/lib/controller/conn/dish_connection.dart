@@ -52,11 +52,11 @@ class DishConnection extends GrpcConnection {
       }
 
       if (resp.hasDishGetStatus()) {
-        dishGetStatus.setData(now, resp.dishGetStatus);
+        dishGetStatus.setData(now, resp.dishGetStatus, resp.apiVersion.toInt());
         statusReceivedTime = now;
       }
       if (resp.hasDishGetHistory()) {
-        dishGetHistory.setData(now, resp.dishGetHistory);
+        dishGetHistory.setData(now, resp.dishGetHistory, resp.apiVersion.toInt());
       }
     }
 

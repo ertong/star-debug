@@ -45,7 +45,7 @@ class RouterConnection extends GrpcConnection {
       }
 
       if (resp.hasWifiGetStatus()) {
-        wifiGetStatus.setData(now, resp.wifiGetStatus);
+        wifiGetStatus.setData(now, resp.wifiGetStatus, resp.apiVersion.toInt());
         statusReceivedTime = now;
       }
     }

@@ -94,6 +94,11 @@ class GeneralMessages {
   String get online => """Online""";
   String get version => """Version""";
   String get charts => """Charts""";
+  String get save_debug_data => """Save Debug Data""";
+  String get to_clipboard => """To Clipboard""";
+  String get to_file => """To File""";
+  String get share => """Share""";
+  String get view_in_app => """View in app""";
 }
 
 class LiveMessages {
@@ -460,6 +465,11 @@ Map<String, String> get messagesMap => {
       """general.online""": """Online""",
       """general.version""": """Version""",
       """general.charts""": """Charts""",
+      """general.save_debug_data""": """Save Debug Data""",
+      """general.to_clipboard""": """To Clipboard""",
+      """general.to_file""": """To File""",
+      """general.share""": """Share""",
+      """general.view_in_app""": """View in app""",
       """live.starlink_live""": """Starlink Live""",
       """header.general""": """General""",
       """header.signal""": """Signal""",

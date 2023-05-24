@@ -15,9 +15,8 @@ import 'package:star_debug/utils/obstructions.dart';
 const String _TAG="DebugPage";
 
 class DebugPage extends StatefulWidget {
-  final String route;
 
-  const DebugPage({super.key, this.route = Routes.MAIN});
+  const DebugPage({super.key});
 
   @override
   State createState() => _DebugPageState();

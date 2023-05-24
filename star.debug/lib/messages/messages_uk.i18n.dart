@@ -95,6 +95,11 @@ class GeneralMessagesUk extends GeneralMessages {
   String get online => """Онлайн""";
   String get version => """Версія""";
   String get charts => """Графіки""";
+  String get save_debug_data => """Зберегти Debug Data""";
+  String get to_clipboard => """В буфер обміну""";
+  String get to_file => """У файл""";
+  String get share => """Поділитись""";
+  String get view_in_app => """Переглянути в додатку""";
 }
 
 class LiveMessagesUk extends LiveMessages {
@@ -462,6 +467,11 @@ Map<String, String> get messagesUkMap => {
       """general.online""": """Онлайн""",
       """general.version""": """Версія""",
       """general.charts""": """Графіки""",
+      """general.save_debug_data""": """Зберегти Debug Data""",
+      """general.to_clipboard""": """В буфер обміну""",
+      """general.to_file""": """У файл""",
+      """general.share""": """Поділитись""",
+      """general.view_in_app""": """Переглянути в додатку""",
       """live.starlink_live""": """Starlink Live""",
       """header.general""": """Загальне""",
       """header.signal""": """Сигнал""",

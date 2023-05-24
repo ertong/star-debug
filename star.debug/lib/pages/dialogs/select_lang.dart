@@ -27,10 +27,7 @@ class _SelectLangDialogState<TItem> extends State<SelectLangDialog<TItem>>
   @override
   Widget build(BuildContext context) {
       return AlertDialog(
-        insetPadding: EdgeInsets.fromLTRB(0, 0,0,0),
-        titlePadding: EdgeInsets.all(14.0),
-        contentPadding: EdgeInsets.all(10.0),
-        actionsPadding: EdgeInsets.all(0.0),
+
       title: Text(M.general.select_lang),
       content: Column(
         mainAxisSize: MainAxisSize.min,

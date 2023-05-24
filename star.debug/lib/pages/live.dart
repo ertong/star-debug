@@ -1,25 +1,31 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:ffi';
 
+import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart' hide Notification, Card, ConnectionState;
+import 'package:recase/recase.dart';
 import 'package:star_debug/controller/conn/connection.dart';
 import 'package:star_debug/controller/conn/grpc_connection.dart';
 import 'package:star_debug/drawer.dart';
 import 'package:star_debug/messages/I18n.dart';
+import 'package:star_debug/pages/dialogs/save_debug_data.dart';
 import 'package:star_debug/pages/live/dish.dart';
 import 'package:star_debug/pages/live/general.dart';
 import 'package:star_debug/pages/live/online.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/routes.dart';
 import 'package:star_debug/space/entity.dart';
+import 'package:protobuf/protobuf.dart' as pb;
+import 'package:fixnum/fixnum.dart' as fixnum;
 
 import 'live/router.dart';
 
-const String _TAG="StarlinkPage";
+const String _TAG="LivePage";
 
 class LivePage extends StatefulWidget {
-  final String route;
 
-  const LivePage({super.key, this.route = Routes.MAIN});
+  const LivePage({super.key});
 
   @override
   State createState() => _LivePageState();
@@ -181,8 +187,128 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
     return color;
   }
 
+  Map<String, dynamic> mapAsDebugData(Map<String, dynamic> m) {
+    Map<String, dynamic> res = {};
+    for (var e in m.entries){
+      var key = e.key.camelCase;
+      var val = e.value;
+      if (["countByReason", "countByReasonDelta"].contains(key) && val is Map){
+        key = "${key}Map";
+        val = [for (var e1 in val.entries) [e1.key, e1.value]];
+      }
+      else if (val is Map<String, dynamic>)
+        val = mapAsDebugData(val);
+
+      // decode uint64 back to int
+      if (val is String){
+        var n = int.tryParse(val);
+        if (n!=null)
+          val = n;
+      }
+
+      res[key] = val;
+    }
+    return res;
+  }
+
+  dynamic protoToJson(dynamic msg){
+    if (msg is fixnum.Int64)
+      msg = msg.toInt();
+    if (msg is fixnum.Int32)
+      msg = msg.toInt();
+    if (msg is pb.ProtobufEnum)
+      msg = msg.value;
+    if (msg is List)
+      msg = [ for(var obj in msg) protoToJson(obj) ];
+
+    if (msg is pb.GeneratedMessage) {
+      Map<String, dynamic> res = {};
+      for (var e in msg.info_.byName.entries) {
+        var key = e.key.camelCase;
+        var val = msg.getField(e.value.tagNumber);
+        val = protoToJson(val);
+
+        if (["countByReason", "countByReasonDelta"].contains(key) && val is Map) {
+          key = "${key}Map";
+          val = [for (var e1 in val.entries) [e1.key, e1.value]];
+        }
+
+        if (["networks", "basicServiceSets", "nameservers"].contains(key) && val is List) {
+          key = "${key}List";
+        }
+
+        res[key] = val;
+      }
+      return res;
+    }
+
+    return msg;
+  }
+
+  Map<String, dynamic> debugData() {
+    Map<String, dynamic> res = {};
+    int nowS = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+
+    res["device"] = {};
+
+    {
+      var dish = R.dish?.dishGetStatus.data;
+      int apiVersion = R.dish?.dishGetStatus.apiVersion ?? 0;
+      if (dish == null) {
+        res["dish"] = {"reachable": false, "service": "dish", "features": {}, "timestamp": nowS};
+      } else {
+        Map<String, dynamic> features = {};
+        features["stowRequested"] = apiVersion>=1;
+        features["unstow"] = apiVersion>=3;
+        res["dish"] = {"reachable": true, "service": "dish", "features": features, "timestamp": nowS};
+        for (var e in mapAsDebugData(protoToJson(dish) as Map<String, dynamic>).entries)
+          res["dish"][e.key] = e.value;
+      }
+    }
+
+    {
+      var router = R.router?.wifiGetStatus.data;
+      int apiVersion = R.router?.wifiGetStatus.apiVersion ?? 0;
+      if (router == null) {
+        res["router"] = {"reachable": false, "service": "router", "features": {}, "timestamp": nowS};
+      } else {
+        Map<String, dynamic> features = {};
+
+        var swVer = router.deviceInfo.softwareVersion;
+
+        features["speedTest"] =  apiVersion >= 1;
+        features["speedTestLive"] =  apiVersion >= 2;
+        features["wifiSpeedTest"] =  apiVersion >= 4 || swVer.contains("2021.52") || swVer.contains("2022");
+        features["clientHistory"] =  apiVersion >= 4;
+
+        res["router"] = {"reachable": true, "service": "router", "features": features, "timestamp": nowS};
+        for (var e in mapAsDebugData(protoToJson(router) as Map<String, dynamic>).entries)
+          if (e.key=="config") {
+            res["wifiConfig"] = e.value;
+          } else
+            res["router"][e.key] = e.value;
+      }
+    }
+
+    return res;
+  }
+
   Widget _buildBar(BuildContext context) {
     return AppBar(
+      actions: [
+          TextButton(
+              onPressed: () async {
+                var data = debugData();
+                await showDialog<String>(context: context, builder: (c){
+                  return SaveDebugDataDialog(
+                    data: JsonEncoder.withIndent("  ").convert(debugData()),
+                    uid: data["dish"]?["deviceInfo"]?["id"] ?? data["router"]?["deviceInfo"]?["id"]
+                  );
+                });
+              },
+              child: Icon(Icons.share, color: Colors.white,)
+          )
+      ],
       title: Row(
         children: [
           Text(M.live.starlink_live),

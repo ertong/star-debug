@@ -6,6 +6,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart' hide Notification, Card;
 import 'package:star_debug/drawer.dart';
 import 'package:star_debug/messages/I18n.dart';
+import 'package:star_debug/pages/dialogs/save_debug_data.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/routes.dart';
 import 'package:star_debug/space/dishy.dart';
@@ -19,9 +20,9 @@ import '../utils/kv_widget.dart';
 const String _TAG="MainPage";
 
 class DebugDataPage extends StatefulWidget {
-  final String route;
+  final String? debugDataToOpen;
 
-  const DebugDataPage({super.key, this.route = Routes.MAIN});
+  const DebugDataPage({super.key, this.debugDataToOpen});
 
   @override
   State createState() => _DebugDataPageState();
@@ -40,6 +41,7 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
 
   int _selectedIndex=0;
   List<_Page> pages = [];
+  Map<String, dynamic> data = {};
 
   SpaceParser? parser;
 
@@ -50,6 +52,10 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
   @override
   void initState() {
     super.initState();
+    if (widget.debugDataToOpen!=null) {
+      var data = jsonDecode(widget.debugDataToOpen!);
+      newData(data);
+    }
   }
 
   @override
@@ -133,6 +139,7 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
 
   void newData(Map<String, dynamic> data) {
 
+    this.data = data;
     parser = SpaceParser(data);
     pages.clear();
     obstructions = null;
@@ -229,7 +236,6 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
     return rows;
   }
 
-
   void onOpenClipboardClicked() async {
     try {
       var str = await FlutterClipboard.paste();
@@ -273,7 +279,20 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
       centerTitle: true,
       actions: [
         if (parser!=null)
-          TextButton(
+          ...[
+            TextButton(
+                onPressed: () async {
+                  await showDialog<String>(context: context, builder: (c){
+                    return SaveDebugDataDialog(
+                        data: JsonEncoder.withIndent("  ").convert(data),
+                        uid: data["dish"]?["deviceInfo"]?["id"] ?? data["router"]?["deviceInfo"]?["id"],
+                        showInApp: false,
+                    );
+                  });
+                },
+                child: Icon(Icons.share, color: Colors.white,)
+            ),
+            TextButton(
               onPressed: (){
                 _selectedIndex=0;
                 pages.clear();
@@ -282,7 +301,8 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
                 setState(() {});
               },
               child: Icon(Icons.clear, color: Colors.white,)
-          )
+            ),
+          ]
       ],
     );
   }
