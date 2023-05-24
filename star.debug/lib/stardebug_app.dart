@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:star_debug/pages/debug_data.dart';
+import 'package:star_debug/pages/live.dart';
 import 'package:star_debug/preloaded.dart';
 
 import 'messages/I18n.dart';
@@ -65,7 +66,7 @@ class StarDebugAppState extends State<StarDebugApp>
         _MyNavigatorObserver(),
       ],
       onGenerateRoute: Routes.generateRoute,
-      home: DebugDataPage(),
+      home: LivePage(),
     );
   }
 }

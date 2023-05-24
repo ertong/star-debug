@@ -30,6 +30,7 @@ general:
   no_data_found: No data found
   dark_mode: Dark mode
   online: Online
+  version: Version
 
 live:
   starlink_live: "Starlink Live"

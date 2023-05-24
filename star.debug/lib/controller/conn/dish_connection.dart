@@ -5,6 +5,7 @@ import 'package:star_debug/controller/conn/connection.dart';
 import 'package:star_debug/grpc/starlink/starlink.pbgrpc.dart';
 import 'package:star_debug/utils/log_utils.dart';
 
+import 'package:star_debug/space/dishy_data.dart' show dev_images;
 import 'grpc_connection.dart';
 
 class DishConnection extends GrpcConnection {
@@ -51,4 +52,23 @@ class DishConnection extends GrpcConnection {
 
     notify();
   }
+
+  String getImage() {
+    String res = dev_images["hp_flat"]!;
+
+    var data = dishGetStatus.data;
+    if (data != null && data.hasDeviceInfo() && data.deviceInfo.hasHardwareVersion() && data.hasHasActuators()) {
+      var hw = data.deviceInfo.hardwareVersion;
+      var hasActuators = data.hasActuators;
+
+      if ((hw == 'hp1_proto0' || hw == 'hp1_proto1') && hasActuators != HasActuators.HAS_ACTUATORS_YES)
+          res = dev_images['hp_flat'] ?? res;
+
+      res = dev_images[hw] ?? res;
+    }
+
+    res = res.replaceFirst("resources/", "assets/images/");
+    return res;
+  }
+
 }

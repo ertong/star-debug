@@ -4,6 +4,7 @@ import 'package:grpc/grpc.dart';
 import 'package:star_debug/controller/conn/connection.dart';
 import 'package:star_debug/grpc/starlink/starlink.pbgrpc.dart';
 import 'package:star_debug/utils/log_utils.dart';
+import 'package:star_debug/space/router_data.dart' show dev_images;
 
 import 'grpc_connection.dart';
 
@@ -50,5 +51,19 @@ class RouterConnection extends GrpcConnection {
     }
 
     notify();
+  }
+
+  String getImage() {
+    String res = dev_images["v2"]!;
+
+    var data = wifiGetStatus.data;
+    if (data != null && data.hasDeviceInfo() && data.deviceInfo.hasHardwareVersion()) {
+      var hw = data.deviceInfo.hardwareVersion;
+
+      res = dev_images[hw] ?? res;
+    }
+
+    res = res.replaceFirst("resources/", "assets/images/");
+    return res;
   }
 }

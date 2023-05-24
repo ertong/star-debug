@@ -6,6 +6,7 @@ import 'package:star_debug/controller/conn/grpc_connection.dart';
 import 'package:star_debug/drawer.dart';
 import 'package:star_debug/messages/I18n.dart';
 import 'package:star_debug/pages/live/dish.dart';
+import 'package:star_debug/pages/live/general.dart';
 import 'package:star_debug/pages/live/online.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/routes.dart';
@@ -46,15 +47,17 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    subDish = R.dishHolder.stream.listen((event) {
-      setState(() {});
-    });
-    subRouter = R.routerHolder.stream.listen((event) {
-      setState(() {});
-    });
-    subOnline = R.onlineHolder.stream.listen((event) {
-      setState(() {});
-    });
+    subDish = R.dishHolder.stream.listen((event) { setState(() {}); });
+    subRouter = R.routerHolder.stream.listen((event) { setState(() {}); });
+    subOnline = R.onlineHolder.stream.listen((event) { setState(() {}); });
+
+    pages.add(_Page(
+        Icons.settings_input_antenna,
+        M.header.general,
+        () => Colors.black,
+        () => GeneralTab(),
+        // alert: () { return 0; }
+    ));
 
     pages.add(_Page(
         Icons.settings_input_antenna,
@@ -140,7 +143,7 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
       bar = BottomNavigationBar(
         items: items,
         currentIndex: _selectedIndex,
-        // selectedItemColor: Colors.amber[800],
+        type: BottomNavigationBarType.fixed,
         onTap: (idx) {
           _selectedIndex = idx;
           scrollController.jumpTo(0);

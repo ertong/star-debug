@@ -60,6 +60,7 @@ class OnlineConnection extends BaseConnection {
   int cntNotOk = 0;
   int cntOk = 0;
   bool starlinkInternetDetected = false;
+  bool hasIpv6 = false;
 
   void notify(){
     String? myIp;
@@ -76,12 +77,22 @@ class OnlineConnection extends BaseConnection {
       needIfConfig = false;
     }
 
+    hasIpv6 = false;
+
     cntNotOk = 0;
 
+    if (now - optCloudflare6.timeOk < 4500) {
+      cntOk++;
+      hasIpv6 = true;
+    } else cntNotOk++;
+
+    if (now - optGoogle6.timeOk < 3500) {
+      cntOk++;
+      hasIpv6 = true;
+    } else cntNotOk++;
+
     if (now - optCloudflare.timeOk < 3500) cntOk++; else cntNotOk++;
-    if (now - optCloudflare6.timeOk < 4500) cntOk++; else cntNotOk++;
     if (now - optGoogle.timeOk < 3500) cntOk++; else cntNotOk++;
-    if (now - optGoogle6.timeOk < 3500) cntOk++; else cntNotOk++;
     if (now - optStarlink.timeOk < 3500) cntOk++; else cntNotOk++;
     if (getOpendns.data is Map)  cntOk++; else cntNotOk++;
     if (getIfConfig.data is Map && !needIfConfig) cntOk++; else cntNotOk++;

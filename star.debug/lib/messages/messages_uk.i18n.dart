@@ -93,6 +93,7 @@ class GeneralMessagesUk extends GeneralMessages {
   String get no_data_found => """Дані не знайдено""";
   String get dark_mode => """Темна схема""";
   String get online => """Онлайн""";
+  String get version => """Версія""";
 }
 
 class LiveMessagesUk extends LiveMessages {
@@ -458,6 +459,7 @@ Map<String, String> get messagesUkMap => {
       """general.no_data_found""": """Дані не знайдено""",
       """general.dark_mode""": """Темна схема""",
       """general.online""": """Онлайн""",
+      """general.version""": """Версія""",
       """live.starlink_live""": """Starlink Live""",
       """header.general""": """Загальне""",
       """header.signal""": """Сигнал""",

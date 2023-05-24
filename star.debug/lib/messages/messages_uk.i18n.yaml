@@ -29,6 +29,7 @@ general:
   no_data_found: Дані не знайдено
   dark_mode: Темна схема
   online: Онлайн
+  version: Версія
 live:
   starlink_live: Starlink Live
 header:

@@ -1,0 +1,205 @@
+import 'dart:async';
+import 'dart:convert';
+import 'dart:developer';
+
+import 'package:flutter/material.dart' hide Notification, Card, ConnectionState;
+import 'package:grpc/grpc.dart';
+import 'package:star_debug/grpc/starlink/network.pbenum.dart';
+import 'package:star_debug/grpc/starlink/starlink.pbgrpc.dart';
+import 'package:star_debug/messages/I18n.dart';
+import 'package:star_debug/preloaded.dart';
+import 'package:star_debug/utils/kv_widget.dart';
+import 'package:star_debug/utils/log_utils.dart';
+import 'package:time_machine/time_machine.dart';
+
+const String _TAG="OnlineTab";
+
+class GeneralTab extends StatefulWidget {
+  const GeneralTab({super.key});
+
+  @override
+  State createState() => _GeneralTabState();
+}
+
+class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
+
+  StreamSubscription? subDish;
+  StreamSubscription? subRouter;
+  StreamSubscription? subOnline;
+
+  Set<String> loading = {};
+
+  @override
+  void initState() {
+    super.initState();
+    subDish = R.dishHolder.stream.listen((event) { setState(() {}); });
+    subRouter = R.routerHolder.stream.listen((event) { setState(() {}); });
+    subOnline = R.onlineHolder.stream.listen((event) { setState(() {}); });
+  }
+
+  @override
+  void dispose() {
+    subDish?.cancel();
+    subRouter?.cancel();
+    subOnline?.cancel();
+    super.dispose();
+  }
+
+  ThemeData theme = ThemeData.fallback();
+
+  @override
+  Widget build(BuildContext context) {
+    theme = Theme.of(context);
+    return Center(
+      child: Column(children:
+      _buildBody(),),
+    );
+  }
+
+  List<Widget> _buildBody() {
+    var b = KVWidgetBuilder(theme);
+
+    {
+      var dish = R.dish;
+      var status = R.dish?.dishGetStatus.data;
+      b.header(M.general.dish);
+      if (dish==null || status==null)
+        b.kv("Status", "connecting");
+      else {
+        var b1 = KVWidgetBuilder(theme);
+        b1.kv(M.grpc.DeviceInfo.id, status.deviceInfo.id);
+        b1.kv(M.general.version, Instant.fromEpochSeconds(status.deviceInfo.generationNumber.toInt()).inUtc().toString("yyyy-MM-dd"));
+
+        {
+          String code = "${status.disablementCode}";
+          bool ok = status.disablementCode == UtDisablementCode.OKAY;
+          if (status.hasOutage() && status.outage.hasCause()) {
+            code = "${code}, ${status.outage.cause}";
+            ok = false;
+          }
+          b1.kv(M.grpc.DishGetStatus.disablement_code, code, ok: ok);
+        }
+
+        b.widgets.add(Row(crossAxisAlignment: CrossAxisAlignment.start,children: [
+          Image.asset(dish.getImage(), height: 50,),
+          SizedBox(width: 5),
+          Expanded(child: Column(crossAxisAlignment:CrossAxisAlignment.start, children: b1.widgets,))
+        ],));
+
+        bool stowed = status.stowRequested || status.outage.cause == DishOutage_Cause.STOWED;
+        bool gpsInhibited = status.gpsStats.inhibitGps;
+        b.widgets.add(Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            reqButton("Reboot", () => Request(reboot: RebootRequest())),
+            if (stowed)
+              reqButton("UnStow", () => Request(dishStow: DishStowRequest(unstow: true)))
+            else
+              reqButton("Stow", () => Request(dishStow: DishStowRequest(unstow: false))),
+
+            if (gpsInhibited)
+              reqButton("NoInhibitGPS", () => Request(dishInhibitGps: DishInhibitGpsRequest(inhibitGps: false)), router: false)
+            else
+              reqButton("InhibitGPS", () => Request(dishInhibitGps: DishInhibitGpsRequest(inhibitGps: true)), router: false),
+          ],
+        ));
+      }
+    }
+
+    {
+      var router = R.router;
+      var status = R.router?.wifiGetStatus.data;
+      b.header(M.general.router);
+      if (router==null || status==null)
+        b.kv("Status", "connecting");
+      else {
+        var b1 = KVWidgetBuilder(theme);
+        b1.kv(M.grpc.DeviceInfo.id, status.deviceInfo.id);
+        b1.kv(M.general.version, status.deviceInfo.softwareVersion);
+        if (status.hasPingLatencyMs())
+          b1.kv(M.grpc.WifiGetStatus.ping_latency_ms, status.pingLatencyMs, ok: status.pingLatencyMs<200);
+        // b1.widgets.add(Text(status.deviceInfo.id));
+
+        b.widgets.add(Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Image.asset(router.getImage(), height: 50,),
+          SizedBox(width: 5),
+          Expanded(child: Column(crossAxisAlignment:CrossAxisAlignment.start, children: b1.widgets,))
+        ],));
+
+        b.widgets.add(Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            reqButton("WifiRoboot", () => Request(reboot: RebootRequest()), router: true),
+          ],
+        ));
+      }
+    }
+
+    {
+      var online = R.online;
+      b.header(M.general.online);
+      if (online==null)
+        b.kv("Status", "connecting");
+      else {
+        b.kv("Internet", online.cntOk > 0, ok: online.cntOk > 0);
+        b.kv("IPv6", online.hasIpv6, ok: online.hasIpv6);
+        b.kv("Starlink internet", online.starlinkInternetDetected, ok: online.starlinkInternetDetected);
+      }
+    }
+
+    return b.widgets;
+  }
+
+  Widget reqButton(String name, Request Function() reqBuilder, {bool router = false}){
+
+    return OutlinedButton(onPressed: loading.contains(name) ? null : () async {
+      setState(() {
+        loading.add(name);
+      });
+      try {
+        var text = await withConnectedHandleJson(reqBuilder(), router: router);
+        R.showSnackBarText(text);
+      }finally{
+        setState(() {
+          loading.remove(name);
+        });
+      }
+    }, child: Text(name));
+  }
+
+  Future<String> withConnectedHandleJson( Request req, {bool router = false}) async {
+    return await withConnected((stub, channel) async {
+      var resp = await stub.handle(req);
+
+      log("Received response: ${jsonEncode(resp.toProto3Json())}");
+
+      return JsonEncoder.withIndent("  ").convert(resp.toProto3Json());
+    }, router: router) ?? "";
+  }
+
+  Future<T?> withConnected<T>(Future<T> Function(DeviceClient stub, ClientChannel channel) callback, {bool router = false} ) async {
+    final channel = ClientChannel(
+      router ? '192.168.1.1' : '192.168.100.1',
+      port: router ? 9000 : 9200,
+      options: ChannelOptions(
+        credentials: ChannelCredentials.insecure(),
+        codecRegistry: CodecRegistry(codecs: const [GzipCodec(), IdentityCodec()]),
+      ),
+    );
+    final stub = DeviceClient(channel);
+
+    try {
+      T res = await callback(stub, channel);
+      return res;
+    } catch (e, s) {
+      LogUtils.ers(_TAG, "", e, s);
+      R.showSnackBarText("$e");
+    }
+    finally {
+      await channel.shutdown();
+    }
+
+    return null;
+  }
+
+}
