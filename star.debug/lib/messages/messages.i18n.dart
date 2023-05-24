@@ -93,6 +93,7 @@ class GeneralMessages {
   String get dark_mode => """Dark mode""";
   String get online => """Online""";
   String get version => """Version""";
+  String get charts => """Charts""";
 }
 
 class LiveMessages {
@@ -458,6 +459,7 @@ Map<String, String> get messagesMap => {
       """general.dark_mode""": """Dark mode""",
       """general.online""": """Online""",
       """general.version""": """Version""",
+      """general.charts""": """Charts""",
       """live.starlink_live""": """Starlink Live""",
       """header.general""": """General""",
       """header.signal""": """Signal""",

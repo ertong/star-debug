@@ -30,6 +30,7 @@ general:
   dark_mode: Темна схема
   online: Онлайн
   version: Версія
+  charts: Графіки
 live:
   starlink_live: Starlink Live
 header:

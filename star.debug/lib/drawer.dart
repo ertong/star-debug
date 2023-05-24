@@ -55,7 +55,8 @@ class _AppDrawerState extends State<AppDrawer> {
 //          _createDrawerItemRoute(context, Icons.contacts, 'Test main page', Routes.MAIN),
           _createDrawerItemRoute(context, Icons.play_arrow, "Strarlink Live", Routes.LIVE),
           _createDrawerItemRoute(context, Icons.bug_report, M.general.debug_data_viewer, Routes.MAIN),
-          _createDrawerItemRoute(context, Icons.smart_toy, "Sandbox", Routes.DEBUG),
+          if (R.isDebug)
+            _createDrawerItemRoute(context, Icons.smart_toy, "Sandbox", Routes.DEBUG),
           _createDrawerItem(context, Icons.color_lens, '${M.general.dark_mode}', () async{
             await R.prefs.save((p){
               p.darkMode = !p.darkMode;

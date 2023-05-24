@@ -31,6 +31,7 @@ general:
   dark_mode: Dark mode
   online: Online
   version: Version
+  charts: Charts
 
 live:
   starlink_live: "Starlink Live"

@@ -94,6 +94,7 @@ class GeneralMessagesUk extends GeneralMessages {
   String get dark_mode => """Темна схема""";
   String get online => """Онлайн""";
   String get version => """Версія""";
+  String get charts => """Графіки""";
 }
 
 class LiveMessagesUk extends LiveMessages {
@@ -460,6 +461,7 @@ Map<String, String> get messagesUkMap => {
       """general.dark_mode""": """Темна схема""",
       """general.online""": """Онлайн""",
       """general.version""": """Версія""",
+      """general.charts""": """Графіки""",
       """live.starlink_live""": """Starlink Live""",
       """header.general""": """Загальне""",
       """header.signal""": """Сигнал""",

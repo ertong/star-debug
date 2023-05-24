@@ -11,6 +11,7 @@ import 'grpc_connection.dart';
 class DishConnection extends GrpcConnection {
 
   PooledRequest<DishGetStatusResponse> dishGetStatus = PooledRequest(2000);
+  PooledRequest<DishGetHistoryResponse> dishGetHistory = PooledRequest(10000);
 
   DishConnection({required super.notifyStream}):super(host: '192.168.100.1', port: 9200,) {
     TAG = "DishConnection";
@@ -24,6 +25,12 @@ class DishConnection extends GrpcConnection {
           getStatus: GetStatusRequest()
       )));
       dishGetStatus.sentTime = now;
+    }
+    if (dishGetHistory.needSend(now)) {
+      reqStream.add(ToDevice(request: Request(
+          getHistory: GetHistoryRequest()
+      )));
+      dishGetHistory.sentTime = now;
     }
   }
 
@@ -47,6 +54,9 @@ class DishConnection extends GrpcConnection {
       if (resp.hasDishGetStatus()) {
         dishGetStatus.setData(now, resp.dishGetStatus);
         statusReceivedTime = now;
+      }
+      if (resp.hasDishGetHistory()) {
+        dishGetHistory.setData(now, resp.dishGetHistory);
       }
     }
 

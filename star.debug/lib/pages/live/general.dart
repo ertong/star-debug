@@ -7,6 +7,7 @@ import 'package:grpc/grpc.dart';
 import 'package:star_debug/grpc/starlink/network.pbenum.dart';
 import 'package:star_debug/grpc/starlink/starlink.pbgrpc.dart';
 import 'package:star_debug/messages/I18n.dart';
+import 'package:star_debug/pages/live/dish.dart' show buildGraph;
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/utils/kv_widget.dart';
 import 'package:star_debug/utils/log_utils.dart';
@@ -29,10 +30,14 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
 
   Set<String> loading = {};
 
+  int lastGraphTime = 0;
+
+  List<Widget> charts = [];
+
   @override
   void initState() {
     super.initState();
-    subDish = R.dishHolder.stream.listen((event) { setState(() {}); });
+    subDish = R.dishHolder.stream.listen((event) { setState(() {}); buildCharts(); });
     subRouter = R.routerHolder.stream.listen((event) { setState(() {}); });
     subOnline = R.onlineHolder.stream.listen((event) { setState(() {}); });
   }
@@ -54,6 +59,28 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
       child: Column(children:
       _buildBody(),),
     );
+  }
+
+  void buildCharts(){
+    var history = R.dish?.dishGetHistory.data;
+    var time = R.dish?.dishGetHistory.receivedTime ?? 0;
+    var now = DateTime.now().millisecondsSinceEpoch;
+
+    if (now-time>20000){
+      charts.clear();
+      return;
+    }
+
+    if (history==null || time <= lastGraphTime)
+      return;
+
+    lastGraphTime = time;
+
+    charts.clear();
+    charts.add(buildGraph("Ping latency", history.popPingLatencyMs));
+    // charts.add(buildGraph("Ping drop rate", history.popPingDropRate));
+    // charts.add(buildGraph("Uplink, MB/s", [for (var v in history.uplinkThroughputBps) v/1024/1024]));
+    // charts.add(buildGraph("Downlink, MB/s", [for (var v in history.downlinkThroughputBps) v/1024/1024]));
   }
 
   List<Widget> _buildBody() {
@@ -145,6 +172,12 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
         b.kv("IPv6", online.hasIpv6, ok: online.hasIpv6);
         b.kv("Starlink internet", online.starlinkInternetDetected, ok: online.starlinkInternetDetected);
       }
+    }
+
+    if (charts.isNotEmpty)
+    {
+      b.header(M.general.charts);
+      b.widgets.addAll(charts);
     }
 
     return b.widgets;
