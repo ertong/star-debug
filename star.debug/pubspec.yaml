@@ -52,6 +52,7 @@ dev_dependencies:
   json_serializable: ^6.7.0
   build_runner: any
   flutter_launcher_icons: any
+  drift_dev: ^2.8.2
 
   # The lint set provided by the package is activated in the `analysis_options.yaml`
   flutter_lints: ^2.0.1

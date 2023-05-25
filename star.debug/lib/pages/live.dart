@@ -8,6 +8,8 @@ import 'package:recase/recase.dart';
 import 'package:star_debug/controller/conn/connection.dart';
 import 'package:star_debug/controller/conn/grpc_connection.dart';
 import 'package:star_debug/drawer.dart';
+import 'package:star_debug/grpc/starlink/network.pbenum.dart';
+import 'package:star_debug/grpc/starlink/starlink.pbenum.dart';
 import 'package:star_debug/messages/I18n.dart';
 import 'package:star_debug/pages/dialogs/save_debug_data.dart';
 import 'package:star_debug/pages/live/dish.dart';
@@ -75,7 +77,13 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
           if (data==null) return 0;
 
           var map = data.alerts.toProto3Json() as Map<String, dynamic>;
-          return map.entries.where((e) => e.value==true).length;
+          int alerts = map.entries.where((e) => e.value==true).length;
+          if (data.hasDisablementCode() && data.disablementCode!=UtDisablementCode.OKAY)
+            alerts++;
+          if (data.hasOutage() && data.outage.hasCause())
+            alerts++;
+
+          return alerts;
         }
     ));
     pages.add(_Page(

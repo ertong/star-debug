@@ -64,11 +64,13 @@ class OnlineConnection extends BaseConnection {
 
   void notify(){
     String? myIp;
-    if (getOpendns.data!=null)
+    int now = DateTime.now().millisecondsSinceEpoch;
+
+    if (getOpendns.data!=null && now-getOpendns.timeOk < 3500)
       myIp = getOpendns.data["ip"];
 
-    if (myIp!=null && (lastIp=="" || lastIp!=myIp)) {
-      lastIp = myIp;
+    if (lastIp=="" || lastIp!=myIp) {
+      lastIp = myIp ?? "";
       needIfConfig = true;
       getIfConfig.data = null;
     }
@@ -80,6 +82,7 @@ class OnlineConnection extends BaseConnection {
     hasIpv6 = false;
 
     cntNotOk = 0;
+    cntOk = 0;
 
     if (now - optCloudflare6.timeOk < 4500) {
       cntOk++;
@@ -94,7 +97,7 @@ class OnlineConnection extends BaseConnection {
     if (now - optCloudflare.timeOk < 3500) cntOk++; else cntNotOk++;
     if (now - optGoogle.timeOk < 3500) cntOk++; else cntNotOk++;
     if (now - optStarlink.timeOk < 3500) cntOk++; else cntNotOk++;
-    if (getOpendns.data is Map)  cntOk++; else cntNotOk++;
+    if (getOpendns.data is Map && now-getOpendns.timeOk < 3500)  cntOk++; else cntNotOk++;
     if (getIfConfig.data is Map && !needIfConfig) cntOk++; else cntNotOk++;
 
     {
@@ -145,10 +148,10 @@ class OnlineConnection extends BaseConnection {
     }
   }
 
-  int now = DateTime.now().millisecondsSinceEpoch;
 
   void consume(KVConsumer b) {
     b.header("HTTP");
+    int now = DateTime.now().millisecondsSinceEpoch;
 
     b.kv("1.1.1.1", optCloudflare.latency, ok: now - optCloudflare.timeOk<3500);
     b.kv("2606:4700:4700::1111", "${optCloudflare6.latency}", ok: now-optCloudflare6.timeOk < 4500);
@@ -158,7 +161,7 @@ class OnlineConnection extends BaseConnection {
 
     b.header("MyIp");
 
-    if (getOpendns.data is Map)
+    if (getOpendns.data is Map && now-getOpendns.timeOk < 3500)
       b.kv("OpenDNS", getOpendns.data?["ip"] ?? "", ok: true);
     else
       b.kvs("OpenDNS", "", ok: false);

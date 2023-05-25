@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart' hide Notification, Card, ConnectionState;
+import 'package:star_debug/grpc/starlink/network.pb.dart';
 import 'package:star_debug/grpc/starlink/starlink.pbgrpc.dart';
 import 'package:star_debug/messages/I18n.dart';
 import 'package:star_debug/pages/live/common.dart';
@@ -120,11 +121,11 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
 
         if (status.hasOutage()) {
           if (status.outage.hasCause())
-            b.kv(M.grpc.DishOutage.cause, status.outage.cause);
+            b.kv(M.grpc.DishOutage.cause, status.outage.cause, ok: false);
         }
 
         if (status.hasDisablementCode()) {
-          b.kv(M.grpc.DishGetStatus.disablement_code, status.disablementCode);
+          b.kv(M.grpc.DishGetStatus.disablement_code, status.disablementCode, ok:status.disablementCode==UtDisablementCode.OKAY);
         }
 
         if (status.hasSoftwareUpdateState()) {

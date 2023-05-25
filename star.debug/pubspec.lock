@@ -25,6 +25,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.13.0"
+  analyzer_plugin:
+    dependency: transitive
+    description:
+      name: analyzer_plugin
+      sha256: c1d5f167683de03d5ab6c3b53fc9aeefc5d59476e7810ba7bbddff50c6f4392d
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.11.2"
   archive:
     dependency: transitive
     description:
@@ -129,6 +137,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.0"
+  charcode:
+    dependency: transitive
+    description:
+      name: charcode
+      sha256: fb98c0f6d12c920a02ee2d998da788bca066ca5f148492b7085ee23372b12306
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.3.1"
   checked_yaml:
     dependency: transitive
     description:
@@ -281,6 +297,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.8.0"
+  drift_dev:
+    dependency: "direct dev"
+    description:
+      name: drift_dev
+      sha256: "387a3a70047ae90cbef4c9262a7f833c7c274b7cc22133faf067c2e9cef84c60"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.8.2"
   fake_async:
     dependency: transitive
     description:
@@ -1026,6 +1050,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.5.15"
+  sqlparser:
+    dependency: transitive
+    description:
+      name: sqlparser
+      sha256: "0d2c9a3b554baa10b2560d69a1c7cabd4687cc08041a7dd3d2dc6992f607b400"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.30.0"
   stack_trace:
     dependency: transitive
     description:
