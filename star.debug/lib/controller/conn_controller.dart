@@ -5,7 +5,7 @@ import 'package:star_debug/controller/conn/connection.dart';
 import 'package:star_debug/utils/log_utils.dart';
 import 'package:star_debug/utils/wait_notify.dart';
 
-const String _TAG = "GrpcController";
+const String _TAG = "ConnController";
 
 class ConnController {
 
@@ -19,7 +19,7 @@ class ConnController {
     var holder = ConnectionHolder(builder,() {
       waitNotify.notifyAll();
       if (!isRunning)
-      unawaited(run());
+        unawaited(run());
     });
     holders.add(holder);
     return holder;

@@ -10,7 +10,7 @@ import 'messages/I18n.dart';
 import 'routes.dart';
 import 'utils/log_utils.dart';
 
-const String _TAG = "UbibApp";
+const String _TAG = "StarDebugApp";
 
 class StarDebugApp extends StatefulWidget {
   const StarDebugApp({super.key});

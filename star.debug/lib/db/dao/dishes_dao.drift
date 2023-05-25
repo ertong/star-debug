@@ -1,0 +1,5 @@
+import '../database.drift';
+
+getDish: SELECT * FROM dishes WHERE dish_id=:dishId;
+getDishLog: SELECT * FROM dish_logs WHERE id=:id;
+hasDishLog: SELECT 1 FROM dish_logs WHERE dish_id=:dishId AND timestamp=:timestamp;

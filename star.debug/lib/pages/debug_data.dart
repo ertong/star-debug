@@ -156,6 +156,13 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
           }();
         }
       }
+
+      var deviceId = parser?.dishy?.deviceId;
+      var timestamp = parser?.dishy?.timestamp;
+      if (deviceId!=null && timestamp!=null){
+        R.dishLog.storeDebugData(deviceId, timestamp*1000, data);
+      }
+
     }
 
     if (parser?.router!=null)

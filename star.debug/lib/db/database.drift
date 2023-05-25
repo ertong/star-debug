@@ -1,0 +1,4 @@
+import 'models/dishes.dart';
+import 'models/dish_logs.dart';
+
+CREATE INDEX IF NOT EXISTS "dish_logs_ts" ON "dish_logs" ("dish_id", "timestamp");

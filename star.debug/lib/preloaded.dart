@@ -11,6 +11,9 @@ import 'package:star_debug/controller/conn/online_connection.dart';
 import 'package:star_debug/controller/conn_controller.dart';
 import 'package:star_debug/controller/conn/dish_connection.dart';
 import 'package:star_debug/controller/conn/router_connection.dart';
+import 'package:star_debug/controller/dish_log_controller.dart';
+import 'package:star_debug/db/database.dart';
+import 'package:star_debug/db/database_holder.dart';
 import 'package:star_debug/space/space_text.dart';
 import 'package:star_debug/stardebug_app.dart';
 import 'package:star_debug/utils/log_utils.dart';
@@ -30,6 +33,7 @@ class Preloaded{
 
   bool isDebug = false;
   bool? wasLaunchedFromNotification = false;
+  late Database db;
   late SharedPrefs prefs;
 
   LifecycleObserver lifecycleObserver = LifecycleObserver();
@@ -39,6 +43,8 @@ class Preloaded{
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
   late FirebaseAnalytics analytics;
+
+  late DishLogController dishLog = DishLogController();
 
   late ConnController conn;
   late ConnectionHolder<DishConnection> dishHolder;
@@ -93,8 +99,8 @@ class Preloaded{
 
     futs.add(() async {
       await applyWorkaroundToOpenSqlite3OnOldAndroidVersions();
-      // await DatabaseHolder.init();
-      // db = await DatabaseHolder.getDb();
+      await DatabaseHolder.init();
+      db = await DatabaseHolder.getDb();
     } ());
 
     await Future.wait(futs);

@@ -20,6 +20,7 @@ import 'package:star_debug/routes.dart';
 import 'package:star_debug/space/entity.dart';
 import 'package:protobuf/protobuf.dart' as pb;
 import 'package:fixnum/fixnum.dart' as fixnum;
+import 'package:star_debug/utils/log_utils.dart';
 
 import 'live/router.dart';
 
@@ -55,9 +56,9 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    subDish = R.dishHolder.stream.listen((event) { setState(() {}); });
-    subRouter = R.routerHolder.stream.listen((event) { setState(() {}); });
-    subOnline = R.onlineHolder.stream.listen((event) { setState(() {}); });
+    subDish = R.dishHolder.stream.listen((event) { notify(); });
+    subRouter = R.routerHolder.stream.listen((event) { notify(); });
+    subOnline = R.onlineHolder.stream.listen((event) { notify(); });
 
     pages.add(_Page(
         Icons.settings_input_antenna,
@@ -114,6 +115,19 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
           return R.online?.cntNotOk ?? 0;
         }
     ));
+  }
+
+  Future notify() async {
+    setState(() {});
+    var dish = R.dish?.dishGetStatus.data;
+    if (dish!=null && dish.hasDeviceInfo() && dish.deviceInfo.hasId()){
+      R.dishLog.notify(dish.deviceInfo.id,
+        dishStatus: dish,
+        wifiStatusJson: R.router?.wifiGetStatus.data,
+        dishHistoryJson: R.dish?.dishGetHistory.data,
+        onlineJson: null
+      );
+    }
   }
 
   @override
@@ -304,6 +318,32 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
   Widget _buildBar(BuildContext context) {
     return AppBar(
       actions: [
+          if (R.isDebug)
+            TextButton(
+                onPressed: () async {
+                  var msg = "";
+                  try {
+                    var dish = R.dish?.dishGetStatus.data;
+                    if (dish != null && dish.hasDeviceInfo() && dish.deviceInfo.hasId()) {
+                      await R.dishLog.forceStore(dish.deviceInfo.id,
+                          dishStatus: dish,
+                          wifiStatusJson: R.router?.wifiGetStatus.data,
+                          dishHistoryJson: R.dish?.dishGetHistory.data,
+                          onlineJson: null
+                      );
+                      msg = "Snapshot saved to DB";
+                    }
+                    else {
+                      msg = "Not enough data to save";
+                    }
+                  } catch(e,s){
+                    msg = "$e";
+                    LogUtils.ers(_TAG, "", e, s);
+                  }
+                  R.showSnackBarText(msg);
+                },
+                child: Icon(Icons.save, color: Colors.white,)
+            ),
           TextButton(
               onPressed: () async {
                 var data = debugData();
@@ -315,7 +355,8 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
                 });
               },
               child: Icon(Icons.share, color: Colors.white,)
-          )
+          ),
+
       ],
       title: Row(
         children: [

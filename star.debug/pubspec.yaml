@@ -45,6 +45,7 @@ dependencies:
   syncfusion_flutter_charts: 21.2.6
   recase: 4.1.0
   share_plus: 7.0.1
+  mutex: 3.0.1
 
 dev_dependencies:
   flutter_test:
