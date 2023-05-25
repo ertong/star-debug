@@ -255,7 +255,7 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
       var dish = R.dish?.dishGetStatus.data;
       int apiVersion = R.dish?.dishGetStatus.apiVersion ?? 0;
       if (dish == null) {
-        res["dish"] = {"reachable": false, "service": "dish", "features": {}, "timestamp": nowS};
+        res["dish"] = {"reachable": false, "service": "dish", "cloud":false, "features": {}, "timestamp": nowS};
       } else {
         Map<String, dynamic> features = {};
         features["stowRequested"] = apiVersion>=1;
@@ -270,7 +270,7 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
       var router = R.router?.wifiGetStatus.data;
       int apiVersion = R.router?.wifiGetStatus.apiVersion ?? 0;
       if (router == null) {
-        res["router"] = {"reachable": false, "service": "router", "features": {}, "timestamp": nowS};
+        res["router"] = {"reachable": false, "service": "router", "cloud":false, "features": {}, "timestamp": nowS};
       } else {
         Map<String, dynamic> features = {};
 
