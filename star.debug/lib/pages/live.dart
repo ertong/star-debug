@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:ffi';
+import 'dart:io';
 
 import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart' hide Notification, Card, ConnectionState;
@@ -209,29 +210,29 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
     return color;
   }
 
-  Map<String, dynamic> mapAsDebugData(Map<String, dynamic> m) {
-    Map<String, dynamic> res = {};
-    for (var e in m.entries){
-      var key = e.key.camelCase;
-      var val = e.value;
-      if (["countByReason", "countByReasonDelta"].contains(key) && val is Map){
-        key = "${key}Map";
-        val = [for (var e1 in val.entries) [e1.key, e1.value]];
-      }
-      else if (val is Map<String, dynamic>)
-        val = mapAsDebugData(val);
-
-      // decode uint64 back to int
-      if (val is String){
-        var n = int.tryParse(val);
-        if (n!=null)
-          val = n;
-      }
-
-      res[key] = val;
-    }
-    return res;
-  }
+  // Map<String, dynamic> mapAsDebugData(Map<String, dynamic> m) {
+  //   Map<String, dynamic> res = {};
+  //   for (var e in m.entries){
+  //     var key = e.key.camelCase;
+  //     var val = e.value;
+  //     if (["countByReason", "countByReasonDelta"].contains(key) && val is Map){
+  //       key = "${key}Map";
+  //       val = [for (var e1 in val.entries) [e1.key, e1.value]];
+  //     }
+  //     else if (val is Map<String, dynamic>)
+  //       val = mapAsDebugData(val);
+  //
+  //     // decode uint64 back to int
+  //     if (val is String){
+  //       var n = int.tryParse(val);
+  //       if (n!=null)
+  //         val = n;
+  //     }
+  //
+  //     res[key] = val;
+  //   }
+  //   return res;
+  // }
 
   dynamic protoToJson(dynamic msg){
     if (msg is fixnum.Int64)
@@ -259,6 +260,11 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
           key = "${key}List";
         }
 
+        if (val is double && val.isNaN) {
+          // val = null;
+          continue;
+        }
+
         res[key] = val;
       }
       return res;
@@ -271,7 +277,15 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
     Map<String, dynamic> res = {};
     int nowS = DateTime.now().millisecondsSinceEpoch ~/ 1000;
 
-    res["device"] = {};
+    res["device"] = {
+      "app": {
+        "version": "star-debug-${R.versionName}",
+        "timestamp": nowS,
+      },
+      "platform":{
+        "os": Platform.operatingSystem
+      }
+    };
 
     {
       var dish = R.dish?.dishGetStatus.data;
@@ -283,7 +297,7 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
         features["stowRequested"] = apiVersion>=1;
         features["unstow"] = apiVersion>=3;
         res["dish"] = {"reachable": true, "service": "dish", "features": features, "timestamp": nowS};
-        for (var e in mapAsDebugData(protoToJson(dish) as Map<String, dynamic>).entries)
+        for (var e in (protoToJson(dish) as Map<String, dynamic>).entries)
           res["dish"][e.key] = e.value;
       }
     }
@@ -304,11 +318,14 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
         features["clientHistory"] =  apiVersion >= 4;
 
         res["router"] = {"reachable": true, "service": "router", "features": features, "timestamp": nowS};
-        for (var e in mapAsDebugData(protoToJson(router) as Map<String, dynamic>).entries)
-          if (e.key=="config") {
+        for (var e in (protoToJson(router) as Map<String, dynamic>).entries) {
+          if (e.value==null)
+            continue;
+          if (e.key == "config") {
             res["wifiConfig"] = e.value;
           } else
             res["router"][e.key] = e.value;
+        }
       }
     }
 
@@ -346,13 +363,19 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
             ),
           TextButton(
               onPressed: () async {
-                var data = debugData();
-                await showDialog<String>(context: context, builder: (c){
-                  return SaveDebugDataDialog(
-                    data: JsonEncoder.withIndent("  ").convert(debugData()),
-                    uid: data["dish"]?["deviceInfo"]?["id"] ?? data["router"]?["deviceInfo"]?["id"]
-                  );
-                });
+                try {
+                  var data = debugData();
+                  await showDialog<String>(context: context, builder: (c) {
+                    print(data);
+                    return SaveDebugDataDialog(
+                        data: JsonEncoder.withIndent("  ").convert(data),
+                        uid: data["dish"]?["deviceInfo"]?["id"] ?? data["router"]?["deviceInfo"]?["id"]
+                    );
+                  });
+                }catch(e,s){
+                  LogUtils.ers(_TAG, "", e, s);
+                  R.showSnackBarText("$e");
+                }
               },
               child: Icon(Icons.share, color: Colors.white,)
           ),
