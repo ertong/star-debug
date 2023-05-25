@@ -118,16 +118,16 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
         b.widgets.add(Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            reqButton("Reboot", () => Request(reboot: RebootRequest())),
+            reqButton(M.general.reboot, () => Request(reboot: RebootRequest())),
             if (stowed)
               reqButton("UnStow", () => Request(dishStow: DishStowRequest(unstow: true)))
             else
               reqButton("Stow", () => Request(dishStow: DishStowRequest(unstow: false))),
 
             if (gpsInhibited)
-              reqButton("NoInhibitGPS", () => Request(dishInhibitGps: DishInhibitGpsRequest(inhibitGps: false)), router: false)
+              reqButton("No inhibit GPS", () => Request(dishInhibitGps: DishInhibitGpsRequest(inhibitGps: false)), router: false)
             else
-              reqButton("InhibitGPS", () => Request(dishInhibitGps: DishInhibitGpsRequest(inhibitGps: true)), router: false),
+              reqButton("Inhibit GPS", () => Request(dishInhibitGps: DishInhibitGpsRequest(inhibitGps: true)), router: false),
           ],
         ));
       }
@@ -156,7 +156,7 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
         b.widgets.add(Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            reqButton("WifiRoboot", () => Request(reboot: RebootRequest()), router: true),
+            reqButton(M.general.reboot, () => Request(reboot: RebootRequest()), router: true),
           ],
         ));
       }

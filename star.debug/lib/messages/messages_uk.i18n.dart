@@ -100,6 +100,7 @@ class GeneralMessagesUk extends GeneralMessages {
   String get to_file => """У файл""";
   String get share => """Поділитись""";
   String get view_in_app => """Переглянути в додатку""";
+  String get reboot => """Перезавантажити""";
 }
 
 class LiveMessagesUk extends LiveMessages {
@@ -472,6 +473,7 @@ Map<String, String> get messagesUkMap => {
       """general.to_file""": """У файл""",
       """general.share""": """Поділитись""",
       """general.view_in_app""": """Переглянути в додатку""",
+      """general.reboot""": """Перезавантажити""",
       """live.starlink_live""": """Starlink Live""",
       """header.general""": """Загальне""",
       """header.signal""": """Сигнал""",

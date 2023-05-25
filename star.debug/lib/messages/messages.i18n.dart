@@ -99,6 +99,7 @@ class GeneralMessages {
   String get to_file => """To File""";
   String get share => """Share""";
   String get view_in_app => """View in app""";
+  String get reboot => """Reboot""";
 }
 
 class LiveMessages {
@@ -470,6 +471,7 @@ Map<String, String> get messagesMap => {
       """general.to_file""": """To File""",
       """general.share""": """Share""",
       """general.view_in_app""": """View in app""",
+      """general.reboot""": """Reboot""",
       """live.starlink_live""": """Starlink Live""",
       """header.general""": """General""",
       """header.signal""": """Signal""",

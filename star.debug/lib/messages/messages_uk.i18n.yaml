@@ -36,6 +36,8 @@ general:
   to_file: У файл
   share: Поділитись
   view_in_app: Переглянути в додатку
+  reboot: Перезавантажити
+
 live:
   starlink_live: Starlink Live
 header:

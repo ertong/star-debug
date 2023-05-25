@@ -37,6 +37,7 @@ general:
   to_file: To File
   share: Share
   view_in_app: View in app
+  reboot: Reboot
 
 live:
   starlink_live: "Starlink Live"
