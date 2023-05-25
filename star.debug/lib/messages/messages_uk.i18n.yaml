@@ -36,7 +36,12 @@ general:
   to_file: У файл
   share: Поділитись
   view_in_app: Переглянути в додатку
-  reboot: Перезавантажити
+  reboot: Рестарт
+  stow: Скласти
+  unstow: Розкласти
+  inhibit_gps: Ігнорувати GPS
+  uninhibit_gps: Довіряти GPS
+
 live:
   starlink_live: Starlink Live
 header:
@@ -123,7 +128,7 @@ grpc:
     downlink_throughput_bps: Downlink Throughput, B/s
     uplink_throughput_bps: Uplink Throughput, B/s
     pop_ping_latency_ms: PoP ping затримка, мс
-    stow_requested: Stow в черзі
+    stow_requested: Складання в процесі
     boresight_azimuth_deg: Азимут осі панелі, град
     boresight_elevation_deg: Кут підйому панелі, град
     eth_speed_mbps: Швидкість Ethernet

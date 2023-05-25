@@ -38,6 +38,10 @@ general:
   share: Share
   view_in_app: View in app
   reboot: Reboot
+  stow: Stow
+  unstow: Unstow
+  inhibit_gps: Inhibit GPS
+  uninhibit_gps: Uninhibit GPS
 
 live:
   starlink_live: "Starlink Live"

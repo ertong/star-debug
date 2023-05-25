@@ -120,14 +120,14 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
           children: [
             reqButton(M.general.reboot, () => Request(reboot: RebootRequest())),
             if (stowed)
-              reqButton("UnStow", () => Request(dishStow: DishStowRequest(unstow: true)))
+              reqButton(M.general.unstow, () => Request(dishStow: DishStowRequest(unstow: true)))
             else
-              reqButton("Stow", () => Request(dishStow: DishStowRequest(unstow: false))),
+              reqButton(M.general.stow, () => Request(dishStow: DishStowRequest(unstow: false))),
 
             if (gpsInhibited)
-              reqButton("No inhibit GPS", () => Request(dishInhibitGps: DishInhibitGpsRequest(inhibitGps: false)), router: false)
+              reqButton(M.general.uninhibit_gps, () => Request(dishInhibitGps: DishInhibitGpsRequest(inhibitGps: false)), router: false)
             else
-              reqButton("Inhibit GPS", () => Request(dishInhibitGps: DishInhibitGpsRequest(inhibitGps: true)), router: false),
+              reqButton(M.general.inhibit_gps, () => Request(dishInhibitGps: DishInhibitGpsRequest(inhibitGps: true)), router: false),
           ],
         ));
       }

@@ -101,7 +101,11 @@ class GeneralMessagesUk extends GeneralMessages {
   String get to_file => """У файл""";
   String get share => """Поділитись""";
   String get view_in_app => """Переглянути в додатку""";
-  String get reboot => """Перезавантажити""";
+  String get reboot => """Рестарт""";
+  String get stow => """Скласти""";
+  String get unstow => """Розкласти""";
+  String get inhibit_gps => """Ігнорувати GPS""";
+  String get uninhibit_gps => """Довіряти GPS""";
 }
 
 class LiveMessagesUk extends LiveMessages {
@@ -265,7 +269,7 @@ class DishGetStatusGrpcMessagesUk extends DishGetStatusGrpcMessages {
   String get downlink_throughput_bps => """Downlink Throughput, B/s""";
   String get uplink_throughput_bps => """Uplink Throughput, B/s""";
   String get pop_ping_latency_ms => """PoP ping затримка, мс""";
-  String get stow_requested => """Stow в черзі""";
+  String get stow_requested => """Складання в процесі""";
   String get boresight_azimuth_deg => """Азимут осі панелі, град""";
   String get boresight_elevation_deg => """Кут підйому панелі, град""";
   String get eth_speed_mbps => """Швидкість Ethernet""";
@@ -483,7 +487,11 @@ Map<String, String> get messagesUkMap => {
       """general.to_file""": """У файл""",
       """general.share""": """Поділитись""",
       """general.view_in_app""": """Переглянути в додатку""",
-      """general.reboot""": """Перезавантажити""",
+      """general.reboot""": """Рестарт""",
+      """general.stow""": """Скласти""",
+      """general.unstow""": """Розкласти""",
+      """general.inhibit_gps""": """Ігнорувати GPS""",
+      """general.uninhibit_gps""": """Довіряти GPS""",
       """live.starlink_live""": """Starlink Live""",
       """header.general""": """Загальне""",
       """header.signal""": """Сигнал""",
@@ -574,7 +582,7 @@ Map<String, String> get messagesUkMap => {
       """grpc.DishGetStatus.uplink_throughput_bps""":
           """Uplink Throughput, B/s""",
       """grpc.DishGetStatus.pop_ping_latency_ms""": """PoP ping затримка, мс""",
-      """grpc.DishGetStatus.stow_requested""": """Stow в черзі""",
+      """grpc.DishGetStatus.stow_requested""": """Складання в процесі""",
       """grpc.DishGetStatus.boresight_azimuth_deg""":
           """Азимут осі панелі, град""",
       """grpc.DishGetStatus.boresight_elevation_deg""":

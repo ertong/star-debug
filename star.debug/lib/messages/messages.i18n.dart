@@ -101,6 +101,10 @@ class GeneralMessages {
   String get share => """Share""";
   String get view_in_app => """View in app""";
   String get reboot => """Reboot""";
+  String get stow => """Stow""";
+  String get unstow => """Unstow""";
+  String get inhibit_gps => """Inhibit GPS""";
+  String get uninhibit_gps => """Uninhibit GPS""";
 }
 
 class LiveMessages {
@@ -482,6 +486,10 @@ Map<String, String> get messagesMap => {
       """general.share""": """Share""",
       """general.view_in_app""": """View in app""",
       """general.reboot""": """Reboot""",
+      """general.stow""": """Stow""",
+      """general.unstow""": """Unstow""",
+      """general.inhibit_gps""": """Inhibit GPS""",
+      """general.uninhibit_gps""": """Uninhibit GPS""",
       """live.starlink_live""": """Starlink Live""",
       """header.general""": """General""",
       """header.signal""": """Signal""",
