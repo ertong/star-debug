@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:grpc/grpc.dart';
 import 'package:star_debug/controller/conn/connection.dart';
+import 'package:star_debug/messages/I18n.dart';
 import 'package:star_debug/space/entity.dart';
 import 'package:star_debug/utils/log_utils.dart';
 import 'package:star_debug/utils/wait_notify.dart';
@@ -159,7 +160,7 @@ class OnlineConnection extends BaseConnection {
     b.kv("ipv6.google.com", optGoogle6.latency, ok: now-optGoogle6.timeOk < 3500);
     b.kv("starlink.com", optStarlink.latency, ok: now-optStarlink.timeOk < 3500);
 
-    b.header("MyIp");
+    b.header("My Ip");
 
     if (getOpendns.data is Map && now-getOpendns.timeOk < 3500)
       b.kv("OpenDNS", getOpendns.data?["ip"] ?? "", ok: true);
@@ -179,8 +180,8 @@ class OnlineConnection extends BaseConnection {
     } else
       b.kv("ifconfig.co", "", ok: false);
 
-    b.header("Net");
-    b.kv("Starlink network", starlinkInternetDetected, ok: starlinkInternetDetected);
+    b.header(M.header.network);
+    b.kv(M.online.starlink_internet, starlinkInternetDetected, ok: starlinkInternetDetected);
   }
 }
 

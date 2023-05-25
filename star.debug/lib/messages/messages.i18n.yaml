@@ -45,6 +45,7 @@ live:
 header:
   general: General
   signal: Signal
+  network: Network
   alerts: Alerts
   device_info: Device Info
   config: Config
@@ -54,6 +55,10 @@ header:
   networks: Networks
   boot: Boot
   client: Client
+
+online:
+  internet: Internet
+  starlink_internet: Starlink Internet
 
 grpc:
   DeviceInfo:
@@ -72,6 +77,7 @@ grpc:
     dish_cohoused: Starlink cohoused
 
     x_build_date: Build date
+    x_timezone: Timezone
 
   BootInfo:
 #    count_by_reason: Count by reason

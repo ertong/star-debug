@@ -37,12 +37,12 @@ general:
   share: Поділитись
   view_in_app: Переглянути в додатку
   reboot: Перезавантажити
-
 live:
   starlink_live: Starlink Live
 header:
   general: Загальне
   signal: Сигнал
+  network: Мережа
   alerts: Попередження
   device_info: Про пристрій
   config: Налаштування
@@ -52,6 +52,9 @@ header:
   networks: Мережі
   boot: Завантаження
   client: Клієнт
+online:
+  internet: Інтернет
+  starlink_internet: Інтернет через Starlink
 grpc:
   DeviceInfo:
     id: Id
@@ -68,6 +71,7 @@ grpc:
     generation_number: generation_number
     dish_cohoused: Starlink cohoused
     x_build_date: Дата прошивки
+    x_timezone: Часова зона
   BootInfo:
     last_reason: Остання причина
   DishOutage:

@@ -57,6 +57,7 @@ class MessagesUk extends Messages {
   GeneralMessagesUk get general => GeneralMessagesUk(this);
   LiveMessagesUk get live => LiveMessagesUk(this);
   HeaderMessagesUk get header => HeaderMessagesUk(this);
+  OnlineMessagesUk get online => OnlineMessagesUk(this);
   GrpcMessagesUk get grpc => GrpcMessagesUk(this);
 }
 
@@ -114,6 +115,7 @@ class HeaderMessagesUk extends HeaderMessages {
   const HeaderMessagesUk(this._parent) : super(_parent);
   String get general => """Загальне""";
   String get signal => """Сигнал""";
+  String get network => """Мережа""";
   String get alerts => """Попередження""";
   String get device_info => """Про пристрій""";
   String get config => """Налаштування""";
@@ -123,6 +125,13 @@ class HeaderMessagesUk extends HeaderMessages {
   String get networks => """Мережі""";
   String get boot => """Завантаження""";
   String get client => """Клієнт""";
+}
+
+class OnlineMessagesUk extends OnlineMessages {
+  final MessagesUk _parent;
+  const OnlineMessagesUk(this._parent) : super(_parent);
+  String get internet => """Інтернет""";
+  String get starlink_internet => """Інтернет через Starlink""";
 }
 
 class GrpcMessagesUk extends GrpcMessages {
@@ -169,6 +178,7 @@ class DeviceInfoGrpcMessagesUk extends DeviceInfoGrpcMessages {
   String get generation_number => """generation_number""";
   String get dish_cohoused => """Starlink cohoused""";
   String get x_build_date => """Дата прошивки""";
+  String get x_timezone => """Часова зона""";
 }
 
 class BootInfoGrpcMessagesUk extends BootInfoGrpcMessages {
@@ -477,6 +487,7 @@ Map<String, String> get messagesUkMap => {
       """live.starlink_live""": """Starlink Live""",
       """header.general""": """Загальне""",
       """header.signal""": """Сигнал""",
+      """header.network""": """Мережа""",
       """header.alerts""": """Попередження""",
       """header.device_info""": """Про пристрій""",
       """header.config""": """Налаштування""",
@@ -486,6 +497,8 @@ Map<String, String> get messagesUkMap => {
       """header.networks""": """Мережі""",
       """header.boot""": """Завантаження""",
       """header.client""": """Клієнт""",
+      """online.internet""": """Інтернет""",
+      """online.starlink_internet""": """Інтернет через Starlink""",
       """grpc.DeviceInfo.id""": """Id""",
       """grpc.DeviceInfo.hardware_version""": """Версія апаратна""",
       """grpc.DeviceInfo.software_version""": """Версія прошивки""",
@@ -502,6 +515,7 @@ Map<String, String> get messagesUkMap => {
       """grpc.DeviceInfo.generation_number""": """generation_number""",
       """grpc.DeviceInfo.dish_cohoused""": """Starlink cohoused""",
       """grpc.DeviceInfo.x_build_date""": """Дата прошивки""",
+      """grpc.DeviceInfo.x_timezone""": """Часова зона""",
       """grpc.BootInfo.last_reason""": """Остання причина""",
       """grpc.DishOutage.cause""": """Причина""",
       """grpc.DishOutage.start_timestamp_ns""": """Start timestamp, ns""",

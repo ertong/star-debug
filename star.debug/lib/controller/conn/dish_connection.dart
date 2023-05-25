@@ -67,13 +67,14 @@ class DishConnection extends GrpcConnection {
     String res = dev_images["hp_flat"]!;
 
     var data = dishGetStatus.data;
-    if (data != null && data.hasDeviceInfo() && data.deviceInfo.hasHardwareVersion() && data.hasHasActuators()) {
+    if (data != null && data.hasDeviceInfo() && data.deviceInfo.hasHardwareVersion()) {
       var hw = data.deviceInfo.hardwareVersion;
-      var hasActuators = data.hasActuators;
 
-      if ((hw == 'hp1_proto0' || hw == 'hp1_proto1') && hasActuators != HasActuators.HAS_ACTUATORS_YES)
+      if (data.hasHasActuators()) {
+        var hasActuators = data.hasActuators;
+        if ((hw == 'hp1_proto0' || hw == 'hp1_proto1') && hasActuators != HasActuators.HAS_ACTUATORS_YES)
           res = dev_images['hp_flat'] ?? res;
-
+      }
       res = dev_images[hw] ?? res;
     }
 

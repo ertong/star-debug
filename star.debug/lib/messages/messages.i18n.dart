@@ -56,6 +56,7 @@ class Messages {
   GeneralMessages get general => GeneralMessages(this);
   LiveMessages get live => LiveMessages(this);
   HeaderMessages get header => HeaderMessages(this);
+  OnlineMessages get online => OnlineMessages(this);
   GrpcMessages get grpc => GrpcMessages(this);
 }
 
@@ -113,6 +114,7 @@ class HeaderMessages {
   const HeaderMessages(this._parent);
   String get general => """General""";
   String get signal => """Signal""";
+  String get network => """Network""";
   String get alerts => """Alerts""";
   String get device_info => """Device Info""";
   String get config => """Config""";
@@ -122,6 +124,13 @@ class HeaderMessages {
   String get networks => """Networks""";
   String get boot => """Boot""";
   String get client => """Client""";
+}
+
+class OnlineMessages {
+  final Messages _parent;
+  const OnlineMessages(this._parent);
+  String get internet => """Internet""";
+  String get starlink_internet => """Starlink Internet""";
 }
 
 class GrpcMessages {
@@ -167,6 +176,7 @@ class DeviceInfoGrpcMessages {
   String get generation_number => """Generation number""";
   String get dish_cohoused => """Starlink cohoused""";
   String get x_build_date => """Build date""";
+  String get x_timezone => """Timezone""";
 }
 
 class BootInfoGrpcMessages {
@@ -475,6 +485,7 @@ Map<String, String> get messagesMap => {
       """live.starlink_live""": """Starlink Live""",
       """header.general""": """General""",
       """header.signal""": """Signal""",
+      """header.network""": """Network""",
       """header.alerts""": """Alerts""",
       """header.device_info""": """Device Info""",
       """header.config""": """Config""",
@@ -484,6 +495,8 @@ Map<String, String> get messagesMap => {
       """header.networks""": """Networks""",
       """header.boot""": """Boot""",
       """header.client""": """Client""",
+      """online.internet""": """Internet""",
+      """online.starlink_internet""": """Starlink Internet""",
       """grpc.DeviceInfo.id""": """Id""",
       """grpc.DeviceInfo.hardware_version""": """Hardware revision""",
       """grpc.DeviceInfo.software_version""": """Software version""",
@@ -500,6 +513,7 @@ Map<String, String> get messagesMap => {
       """grpc.DeviceInfo.generation_number""": """Generation number""",
       """grpc.DeviceInfo.dish_cohoused""": """Starlink cohoused""",
       """grpc.DeviceInfo.x_build_date""": """Build date""",
+      """grpc.DeviceInfo.x_timezone""": """Timezone""",
       """grpc.BootInfo.last_reason""": """Last reason""",
       """grpc.DishOutage.cause""": """Cause""",
       """grpc.DishOutage.start_timestamp_ns""": """Start timestamp, ns""",

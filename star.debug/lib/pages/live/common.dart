@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sprintf/sprintf.dart';
 import 'package:star_debug/grpc/starlink/starlink.pb.dart';
 import 'package:star_debug/messages/I18n.dart';
 import 'package:star_debug/utils/kv_widget.dart';
@@ -18,9 +19,15 @@ List<Widget> buildDeviceInfoWidget(ThemeData theme, DeviceInfo deviceInfo) {
       b.kv(M.grpc.DeviceInfo.manufactured_version, deviceInfo.manufacturedVersion);
     if (deviceInfo.hasCountryCode())
       b.kv(M.grpc.DeviceInfo.country_code, deviceInfo.countryCode);
-    if (deviceInfo.hasUtcOffsetS())
-      b.kv(M.grpc.DeviceInfo.utc_offset_s, deviceInfo.utcOffsetS);
-    // bool software_partitions_equal = 6;
+    if (deviceInfo.hasUtcOffsetS()) {
+      var tz = (deviceInfo.utcOffsetS / 1800).round() / 2;
+      var tzs = (tz-tz.floor()>0.01) ? tz.toStringAsFixed(1) : tz.toStringAsFixed(0);
+      if (tz>0)
+        tzs = "+$tzs";
+
+      b.kv(M.grpc.DeviceInfo.x_timezone, "UTC$tzs");
+    }
+  // bool software_partitions_equal = 6;
     // bool is_dev = 7;
     if (deviceInfo.hasBootcount())
       b.kv(M.grpc.DeviceInfo.bootcount, deviceInfo.bootcount);
@@ -41,10 +48,10 @@ List<Widget> buildDeviceInfoWidget(ThemeData theme, DeviceInfo deviceInfo) {
 List<Widget> buildAlertsWidget(ThemeData theme, Map<String, dynamic> alerts) {
   var b = KVWidgetBuilder(theme);
   if (alerts.isEmpty) {
-    b.header("Alerts");
+    b.header(M.header.alerts);
     b.kv("", "No alerts");
   } else {
-    b.header("Alerts", isAlert: true);
+    b.header(M.header.alerts, isAlert: true);
     for (var e in alerts.entries)
       if (e.value)
         b.kv("", "${e.key}".toUpperCase());

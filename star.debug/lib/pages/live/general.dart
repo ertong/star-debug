@@ -168,9 +168,9 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
       if (online==null)
         b.kv("Status", "connecting");
       else {
-        b.kv("Internet", online.cntOk > 0, ok: online.cntOk > 0);
+        b.kv(M.online.internet, online.cntOk > 0, ok: online.cntOk > 0);
         b.kv("IPv6", online.hasIpv6, ok: online.hasIpv6);
-        b.kv("Starlink internet", online.starlinkInternetDetected, ok: online.starlinkInternetDetected);
+        b.kv(M.online.starlink_internet, online.starlinkInternetDetected, ok: online.starlinkInternetDetected);
       }
     }
 

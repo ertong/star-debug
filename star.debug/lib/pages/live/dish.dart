@@ -141,7 +141,7 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
       {
         var b = KVWidgetBuilder(theme);
 
-        b.header(M.header.signal);
+        b.header(M.header.network);
 
         if (status.hasDownlinkThroughputBps())
           b.kv(M.grpc.DishGetStatus.downlink_throughput_bps, status.downlinkThroughputBps);
@@ -157,11 +157,6 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
 
         if (status.hasEthSpeedMbps())
           b.kv(M.grpc.DishGetStatus.eth_speed_mbps, status.ethSpeedMbps);
-
-        if (status.hasIsSnrAboveNoiseFloor())
-          b.kv(M.grpc.DishGetStatus.is_snr_above_noise_floor, status.isSnrAboveNoiseFloor);
-        if (status.hasIsSnrPersistentlyLow())
-          b.kv(M.grpc.DishGetStatus.is_snr_persistently_low, status.isSnrPersistentlyLow);
 
         rows.addAll(b.widgets);
       }
@@ -213,6 +208,12 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
         if (status.hasBoresightElevationDeg())
           b.kv(M.grpc.DishGetStatus.boresight_elevation_deg, status.boresightElevationDeg);
 
+        if (status.hasIsSnrAboveNoiseFloor())
+          b.kv(M.grpc.DishGetStatus.is_snr_above_noise_floor, status.isSnrAboveNoiseFloor);
+
+        if (status.hasIsSnrPersistentlyLow())
+          b.kv(M.grpc.DishGetStatus.is_snr_persistently_low, status.isSnrPersistentlyLow);
+
         if (status.hasObstructionStats()){
           var stats = status.obstructionStats;
           if (stats.hasFractionObstructed())
@@ -221,12 +222,22 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
           if (stats.hasValidS())
             b.kv(M.grpc.DishObstructionStats.valid_s, stats.validS);
 
-          // bool currently_obstructed = 5;
-          // float avg_prolonged_obstruction_duration_s = 6;
-          // float avg_prolonged_obstruction_interval_s = 7;
-          // bool avg_prolonged_obstruction_valid = 8;
-          // float time_obstructed = 9;
-          // uint32 patches_valid = 10;
+          b.kv(M.grpc.DishObstructionStats.currently_obstructed, stats.currentlyObstructed);
+
+          if (stats.hasAvgProlongedObstructionDurationS())
+            b.kv(M.grpc.DishObstructionStats.avg_prolonged_obstruction_duration_s, stats.avgProlongedObstructionDurationS);
+
+          if (stats.hasAvgProlongedObstructionIntervalS())
+            b.kv(M.grpc.DishObstructionStats.avg_prolonged_obstruction_interval_s, stats.avgProlongedObstructionIntervalS);
+
+          if (stats.hasAvgProlongedObstructionValid())
+            b.kv(M.grpc.DishObstructionStats.avg_prolonged_obstruction_valid, stats.avgProlongedObstructionValid);
+
+          if (stats.hasTimeObstructed())
+            b.kv(M.grpc.DishObstructionStats.time_obstructed, stats.timeObstructed);
+
+          if (stats.hasPatchesValid())
+            b.kv(M.grpc.DishObstructionStats.patches_valid, stats.patchesValid);
         }
 
         if (b.widgets.length>1) {
