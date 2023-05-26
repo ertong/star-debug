@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:sqlite3_flutter_libs/sqlite3_flutter_libs.dart';
+import 'package:star_debug/channel/star_channel.dart';
 import 'package:star_debug/controller/conn/connection.dart';
 import 'package:star_debug/controller/conn/online_connection.dart';
 import 'package:star_debug/controller/conn_controller.dart';
@@ -46,6 +47,8 @@ class Preloaded{
   final GlobalKey<StarDebugAppState> appKey = GlobalKey();
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
+  late StarChannel starChannel;
+
   late FirebaseAnalytics analytics;
 
   late DishLogController dishLog = DishLogController();
@@ -67,11 +70,13 @@ class Preloaded{
 
   Future<void> init() async {
     assert(() {
-      // isDebug = true;
+      isDebug = true;
       return true;
     }());
 
     WidgetsFlutterBinding.ensureInitialized();
+
+    starChannel = StarChannel();
 
     List<Future> futs = [];
 
@@ -95,10 +100,8 @@ class Preloaded{
         FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
         return true;
       };
-      // await Firebase.initializeApp();
-      // await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
-      // FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
-      //FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+      FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(!isDebug);
+      FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(!isDebug);
     } ());
 
     futs.add(() async {

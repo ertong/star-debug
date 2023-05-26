@@ -1,6 +1,6 @@
 plugins {
     id 'com.android.application'
-    id 'com.github.triplet.play' version '3.8.2'
+    id 'com.github.triplet.play' version '3.8.3'
 }
 
 def localProperties = new Properties()
@@ -88,6 +88,8 @@ flutter {
 
 dependencies {
     implementation platform('com.google.firebase:firebase-bom:31.0.0')
+    implementation("com.squareup.okhttp3:okhttp:4.10.0")
+    implementation("com.squareup.okhttp3:okhttp-dnsoverhttps:4.10.0")
 }
 
 //apply plugin: 'com.google.firebase.crashlytics'

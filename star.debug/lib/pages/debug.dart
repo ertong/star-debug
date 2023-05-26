@@ -224,4 +224,12 @@ class _DebugPageState extends State<DebugPage> with TickerProviderStateMixin {
     return null;
   }
 
+  Future test() async {
+    // LogUtils.d(_TAG, "${await R.starChannel.test()}");
+    try {
+      LogUtils.d(_TAG, "${await R.starChannel.httpTest("https://1.1.1.1", "GET", null)}");
+    } catch(e,s){
+      LogUtils.ers(_TAG, "", e, s);
+    }
+  }
 }

@@ -1,10 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:grpc/grpc.dart';
+import 'package:star_debug/channel/star_channel.dart';
 import 'package:star_debug/controller/conn/connection.dart';
 import 'package:star_debug/messages/I18n.dart';
+import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/space/entity.dart';
 import 'package:star_debug/utils/log_utils.dart';
 import 'package:star_debug/utils/wait_notify.dart';
@@ -67,7 +70,7 @@ class OnlineConnection extends BaseConnection {
     String? myIp;
     int now = DateTime.now().millisecondsSinceEpoch;
 
-    if (getOpendns.data!=null && now-getOpendns.timeOk < 3500)
+    if (getOpendns.data!=null && now-getOpendns.timeOk < 6500)
       myIp = getOpendns.data["ip"];
 
     if (lastIp=="" || lastIp!=myIp) {
@@ -208,30 +211,54 @@ class HttpTest {
 
   Future<bool> httpOptions(String url) async {
     try {
-      token?.cancel();
-      token = CancelToken();
-      var resp = await dio.request(url,
-          cancelToken: token,
-          options: Options(
-              sendTimeout: Duration(seconds: 1),
-              receiveTimeout: Duration(seconds: 1),
-              method: method,
-              followRedirects: false,
-              validateStatus: (s) => s!=null
-          )
-      );
-      if (resp.statusCode!=null && (resp.statusCode!~/100 == 2 || resp.statusCode!~/100 == 3)) {
-        timeOk = DateTime.now().millisecondsSinceEpoch;
-        // print("$url: $resp");
-        data = resp.data;
-        return true;
-      }
-      LogUtils.e(_TAG, "$method $url: ${resp.statusCode} ${resp.data}");
+      if (Platform.isAndroid)
+        await doAndroid();
+      else
+        await doDio();
     } catch (e,s){
       // LogUtils.ers(_TAG, "$method $url", e, s);
       LogUtils.e(_TAG, "$method $url: $e");
     }
     return false;
+  }
+
+  Future doDio() async{
+    token?.cancel();
+    token = CancelToken();
+    var resp = await dio.request(url,
+        cancelToken: token,
+        options: Options(
+            sendTimeout: Duration(seconds: 1),
+            receiveTimeout: Duration(seconds: 1),
+            method: method,
+            followRedirects: false,
+            validateStatus: (s) => s!=null
+        )
+    );
+    if (resp.statusCode!=null && (resp.statusCode!~/100 == 2 || resp.statusCode!~/100 == 3)) {
+      timeOk = DateTime.now().millisecondsSinceEpoch;
+      // print("$url: $resp");
+      data = resp.data;
+      return true;
+    }
+    LogUtils.e(_TAG, "$method $url: ${resp.statusCode} ${resp.data}");
+  }
+
+  Future doAndroid() async{
+
+    HttpTestResult res = await R.starChannel.httpTest(url, method, null).timeout(Duration(seconds: 3));
+
+    if (res.code~/100 == 2 || res.code~/100 == 3) {
+      timeOk = DateTime.now().millisecondsSinceEpoch;
+      // print("$url: $resp");
+      try{
+        data = jsonDecode(res.body);
+      }catch(e,s){
+        data = res.body;
+      }
+      return true;
+    }
+    LogUtils.e(_TAG, "$method $url: ${res.code} ${res.body}");
   }
 
 }
