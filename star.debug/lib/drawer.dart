@@ -83,7 +83,7 @@ class _AppDrawerState extends State<AppDrawer> {
           ),
           ListTile(
             leading: Transform.scale(scale:0.8, child: _buildLogo()),
-            title: Text("Про Народний cтарлінк",),
+            title: Text(M.about.about_starlink_for_ukraine,),
             onTap: (){
               Navigator.of(context).pushNamedAndRemoveUntil(Routes.ABOUT, (r) => false);
             },

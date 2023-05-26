@@ -54,6 +54,7 @@ class Messages {
   String get locale => "en";
   String get languageCode => "en";
   GeneralMessages get general => GeneralMessages(this);
+  AboutMessages get about => AboutMessages(this);
   WifiMessages get wifi => WifiMessages(this);
   LiveMessages get live => LiveMessages(this);
   HeaderMessages get header => HeaderMessages(this);
@@ -106,6 +107,19 @@ class GeneralMessages {
   String get unstow => """Unstow""";
   String get inhibit_gps => """Inhibit GPS""";
   String get uninhibit_gps => """Uninhibit GPS""";
+}
+
+class AboutMessages {
+  final Messages _parent;
+  const AboutMessages(this._parent);
+  String get about => """About""";
+  String get about_starlink_for_ukraine => """About Starlink For Ukraine""";
+  String get starlink_for_ukraine => """Starlink For Ukraine""";
+  String get starlink_for_ukraine_in_fb =>
+      """Starlink For Ukraine in Facebook""";
+  String get about_text =>
+      """Додаток створений в рамках волонтерської ініціативи "**Народний старлінк**" для потреб людей, що щодня працюють над тим, щоб зв'язок був доступний навіть в місцях, які росія намагається перетворити на пустелю.
+""";
 }
 
 class WifiMessages {
@@ -502,6 +516,14 @@ Map<String, String> get messagesMap => {
       """general.unstow""": """Unstow""",
       """general.inhibit_gps""": """Inhibit GPS""",
       """general.uninhibit_gps""": """Uninhibit GPS""",
+      """about.about""": """About""",
+      """about.about_starlink_for_ukraine""": """About Starlink For Ukraine""",
+      """about.starlink_for_ukraine""": """Starlink For Ukraine""",
+      """about.starlink_for_ukraine_in_fb""":
+          """Starlink For Ukraine in Facebook""",
+      """about.about_text""":
+          """Додаток створений в рамках волонтерської ініціативи "**Народний старлінк**" для потреб людей, що щодня працюють над тим, щоб зв'язок був доступний навіть в місцях, які росія намагається перетворити на пустелю.
+""",
       """wifi.setup""": """Setup""",
       """wifi.setup_wifi""": """Setup Wifi""",
       """wifi.network_name""": """Network name""",

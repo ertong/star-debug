@@ -8,6 +8,7 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:grpc/grpc.dart';
 import 'package:star_debug/drawer.dart';
 import 'package:star_debug/grpc/starlink/starlink.pbgrpc.dart';
+import 'package:star_debug/messages/I18n.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/routes.dart';
 import 'package:star_debug/utils/log_utils.dart';
@@ -60,15 +61,13 @@ class _AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
     res.add(Expanded(
       child: Markdown(
         styleSheet: style,
-        data: 'Додаток створений в рамках волонтерської ініціативи "**Народний старлінк**" '
-            'для потреб людей, що щодня працюють над тим, щоб зв\'язок був доступний навіть в місцях, '
-            'які росія намагається перетворити на пустелю.'
+        data: M.about.about_text,
       ),
     ));
 
     res.add(ListTile(
         leading: Icon(Icons.public),
-        title: Text("Народний старлінк у Facebook"),
+        title: Text(M.about.starlink_for_ukraine_in_fb),
         onTap: () {
           launchUrl(Uri.parse("https://www.facebook.com/groups/starlinkforukraine/"));
         },
@@ -76,7 +75,7 @@ class _AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
 
     res.add(ListTile(
         leading: Icon(Icons.code),
-        title: Text("GitHub проекту"),
+        title: Text("GitHub"),
         onTap: () {
           launchUrl(Uri.parse("https://github.com/ertong/star-debug"));
         },
@@ -87,7 +86,7 @@ class _AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
 
   Widget _buildBar(BuildContext context) {
     return AppBar(
-      title: Text("About"),
+      title: Text(M.about.about),
       centerTitle: true,
     );
   }

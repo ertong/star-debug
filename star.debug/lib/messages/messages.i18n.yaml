@@ -43,6 +43,16 @@ general:
   inhibit_gps: Inhibit GPS
   uninhibit_gps: Uninhibit GPS
 
+about:
+  about: About
+  about_starlink_for_ukraine: About Starlink For Ukraine
+  starlink_for_ukraine: Starlink For Ukraine
+  starlink_for_ukraine_in_fb: Starlink For Ukraine in Facebook
+  about_text: >
+    The application was created as a part of the volunteer initiative "**Starlink For Ukraine**"
+     for the needs of people who work every day to ensure that communications are available even in places
+     which russia is trying to turn into a desert.
+
 wifi:
   setup: Setup
   setup_wifi: Setup Wifi

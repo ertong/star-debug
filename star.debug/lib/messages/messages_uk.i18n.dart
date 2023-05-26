@@ -55,6 +55,7 @@ class MessagesUk extends Messages {
   String get locale => "uk";
   String get languageCode => "uk";
   GeneralMessagesUk get general => GeneralMessagesUk(this);
+  AboutMessagesUk get about => AboutMessagesUk(this);
   WifiMessagesUk get wifi => WifiMessagesUk(this);
   LiveMessagesUk get live => LiveMessagesUk(this);
   HeaderMessagesUk get header => HeaderMessagesUk(this);
@@ -107,6 +108,18 @@ class GeneralMessagesUk extends GeneralMessages {
   String get unstow => """Розкласти""";
   String get inhibit_gps => """Ігнорувати GPS""";
   String get uninhibit_gps => """Довіряти GPS""";
+}
+
+class AboutMessagesUk extends AboutMessages {
+  final MessagesUk _parent;
+  const AboutMessagesUk(this._parent) : super(_parent);
+  String get about => """Про програму""";
+  String get about_starlink_for_ukraine => """Про Народний cтарлінк""";
+  String get starlink_for_ukraine => """Народний старлінк""";
+  String get starlink_for_ukraine_in_fb => """Народний старлінк у Facebook""";
+  String get about_text =>
+      """Додаток створений в рамках волонтерської ініціативи "**Народний старлінк**" для потреб людей, що щодня працюють над тим, щоб зв'язок був доступний навіть в місцях, які росія намагається перетворити на пустелю.
+""";
 }
 
 class WifiMessagesUk extends WifiMessages {
@@ -504,6 +517,14 @@ Map<String, String> get messagesUkMap => {
       """general.unstow""": """Розкласти""",
       """general.inhibit_gps""": """Ігнорувати GPS""",
       """general.uninhibit_gps""": """Довіряти GPS""",
+      """about.about""": """Про програму""",
+      """about.about_starlink_for_ukraine""": """Про Народний cтарлінк""",
+      """about.starlink_for_ukraine""": """Народний старлінк""",
+      """about.starlink_for_ukraine_in_fb""":
+          """Народний старлінк у Facebook""",
+      """about.about_text""":
+          """Додаток створений в рамках волонтерської ініціативи "**Народний старлінк**" для потреб людей, що щодня працюють над тим, щоб зв'язок був доступний навіть в місцях, які росія намагається перетворити на пустелю.
+""",
       """wifi.setup""": """Налаштувати""",
       """wifi.setup_wifi""": """Налаштувати Wifi""",
       """wifi.network_name""": """Назва мережі""",
