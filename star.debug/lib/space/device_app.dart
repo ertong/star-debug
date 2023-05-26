@@ -44,19 +44,19 @@ class DeviceApp extends Entity {
     res.platform_os = 'unknown';
 
     if (json_object.containsKey(DEVICE_PLATFORM_KEY)) {
-      res.platform_os = "${json_object[DEVICE_PLATFORM_KEY][DEVICE_PLATFORM_OS_KEY] ?? 'unknown'}";
+      res.platform_os = "${json_object[DEVICE_PLATFORM_KEY]?[DEVICE_PLATFORM_OS_KEY] ?? 'unknown'}";
     }
 
     res.plugins = [];
 
     if (res.platform_os != 'web' && res.platform_os != 'unknown') {
-      res.platform_os_version = "${json_object[DEVICE_PLATFORM_KEY][DEVICE_PLATFORM_VERSION_KEY] ?? ''}";
+      res.platform_os_version = "${json_object[DEVICE_PLATFORM_KEY]?[DEVICE_PLATFORM_VERSION_KEY] ?? ''}";
       res.timestamp = (json_object[DEVICE_TIMESTAMP_KEY] ?? 0).toInt();
       res.uptime = (json_object[DEVICE_UPTIME_KEY] ?? 0).toInt();
       res.device = "${json_object[DEVICE_NAME_KEY] ?? ''}";
       res.device_model = "${json_object[DEVICE_MODEL_KEY] ?? ''}";
       res.device_id = "${json_object[DEVICE_ID_KEY] ?? ''}";
-      res.wifi_ip = "${json_object[DEVICE_WIFI_KEY][DEVICE_WIFI_IP_ADDR_KEY] ?? '0.0.0.0'}";
+      res.wifi_ip = "${json_object[DEVICE_WIFI_KEY]?[DEVICE_WIFI_IP_ADDR_KEY] ?? '0.0.0.0'}";
 
       res.plugins.add(DeviceNetwork.of(json_object));
       res.plugins.add(DeviceSensors.of(json_object));
