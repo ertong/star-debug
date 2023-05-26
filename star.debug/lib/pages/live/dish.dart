@@ -155,7 +155,7 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
           b.kv(M.grpc.DishGetStatus.pop_ping_drop_rate, status.popPingDropRate);
 
         if (status.hasPopPingLatencyMs())
-          b.kv(M.grpc.DishGetStatus.pop_ping_latency_ms, "${status.popPingLatencyMs.toStringAsPrecision(2)}");
+          b.kv(M.grpc.DishGetStatus.pop_ping_latency_ms, "${status.popPingLatencyMs.toStringAsFixed(2)}");
 
         if (status.hasEthSpeedMbps())
           b.kv(M.grpc.DishGetStatus.eth_speed_mbps, status.ethSpeedMbps);
@@ -206,9 +206,9 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
         b.header(M.header.antenna);
 
         if (status.hasBoresightAzimuthDeg())
-          b.kv(M.grpc.DishGetStatus.boresight_azimuth_deg, status.boresightAzimuthDeg.toStringAsPrecision(2));
+          b.kv(M.grpc.DishGetStatus.boresight_azimuth_deg, status.boresightAzimuthDeg.toStringAsFixed(2));
         if (status.hasBoresightElevationDeg())
-          b.kv(M.grpc.DishGetStatus.boresight_elevation_deg, status.boresightElevationDeg.toStringAsPrecision(2));
+          b.kv(M.grpc.DishGetStatus.boresight_elevation_deg, status.boresightElevationDeg.toStringAsFixed(2));
 
         if (status.hasIsSnrAboveNoiseFloor())
           b.kv(M.grpc.DishGetStatus.is_snr_above_noise_floor, status.isSnrAboveNoiseFloor);
@@ -220,7 +220,7 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
           var stats = status.obstructionStats;
           if (stats.hasFractionObstructed())
             b.kv(M.grpc.DishObstructionStats.fraction_obstructed,
-                "${(stats.fractionObstructed * 100).toStringAsPrecision(2)} %");
+                "${(stats.fractionObstructed * 100).toStringAsFixed(2)} %");
 
           if (stats.hasValidS())
             b.kv(M.grpc.DishObstructionStats.valid_s, Format.secD(stats.validS));

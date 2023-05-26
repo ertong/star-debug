@@ -26,9 +26,9 @@ class Format {
     if (t.isNaN || t.isInfinite)
       return "${t}";
     if (t<2)
-      return "${t.toStringAsPrecision(3)} s";
+      return "${t.toStringAsFixed(3)} s";
     else if (t<60)
-      return "${t.toStringAsPrecision(2)} s";
+      return "${t.toStringAsFixed(2)} s";
     else
       return sec(t.toInt());
   }
