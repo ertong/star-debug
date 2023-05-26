@@ -1,6 +1,9 @@
 import 'dart:async';
 
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
@@ -14,6 +17,7 @@ import 'package:star_debug/controller/conn/router_connection.dart';
 import 'package:star_debug/controller/dish_log_controller.dart';
 import 'package:star_debug/db/database.dart';
 import 'package:star_debug/db/database_holder.dart';
+import 'package:star_debug/firebase_options.dart';
 import 'package:star_debug/space/space_text.dart';
 import 'package:star_debug/stardebug_app.dart';
 import 'package:star_debug/utils/log_utils.dart';
@@ -83,6 +87,14 @@ class Preloaded{
     } ());
 
     futs.add(() async {
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
+      FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+      PlatformDispatcher.instance.onError = (error, stack) {
+        FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+        return true;
+      };
       // await Firebase.initializeApp();
       // await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
       // FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
@@ -105,7 +117,7 @@ class Preloaded{
 
     await Future.wait(futs);
 
-    // analytics = FirebaseAnalytics.instance;
+    analytics = FirebaseAnalytics.instance;
     conn = ConnController();
 
     dishHolder = conn.newHolder((notifyStream) => DishConnection(notifyStream: notifyStream));

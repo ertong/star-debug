@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:star_debug/pages/debug_data.dart';
@@ -62,7 +63,7 @@ class StarDebugAppState extends State<StarDebugApp>
           : ThemeData.light(useMaterial3: false),
 
       navigatorObservers: [
-        // FirebaseAnalyticsObserver(analytics: R.analytics),
+        FirebaseAnalyticsObserver(analytics: R.analytics),
         _MyNavigatorObserver(),
       ],
       onGenerateRoute: Routes.generateRoute,

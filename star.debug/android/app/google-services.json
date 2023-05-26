@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "523637359255",
+    "project_id": "stardebug",
+    "storage_bucket": "stardebug.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:523637359255:android:e3e86063c22fc152801fd2",
+        "android_client_info": {
+          "package_name": "com.stardebug"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAx37sF_u-piP6QJtklOjpPQce0DDr1xnI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
