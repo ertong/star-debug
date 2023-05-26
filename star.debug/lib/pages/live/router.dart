@@ -6,6 +6,7 @@ import 'package:star_debug/grpc/starlink/starlink.pbgrpc.dart';
 import 'package:star_debug/messages/I18n.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:grpc/grpc.dart';
+import 'package:star_debug/utils/format.dart';
 import 'package:star_debug/utils/kv_widget.dart';
 
 import 'common.dart';
@@ -71,7 +72,7 @@ class _RouterTabState extends State<RouterTab> with TickerProviderStateMixin {
 
         if (status.hasDeviceState()) {
           if (status.deviceState.hasUptimeS())
-            b.kv(M.grpc.WifiGetStatus.uptime_s, status.deviceState.uptimeS);
+            b.kv(M.grpc.WifiGetStatus.uptime_s, Format.sec(status.deviceState.uptimeS.toInt()));
         }
 
         if (status.hasIpv4WanAddress())
@@ -81,13 +82,13 @@ class _RouterTabState extends State<RouterTab> with TickerProviderStateMixin {
           b.kv(M.grpc.WifiGetStatus.ipv6_wan_addresses, status.ipv6WanAddresses.join("\n"));
 
         if (status.hasPingLatencyMs())
-          b.kv(M.grpc.WifiGetStatus.ping_latency_ms, status.pingLatencyMs);
+          b.kv(M.grpc.WifiGetStatus.ping_latency_ms, status.pingLatencyMs.toStringAsFixed(2));
 
         if (status.hasDishPingLatencyMs())
-          b.kv(M.grpc.WifiGetStatus.dish_ping_latency_ms, status.dishPingLatencyMs);
+          b.kv(M.grpc.WifiGetStatus.dish_ping_latency_ms, status.dishPingLatencyMs.toStringAsFixed(4));
 
         if (status.hasDishPingDropRate5m())
-          b.kv(M.grpc.WifiGetStatus.dish_ping_drop_rate_5m, status.dishPingDropRate5m);
+          b.kv(M.grpc.WifiGetStatus.dish_ping_drop_rate_5m, status.dishPingDropRate5m.toStringAsFixed(2));
 
         if (status.hasPopPingLatencyMs())
           b.kv(M.grpc.WifiGetStatus.pop_ping_latency_ms, status.popPingLatencyMs);

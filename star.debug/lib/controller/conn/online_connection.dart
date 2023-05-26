@@ -59,6 +59,8 @@ class OnlineConnection extends BaseConnection {
     }
   }
 
+  final int T_OK = 5500;
+
   String lastIp = "";
   bool needIfConfig = false;
   int cntNotOk = 0;
@@ -70,7 +72,7 @@ class OnlineConnection extends BaseConnection {
     String? myIp;
     int now = DateTime.now().millisecondsSinceEpoch;
 
-    if (getOpendns.data!=null && now-getOpendns.timeOk < 6500)
+    if (getOpendns.data!=null && now-getOpendns.timeOk < T_OK*2)
       myIp = getOpendns.data["ip"];
 
     if (lastIp=="" || lastIp!=myIp) {
@@ -88,20 +90,20 @@ class OnlineConnection extends BaseConnection {
     cntNotOk = 0;
     cntOk = 0;
 
-    if (now - optCloudflare6.timeOk < 4500) {
+    if (now - optCloudflare6.timeOk < T_OK) {
       cntOk++;
       hasIpv6 = true;
     } else cntNotOk++;
 
-    if (now - optGoogle6.timeOk < 3500) {
+    if (now - optGoogle6.timeOk < T_OK) {
       cntOk++;
       hasIpv6 = true;
     } else cntNotOk++;
 
-    if (now - optCloudflare.timeOk < 3500) cntOk++; else cntNotOk++;
-    if (now - optGoogle.timeOk < 3500) cntOk++; else cntNotOk++;
-    if (now - optStarlink.timeOk < 3500) cntOk++; else cntNotOk++;
-    if (getOpendns.data is Map && now-getOpendns.timeOk < 3500)  cntOk++; else cntNotOk++;
+    if (now - optCloudflare.timeOk < T_OK) cntOk++; else cntNotOk++;
+    if (now - optGoogle.timeOk < T_OK) cntOk++; else cntNotOk++;
+    if (now - optStarlink.timeOk < T_OK) cntOk++; else cntNotOk++;
+    if (getOpendns.data is Map && now-getOpendns.timeOk < T_OK)  cntOk++; else cntNotOk++;
     if (getIfConfig.data is Map && !needIfConfig) cntOk++; else cntNotOk++;
 
     {
@@ -157,15 +159,15 @@ class OnlineConnection extends BaseConnection {
     b.header("HTTP");
     int now = DateTime.now().millisecondsSinceEpoch;
 
-    b.kv("1.1.1.1", optCloudflare.latency, ok: now - optCloudflare.timeOk<3500);
-    b.kv("2606:4700:4700::1111", "${optCloudflare6.latency}", ok: now-optCloudflare6.timeOk < 4500);
-    b.kv("google.com", optGoogle.latency, ok: now-optGoogle.timeOk < 3500);
-    b.kv("ipv6.google.com", optGoogle6.latency, ok: now-optGoogle6.timeOk < 3500);
-    b.kv("starlink.com", optStarlink.latency, ok: now-optStarlink.timeOk < 3500);
+    b.kv("1.1.1.1", optCloudflare.latency, ok: now - optCloudflare.timeOk<T_OK);
+    b.kv("2606:4700:4700::1111", "${optCloudflare6.latency}", ok: now-optCloudflare6.timeOk < T_OK);
+    b.kv("google.com", optGoogle.latency, ok: now-optGoogle.timeOk < T_OK);
+    b.kv("ipv6.google.com", optGoogle6.latency, ok: now-optGoogle6.timeOk < T_OK);
+    b.kv("starlink.com", optStarlink.latency, ok: now-optStarlink.timeOk < T_OK);
 
     b.header("My Ip");
 
-    if (getOpendns.data is Map && now-getOpendns.timeOk < 3500)
+    if (getOpendns.data is Map && now-getOpendns.timeOk < T_OK)
       b.kv("OpenDNS", getOpendns.data?["ip"] ?? "", ok: true);
     else
       b.kvs("OpenDNS", "", ok: false);
@@ -246,7 +248,7 @@ class HttpTest {
 
   Future doAndroid() async{
 
-    HttpTestResult res = await R.starChannel.httpTest(url, method, null).timeout(Duration(seconds: 3));
+    HttpTestResult res = await R.starChannel.httpTest(url, method, null).timeout(Duration(seconds: 4));
 
     if (res.code~/100 == 2 || res.code~/100 == 3) {
       timeOk = DateTime.now().millisecondsSinceEpoch;

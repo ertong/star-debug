@@ -7,6 +7,7 @@ import 'package:star_debug/messages/I18n.dart';
 import 'package:star_debug/pages/live/common.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:grpc/grpc.dart';
+import 'package:star_debug/utils/format.dart';
 import 'package:star_debug/utils/kv_widget.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -97,7 +98,7 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
 
         if (status.hasDeviceState()) {
           if (status.deviceState.hasUptimeS())
-            b.kv(M.grpc.DishGetStatus.uptime_s, status.deviceState.uptimeS);
+            b.kv(M.grpc.DishGetStatus.uptime_s, Format.sec(status.deviceState.uptimeS.toInt()));
         }
 
         if (status.hasStowRequested()) {
@@ -125,7 +126,8 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
         }
 
         if (status.hasDisablementCode()) {
-          b.kv(M.grpc.DishGetStatus.disablement_code, status.disablementCode, ok:status.disablementCode==UtDisablementCode.OKAY);
+          b.kv(M.grpc.DishGetStatus.disablement_code, status.disablementCode,
+              ok: status.disablementCode == UtDisablementCode.OKAY);
         }
 
         if (status.hasSoftwareUpdateState()) {
@@ -144,16 +146,16 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
         b.header(M.header.network);
 
         if (status.hasDownlinkThroughputBps())
-          b.kv(M.grpc.DishGetStatus.downlink_throughput_bps, status.downlinkThroughputBps);
+          b.kv(M.grpc.DishGetStatus.downlink_throughput_bps, Format.bytes(status.downlinkThroughputBps));
 
         if (status.hasUplinkThroughputBps())
-          b.kv(M.grpc.DishGetStatus.uplink_throughput_bps, status.uplinkThroughputBps);
+          b.kv(M.grpc.DishGetStatus.uplink_throughput_bps, Format.bytes(status.uplinkThroughputBps));
 
         if (status.hasPopPingDropRate())
           b.kv(M.grpc.DishGetStatus.pop_ping_drop_rate, status.popPingDropRate);
 
         if (status.hasPopPingLatencyMs())
-          b.kv(M.grpc.DishGetStatus.pop_ping_latency_ms, status.popPingLatencyMs);
+          b.kv(M.grpc.DishGetStatus.pop_ping_latency_ms, "${status.popPingLatencyMs.toStringAsPrecision(2)}");
 
         if (status.hasEthSpeedMbps())
           b.kv(M.grpc.DishGetStatus.eth_speed_mbps, status.ethSpeedMbps);
@@ -164,7 +166,7 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
       if (status.hasDeviceInfo())
         rows.addAll(buildDeviceInfoWidget(theme, status.deviceInfo));
 
-      if (status.hasConfig()){
+      if (status.hasConfig()) {
         var b = KVWidgetBuilder(theme);
         var config = status.config;
         b.header(M.header.config);
@@ -181,7 +183,7 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
         rows.addAll(b.widgets);
       }
 
-      if (status.hasGpsStats()){
+      if (status.hasGpsStats()) {
         var b = KVWidgetBuilder(theme);
         b.header(M.header.gps_stats);
         var stats = status.gpsStats;
@@ -194,7 +196,7 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
         if (stats.hasInhibitGps())
           b.kv(M.grpc.DishGpsStats.inhibit_gps, stats.inhibitGps);
 
-        if (b.widgets.length>1) {
+        if (b.widgets.length > 1) {
           rows.addAll(b.widgets);
         }
       }
@@ -204,9 +206,9 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
         b.header(M.header.antenna);
 
         if (status.hasBoresightAzimuthDeg())
-          b.kv(M.grpc.DishGetStatus.boresight_azimuth_deg, status.boresightAzimuthDeg);
+          b.kv(M.grpc.DishGetStatus.boresight_azimuth_deg, status.boresightAzimuthDeg.toStringAsPrecision(2));
         if (status.hasBoresightElevationDeg())
-          b.kv(M.grpc.DishGetStatus.boresight_elevation_deg, status.boresightElevationDeg);
+          b.kv(M.grpc.DishGetStatus.boresight_elevation_deg, status.boresightElevationDeg.toStringAsPrecision(2));
 
         if (status.hasIsSnrAboveNoiseFloor())
           b.kv(M.grpc.DishGetStatus.is_snr_above_noise_floor, status.isSnrAboveNoiseFloor);
@@ -214,10 +216,11 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
         if (status.hasIsSnrPersistentlyLow())
           b.kv(M.grpc.DishGetStatus.is_snr_persistently_low, status.isSnrPersistentlyLow);
 
-        if (status.hasObstructionStats()){
+        if (status.hasObstructionStats()) {
           var stats = status.obstructionStats;
           if (stats.hasFractionObstructed())
-            b.kv(M.grpc.DishObstructionStats.fraction_obstructed, stats.fractionObstructed);
+            b.kv(M.grpc.DishObstructionStats.fraction_obstructed,
+                "${(stats.fractionObstructed * 100).toStringAsPrecision(2)} %");
 
           if (stats.hasValidS())
             b.kv(M.grpc.DishObstructionStats.valid_s, stats.validS);
@@ -225,10 +228,12 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
           b.kv(M.grpc.DishObstructionStats.currently_obstructed, stats.currentlyObstructed);
 
           if (stats.hasAvgProlongedObstructionDurationS())
-            b.kv(M.grpc.DishObstructionStats.avg_prolonged_obstruction_duration_s, stats.avgProlongedObstructionDurationS);
+            b.kv(M.grpc.DishObstructionStats.avg_prolonged_obstruction_duration_s,
+                Format.secD(stats.avgProlongedObstructionDurationS));
 
           if (stats.hasAvgProlongedObstructionIntervalS())
-            b.kv(M.grpc.DishObstructionStats.avg_prolonged_obstruction_interval_s, stats.avgProlongedObstructionIntervalS);
+            b.kv(M.grpc.DishObstructionStats.avg_prolonged_obstruction_interval_s,
+                Format.secD(stats.avgProlongedObstructionIntervalS));
 
           if (stats.hasAvgProlongedObstructionValid())
             b.kv(M.grpc.DishObstructionStats.avg_prolonged_obstruction_valid, stats.avgProlongedObstructionValid);
@@ -240,12 +245,12 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
             b.kv(M.grpc.DishObstructionStats.patches_valid, stats.patchesValid);
         }
 
-        if (b.widgets.length>1) {
+        if (b.widgets.length > 1) {
           rows.addAll(b.widgets);
         }
       }
 
-      if (status.hasReadyStates()){
+      if (status.hasReadyStates()) {
         var b = KVWidgetBuilder(theme);
         b.header(M.header.ready_states);
         var states = status.readyStates;
@@ -255,22 +260,20 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
           b.kv("${key} (${R.i18n.map["grpc.DishReadyStates.${key}"] ?? key})", "${val}");
         }
 
-        if (b.widgets.length>1) {
+        if (b.widgets.length > 1) {
           rows.addAll(b.widgets);
         }
       }
+
+      if (charts.isNotEmpty) {
+        var b = KVWidgetBuilder(theme);
+        b.header(M.general.charts);
+
+        b.widgets.addAll(charts);
+
+        rows.addAll(b.widgets);
+      }
     }
-
-    if (charts.isNotEmpty)
-    {
-      var b = KVWidgetBuilder(theme);
-      b.header(M.general.charts);
-
-      b.widgets.addAll(charts);
-
-      rows.addAll(b.widgets);
-    }
-
     return rows;
   }
 

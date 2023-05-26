@@ -18,6 +18,8 @@ class KVWidgetBuilder extends KVConsumer{
   void kvs(String k, String v, {bool? ok}) {
     widgets.add(InkWell(
       onTap: () async {
+        if (v.isEmpty)
+          return;
         await FlutterClipboard.copy(v);
         R.showSnackBar(SnackBar(
           duration: Duration(seconds: 2),

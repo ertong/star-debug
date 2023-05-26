@@ -18,7 +18,7 @@ public class HttpTester {
 
     static HashMap<String, Object> run(String url, String method, String dnsResolveTo, String dohUrl) throws Exception {
         OkHttpClient bootstrapClient = new OkHttpClient.Builder()
-                .callTimeout(2, TimeUnit.SECONDS)
+                .callTimeout(3, TimeUnit.SECONDS)
                 .build();
 
         DnsOverHttps dns = new DnsOverHttps.Builder().client(bootstrapClient)

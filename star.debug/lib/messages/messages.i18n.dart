@@ -118,7 +118,9 @@ class AboutMessages {
   String get starlink_for_ukraine_in_fb =>
       """Starlink For Ukraine in Facebook""";
   String get about_text =>
-      """Додаток створений в рамках волонтерської ініціативи "**Народний старлінк**" для потреб людей, що щодня працюють над тим, щоб зв'язок був доступний навіть в місцях, які росія намагається перетворити на пустелю.
+      """The application was created as a part of the volunteer initiative "**Starlink For Ukraine**"
+ for the needs of people who work every day to ensure that communications are available even in places
+ which russia is trying to turn into a desert.
 """;
 }
 
@@ -289,8 +291,8 @@ class DishGetStatusGrpcMessages {
       """avg_prolonged_obstruction_valid""";
   String get time_obstructed => """time_obstructed""";
   String get patches_valid => """patches_valid""";
-  String get downlink_throughput_bps => """Downlink Throughput, B/s""";
-  String get uplink_throughput_bps => """Uplink Throughput, B/s""";
+  String get downlink_throughput_bps => """Downlink Throughput""";
+  String get uplink_throughput_bps => """Uplink Throughput""";
   String get pop_ping_latency_ms => """PoP ping latency, ms""";
   String get stow_requested => """Stow requested""";
   String get boresight_azimuth_deg => """Panel boresight Azimuth angle, deg""";
@@ -522,7 +524,9 @@ Map<String, String> get messagesMap => {
       """about.starlink_for_ukraine_in_fb""":
           """Starlink For Ukraine in Facebook""",
       """about.about_text""":
-          """Додаток створений в рамках волонтерської ініціативи "**Народний старлінк**" для потреб людей, що щодня працюють над тим, щоб зв'язок був доступний навіть в місцях, які росія намагається перетворити на пустелю.
+          """The application was created as a part of the volunteer initiative "**Starlink For Ukraine**"
+ for the needs of people who work every day to ensure that communications are available even in places
+ which russia is trying to turn into a desert.
 """,
       """wifi.setup""": """Setup""",
       """wifi.setup_wifi""": """Setup Wifi""",
@@ -615,9 +619,8 @@ Map<String, String> get messagesMap => {
       """grpc.DishGetStatus.time_obstructed""": """time_obstructed""",
       """grpc.DishGetStatus.patches_valid""": """patches_valid""",
       """grpc.DishGetStatus.downlink_throughput_bps""":
-          """Downlink Throughput, B/s""",
-      """grpc.DishGetStatus.uplink_throughput_bps""":
-          """Uplink Throughput, B/s""",
+          """Downlink Throughput""",
+      """grpc.DishGetStatus.uplink_throughput_bps""": """Uplink Throughput""",
       """grpc.DishGetStatus.pop_ping_latency_ms""": """PoP ping latency, ms""",
       """grpc.DishGetStatus.stow_requested""": """Stow requested""",
       """grpc.DishGetStatus.boresight_azimuth_deg""":

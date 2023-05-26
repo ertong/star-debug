@@ -154,8 +154,8 @@ grpc:
     fraction_obstructed: Fraction obstructed
     valid_s: Time valid, sec
     currently_obstructed: Currently obstructed
-    avg_prolonged_obstruction_duration_s: "Average prolonged obstruction duration, sec"
-    avg_prolonged_obstruction_interval_s: "Average prolonged obstruction interval, sec"
+    avg_prolonged_obstruction_duration_s: "Average prolonged obstruction duration"
+    avg_prolonged_obstruction_interval_s: "Average prolonged obstruction interval"
     avg_prolonged_obstruction_valid: Average prolonged obstruction valid
     time_obstructed: Time obstructed
     patches_valid: Patches valid
@@ -173,8 +173,8 @@ grpc:
     time_obstructed: time_obstructed
     patches_valid: patches_valid
 
-    downlink_throughput_bps: Downlink Throughput, B/s
-    uplink_throughput_bps: Uplink Throughput, B/s
+    downlink_throughput_bps: Downlink Throughput
+    uplink_throughput_bps: Uplink Throughput
     pop_ping_latency_ms: PoP ping latency, ms
     stow_requested: Stow requested
     boresight_azimuth_deg: Panel boresight Azimuth angle, deg

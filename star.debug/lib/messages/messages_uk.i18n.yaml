@@ -124,9 +124,8 @@ grpc:
     fraction_obstructed: Частка часу с перешкодами
     valid_s: Time valid, sec
     currently_obstructed: Є перешкода
-    avg_prolonged_obstruction_duration_s: Середній час тривалих перешкод, с
-    avg_prolonged_obstruction_interval_s: Середній час між тривалими перешкодами,
-      с
+    avg_prolonged_obstruction_duration_s: Середній час тривалих перешкод
+    avg_prolonged_obstruction_interval_s: Середній час між тривалими перешкодами
     avg_prolonged_obstruction_valid: Average prolonged obstruction valid
     time_obstructed: Тривалість перешкоди
     patches_valid: Patches valid
@@ -142,8 +141,8 @@ grpc:
     avg_prolonged_obstruction_valid: avg_prolonged_obstruction_valid
     time_obstructed: time_obstructed
     patches_valid: patches_valid
-    downlink_throughput_bps: Downlink Throughput, B/s
-    uplink_throughput_bps: Uplink Throughput, B/s
+    downlink_throughput_bps: Downlink Throughput
+    uplink_throughput_bps: Uplink Throughput
     pop_ping_latency_ms: PoP ping затримка, мс
     stow_requested: Складання в процесі
     boresight_azimuth_deg: Азимут осі панелі, град
@@ -274,7 +273,7 @@ grpc:
     x_tx_bytes: Transmitted
   WifiGetStatus:
     captive_portal_enabled: Captive portal enabled
-    uptime_s: Час після завантаження, с
+    uptime_s: Час після завантаження
     ipv4_wan_address: WAN IPv4
     ping_drop_rate: Ping drop rate
     ping_latency_ms: Ping latency, ms

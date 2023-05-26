@@ -291,8 +291,8 @@ class DishGetStatusGrpcMessagesUk extends DishGetStatusGrpcMessages {
       """avg_prolonged_obstruction_valid""";
   String get time_obstructed => """time_obstructed""";
   String get patches_valid => """patches_valid""";
-  String get downlink_throughput_bps => """Downlink Throughput, B/s""";
-  String get uplink_throughput_bps => """Uplink Throughput, B/s""";
+  String get downlink_throughput_bps => """Downlink Throughput""";
+  String get uplink_throughput_bps => """Uplink Throughput""";
   String get pop_ping_latency_ms => """PoP ping затримка, мс""";
   String get stow_requested => """Складання в процесі""";
   String get boresight_azimuth_deg => """Азимут осі панелі, град""";
@@ -458,7 +458,7 @@ class WifiGetStatusGrpcMessagesUk extends WifiGetStatusGrpcMessages {
   final GrpcMessagesUk _parent;
   const WifiGetStatusGrpcMessagesUk(this._parent) : super(_parent);
   String get captive_portal_enabled => """Captive portal enabled""";
-  String get uptime_s => """Час після завантаження, с""";
+  String get uptime_s => """Час після завантаження""";
   String get ipv4_wan_address => """WAN IPv4""";
   String get ping_drop_rate => """Ping drop rate""";
   String get ping_latency_ms => """Ping latency, ms""";
@@ -617,9 +617,8 @@ Map<String, String> get messagesUkMap => {
       """grpc.DishGetStatus.time_obstructed""": """time_obstructed""",
       """grpc.DishGetStatus.patches_valid""": """patches_valid""",
       """grpc.DishGetStatus.downlink_throughput_bps""":
-          """Downlink Throughput, B/s""",
-      """grpc.DishGetStatus.uplink_throughput_bps""":
-          """Uplink Throughput, B/s""",
+          """Downlink Throughput""",
+      """grpc.DishGetStatus.uplink_throughput_bps""": """Uplink Throughput""",
       """grpc.DishGetStatus.pop_ping_latency_ms""": """PoP ping затримка, мс""",
       """grpc.DishGetStatus.stow_requested""": """Складання в процесі""",
       """grpc.DishGetStatus.boresight_azimuth_deg""":
@@ -762,7 +761,7 @@ Map<String, String> get messagesUkMap => {
       """grpc.WifiClient.x_tx_bytes""": """Transmitted""",
       """grpc.WifiGetStatus.captive_portal_enabled""":
           """Captive portal enabled""",
-      """grpc.WifiGetStatus.uptime_s""": """Час після завантаження, с""",
+      """grpc.WifiGetStatus.uptime_s""": """Час після завантаження""",
       """grpc.WifiGetStatus.ipv4_wan_address""": """WAN IPv4""",
       """grpc.WifiGetStatus.ping_drop_rate""": """Ping drop rate""",
       """grpc.WifiGetStatus.ping_latency_ms""": """Ping latency, ms""",
