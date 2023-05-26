@@ -162,15 +162,15 @@ class _RouterTabState extends State<RouterTab> with TickerProviderStateMixin {
           if (client.hasMacAddress())
             b.kv(M.grpc.WifiClient.mac_address, "${client.macAddress}");
           if (client.hasAssociatedTimeS())
-            b.kv(M.grpc.WifiClient.associated_time_s, "${client.associatedTimeS}");
+            b.kv(M.grpc.WifiClient.associated_time_s, Format.sec(client.associatedTimeS));
           if (client.hasSignalStrength())
             b.kv(M.grpc.WifiClient.signal_strength, "${client.signalStrength}");
           if (client.hasSnr())
             b.kv(M.grpc.WifiClient.snr, "${client.snr}");
           if (client.hasTxStats())
-            b.kv(M.grpc.WifiClient.x_rx_bytes, "${client.txStats.bytes}");
+            b.kv(M.grpc.WifiClient.x_rx_bytes, Format.bytes(client.txStats.bytes.toDouble()));
           if (client.hasRxStats())
-            b.kv(M.grpc.WifiClient.x_tx_bytes, "${client.rxStats.bytes}");
+            b.kv(M.grpc.WifiClient.x_tx_bytes, Format.bytes(client.rxStats.bytes.toDouble()));
         }
 
         rows.addAll(b.widgets);

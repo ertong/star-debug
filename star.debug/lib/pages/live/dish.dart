@@ -146,10 +146,10 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
         b.header(M.header.network);
 
         if (status.hasDownlinkThroughputBps())
-          b.kv(M.grpc.DishGetStatus.downlink_throughput_bps, Format.bytes(status.downlinkThroughputBps));
+          b.kv(M.grpc.DishGetStatus.downlink_throughput_bps, Format.bytesPerSec(status.downlinkThroughputBps));
 
         if (status.hasUplinkThroughputBps())
-          b.kv(M.grpc.DishGetStatus.uplink_throughput_bps, Format.bytes(status.uplinkThroughputBps));
+          b.kv(M.grpc.DishGetStatus.uplink_throughput_bps, Format.bytesPerSec(status.uplinkThroughputBps));
 
         if (status.hasPopPingDropRate())
           b.kv(M.grpc.DishGetStatus.pop_ping_drop_rate, status.popPingDropRate);
@@ -223,7 +223,7 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
                 "${(stats.fractionObstructed * 100).toStringAsPrecision(2)} %");
 
           if (stats.hasValidS())
-            b.kv(M.grpc.DishObstructionStats.valid_s, stats.validS);
+            b.kv(M.grpc.DishObstructionStats.valid_s, Format.secD(stats.validS));
 
           b.kv(M.grpc.DishObstructionStats.currently_obstructed, stats.currentlyObstructed);
 

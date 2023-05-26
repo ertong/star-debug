@@ -122,7 +122,7 @@ grpc:
     power_save_mode: power_save_mode
   DishObstructionStats:
     fraction_obstructed: Частка часу с перешкодами
-    valid_s: Time valid, sec
+    valid_s: Time valid
     currently_obstructed: Є перешкода
     avg_prolonged_obstruction_duration_s: Середній час тривалих перешкод
     avg_prolonged_obstruction_interval_s: Середній час між тривалими перешкодами

@@ -261,12 +261,12 @@ class DishObstructionStatsGrpcMessages {
   final GrpcMessages _parent;
   const DishObstructionStatsGrpcMessages(this._parent);
   String get fraction_obstructed => """Fraction obstructed""";
-  String get valid_s => """Time valid, sec""";
+  String get valid_s => """Time valid""";
   String get currently_obstructed => """Currently obstructed""";
   String get avg_prolonged_obstruction_duration_s =>
-      """Average prolonged obstruction duration, sec""";
+      """Average prolonged obstruction duration""";
   String get avg_prolonged_obstruction_interval_s =>
-      """Average prolonged obstruction interval, sec""";
+      """Average prolonged obstruction interval""";
   String get avg_prolonged_obstruction_valid =>
       """Average prolonged obstruction valid""";
   String get time_obstructed => """Time obstructed""";
@@ -592,13 +592,13 @@ Map<String, String> get messagesMap => {
       """grpc.DishConfig.power_save_mode""": """power_save_mode""",
       """grpc.DishObstructionStats.fraction_obstructed""":
           """Fraction obstructed""",
-      """grpc.DishObstructionStats.valid_s""": """Time valid, sec""",
+      """grpc.DishObstructionStats.valid_s""": """Time valid""",
       """grpc.DishObstructionStats.currently_obstructed""":
           """Currently obstructed""",
       """grpc.DishObstructionStats.avg_prolonged_obstruction_duration_s""":
-          """Average prolonged obstruction duration, sec""",
+          """Average prolonged obstruction duration""",
       """grpc.DishObstructionStats.avg_prolonged_obstruction_interval_s""":
-          """Average prolonged obstruction interval, sec""",
+          """Average prolonged obstruction interval""",
       """grpc.DishObstructionStats.avg_prolonged_obstruction_valid""":
           """Average prolonged obstruction valid""",
       """grpc.DishObstructionStats.time_obstructed""": """Time obstructed""",

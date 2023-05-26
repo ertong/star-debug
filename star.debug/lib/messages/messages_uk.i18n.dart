@@ -261,12 +261,12 @@ class DishObstructionStatsGrpcMessagesUk
   final GrpcMessagesUk _parent;
   const DishObstructionStatsGrpcMessagesUk(this._parent) : super(_parent);
   String get fraction_obstructed => """Частка часу с перешкодами""";
-  String get valid_s => """Time valid, sec""";
+  String get valid_s => """Time valid""";
   String get currently_obstructed => """Є перешкода""";
   String get avg_prolonged_obstruction_duration_s =>
-      """Середній час тривалих перешкод, с""";
+      """Середній час тривалих перешкод""";
   String get avg_prolonged_obstruction_interval_s =>
-      """Середній час між тривалими перешкодами, с""";
+      """Середній час між тривалими перешкодами""";
   String get avg_prolonged_obstruction_valid =>
       """Average prolonged obstruction valid""";
   String get time_obstructed => """Тривалість перешкоди""";
@@ -589,12 +589,12 @@ Map<String, String> get messagesUkMap => {
       """grpc.DishConfig.power_save_mode""": """power_save_mode""",
       """grpc.DishObstructionStats.fraction_obstructed""":
           """Частка часу с перешкодами""",
-      """grpc.DishObstructionStats.valid_s""": """Time valid, sec""",
+      """grpc.DishObstructionStats.valid_s""": """Time valid""",
       """grpc.DishObstructionStats.currently_obstructed""": """Є перешкода""",
       """grpc.DishObstructionStats.avg_prolonged_obstruction_duration_s""":
-          """Середній час тривалих перешкод, с""",
+          """Середній час тривалих перешкод""",
       """grpc.DishObstructionStats.avg_prolonged_obstruction_interval_s""":
-          """Середній час між тривалими перешкодами, с""",
+          """Середній час між тривалими перешкодами""",
       """grpc.DishObstructionStats.avg_prolonged_obstruction_valid""":
           """Average prolonged obstruction valid""",
       """grpc.DishObstructionStats.time_obstructed""":

@@ -152,7 +152,7 @@ grpc:
 
   DishObstructionStats:
     fraction_obstructed: Fraction obstructed
-    valid_s: Time valid, sec
+    valid_s: Time valid
     currently_obstructed: Currently obstructed
     avg_prolonged_obstruction_duration_s: "Average prolonged obstruction duration"
     avg_prolonged_obstruction_interval_s: "Average prolonged obstruction interval"
