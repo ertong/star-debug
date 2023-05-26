@@ -48,34 +48,73 @@ class _AppDrawerState extends State<AppDrawer> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: <Widget>[
-          _createHeader(),
+      child: Column(
+        children: [
+          Expanded(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: <Widget>[
+                _createHeader(),
 //          _createDrawerItemRoute(context, Icons.contacts, 'Test main page', Routes.MAIN),
-          _createDrawerItemRoute(context, Icons.play_arrow, "Strarlink Live", Routes.LIVE),
-          _createDrawerItemRoute(context, Icons.bug_report, M.general.debug_data_viewer, Routes.MAIN),
-          if (R.isDebug)
-            _createDrawerItemRoute(context, Icons.smart_toy, "Sandbox", Routes.DEBUG),
-          _createDrawerItem(context, Icons.color_lens, '${M.general.dark_mode}', () async{
-            await R.prefs.save((p){
-              p.darkMode = !p.darkMode;
-            });
-            R.appKey.currentState?.setState(() {});
-          }, R.prefs.data.darkMode?"On":"Off", false),
-          _createDrawerItem(context, Icons.language, '${M.general.change_language}', () async{
-            var lang = await showDialog<String>(context: context, builder: (c){ return SelectLangDialog(); });
-            if (lang!=null){
-              await R.prefs.save((p) {
-                p.lang = lang;
-              });
-              await I18n.instance.setLang(lang);
-              R.appKey.currentState?.setState(() {});
-              if (context.mounted)
-                Navigator.pop(context);
-            }
-          }, M.general.lang, false),
+                _createDrawerItemRoute(context, Icons.play_arrow, "Strarlink Live", Routes.LIVE),
+                _createDrawerItemRoute(context, Icons.bug_report, M.general.debug_data_viewer, Routes.MAIN),
+                if (R.isDebug)
+                  _createDrawerItemRoute(context, Icons.smart_toy, "Sandbox", Routes.DEBUG),
+                _createDrawerItem(context, Icons.color_lens, '${M.general.dark_mode}', () async{
+                  await R.prefs.save((p){
+                    p.darkMode = !p.darkMode;
+                  });
+                  R.appKey.currentState?.setState(() {});
+                }, R.prefs.data.darkMode?"On":"Off", false),
+                _createDrawerItem(context, Icons.language, '${M.general.change_language}', () async{
+                  var lang = await showDialog<String>(context: context, builder: (c){ return SelectLangDialog(); });
+                  if (lang!=null){
+                    await R.prefs.save((p) {
+                      p.lang = lang;
+                    });
+                    await I18n.instance.setLang(lang);
+                    R.appKey.currentState?.setState(() {});
+                    if (context.mounted)
+                      Navigator.pop(context);
+                  }
+                }, M.general.lang, false),
+              ],
+            ),
+          ),
+          ListTile(
+            leading: Transform.scale(scale:0.8, child: _buildLogo()),
+            title: Text("Про Народний cтарлінк",),
+            onTap: (){
+              Navigator.of(context).pushNamedAndRemoveUntil(Routes.ABOUT, (r) => false);
+            },
+          ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildLogo(){
+    return Container(
+      decoration: BoxDecoration(
+          shape: BoxShape.rectangle,
+          borderRadius: BorderRadius.all(Radius.circular(25)),
+          color: Colors.black
+      ),
+      width: 50,
+      height: 50,
+      child: ClipRRect(
+        borderRadius: BorderRadius.all(Radius.circular(25)),
+        child: OverflowBox(
+          maxWidth: 70,
+          maxHeight: 70,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(13, 0, 0, 0),
+            child: Image(
+              image: AssetImage('assets/images/starlinkforukraine1.png'),
+              width: 70,
+            ),
+          ),
+        ),
       ),
     );
   }

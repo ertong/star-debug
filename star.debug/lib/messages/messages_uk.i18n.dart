@@ -55,6 +55,7 @@ class MessagesUk extends Messages {
   String get locale => "uk";
   String get languageCode => "uk";
   GeneralMessagesUk get general => GeneralMessagesUk(this);
+  WifiMessagesUk get wifi => WifiMessagesUk(this);
   LiveMessagesUk get live => LiveMessagesUk(this);
   HeaderMessagesUk get header => HeaderMessagesUk(this);
   OnlineMessagesUk get online => OnlineMessagesUk(this);
@@ -106,6 +107,17 @@ class GeneralMessagesUk extends GeneralMessages {
   String get unstow => """Розкласти""";
   String get inhibit_gps => """Ігнорувати GPS""";
   String get uninhibit_gps => """Довіряти GPS""";
+}
+
+class WifiMessagesUk extends WifiMessages {
+  final MessagesUk _parent;
+  const WifiMessagesUk(this._parent) : super(_parent);
+  String get setup => """Налаштувати""";
+  String get setup_wifi => """Налаштувати Wifi""";
+  String get network_name => """Назва мережі""";
+  String get password => """Пароль""";
+  String get skip => """Пропустити""";
+  String get apply => """Застосувати""";
 }
 
 class LiveMessagesUk extends LiveMessages {
@@ -316,7 +328,7 @@ class WifiConfigGrpcMessagesUk extends WifiConfigGrpcMessages {
   final GrpcMessagesUk _parent;
   const WifiConfigGrpcMessagesUk(this._parent) : super(_parent);
   String get country_code => """Код країни""";
-  String get setup_complete => """Налаштування працює""";
+  String get setup_complete => """Налаштування завершено""";
   String get version => """Версія""";
   String get channel_2ghz => """channel_2ghz""";
   String get channel_5ghz => """channel_5ghz""";
@@ -492,6 +504,12 @@ Map<String, String> get messagesUkMap => {
       """general.unstow""": """Розкласти""",
       """general.inhibit_gps""": """Ігнорувати GPS""",
       """general.uninhibit_gps""": """Довіряти GPS""",
+      """wifi.setup""": """Налаштувати""",
+      """wifi.setup_wifi""": """Налаштувати Wifi""",
+      """wifi.network_name""": """Назва мережі""",
+      """wifi.password""": """Пароль""",
+      """wifi.skip""": """Пропустити""",
+      """wifi.apply""": """Застосувати""",
       """live.starlink_live""": """Starlink Live""",
       """header.general""": """Загальне""",
       """header.signal""": """Сигнал""",
@@ -613,7 +631,7 @@ Map<String, String> get messagesUkMap => {
       """grpc.BasicServiceSet.iface_name""": """iface_name""",
       """grpc.BasicServiceSet.auth""": """auth""",
       """grpc.WifiConfig.country_code""": """Код країни""",
-      """grpc.WifiConfig.setup_complete""": """Налаштування працює""",
+      """grpc.WifiConfig.setup_complete""": """Налаштування завершено""",
       """grpc.WifiConfig.version""": """Версія""",
       """grpc.WifiConfig.channel_2ghz""": """channel_2ghz""",
       """grpc.WifiConfig.channel_5ghz""": """channel_5ghz""",

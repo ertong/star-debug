@@ -1508,6 +1508,7 @@ enum Request_Request {
   dishInhibitGps, 
   wifiSetConfig, 
   wifiGetClients, 
+  wifiSetup, 
   wifiGetDiagnostics, 
   wifiGetConfig, 
   transceiverGetStatus, 
@@ -1531,6 +1532,7 @@ class Request extends $pb.GeneratedMessage {
     2014 : Request_Request.dishInhibitGps,
     3001 : Request_Request.wifiSetConfig,
     3002 : Request_Request.wifiGetClients,
+    3003 : Request_Request.wifiSetup,
     3008 : Request_Request.wifiGetDiagnostics,
     3009 : Request_Request.wifiGetConfig,
     4003 : Request_Request.transceiverGetStatus,
@@ -1538,7 +1540,7 @@ class Request extends $pb.GeneratedMessage {
     0 : Request_Request.notSet
   };
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'Request', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'SpaceX.API.Device'), createEmptyInstance: create)
-    ..oo(0, [1001, 1004, 1007, 1008, 1017, 1022, 1023, 2002, 2008, 2010, 2011, 2014, 3001, 3002, 3008, 3009, 4003, 4004])
+    ..oo(0, [1001, 1004, 1007, 1008, 1017, 1022, 1023, 2002, 2008, 2010, 2011, 2014, 3001, 3002, 3003, 3008, 3009, 4003, 4004])
     ..a<$fixnum.Int64>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'id', $pb.PbFieldType.OU6, defaultOrMaker: $fixnum.Int64.ZERO)
     ..aOS(13, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'targetId')
     ..a<$fixnum.Int64>(14, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'epochId', $pb.PbFieldType.OU6, defaultOrMaker: $fixnum.Int64.ZERO)
@@ -1556,6 +1558,7 @@ class Request extends $pb.GeneratedMessage {
     ..aOM<DishInhibitGpsRequest>(2014, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'dishInhibitGps', subBuilder: DishInhibitGpsRequest.create)
     ..aOM<WifiSetConfigRequest>(3001, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'wifiSetConfig', subBuilder: WifiSetConfigRequest.create)
     ..aOM<WifiGetClientsRequest>(3002, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'wifiGetClients', subBuilder: WifiGetClientsRequest.create)
+    ..aOM<WifiSetupRequest>(3003, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'wifiSetup', subBuilder: WifiSetupRequest.create)
     ..aOM<WifiGetDiagnosticsRequest>(3008, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'wifiGetDiagnostics', subBuilder: WifiGetDiagnosticsRequest.create)
     ..aOM<WifiGetConfigRequest>(3009, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'wifiGetConfig', subBuilder: WifiGetConfigRequest.create)
     ..aOM<TransceiverGetStatusRequest>(4003, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'transceiverGetStatus', subBuilder: TransceiverGetStatusRequest.create)
@@ -1582,6 +1585,7 @@ class Request extends $pb.GeneratedMessage {
     DishInhibitGpsRequest? dishInhibitGps,
     WifiSetConfigRequest? wifiSetConfig,
     WifiGetClientsRequest? wifiGetClients,
+    WifiSetupRequest? wifiSetup,
     WifiGetDiagnosticsRequest? wifiGetDiagnostics,
     WifiGetConfigRequest? wifiGetConfig,
     TransceiverGetStatusRequest? transceiverGetStatus,
@@ -1638,6 +1642,9 @@ class Request extends $pb.GeneratedMessage {
     }
     if (wifiGetClients != null) {
       _result.wifiGetClients = wifiGetClients;
+    }
+    if (wifiSetup != null) {
+      _result.wifiSetup = wifiSetup;
     }
     if (wifiGetDiagnostics != null) {
       _result.wifiGetDiagnostics = wifiGetDiagnostics;
@@ -1858,49 +1865,60 @@ class Request extends $pb.GeneratedMessage {
   @$pb.TagNumber(3002)
   WifiGetClientsRequest ensureWifiGetClients() => $_ensure(16);
 
+  @$pb.TagNumber(3003)
+  WifiSetupRequest get wifiSetup => $_getN(17);
+  @$pb.TagNumber(3003)
+  set wifiSetup(WifiSetupRequest v) { setField(3003, v); }
+  @$pb.TagNumber(3003)
+  $core.bool hasWifiSetup() => $_has(17);
+  @$pb.TagNumber(3003)
+  void clearWifiSetup() => clearField(3003);
+  @$pb.TagNumber(3003)
+  WifiSetupRequest ensureWifiSetup() => $_ensure(17);
+
   @$pb.TagNumber(3008)
-  WifiGetDiagnosticsRequest get wifiGetDiagnostics => $_getN(17);
+  WifiGetDiagnosticsRequest get wifiGetDiagnostics => $_getN(18);
   @$pb.TagNumber(3008)
   set wifiGetDiagnostics(WifiGetDiagnosticsRequest v) { setField(3008, v); }
   @$pb.TagNumber(3008)
-  $core.bool hasWifiGetDiagnostics() => $_has(17);
+  $core.bool hasWifiGetDiagnostics() => $_has(18);
   @$pb.TagNumber(3008)
   void clearWifiGetDiagnostics() => clearField(3008);
   @$pb.TagNumber(3008)
-  WifiGetDiagnosticsRequest ensureWifiGetDiagnostics() => $_ensure(17);
+  WifiGetDiagnosticsRequest ensureWifiGetDiagnostics() => $_ensure(18);
 
   @$pb.TagNumber(3009)
-  WifiGetConfigRequest get wifiGetConfig => $_getN(18);
+  WifiGetConfigRequest get wifiGetConfig => $_getN(19);
   @$pb.TagNumber(3009)
   set wifiGetConfig(WifiGetConfigRequest v) { setField(3009, v); }
   @$pb.TagNumber(3009)
-  $core.bool hasWifiGetConfig() => $_has(18);
+  $core.bool hasWifiGetConfig() => $_has(19);
   @$pb.TagNumber(3009)
   void clearWifiGetConfig() => clearField(3009);
   @$pb.TagNumber(3009)
-  WifiGetConfigRequest ensureWifiGetConfig() => $_ensure(18);
+  WifiGetConfigRequest ensureWifiGetConfig() => $_ensure(19);
 
   @$pb.TagNumber(4003)
-  TransceiverGetStatusRequest get transceiverGetStatus => $_getN(19);
+  TransceiverGetStatusRequest get transceiverGetStatus => $_getN(20);
   @$pb.TagNumber(4003)
   set transceiverGetStatus(TransceiverGetStatusRequest v) { setField(4003, v); }
   @$pb.TagNumber(4003)
-  $core.bool hasTransceiverGetStatus() => $_has(19);
+  $core.bool hasTransceiverGetStatus() => $_has(20);
   @$pb.TagNumber(4003)
   void clearTransceiverGetStatus() => clearField(4003);
   @$pb.TagNumber(4003)
-  TransceiverGetStatusRequest ensureTransceiverGetStatus() => $_ensure(19);
+  TransceiverGetStatusRequest ensureTransceiverGetStatus() => $_ensure(20);
 
   @$pb.TagNumber(4004)
-  TransceiverGetTelemetryRequest get transceiverGetTelemetry => $_getN(20);
+  TransceiverGetTelemetryRequest get transceiverGetTelemetry => $_getN(21);
   @$pb.TagNumber(4004)
   set transceiverGetTelemetry(TransceiverGetTelemetryRequest v) { setField(4004, v); }
   @$pb.TagNumber(4004)
-  $core.bool hasTransceiverGetTelemetry() => $_has(20);
+  $core.bool hasTransceiverGetTelemetry() => $_has(21);
   @$pb.TagNumber(4004)
   void clearTransceiverGetTelemetry() => clearField(4004);
   @$pb.TagNumber(4004)
-  TransceiverGetTelemetryRequest ensureTransceiverGetTelemetry() => $_ensure(20);
+  TransceiverGetTelemetryRequest ensureTransceiverGetTelemetry() => $_ensure(21);
 }
 
 enum Response_Response {
@@ -1917,6 +1935,7 @@ enum Response_Response {
   dishInhibitGps, 
   wifiSetConfig, 
   wifiGetClients, 
+  wifiSetup, 
   wifiGetStatus, 
   wifiGetHistory, 
   wifiGetDiagnostics, 
@@ -1942,6 +1961,7 @@ class Response extends $pb.GeneratedMessage {
     2013 : Response_Response.dishInhibitGps,
     3001 : Response_Response.wifiSetConfig,
     3002 : Response_Response.wifiGetClients,
+    3003 : Response_Response.wifiSetup,
     3004 : Response_Response.wifiGetStatus,
     3006 : Response_Response.wifiGetHistory,
     3008 : Response_Response.wifiGetDiagnostics,
@@ -1952,7 +1972,7 @@ class Response extends $pb.GeneratedMessage {
     0 : Response_Response.notSet
   };
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'Response', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'SpaceX.API.Device'), createEmptyInstance: create)
-    ..oo(0, [1001, 1004, 1017, 1023, 2002, 2004, 2006, 2008, 2010, 2011, 2013, 3001, 3002, 3004, 3006, 3008, 3009, 3022, 4003, 4004])
+    ..oo(0, [1001, 1004, 1017, 1023, 2002, 2004, 2006, 2008, 2010, 2011, 2013, 3001, 3002, 3003, 3004, 3006, 3008, 3009, 3022, 4003, 4004])
     ..a<$fixnum.Int64>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'id', $pb.PbFieldType.OU6, defaultOrMaker: $fixnum.Int64.ZERO)
     ..aOM<$1.Status>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'status', subBuilder: $1.Status.create)
     ..a<$fixnum.Int64>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'apiVersion', $pb.PbFieldType.OU6, defaultOrMaker: $fixnum.Int64.ZERO)
@@ -1969,6 +1989,7 @@ class Response extends $pb.GeneratedMessage {
     ..aOM<DishInhibitGpsResponse>(2013, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'dishInhibitGps', subBuilder: DishInhibitGpsResponse.create)
     ..aOM<WifiSetConfigResponse>(3001, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'wifiSetConfig', subBuilder: WifiSetConfigResponse.create)
     ..aOM<WifiGetClientsResponse>(3002, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'wifiGetClients', subBuilder: WifiGetClientsResponse.create)
+    ..aOM<WifiSetupResponse>(3003, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'wifiSetup', subBuilder: WifiSetupResponse.create)
     ..aOM<WifiGetStatusResponse>(3004, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'wifiGetStatus', subBuilder: WifiGetStatusResponse.create)
     ..aOM<WifiGetHistoryResponse>(3006, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'wifiGetHistory', subBuilder: WifiGetHistoryResponse.create)
     ..aOM<WifiGetDiagnosticsResponse>(3008, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'wifiGetDiagnostics', subBuilder: WifiGetDiagnosticsResponse.create)
@@ -1997,6 +2018,7 @@ class Response extends $pb.GeneratedMessage {
     DishInhibitGpsResponse? dishInhibitGps,
     WifiSetConfigResponse? wifiSetConfig,
     WifiGetClientsResponse? wifiGetClients,
+    WifiSetupResponse? wifiSetup,
     WifiGetStatusResponse? wifiGetStatus,
     WifiGetHistoryResponse? wifiGetHistory,
     WifiGetDiagnosticsResponse? wifiGetDiagnostics,
@@ -2053,6 +2075,9 @@ class Response extends $pb.GeneratedMessage {
     }
     if (wifiGetClients != null) {
       _result.wifiGetClients = wifiGetClients;
+    }
+    if (wifiSetup != null) {
+      _result.wifiSetup = wifiSetup;
     }
     if (wifiGetStatus != null) {
       _result.wifiGetStatus = wifiGetStatus;
@@ -2273,82 +2298,93 @@ class Response extends $pb.GeneratedMessage {
   @$pb.TagNumber(3002)
   WifiGetClientsResponse ensureWifiGetClients() => $_ensure(15);
 
+  @$pb.TagNumber(3003)
+  WifiSetupResponse get wifiSetup => $_getN(16);
+  @$pb.TagNumber(3003)
+  set wifiSetup(WifiSetupResponse v) { setField(3003, v); }
+  @$pb.TagNumber(3003)
+  $core.bool hasWifiSetup() => $_has(16);
+  @$pb.TagNumber(3003)
+  void clearWifiSetup() => clearField(3003);
+  @$pb.TagNumber(3003)
+  WifiSetupResponse ensureWifiSetup() => $_ensure(16);
+
   @$pb.TagNumber(3004)
-  WifiGetStatusResponse get wifiGetStatus => $_getN(16);
+  WifiGetStatusResponse get wifiGetStatus => $_getN(17);
   @$pb.TagNumber(3004)
   set wifiGetStatus(WifiGetStatusResponse v) { setField(3004, v); }
   @$pb.TagNumber(3004)
-  $core.bool hasWifiGetStatus() => $_has(16);
+  $core.bool hasWifiGetStatus() => $_has(17);
   @$pb.TagNumber(3004)
   void clearWifiGetStatus() => clearField(3004);
   @$pb.TagNumber(3004)
-  WifiGetStatusResponse ensureWifiGetStatus() => $_ensure(16);
+  WifiGetStatusResponse ensureWifiGetStatus() => $_ensure(17);
 
   @$pb.TagNumber(3006)
-  WifiGetHistoryResponse get wifiGetHistory => $_getN(17);
+  WifiGetHistoryResponse get wifiGetHistory => $_getN(18);
   @$pb.TagNumber(3006)
   set wifiGetHistory(WifiGetHistoryResponse v) { setField(3006, v); }
   @$pb.TagNumber(3006)
-  $core.bool hasWifiGetHistory() => $_has(17);
+  $core.bool hasWifiGetHistory() => $_has(18);
   @$pb.TagNumber(3006)
   void clearWifiGetHistory() => clearField(3006);
   @$pb.TagNumber(3006)
-  WifiGetHistoryResponse ensureWifiGetHistory() => $_ensure(17);
+  WifiGetHistoryResponse ensureWifiGetHistory() => $_ensure(18);
 
   @$pb.TagNumber(3008)
-  WifiGetDiagnosticsResponse get wifiGetDiagnostics => $_getN(18);
+  WifiGetDiagnosticsResponse get wifiGetDiagnostics => $_getN(19);
   @$pb.TagNumber(3008)
   set wifiGetDiagnostics(WifiGetDiagnosticsResponse v) { setField(3008, v); }
   @$pb.TagNumber(3008)
-  $core.bool hasWifiGetDiagnostics() => $_has(18);
+  $core.bool hasWifiGetDiagnostics() => $_has(19);
   @$pb.TagNumber(3008)
   void clearWifiGetDiagnostics() => clearField(3008);
   @$pb.TagNumber(3008)
-  WifiGetDiagnosticsResponse ensureWifiGetDiagnostics() => $_ensure(18);
+  WifiGetDiagnosticsResponse ensureWifiGetDiagnostics() => $_ensure(19);
 
   @$pb.TagNumber(3009)
-  WifiGetConfigResponse get wifiGetConfig => $_getN(19);
+  WifiGetConfigResponse get wifiGetConfig => $_getN(20);
   @$pb.TagNumber(3009)
   set wifiGetConfig(WifiGetConfigResponse v) { setField(3009, v); }
   @$pb.TagNumber(3009)
-  $core.bool hasWifiGetConfig() => $_has(19);
+  $core.bool hasWifiGetConfig() => $_has(20);
   @$pb.TagNumber(3009)
   void clearWifiGetConfig() => clearField(3009);
   @$pb.TagNumber(3009)
-  WifiGetConfigResponse ensureWifiGetConfig() => $_ensure(19);
+  WifiGetConfigResponse ensureWifiGetConfig() => $_ensure(20);
 
   @$pb.TagNumber(3022)
-  WifiGetPersistentStatsResponse get wifiGetPersistentStats => $_getN(20);
+  WifiGetPersistentStatsResponse get wifiGetPersistentStats => $_getN(21);
   @$pb.TagNumber(3022)
   set wifiGetPersistentStats(WifiGetPersistentStatsResponse v) { setField(3022, v); }
   @$pb.TagNumber(3022)
-  $core.bool hasWifiGetPersistentStats() => $_has(20);
+  $core.bool hasWifiGetPersistentStats() => $_has(21);
   @$pb.TagNumber(3022)
   void clearWifiGetPersistentStats() => clearField(3022);
   @$pb.TagNumber(3022)
-  WifiGetPersistentStatsResponse ensureWifiGetPersistentStats() => $_ensure(20);
+  WifiGetPersistentStatsResponse ensureWifiGetPersistentStats() => $_ensure(21);
 
   @$pb.TagNumber(4003)
-  TransceiverGetStatusResponse get transceiverGetStatus => $_getN(21);
+  TransceiverGetStatusResponse get transceiverGetStatus => $_getN(22);
   @$pb.TagNumber(4003)
   set transceiverGetStatus(TransceiverGetStatusResponse v) { setField(4003, v); }
   @$pb.TagNumber(4003)
-  $core.bool hasTransceiverGetStatus() => $_has(21);
+  $core.bool hasTransceiverGetStatus() => $_has(22);
   @$pb.TagNumber(4003)
   void clearTransceiverGetStatus() => clearField(4003);
   @$pb.TagNumber(4003)
-  TransceiverGetStatusResponse ensureTransceiverGetStatus() => $_ensure(21);
+  TransceiverGetStatusResponse ensureTransceiverGetStatus() => $_ensure(22);
 
   @$pb.TagNumber(4004)
-  TransceiverGetTelemetryResponse get transceiverGetTelemetry => $_getN(22);
+  TransceiverGetTelemetryResponse get transceiverGetTelemetry => $_getN(23);
   @$pb.TagNumber(4004)
   set transceiverGetTelemetry(TransceiverGetTelemetryResponse v) { setField(4004, v); }
   @$pb.TagNumber(4004)
-  $core.bool hasTransceiverGetTelemetry() => $_has(22);
+  $core.bool hasTransceiverGetTelemetry() => $_has(23);
   @$pb.TagNumber(4004)
   void clearTransceiverGetTelemetry() => clearField(4004);
   @$pb.TagNumber(4004)
-  TransceiverGetTelemetryResponse ensureTransceiverGetTelemetry() => $_ensure(22);
+  TransceiverGetTelemetryResponse ensureTransceiverGetTelemetry() => $_ensure(23);
 }
 
 class GetStatusRequest extends $pb.GeneratedMessage {
@@ -9806,5 +9842,109 @@ class WifiGetHistoryResponse extends $pb.GeneratedMessage {
 
   @$pb.TagNumber(1002)
   $core.List<$core.double> get pingLatencyMs => $_getList(2);
+}
+
+class WifiSetupRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'WifiSetupRequest', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'SpaceX.API.Device'), createEmptyInstance: create)
+    ..aOB(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'skip')
+    ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'networkName')
+    ..aOS(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'networkPassword')
+    ..hasRequiredFields = false
+  ;
+
+  WifiSetupRequest._() : super();
+  factory WifiSetupRequest({
+    $core.bool? skip,
+    $core.String? networkName,
+    $core.String? networkPassword,
+  }) {
+    final _result = create();
+    if (skip != null) {
+      _result.skip = skip;
+    }
+    if (networkName != null) {
+      _result.networkName = networkName;
+    }
+    if (networkPassword != null) {
+      _result.networkPassword = networkPassword;
+    }
+    return _result;
+  }
+  factory WifiSetupRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory WifiSetupRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  WifiSetupRequest clone() => WifiSetupRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  WifiSetupRequest copyWith(void Function(WifiSetupRequest) updates) => super.copyWith((message) => updates(message as WifiSetupRequest)) as WifiSetupRequest; // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static WifiSetupRequest create() => WifiSetupRequest._();
+  WifiSetupRequest createEmptyInstance() => create();
+  static $pb.PbList<WifiSetupRequest> createRepeated() => $pb.PbList<WifiSetupRequest>();
+  @$core.pragma('dart2js:noInline')
+  static WifiSetupRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<WifiSetupRequest>(create);
+  static WifiSetupRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.bool get skip => $_getBF(0);
+  @$pb.TagNumber(1)
+  set skip($core.bool v) { $_setBool(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasSkip() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearSkip() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get networkName => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set networkName($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasNetworkName() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearNetworkName() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.String get networkPassword => $_getSZ(2);
+  @$pb.TagNumber(3)
+  set networkPassword($core.String v) { $_setString(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasNetworkPassword() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearNetworkPassword() => clearField(3);
+}
+
+class WifiSetupResponse extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'WifiSetupResponse', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'SpaceX.API.Device'), createEmptyInstance: create)
+    ..hasRequiredFields = false
+  ;
+
+  WifiSetupResponse._() : super();
+  factory WifiSetupResponse() => create();
+  factory WifiSetupResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory WifiSetupResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  WifiSetupResponse clone() => WifiSetupResponse()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  WifiSetupResponse copyWith(void Function(WifiSetupResponse) updates) => super.copyWith((message) => updates(message as WifiSetupResponse)) as WifiSetupResponse; // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static WifiSetupResponse create() => WifiSetupResponse._();
+  WifiSetupResponse createEmptyInstance() => create();
+  static $pb.PbList<WifiSetupResponse> createRepeated() => $pb.PbList<WifiSetupResponse>();
+  @$core.pragma('dart2js:noInline')
+  static WifiSetupResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<WifiSetupResponse>(create);
+  static WifiSetupResponse? _defaultInstance;
 }
 

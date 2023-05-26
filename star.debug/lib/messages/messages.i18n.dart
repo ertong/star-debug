@@ -54,6 +54,7 @@ class Messages {
   String get locale => "en";
   String get languageCode => "en";
   GeneralMessages get general => GeneralMessages(this);
+  WifiMessages get wifi => WifiMessages(this);
   LiveMessages get live => LiveMessages(this);
   HeaderMessages get header => HeaderMessages(this);
   OnlineMessages get online => OnlineMessages(this);
@@ -105,6 +106,17 @@ class GeneralMessages {
   String get unstow => """Unstow""";
   String get inhibit_gps => """Inhibit GPS""";
   String get uninhibit_gps => """Uninhibit GPS""";
+}
+
+class WifiMessages {
+  final Messages _parent;
+  const WifiMessages(this._parent);
+  String get setup => """Setup""";
+  String get setup_wifi => """Setup Wifi""";
+  String get network_name => """Network name""";
+  String get password => """Network password""";
+  String get skip => """Skip""";
+  String get apply => """Apply""";
 }
 
 class LiveMessages {
@@ -490,6 +502,12 @@ Map<String, String> get messagesMap => {
       """general.unstow""": """Unstow""",
       """general.inhibit_gps""": """Inhibit GPS""",
       """general.uninhibit_gps""": """Uninhibit GPS""",
+      """wifi.setup""": """Setup""",
+      """wifi.setup_wifi""": """Setup Wifi""",
+      """wifi.network_name""": """Network name""",
+      """wifi.password""": """Network password""",
+      """wifi.skip""": """Skip""",
+      """wifi.apply""": """Apply""",
       """live.starlink_live""": """Starlink Live""",
       """header.general""": """General""",
       """header.signal""": """Signal""",

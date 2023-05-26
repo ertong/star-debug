@@ -197,7 +197,7 @@ message Request {
         .SpaceX.API.Device.DishInhibitGpsRequest dish_inhibit_gps = 2014;
         .SpaceX.API.Device.WifiSetConfigRequest wifi_set_config = 3001;
         .SpaceX.API.Device.WifiGetClientsRequest wifi_get_clients = 3002;
-//        .SpaceX.API.Device.WifiSetupRequest wifi_setup = 3003;
+        .SpaceX.API.Device.WifiSetupRequest wifi_setup = 3003;
 //        .SpaceX.API.Device.WifiGetPingMetricsRequest wifi_get_ping_metrics = 3007;
         .SpaceX.API.Device.WifiGetDiagnosticsRequest wifi_get_diagnostics = 3008;
         .SpaceX.API.Device.WifiGetConfigRequest wifi_get_config = 3009;
@@ -258,7 +258,7 @@ message Response {
         .SpaceX.API.Device.DishInhibitGpsResponse dish_inhibit_gps = 2013;
         .SpaceX.API.Device.WifiSetConfigResponse wifi_set_config = 3001;
         .SpaceX.API.Device.WifiGetClientsResponse wifi_get_clients = 3002;
-//        .SpaceX.API.Device.WifiSetupResponse wifi_setup = 3003;
+        .SpaceX.API.Device.WifiSetupResponse wifi_setup = 3003;
         .SpaceX.API.Device.WifiGetStatusResponse wifi_get_status = 3004;
 //        .SpaceX.API.Device.WifiAuthenticateResponse wifi_authenticate = 3005;
         .SpaceX.API.Device.WifiGetHistoryResponse wifi_get_history = 3006;
@@ -1145,4 +1145,15 @@ message WifiGetHistoryResponse {
     uint64 current = 1;
     repeated float ping_drop_rate = 1001;
     repeated float ping_latency_ms = 1002;
+}
+
+//SpaceX.API.Device.WifiSetupRequest is a message:
+message WifiSetupRequest {
+    bool skip = 1;
+    string network_name = 2;
+    string network_password = 3;
+}
+
+//SpaceX.API.Device.WifiSetupResponse is a message:
+message WifiSetupResponse {
 }

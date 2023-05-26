@@ -41,7 +41,13 @@ general:
   unstow: Розкласти
   inhibit_gps: Ігнорувати GPS
   uninhibit_gps: Довіряти GPS
-
+wifi:
+  setup: Налаштувати
+  setup_wifi: Налаштувати Wifi
+  network_name: Назва мережі
+  password: Пароль
+  skip: Пропустити
+  apply: Застосувати
 live:
   starlink_live: Starlink Live
 header:
@@ -159,7 +165,7 @@ grpc:
     auth: auth
   WifiConfig:
     country_code: Код країни
-    setup_complete: Налаштування працює
+    setup_complete: Налаштування завершено
     version: Версія
     channel_2ghz: channel_2ghz
     channel_5ghz: channel_5ghz

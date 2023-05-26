@@ -228,7 +228,8 @@ class HttpTest {
       }
       LogUtils.e(_TAG, "$method $url: ${resp.statusCode} ${resp.data}");
     } catch (e,s){
-      LogUtils.ers(_TAG, "$method $url", e, s);
+      // LogUtils.ers(_TAG, "$method $url", e, s);
+      LogUtils.e(_TAG, "$method $url: $e");
     }
     return false;
   }

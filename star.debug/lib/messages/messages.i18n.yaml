@@ -43,6 +43,14 @@ general:
   inhibit_gps: Inhibit GPS
   uninhibit_gps: Uninhibit GPS
 
+wifi:
+  setup: Setup
+  setup_wifi: Setup Wifi
+  network_name: Network name
+  password: Network password
+  skip: Skip
+  apply: Apply
+
 live:
   starlink_live: "Starlink Live"
 

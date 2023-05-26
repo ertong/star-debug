@@ -36,8 +36,20 @@ class _LoadingState extends State<Loading> {
                 return Stack(
                   children: [
                     Container(color: Colors.black,
+                      height: constraints.maxHeight,
+                      padding: EdgeInsets.fromLTRB(0,0,0, constraints.maxHeight/6),
                       child: Center(
-                        child: Image.asset("assets/images/logo_transparent.png", width: constraints.maxWidth*3/4,),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Image.asset("assets/images/logo_transparent.png", width: constraints.maxWidth*3/4,),
+                            SizedBox(height: 40,),
+                            Image(
+                              image: AssetImage('assets/images/starlinkforukraine.png'),
+                              width: 130,
+                            )
+                          ],
+                        ),
                       ),
                     ),
 

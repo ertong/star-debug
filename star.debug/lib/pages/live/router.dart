@@ -95,9 +95,7 @@ class _RouterTabState extends State<RouterTab> with TickerProviderStateMixin {
         if (status.hasConfig()) {
           var config = status.config;
 
-          if (config.hasSetupComplete()) {
-            b.kv(M.grpc.WifiConfig.setup_complete, config.setupComplete);
-          }
+          b.kv(M.grpc.WifiConfig.setup_complete, config.setupComplete);
 
           if (config.hasCountryCode()) {
             b.kv(M.grpc.WifiConfig.country_code, config.countryCode);

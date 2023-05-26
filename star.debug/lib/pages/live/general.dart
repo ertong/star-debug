@@ -7,13 +7,14 @@ import 'package:grpc/grpc.dart';
 import 'package:star_debug/grpc/starlink/network.pbenum.dart';
 import 'package:star_debug/grpc/starlink/starlink.pbgrpc.dart';
 import 'package:star_debug/messages/I18n.dart';
+import 'package:star_debug/pages/dialogs/wifi_setup.dart';
 import 'package:star_debug/pages/live/dish.dart' show buildGraph;
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/utils/kv_widget.dart';
 import 'package:star_debug/utils/log_utils.dart';
 import 'package:time_machine/time_machine.dart';
 
-const String _TAG="OnlineTab";
+const String _TAG="GeneralTab";
 
 class GeneralTab extends StatefulWidget {
   const GeneralTab({super.key});
@@ -29,6 +30,7 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
   StreamSubscription? subOnline;
 
   Set<String> loading = {};
+  bool isWifiSettingUp = false;
 
   int lastGraphTime = 0;
 
@@ -90,7 +92,7 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
       var dish = R.dish;
       var status = R.dish?.dishGetStatus.data;
       b.header(M.general.dish);
-      if (dish==null || status==null)
+      if (dish==null || status==null || dish.isClosed)
         b.kv("Status", "connecting");
       else {
         var b1 = KVWidgetBuilder(theme);
@@ -115,15 +117,13 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
 
         bool stowed = status.stowRequested || status.outage.cause == DishOutage_Cause.STOWED;
         bool gpsInhibited = status.gpsStats.inhibitGps;
-        b.widgets.add(Row(
+        b.widgets.add(Flex(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
+          direction: Axis.horizontal,
           children: [
             reqButton(M.general.reboot, () => Request(reboot: RebootRequest())),
-            if (stowed)
-              reqButton(M.general.unstow, () => Request(dishStow: DishStowRequest(unstow: true)))
-            else
-              reqButton(M.general.stow, () => Request(dishStow: DishStowRequest(unstow: false))),
-
+            reqButton(M.general.stow, () => Request(dishStow: DishStowRequest(unstow: false))),
+            reqButton(M.general.unstow, () => Request(dishStow: DishStowRequest(unstow: true))),
             if (gpsInhibited)
               reqButton(M.general.uninhibit_gps, () => Request(dishInhibitGps: DishInhibitGpsRequest(inhibitGps: false)), router: false)
             else
@@ -137,7 +137,7 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
       var router = R.router;
       var status = R.router?.wifiGetStatus.data;
       b.header(M.general.router);
-      if (router==null || status==null)
+      if (router==null || status==null || router.isClosed)
         b.kv("Status", "connecting");
       else {
         var b1 = KVWidgetBuilder(theme);
@@ -157,6 +157,12 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             reqButton(M.general.reboot, () => Request(reboot: RebootRequest()), router: true),
+            if (!status.config.setupComplete)
+              OutlinedButton(
+                  onPressed: isWifiSettingUp ? null : onWifiSetup,
+                  child: Text(M.wifi.setup)
+              )
+            // reqButton(M.wifi.setup, () => Request(reboot: RebootRequest()), router: true),
           ],
         ));
       }
@@ -183,26 +189,53 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
     return b.widgets;
   }
 
+  Widget _buildButton(String txt, IconData icon, Function()? onPressed,
+      {Color? btnColor, double width=75})
+  {
+    return OutlinedButton(
+      onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+          padding: EdgeInsets.fromLTRB(2, 5, 2, 5),
+          primary: btnColor,
+          minimumSize: Size(width, 50)
+      ),
+      child:Column(
+        children: <Widget>[
+          Icon(icon),
+          const SizedBox(height: 2.0),
+          Text(txt),
+        ],
+      ),
+    );
+  }
+
   Widget reqButton(String name, Request Function() reqBuilder, {bool router = false}){
 
-    return OutlinedButton(onPressed: loading.contains(name) ? null : () async {
-      setState(() {
-        loading.add(name);
-      });
-      try {
-        var text = await withConnectedHandleJson(reqBuilder(), router: router);
-        R.showSnackBarText(text);
-      }finally{
+    // return _buildButton(name, Icons.add, () => null);
+
+
+    return OutlinedButton(
+      onPressed: loading.contains(name) ? null : () async {
         setState(() {
-          loading.remove(name);
+          loading.add(name);
         });
-      }
-    }, child: Text(name));
+        try {
+          var text = await withConnectedHandleJson(reqBuilder(), router: router);
+          R.showSnackBarText(text);
+        }finally{
+          setState(() {
+            loading.remove(name);
+          });
+        }
+      },
+      style: OutlinedButton.styleFrom(padding: EdgeInsets.fromLTRB(5,3,5,3)),
+      child: Text(name)
+    );
   }
 
   Future<String> withConnectedHandleJson( Request req, {bool router = false}) async {
     return await withConnected((stub, channel) async {
-      var resp = await stub.handle(req);
+      var resp = await stub.handle(req, options: CallOptions(timeout: Duration(seconds: 3)));
 
       log("Received response: ${jsonEncode(resp.toProto3Json())}");
 
@@ -217,6 +250,8 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
       options: ChannelOptions(
         credentials: ChannelCredentials.insecure(),
         codecRegistry: CodecRegistry(codecs: const [GzipCodec(), IdentityCodec()]),
+        connectionTimeout: Duration(seconds: 3),
+        idleTimeout: Duration(seconds: 10),
       ),
     );
     final stub = DeviceClient(channel);
@@ -233,6 +268,29 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
     }
 
     return null;
+  }
+
+  Future<void> onWifiSetup() async {
+    setState(() { isWifiSettingUp = true; });
+    try {
+      WifiSetupResult? res = await showDialog<WifiSetupResult?>(context: context, builder: (c) => WifiSetupDialog());
+      if (res == null)
+        return;
+
+      WifiSetupRequest req;
+      if (res.skip!=null && res.skip==true)
+        req = WifiSetupRequest(skip: true);
+      else if (res.name!=null && res.pass!=null)
+        req = WifiSetupRequest(networkName: res.name, networkPassword: res.pass);
+      else
+        return;
+
+      var text = await withConnectedHandleJson(Request(wifiSetup: req), router: true);
+      R.showSnackBarText(text);
+    }
+    finally{
+      setState(() { isWifiSettingUp = false; });
+    }
   }
 
 }

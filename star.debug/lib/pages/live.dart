@@ -210,30 +210,6 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
     return color;
   }
 
-  // Map<String, dynamic> mapAsDebugData(Map<String, dynamic> m) {
-  //   Map<String, dynamic> res = {};
-  //   for (var e in m.entries){
-  //     var key = e.key.camelCase;
-  //     var val = e.value;
-  //     if (["countByReason", "countByReasonDelta"].contains(key) && val is Map){
-  //       key = "${key}Map";
-  //       val = [for (var e1 in val.entries) [e1.key, e1.value]];
-  //     }
-  //     else if (val is Map<String, dynamic>)
-  //       val = mapAsDebugData(val);
-  //
-  //     // decode uint64 back to int
-  //     if (val is String){
-  //       var n = int.tryParse(val);
-  //       if (n!=null)
-  //         val = n;
-  //     }
-  //
-  //     res[key] = val;
-  //   }
-  //   return res;
-  // }
-
   dynamic protoToJson(dynamic msg){
     if (msg is fixnum.Int64)
       msg = msg.toInt();
