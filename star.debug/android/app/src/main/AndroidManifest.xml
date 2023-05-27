@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:targetSandboxVersion="1"
     package="com.stardebug">
    <uses-permission android:name="android.permission.INTERNET" />
    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -7,6 +8,7 @@
    <uses-permission android:name="com.google.android.gms.permission.AD_ID" tools:node="remove"/>
    <application
         android:label="StarDebug"
+        android:usesCleartextTraffic="true"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity

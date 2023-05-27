@@ -57,9 +57,9 @@ class _DebugPageState extends State<DebugPage> with TickerProviderStateMixin {
   List<Widget> _buildBody(){
     List<Widget> res = [];
 
-    // res.add(OutlinedButton(onPressed: (){
-    //   test();
-    // }, child: Text("test")));
+    res.add(OutlinedButton(onPressed: (){
+      test();
+    }, child: Text("test")));
 
     res.add(Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -229,9 +229,14 @@ class _DebugPageState extends State<DebugPage> with TickerProviderStateMixin {
   Future test() async {
     // LogUtils.d(_TAG, "${await R.starChannel.test()}");
     try {
-      LogUtils.d(_TAG, "${await R.starChannel.httpTest("https://1.1.1.1", "GET", null)}");
+      var r = await R.starChannel.httpTest("http://1.1.1.1", "GET", null);
+      setState(() {
+        text = "${r.code} ${r.body}";
+      });
     } catch(e,s){
-      LogUtils.ers(_TAG, "", e, s);
+      setState(() {
+        text = "${e} ${s}";
+      });
     }
   }
 }
