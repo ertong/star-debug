@@ -129,7 +129,7 @@ class OnlineConnection extends BaseConnection {
 
   late HttpTest optCloudflare = HttpTest("http://1.1.1.1/", ()=>notify());
   late HttpTest optCloudflare6 = HttpTest("http://[2606:4700:4700::1111]:80/", ()=>notify(), method: "GET");
-  late HttpTest optGoogle = HttpTest("https://google.com/", ()=>notify(), method: "GET");
+  late HttpTest optGoogle = HttpTest("https://dns.google/", ()=>notify(), method: "GET");
   late HttpTest optGoogle6 = HttpTest("https://ipv6.google.com/", ()=>notify(), method: "GET");
 
   late HttpTest optStarlink = HttpTest("https://starlink.com/", ()=>notify());
@@ -161,7 +161,7 @@ class OnlineConnection extends BaseConnection {
 
     b.kv("1.1.1.1", optCloudflare.latency, ok: now - optCloudflare.timeOk<T_OK);
     b.kv("2606:4700:4700::1111", "${optCloudflare6.latency}", ok: now-optCloudflare6.timeOk < T_OK);
-    b.kv("google.com", optGoogle.latency, ok: now-optGoogle.timeOk < T_OK);
+    b.kv("dns.google", optGoogle.latency, ok: now-optGoogle.timeOk < T_OK);
     b.kv("ipv6.google.com", optGoogle6.latency, ok: now-optGoogle6.timeOk < T_OK);
     b.kv("starlink.com", optStarlink.latency, ok: now-optStarlink.timeOk < T_OK);
 
