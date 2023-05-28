@@ -21,7 +21,6 @@ class DishLogController {
 
   bool isRunning = false;
 
-
   void notify(String dishId, {
     Map<String, dynamic>? debugData,
     DishGetStatusResponse? dishStatus,
@@ -29,6 +28,8 @@ class DishLogController {
     WifiGetStatusResponse? wifiStatusJson,
     Map<String, dynamic>? onlineJson
   }) {
+    if (!R.isDebug)
+      return;
     Record? rec = latestRecord[dishId];
     if (rec==null) {
       rec = Record();
@@ -76,6 +77,8 @@ class DishLogController {
   }
 
   Future<void> storeDebugData(String dishId, int timestamp, Map<String, dynamic> debugData) async {
+    if (!R.isDebug)
+      return;
     var res = await R.db.dishesDao.hasDishLog(dishId, timestamp).getSingleOrNull();
 
     if (res==null) {
@@ -93,6 +96,8 @@ class DishLogController {
     Map<String, dynamic>? onlineJson,
     int? timestamp,
   }) async {
+    if (!R.isDebug)
+      return;
     var rec = await ensureRecord(dishId);
 
     await mutex.protect(() async{
