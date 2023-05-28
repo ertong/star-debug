@@ -75,7 +75,7 @@ class _AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
 
     res.add(ListTile(
         leading: Icon(Icons.code),
-        title: Text("GitHub"),
+        title: Text(M.about.project_on_github),
         onTap: () {
           launchUrl(Uri.parse("https://github.com/ertong/star-debug"));
         },

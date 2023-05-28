@@ -122,6 +122,7 @@ class AboutMessages {
  for the needs of people who work every day to ensure that communications are available even in places
  which russia is trying to turn into a desert.
 """;
+  String get project_on_github => """Project on GitHub""";
 }
 
 class WifiMessages {
@@ -528,6 +529,7 @@ Map<String, String> get messagesMap => {
  for the needs of people who work every day to ensure that communications are available even in places
  which russia is trying to turn into a desert.
 """,
+      """about.project_on_github""": """Project on GitHub""",
       """wifi.setup""": """Setup""",
       """wifi.setup_wifi""": """Setup Wifi""",
       """wifi.network_name""": """Network name""",
