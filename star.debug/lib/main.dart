@@ -51,12 +51,14 @@ void main() async {
           exit(0); // give up
         }
       },
-      onLoaded: (context) {
-          return StreamBuilder(
-              stream: I18n.instance.onChange,
-              builder: (context, asyncSnapshot) => StarDebugApp(key: R.appKey),
-            );
-      },
+
+      onLoaded: (context) => StarDebugApp(key: R.appKey)
+      // onLoaded: (context) {
+      //     return StreamBuilder(
+      //         stream: I18n.instance.onChange,
+      //         builder: (context, asyncSnapshot) => StarDebugApp(key: R.appKey),
+      //       );
+      // },
     ));
   }, (error, stack) {
     LogUtils.ers("UNCATCHED", "", error, stack);

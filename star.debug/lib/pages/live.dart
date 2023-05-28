@@ -37,7 +37,7 @@ class LivePage extends StatefulWidget {
 
 class _Page {
   IconData icon;
-  String label;
+  String Function() label;
   Widget Function() builder;
   Color Function() color;
   int Function()? alert;
@@ -63,7 +63,7 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
 
     pages.add(_Page(
         Icons.settings_input_antenna,
-        M.header.general,
+        () => M.header.general,
         () => Colors.black,
         () => GeneralTab(),
         // alert: () { return 0; }
@@ -71,7 +71,7 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
 
     pages.add(_Page(
         Icons.settings_input_antenna,
-        M.general.dish,
+        () => M.general.dish,
         () => colorOf(R.dishHolder),
         () => DishTab(),
         alert: () {
@@ -90,7 +90,7 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
     ));
     pages.add(_Page(
         Icons.router,
-        M.general.router,
+        () => M.general.router,
         () => colorOf(R.routerHolder),
         () => RouterTab(),
         alert: () {
@@ -103,7 +103,7 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
     ));
     pages.add(_Page(
         Icons.public,
-        M.general.online,
+        () => M.general.online,
         () {
           var online = R.online;
           if (online==null)
@@ -159,7 +159,7 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
 
         var icon = Icon(p.icon, color: p.color().withAlpha(_selectedIndex==i?255:100),);
         items.add(BottomNavigationBarItem(
-          label: p.label,
+          label: p.label(),
           icon: alerts==0
               ? icon
               : Badge(
