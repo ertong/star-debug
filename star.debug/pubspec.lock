@@ -451,14 +451,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.6.14"
-  flutter_native_timezone:
-    dependency: "direct main"
-    description:
-      name: flutter_native_timezone
-      sha256: ed7bfb982f036243de1c068e269182a877100c994f05143c8b26a325e28c1b02
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.0"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -472,6 +464,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_timezone:
+    dependency: "direct main"
+    description:
+      name: flutter_timezone
+      sha256: "9b179c76cbded894e3208b420d0c4286f6c9ab7178c063eba8bc4266a3ee1a3c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.6"
   flutter_web_plugins:
     dependency: transitive
     description: flutter
@@ -1174,10 +1174,10 @@ packages:
     dependency: "direct main"
     description:
       name: upgrader
-      sha256: "0e5d309a4045a340098ecf48a6c225b484e1cf6939de90839d51dc42612fdc7d"
+      sha256: b9a43e24ac412894526853dca69929d683070c8f94ee83db1fc884f982cc970f
       url: "https://pub.dev"
     source: hosted
-    version: "7.0.0"
+    version: "7.0.1"
   url_launcher:
     dependency: "direct main"
     description:
@@ -1190,10 +1190,10 @@ packages:
     dependency: transitive
     description:
       name: url_launcher_android
-      sha256: "1a5848f598acc5b7d8f7c18b8cb834ab667e59a13edc3c93e9d09cf38cc6bc87"
+      sha256: eed4e6a1164aa9794409325c3b707ff424d4d1c2a785e7db67f8bbda00e36e51
       url: "https://pub.dev"
     source: hosted
-    version: "6.0.34"
+    version: "6.0.35"
   url_launcher_ios:
     dependency: transitive
     description:

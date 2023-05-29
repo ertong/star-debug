@@ -6,7 +6,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_native_timezone/flutter_native_timezone.dart';
+import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:sqlite3_flutter_libs/sqlite3_flutter_libs.dart';
 import 'package:star_debug/channel/star_channel.dart';
@@ -84,7 +84,7 @@ class Preloaded{
       try {
         await TimeMachine.initialize({
           "rootBundle": rootBundle,
-          'timeZone': await FlutterNativeTimezone.getLocalTimezone(),
+          'timeZone': await FlutterTimezone.getLocalTimezone(),
         });
       } catch (e, s) {
         LogUtils.ers(_TAG, "", e, s);
