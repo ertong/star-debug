@@ -93,12 +93,15 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
       DishGetStatusResponse status = conn.dishGetStatus.data!;
 
       {
-        var b = KVWidgetBuilder(theme);
+        var b = KVWidgetBuilder(context, theme);
         b.header(M.header.general);
 
         if (status.hasDeviceState()) {
           if (status.deviceState.hasUptimeS())
-            b.kv(M.grpc.DishGetStatus.uptime_s, Format.sec(status.deviceState.uptimeS.toInt()));
+            b.kv(M.grpc.DishGetStatus.uptime_s,
+                Format.sec(status.deviceState.uptimeS.toInt()),
+                hint: M.grpc.DishGetStatus.uptime_s__hint
+            );
         }
 
         if (status.hasStowRequested()) {
@@ -122,7 +125,11 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
 
         if (status.hasOutage()) {
           if (status.outage.hasCause())
-            b.kv(M.grpc.DishOutage.cause, status.outage.cause, ok: false);
+            b.kv(M.grpc.DishOutage.cause,
+                status.outage.cause,
+                hint: M.grpc.DishOutage.cause__hint,
+                ok: false
+            );
         }
 
         if (status.hasDisablementCode()) {
@@ -138,10 +145,10 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
       }
 
       if (status.hasAlerts())
-        rows.addAll(buildAlertsWidget(theme, status.alerts.toProto3Json() as Map<String, dynamic>));
+        rows.addAll(buildAlertsWidget(context, theme, status.alerts.toProto3Json() as Map<String, dynamic>));
 
       {
-        var b = KVWidgetBuilder(theme);
+        var b = KVWidgetBuilder(context, theme);
 
         b.header(M.header.network);
 
@@ -164,10 +171,10 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
       }
 
       if (status.hasDeviceInfo())
-        rows.addAll(buildDeviceInfoWidget(theme, status.deviceInfo));
+        rows.addAll(buildDeviceInfoWidget(context, theme, status.deviceInfo));
 
       if (status.hasConfig()) {
-        var b = KVWidgetBuilder(theme);
+        var b = KVWidgetBuilder(context, theme);
         var config = status.config;
         b.header(M.header.config);
         if (config.hasSnowMeltMode())
@@ -184,7 +191,7 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
       }
 
       if (status.hasGpsStats()) {
-        var b = KVWidgetBuilder(theme);
+        var b = KVWidgetBuilder(context, theme);
         b.header(M.header.gps_stats);
         var stats = status.gpsStats;
         if (stats.hasGpsValid())
@@ -202,7 +209,7 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
       }
 
       {
-        var b = KVWidgetBuilder(theme);
+        var b = KVWidgetBuilder(context, theme);
         b.header(M.header.antenna);
 
         if (status.hasBoresightAzimuthDeg())
@@ -251,7 +258,7 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
       }
 
       if (status.hasReadyStates()) {
-        var b = KVWidgetBuilder(theme);
+        var b = KVWidgetBuilder(context, theme);
         b.header(M.header.ready_states);
         var states = status.readyStates;
         for (var e in (states.info_.byName).entries) {
@@ -266,7 +273,7 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
       }
 
       if (charts.isNotEmpty) {
-        var b = KVWidgetBuilder(theme);
+        var b = KVWidgetBuilder(context, theme);
         b.header(M.general.charts);
 
         b.widgets.addAll(charts);

@@ -48,7 +48,7 @@ about:
   about_starlink_for_ukraine: About Starlink For Ukraine
   starlink_for_ukraine: Starlink For Ukraine
   starlink_for_ukraine_in_fb: Starlink For Ukraine in Facebook
-  about_text: >
+  about_text: |
     The application was created as a part of the volunteer initiative "**Starlink For Ukraine**"
      for the needs of people who work every day to ensure that communications are available even in places
      which russia is trying to turn into a desert.
@@ -125,6 +125,22 @@ grpc:
 
   DishOutage:
     cause: Cause
+    cause__hint: |
+      The reason why the dish is offline. The possible options are:
+      
+      - UNKNOWN
+      - BOOTING - The booting is in progress
+      - STOWED - The dish is stowed to be packaged for storage
+      - THERMAL_SHUTDOWN - Dish is overheated
+      - NO_SCHEDULE
+      - NO_SATS - No enough GPS signal received
+      - OBSTRUCTED - Too much signal obstructions
+      - NO_DOWNLINK - No downlink from satellites is established 
+      - NO_PINGS
+      - ACTUATOR_ACTIVITY
+      - CABLE_TEST
+      - SLEEPING
+      - MOVING_WHILE_NOT_ALLOWED
     start_timestamp_ns: Start timestamp, ns
     duration_ns: Duration, ns
     did_switch: Did switch
@@ -163,6 +179,8 @@ grpc:
 
   DishGetStatus:
     uptime_s: Uptime
+    uptime_s__hint: >
+      Time the dish is running since the last reboot.
     seconds_to_first_nonempty_slot: Seconds to first non-empty slot
     pop_ping_drop_rate: PoP ping drop rate
     fraction_obstructed: fraction_obstructed

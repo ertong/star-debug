@@ -118,7 +118,9 @@ class AboutMessagesUk extends AboutMessages {
   String get starlink_for_ukraine => """Народний старлінк""";
   String get starlink_for_ukraine_in_fb => """Народний старлінк у Facebook""";
   String get about_text =>
-      """Додаток створений в рамках волонтерської ініціативи "**Народний старлінк**" для потреб людей, що щодня працюють над тим, щоб зв'язок був доступний навіть в місцях, які росія намагається перетворити на пустелю.
+      """Додаток створений в рамках волонтерської ініціативи "**Народний старлінк**"
+для потреб людей, що щодня працюють над тим, щоб зв'язок був доступний навіть в місцях,
+які росія намагається перетворити на пустелю.
 """;
   String get project_on_github => """Проект на GitHub""";
 }
@@ -221,6 +223,23 @@ class DishOutageGrpcMessagesUk extends DishOutageGrpcMessages {
   final GrpcMessagesUk _parent;
   const DishOutageGrpcMessagesUk(this._parent) : super(_parent);
   String get cause => """Причина""";
+  String get cause__hint =>
+      """Причина, чому тарілка не на зв'язку. Можливі варіанти:
+
+- UNKNOWN
+- BOOTING - The booting is in progress
+- STOWED - The dish is stowed to be packaged for storage
+- THERMAL_SHUTDOWN - Dish is overheated
+- NO_SCHEDULE
+- NO_SATS - No enough GPS signal received
+- OBSTRUCTED - Too much signal obstructions
+- NO_DOWNLINK - No downlink from satellites is established 
+- NO_PINGS
+- ACTUATOR_ACTIVITY
+- CABLE_TEST
+- SLEEPING
+- MOVING_WHILE_NOT_ALLOWED
+""";
   String get start_timestamp_ns => """Start timestamp, ns""";
   String get duration_ns => """Duration, ns""";
   String get did_switch => """Did switch""";
@@ -278,6 +297,9 @@ class DishGetStatusGrpcMessagesUk extends DishGetStatusGrpcMessages {
   final GrpcMessagesUk _parent;
   const DishGetStatusGrpcMessagesUk(this._parent) : super(_parent);
   String get uptime_s => """Час після завантаження, с""";
+  String get uptime_s__hint =>
+      """Час роботи тарілки від останнього перезавантаження.
+""";
   String get seconds_to_first_nonempty_slot =>
       """Час до першого непорожнього слота""";
   String get pop_ping_drop_rate => """PoP ping drop rate""";
@@ -524,7 +546,9 @@ Map<String, String> get messagesUkMap => {
       """about.starlink_for_ukraine_in_fb""":
           """Народний старлінк у Facebook""",
       """about.about_text""":
-          """Додаток створений в рамках волонтерської ініціативи "**Народний старлінк**" для потреб людей, що щодня працюють над тим, щоб зв'язок був доступний навіть в місцях, які росія намагається перетворити на пустелю.
+          """Додаток створений в рамках волонтерської ініціативи "**Народний старлінк**"
+для потреб людей, що щодня працюють над тим, щоб зв'язок був доступний навіть в місцях,
+які росія намагається перетворити на пустелю.
 """,
       """about.project_on_github""": """Проект на GitHub""",
       """wifi.setup""": """Налаштувати""",
@@ -567,6 +591,23 @@ Map<String, String> get messagesUkMap => {
       """grpc.DeviceInfo.x_timezone""": """Часова зона""",
       """grpc.BootInfo.last_reason""": """Остання причина""",
       """grpc.DishOutage.cause""": """Причина""",
+      """grpc.DishOutage.cause__hint""":
+          """Причина, чому тарілка не на зв'язку. Можливі варіанти:
+
+- UNKNOWN
+- BOOTING - The booting is in progress
+- STOWED - The dish is stowed to be packaged for storage
+- THERMAL_SHUTDOWN - Dish is overheated
+- NO_SCHEDULE
+- NO_SATS - No enough GPS signal received
+- OBSTRUCTED - Too much signal obstructions
+- NO_DOWNLINK - No downlink from satellites is established 
+- NO_PINGS
+- ACTUATOR_ACTIVITY
+- CABLE_TEST
+- SLEEPING
+- MOVING_WHILE_NOT_ALLOWED
+""",
       """grpc.DishOutage.start_timestamp_ns""": """Start timestamp, ns""",
       """grpc.DishOutage.duration_ns""": """Duration, ns""",
       """grpc.DishOutage.did_switch""": """Did switch""",
@@ -603,6 +644,9 @@ Map<String, String> get messagesUkMap => {
           """Тривалість перешкоди""",
       """grpc.DishObstructionStats.patches_valid""": """Patches valid""",
       """grpc.DishGetStatus.uptime_s""": """Час після завантаження, с""",
+      """grpc.DishGetStatus.uptime_s__hint""":
+          """Час роботи тарілки від останнього перезавантаження.
+""",
       """grpc.DishGetStatus.seconds_to_first_nonempty_slot""":
           """Час до першого непорожнього слота""",
       """grpc.DishGetStatus.pop_ping_drop_rate""": """PoP ping drop rate""",

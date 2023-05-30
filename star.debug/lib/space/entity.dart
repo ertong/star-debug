@@ -170,15 +170,15 @@ class Features extends EntityModule {
 abstract class KVConsumer {
   void header(String name, {bool isAlert = false}) {}
 
-  void kv(String k, dynamic v, {bool? ok}) {
+  void kv(String k, dynamic v, {bool? ok, String? hint}) {
     if (v is DateTime)
       v = Instant.dateTime(v).inLocalZone().toString("yyyy-MM-dd HH:mm:ss 'GMT'o<g>");
     if (v is List<String>)
       v = v.join("\n");
-    kvs(k, "$v", ok: ok);
+    kvs(k, "$v", ok: ok, hint: hint);
   }
 
-  void kvs(String k, String v, {bool? ok}) {}
+  void kvs(String k, String v, {bool? ok, String? hint}) {}
 
   void spacer() {}
 }
@@ -187,7 +187,7 @@ class KVConsumerCounter extends KVConsumer {
   int ok = 0;
   int notOk = 0;
 
-  void kvs(String k, String v, {bool? ok}){
+  void kvs(String k, String v, {bool? ok, String? hint}){
     if (ok==true)
       this.ok+=1;
     if (ok==false)

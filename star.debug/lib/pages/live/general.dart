@@ -86,7 +86,7 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
   }
 
   List<Widget> _buildBody() {
-    var b = KVWidgetBuilder(theme);
+    var b = KVWidgetBuilder(context, theme);
 
     {
       var dish = R.dish;
@@ -95,7 +95,7 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
       if (dish==null || status==null || dish.isClosed)
         b.kv("Status", "connecting");
       else {
-        var b1 = KVWidgetBuilder(theme);
+        var b1 = KVWidgetBuilder(context, theme);
         b1.kv(M.grpc.DeviceInfo.id, status.deviceInfo.id);
         b1.kv(M.general.version, Instant.fromEpochSeconds(status.deviceInfo.generationNumber.toInt()).inUtc().toString("yyyy-MM-dd"));
 
@@ -140,7 +140,7 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
       if (router==null || status==null || router.isClosed)
         b.kv("Status", "connecting");
       else {
-        var b1 = KVWidgetBuilder(theme);
+        var b1 = KVWidgetBuilder(context, theme);
         b1.kv(M.grpc.DeviceInfo.id, status.deviceInfo.id);
         b1.kv(M.general.version, status.deviceInfo.softwareVersion);
         if (status.hasPingLatencyMs())

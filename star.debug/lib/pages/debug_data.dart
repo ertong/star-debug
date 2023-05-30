@@ -188,7 +188,7 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
     }
 
     {
-      var b = KVWidgetBuilder(theme);
+      var b = KVWidgetBuilder(context, theme);
       entity.get_readable_params(b);
       rows.addAll(b.widgets);
     }
@@ -198,7 +198,7 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
 
       bool is_alert = (p is ModuleAlerts) && p.data.isNotEmpty;
 
-      var b = KVWidgetBuilder(theme);
+      var b = KVWidgetBuilder(context, theme);
       b.header(p.get_name(), isAlert: is_alert);
       p.get_data(b);
 

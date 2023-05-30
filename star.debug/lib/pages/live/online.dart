@@ -50,7 +50,7 @@ class _OnlineTabState extends State<OnlineTab> with TickerProviderStateMixin {
 
     List<Widget> rows = [];
 
-    var b = KVWidgetBuilder(theme);
+    var b = KVWidgetBuilder(context, theme);
     online.consume(b);
     rows.addAll(b.widgets);
 

@@ -67,7 +67,7 @@ class _RouterTabState extends State<RouterTab> with TickerProviderStateMixin {
       WifiGetStatusResponse status = conn.wifiGetStatus.data!;
 
       {
-        var b = KVWidgetBuilder(theme);
+        var b = KVWidgetBuilder(context, theme);
         b.header(M.header.general);
 
         if (status.hasDeviceState()) {
@@ -110,16 +110,16 @@ class _RouterTabState extends State<RouterTab> with TickerProviderStateMixin {
       }
 
       if (status.hasAlerts())
-        rows.addAll(buildAlertsWidget(theme, status.alerts.toProto3Json() as Map<String, dynamic>));
+        rows.addAll(buildAlertsWidget(context, theme, status.alerts.toProto3Json() as Map<String, dynamic>));
 
       if (status.hasDeviceInfo())
-        rows.addAll(buildDeviceInfoWidget(theme, status.deviceInfo));
+        rows.addAll(buildDeviceInfoWidget(context, theme, status.deviceInfo));
 
       if (status.hasConfig()) {
         var config = status.config;
 
         if (config.networks.isNotEmpty) {
-          var b = KVWidgetBuilder(theme);
+          var b = KVWidgetBuilder(context, theme);
           b.header(M.header.networks);
           for (WifiConfig_Network n in config.networks) {
             if (n.hasIpv4())
@@ -133,7 +133,7 @@ class _RouterTabState extends State<RouterTab> with TickerProviderStateMixin {
 
         if (config.hasBoot()) {
           var boot = config.boot;
-          var b = KVWidgetBuilder(theme);
+          var b = KVWidgetBuilder(context, theme);
           b.header(M.header.boot);
           if (boot.hasLastReason())
             b.kv(M.grpc.BootInfo.last_reason, boot.lastReason);
@@ -148,7 +148,7 @@ class _RouterTabState extends State<RouterTab> with TickerProviderStateMixin {
       }
 
       if (status.clients.isNotEmpty) {
-        var b = KVWidgetBuilder(theme);
+        var b = KVWidgetBuilder(context, theme);
         for (var client in status.clients) {
           b.header("${M.header.client}: ${client.name}");
           if (client.hasRole())

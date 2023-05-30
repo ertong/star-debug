@@ -4,8 +4,8 @@ import 'package:star_debug/messages/I18n.dart';
 import 'package:star_debug/utils/kv_widget.dart';
 import 'package:time_machine/time_machine.dart';
 
-List<Widget> buildDeviceInfoWidget(ThemeData theme, DeviceInfo deviceInfo) {
-    var b = KVWidgetBuilder(theme);
+List<Widget> buildDeviceInfoWidget(BuildContext context, ThemeData theme, DeviceInfo deviceInfo) {
+    var b = KVWidgetBuilder(context, theme);
 
     b.header(M.header.device_info);
     if (deviceInfo.hasId())
@@ -44,8 +44,8 @@ List<Widget> buildDeviceInfoWidget(ThemeData theme, DeviceInfo deviceInfo) {
     return b.widgets;
 }
 
-List<Widget> buildAlertsWidget(ThemeData theme, Map<String, dynamic> alerts) {
-  var b = KVWidgetBuilder(theme);
+List<Widget> buildAlertsWidget(BuildContext context, ThemeData theme, Map<String, dynamic> alerts) {
+  var b = KVWidgetBuilder(context, theme);
   if (alerts.isEmpty) {
     b.header(M.header.alerts);
     b.kv("", "No alerts");

@@ -3,28 +3,41 @@
 import 'package:clipboard/clipboard.dart';
 import 'package:flex_list/flex_list.dart';
 import 'package:flutter/material.dart';
+import 'package:star_debug/pages/dialogs/hint.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/space/entity.dart';
 
 class KVWidgetBuilder extends KVConsumer{
 
   ThemeData theme;
+  BuildContext context;
 
   List<Widget> widgets = [];
 
-  KVWidgetBuilder(this.theme);
+  KVWidgetBuilder(this.context, this.theme);
+
+  Future onCopy(String v) async {
+    if (v.isEmpty)
+      return;
+    await FlutterClipboard.copy(v);
+    R.showSnackBar(SnackBar(
+      duration: Duration(seconds: 2),
+      content: Text("Copied: ${v}"),
+    ));
+  }
 
   @override
-  void kvs(String k, String v, {bool? ok}) {
+  void kvs(String k, String v, {bool? ok, String? hint}) {
     widgets.add(InkWell(
       onTap: () async {
-        if (v.isEmpty)
-          return;
-        await FlutterClipboard.copy(v);
-        R.showSnackBar(SnackBar(
-          duration: Duration(seconds: 2),
-          content: Text("Copied: ${v}"),
-        ));
+        if (hint==null)
+          await onCopy("$k: $v");
+        else {
+          await showDialog(context: context, builder: (c) => HintDialog(k: k, v: v, hint: hint));
+        }
+      },
+      onLongPress: ()async {
+        onCopy("$k: $v");
       },
       child: FlexList(
         verticalSpacing: 0,
@@ -45,6 +58,8 @@ class KVWidgetBuilder extends KVConsumer{
                       fontWeight: FontWeight.bold,
                     )
                 ),
+                if (hint!=null)
+                  Icon(Icons.info_outline, size: 14, color: Colors.blue,),
               ],
             ),
           // Container(width: 5,),

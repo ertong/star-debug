@@ -222,6 +222,23 @@ class DishOutageGrpcMessages {
   final GrpcMessages _parent;
   const DishOutageGrpcMessages(this._parent);
   String get cause => """Cause""";
+  String get cause__hint =>
+      """The reason why the dish is offline. The possible options are:
+
+- UNKNOWN
+- BOOTING - The booting is in progress
+- STOWED - The dish is stowed to be packaged for storage
+- THERMAL_SHUTDOWN - Dish is overheated
+- NO_SCHEDULE
+- NO_SATS - No enough GPS signal received
+- OBSTRUCTED - Too much signal obstructions
+- NO_DOWNLINK - No downlink from satellites is established 
+- NO_PINGS
+- ACTUATOR_ACTIVITY
+- CABLE_TEST
+- SLEEPING
+- MOVING_WHILE_NOT_ALLOWED
+""";
   String get start_timestamp_ns => """Start timestamp, ns""";
   String get duration_ns => """Duration, ns""";
   String get did_switch => """Did switch""";
@@ -278,6 +295,9 @@ class DishGetStatusGrpcMessages {
   final GrpcMessages _parent;
   const DishGetStatusGrpcMessages(this._parent);
   String get uptime_s => """Uptime""";
+  String get uptime_s__hint =>
+      """Time the dish is running since the last reboot.
+""";
   String get seconds_to_first_nonempty_slot =>
       """Seconds to first non-empty slot""";
   String get pop_ping_drop_rate => """PoP ping drop rate""";
@@ -570,6 +590,23 @@ Map<String, String> get messagesMap => {
       """grpc.DeviceInfo.x_timezone""": """Timezone""",
       """grpc.BootInfo.last_reason""": """Last reason""",
       """grpc.DishOutage.cause""": """Cause""",
+      """grpc.DishOutage.cause__hint""":
+          """The reason why the dish is offline. The possible options are:
+
+- UNKNOWN
+- BOOTING - The booting is in progress
+- STOWED - The dish is stowed to be packaged for storage
+- THERMAL_SHUTDOWN - Dish is overheated
+- NO_SCHEDULE
+- NO_SATS - No enough GPS signal received
+- OBSTRUCTED - Too much signal obstructions
+- NO_DOWNLINK - No downlink from satellites is established 
+- NO_PINGS
+- ACTUATOR_ACTIVITY
+- CABLE_TEST
+- SLEEPING
+- MOVING_WHILE_NOT_ALLOWED
+""",
       """grpc.DishOutage.start_timestamp_ns""": """Start timestamp, ns""",
       """grpc.DishOutage.duration_ns""": """Duration, ns""",
       """grpc.DishOutage.did_switch""": """Did switch""",
@@ -606,6 +643,9 @@ Map<String, String> get messagesMap => {
       """grpc.DishObstructionStats.time_obstructed""": """Time obstructed""",
       """grpc.DishObstructionStats.patches_valid""": """Patches valid""",
       """grpc.DishGetStatus.uptime_s""": """Uptime""",
+      """grpc.DishGetStatus.uptime_s__hint""":
+          """Time the dish is running since the last reboot.
+""",
       """grpc.DishGetStatus.seconds_to_first_nonempty_slot""":
           """Seconds to first non-empty slot""",
       """grpc.DishGetStatus.pop_ping_drop_rate""": """PoP ping drop rate""",

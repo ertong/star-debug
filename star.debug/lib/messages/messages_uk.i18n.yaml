@@ -47,7 +47,7 @@ about:
   about_starlink_for_ukraine: Про Народний cтарлінк
   starlink_for_ukraine: Народний старлінк
   starlink_for_ukraine_in_fb: Народний старлінк у Facebook
-  about_text: >
+  about_text: |
     Додаток створений в рамках волонтерської ініціативи "**Народний старлінк**"
     для потреб людей, що щодня працюють над тим, щоб зв'язок був доступний навіть в місцях,
     які росія намагається перетворити на пустелю.
@@ -99,6 +99,22 @@ grpc:
     last_reason: Остання причина
   DishOutage:
     cause: Причина
+    cause__hint: |
+      Причина, чому тарілка не на зв'язку. Можливі варіанти:
+      
+      - UNKNOWN
+      - BOOTING - The booting is in progress
+      - STOWED - The dish is stowed to be packaged for storage
+      - THERMAL_SHUTDOWN - Dish is overheated
+      - NO_SCHEDULE
+      - NO_SATS - No enough GPS signal received
+      - OBSTRUCTED - Too much signal obstructions
+      - NO_DOWNLINK - No downlink from satellites is established 
+      - NO_PINGS
+      - ACTUATOR_ACTIVITY
+      - CABLE_TEST
+      - SLEEPING
+      - MOVING_WHILE_NOT_ALLOWED
     start_timestamp_ns: Start timestamp, ns
     duration_ns: Duration, ns
     did_switch: Did switch
@@ -132,6 +148,8 @@ grpc:
     patches_valid: Patches valid
   DishGetStatus:
     uptime_s: Час після завантаження, с
+    uptime_s__hint: >
+      Час роботи тарілки від останнього перезавантаження.
     seconds_to_first_nonempty_slot: Час до першого непорожнього слота
     pop_ping_drop_rate: PoP ping drop rate
     fraction_obstructed: Частка часу с перешкодами
