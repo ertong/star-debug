@@ -128,19 +128,19 @@ grpc:
     cause__hint: |
       The reason why the dish is offline. The possible options are:
       
-      - UNKNOWN
-      - BOOTING - The booting is in progress
-      - STOWED - The dish is stowed to be packaged for storage
-      - THERMAL_SHUTDOWN - Dish is overheated
-      - NO_SCHEDULE
-      - NO_SATS - No enough GPS signal received
-      - OBSTRUCTED - Too much signal obstructions
-      - NO_DOWNLINK - No downlink from satellites is established 
-      - NO_PINGS
-      - ACTUATOR_ACTIVITY
-      - CABLE_TEST
-      - SLEEPING
-      - MOVING_WHILE_NOT_ALLOWED
+      - **UNKNOWN**
+      - **BOOTING** - Dish is trying to initialize satellite connection
+      - **STOWED** - The dish is stowed to be packaged for storage
+      - **THERMAL_SHUTDOWN** - Dish is overheated
+      - **NO_SCHEDULE**
+      - **NO_SATS** - No enough GPS signal received
+      - **OBSTRUCTED** - Too much signal obstructions
+      - **NO_DOWNLINK** - No downlink from satellites is established 
+      - **NO_PINGS**
+      - **ACTUATOR_ACTIVITY**
+      - **CABLE_TEST**
+      - **SLEEPING**
+      - **MOVING_WHILE_NOT_ALLOWED**
     start_timestamp_ns: Start timestamp, ns
     duration_ns: Duration, ns
     did_switch: Did switch

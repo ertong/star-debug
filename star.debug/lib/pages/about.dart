@@ -54,7 +54,11 @@ class _AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
                 return Center(child: Opacity(
                   opacity: 0.2,
                   child: Image(
-                    image: AssetImage('assets/images/starlinkforukraine_black.png'),
+                    image: AssetImage(
+                        R.prefs.data.darkMode
+                            ? 'assets/images/starlinkforukraine.png'
+                            : 'assets/images/starlinkforukraine_black.png'
+                    ),
                     width: constraints.maxWidth*0.75,
                   ),
                 ),);

@@ -224,19 +224,19 @@ class DishOutageGrpcMessages {
   String get cause__hint =>
       """The reason why the dish is offline. The possible options are:
 
-- UNKNOWN
-- BOOTING - The booting is in progress
-- STOWED - The dish is stowed to be packaged for storage
-- THERMAL_SHUTDOWN - Dish is overheated
-- NO_SCHEDULE
-- NO_SATS - No enough GPS signal received
-- OBSTRUCTED - Too much signal obstructions
-- NO_DOWNLINK - No downlink from satellites is established 
-- NO_PINGS
-- ACTUATOR_ACTIVITY
-- CABLE_TEST
-- SLEEPING
-- MOVING_WHILE_NOT_ALLOWED
+- **UNKNOWN**
+- **BOOTING** - Dish is trying to initialize satellite connection
+- **STOWED** - The dish is stowed to be packaged for storage
+- **THERMAL_SHUTDOWN** - Dish is overheated
+- **NO_SCHEDULE**
+- **NO_SATS** - No enough GPS signal received
+- **OBSTRUCTED** - Too much signal obstructions
+- **NO_DOWNLINK** - No downlink from satellites is established 
+- **NO_PINGS**
+- **ACTUATOR_ACTIVITY**
+- **CABLE_TEST**
+- **SLEEPING**
+- **MOVING_WHILE_NOT_ALLOWED**
 """;
   String get start_timestamp_ns => """Start timestamp, ns""";
   String get duration_ns => """Duration, ns""";
@@ -592,19 +592,19 @@ the russian aggressor tries to turn cities into ashes.
       """grpc.DishOutage.cause__hint""":
           """The reason why the dish is offline. The possible options are:
 
-- UNKNOWN
-- BOOTING - The booting is in progress
-- STOWED - The dish is stowed to be packaged for storage
-- THERMAL_SHUTDOWN - Dish is overheated
-- NO_SCHEDULE
-- NO_SATS - No enough GPS signal received
-- OBSTRUCTED - Too much signal obstructions
-- NO_DOWNLINK - No downlink from satellites is established 
-- NO_PINGS
-- ACTUATOR_ACTIVITY
-- CABLE_TEST
-- SLEEPING
-- MOVING_WHILE_NOT_ALLOWED
+- **UNKNOWN**
+- **BOOTING** - Dish is trying to initialize satellite connection
+- **STOWED** - The dish is stowed to be packaged for storage
+- **THERMAL_SHUTDOWN** - Dish is overheated
+- **NO_SCHEDULE**
+- **NO_SATS** - No enough GPS signal received
+- **OBSTRUCTED** - Too much signal obstructions
+- **NO_DOWNLINK** - No downlink from satellites is established 
+- **NO_PINGS**
+- **ACTUATOR_ACTIVITY**
+- **CABLE_TEST**
+- **SLEEPING**
+- **MOVING_WHILE_NOT_ALLOWED**
 """,
       """grpc.DishOutage.start_timestamp_ns""": """Start timestamp, ns""",
       """grpc.DishOutage.duration_ns""": """Duration, ns""",

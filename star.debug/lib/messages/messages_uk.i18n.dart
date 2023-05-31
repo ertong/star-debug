@@ -226,19 +226,19 @@ class DishOutageGrpcMessagesUk extends DishOutageGrpcMessages {
   String get cause__hint =>
       """Причина, чому тарілка не на зв'язку. Можливі варіанти:
 
-- UNKNOWN
-- BOOTING - The booting is in progress
-- STOWED - The dish is stowed to be packaged for storage
-- THERMAL_SHUTDOWN - Dish is overheated
-- NO_SCHEDULE
-- NO_SATS - No enough GPS signal received
-- OBSTRUCTED - Too much signal obstructions
-- NO_DOWNLINK - No downlink from satellites is established 
-- NO_PINGS
-- ACTUATOR_ACTIVITY
-- CABLE_TEST
-- SLEEPING
-- MOVING_WHILE_NOT_ALLOWED
+- **UNKNOWN**
+- **BOOTING** - Dish is trying to initialize satellite connection
+- **STOWED** - The dish is stowed to be packaged for storage
+- **THERMAL_SHUTDOWN** - Dish is overheated
+- **NO_SCHEDULE**
+- **NO_SATS** - No enough GPS signal received
+- **OBSTRUCTED** - Too much signal obstructions
+- **NO_DOWNLINK** - No downlink from satellites is established 
+- **NO_PINGS**
+- **ACTUATOR_ACTIVITY**
+- **CABLE_TEST**
+- **SLEEPING**
+- **MOVING_WHILE_NOT_ALLOWED**
 """;
   String get start_timestamp_ns => """Start timestamp, ns""";
   String get duration_ns => """Duration, ns""";
@@ -296,7 +296,7 @@ class DishObstructionStatsGrpcMessagesUk
 class DishGetStatusGrpcMessagesUk extends DishGetStatusGrpcMessages {
   final GrpcMessagesUk _parent;
   const DishGetStatusGrpcMessagesUk(this._parent) : super(_parent);
-  String get uptime_s => """Час після завантаження, с""";
+  String get uptime_s => """Час після завантаження""";
   String get uptime_s__hint =>
       """Час роботи тарілки від останнього перезавантаження.
 """;
@@ -594,19 +594,19 @@ Map<String, String> get messagesUkMap => {
       """grpc.DishOutage.cause__hint""":
           """Причина, чому тарілка не на зв'язку. Можливі варіанти:
 
-- UNKNOWN
-- BOOTING - The booting is in progress
-- STOWED - The dish is stowed to be packaged for storage
-- THERMAL_SHUTDOWN - Dish is overheated
-- NO_SCHEDULE
-- NO_SATS - No enough GPS signal received
-- OBSTRUCTED - Too much signal obstructions
-- NO_DOWNLINK - No downlink from satellites is established 
-- NO_PINGS
-- ACTUATOR_ACTIVITY
-- CABLE_TEST
-- SLEEPING
-- MOVING_WHILE_NOT_ALLOWED
+- **UNKNOWN**
+- **BOOTING** - Dish is trying to initialize satellite connection
+- **STOWED** - The dish is stowed to be packaged for storage
+- **THERMAL_SHUTDOWN** - Dish is overheated
+- **NO_SCHEDULE**
+- **NO_SATS** - No enough GPS signal received
+- **OBSTRUCTED** - Too much signal obstructions
+- **NO_DOWNLINK** - No downlink from satellites is established 
+- **NO_PINGS**
+- **ACTUATOR_ACTIVITY**
+- **CABLE_TEST**
+- **SLEEPING**
+- **MOVING_WHILE_NOT_ALLOWED**
 """,
       """grpc.DishOutage.start_timestamp_ns""": """Start timestamp, ns""",
       """grpc.DishOutage.duration_ns""": """Duration, ns""",
@@ -643,7 +643,7 @@ Map<String, String> get messagesUkMap => {
       """grpc.DishObstructionStats.time_obstructed""":
           """Тривалість перешкоди""",
       """grpc.DishObstructionStats.patches_valid""": """Patches valid""",
-      """grpc.DishGetStatus.uptime_s""": """Час після завантаження, с""",
+      """grpc.DishGetStatus.uptime_s""": """Час після завантаження""",
       """grpc.DishGetStatus.uptime_s__hint""":
           """Час роботи тарілки від останнього перезавантаження.
 """,

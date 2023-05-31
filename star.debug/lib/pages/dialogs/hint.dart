@@ -34,30 +34,11 @@ class _HintDialogState extends State<HintDialog>
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      // insetPadding: EdgeInsets.fromLTRB(0, 0,0,0),
+      // insetPadding: EdgeInsets.fromLTRB(30, 20, 30, 20),
+      insetPadding: EdgeInsets.fromLTRB(10,10,10, 10),
       titlePadding: EdgeInsets.fromLTRB(15, 0, 0, 0),
       contentPadding: EdgeInsets.all(10.0),
       // actionsPadding: EdgeInsets.all(0.0),
-
-      // title: Container(
-      //   // color: Colors.red,
-      //   child: Row(
-      //     children: [
-      //       Expanded(child: Text(M.wifi.setup_wifi)),
-      //       Container(
-      //         // color: Colors.green,
-      //           child: TextButton(
-      //               style: TextButton.styleFrom(
-      //                 padding: EdgeInsets.fromLTRB(0,0,0,0),
-      //               ) ,
-      //               onPressed: (){
-      //                 Navigator.pop(context, null);
-      //               }, child: Icon(Icons.close)
-      //           )
-      //       )
-      //     ],
-      //   ),
-      // ),
       content: _build(),
       actions: <Widget>[
         ElevatedButton(
@@ -86,32 +67,35 @@ class _HintDialogState extends State<HintDialog>
     var style = MarkdownStyleSheet.fromTheme(theme);
     style = MarkdownStyleSheet(textScaleFactor: 1.1);
 
-    return SingleChildScrollView(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          InkWell(
-            onTap: () async {
-              onCopy("${widget.k}: ${widget.v}");
-            },
-            child: FlexList(
-              verticalSpacing: 0,
-              horizontalSpacing: 7,
-              children: [
-                Text("${widget.k}:"),
-                Text("${widget.v}",
-                  textAlign: TextAlign.right,
-                ),
-              ],
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            InkWell(
+              onTap: () async {
+                onCopy("${widget.k}: ${widget.v}");
+              },
+              child: FlexList(
+                verticalSpacing: 0,
+                horizontalSpacing: 7,
+                children: [
+                  Text("${widget.k}:"),
+                  Text("${widget.v}",
+                    textAlign: TextAlign.right,
+                  ),
+                ],
+              ),
             ),
-          ),
-          SizedBox(height: 8,),
-          MarkdownBody(
-            styleSheet: style,
-            selectable: true,
-            data: widget.hint,
-          ),
-        ],
+            SizedBox(height: 8,),
+            MarkdownBody(
+              styleSheet: style,
+              selectable: true,
+              data: widget.hint,
+            ),
+          ],
+        ),
       ),
     );
   }
