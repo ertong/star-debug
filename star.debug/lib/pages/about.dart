@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart' hide Notification, Card;
@@ -85,7 +86,7 @@ class _AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
                 ? 'assets/images/starlinkforukraine.png'
                 : 'assets/images/starlinkforukraine_black.png'
         ),
-        width: MediaQuery.of(context).size.width*0.35,
+        width: min(MediaQuery.of(context).size.width*0.35, 150.0),
       ),
     ),));
 
