@@ -49,21 +49,21 @@ class _AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
               mainAxisSize: MainAxisSize.min,
               children: _buildBody(),
             ),
-            LayoutBuilder(
-              builder: (BuildContext context, BoxConstraints constraints) {
-                return Center(child: Opacity(
-                  opacity: 0.2,
-                  child: Image(
-                    image: AssetImage(
-                        R.prefs.data.darkMode
-                            ? 'assets/images/starlinkforukraine.png'
-                            : 'assets/images/starlinkforukraine_black.png'
-                    ),
-                    width: constraints.maxWidth*0.75,
-                  ),
-                ),);
-              }
-            )
+            // LayoutBuilder(
+            //   builder: (BuildContext context, BoxConstraints constraints) {
+            //     return Center(child: Opacity(
+            //       opacity: 0.2,
+            //       child: Image(
+            //         image: AssetImage(
+            //             R.prefs.data.darkMode
+            //                 ? 'assets/images/starlinkforukraine.png'
+            //                 : 'assets/images/starlinkforukraine_black.png'
+            //         ),
+            //         width: constraints.maxWidth*0.75,
+            //       ),
+            //     ),);
+            //   }
+            // )
           ],
         )
     );
@@ -76,6 +76,18 @@ class _AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
 
     var style = MarkdownStyleSheet.fromTheme(theme);
     style = MarkdownStyleSheet(textScaleFactor: 1.2);
+
+    res.add(Center(child: Padding(
+      padding: const EdgeInsets.fromLTRB(0, 15, 0, 10),
+      child: Image(
+        image: AssetImage(
+            R.prefs.data.darkMode
+                ? 'assets/images/starlinkforukraine.png'
+                : 'assets/images/starlinkforukraine_black.png'
+        ),
+        width: MediaQuery.of(context).size.width*0.35,
+      ),
+    ),));
 
     res.add(Expanded(
       child: Markdown(
