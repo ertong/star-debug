@@ -45,13 +45,13 @@ general:
 
 about:
   about: About
-  about_starlink_for_ukraine: About Starlink For Ukraine
-  starlink_for_ukraine: Starlink For Ukraine
-  starlink_for_ukraine_in_fb: Starlink For Ukraine in Facebook
+  about_starlink_for_ukraine: About Narodnyi Starlink
+  starlink_for_ukraine: Narodnyi Starlink
+  starlink_for_ukraine_in_fb: Narodnyi Starlink on Facebook
   about_text: |
-    The application was created as a part of the volunteer initiative "**Starlink For Ukraine**"
-     for the needs of people who work every day to ensure that communications are available even in places
-     which russia is trying to turn into a desert.
+    This application was created as part of the volunteer initiative "**Narodnyi Starlink**" for the needs 
+    of people who care about the availability of communications even in the places where 
+    the russian aggressor tries to turn cities into ashes.
   project_on_github: Project on GitHub
 
 wifi:

@@ -239,4 +239,7 @@ class _DebugPageState extends State<DebugPage> with TickerProviderStateMixin {
       });
     }
   }
+
+  Future test1() async {
+  }
 }

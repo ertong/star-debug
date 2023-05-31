@@ -42,10 +42,25 @@ class _AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
     return Scaffold(
         appBar: _buildBar(context) as PreferredSizeWidget?,
         drawer: AppDrawer(selectedRoute: Routes.DEBUG),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: _buildBody(),
+        body: Stack(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: _buildBody(),
+            ),
+            LayoutBuilder(
+              builder: (BuildContext context, BoxConstraints constraints) {
+                return Center(child: Opacity(
+                  opacity: 0.2,
+                  child: Image(
+                    image: AssetImage('assets/images/starlinkforukraine_black.png'),
+                    width: constraints.maxWidth*0.75,
+                  ),
+                ),);
+              }
+            )
+          ],
         )
     );
   }

@@ -113,14 +113,13 @@ class AboutMessages {
   final Messages _parent;
   const AboutMessages(this._parent);
   String get about => """About""";
-  String get about_starlink_for_ukraine => """About Starlink For Ukraine""";
-  String get starlink_for_ukraine => """Starlink For Ukraine""";
-  String get starlink_for_ukraine_in_fb =>
-      """Starlink For Ukraine in Facebook""";
+  String get about_starlink_for_ukraine => """About Narodnyi Starlink""";
+  String get starlink_for_ukraine => """Narodnyi Starlink""";
+  String get starlink_for_ukraine_in_fb => """Narodnyi Starlink on Facebook""";
   String get about_text =>
-      """The application was created as a part of the volunteer initiative "**Starlink For Ukraine**"
- for the needs of people who work every day to ensure that communications are available even in places
- which russia is trying to turn into a desert.
+      """This application was created as part of the volunteer initiative "**Narodnyi Starlink**" for the needs 
+of people who care about the availability of communications even in the places where 
+the russian aggressor tries to turn cities into ashes.
 """;
   String get project_on_github => """Project on GitHub""";
 }
@@ -540,14 +539,14 @@ Map<String, String> get messagesMap => {
       """general.inhibit_gps""": """Inhibit GPS""",
       """general.uninhibit_gps""": """Uninhibit GPS""",
       """about.about""": """About""",
-      """about.about_starlink_for_ukraine""": """About Starlink For Ukraine""",
-      """about.starlink_for_ukraine""": """Starlink For Ukraine""",
+      """about.about_starlink_for_ukraine""": """About Narodnyi Starlink""",
+      """about.starlink_for_ukraine""": """Narodnyi Starlink""",
       """about.starlink_for_ukraine_in_fb""":
-          """Starlink For Ukraine in Facebook""",
+          """Narodnyi Starlink on Facebook""",
       """about.about_text""":
-          """The application was created as a part of the volunteer initiative "**Starlink For Ukraine**"
- for the needs of people who work every day to ensure that communications are available even in places
- which russia is trying to turn into a desert.
+          """This application was created as part of the volunteer initiative "**Narodnyi Starlink**" for the needs 
+of people who care about the availability of communications even in the places where 
+the russian aggressor tries to turn cities into ashes.
 """,
       """about.project_on_github""": """Project on GitHub""",
       """wifi.setup""": """Setup""",
