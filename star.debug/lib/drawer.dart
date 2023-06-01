@@ -164,7 +164,7 @@ class _AppDrawerState extends State<AppDrawer> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Text("StarDebug", style: TextStyle(color: Colors.white), softWrap: true,),
-                                    Text("v${R.versionName}", style: TextStyle(color: Colors.white), softWrap: true,),
+                                    Text("${R.versionName}", style: TextStyle(color: Colors.white), softWrap: true,),
                                   ],
                                 )
                             ),

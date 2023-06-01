@@ -32,7 +32,7 @@ publish_play_market:
   stage: publish
   only:
     refs:
-      - /\d+\.\d+b.*/
+      - /^\d+\.\d+b.*$/
     variables:
       - "$ANDROID_JKS"
   except:
