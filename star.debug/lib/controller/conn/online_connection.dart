@@ -219,7 +219,8 @@ class HttpTest {
         await doDio();
     } catch (e,s){
       // LogUtils.ers(_TAG, "$method $url", e, s);
-      LogUtils.e(_TAG, "$method $url: $e");
+      // LogUtils.e(_TAG, "$method $url: $e");
+      LogUtils.e(_TAG, "$method $url: ${"$e".split("\n")[0]}");
     }
     return false;
   }
@@ -260,7 +261,8 @@ class HttpTest {
       }
       return true;
     }
-    LogUtils.e(_TAG, "$method $url: ${res.code} ${res.body}");
+    LogUtils.e(_TAG, "$method $url: ${res.code}");
+    // LogUtils.e(_TAG, "$method $url: ${res.code} ${res.body}");
   }
 
 }

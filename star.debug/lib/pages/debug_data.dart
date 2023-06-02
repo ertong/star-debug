@@ -69,7 +69,7 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
     theme = Theme.of(context);
     Widget? bar;
 
-    if (pages.isNotEmpty)
+    if (pages.length>=2)
       bar = BottomNavigationBar(
         items: <BottomNavigationBarItem>[
           for (var p in pages)

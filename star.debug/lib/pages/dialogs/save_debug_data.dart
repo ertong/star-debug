@@ -57,15 +57,8 @@ class _SaveDebugDataDialogState<TItem> extends State<SaveDebugDataDialog<TItem>>
 
   Future saveToFile() async {
     try {
-      if (!await Permission.storage
-          .request()
-          .isGranted) {
-        R.showSnackBar(SnackBar(
-          duration: Duration(seconds: 2),
-          content: Text("No storage permission. Cannot store"),
-        ));
-        return;
-      }
+      await Permission.storage.request();
+      // If it is not granted, we can try to write ... it is possible that it is allowed by default
 
       String? dir = await getDownloadPath();
       if (dir == null) {

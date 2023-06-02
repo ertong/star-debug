@@ -23,7 +23,7 @@ dependencies:
   sqlite3_flutter_libs: ^0.5.15
   i18n: any
   devicelocale: ^0.6.0
-  permission_handler: any
+  permission_handler: ^10.2.0
   device_info_plus: ^9.0.2
   connectivity_plus: ^4.0.1
   json_annotation: ^4.8.1

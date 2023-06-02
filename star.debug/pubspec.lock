@@ -181,10 +181,10 @@ packages:
     dependency: transitive
     description:
       name: code_builder
-      sha256: "0d43dd1288fd145de1ecc9a3948ad4a6d5a82f0a14c4fdd0892260787d975cbe"
+      sha256: "4ad01d6e56db961d29661561effde45e519939fdaeb46c351275b182eac70189"
       url: "https://pub.dev"
     source: hosted
-    version: "4.4.0"
+    version: "4.5.0"
   collection:
     dependency: transitive
     description:
@@ -293,18 +293,18 @@ packages:
     dependency: "direct main"
     description:
       name: drift
-      sha256: "21abd7b1c1a637a264f58f9f05c7b910d29c204aab1cbfcb4d9fada1e98a9303"
+      sha256: "708ca5cba66a0f18a2632ffbf3d5181d63bc67e746b370dbe403758120e32f0e"
       url: "https://pub.dev"
     source: hosted
-    version: "2.8.0"
+    version: "2.8.1"
   drift_dev:
     dependency: "direct dev"
     description:
       name: drift_dev
-      sha256: "387a3a70047ae90cbef4c9262a7f833c7c274b7cc22133faf067c2e9cef84c60"
+      sha256: "4704966d9eb8f5717bebad7e722397d8150235f4bb1d64eb8b22c55d4566cf6a"
       url: "https://pub.dev"
     source: hosted
-    version: "2.8.2"
+    version: "2.8.3"
   fake_async:
     dependency: transitive
     description:
@@ -1062,10 +1062,10 @@ packages:
     dependency: transitive
     description:
       name: sqlite3
-      sha256: "2cef47b59d310e56f8275b13734ee80a9cf4a48a43172020cb55a620121fbf66"
+      sha256: "281b672749af2edf259fc801f0fcba092257425bcd32a0ce1c8237130bc934c7"
       url: "https://pub.dev"
     source: hosted
-    version: "1.11.1"
+    version: "1.11.2"
   sqlite3_flutter_libs:
     dependency: "direct main"
     description:
@@ -1078,10 +1078,10 @@ packages:
     dependency: transitive
     description:
       name: sqlparser
-      sha256: "0d2c9a3b554baa10b2560d69a1c7cabd4687cc08041a7dd3d2dc6992f607b400"
+      sha256: "72f15efc63aacce81ed5081e408e2610f7dc1f5846df4a2acbd21ac6a7138577"
       url: "https://pub.dev"
     source: hosted
-    version: "0.30.0"
+    version: "0.30.1"
   stack_trace:
     dependency: transitive
     description:
@@ -1174,10 +1174,10 @@ packages:
     dependency: "direct main"
     description:
       name: upgrader
-      sha256: b9a43e24ac412894526853dca69929d683070c8f94ee83db1fc884f982cc970f
+      sha256: "61a8d6696fc8cb6958d8293e12e32e7f7bfe59af808f48670e438739afd4a70c"
       url: "https://pub.dev"
     source: hosted
-    version: "7.0.1"
+    version: "7.0.2"
   url_launcher:
     dependency: "direct main"
     description:

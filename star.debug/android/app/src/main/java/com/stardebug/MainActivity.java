@@ -24,7 +24,7 @@ public class MainActivity extends FlutterActivity {
     public class Handler implements MethodChannel.MethodCallHandler{
         @Override
         public void onMethodCall(MethodCall call, MethodChannel.Result result) {
-            Log.d("StarDebugChannel", "onMethodCall: "+call.method);
+//            Log.d("StarDebugChannel", "onMethodCall: "+call.method);
             if (call.method.equals("test")) {
                 result.success("testResult");
             } else if (call.method.equals("httpTest")) {
