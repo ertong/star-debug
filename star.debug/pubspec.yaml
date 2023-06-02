@@ -66,6 +66,8 @@ flutter_launcher_icons:
   remove_alpha_ios: true
   image_path_ios: "_misc/logo.png"
   image_path_android: "_misc/logo.png"
+  adaptive_icon_background: "#000000"
+  adaptive_icon_foreground: "_misc/logo.png"
 
 # The following section is specific to Flutter packages.
 flutter:
