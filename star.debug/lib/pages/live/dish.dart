@@ -214,14 +214,15 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
 
         if (status.hasBoresightAzimuthDeg())
           b.kv(M.grpc.DishGetStatus.boresight_azimuth_deg, status.boresightAzimuthDeg.toStringAsFixed(2));
+
         if (status.hasBoresightElevationDeg())
           b.kv(M.grpc.DishGetStatus.boresight_elevation_deg, status.boresightElevationDeg.toStringAsFixed(2));
 
-        if (status.hasIsSnrAboveNoiseFloor())
-          b.kv(M.grpc.DishGetStatus.is_snr_above_noise_floor, status.isSnrAboveNoiseFloor);
+        // if (status.hasIsSnrAboveNoiseFloor())
+        b.kv(M.grpc.DishGetStatus.is_snr_above_noise_floor, status.isSnrAboveNoiseFloor);
 
-        if (status.hasIsSnrPersistentlyLow())
-          b.kv(M.grpc.DishGetStatus.is_snr_persistently_low, status.isSnrPersistentlyLow);
+        // if (status.hasIsSnrPersistentlyLow())
+        b.kv(M.grpc.DishGetStatus.is_snr_persistently_low, status.isSnrPersistentlyLow);
 
         if (status.hasObstructionStats()) {
           var stats = status.obstructionStats;
