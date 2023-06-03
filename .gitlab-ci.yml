@@ -18,4 +18,4 @@ before_script:
 
 include:
   - local: _build/ci_android.yaml
-#  - local: _build/ci_ios.yaml    
+  - local: _build/ci_ios.yaml    

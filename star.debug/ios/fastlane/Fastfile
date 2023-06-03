@@ -1,0 +1,87 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+#match(type: "appstore")
+
+#match(type: "development")
+
+create_keychain(
+    name: "stardebug.keychain",
+    password: ENV["MATCH_KEYCHAIN_PASSWORD"],
+    unlock: true
+)
+
+unlock_keychain(
+  path: "stardebug.keychain",
+  password: ENV["MATCH_KEYCHAIN_PASSWORD"]
+)
+
+platform :ios do
+  desc "Push a new beta build to TestFlight"
+  lane :beta do
+    match(type: "appstore", readonly: true)
+    build_ios_app(
+      workspace: "Runner.xcworkspace", 
+      scheme: "Runner",
+      export_method: "app-store",
+      output_directory: "build",
+      output_name: "stardebug.ipa",
+    )
+  end
+  lane :do_testflight do
+    match(type: "appstore", readonly: true)
+    #https://docs.fastlane.tools/actions/pilot/#use-an-application-specific-password-to-upload
+    upload_to_testflight(
+      skip_submission: true,
+      ipa: "build/stardebug.ipa",
+      skip_waiting_for_build_processing: true,
+      apple_id: ENV["APP_APPLE_ID"]
+    )
+  end
+  lane :do_adhoc_reg do
+    register_devices(
+      devices_file: './adhoc-devices.txt',
+      username: "ihor@ert.org.ua"
+    )
+    match(type: "adhoc", force_for_new_devices: true)
+  end
+  lane :do_adhoc do
+    match(type: "adhoc", readonly: true)
+    update_project_provisioning(
+          xcodeproj: "Runner.xcodeproj",
+          target_filter: "Runner",
+          profile:ENV["sigh_com.stardebug_adhoc_profile-path"],
+          build_configuration: "Release"
+        )
+    gym(
+      workspace: "Runner.xcworkspace",
+      scheme:"Runner",
+      configuration: "Release",
+      clean: true,
+      export_method: "ad-hoc",
+      output_directory:"./build-adhoc/",
+      export_options: {
+        method: "ad-hoc",
+        provisioningProfiles: {
+          "com.stardebug" => ENV["sigh_com.stardebug_adhoc_profile-name"]
+        }
+      },
+      #codesigning_identity:"iPhone Distribution: XXXXXX Common Name(XXXXXX)",
+      output_name: "stardebug.ipa"
+    )
+  end
+end

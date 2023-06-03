@@ -50,14 +50,14 @@ PODS:
   - Firebase/Crashlytics (10.9.0):
     - Firebase/CoreOnly
     - FirebaseCrashlytics (~> 10.9.0)
-  - firebase_analytics (10.4.1):
+  - firebase_analytics (10.4.2):
     - Firebase/Analytics (= 10.9.0)
     - firebase_core
     - Flutter
-  - firebase_core (2.13.0):
+  - firebase_core (2.13.1):
     - Firebase/CoreOnly (= 10.9.0)
     - Flutter
-  - firebase_crashlytics (3.3.1):
+  - firebase_crashlytics (3.3.2):
     - Firebase/Crashlytics (= 10.9.0)
     - firebase_core
     - Flutter
@@ -109,7 +109,7 @@ PODS:
     - nanopb (< 2.30910.0, >= 2.30908.0)
     - PromisesSwift (~> 2.1)
   - Flutter (1.0.0)
-  - flutter_native_timezone (0.0.1):
+  - flutter_timezone (0.0.1):
     - Flutter
   - GoogleAppMeasurement (10.9.0):
     - GoogleAppMeasurement/AdIdSupport (= 10.9.0)
@@ -173,6 +173,8 @@ PODS:
   - SDWebImage (5.15.8):
     - SDWebImage/Core (= 5.15.8)
   - SDWebImage/Core (5.15.8)
+  - share_plus (0.0.1):
+    - Flutter
   - shared_preferences_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
@@ -204,10 +206,11 @@ DEPENDENCIES:
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_crashlytics (from `.symlinks/plugins/firebase_crashlytics/ios`)
   - Flutter (from `Flutter`)
-  - flutter_native_timezone (from `.symlinks/plugins/flutter_native_timezone/ios`)
+  - flutter_timezone (from `.symlinks/plugins/flutter_timezone/ios`)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
+  - share_plus (from `.symlinks/plugins/share_plus/ios`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
   - sqlite3_flutter_libs (from `.symlinks/plugins/sqlite3_flutter_libs/ios`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
@@ -252,14 +255,16 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_crashlytics/ios"
   Flutter:
     :path: Flutter
-  flutter_native_timezone:
-    :path: ".symlinks/plugins/flutter_native_timezone/ios"
+  flutter_timezone:
+    :path: ".symlinks/plugins/flutter_timezone/ios"
   package_info_plus:
     :path: ".symlinks/plugins/package_info_plus/ios"
   path_provider_foundation:
     :path: ".symlinks/plugins/path_provider_foundation/darwin"
   permission_handler_apple:
     :path: ".symlinks/plugins/permission_handler_apple/ios"
+  share_plus:
+    :path: ".symlinks/plugins/share_plus/ios"
   shared_preferences_foundation:
     :path: ".symlinks/plugins/shared_preferences_foundation/darwin"
   sqlite3_flutter_libs:
@@ -275,9 +280,9 @@ SPEC CHECKSUMS:
   DKPhotoGallery: fdfad5125a9fdda9cc57df834d49df790dbb4179
   file_picker: ce3938a0df3cc1ef404671531facef740d03f920
   Firebase: bd152f0f3d278c4060c5c71359db08ebcfd5a3e2
-  firebase_analytics: 24c9089f960ea2255654488d219cb15a913adf8e
-  firebase_core: fc68c0f9eec4e800b9418deff14a7e0a504016f3
-  firebase_crashlytics: 6c82b5f80f225b2429ebc5fdadde5b7e7735ed4e
+  firebase_analytics: 48ed4a230abf9f585f7e7b477791effe96f5a791
+  firebase_core: ce64b0941c6d87c6ef5022ae9116a158236c8c94
+  firebase_crashlytics: 9b80d1944507cc07fa1c4455797f7d2eb7c8873f
   FirebaseAnalytics: 5ea0db4893825e7b0149d575352cd838236313dc
   FirebaseCore: b68d3616526ec02e4d155166bbafb8eca64af557
   FirebaseCoreExtension: d3e9bba2930a8033042112397cd9f006a1bb203d
@@ -286,7 +291,7 @@ SPEC CHECKSUMS:
   FirebaseInstallations: c58489c9caacdbf27d1da60891a87318e20218e0
   FirebaseSessions: 44a6782502eb279a214d4adca20891353278760c
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
-  flutter_native_timezone: 5f05b2de06c9776b4cc70e1839f03de178394d22
+  flutter_timezone: ffb07bdad3c6276af8dada0f11978d8a1f8a20bb
   GoogleAppMeasurement: 373bcbead1bb6a85be7a64d5d8f96284b762ea9c
   GoogleDataTransport: f0308f5905a745f94fb91fea9c6cbaf3831cb1bd
   GoogleUtilities: 9aa0ad5a7bc171f8bae016300bfcfa3fb8425749
@@ -298,6 +303,7 @@ SPEC CHECKSUMS:
   PromisesSwift: cf9eb58666a43bbe007302226e510b16c1e10959
   ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
   SDWebImage: cb032eba469c54e0000e78bcb0a13cdde0a52798
+  share_plus: 599aa54e4ea31d4b4c0e9c911bcc26c55e791028
   shared_preferences_foundation: e2dae3258e06f44cc55f49d42024fd8dd03c590c
   sqlite3: fd89671d969f3e73efe503ce203e28b016b58f68
   sqlite3_flutter_libs: 04ba0d14a04335a2fbf9a331e8664f401fbccdd5
