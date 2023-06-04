@@ -49,5 +49,7 @@
 	<false/>
     <key>NSPhotoLibraryUsageDescription</key>
     <string>The app does not use this permission.</string>
+    <key>ITSAppUsesNonExemptEncryption</key>
+    <false/>
 </dict>
 </plist>
