@@ -1,12 +1,27 @@
+.ios_job:
+  variables:
+    MATCH_KEYCHAIN_NAME: ${APP_BASENAME}.${CI_JOB_ID}.keychain
+  before_script:
+    - !reference [before_script]
+    - source ~/.bashrc
+    - flutter doctor -v
+    - security lock-keychain $MATCH_KEYCHAIN_NAME || echo No $MATCH_KEYCHAIN_NAME. Skip locking
+    - rm -rf ~/Library/Keychains/${MATCH_KEYCHAIN_NAME}-db || echo Nothing to delete
+  after_script:
+    - security lock-keychain $MATCH_KEYCHAIN_NAME || echo No $MATCH_KEYCHAIN_NAME. Skip locking
+    - rm -rf ~/Library/Keychains/${MATCH_KEYCHAIN_NAME}-db || echo Nothing to delete
+  cache:
+    key: iOS-${CI_COMMIT_SHA}
+    untracked: true
+  tags: [flutter, macos]
+
 build_ios:
+  extends: .ios_job
   stage: build
   only:
     - branches
   script:
-    - source ~/.bashrc
     - cd $CI_PROJECT_DIR/star.debug
-    - flutter doctor -v
-    - export GEM_HOME=${CI_PROJECT_DIR}/.cache/.gem
     - flutter packages get
     - cd ios && pod install --repo-update && cd ..
     - flutter clean
@@ -21,53 +36,38 @@ build_ios:
 #      - star.debug/ios/build-adhoc/stardebug.ipa
 #      - star.debug/ios/build-adhoc/stardebug.app.dSYM.zip
   needs: ["test"]
-  cache:
-    key: iOS-${CI_COMMIT_SHA}
-    untracked: true
-  tags:
-    - flutter
 
 publish_testflight:
+  extends: .ios_job
   stage: publish
   script:
-    - source ~/.bashrc
     - cd $CI_PROJECT_DIR/star.debug
-    - flutter doctor -v
-    - export GEM_HOME=${CI_PROJECT_DIR}/.cache/.gem
     - flutter packages get
     - cd ios && pod install --repo-update && cd ..
     - flutter clean
     - flutter build ios --release --no-codesign $BUILD_OPTS
     - cd ios
     - bundle install
-    - security lock-keychain stardebug.keychain || echo No stardebug.keychain. Skip locking
-    - rm -rf ~/Library/Keychains/stardebug*
     - bundle exec fastlane beta
     - bundle exec fastlane do_testflight
 #    - pip3 install requests
-#  when: manual
   artifacts:
     expire_in: 6 mos
     paths:
-      - star.debug/ios/build/stardebug.ipa
-      - star.debug/ios/build/stardebug.app.dSYM.zip
+      - star.debug/ios/build/${APP_BASENAME}.ipa
+      - star.debug/ios/build/${APP_BASENAME}.app.dSYM.zip
   only:
     refs:
       - /^\d+\.\d+b.*$/
     variables:
-      - "$ANDROID_JKS"
-  cache:
-    key: iOS-${CI_COMMIT_SHA}
-    untracked: true
+      - "$APPLE_ID"
   except:
     - branches
 #  needs: ["build_ios"]
-  tags:
-    - flutter
 
 #publish_diawi_ios:
 #  stage: publish
 #  script:
-#    - _build/diawi.py $NAME $DIAWI_TOKEN ios/build-adhoc/stardebug.ipa
+#    - _build/diawi.py $NAME $DIAWI_TOKEN ios/build-adhoc/${APP_BASENAME}.ipa
 #  when: manual
 #  needs: ["build_ios"]

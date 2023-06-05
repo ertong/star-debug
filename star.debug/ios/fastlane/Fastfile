@@ -15,18 +15,14 @@
 
 default_platform(:ios)
 
-#match(type: "appstore")
-
-#match(type: "development")
-
 create_keychain(
-    name: "stardebug.keychain",
+    name: ENV["MATCH_KEYCHAIN_NAME"],
     password: ENV["MATCH_KEYCHAIN_PASSWORD"],
     unlock: true
 )
 
 unlock_keychain(
-  path: "stardebug.keychain",
+  path: ENV["MATCH_KEYCHAIN_NAME"],
   password: ENV["MATCH_KEYCHAIN_PASSWORD"]
 )
 
@@ -39,7 +35,7 @@ platform :ios do
       scheme: "Runner",
       export_method: "app-store",
       output_directory: "build",
-      output_name: "stardebug.ipa",
+      output_name: "#{ENV["APP_BASENAME"]}.ipa",
     )
   end
   lane :do_testflight do
@@ -47,7 +43,7 @@ platform :ios do
     #https://docs.fastlane.tools/actions/pilot/#use-an-application-specific-password-to-upload
     upload_to_testflight(
       skip_submission: true,
-      ipa: "build/stardebug.ipa",
+      ipa: "build/#{ENV["APP_BASENAME"]}.ipa",
       skip_waiting_for_build_processing: true,
       apple_id: ENV["APP_APPLE_ID"]
     )
@@ -55,7 +51,7 @@ platform :ios do
   lane :do_adhoc_reg do
     register_devices(
       devices_file: './adhoc-devices.txt',
-      username: "ihor@ert.org.ua"
+      username: ENV["APPLE_ID"]
     )
     match(type: "adhoc", force_for_new_devices: true)
   end
@@ -81,7 +77,7 @@ platform :ios do
         }
       },
       #codesigning_identity:"iPhone Distribution: XXXXXX Common Name(XXXXXX)",
-      output_name: "stardebug.ipa"
+      output_name: "#{ENV["APP_BASENAME"]}.ipa"
     )
   end
 end

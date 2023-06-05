@@ -1,10 +1,12 @@
-image: respo/android-runner:cirrus-3.10.1-api33
+image: respo/android-runner:cirrus-3.10.3-api33
 
 variables:
   PUB_CACHE: ${CI_PROJECT_DIR}/.cache/.pub-cache
   GRADLE_USER_HOME: ${CI_PROJECT_DIR}/.cache/.gradle
+  GEM_HOME: ${CI_PROJECT_DIR}/.cache/.gem
   GIT_STRATEGY: fetch
   GIT_DEPTH: "1"
+  APP_BASENAME: stardebug
 
 stages:
   - test
