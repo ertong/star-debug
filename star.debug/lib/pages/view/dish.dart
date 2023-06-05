@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart' hide Notification, Card, ConnectionState;
+import 'package:recase/recase.dart';
 import 'package:star_debug/grpc/starlink/network.pb.dart';
 import 'package:star_debug/grpc/starlink/starlink.pbgrpc.dart';
 import 'package:star_debug/messages/I18n.dart';
@@ -15,7 +16,8 @@ const String _TAG="DishWidget";
 
 class DishWidget extends StatefulWidget {
   final DishGetStatusResponse? status;
-  const DishWidget({super.key, required this.status});
+  final Map<String, bool> features;
+  const DishWidget({super.key, required this.status, required this.features});
 
   @override
   State createState() => _DishWidgetState();
@@ -128,6 +130,16 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
 
       if (status.hasDeviceInfo())
         rows.addAll(buildDeviceInfoWidget(context, theme, status.deviceInfo));
+
+      if (widget.features.isNotEmpty){
+        var b = KVWidgetBuilder(context, theme);
+        b.header(M.header.features);
+
+        for (var v in widget.features.entries)
+          b.kv(v.key.pascalCase, v.value);
+
+        rows.addAll(b.widgets);
+      }
 
       if (status.hasConfig()) {
         var b = KVWidgetBuilder(context, theme);

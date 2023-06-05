@@ -10,6 +10,7 @@ import 'package:star_debug/controller/conn/connection.dart';
 import 'package:star_debug/controller/conn/grpc_connection.dart';
 import 'package:star_debug/drawer.dart';
 import 'package:star_debug/grpc/starlink/network.pbenum.dart';
+import 'package:star_debug/grpc/starlink/starlink.pb.dart';
 import 'package:star_debug/grpc/starlink/starlink.pbenum.dart';
 import 'package:star_debug/messages/I18n.dart';
 import 'package:star_debug/pages/dialogs/save_debug_data.dart';
@@ -19,8 +20,8 @@ import 'package:star_debug/pages/live/online.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/routes.dart';
 import 'package:star_debug/space/entity.dart';
-import 'package:protobuf/protobuf.dart' as pb;
-import 'package:fixnum/fixnum.dart' as fixnum;
+import 'package:star_debug/utils/api_helper.dart';
+import 'package:star_debug/utils/debug_data.dart';
 import 'package:star_debug/utils/log_utils.dart';
 
 import 'live/router.dart';
@@ -75,17 +76,9 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
         () => colorOf(R.dishHolder),
         () => DishTab(),
         alert: () {
-          var data = R.dish?.dishGetStatus.data;
+          DishGetStatusResponse? data = R.dish?.dishGetStatus.data;
           if (data==null) return 0;
-
-          var map = data.alerts.toProto3Json() as Map<String, dynamic>;
-          int alerts = map.entries.where((e) => e.value==true).length;
-          if (data.hasDisablementCode() && data.disablementCode!=UtDisablementCode.OKAY)
-            alerts++;
-          if (data.hasOutage() && data.outage.hasCause())
-            alerts++;
-
-          return alerts;
+          return data.countAlerts();
         }
     ));
     pages.add(_Page(
@@ -96,9 +89,7 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
         alert: () {
           var data = R.router?.wifiGetStatus.data;
           if (data==null) return 0;
-
-          var map = data.alerts.toProto3Json() as Map<String, dynamic>;
-          return map.entries.where((e) => e.value==true).length;
+          return data.countAlerts();
         }
     ));
     pages.add(_Page(
@@ -210,103 +201,6 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
     return color;
   }
 
-  dynamic protoToJson(dynamic msg){
-    if (msg is fixnum.Int64)
-      msg = msg.toInt();
-    if (msg is fixnum.Int32)
-      msg = msg.toInt();
-    if (msg is pb.ProtobufEnum)
-      msg = msg.value;
-    if (msg is List)
-      msg = [ for(var obj in msg) protoToJson(obj) ];
-
-    if (msg is pb.GeneratedMessage) {
-      Map<String, dynamic> res = {};
-      for (var e in msg.info_.byName.entries) {
-        var key = e.key.camelCase;
-        var val = msg.getField(e.value.tagNumber);
-        val = protoToJson(val);
-
-        if (["countByReason", "countByReasonDelta"].contains(key) && val is Map) {
-          key = "${key}Map";
-          val = [for (var e1 in val.entries) [e1.key, e1.value]];
-        }
-
-        if (["networks", "basicServiceSets", "nameservers"].contains(key) && val is List) {
-          key = "${key}List";
-        }
-
-        if (val is double && val.isNaN) {
-          // val = null;
-          continue;
-        }
-
-        res[key] = val;
-      }
-      return res;
-    }
-
-    return msg;
-  }
-
-  Map<String, dynamic> debugData() {
-    Map<String, dynamic> res = {};
-    int nowS = DateTime.now().millisecondsSinceEpoch ~/ 1000;
-
-    res["device"] = {
-      "app": {
-        "version": "star-debug-${R.versionName}",
-        "timestamp": nowS,
-      },
-      "platform":{
-        "os": Platform.operatingSystem
-      }
-    };
-
-    {
-      var dish = R.dish?.dishGetStatus.data;
-      int apiVersion = R.dish?.dishGetStatus.apiVersion ?? 0;
-      if (dish == null) {
-        res["dish"] = {"reachable": false, "service": "dish", "cloud":false, "features": {}, "timestamp": nowS};
-      } else {
-        Map<String, dynamic> features = {};
-        features["stowRequested"] = apiVersion>=1;
-        features["unstow"] = apiVersion>=3;
-        res["dish"] = {"reachable": true, "service": "dish", "features": features, "timestamp": nowS};
-        for (var e in (protoToJson(dish) as Map<String, dynamic>).entries)
-          res["dish"][e.key] = e.value;
-      }
-    }
-
-    {
-      var router = R.router?.wifiGetStatus.data;
-      int apiVersion = R.router?.wifiGetStatus.apiVersion ?? 0;
-      if (router == null) {
-        res["router"] = {"reachable": false, "service": "router", "cloud":false, "features": {}, "timestamp": nowS};
-      } else {
-        Map<String, dynamic> features = {};
-
-        var swVer = router.deviceInfo.softwareVersion;
-
-        features["speedTest"] =  apiVersion >= 1;
-        features["speedTestLive"] =  apiVersion >= 2;
-        features["wifiSpeedTest"] =  apiVersion >= 4 || swVer.contains("2021.52") || swVer.contains("2022");
-        features["clientHistory"] =  apiVersion >= 4;
-
-        res["router"] = {"reachable": true, "service": "router", "features": features, "timestamp": nowS};
-        for (var e in (protoToJson(router) as Map<String, dynamic>).entries) {
-          if (e.value==null)
-            continue;
-          if (e.key == "config") {
-            res["wifiConfig"] = e.value;
-          } else
-            res["router"][e.key] = e.value;
-        }
-      }
-    }
-
-    return res;
-  }
 
   Widget _buildBar(BuildContext context) {
     return AppBar(
@@ -340,7 +234,12 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
           TextButton(
               onPressed: () async {
                 try {
-                  var data = debugData();
+                  var data = DebugDataHelper.debugData(
+                      R.dish?.dishGetStatus.data,
+                      R.dish?.dishGetStatus.apiVersion,
+                      R.router?.wifiGetStatus.data,
+                      R.router?.wifiGetStatus.apiVersion
+                  );
                   await showDialog<String>(context: context, builder: (c) {
                     print(data);
                     return SaveDebugDataDialog(

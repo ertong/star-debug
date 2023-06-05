@@ -5,7 +5,7 @@ import 'package:flex_list/flex_list.dart';
 import 'package:flutter/material.dart';
 import 'package:star_debug/pages/dialogs/hint.dart';
 import 'package:star_debug/preloaded.dart';
-import 'package:star_debug/space/entity.dart';
+import 'package:star_debug/utils/kv_consumer.dart';
 
 class KVWidgetBuilder extends KVConsumer{
 

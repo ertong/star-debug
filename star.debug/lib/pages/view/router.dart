@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart' hide Notification, Card, ConnectionState;
+import 'package:recase/recase.dart';
 import 'package:star_debug/controller/conn/router_connection.dart';
 import 'package:star_debug/grpc/starlink/starlink.pbgrpc.dart';
 import 'package:star_debug/messages/I18n.dart';
@@ -14,7 +15,8 @@ const String _TAG="RouterWidget";
 
 class RouterWidget extends StatefulWidget {
   final WifiGetStatusResponse? status;
-  const RouterWidget({super.key, required this.status});
+  final Map<String, bool> features;
+  const RouterWidget({super.key, required this.status, required this.features});
 
   @override
   State createState() => _RouterWidgetState();
@@ -64,6 +66,15 @@ class _RouterWidgetState extends State<RouterWidget> with TickerProviderStateMix
         if (status.hasPopPingLatencyMs())
           b.kv(M.grpc.WifiGetStatus.pop_ping_latency_ms, status.popPingLatencyMs);
 
+        if (status.hasCaptivePortalEnabled())
+          b.kv(M.grpc.WifiGetStatus.captive_portal_enabled, status.captivePortalEnabled);
+
+        if (status.hasIsAviation())
+          b.kv(M.grpc.WifiGetStatus.is_aviation, status.isAviation);
+
+        if (status.hasIsAviationConformed())
+          b.kv(M.grpc.WifiGetStatus.is_aviation_conformed, status.isAviationConformed);
+
         if (status.hasConfig()) {
           var config = status.config;
 
@@ -85,6 +96,16 @@ class _RouterWidgetState extends State<RouterWidget> with TickerProviderStateMix
 
       if (status.hasDeviceInfo())
         rows.addAll(buildDeviceInfoWidget(context, theme, status.deviceInfo));
+
+      if (widget.features.isNotEmpty){
+        var b = KVWidgetBuilder(context, theme);
+        b.header(M.header.features);
+
+        for (var v in widget.features.entries)
+          b.kv(v.key.pascalCase, v.value);
+
+        rows.addAll(b.widgets);
+      }
 
       if (status.hasConfig()) {
         var config = status.config;

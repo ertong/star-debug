@@ -14,8 +14,12 @@ List<Widget> buildDeviceInfoWidget(BuildContext context, ThemeData theme, Device
       b.kv(M.grpc.DeviceInfo.hardware_version, deviceInfo.hardwareVersion);
     if (deviceInfo.hasSoftwareVersion())
       b.kv(M.grpc.DeviceInfo.software_version, deviceInfo.softwareVersion);
-    if (deviceInfo.hasManufacturedVersion())
+    if (deviceInfo.hasManufacturedVersion() && deviceInfo.manufacturedVersion!="")
       b.kv(M.grpc.DeviceInfo.manufactured_version, deviceInfo.manufacturedVersion);
+
+    if (deviceInfo.hasSoftwarePartitionsEqual())
+      b.kv(M.grpc.DeviceInfo.software_partitions_equal, deviceInfo.softwarePartitionsEqual);
+
     if (deviceInfo.hasCountryCode())
       b.kv(M.grpc.DeviceInfo.country_code, deviceInfo.countryCode);
     if (deviceInfo.hasUtcOffsetS()) {
@@ -33,7 +37,7 @@ List<Widget> buildDeviceInfoWidget(BuildContext context, ThemeData theme, Device
     // int32 anti_rollback_version = 9;
     // bool is_hitl = 10;
 
-    if (deviceInfo.hasGenerationNumber())
+    if (deviceInfo.hasGenerationNumber() && deviceInfo.generationNumber>0)
       b.kv(M.grpc.DeviceInfo.x_build_date,
           Instant.fromEpochSeconds(deviceInfo.generationNumber.toInt()).inUtc().toString("yyyy-MM-dd")
       );
@@ -46,9 +50,13 @@ List<Widget> buildDeviceInfoWidget(BuildContext context, ThemeData theme, Device
 
 List<Widget> buildAlertsWidget(BuildContext context, ThemeData theme, Map<String, dynamic> alerts) {
   var b = KVWidgetBuilder(context, theme);
-  if (alerts.isEmpty) {
+  int cnt = 0;
+  for (var e in alerts.entries)
+    if (e.value)
+      cnt++;
+  if (cnt==0) {
     b.header(M.header.alerts);
-    b.kv("", "No alerts");
+    b.kv("", M.general.no_alerts);
   } else {
     b.header(M.header.alerts, isAlert: true);
     for (var e in alerts.entries)

@@ -1,11 +1,11 @@
 // ignore_for_file: non_constant_identifier_names
 
+import 'package:star_debug/messages/I18n.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/space/app_data.dart';
+import 'package:star_debug/utils/kv_consumer.dart';
 
 import 'entity.dart';
-
-var _ = R.text.t;
 
 class DeviceApp extends Entity {
   String device_app_version = "";
@@ -35,8 +35,8 @@ class DeviceApp extends Entity {
 
     dynamic device_app = json_object[DEVICE_APP_KEY];
 
-    res.device_app_version = "${device_app[DEVICE_APP_VERSION_KEY] ?? _('Unknown')}";
-    res.device_app_environment = "${device_app[DEVICE_APP_ENVIRONMENT_KEY] ?? _('Unknown')}";
+    res.device_app_version = "${device_app[DEVICE_APP_VERSION_KEY] ?? M.tabs.app.unknown}";
+    res.device_app_environment = "${device_app[DEVICE_APP_ENVIRONMENT_KEY] ?? M.tabs.app.unknown}";
     res.device_app_build = "${device_app[DEVICE_APP_BUILD_KEY] ?? ''}";
     res.device_app_hash = "${device_app[DEVICE_APP_HASH_KEY] ?? ''}";
     res.device_app_timestamp = (device_app[DEVICE_APP_TIMESTAMP_KEY] ?? 0).toInt();
@@ -70,39 +70,30 @@ class DeviceApp extends Entity {
     return dev_images[platform_os] ?? dev_images['unknown'];
   }
 
-  @override
-  String get_module_readable_name() {
-    return _('Local device');
-  }
-
-  @override
-  bool is_sx_device() {
-    return false;
-  }
 
   @override
   void get_readable_params(KVConsumer kv) {
-    kv.kv(_('App version'), device_app_version);
-    kv.kv(_('App environment'), device_app_environment);
-    kv.kv(_('App build'), device_app_build);
-    kv.kv(_('App hash'), device_app_hash);
-    kv.kv(_('App timestamp'), DateTime.fromMillisecondsSinceEpoch(1000*device_app_timestamp));
+    kv.kv(M.tabs.app.app_version, device_app_version);
+    kv.kv(M.tabs.app.app_environment, device_app_environment);
+    kv.kv(M.tabs.app.app_build, device_app_build);
+    kv.kv(M.tabs.app.app_hash, device_app_hash);
+    kv.kv(M.tabs.app.app_timestamp, DateTime.fromMillisecondsSinceEpoch(1000*device_app_timestamp));
 
     kv.spacer();
 
-    kv.kv(_('Platform OS'), platform_os);
+    kv.kv(M.tabs.app.platform_os, platform_os);
 
     if (platform_os != 'web' && platform_os != 'unknown') {
-      kv.kv(_('Platform OS version'), platform_os_version);
-      kv.kv(_('Device'), device);
-      kv.kv(_('Device model'), device_model);
-      kv.kv(_('Device id'), device_id);
+      kv.kv(M.tabs.app.platform_os_version, platform_os_version);
+      kv.kv(M.tabs.app.device, device);
+      kv.kv(M.tabs.app.device_model, device_model);
+      kv.kv(M.tabs.app.device_id, device_id);
 
       kv.spacer();
 
-      kv.kv(_('Device timestamp'), DateTime.fromMillisecondsSinceEpoch(1000*timestamp));
-      kv.kv(_('Device uptime'), uptime);
-      kv.kv(_('WiFi IP address'), wifi_ip);
+      kv.kv(M.tabs.app.device_timestamp, DateTime.fromMillisecondsSinceEpoch(1000*timestamp));
+      kv.kv(M.tabs.app.device_uptime, uptime);
+      kv.kv(M.tabs.app.wifi_ip_address, wifi_ip);
     }
   }
 
@@ -158,26 +149,26 @@ class DeviceNetwork extends EntityModule {
   }
 
   @override
-  String get_name() => _('Network');
+  String get_name() => M.header.network;
 
   @override
   void get_data(KVConsumer kv) {
-      kv.kv(_('Local connection type'), this.net_type);
-      kv.kv(_('Local connection speed'), this.local_link_speed);
-      kv.kv(_('Is VPN'), yes_or_no(this.isVpn));
-      kv.kv(_('Is connected'), yes_or_no(this.isConnected));
-      kv.kv(_('Internet available'), yes_or_no(this.isInternetAvailable));
-      kv.kv(_('Connected via Starlink'), yes_or_no(is_starlink_conn));
-      kv.kv(_('Starlink router bypass mode'), yes_or_no(is_bypass_mode));
-      kv.kv(_('Local IP address'), ip_addr);
-      kv.kv(_('Gateway IP address'), gateway_ip);
-      kv.kv(_('Public IP address'), public_ip);
+      kv.kv(M.tabs.app.local_connection_type, this.net_type);
+      kv.kv(M.tabs.app.local_connection_speed, this.local_link_speed);
+      kv.kv(M.tabs.app.is_vpn, this.isVpn);
+      kv.kv(M.tabs.app.is_connected, this.isConnected);
+      kv.kv(M.tabs.app.internet_available, this.isInternetAvailable);
+      kv.kv(M.tabs.app.connected_via_starlink, is_starlink_conn);
+      kv.kv(M.tabs.app.starlink_router_bypass_mode, is_bypass_mode);
+      kv.kv(M.tabs.app.local_ip_address, ip_addr);
+      kv.kv(M.tabs.app.gateway_ip_address, gateway_ip);
+      kv.kv(M.tabs.app.public_ip_address, public_ip);
 
       if (net_type == 'wifi') {
-        kv.kv(_('WiFi SSID'), wifi_ssid);
-        kv.kv(_('WiFi BSSID'), wifi_bssid);
-        kv.kv(_('WiFi frequency'), wifi_link_freq);
-        kv.kv(_('WiFi signal strength'), wifi_signal_level);
+        kv.kv(M.tabs.app.wifi_ssid, wifi_ssid);
+        kv.kv(M.tabs.app.wifi_bssid, wifi_bssid);
+        kv.kv(M.tabs.app.wifi_frequency, wifi_link_freq);
+        kv.kv(M.tabs.app.wifi_signal_strength, wifi_signal_level);
       }
   }
 }
@@ -198,7 +189,7 @@ class DeviceSensors extends EntityModule {
   }
 
   @override
-  String get_name() => _('Sensors');
+  String get_name() => M.tabs.app.sensors;
 
   @override
   void get_data(KVConsumer kv) {
@@ -207,7 +198,7 @@ class DeviceSensors extends EntityModule {
       var sensorActive = sensorInfo['active'];
       var sensorAvailable = sensorInfo['available'];
 
-      var sensorStr = '${_('Available')}: ${yes_or_no(sensorAvailable)}  ${_('Active')}: ${yes_or_no(sensorActive)}';
+      var sensorStr = '${M.tabs.app.available}: ${sensorAvailable}  ${M.tabs.app.active}: ${sensorActive}';
 
       kv.kv(sensor, sensorStr);
     }

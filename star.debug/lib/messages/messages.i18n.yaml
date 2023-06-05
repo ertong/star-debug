@@ -42,6 +42,8 @@ general:
   unstow: Unstow
   inhibit_gps: Inhibit GPS
   uninhibit_gps: Uninhibit GPS
+  dump_created_time: Dump created time
+  no_alerts: No alerts
 
 about:
   about: About
@@ -78,6 +80,42 @@ header:
   networks: Networks
   boot: Boot
   client: Client
+  features: Features
+
+tabs:
+  app:
+    unknown: Unknown
+    app_version: App version
+    app_environment: App environment
+    app_build: App build
+    app_hash: App hash
+    app_timestamp: App timestamp
+    platform_os: Platform OS
+    platform_os_version: Platform OS version
+    device: Device
+    device_model: Device model
+    device_id: Device id
+    device_timestamp: Device timestamp
+    device_uptime: Device uptime
+    wifi_ip_address: WiFi IP address
+    local_connection_type: Local connection type
+    local_connection_speed: Local connection speed
+    is_vpn: Is VPN
+    is_connected: Is connected
+    internet_available: Internet available
+    connected_via_starlink: Connected via Starlink
+    starlink_router_bypass_mode: Starlink router bypass mode
+    local_ip_address: Local IP address
+    gateway_ip_address: Gateway IP address
+    public_ip_address: Public IP address
+    wifi_ssid: WiFi SSID
+    wifi_bssid: WiFi BSSID
+    wifi_frequency: WiFi frequency
+    wifi_signal_strength: WiFi signal strength
+    sensors: Sensors
+    available: Available
+    active: Active
+
 
 online:
   internet: Internet

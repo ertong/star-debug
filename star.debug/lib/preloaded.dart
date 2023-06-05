@@ -19,7 +19,6 @@ import 'package:star_debug/controller/dish_log_controller.dart';
 import 'package:star_debug/db/database.dart';
 import 'package:star_debug/db/database_holder.dart';
 import 'package:star_debug/firebase_options.dart';
-import 'package:star_debug/space/space_text.dart';
 import 'package:star_debug/stardebug_app.dart';
 import 'package:star_debug/utils/log_utils.dart';
 import 'package:time_machine/time_machine.dart';
@@ -33,8 +32,6 @@ const String _TAG = "Preload";
 class Preloaded{
 
   late String versionName;
-
-  SpaceText text = SpaceText();
 
   bool isDebug = false;
   bool? wasLaunchedFromNotification = false;
