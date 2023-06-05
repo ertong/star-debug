@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'dart:convert';
 
@@ -5,14 +6,17 @@ import 'package:clipboard/clipboard.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart' hide Notification, Card;
 import 'package:star_debug/drawer.dart';
+import 'package:star_debug/grpc/starlink/starlink.pb.dart';
 import 'package:star_debug/messages/I18n.dart';
 import 'package:star_debug/pages/dialogs/save_debug_data.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/routes.dart';
 import 'package:star_debug/space/dishy.dart';
+import 'package:star_debug/space/dishy_data.dart';
 import 'package:star_debug/space/entity.dart';
 import 'package:star_debug/space/obstructions.dart';
 import 'package:star_debug/space/space_parser.dart';
+import 'package:star_debug/utils/debug_data.dart';
 import 'package:star_debug/utils/log_utils.dart';
 
 import '../utils/kv_widget.dart';
@@ -232,8 +236,17 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
 
     if (_selectedIndex<pages.length){
       var page = pages[_selectedIndex];
-      if (page.id=="dishy" && parser.dishy!=null)
+      if (page.id=="dishy" && parser.dishy!=null) {
+        rows.add(Center(
+          child: ElevatedButton(
+            onPressed: () async {
+              await test();
+            },
+            child: Text("test"),
+          ),
+        ));
         rows.addAll(_buildPage(parser.dishy!));
+      }
       if (page.id=="router" && parser.router!=null)
         rows.addAll(_buildPage(parser.router!));
       if (page.id=="app")
@@ -241,6 +254,12 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
     }
 
     return rows;
+  }
+
+  Future test() async {
+    var dish = DishGetStatusResponse();
+    DebugDataHelper.jsonToProto(parser?.json[DISH_KEY], dish);
+    log(jsonEncode(dish.toProto3Json()));
   }
 
   void onOpenClipboardClicked() async {

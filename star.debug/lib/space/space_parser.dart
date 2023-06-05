@@ -12,7 +12,9 @@ class SpaceParser{
   Router? router;
   DeviceApp? deviceApp;
 
-  SpaceParser(Map<String, dynamic> json) {
+  Map<String, dynamic> json;
+
+  SpaceParser(this.json) {
     dishy = Dishy.of(json[DISH_KEY]);
     router = Router.of(json[ROUTER_KEY]);
     deviceApp = DeviceApp.of(json[DEVICE_KEY]);
