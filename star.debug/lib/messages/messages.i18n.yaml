@@ -80,6 +80,7 @@ header:
   networks: Networks
   boot: Boot
   client: Client
+  features: Features
 
 online:
   internet: Internet

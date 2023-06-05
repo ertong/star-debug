@@ -80,6 +80,7 @@ header:
   networks: Мережі
   boot: Завантаження
   client: Клієнт
+  features: Функції
 online:
   internet: Інтернет
   starlink_internet: Інтернет через Starlink

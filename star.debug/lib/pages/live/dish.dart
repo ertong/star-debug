@@ -92,7 +92,7 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
 
     if (conn.dishGetStatus.data!=null && now-conn.dishGetStatus.receivedTime<5000) {
       DishGetStatusResponse status = conn.dishGetStatus.data!;
-      rows.add(DishWidget(status: status));
+      rows.add(DishWidget(status: status, features: {},));
 
       if (charts.isNotEmpty) {
         var b = KVWidgetBuilder(context, theme);

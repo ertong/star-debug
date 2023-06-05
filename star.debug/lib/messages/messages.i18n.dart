@@ -158,6 +158,7 @@ class HeaderMessages {
   String get networks => """Networks""";
   String get boot => """Boot""";
   String get client => """Client""";
+  String get features => """Features""";
 }
 
 class OnlineMessages {
@@ -572,6 +573,7 @@ the russian aggressor tries to turn cities into ashes.
       """header.networks""": """Networks""",
       """header.boot""": """Boot""",
       """header.client""": """Client""",
+      """header.features""": """Features""",
       """online.internet""": """Internet""",
       """online.starlink_internet""": """Starlink Internet""",
       """grpc.DeviceInfo.id""": """Id""",

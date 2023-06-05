@@ -15,8 +15,11 @@ class SpaceParser{
 
   int? dishTs;
   DishGetStatusResponse? dishGetStatus;
+  Map<String, bool> dishFeatures = {};
+
   int? routerTs;
   WifiGetStatusResponse? routerGetStatus;
+  Map<String, bool> routerFeatures = {};
 
   SpaceParser(this.json) {
     jsonDish = json["dish"] as Map<String, dynamic>?;
@@ -29,12 +32,26 @@ class SpaceParser{
       dishGetStatus = DishGetStatusResponse();
       DebugDataHelper.jsonToProto(jsonDish!, dishGetStatus!);
 
+      {
+        var features = jsonDish?["features"];
+        if (features is Map)
+          for (var e in features.entries)
+            this.dishFeatures[e.key] = e.value as bool;
+      }
+
       if (jsonDish?["timestamp"]!=null)
         dishTs = (jsonDish?["timestamp"] ?? 0).toInt();
     }
     if (jsonRouter!=null && jsonRouter!.containsKey("deviceInfo")) {
       routerGetStatus = WifiGetStatusResponse();
       DebugDataHelper.jsonToProto(jsonRouter!, routerGetStatus!);
+
+      {
+        var features = jsonRouter?["features"];
+        if (features is Map)
+          for (var e in features.entries)
+            this.routerFeatures[e.key] = e.value as bool;
+      }
 
       if (jsonRouter?["timestamp"]!=null)
         routerTs = (jsonRouter?["timestamp"] ?? 0).toInt();

@@ -159,6 +159,7 @@ class HeaderMessagesUk extends HeaderMessages {
   String get networks => """Мережі""";
   String get boot => """Завантаження""";
   String get client => """Клієнт""";
+  String get features => """Функції""";
 }
 
 class OnlineMessagesUk extends OnlineMessages {
@@ -574,6 +575,7 @@ Map<String, String> get messagesUkMap => {
       """header.networks""": """Мережі""",
       """header.boot""": """Завантаження""",
       """header.client""": """Клієнт""",
+      """header.features""": """Функції""",
       """online.internet""": """Інтернет""",
       """online.starlink_internet""": """Інтернет через Starlink""",
       """grpc.DeviceInfo.id""": """Id""",
