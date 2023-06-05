@@ -108,6 +108,8 @@ class GeneralMessagesUk extends GeneralMessages {
   String get unstow => """Розкласти""";
   String get inhibit_gps => """Ігнорувати GPS""";
   String get uninhibit_gps => """Довіряти GPS""";
+  String get dump_created_time => """Час створення дампу""";
+  String get no_alerts => """Немає попередженнь""";
 }
 
 class AboutMessagesUk extends AboutMessages {
@@ -540,6 +542,8 @@ Map<String, String> get messagesUkMap => {
       """general.unstow""": """Розкласти""",
       """general.inhibit_gps""": """Ігнорувати GPS""",
       """general.uninhibit_gps""": """Довіряти GPS""",
+      """general.dump_created_time""": """Час створення дампу""",
+      """general.no_alerts""": """Немає попередженнь""",
       """about.about""": """Про програму""",
       """about.about_starlink_for_ukraine""": """Про Народний cтарлінк""",
       """about.starlink_for_ukraine""": """Народний старлінк""",

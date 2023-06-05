@@ -42,6 +42,8 @@ general:
   unstow: Unstow
   inhibit_gps: Inhibit GPS
   uninhibit_gps: Uninhibit GPS
+  dump_created_time: Dump created time
+  no_alerts: No alerts
 
 about:
   about: About

@@ -9,6 +9,8 @@ import 'package:star_debug/drawer.dart';
 import 'package:star_debug/grpc/starlink/starlink.pb.dart';
 import 'package:star_debug/messages/I18n.dart';
 import 'package:star_debug/pages/dialogs/save_debug_data.dart';
+import 'package:star_debug/pages/view/dish.dart';
+import 'package:star_debug/pages/view/router.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/routes.dart';
 import 'package:star_debug/space/dishy.dart';
@@ -234,21 +236,38 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
 
     List<Widget> rows = [];
 
+    // rows.add(Center(
+    //   child: ElevatedButton(
+    //     onPressed: () async {
+    //       await test();
+    //     },
+    //     child: Text("test"),
+    //   ),
+    // ));
+
     if (_selectedIndex<pages.length){
       var page = pages[_selectedIndex];
       if (page.id=="dishy" && parser.dishy!=null) {
-        rows.add(Center(
-          child: ElevatedButton(
-            onPressed: () async {
-              await test();
-            },
-            child: Text("test"),
-          ),
-        ));
-        rows.addAll(_buildPage(parser.dishy!));
+        int ts = (parser.jsonDish?["timestamp"] ?? 0).toInt();
+        if (ts>0) {
+          var b = KVWidgetBuilder(context, theme);
+          b.kv(M.general.dump_created_time, DateTime.fromMillisecondsSinceEpoch(ts * 1000));
+          rows.addAll(b.widgets);
+        }
+        rows.add(DishWidget(status: parser.dishGetStatus));
       }
-      if (page.id=="router" && parser.router!=null)
-        rows.addAll(_buildPage(parser.router!));
+      if (page.id=="router" && parser.router!=null) {
+        // rows.addAll(_buildPage(parser.router!));
+
+        int ts = (parser.jsonRouter?["timestamp"] ?? 0).toInt();
+        if (ts>0) {
+          var b = KVWidgetBuilder(context, theme);
+          b.kv(M.general.dump_created_time, DateTime.fromMillisecondsSinceEpoch(ts * 1000));
+          rows.addAll(b.widgets);
+        }
+        rows.add(RouterWidget(status: parser.routerGetStatus));
+
+      }
       if (page.id=="app")
         rows.addAll(_buildPage(parser.deviceApp!));
     }

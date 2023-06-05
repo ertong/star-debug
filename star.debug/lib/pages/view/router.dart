@@ -64,6 +64,15 @@ class _RouterWidgetState extends State<RouterWidget> with TickerProviderStateMix
         if (status.hasPopPingLatencyMs())
           b.kv(M.grpc.WifiGetStatus.pop_ping_latency_ms, status.popPingLatencyMs);
 
+        if (status.hasCaptivePortalEnabled())
+          b.kv(M.grpc.WifiGetStatus.captive_portal_enabled, status.captivePortalEnabled);
+
+        if (status.hasIsAviation())
+          b.kv(M.grpc.WifiGetStatus.is_aviation, status.isAviation);
+
+        if (status.hasIsAviationConformed())
+          b.kv(M.grpc.WifiGetStatus.is_aviation_conformed, status.isAviationConformed);
+
         if (status.hasConfig()) {
           var config = status.config;
 

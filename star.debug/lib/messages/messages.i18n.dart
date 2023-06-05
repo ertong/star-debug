@@ -107,6 +107,8 @@ class GeneralMessages {
   String get unstow => """Unstow""";
   String get inhibit_gps => """Inhibit GPS""";
   String get uninhibit_gps => """Uninhibit GPS""";
+  String get dump_created_time => """Dump created time""";
+  String get no_alerts => """No alerts""";
 }
 
 class AboutMessages {
@@ -538,6 +540,8 @@ Map<String, String> get messagesMap => {
       """general.unstow""": """Unstow""",
       """general.inhibit_gps""": """Inhibit GPS""",
       """general.uninhibit_gps""": """Uninhibit GPS""",
+      """general.dump_created_time""": """Dump created time""",
+      """general.no_alerts""": """No alerts""",
       """about.about""": """About""",
       """about.about_starlink_for_ukraine""": """About Narodnyi Starlink""",
       """about.starlink_for_ukraine""": """Narodnyi Starlink""",
