@@ -1,34 +1,33 @@
-cache: &cache
-  paths:
-    - .cache
-
-test:
-  stage: test
-  script:
-    - source ~/.bashrc
-    - cd $CI_PROJECT_DIR/star.debug
+.android_job:
+  before_script:
+    - !reference [before_script]
     - flutter doctor -v
-    - flutter test
+  after_script:
   cache:
-    <<: *cache
+    paths:
+      - .cache
     key: android
 
+test:
+  extends: .android_job
+  stage: test
+  script:
+    - cd $CI_PROJECT_DIR/star.debug
+    - flutter test
+
 build_android:
+  extends: .android_job
   stage: build
   only:
     - branches
   script:
     - cd $CI_PROJECT_DIR/star.debug
-    - flutter doctor -v
-    - flutter packages get
     - flutter clean
     - flutter build apk --debug
   needs: ["test"]
-  cache:
-    <<: *cache
-    key: android
 
 publish_play_market:
+  extends: .android_job
   stage: publish
   only:
     refs:
@@ -41,12 +40,12 @@ publish_play_market:
     - cd $CI_PROJECT_DIR/star.debug
     - echo "$ANDROID_JKS" | base64 -d > android/release-key.jks
     - echo "$ANDROID_SERVICE_ACCOUNT" > android/stardebug-4be77abc4bec.json
-    - flutter doctor -v
     - flutter clean
-    - flutter packages pub get
     - flutter build appbundle $BUILD_OPTS
     - cd android
     - ./gradlew publishReleaseBundle
-  cache:
-    <<: *cache
-    key: android
+  artifacts:
+    expire_in: 6 mos
+    paths:
+      - star.debug/build/app/outputs/apk/release/app-release.apk
+      - star.debug/build/app/outputs/bundle/release/app-release.aab
