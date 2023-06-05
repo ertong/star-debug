@@ -2,10 +2,10 @@
 import 'package:star_debug/preloaded.dart';
 
 var dev_images = {
-  'unknown': 'resources/devices/unknown_app.png',
-  'ios': 'resources/devices/ios_app.png',
-  'android': 'resources/devices/android_app.png',
-  'web': 'resources/devices/web_app.png',
+  'unknown': 'assets/images/devices/unknown_app.png',
+  'ios': 'assets/images/devices/ios_app.png',
+  'android': 'assets/images/devices/android_app.png',
+  'web': 'assets/images/devices/web_app.png',
 };
 
 const DEVICE_ALERTS_KEY = 'alerts';

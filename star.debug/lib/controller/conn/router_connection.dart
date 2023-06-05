@@ -62,12 +62,11 @@ class RouterConnection extends GrpcConnection {
       res = _dev_images[hw] ?? res;
     }
 
-    res = res.replaceFirst("resources/", "assets/images/");
     return res;
   }
 }
 
 var _dev_images = {
-  'v1': 'resources/devices/router_v1.png',
-  'v2': 'resources/devices/router_v2.png',
+  'v1': 'assets/images/devices/router_v1.png',
+  'v2': 'assets/images/devices/router_v2.png',
 };

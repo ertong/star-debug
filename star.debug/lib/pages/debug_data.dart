@@ -187,7 +187,6 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
 
     String? img = entity.get_device_image_file();
     if (img!=null) {
-      img = img.replaceFirst("resources/", "assets/images/");
       rows.add(
         Image.asset(img, height: 100,),
       );

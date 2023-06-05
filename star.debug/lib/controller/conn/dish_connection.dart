@@ -77,28 +77,26 @@ class DishConnection extends GrpcConnection {
       res = _dev_images[hw] ?? res;
     }
 
-    res = res.replaceFirst("resources/", "assets/images/");
     return res;
   }
 
 }
 
-
 var _dev_images = {
-  'rev1_pre_production': 'resources/devices/dishy_v1.png',
-  'rev1_production': 'resources/devices/dishy_v1.png',
-  'rev1_proto3': 'resources/devices/dishy_v1.png',
-  'rev2_proto1': 'resources/devices/dishy_v2.png',
-  'rev2_proto2': 'resources/devices/dishy_v2.png',
-  'rev2_proto3': 'resources/devices/dishy_v2.png',
-  'rev2_proto4': 'resources/devices/dishy_v2.png',
-  'rev3_proto0': 'resources/devices/dishy_v3.png',
-  'rev3_proto1': 'resources/devices/dishy_v3.png',
-  'rev3_proto2': 'resources/devices/dishy_v3.png',
-  'hp1_proto0': 'resources/devices/dishy_hp.png',
-  'hp1_proto1': 'resources/devices/dishy_hp.png',
-  'hp_flat': 'resources/devices/dishy_hp_flat.png',
-  'rev4_proto1': 'resources/devices/dishy_unknown.png',
-  'rev_never_gonna_give_you_up': 'resources/devices/entity_astl.png',
-  'unknown': 'resources/devices/dishy_unknown.png',
+  'rev1_pre_production': 'assets/images/devices/dishy_v1.png',
+  'rev1_production': 'assets/images/devices/dishy_v1.png',
+  'rev1_proto3': 'assets/images/devices/dishy_v1.png',
+  'rev2_proto1': 'assets/images/devices/dishy_v2.png',
+  'rev2_proto2': 'assets/images/devices/dishy_v2.png',
+  'rev2_proto3': 'assets/images/devices/dishy_v2.png',
+  'rev2_proto4': 'assets/images/devices/dishy_v2.png',
+  'rev3_proto0': 'assets/images/devices/dishy_v3.png',
+  'rev3_proto1': 'assets/images/devices/dishy_v3.png',
+  'rev3_proto2': 'assets/images/devices/dishy_v3.png',
+  'hp1_proto0': 'assets/images/devices/dishy_hp.png',
+  'hp1_proto1': 'assets/images/devices/dishy_hp.png',
+  'hp_flat': 'assets/images/devices/dishy_hp_flat.png',
+  'rev4_proto1': 'assets/images/devices/dishy_unknown.png',
+  'rev_never_gonna_give_you_up': 'assets/images/devices/entity_astl.png',
+  'unknown': 'assets/images/devices/dishy_unknown.png',
 };

@@ -1,9 +1,4 @@
-import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/utils/kv_consumer.dart';
-import 'package:time_machine/time_machine.dart';
-
-import 'common_data.dart';
-
 
 /* Basic class for all entities like Dishy, Router, Local device */
 abstract class Entity {
@@ -20,7 +15,6 @@ abstract class Entity {
   }
 
   void get_readable_params(KVConsumer kv);
-
 }
 
 /* Basic class for additional data plugins */

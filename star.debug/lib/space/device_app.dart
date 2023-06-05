@@ -70,10 +70,6 @@ class DeviceApp extends Entity {
     return dev_images[platform_os] ?? dev_images['unknown'];
   }
 
-  @override
-  bool is_sx_device() {
-    return false;
-  }
 
   @override
   void get_readable_params(KVConsumer kv) {
