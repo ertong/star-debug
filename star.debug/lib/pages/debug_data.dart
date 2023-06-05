@@ -16,6 +16,7 @@ import 'package:star_debug/routes.dart';
 import 'package:star_debug/space/entity.dart';
 import 'package:star_debug/space/obstructions.dart';
 import 'package:star_debug/space/space_parser.dart';
+import 'package:star_debug/utils/api_helper.dart';
 import 'package:star_debug/utils/debug_data.dart';
 import 'package:star_debug/utils/log_utils.dart';
 
@@ -151,7 +152,7 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
     _selectedIndex = 0;
 
     if (parser.dishGetStatus!=null){
-      pages.add(_Page("dishy", Icons.settings_input_antenna, M.general.dish));
+      pages.add(_Page("dishy", Icons.settings_input_antenna, M.general.dish, alertsCount: parser.dishGetStatus!.countAlerts()));
       Map<String, dynamic>? obstr_data = parser.jsonDish?['obstructionStats'];
       if (obstr_data!=null) {
         List<double> frac_obstr_list = [for (var f in obstr_data['wedgeFractionObstructedList'] ?? []) f.toDouble()];
@@ -171,7 +172,7 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
     }
 
     if (parser.routerGetStatus!=null)
-      pages.add(_Page("router", Icons.router, M.general.router));
+      pages.add(_Page("router", Icons.router, M.general.router, alertsCount: parser.routerGetStatus!.countAlerts()));
 
     if (parser.deviceApp!=null)
       pages.add(_Page("app", Icons.ad_units, M.general.device_app, entity: parser.deviceApp!));

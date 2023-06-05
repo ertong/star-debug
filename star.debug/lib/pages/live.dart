@@ -10,6 +10,7 @@ import 'package:star_debug/controller/conn/connection.dart';
 import 'package:star_debug/controller/conn/grpc_connection.dart';
 import 'package:star_debug/drawer.dart';
 import 'package:star_debug/grpc/starlink/network.pbenum.dart';
+import 'package:star_debug/grpc/starlink/starlink.pb.dart';
 import 'package:star_debug/grpc/starlink/starlink.pbenum.dart';
 import 'package:star_debug/messages/I18n.dart';
 import 'package:star_debug/pages/dialogs/save_debug_data.dart';
@@ -19,6 +20,7 @@ import 'package:star_debug/pages/live/online.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/routes.dart';
 import 'package:star_debug/space/entity.dart';
+import 'package:star_debug/utils/api_helper.dart';
 import 'package:star_debug/utils/debug_data.dart';
 import 'package:star_debug/utils/log_utils.dart';
 
@@ -74,17 +76,9 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
         () => colorOf(R.dishHolder),
         () => DishTab(),
         alert: () {
-          var data = R.dish?.dishGetStatus.data;
+          DishGetStatusResponse? data = R.dish?.dishGetStatus.data;
           if (data==null) return 0;
-
-          var map = data.alerts.toProto3Json() as Map<String, dynamic>;
-          int alerts = map.entries.where((e) => e.value==true).length;
-          if (data.hasDisablementCode() && data.disablementCode!=UtDisablementCode.OKAY)
-            alerts++;
-          if (data.hasOutage() && data.outage.hasCause())
-            alerts++;
-
-          return alerts;
+          return data.countAlerts();
         }
     ));
     pages.add(_Page(
@@ -95,9 +89,7 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
         alert: () {
           var data = R.router?.wifiGetStatus.data;
           if (data==null) return 0;
-
-          var map = data.alerts.toProto3Json() as Map<String, dynamic>;
-          return map.entries.where((e) => e.value==true).length;
+          return data.countAlerts();
         }
     ));
     pages.add(_Page(
