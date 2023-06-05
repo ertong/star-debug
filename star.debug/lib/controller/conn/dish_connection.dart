@@ -5,7 +5,6 @@ import 'package:star_debug/controller/conn/connection.dart';
 import 'package:star_debug/grpc/starlink/starlink.pbgrpc.dart';
 import 'package:star_debug/utils/log_utils.dart';
 
-import 'package:star_debug/space/dishy_data.dart' show dev_images;
 import 'grpc_connection.dart';
 
 class DishConnection extends GrpcConnection {
@@ -64,7 +63,7 @@ class DishConnection extends GrpcConnection {
   }
 
   String getImage() {
-    String res = dev_images["hp_flat"]!;
+    String res = _dev_images["hp_flat"]!;
 
     var data = dishGetStatus.data;
     if (data != null && data.hasDeviceInfo() && data.deviceInfo.hasHardwareVersion()) {
@@ -73,9 +72,9 @@ class DishConnection extends GrpcConnection {
       if (data.hasHasActuators()) {
         var hasActuators = data.hasActuators;
         if ((hw == 'hp1_proto0' || hw == 'hp1_proto1') && hasActuators != HasActuators.HAS_ACTUATORS_YES)
-          res = dev_images['hp_flat'] ?? res;
+          res = _dev_images['hp_flat'] ?? res;
       }
-      res = dev_images[hw] ?? res;
+      res = _dev_images[hw] ?? res;
     }
 
     res = res.replaceFirst("resources/", "assets/images/");
@@ -83,3 +82,23 @@ class DishConnection extends GrpcConnection {
   }
 
 }
+
+
+var _dev_images = {
+  'rev1_pre_production': 'resources/devices/dishy_v1.png',
+  'rev1_production': 'resources/devices/dishy_v1.png',
+  'rev1_proto3': 'resources/devices/dishy_v1.png',
+  'rev2_proto1': 'resources/devices/dishy_v2.png',
+  'rev2_proto2': 'resources/devices/dishy_v2.png',
+  'rev2_proto3': 'resources/devices/dishy_v2.png',
+  'rev2_proto4': 'resources/devices/dishy_v2.png',
+  'rev3_proto0': 'resources/devices/dishy_v3.png',
+  'rev3_proto1': 'resources/devices/dishy_v3.png',
+  'rev3_proto2': 'resources/devices/dishy_v3.png',
+  'hp1_proto0': 'resources/devices/dishy_hp.png',
+  'hp1_proto1': 'resources/devices/dishy_hp.png',
+  'hp_flat': 'resources/devices/dishy_hp_flat.png',
+  'rev4_proto1': 'resources/devices/dishy_unknown.png',
+  'rev_never_gonna_give_you_up': 'resources/devices/entity_astl.png',
+  'unknown': 'resources/devices/dishy_unknown.png',
+};

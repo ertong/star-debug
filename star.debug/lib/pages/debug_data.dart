@@ -13,8 +13,6 @@ import 'package:star_debug/pages/view/dish.dart';
 import 'package:star_debug/pages/view/router.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/routes.dart';
-import 'package:star_debug/space/dishy.dart';
-import 'package:star_debug/space/dishy_data.dart';
 import 'package:star_debug/space/entity.dart';
 import 'package:star_debug/space/obstructions.dart';
 import 'package:star_debug/space/space_parser.dart';
@@ -38,9 +36,10 @@ class _Page {
   String id;
   IconData icon;
   String label;
-  Entity entity;
+  int alertsCount;
+  Entity? entity;
 
-  _Page(this.id, this.icon, this.label, this.entity);
+  _Page(this.id, this.icon, this.label, {this.entity, this.alertsCount=0});
 }
 
 class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateMixin {
@@ -81,10 +80,10 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
           for (var p in pages)
             BottomNavigationBarItem(
               label: p.label,
-              icon: p.entity.alertsCount==0
+              icon: p.alertsCount==0
                   ? Icon(p.icon)
                   : Badge(
-                    label: Text("${p.entity.alertsCount}"),
+                    label: Text("${p.alertsCount}"),
                     child: Icon(p.icon),
                   ),
             ),
@@ -146,38 +145,38 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
   void newData(Map<String, dynamic> data) {
 
     this.data = data;
-    parser = SpaceParser(data);
+    var parser = this.parser = SpaceParser(data);
     pages.clear();
     obstructions = null;
     _selectedIndex = 0;
 
-    if (parser?.dishy!=null) {
-      pages.add(_Page("dishy", Icons.settings_input_antenna, M.general.dish, parser!.dishy!));
-
-      for (var p in parser!.dishy!.plugins) {
-        if (p is DishyObstructions && p.frac_obstr_list.isNotEmpty) {
+    if (parser.dishGetStatus!=null){
+      pages.add(_Page("dishy", Icons.settings_input_antenna, M.general.dish));
+      Map<String, dynamic>? obstr_data = parser.jsonDish?['obstructionStats'];
+      if (obstr_data!=null) {
+        List<double> frac_obstr_list = [for (var f in obstr_data['wedgeFractionObstructedList'] ?? []) f.toDouble()];
+        if (frac_obstr_list.isNotEmpty) {
           () async {
-            obstructions = Image.memory(await ObstructionImage.generateImgFromList(p.frac_obstr_list));
+            obstructions = Image.memory(await ObstructionImage.generateImgFromList(frac_obstr_list));
             setState(() {});
           }();
         }
       }
 
-      var deviceId = parser?.dishy?.deviceId;
-      var timestamp = parser?.dishy?.timestamp;
+      var deviceId = parser.dishGetStatus?.deviceInfo.id;
+      var timestamp = parser.dishTs;
       if (deviceId!=null && timestamp!=null){
         R.dishLog.storeDebugData(deviceId, timestamp*1000, data);
       }
-
     }
 
-    if (parser?.router!=null)
-      pages.add(_Page("router", Icons.router, M.general.router, parser!.router!));
+    if (parser.routerGetStatus!=null)
+      pages.add(_Page("router", Icons.router, M.general.router));
 
-    if (parser?.deviceApp!=null)
-      pages.add(_Page("app", Icons.ad_units, M.general.device_app, parser!.deviceApp!));
+    if (parser.deviceApp!=null)
+      pages.add(_Page("app", Icons.ad_units, M.general.device_app, entity: parser.deviceApp!));
 
-    if (!(parser?.hasData() ?? false)){
+    if (!(parser.hasData() ?? false)){
       R.showSnackBarText(M.general.no_data_found);
     }
   }
@@ -202,10 +201,8 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
       if(p==null)
         continue;
 
-      bool is_alert = (p is ModuleAlerts) && p.data.isNotEmpty;
-
       var b = KVWidgetBuilder(context, theme);
-      b.header(p.get_name(), isAlert: is_alert);
+      b.header(p.get_name());
       p.get_data(b);
 
       if (b.widgets.length<=1)
@@ -213,16 +210,6 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
 
       // var data = p.get_data();
       rows.addAll(b.widgets);
-
-
-      if (p is DishyObstructions && this.obstructions!=null) {
-        rows.add(SizedBox(
-            width: 200,
-            child: obstructions!
-        ));
-      }
-
-
     }
 
     return rows;
@@ -247,22 +234,27 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
 
     if (_selectedIndex<pages.length){
       var page = pages[_selectedIndex];
-      if (page.id=="dishy" && parser.dishy!=null) {
-        int ts = (parser.jsonDish?["timestamp"] ?? 0).toInt();
-        if (ts>0) {
+      if (page.id=="dishy" && parser.dishGetStatus!=null) {
+        if (parser.dishTs!=null) {
           var b = KVWidgetBuilder(context, theme);
-          b.kv(M.general.dump_created_time, DateTime.fromMillisecondsSinceEpoch(ts * 1000));
+          b.kv(M.general.dump_created_time, DateTime.fromMillisecondsSinceEpoch(parser.dishTs! * 1000));
           rows.addAll(b.widgets);
         }
         rows.add(DishWidget(status: parser.dishGetStatus));
-      }
-      if (page.id=="router" && parser.router!=null) {
-        // rows.addAll(_buildPage(parser.router!));
 
-        int ts = (parser.jsonRouter?["timestamp"] ?? 0).toInt();
-        if (ts>0) {
+        if (this.obstructions!=null) {
+          rows.add(SizedBox(
+              width: 200,
+              child: obstructions!
+          ));
+        }
+
+      }
+      if (page.id=="router" && parser.routerGetStatus!=null) {
+        // rows.addAll(_buildPage(parser.router!));
+        if (parser.routerTs!=null) {
           var b = KVWidgetBuilder(context, theme);
-          b.kv(M.general.dump_created_time, DateTime.fromMillisecondsSinceEpoch(ts * 1000));
+          b.kv(M.general.dump_created_time, DateTime.fromMillisecondsSinceEpoch(parser.routerTs! * 1000));
           rows.addAll(b.widgets);
         }
         rows.add(RouterWidget(status: parser.routerGetStatus));
@@ -277,7 +269,7 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
 
   Future test() async {
     var dish = DishGetStatusResponse();
-    DebugDataHelper.jsonToProto(parser?.json[DISH_KEY], dish);
+    DebugDataHelper.jsonToProto(parser?.json['dish'], dish);
     log(jsonEncode(dish.toProto3Json()));
   }
 

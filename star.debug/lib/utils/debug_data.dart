@@ -13,6 +13,49 @@ const String _TAG = "DebugDataHelper";
 
 class DebugDataHelper {
 
+  static void _objSetVal(pb.GeneratedMessage obj, pb.FieldInfo value, dynamic val){
+
+    if (val==null)
+      return;
+
+    bool repeated = value.isRepeated;
+
+    int type = value.type & 0xFFFFF8;
+    if (type==pb.PbFieldType.OS) { // string
+      repeated
+          ? obj.getField(value.tagNumber).add("$val")
+          : obj.setField(value.tagNumber, "$val");
+    }
+
+    if (type==pb.PbFieldType.OB) { // bool
+      repeated
+          ? obj.getField(value.tagNumber).add(val)
+          : obj.setField(value.tagNumber, val);
+    }
+
+    if (type==pb.PbFieldType.OF || type==pb.PbFieldType.OD) { // float/double
+      double i = (val is num) ? val.toDouble() : double.parse("$val");
+      repeated
+          ? obj.getField(value.tagNumber).add(val.toDouble())
+          : obj.setField(value.tagNumber, val.toDouble());
+    }
+
+    if (const [
+      pb.PbFieldType.O3, pb.PbFieldType.OS3, pb.PbFieldType.OU3, pb.PbFieldType.OF3, pb.PbFieldType.OSF3,
+    ].contains(type)) { // int
+      int i = (val is num) ? val.toInt() : int.parse("$val");
+      repeated
+          ? obj.getField(value.tagNumber).add(i)
+          : obj.setField(value.tagNumber, i);
+    }
+
+    if (const [ pb.PbFieldType.O6, pb.PbFieldType.OS6, pb.PbFieldType.OU6, pb.PbFieldType.OF6, pb.PbFieldType.OSF6 ].contains(type)) { // int
+      int i = (val is num) ? val.toInt() : int.parse("$val");
+      repeated
+          ? obj.getField(value.tagNumber).add(fixnum.Int64(i))
+          : obj.setField(value.tagNumber, fixnum.Int64(i));
+    }
+  }
 
   static void jsonToProto(Map<String, dynamic> msg, pb.GeneratedMessage obj) {
     for (var e in obj.info_.byName.entries) {
@@ -21,78 +64,47 @@ class DebugDataHelper {
         continue;
       var val = msg[key];
 
-      if (e.value.isEnum) {
-        for (var eVal in e.value.enumValues!)
-          if (eVal.value==val)
-            obj.setField(e.value.tagNumber, eVal);
-      }
-
-      if (e.value.isGroupOrMessage) {
-        // var msg2 = obj.getDefaultForField(e.value.tagNumber);
-        var msg2 = obj.getField(e.value.tagNumber);
-        msg2 = (msg2 as pb.GeneratedMessage).deepCopy();
-        obj.setField(e.value.tagNumber, msg2);
-        jsonToProto(msg[key], msg2);
-      }
-
-      if (e.value.isRepeated) {
-        if (val !is List)
-          LogUtils.e(_TAG, "List expected for ${key} received ${val}");
-        else {
-          var msg2 = [];
-          obj.setField(e.value.tagNumber, msg2);
-          for (var item in val) {
-            // msg2.add(value);
-            LogUtils.e(_TAG, "LIST ${key} item ${item}");
-          }
+      try {
+        if (e.value.isEnum) {
+          for (var eVal in e.value.enumValues!)
+            if (eVal.value == val)
+              obj.setField(e.value.tagNumber, eVal);
+          continue;
         }
+
+        var msg2 = obj.getField(e.value.tagNumber);
+        if (msg2 is pb.GeneratedMessage) {
+          // var msg2 = obj.getDefaultForField(e.value.tagNumber);
+          msg2 = msg2.deepCopy();
+          obj.setField(e.value.tagNumber, msg2);
+          jsonToProto(msg[key], msg2);
+          continue;
+        }
+
+        if (e.value.isRepeated) {
+          if (val is! List<dynamic>)
+            LogUtils.e(_TAG, "List expected for ${key} received ${val.runtimeType} ${val as List<dynamic>} AAA");
+          else {
+            var msg2 = obj.getField(e.value.tagNumber) as List;
+            for (var item in val) {
+              int type2 = e.value.type & 0xFFFFF8;
+              if (type2 == pb.PbFieldType.OM) { // message
+                var msg3 = e.value.subBuilder!();
+                msg2.add(msg3);
+                jsonToProto(item, msg3);
+                continue;
+              }
+              _objSetVal(obj, e.value, item);
+            }
+          }
+          continue;
+        }
+
+        _objSetVal(obj, e.value, val);
       }
-
-      int type = e.value.type & 0xFFFFF8;
-      if (type==pb.PbFieldType.OS) { // string
-        obj.setField(e.value.tagNumber, "$val");
+      catch(ex,s){
+        LogUtils.ers(_TAG, "jsonToProto key ${key} val ${val} field ${e.value}", ex, s);
       }
-
-      if (type==pb.PbFieldType.OB) { // bool
-        obj.setField(e.value.tagNumber, val);
-      }
-
-      if (type==pb.PbFieldType.OF || type==pb.PbFieldType.OD) { // float/double
-        obj.setField(e.value.tagNumber, (val as num).toDouble());
-      }
-
-      if (const [
-        pb.PbFieldType.O3, pb.PbFieldType.OS3, pb.PbFieldType.OU3, pb.PbFieldType.OF3, pb.PbFieldType.OSF3,
-      ].contains(type)) { // int
-        var i = (val as num).toInt();
-        // obj.setField(e.value.tagNumber, fixnum.Int32(i));
-        obj.setField(e.value.tagNumber, i);
-      }
-
-      if (const [ pb.PbFieldType.O6, pb.PbFieldType.OS6, pb.PbFieldType.OU6, pb.PbFieldType.OF6, pb.PbFieldType.OSF6 ].contains(type)) { // int
-        var i = (val as num).toInt();
-        obj.setField(e.value.tagNumber, fixnum.Int64(i));
-      }
-
-      // print("AAAAAAA ${key}: ${msg[key]}");
-
-      // val = protoToJson(val);
-
-      // if (["countByReason", "countByReasonDelta"].contains(key) && val is Map) {
-      //   key = "${key}Map";
-      //   val = [for (var e1 in val.entries) [e1.key, e1.value]];
-      // }
-      //
-      // if (["networks", "basicServiceSets", "nameservers"].contains(key) && val is List) {
-      //   key = "${key}List";
-      // }
-      //
-      // if (val is double && val.isNaN) {
-      //   // val = null;
-      //   continue;
-      // }
-      //
-      // res[key] = val;
     }
 
   }

@@ -1,17 +1,10 @@
 
 import 'package:star_debug/grpc/starlink/starlink.pb.dart';
-import 'package:star_debug/space/app_data.dart';
 import 'package:star_debug/space/device_app.dart';
-import 'package:star_debug/space/dishy.dart';
-import 'package:star_debug/space/dishy_data.dart';
-import 'package:star_debug/space/router.dart';
-import 'package:star_debug/space/router_data.dart';
 import 'package:star_debug/utils/debug_data.dart';
 
 class SpaceParser{
 
-  Dishy? dishy;
-  Router? router;
   DeviceApp? deviceApp;
 
   Map<String, dynamic> json;
@@ -20,28 +13,34 @@ class SpaceParser{
   Map<String, dynamic>? jsonRouter;
   Map<String, dynamic>? jsonApp;
 
+  int? dishTs;
   DishGetStatusResponse? dishGetStatus;
+  int? routerTs;
   WifiGetStatusResponse? routerGetStatus;
 
   SpaceParser(this.json) {
-    jsonDish = json[DISH_KEY] as Map<String, dynamic>?;
-    jsonRouter = json[ROUTER_KEY] as Map<String, dynamic>?;
-    jsonApp = json[DEVICE_KEY] as Map<String, dynamic>?;
+    jsonDish = json["dish"] as Map<String, dynamic>?;
+    jsonRouter = json['router'] as Map<String, dynamic>?;
+    jsonApp = json['device'] as Map<String, dynamic>?;
 
-    dishy = Dishy.of(jsonDish);
-    router = Router.of(json[ROUTER_KEY]);
-    deviceApp = DeviceApp.of(json[DEVICE_KEY]);
+    deviceApp = DeviceApp.of(jsonApp);
 
-    if (jsonDish!=null) {
+    if (jsonDish!=null && jsonDish!.containsKey("deviceInfo")) {
       dishGetStatus = DishGetStatusResponse();
       DebugDataHelper.jsonToProto(jsonDish!, dishGetStatus!);
+
+      if (jsonDish?["timestamp"]!=null)
+        dishTs = (jsonDish?["timestamp"] ?? 0).toInt();
     }
-    if (jsonRouter!=null) {
+    if (jsonRouter!=null && jsonRouter!.containsKey("deviceInfo")) {
       routerGetStatus = WifiGetStatusResponse();
       DebugDataHelper.jsonToProto(jsonRouter!, routerGetStatus!);
+
+      if (jsonRouter?["timestamp"]!=null)
+        routerTs = (jsonRouter?["timestamp"] ?? 0).toInt();
     }
   }
 
-  bool hasData() => dishy!=null || router!=null || deviceApp!=null;
+  bool hasData() => dishGetStatus!=null || routerGetStatus!=null || deviceApp!=null;
 
 }

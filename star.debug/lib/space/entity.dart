@@ -1,4 +1,5 @@
 import 'package:star_debug/preloaded.dart';
+import 'package:star_debug/utils/kv_consumer.dart';
 import 'package:time_machine/time_machine.dart';
 
 import 'common_data.dart';
@@ -59,16 +60,6 @@ String yes_or_no(bool bool_val) {
   return bool_val ? _('Yes') : _('No');
 }
 
-List<String> list_from_json(dynamic val) {
-  List<String> res = [];
-  if (val is String)
-    res.add(val);
-  else if (val is List)
-    for (var v in val)
-      res.add("$v");
-  return res;
-}
-
 String capitalize(String s) {
   return "${s[0].toUpperCase()}${s.substring(1).toLowerCase()}";
 }
@@ -87,43 +78,6 @@ List<String> camel_case_split(String str) {
   }
 
   return words.map((word) => word.join()).toList();
-}
-
-/* This module used both for Dishy and router so I moved it here */
-class ModuleAlerts extends EntityModule {
-  List<String> data=[];
-
-  ModuleAlerts(Map<String, dynamic> json_object) {
-    if (!json_object.containsKey(DEVICE_ALERTS_KEY)) {
-      return;
-    }
-
-    Map<String, dynamic> alerts_data = json_object[DEVICE_ALERTS_KEY];
-
-    alerts_data.forEach((key, value) {
-      if (value) {
-        List<String> words = camel_case_split(key);
-        String good_str = [for (var w in words) capitalize(w)].join(" ");
-        data.add(good_str);
-      }
-    });
-  }
-
-  @override
-  String get_name() {
-    return _('Alerts');
-  }
-
-  @override
-  void get_data(KVConsumer kv) {
-    if (data.isEmpty) {
-      kv.kv("", _('No alerts'));
-      return;
-    }
-
-    for (var s in data)
-      kv.kv("", s);
-  }
 }
 
 class Features extends EntityModule {
@@ -166,31 +120,3 @@ class Features extends EntityModule {
 
 }
 
-
-abstract class KVConsumer {
-  void header(String name, {bool isAlert = false}) {}
-
-  void kv(String k, dynamic v, {bool? ok, String? hint}) {
-    if (v is DateTime)
-      v = Instant.dateTime(v).inLocalZone().toString("yyyy-MM-dd HH:mm:ss 'GMT'o<g>");
-    if (v is List<String>)
-      v = v.join("\n");
-    kvs(k, "$v", ok: ok, hint: hint);
-  }
-
-  void kvs(String k, String v, {bool? ok, String? hint}) {}
-
-  void spacer() {}
-}
-
-class KVConsumerCounter extends KVConsumer {
-  int ok = 0;
-  int notOk = 0;
-
-  void kvs(String k, String v, {bool? ok, String? hint}){
-    if (ok==true)
-      this.ok+=1;
-    if (ok==false)
-      this.notOk+=1;
-  }
-}
