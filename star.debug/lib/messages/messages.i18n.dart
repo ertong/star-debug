@@ -58,6 +58,7 @@ class Messages {
   WifiMessages get wifi => WifiMessages(this);
   LiveMessages get live => LiveMessages(this);
   HeaderMessages get header => HeaderMessages(this);
+  TabsMessages get tabs => TabsMessages(this);
   OnlineMessages get online => OnlineMessages(this);
   GrpcMessages get grpc => GrpcMessages(this);
 }
@@ -159,6 +160,48 @@ class HeaderMessages {
   String get boot => """Boot""";
   String get client => """Client""";
   String get features => """Features""";
+}
+
+class TabsMessages {
+  final Messages _parent;
+  const TabsMessages(this._parent);
+  AppTabsMessages get app => AppTabsMessages(this);
+}
+
+class AppTabsMessages {
+  final TabsMessages _parent;
+  const AppTabsMessages(this._parent);
+  String get unknown => """Unknown""";
+  String get app_version => """App version""";
+  String get app_environment => """App environment""";
+  String get app_build => """App build""";
+  String get app_hash => """App hash""";
+  String get app_timestamp => """App timestamp""";
+  String get platform_os => """Platform OS""";
+  String get platform_os_version => """Platform OS version""";
+  String get device => """Device""";
+  String get device_model => """Device model""";
+  String get device_id => """Device id""";
+  String get device_timestamp => """Device timestamp""";
+  String get device_uptime => """Device uptime""";
+  String get wifi_ip_address => """WiFi IP address""";
+  String get local_connection_type => """Local connection type""";
+  String get local_connection_speed => """Local connection speed""";
+  String get is_vpn => """Is VPN""";
+  String get is_connected => """Is connected""";
+  String get internet_available => """Internet available""";
+  String get connected_via_starlink => """Connected via Starlink""";
+  String get starlink_router_bypass_mode => """Starlink router bypass mode""";
+  String get local_ip_address => """Local IP address""";
+  String get gateway_ip_address => """Gateway IP address""";
+  String get public_ip_address => """Public IP address""";
+  String get wifi_ssid => """WiFi SSID""";
+  String get wifi_bssid => """WiFi BSSID""";
+  String get wifi_frequency => """WiFi frequency""";
+  String get wifi_signal_strength => """WiFi signal strength""";
+  String get sensors => """Sensors""";
+  String get available => """Available""";
+  String get active => """Active""";
 }
 
 class OnlineMessages {
@@ -574,6 +617,38 @@ the russian aggressor tries to turn cities into ashes.
       """header.boot""": """Boot""",
       """header.client""": """Client""",
       """header.features""": """Features""",
+      """tabs.app.unknown""": """Unknown""",
+      """tabs.app.app_version""": """App version""",
+      """tabs.app.app_environment""": """App environment""",
+      """tabs.app.app_build""": """App build""",
+      """tabs.app.app_hash""": """App hash""",
+      """tabs.app.app_timestamp""": """App timestamp""",
+      """tabs.app.platform_os""": """Platform OS""",
+      """tabs.app.platform_os_version""": """Platform OS version""",
+      """tabs.app.device""": """Device""",
+      """tabs.app.device_model""": """Device model""",
+      """tabs.app.device_id""": """Device id""",
+      """tabs.app.device_timestamp""": """Device timestamp""",
+      """tabs.app.device_uptime""": """Device uptime""",
+      """tabs.app.wifi_ip_address""": """WiFi IP address""",
+      """tabs.app.local_connection_type""": """Local connection type""",
+      """tabs.app.local_connection_speed""": """Local connection speed""",
+      """tabs.app.is_vpn""": """Is VPN""",
+      """tabs.app.is_connected""": """Is connected""",
+      """tabs.app.internet_available""": """Internet available""",
+      """tabs.app.connected_via_starlink""": """Connected via Starlink""",
+      """tabs.app.starlink_router_bypass_mode""":
+          """Starlink router bypass mode""",
+      """tabs.app.local_ip_address""": """Local IP address""",
+      """tabs.app.gateway_ip_address""": """Gateway IP address""",
+      """tabs.app.public_ip_address""": """Public IP address""",
+      """tabs.app.wifi_ssid""": """WiFi SSID""",
+      """tabs.app.wifi_bssid""": """WiFi BSSID""",
+      """tabs.app.wifi_frequency""": """WiFi frequency""",
+      """tabs.app.wifi_signal_strength""": """WiFi signal strength""",
+      """tabs.app.sensors""": """Sensors""",
+      """tabs.app.available""": """Available""",
+      """tabs.app.active""": """Active""",
       """online.internet""": """Internet""",
       """online.starlink_internet""": """Starlink Internet""",
       """grpc.DeviceInfo.id""": """Id""",

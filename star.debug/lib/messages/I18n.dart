@@ -98,7 +98,6 @@ class I18n{
     map = maps[_lang] ?? messagesMap;
 
     Intl.defaultLocale = _lang;
-    await R.text.setLang(lang);
 //    await initializeDateFormatting(Intl.defaultLocale, null);
 
     _onChangeController.add(instance);

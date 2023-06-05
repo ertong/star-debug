@@ -59,6 +59,7 @@ class MessagesUk extends Messages {
   WifiMessagesUk get wifi => WifiMessagesUk(this);
   LiveMessagesUk get live => LiveMessagesUk(this);
   HeaderMessagesUk get header => HeaderMessagesUk(this);
+  TabsMessagesUk get tabs => TabsMessagesUk(this);
   OnlineMessagesUk get online => OnlineMessagesUk(this);
   GrpcMessagesUk get grpc => GrpcMessagesUk(this);
 }
@@ -160,6 +161,48 @@ class HeaderMessagesUk extends HeaderMessages {
   String get boot => """Завантаження""";
   String get client => """Клієнт""";
   String get features => """Функції""";
+}
+
+class TabsMessagesUk extends TabsMessages {
+  final MessagesUk _parent;
+  const TabsMessagesUk(this._parent) : super(_parent);
+  AppTabsMessagesUk get app => AppTabsMessagesUk(this);
+}
+
+class AppTabsMessagesUk extends AppTabsMessages {
+  final TabsMessagesUk _parent;
+  const AppTabsMessagesUk(this._parent) : super(_parent);
+  String get unknown => """Невідомо""";
+  String get app_version => """Версія додатку""";
+  String get app_environment => """Середовище додатку""";
+  String get app_build => """Номер зборки додатку""";
+  String get app_hash => """Хеш додатку""";
+  String get app_timestamp => """Час додатку""";
+  String get platform_os => """Операційна система платформи""";
+  String get platform_os_version => """Версія операційної системи""";
+  String get device => """Пристрій""";
+  String get device_model => """Модель присторю""";
+  String get device_id => """ID пристрою""";
+  String get device_timestamp => """Час роботи пристрою""";
+  String get device_uptime => """IP адреса WiFi""";
+  String get wifi_ip_address => """WiFi IP address""";
+  String get local_connection_type => """Local connection type""";
+  String get local_connection_speed => """Local connection speed""";
+  String get is_vpn => """Використовується VPN""";
+  String get is_connected => """Підключено""";
+  String get internet_available => """Інтернет присутній""";
+  String get connected_via_starlink => """З'єднання через Starlink""";
+  String get starlink_router_bypass_mode => """Starlink router bypass mode""";
+  String get local_ip_address => """Локальна IP адреса""";
+  String get gateway_ip_address => """IP адреса шлюзу""";
+  String get public_ip_address => """Публічна IP адреса""";
+  String get wifi_ssid => """WiFi SSID""";
+  String get wifi_bssid => """WiFi BSSID""";
+  String get wifi_frequency => """Частота WiFi""";
+  String get wifi_signal_strength => """Рівень сигналу WiFi""";
+  String get sensors => """Сенсори""";
+  String get available => """Доступно""";
+  String get active => """Активно""";
 }
 
 class OnlineMessagesUk extends OnlineMessages {
@@ -576,6 +619,38 @@ Map<String, String> get messagesUkMap => {
       """header.boot""": """Завантаження""",
       """header.client""": """Клієнт""",
       """header.features""": """Функції""",
+      """tabs.app.unknown""": """Невідомо""",
+      """tabs.app.app_version""": """Версія додатку""",
+      """tabs.app.app_environment""": """Середовище додатку""",
+      """tabs.app.app_build""": """Номер зборки додатку""",
+      """tabs.app.app_hash""": """Хеш додатку""",
+      """tabs.app.app_timestamp""": """Час додатку""",
+      """tabs.app.platform_os""": """Операційна система платформи""",
+      """tabs.app.platform_os_version""": """Версія операційної системи""",
+      """tabs.app.device""": """Пристрій""",
+      """tabs.app.device_model""": """Модель присторю""",
+      """tabs.app.device_id""": """ID пристрою""",
+      """tabs.app.device_timestamp""": """Час роботи пристрою""",
+      """tabs.app.device_uptime""": """IP адреса WiFi""",
+      """tabs.app.wifi_ip_address""": """WiFi IP address""",
+      """tabs.app.local_connection_type""": """Local connection type""",
+      """tabs.app.local_connection_speed""": """Local connection speed""",
+      """tabs.app.is_vpn""": """Використовується VPN""",
+      """tabs.app.is_connected""": """Підключено""",
+      """tabs.app.internet_available""": """Інтернет присутній""",
+      """tabs.app.connected_via_starlink""": """З'єднання через Starlink""",
+      """tabs.app.starlink_router_bypass_mode""":
+          """Starlink router bypass mode""",
+      """tabs.app.local_ip_address""": """Локальна IP адреса""",
+      """tabs.app.gateway_ip_address""": """IP адреса шлюзу""",
+      """tabs.app.public_ip_address""": """Публічна IP адреса""",
+      """tabs.app.wifi_ssid""": """WiFi SSID""",
+      """tabs.app.wifi_bssid""": """WiFi BSSID""",
+      """tabs.app.wifi_frequency""": """Частота WiFi""",
+      """tabs.app.wifi_signal_strength""": """Рівень сигналу WiFi""",
+      """tabs.app.sensors""": """Сенсори""",
+      """tabs.app.available""": """Доступно""",
+      """tabs.app.active""": """Активно""",
       """online.internet""": """Інтернет""",
       """online.starlink_internet""": """Інтернет через Starlink""",
       """grpc.DeviceInfo.id""": """Id""",

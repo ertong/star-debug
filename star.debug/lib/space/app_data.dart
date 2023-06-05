@@ -1,8 +1,6 @@
 // Generated file. DO NOT edit manually
 import 'package:star_debug/preloaded.dart';
 
-var _ = R.text.t;
-
 var dev_images = {
   'unknown': 'resources/devices/unknown_app.png',
   'ios': 'resources/devices/ios_app.png',

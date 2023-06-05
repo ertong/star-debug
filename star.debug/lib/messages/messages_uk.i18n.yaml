@@ -43,7 +43,6 @@ general:
   uninhibit_gps: Довіряти GPS
   dump_created_time: Час створення дампу
   no_alerts: Немає попередженнь
-
 about:
   about: Про програму
   about_starlink_for_ukraine: Про Народний cтарлінк
@@ -81,6 +80,39 @@ header:
   boot: Завантаження
   client: Клієнт
   features: Функції
+tabs:
+  app:
+    unknown: Невідомо
+    app_version: Версія додатку
+    app_environment: Середовище додатку
+    app_build: Номер зборки додатку
+    app_hash: Хеш додатку
+    app_timestamp: Час додатку
+    platform_os: Операційна система платформи
+    platform_os_version: Версія операційної системи
+    device: Пристрій
+    device_model: Модель присторю
+    device_id: ID пристрою
+    device_timestamp: Час роботи пристрою
+    device_uptime: IP адреса WiFi
+    wifi_ip_address: WiFi IP address
+    local_connection_type: Local connection type
+    local_connection_speed: Local connection speed
+    is_vpn: Використовується VPN
+    is_connected: Підключено
+    internet_available: Інтернет присутній
+    connected_via_starlink: З'єднання через Starlink
+    starlink_router_bypass_mode: Starlink router bypass mode
+    local_ip_address: Локальна IP адреса
+    gateway_ip_address: IP адреса шлюзу
+    public_ip_address: Публічна IP адреса
+    wifi_ssid: WiFi SSID
+    wifi_bssid: WiFi BSSID
+    wifi_frequency: Частота WiFi
+    wifi_signal_strength: Рівень сигналу WiFi
+    sensors: Сенсори
+    available: Доступно
+    active: Активно
 online:
   internet: Інтернет
   starlink_internet: Інтернет через Starlink
