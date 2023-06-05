@@ -37,7 +37,7 @@ List<Widget> buildDeviceInfoWidget(BuildContext context, ThemeData theme, Device
     // int32 anti_rollback_version = 9;
     // bool is_hitl = 10;
 
-    if (deviceInfo.hasGenerationNumber())
+    if (deviceInfo.hasGenerationNumber() && deviceInfo.generationNumber>0)
       b.kv(M.grpc.DeviceInfo.x_build_date,
           Instant.fromEpochSeconds(deviceInfo.generationNumber.toInt()).inUtc().toString("yyyy-MM-dd")
       );
