@@ -123,7 +123,7 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
           b.kv(M.grpc.DishGetStatus.pop_ping_latency_ms, "${status.popPingLatencyMs.toStringAsFixed(2)}");
 
         if (status.hasEthSpeedMbps())
-          b.kv(M.grpc.DishGetStatus.eth_speed_mbps, status.ethSpeedMbps);
+          b.kv(M.grpc.DishGetStatus.eth_speed_mbps, status.ethSpeedMbps, ok: status.ethSpeedMbps==1000);
 
         rows.addAll(b.widgets);
       }
@@ -162,8 +162,9 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
         var b = KVWidgetBuilder(context, theme);
         b.header(M.header.gps_stats);
         var stats = status.gpsStats;
-        if (stats.hasGpsValid())
-          b.kv(M.grpc.DishGpsStats.gps_valid, stats.gpsValid);
+        // if (stats.hasGpsValid())
+        b.kv(M.grpc.DishGpsStats.gps_valid, stats.gpsValid, ok: stats.gpsValid);
+
         if (stats.hasGpsSats())
           b.kv(M.grpc.DishGpsStats.gps_sats, stats.gpsSats);
         if (stats.hasNoSatsAfterTtff())
@@ -187,7 +188,7 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
           b.kv(M.grpc.DishGetStatus.boresight_elevation_deg, status.boresightElevationDeg.toStringAsFixed(2));
 
         // if (status.hasIsSnrAboveNoiseFloor())
-        b.kv(M.grpc.DishGetStatus.is_snr_above_noise_floor, status.isSnrAboveNoiseFloor);
+        b.kv(M.grpc.DishGetStatus.is_snr_above_noise_floor, status.isSnrAboveNoiseFloor, ok:status.isSnrAboveNoiseFloor);
 
         // if (status.hasIsSnrPersistentlyLow())
         b.kv(M.grpc.DishGetStatus.is_snr_persistently_low, status.isSnrPersistentlyLow);
@@ -233,7 +234,7 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
         for (var e in (states.info_.byName).entries) {
           var key = e.key;
           var val = states.getField(e.value.tagNumber) ?? false;
-          b.kv("${key} (${R.i18n.map["grpc.DishReadyStates.${key}"] ?? key})", "${val}");
+          b.kv("${key} (${R.i18n.map["grpc.DishReadyStates.${key}"] ?? key})", "${val}", ok: val);
         }
 
         if (b.widgets.length > 1) {

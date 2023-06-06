@@ -11,6 +11,26 @@ extension DishGetStatusExt on DishGetStatusResponse {
     if (this.hasOutage() && this.outage.hasCause())
       alerts++;
 
+    if (hasReadyStates()) {
+      for (var e in (readyStates.info_.byName).entries) {
+        var val = readyStates.getField(e.value.tagNumber) ?? false;
+        if (!val)
+          alerts++;
+      }
+    }
+
+    if (hasGpsStats()) {
+      if (!gpsStats.gpsValid)
+        alerts++;
+    }
+
+    if (!isSnrAboveNoiseFloor)
+      alerts++;
+
+    if (hasEthSpeedMbps())
+      if (ethSpeedMbps!=1000)
+        alerts++;
+
     return alerts;
   }
 }
