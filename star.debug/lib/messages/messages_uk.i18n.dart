@@ -55,6 +55,7 @@ class MessagesUk extends Messages {
   String get locale => "uk";
   String get languageCode => "uk";
   GeneralMessagesUk get general => GeneralMessagesUk(this);
+  MyMessagesUk get my => MyMessagesUk(this);
   AboutMessagesUk get about => AboutMessagesUk(this);
   WifiMessagesUk get wifi => WifiMessagesUk(this);
   LiveMessagesUk get live => LiveMessagesUk(this);
@@ -111,6 +112,13 @@ class GeneralMessagesUk extends GeneralMessages {
   String get uninhibit_gps => """Довіряти GPS""";
   String get dump_created_time => """Час створення дампу""";
   String get no_alerts => """Немає попередженнь""";
+}
+
+class MyMessagesUk extends MyMessages {
+  final MessagesUk _parent;
+  const MyMessagesUk(this._parent) : super(_parent);
+  String get my_starlinks => """Мої Старлінки""";
+  String get snapshots => """Знімки""";
 }
 
 class AboutMessagesUk extends AboutMessages {
@@ -588,6 +596,8 @@ Map<String, String> get messagesUkMap => {
       """general.uninhibit_gps""": """Довіряти GPS""",
       """general.dump_created_time""": """Час створення дампу""",
       """general.no_alerts""": """Немає попередженнь""",
+      """my.my_starlinks""": """Мої Старлінки""",
+      """my.snapshots""": """Знімки""",
       """about.about""": """Про програму""",
       """about.about_starlink_for_ukraine""": """Про Народний cтарлінк""",
       """about.starlink_for_ukraine""": """Народний старлінк""",

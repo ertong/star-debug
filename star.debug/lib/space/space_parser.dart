@@ -1,4 +1,6 @@
 
+import 'dart:convert';
+
 import 'package:star_debug/grpc/starlink/starlink.pb.dart';
 import 'package:star_debug/space/device_app.dart';
 import 'package:star_debug/utils/debug_data.dart';
@@ -7,7 +9,7 @@ class SpaceParser{
 
   DeviceApp? deviceApp;
 
-  Map<String, dynamic> json;
+  Map<String, dynamic>? json;
 
   Map<String, dynamic>? jsonDish;
   Map<String, dynamic>? jsonRouter;
@@ -21,43 +23,82 @@ class SpaceParser{
   WifiGetStatusResponse? routerGetStatus;
   Map<String, bool> routerFeatures = {};
 
-  SpaceParser(this.json) {
-    jsonDish = json["dish"] as Map<String, dynamic>?;
-    jsonRouter = json['router'] as Map<String, dynamic>?;
-    jsonApp = json['device'] as Map<String, dynamic>?;
+  static SpaceParser ofGrpc(int ts, DishGetStatusResponse? dish, WifiGetStatusResponse? router) {
+    SpaceParser p = SpaceParser();
 
-    deviceApp = DeviceApp.of(jsonApp);
+    if (dish!=null) {
+      p.dishGetStatus = dish;
+      p.dishTs = ts~/1000;
+    }
 
-    if (jsonDish!=null && jsonDish!.containsKey("deviceInfo")) {
-      dishGetStatus = DishGetStatusResponse();
-      DebugDataHelper.jsonToProto(jsonDish!, dishGetStatus!);
+    if (router!=null) {
+      p.routerGetStatus = router;
+      p.routerTs = ts~/1000;
+    }
+
+    return p;
+  }
+
+  static SpaceParser ofJsonStr(String json) {
+    return ofJson(jsonDecode(json));
+  }
+
+  static SpaceParser ofJson(Map<String, dynamic> json) {
+    SpaceParser p = SpaceParser();
+
+    p.json = json;
+
+    p.jsonDish = json["dish"] as Map<String, dynamic>?;
+    p.jsonRouter = json['router'] as Map<String, dynamic>?;
+    p.jsonApp = json['device'] as Map<String, dynamic>?;
+
+    p.deviceApp = DeviceApp.of(p.jsonApp);
+
+    if (p.jsonDish!=null && p.jsonDish!.containsKey("deviceInfo")) {
+      p.dishGetStatus = DishGetStatusResponse();
+      DebugDataHelper.jsonToProto(p.jsonDish!, p.dishGetStatus!);
 
       {
-        var features = jsonDish?["features"];
+        var features = p.jsonDish?["features"];
         if (features is Map)
           for (var e in features.entries)
-            this.dishFeatures[e.key] = e.value as bool;
+            p.dishFeatures[e.key] = e.value as bool;
       }
 
-      if (jsonDish?["timestamp"]!=null)
-        dishTs = (jsonDish?["timestamp"] ?? 0).toInt();
+      if (p.jsonDish?["timestamp"]!=null)
+        p.dishTs = (p.jsonDish?["timestamp"] ?? 0).toInt();
     }
-    if (jsonRouter!=null && jsonRouter!.containsKey("deviceInfo")) {
-      routerGetStatus = WifiGetStatusResponse();
-      DebugDataHelper.jsonToProto(jsonRouter!, routerGetStatus!);
+    if (p.jsonRouter!=null && p.jsonRouter!.containsKey("deviceInfo")) {
+      p.routerGetStatus = WifiGetStatusResponse();
+      DebugDataHelper.jsonToProto(p.jsonRouter!, p.routerGetStatus!);
 
       {
-        var features = jsonRouter?["features"];
+        var features = p.jsonRouter?["features"];
         if (features is Map)
           for (var e in features.entries)
-            this.routerFeatures[e.key] = e.value as bool;
+            p.routerFeatures[e.key] = e.value as bool;
       }
 
-      if (jsonRouter?["timestamp"]!=null)
-        routerTs = (jsonRouter?["timestamp"] ?? 0).toInt();
+      if (p.jsonRouter?["timestamp"]!=null)
+        p.routerTs = (p.jsonRouter?["timestamp"] ?? 0).toInt();
     }
+
+    return p;
   }
 
   bool hasData() => dishGetStatus!=null || routerGetStatus!=null || deviceApp!=null;
 
+  String toDebugDataJson(){
+    if (this.json!=null)
+      return JsonEncoder.withIndent("  ").convert(this.json);
+    else {
+      var data = DebugDataHelper.debugData(
+          dishGetStatus,
+          null,
+          routerGetStatus,
+          null
+      );
+      return JsonEncoder.withIndent("  ").convert(data);
+    }
+  }
 }

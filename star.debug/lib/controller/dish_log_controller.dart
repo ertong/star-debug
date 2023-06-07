@@ -28,8 +28,6 @@ class DishLogController {
     WifiGetStatusResponse? wifiStatusJson,
     Map<String, dynamic>? onlineJson
   }) {
-    if (!R.isDebug)
-      return;
     Record? rec = latestRecord[dishId];
     if (rec==null) {
       rec = Record();
@@ -77,8 +75,6 @@ class DishLogController {
   }
 
   Future<void> storeDebugData(String dishId, int timestamp, Map<String, dynamic> debugData) async {
-    if (!R.isDebug)
-      return;
     var res = await R.db.dishesDao.hasDishLog(dishId, timestamp).getSingleOrNull();
 
     if (res==null) {
@@ -96,8 +92,6 @@ class DishLogController {
     Map<String, dynamic>? onlineJson,
     int? timestamp,
   }) async {
-    if (!R.isDebug)
-      return;
     var rec = await ensureRecord(dishId);
 
     await mutex.protect(() async{
@@ -117,9 +111,9 @@ class DishLogController {
             forceStore: Value(true),
             dishId: Value(rec.dishId),
             debugDataJson: Value(jsonEncode(debugData)),
-            dishStatusJson: Value(jsonEncode(dishStatus?.toProto3Json())),
-            dishHistoryJson: Value(jsonEncode(dishHistoryJson?.toProto3Json())),
-            wifiStatusJson: Value(jsonEncode(wifiStatusJson?.toProto3Json())),
+            dishStatusJson: Value(dishStatus?.writeToBuffer()),
+            dishHistoryJson: Value(dishHistoryJson?.writeToBuffer()),
+            wifiStatusJson: Value(wifiStatusJson?.writeToBuffer()),
             onlineJson: Value(jsonEncode(onlineJson)),
           )
       );
@@ -157,9 +151,9 @@ class DishLogController {
                   forceStore: Value(false),
                   dishId: Value(rec.dishId),
                   debugDataJson: Value(jsonEncode(rec.debugData)),
-                  dishStatusJson: Value(jsonEncode(rec.dishStatus?.toProto3Json())),
-                  dishHistoryJson: Value(jsonEncode(rec.dishHistoryJson?.toProto3Json())),
-                  wifiStatusJson: Value(jsonEncode(rec.wifiStatusJson?.toProto3Json())),
+                  dishStatusJson: Value(rec.dishStatus?.writeToBuffer()),
+                  dishHistoryJson: Value(rec.dishHistoryJson?.writeToBuffer()),
+                  wifiStatusJson: Value(rec.wifiStatusJson?.writeToBuffer()),
                   onlineJson: Value(jsonEncode(rec.onlineJson)),
                 );
 

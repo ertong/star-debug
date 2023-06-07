@@ -49,21 +49,21 @@ class $DishLogsTable extends DishLogs with TableInfo<$DishLogsTable, DishLog> {
   static const VerificationMeta _dishStatusJsonMeta =
       const VerificationMeta('dishStatusJson');
   @override
-  late final GeneratedColumn<String> dishStatusJson = GeneratedColumn<String>(
-      'dish_status_json', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
+  late final GeneratedColumn<Uint8List> dishStatusJson =
+      GeneratedColumn<Uint8List>('dish_status_json', aliasedName, true,
+          type: DriftSqlType.blob, requiredDuringInsert: false);
   static const VerificationMeta _dishHistoryJsonMeta =
       const VerificationMeta('dishHistoryJson');
   @override
-  late final GeneratedColumn<String> dishHistoryJson = GeneratedColumn<String>(
-      'dish_history_json', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
+  late final GeneratedColumn<Uint8List> dishHistoryJson =
+      GeneratedColumn<Uint8List>('dish_history_json', aliasedName, true,
+          type: DriftSqlType.blob, requiredDuringInsert: false);
   static const VerificationMeta _wifiStatusJsonMeta =
       const VerificationMeta('wifiStatusJson');
   @override
-  late final GeneratedColumn<String> wifiStatusJson = GeneratedColumn<String>(
-      'wifi_status_json', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
+  late final GeneratedColumn<Uint8List> wifiStatusJson =
+      GeneratedColumn<Uint8List>('wifi_status_json', aliasedName, true,
+          type: DriftSqlType.blob, requiredDuringInsert: false);
   static const VerificationMeta _onlineJsonMeta =
       const VerificationMeta('onlineJson');
   @override
@@ -163,12 +163,12 @@ class $DishLogsTable extends DishLogs with TableInfo<$DishLogsTable, DishLog> {
           .read(DriftSqlType.bool, data['${effectivePrefix}force_store'])!,
       debugDataJson: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}debug_data_json']),
-      dishStatusJson: attachedDatabase.typeMapping.read(
-          DriftSqlType.string, data['${effectivePrefix}dish_status_json']),
-      dishHistoryJson: attachedDatabase.typeMapping.read(
-          DriftSqlType.string, data['${effectivePrefix}dish_history_json']),
-      wifiStatusJson: attachedDatabase.typeMapping.read(
-          DriftSqlType.string, data['${effectivePrefix}wifi_status_json']),
+      dishStatusJson: attachedDatabase.typeMapping
+          .read(DriftSqlType.blob, data['${effectivePrefix}dish_status_json']),
+      dishHistoryJson: attachedDatabase.typeMapping
+          .read(DriftSqlType.blob, data['${effectivePrefix}dish_history_json']),
+      wifiStatusJson: attachedDatabase.typeMapping
+          .read(DriftSqlType.blob, data['${effectivePrefix}wifi_status_json']),
       onlineJson: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}online_json']),
     );
@@ -186,9 +186,9 @@ class DishLog extends DataClass implements Insertable<DishLog> {
   final String dishId;
   final bool forceStore;
   final String? debugDataJson;
-  final String? dishStatusJson;
-  final String? dishHistoryJson;
-  final String? wifiStatusJson;
+  final Uint8List? dishStatusJson;
+  final Uint8List? dishHistoryJson;
+  final Uint8List? wifiStatusJson;
   final String? onlineJson;
   const DishLog(
       {required this.id,
@@ -211,13 +211,13 @@ class DishLog extends DataClass implements Insertable<DishLog> {
       map['debug_data_json'] = Variable<String>(debugDataJson);
     }
     if (!nullToAbsent || dishStatusJson != null) {
-      map['dish_status_json'] = Variable<String>(dishStatusJson);
+      map['dish_status_json'] = Variable<Uint8List>(dishStatusJson);
     }
     if (!nullToAbsent || dishHistoryJson != null) {
-      map['dish_history_json'] = Variable<String>(dishHistoryJson);
+      map['dish_history_json'] = Variable<Uint8List>(dishHistoryJson);
     }
     if (!nullToAbsent || wifiStatusJson != null) {
-      map['wifi_status_json'] = Variable<String>(wifiStatusJson);
+      map['wifi_status_json'] = Variable<Uint8List>(wifiStatusJson);
     }
     if (!nullToAbsent || onlineJson != null) {
       map['online_json'] = Variable<String>(onlineJson);
@@ -258,9 +258,9 @@ class DishLog extends DataClass implements Insertable<DishLog> {
       dishId: serializer.fromJson<String>(json['dishId']),
       forceStore: serializer.fromJson<bool>(json['forceStore']),
       debugDataJson: serializer.fromJson<String?>(json['debugDataJson']),
-      dishStatusJson: serializer.fromJson<String?>(json['dishStatusJson']),
-      dishHistoryJson: serializer.fromJson<String?>(json['dishHistoryJson']),
-      wifiStatusJson: serializer.fromJson<String?>(json['wifiStatusJson']),
+      dishStatusJson: serializer.fromJson<Uint8List?>(json['dishStatusJson']),
+      dishHistoryJson: serializer.fromJson<Uint8List?>(json['dishHistoryJson']),
+      wifiStatusJson: serializer.fromJson<Uint8List?>(json['wifiStatusJson']),
       onlineJson: serializer.fromJson<String?>(json['onlineJson']),
     );
   }
@@ -273,9 +273,9 @@ class DishLog extends DataClass implements Insertable<DishLog> {
       'dishId': serializer.toJson<String>(dishId),
       'forceStore': serializer.toJson<bool>(forceStore),
       'debugDataJson': serializer.toJson<String?>(debugDataJson),
-      'dishStatusJson': serializer.toJson<String?>(dishStatusJson),
-      'dishHistoryJson': serializer.toJson<String?>(dishHistoryJson),
-      'wifiStatusJson': serializer.toJson<String?>(wifiStatusJson),
+      'dishStatusJson': serializer.toJson<Uint8List?>(dishStatusJson),
+      'dishHistoryJson': serializer.toJson<Uint8List?>(dishHistoryJson),
+      'wifiStatusJson': serializer.toJson<Uint8List?>(wifiStatusJson),
       'onlineJson': serializer.toJson<String?>(onlineJson),
     };
   }
@@ -286,9 +286,9 @@ class DishLog extends DataClass implements Insertable<DishLog> {
           String? dishId,
           bool? forceStore,
           Value<String?> debugDataJson = const Value.absent(),
-          Value<String?> dishStatusJson = const Value.absent(),
-          Value<String?> dishHistoryJson = const Value.absent(),
-          Value<String?> wifiStatusJson = const Value.absent(),
+          Value<Uint8List?> dishStatusJson = const Value.absent(),
+          Value<Uint8List?> dishHistoryJson = const Value.absent(),
+          Value<Uint8List?> wifiStatusJson = const Value.absent(),
           Value<String?> onlineJson = const Value.absent()}) =>
       DishLog(
         id: id ?? this.id,
@@ -329,9 +329,9 @@ class DishLog extends DataClass implements Insertable<DishLog> {
       dishId,
       forceStore,
       debugDataJson,
-      dishStatusJson,
-      dishHistoryJson,
-      wifiStatusJson,
+      $driftBlobEquality.hash(dishStatusJson),
+      $driftBlobEquality.hash(dishHistoryJson),
+      $driftBlobEquality.hash(wifiStatusJson),
       onlineJson);
   @override
   bool operator ==(Object other) =>
@@ -342,9 +342,12 @@ class DishLog extends DataClass implements Insertable<DishLog> {
           other.dishId == this.dishId &&
           other.forceStore == this.forceStore &&
           other.debugDataJson == this.debugDataJson &&
-          other.dishStatusJson == this.dishStatusJson &&
-          other.dishHistoryJson == this.dishHistoryJson &&
-          other.wifiStatusJson == this.wifiStatusJson &&
+          $driftBlobEquality.equals(
+              other.dishStatusJson, this.dishStatusJson) &&
+          $driftBlobEquality.equals(
+              other.dishHistoryJson, this.dishHistoryJson) &&
+          $driftBlobEquality.equals(
+              other.wifiStatusJson, this.wifiStatusJson) &&
           other.onlineJson == this.onlineJson);
 }
 
@@ -354,9 +357,9 @@ class DishLogsCompanion extends UpdateCompanion<DishLog> {
   final Value<String> dishId;
   final Value<bool> forceStore;
   final Value<String?> debugDataJson;
-  final Value<String?> dishStatusJson;
-  final Value<String?> dishHistoryJson;
-  final Value<String?> wifiStatusJson;
+  final Value<Uint8List?> dishStatusJson;
+  final Value<Uint8List?> dishHistoryJson;
+  final Value<Uint8List?> wifiStatusJson;
   final Value<String?> onlineJson;
   const DishLogsCompanion({
     this.id = const Value.absent(),
@@ -388,9 +391,9 @@ class DishLogsCompanion extends UpdateCompanion<DishLog> {
     Expression<String>? dishId,
     Expression<bool>? forceStore,
     Expression<String>? debugDataJson,
-    Expression<String>? dishStatusJson,
-    Expression<String>? dishHistoryJson,
-    Expression<String>? wifiStatusJson,
+    Expression<Uint8List>? dishStatusJson,
+    Expression<Uint8List>? dishHistoryJson,
+    Expression<Uint8List>? wifiStatusJson,
     Expression<String>? onlineJson,
   }) {
     return RawValuesInsertable({
@@ -412,9 +415,9 @@ class DishLogsCompanion extends UpdateCompanion<DishLog> {
       Value<String>? dishId,
       Value<bool>? forceStore,
       Value<String?>? debugDataJson,
-      Value<String?>? dishStatusJson,
-      Value<String?>? dishHistoryJson,
-      Value<String?>? wifiStatusJson,
+      Value<Uint8List?>? dishStatusJson,
+      Value<Uint8List?>? dishHistoryJson,
+      Value<Uint8List?>? wifiStatusJson,
       Value<String?>? onlineJson}) {
     return DishLogsCompanion(
       id: id ?? this.id,
@@ -448,13 +451,13 @@ class DishLogsCompanion extends UpdateCompanion<DishLog> {
       map['debug_data_json'] = Variable<String>(debugDataJson.value);
     }
     if (dishStatusJson.present) {
-      map['dish_status_json'] = Variable<String>(dishStatusJson.value);
+      map['dish_status_json'] = Variable<Uint8List>(dishStatusJson.value);
     }
     if (dishHistoryJson.present) {
-      map['dish_history_json'] = Variable<String>(dishHistoryJson.value);
+      map['dish_history_json'] = Variable<Uint8List>(dishHistoryJson.value);
     }
     if (wifiStatusJson.present) {
-      map['wifi_status_json'] = Variable<String>(wifiStatusJson.value);
+      map['wifi_status_json'] = Variable<Uint8List>(wifiStatusJson.value);
     }
     if (onlineJson.present) {
       map['online_json'] = Variable<String>(onlineJson.value);

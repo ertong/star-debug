@@ -19,7 +19,7 @@ class Database extends _$Database {
   Database.connect(DatabaseConnection connection) : super(connection);
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -28,6 +28,12 @@ class Database extends _$Database {
       },
       onUpgrade: (Migrator m, int from, int to) async {
         LogUtils.d(_TAG, "Migration from $from to $to");
+
+        if (from<2){
+          m.drop(dishes);
+          m.drop(dishLogs);
+        }
+
         await m.createAll(); // create if not exists
 
         if (from < 2) {

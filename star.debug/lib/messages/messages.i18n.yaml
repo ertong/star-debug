@@ -45,6 +45,10 @@ general:
   dump_created_time: Dump created time
   no_alerts: No alerts
 
+my:
+  my_starlinks: My Starlinks
+  snapshots: Snapshots
+
 about:
   about: About
   about_starlink_for_ukraine: About Narodnyi Starlink

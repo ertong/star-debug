@@ -25,9 +25,9 @@ import '../utils/kv_widget.dart';
 const String _TAG="MainPage";
 
 class DebugDataPage extends StatefulWidget {
-  final String? debugDataToOpen;
+  final SpaceParser? parser;
 
-  const DebugDataPage({super.key, this.debugDataToOpen});
+  const DebugDataPage({super.key, this.parser});
 
   @override
   State createState() => _DebugDataPageState();
@@ -47,7 +47,6 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
 
   int _selectedIndex=0;
   List<_Page> pages = [];
-  Map<String, dynamic> data = {};
 
   SpaceParser? parser;
 
@@ -58,9 +57,8 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
   @override
   void initState() {
     super.initState();
-    if (widget.debugDataToOpen!=null) {
-      var data = jsonDecode(widget.debugDataToOpen!);
-      newData(data);
+    if (widget.parser!=null) {
+      newData(widget.parser!);
     }
   }
 
@@ -143,10 +141,8 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
     );
   }
 
-  void newData(Map<String, dynamic> data) {
-
-    this.data = data;
-    var parser = this.parser = SpaceParser(data);
+  void newData(SpaceParser parser) {
+    this.parser = parser;
     pages.clear();
     obstructions = null;
     _selectedIndex = 0;
@@ -164,10 +160,12 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
         }
       }
 
-      var deviceId = parser.dishGetStatus?.deviceInfo.id;
-      var timestamp = parser.dishTs;
-      if (deviceId!=null && timestamp!=null){
-        R.dishLog.storeDebugData(deviceId, timestamp*1000, data);
+      if (parser.json!=null) {
+        var deviceId = parser.dishGetStatus?.deviceInfo.id;
+        var timestamp = parser.dishTs;
+        if (deviceId != null && timestamp != null) {
+          R.dishLog.storeDebugData(deviceId, timestamp * 1000, parser.json!);
+        }
       }
     }
 
@@ -268,16 +266,15 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
   }
 
   Future test() async {
-    var dish = DishGetStatusResponse();
-    DebugDataHelper.jsonToProto(parser?.json['dish'], dish);
-    log(jsonEncode(dish.toProto3Json()));
+    // var dish = DishGetStatusResponse();
+    // DebugDataHelper.jsonToProto(parser?.json['dish'], dish);
+    // log(jsonEncode(dish.toProto3Json()));
   }
 
   void onOpenClipboardClicked() async {
     try {
       var str = await FlutterClipboard.paste();
-      var data = jsonDecode(str);
-      newData(data);
+      newData(SpaceParser.ofJsonStr(str));
       setState(() {});
     } catch (e, s) {
       LogUtils.ers(_TAG, "Opening clipboard", e, s);
@@ -298,8 +295,7 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
         if ((await f.stat()).size > 1024 * 1024)
           R.showSnackBarText("Too large file");
 
-        var data = jsonDecode(await f.readAsString());
-        newData(data);
+        newData(SpaceParser.ofJsonStr(await f.readAsString()));
         setState(() {});
       } catch (e, s) {
         LogUtils.ers(_TAG, "Opening $result", e, s);
@@ -311,6 +307,8 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
   }
 
   Widget _buildBar(BuildContext context) {
+    String? uid = parser?.dishGetStatus?.deviceInfo.id ?? parser?.routerGetStatus?.deviceInfo.id;
+
     return AppBar(
       title: Text(M.general.debug_data_viewer),
       centerTitle: true,
@@ -318,14 +316,15 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
         if (parser!=null)
           ...[
             TextButton(
-                onPressed: () async {
-                  await showDialog<String>(context: context, builder: (c){
-                    return SaveDebugDataDialog(
-                        data: JsonEncoder.withIndent("  ").convert(data),
-                        uid: data["dish"]?["deviceInfo"]?["id"] ?? data["router"]?["deviceInfo"]?["id"],
-                        showInApp: false,
-                    );
-                  });
+                onPressed: uid==null ? null : () async {
+                  if (parser!=null)
+                    await showDialog<String>(context: context, builder: (c) {
+                      return SaveDebugDataDialog(
+                          data: parser!.toDebugDataJson(),
+                          uid: uid,
+                          showInApp: false,
+                      );
+                    });
                 },
                 child: Icon(Icons.share, color: Colors.white,)
             ),

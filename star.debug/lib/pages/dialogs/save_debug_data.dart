@@ -9,6 +9,7 @@ import 'package:star_debug/pages/debug_data.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
+import 'package:star_debug/space/space_parser.dart';
 import 'package:star_debug/utils/log_utils.dart';
 
 const String _TAG="LivePage";
@@ -179,7 +180,7 @@ class _SaveDebugDataDialogState<TItem> extends State<SaveDebugDataDialog<TItem>>
                     await Navigator.push(context,
                       MaterialPageRoute(
                         builder: (context) {
-                          return DebugDataPage(debugDataToOpen: widget.data);
+                          return DebugDataPage(parser: SpaceParser.ofJsonStr(widget.data));
                         },
                       ),
                     );

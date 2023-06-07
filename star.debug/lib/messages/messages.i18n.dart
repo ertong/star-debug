@@ -54,6 +54,7 @@ class Messages {
   String get locale => "en";
   String get languageCode => "en";
   GeneralMessages get general => GeneralMessages(this);
+  MyMessages get my => MyMessages(this);
   AboutMessages get about => AboutMessages(this);
   WifiMessages get wifi => WifiMessages(this);
   LiveMessages get live => LiveMessages(this);
@@ -110,6 +111,13 @@ class GeneralMessages {
   String get uninhibit_gps => """Uninhibit GPS""";
   String get dump_created_time => """Dump created time""";
   String get no_alerts => """No alerts""";
+}
+
+class MyMessages {
+  final Messages _parent;
+  const MyMessages(this._parent);
+  String get my_starlinks => """My Starlinks""";
+  String get snapshots => """Snapshots""";
 }
 
 class AboutMessages {
@@ -586,6 +594,8 @@ Map<String, String> get messagesMap => {
       """general.uninhibit_gps""": """Uninhibit GPS""",
       """general.dump_created_time""": """Dump created time""",
       """general.no_alerts""": """No alerts""",
+      """my.my_starlinks""": """My Starlinks""",
+      """my.snapshots""": """Snapshots""",
       """about.about""": """About""",
       """about.about_starlink_for_ukraine""": """About Narodnyi Starlink""",
       """about.starlink_for_ukraine""": """Narodnyi Starlink""",

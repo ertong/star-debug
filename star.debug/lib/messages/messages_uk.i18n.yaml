@@ -43,6 +43,11 @@ general:
   uninhibit_gps: Довіряти GPS
   dump_created_time: Час створення дампу
   no_alerts: Немає попередженнь
+
+my:
+  my_starlinks: Мої Старлінки
+  snapshots: Знімки
+
 about:
   about: Про програму
   about_starlink_for_ukraine: Про Народний cтарлінк
