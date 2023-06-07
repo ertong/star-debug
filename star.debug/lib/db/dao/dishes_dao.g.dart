@@ -14,6 +14,24 @@ mixin _$DishesDaoMixin on DatabaseAccessor<Database> {
     }).asyncMap(dishes.mapFromRow);
   }
 
+  Future<int> deleteDish(String dishId) {
+    return customUpdate(
+      'DELETE FROM dishes WHERE dish_id = ?1',
+      variables: [Variable<String>(dishId)],
+      updates: {dishes},
+      updateKind: UpdateKind.delete,
+    );
+  }
+
+  Future<int> deleteDishLogs(String dishId) {
+    return customUpdate(
+      'DELETE FROM dish_logs WHERE dish_id = ?1',
+      variables: [Variable<String>(dishId)],
+      updates: {dishLogs},
+      updateKind: UpdateKind.delete,
+    );
+  }
+
   Selectable<DishLog> getDishLog(int id) {
     return customSelect('SELECT * FROM dish_logs WHERE id = ?1', variables: [
       Variable<int>(id)
@@ -36,7 +54,7 @@ mixin _$DishesDaoMixin on DatabaseAccessor<Database> {
 
   Selectable<GetDishesResult> getDishes(String? fromDishId, int limit) {
     return customSelect(
-        'SELECT *, (SELECT COUNT(*) FROM dish_logs AS DLC WHERE D.dish_id = DLC.dish_id) AS log_count FROM dishes AS D LEFT JOIN dish_logs AS DL ON(D.latest_log_id = DL.id)WHERE(?1 IS NULL OR D.dish_id > ?1)ORDER BY D.dish_id LIMIT ?2',
+        'SELECT D.*, DL.id, DL.timestamp, DL.force_store, DL.debug_data_json, DL.dish_status_json, DL.dish_history_json, DL.wifi_status_json, DL.online_json, (SELECT COUNT(*) FROM dish_logs AS DLC WHERE D.dish_id = DLC.dish_id) AS log_count FROM dishes AS D LEFT JOIN dish_logs AS DL ON(D.latest_log_id = DL.id)WHERE(?1 IS NULL OR D.dish_id > ?1)ORDER BY D.dish_id LIMIT ?2',
         variables: [
           Variable<String>(fromDishId),
           Variable<int>(limit)
@@ -51,7 +69,6 @@ mixin _$DishesDaoMixin on DatabaseAccessor<Database> {
         latestLogId: row.readNullable<int>('latest_log_id'),
         id: row.readNullable<int>('id'),
         timestamp: row.readNullable<int>('timestamp'),
-        dishId1: row.readNullable<String>('dish_id'),
         forceStore: row.readNullable<bool>('force_store'),
         debugDataJson: row.readNullable<String>('debug_data_json'),
         dishStatusJson: row.readNullable<Uint8List>('dish_status_json'),
@@ -83,7 +100,6 @@ class GetDishesResult {
   final int? latestLogId;
   final int? id;
   final int? timestamp;
-  final String? dishId1;
   final bool? forceStore;
   final String? debugDataJson;
   final Uint8List? dishStatusJson;
@@ -97,7 +113,6 @@ class GetDishesResult {
     this.latestLogId,
     this.id,
     this.timestamp,
-    this.dishId1,
     this.forceStore,
     this.debugDataJson,
     this.dishStatusJson,

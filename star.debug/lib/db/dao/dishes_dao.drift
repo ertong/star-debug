@@ -1,10 +1,23 @@
 import '../database.drift';
 
 getDish: SELECT * FROM dishes WHERE dish_id=:dishId;
+deleteDish: DELETE FROM dishes WHERE dish_id=:dishId;
+deleteDishLogs: DELETE FROM dish_logs WHERE dish_id=:dishId;
+
 getDishLog: SELECT * FROM dish_logs WHERE id=:id;
 hasDishLog: SELECT 1 FROM dish_logs WHERE dish_id=:dishId AND timestamp=:timestamp;
 getDishes(:fromDishId AS TEXT OR NULL):
-    SELECT *, (SELECT COUNT(*) FROM dish_logs DLC WHERE D.dish_id=DLC.dish_id) log_count
+    SELECT
+       D.*,
+       DL.id,
+       DL.timestamp,
+       DL.force_store,
+       DL.debug_data_json,
+       DL.dish_status_json,
+       DL.dish_history_json,
+       DL.wifi_status_json,
+       DL.online_json,
+       (SELECT COUNT(*) FROM dish_logs DLC WHERE D.dish_id=DLC.dish_id) log_count
     FROM dishes D
     LEFT JOIN dish_logs DL ON (D.latest_log_id=DL.id)
     WHERE (:fromDishId IS NULL OR D.dish_id>:fromDishId)

@@ -111,6 +111,7 @@ class GeneralMessages {
   String get uninhibit_gps => """Uninhibit GPS""";
   String get dump_created_time => """Dump created time""";
   String get no_alerts => """No alerts""";
+  String get confirmation => """Confirmation""";
 }
 
 class MyMessages {
@@ -118,6 +119,9 @@ class MyMessages {
   const MyMessages(this._parent);
   String get my_starlinks => """My Starlinks""";
   String get snapshots => """Snapshots""";
+  String delete_snapshot_prompt(id, ts) =>
+      """Do you want to delete snapshot of dish $id for $ts?""";
+  String delete_dish_prompt(id) => """Do you want to delete dish $id?""";
 }
 
 class AboutMessages {
@@ -594,6 +598,7 @@ Map<String, String> get messagesMap => {
       """general.uninhibit_gps""": """Uninhibit GPS""",
       """general.dump_created_time""": """Dump created time""",
       """general.no_alerts""": """No alerts""",
+      """general.confirmation""": """Confirmation""",
       """my.my_starlinks""": """My Starlinks""",
       """my.snapshots""": """Snapshots""",
       """about.about""": """About""",

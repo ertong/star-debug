@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:drift/drift.dart' show TableStatements;
 import 'package:flutter/material.dart' hide Notification, Card;
 import 'package:star_debug/db/database.dart';
 import 'package:star_debug/drawer.dart';
@@ -7,6 +8,7 @@ import 'package:star_debug/grpc/starlink/network.pbenum.dart';
 import 'package:star_debug/grpc/starlink/starlink.pb.dart';
 import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/pages/debug_data.dart';
+import 'package:star_debug/pages/dialogs/confirm.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/space/space_parser.dart';
 import 'package:star_debug/utils/debug_data.dart';
@@ -112,47 +114,68 @@ class _SnapshotsPageState extends State<SnapshotsPage> with TickerProviderStateM
       }
     }
 
-    return Container(
-      margin: EdgeInsets.fromLTRB(0, 0, 0, 5),
-      padding: EdgeInsets.fromLTRB(2, 2, 2, 2),
-      decoration: BoxDecoration(
-        color: Colors.transparent,
-        border: Border.all(width: 1, color: Colors.grey),
-        borderRadius: BorderRadius.all(Radius.circular(5)),
-      ),
-      child: InkWell(
-        onTap: () async {
-          await Navigator.push(context,
-            MaterialPageRoute(
-              builder: (context) {
-                SpaceParser p = log.row.debugDataJson!=null && log.row.debugDataJson!="null"
-                    ? SpaceParser.ofJsonStr(log.row.debugDataJson!)
-                    : SpaceParser.ofGrpc(log.row.timestamp, log.dish, log.router);
-                return DebugDataPage(parser: p);
-              },
-            ),
-          );
-        },
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(log.row.dishId),
-            if (dishStr!=null)
-              Row(
-                children: [
-                  Icon(Icons.circle, color: dishOk ? Colors.green : Colors.red, size: 15,),
-                  Text(dishStr),
-                ],
-              ),
-            Row(children: [
-              Expanded(child: Text("${ts.toString()}")),
-              Icon(Icons.bug_report, size: 18, color: log.hasDebugData() ? Colors.blue : Colors.blue.withAlpha(50),),
-              Icon(Icons.settings_input_antenna, size: 18, color: log.hasDish() ? Colors.blue : Colors.blue.withAlpha(50),),
-              Icon(Icons.router, size: 18, color: log.hasRouter() ? Colors.blue : Colors.blue.withAlpha(50),),
-            ],),
-          ],
+    return Dismissible(
+      key: ValueKey("log-${log.row.id}"),
+      confirmDismiss: (dir) async {
+        var res = await showDialog<bool>(context: context,
+            builder: (c) { return ConfirmDialog(
+                text: M.my.delete_snapshot_prompt(log.row.dishId, ts),
+                title: M.general.confirmation);
+            }
+        );
+
+        if (res==true) {
+          R.db.dishLogs.deleteOne(log.row);
+          return true;
+        }
+
+        return false;
+      },
+      onDismissed: (dir) async {
+        loadMoreData.remove(log);
+      },
+      child: Container(
+        margin: EdgeInsets.fromLTRB(0, 0, 0, 5),
+        padding: EdgeInsets.fromLTRB(2, 2, 2, 2),
+        decoration: BoxDecoration(
+          color: Colors.transparent,
+          border: Border.all(width: 1, color: Colors.grey),
+          borderRadius: BorderRadius.all(Radius.circular(5)),
         ),
-      )
+        child: InkWell(
+          onTap: () async {
+            await Navigator.push(context,
+              MaterialPageRoute(
+                builder: (context) {
+                  SpaceParser p = log.row.debugDataJson!=null && log.row.debugDataJson!="null"
+                      ? SpaceParser.ofJsonStr(log.row.debugDataJson!)
+                      : SpaceParser.ofGrpc(log.row.timestamp, log.dish, log.router);
+                  return DebugDataPage(parser: p);
+                },
+              ),
+            );
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(log.row.dishId),
+              if (dishStr!=null)
+                Row(
+                  children: [
+                    Icon(Icons.circle, color: dishOk ? Colors.green : Colors.red, size: 15,),
+                    Text(dishStr),
+                  ],
+                ),
+              Row(children: [
+                Expanded(child: Text("${ts.toString()}")),
+                Icon(Icons.bug_report, size: 18, color: log.hasDebugData() ? Colors.blue : Colors.blue.withAlpha(50),),
+                Icon(Icons.settings_input_antenna, size: 18, color: log.hasDish() ? Colors.blue : Colors.blue.withAlpha(50),),
+                Icon(Icons.router, size: 18, color: log.hasRouter() ? Colors.blue : Colors.blue.withAlpha(50),),
+              ],),
+            ],
+          ),
+        )
+      ),
     );
   }
 

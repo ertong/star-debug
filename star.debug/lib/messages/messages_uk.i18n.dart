@@ -112,6 +112,7 @@ class GeneralMessagesUk extends GeneralMessages {
   String get uninhibit_gps => """Довіряти GPS""";
   String get dump_created_time => """Час створення дампу""";
   String get no_alerts => """Немає попередженнь""";
+  String get confirmation => """Підтвердження""";
 }
 
 class MyMessagesUk extends MyMessages {
@@ -119,6 +120,9 @@ class MyMessagesUk extends MyMessages {
   const MyMessagesUk(this._parent) : super(_parent);
   String get my_starlinks => """Мої Старлінки""";
   String get snapshots => """Знімки""";
+  String delete_snapshot_prompt(id, ts) =>
+      """Чи бажаєте ви видалити знімок тарілки $id за $ts?""";
+  String delete_dish_prompt(id) => """Чи бажаєте ви видалити тарілку $id?""";
 }
 
 class AboutMessagesUk extends AboutMessages {
@@ -596,6 +600,7 @@ Map<String, String> get messagesUkMap => {
       """general.uninhibit_gps""": """Довіряти GPS""",
       """general.dump_created_time""": """Час створення дампу""",
       """general.no_alerts""": """Немає попередженнь""",
+      """general.confirmation""": """Підтвердження""",
       """my.my_starlinks""": """Мої Старлінки""",
       """my.snapshots""": """Знімки""",
       """about.about""": """Про програму""",

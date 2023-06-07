@@ -44,10 +44,13 @@ general:
   uninhibit_gps: Uninhibit GPS
   dump_created_time: Dump created time
   no_alerts: No alerts
+  confirmation: Confirmation
 
 my:
   my_starlinks: My Starlinks
   snapshots: Snapshots
+  delete_snapshot_prompt(id, ts): Do you want to delete snapshot of dish $id for $ts?
+  delete_dish_prompt(id): Do you want to delete dish $id?
 
 about:
   about: About

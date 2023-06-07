@@ -43,10 +43,13 @@ general:
   uninhibit_gps: Довіряти GPS
   dump_created_time: Час створення дампу
   no_alerts: Немає попередженнь
+  confirmation: Підтвердження
 
 my:
   my_starlinks: Мої Старлінки
   snapshots: Знімки
+  delete_snapshot_prompt(id, ts): Чи бажаєте ви видалити знімок тарілки $id за $ts?
+  delete_dish_prompt(id): Чи бажаєте ви видалити тарілку $id?
 
 about:
   about: Про програму

@@ -5,6 +5,7 @@ import 'package:star_debug/db/dao/dishes_dao.dart';
 import 'package:star_debug/drawer.dart';
 import 'package:star_debug/grpc/starlink/starlink.pb.dart';
 import 'package:star_debug/messages/i18n.dart';
+import 'package:star_debug/pages/dialogs/confirm.dart';
 import 'package:star_debug/pages/snapshots.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/routes.dart';
@@ -96,38 +97,60 @@ class _MyStarlinksPageState extends State<MyStarlinksPage> with TickerProviderSt
     if (dish.row.timestamp!=null)
       ts = DateTime.fromMillisecondsSinceEpoch(dish.row.timestamp!);
 
-    return Container(
-      margin: EdgeInsets.fromLTRB(0, 0, 0, 5),
-      padding: EdgeInsets.fromLTRB(2, 2, 2, 2),
-      decoration: BoxDecoration(
-        color: Colors.transparent,
-        border: Border.all(width: 1, color: Colors.grey),
-        borderRadius: BorderRadius.all(Radius.circular(5)),
-      ),
-      child: InkWell(
-        onTap: () async {
-          await Navigator.push(context,
-            MaterialPageRoute(
-              builder: (context) {
-                return SnapshotsPage(dishId: dish.row.dishId,);
-              },
-            ),
-          );
-        },
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(dish.row.dishId),
-            Text("${dish.row.logCount} dumps"),
-            Row(children: [
-              Expanded(child: Text("${ts?.toString() ?? ""}")),
-              Icon(Icons.bug_report, size: 18, color: dish.hasDebugData() ? Colors.blue : Colors.blue.withAlpha(50),),
-              Icon(Icons.settings_input_antenna, size: 18, color: dish.hasDish() ? Colors.blue : Colors.blue.withAlpha(50),),
-              Icon(Icons.router, size: 18, color: dish.hasRouter() ? Colors.blue : Colors.blue.withAlpha(50),),
-            ],),
-          ],
+    return Dismissible(
+      key: ValueKey("dish-${dish.row.id}"),
+      confirmDismiss: (dir) async {
+        var res = await showDialog<bool>(context: context,
+            builder: (c) { return ConfirmDialog(
+                text: M.my.delete_dish_prompt(dish.row.dishId),
+                title: M.general.confirmation);
+            }
+        );
+
+        if (res==true) {
+          await R.db.dishesDao.deleteDishLogs(dish.row.dishId);
+          await R.db.dishesDao.deleteDish(dish.row.dishId);
+          return true;
+        }
+
+        return false;
+      },
+      onDismissed: (dir) async {
+        loadMoreData.remove(dish);
+      },
+      child: Container(
+        margin: EdgeInsets.fromLTRB(0, 0, 0, 5),
+        padding: EdgeInsets.fromLTRB(2, 2, 2, 2),
+        decoration: BoxDecoration(
+          color: Colors.transparent,
+          border: Border.all(width: 1, color: Colors.grey),
+          borderRadius: BorderRadius.all(Radius.circular(5)),
         ),
-      )
+        child: InkWell(
+          onTap: () async {
+            await Navigator.push(context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return SnapshotsPage(dishId: dish.row.dishId,);
+                },
+              ),
+            );
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(dish.row.dishId),
+              Text("${dish.row.logCount} dumps"),
+              Row(children: [
+                Expanded(child: Text("${ts?.toString() ?? ""}")),
+                Icon(Icons.bug_report, size: 18, color: dish.hasDebugData() ? Colors.blue : Colors.blue.withAlpha(50),),
+                Icon(Icons.settings_input_antenna, size: 18, color: dish.hasDish() ? Colors.blue : Colors.blue.withAlpha(50),),
+                Icon(Icons.router, size: 18, color: dish.hasRouter() ? Colors.blue : Colors.blue.withAlpha(50),),
+              ],),
+            ],
+          ),
+        )
+      ),
     );
   }
 

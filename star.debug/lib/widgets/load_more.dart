@@ -32,6 +32,10 @@ class LoadMoreData<TItem>{
 
   LoadMoreData({this.callback});
 
+  void remove(TItem item) {
+    items?.remove(item);
+  }
+
   Future<void> load() async{
     items = await callback!(this, null);
   }
@@ -154,8 +158,15 @@ class LoadMoreState<TItem> extends State<LoadMore<TItem>> {
     if (state==LoadMoreStateState.ASK_RETRY)
       return await _load();
     else {
-      await _data!.load();
-      _loadTill = _data!.items!.length - 1;
+      try {
+        await _data!.load();
+        _loadTill = _data!.items!.length - 1;
+        state = LoadMoreStateState.PRESENTING;
+      } catch(e,s) {
+        LogUtils.ers(_TAG, "", e, s);
+        state = LoadMoreStateState.ASK_RETRY;
+      }
+
       setState(() {});
     }
   }
