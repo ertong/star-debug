@@ -155,12 +155,20 @@ class DishLogController {
                   onlineJson: Value(jsonEncode(rec.onlineJson)),
                 );
 
+                if (rec.dish==null) {
+                  rec.dish = await R.db.dishesDao.getDish(rec.dishId).getSingle();
+                  var latestLogId = rec.dish?.latestLogId;
+                  if (latestLogId!=null)
+                    rec.dishLog = await R.db.dishesDao.getDishLog(latestLogId).getSingle();
+                }
+
                 var dishLog = rec.dishLog;
                 if (dishLog==null || dishLog.forceStore==true
                     || now-dishLog.timestamp>1000*60*60*6 // last seen more than 6h ago
                     || now~/(1000*60*60*24)!=dishLog.timestamp~/(1000*60*60*24) // last seen not today
                 ) { // insert new record
-                  LogUtils.d(_TAG, "Store new log for ${rec.dishId}");
+                  LogUtils.d(_TAG, "Store new log for ${rec.dishId}"
+                      " current log $dishLog ts ${dishLog?.timestamp} force ${dishLog?.forceStore}");
 
                   rec.dishLog = await R.db.dishLogs.insertReturning(logToWrite);
 
