@@ -60,24 +60,29 @@ class _SnapshotsPageState extends State<SnapshotsPage> with TickerProviderStateM
     super.dispose();
   }
 
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
   ThemeData theme = ThemeData.fallback();
+
   @override
   Widget build(BuildContext context) {
     theme = Theme.of(context);
 
-    return Scaffold(
-        appBar: _buildBar(context) as PreferredSizeWidget?,
-        drawer: AppDrawer(),
-        body: Stack(
-          children: [
-            Container(
-              width: MediaQuery.of(context).size.width,
-              padding: EdgeInsets.all(10.0),
-              child: buildList()
-            ),
-          ],
-        ),
-    );
+    return WillPopScope(
+        onWillPop: () async => AppDrawer.willPopFunc(scaffoldKey),
+        child: Scaffold(
+          key: scaffoldKey,
+          appBar: _buildBar(context) as PreferredSizeWidget?,
+          drawer: AppDrawer(),
+          body: Stack(
+            children: [
+              Container(
+                  width: MediaQuery.of(context).size.width,
+                  padding: EdgeInsets.all(10.0),
+                  child: buildList()
+              ),
+            ],
+          ),
+        ));
   }
 
   Widget _buildBar(BuildContext context) {

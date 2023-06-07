@@ -130,6 +130,7 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
     super.dispose();
   }
 
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
   ThemeData theme = ThemeData.fallback();
 
   @override
@@ -172,18 +173,22 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
       );
     }
 
-    return Scaffold(
-      appBar: _buildBar(context) as PreferredSizeWidget?,
-      drawer: AppDrawer(selectedRoute: Routes.LIVE),
-      bottomNavigationBar: bar,
-      body: Stack(
-        children: [
-          Container(
-            width: MediaQuery.of(context).size.width,
-            padding: EdgeInsets.all(10.0),
-            child: SingleChildScrollView(controller: scrollController, child: pages[_selectedIndex].builder(),),
-          ),
-        ],
+    return WillPopScope(
+      onWillPop: () async => AppDrawer.willPopFunc(scaffoldKey),
+      child: Scaffold(
+        key: scaffoldKey,
+        appBar: _buildBar(context) as PreferredSizeWidget?,
+        drawer: AppDrawer(selectedRoute: Routes.LIVE),
+        bottomNavigationBar: bar,
+        body: Stack(
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.width,
+              padding: EdgeInsets.all(10.0),
+              child: SingleChildScrollView(controller: scrollController, child: pages[_selectedIndex].builder(),),
+            ),
+          ],
+        ),
       ),
     );
   }

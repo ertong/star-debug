@@ -5,6 +5,9 @@ import 'package:star_debug/messages/I18n.dart';
 import 'package:star_debug/pages/dialogs/select_lang.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/routes.dart';
+import 'package:star_debug/utils/log_utils.dart';
+
+const String _TAG = "AppDrawer";
 
 class AppDrawer extends StatefulWidget {
   final String selectedRoute;
@@ -16,15 +19,26 @@ class AppDrawer extends StatefulWidget {
   @override
   State createState() => _AppDrawerState();
 
-  static bool willPopFunc(BuildContext context) {
-    if (Scaffold.of(context).hasDrawer)
-      if (!Scaffold.of(context).isDrawerOpen){
-        countBackClick++;
-        Scaffold.of(context).openDrawer();
-        return false;
-      }else if (countBackClick>0){
-        exit(0);
-      }
+  static Future<bool> willPopFunc(GlobalKey<ScaffoldState> scaffoldKey) async {
+    try {
+      var state = scaffoldKey.currentState;
+      if (state == null)
+        return true;
+
+      bool canPop = Navigator.of(state.context).canPop();
+      if (state.hasDrawer)
+        if (!state.isDrawerOpen) {
+          if (canPop)
+            return true;
+          countBackClick++;
+          state.openDrawer();
+          return false;
+        } else if (countBackClick > 0) {
+          Navigator.pop(state.context); // drawer is opened, close it
+        }
+    }catch(e,s){
+      LogUtils.ers(_TAG, "", e, s);
+    }
 
     return true;
   }

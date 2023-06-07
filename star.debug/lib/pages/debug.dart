@@ -37,20 +37,26 @@ class _DebugPageState extends State<DebugPage> with TickerProviderStateMixin {
     super.dispose();
   }
 
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: _buildBar(context) as PreferredSizeWidget?,
-        drawer: AppDrawer(selectedRoute: Routes.DEBUG),
-        body: SingleChildScrollView(
-          child: Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: _buildBody(),
+    return WillPopScope(
+      onWillPop: () async => AppDrawer.willPopFunc(scaffoldKey),
+      child: Scaffold(
+          key: scaffoldKey,
+          appBar: _buildBar(context) as PreferredSizeWidget?,
+          drawer: AppDrawer(selectedRoute: Routes.DEBUG),
+          body: SingleChildScrollView(
+            child: Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: _buildBody(),
+              ),
             ),
-          ),
-        )
+          )
+      ),
     );
   }
 

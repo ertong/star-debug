@@ -38,35 +38,26 @@ class _AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
     super.dispose();
   }
 
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: _buildBar(context) as PreferredSizeWidget?,
-        drawer: AppDrawer(selectedRoute: Routes.DEBUG),
-        body: Stack(
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: _buildBody(),
-            ),
-            // LayoutBuilder(
-            //   builder: (BuildContext context, BoxConstraints constraints) {
-            //     return Center(child: Opacity(
-            //       opacity: 0.2,
-            //       child: Image(
-            //         image: AssetImage(
-            //             R.prefs.data.darkMode
-            //                 ? 'assets/images/starlinkforukraine.png'
-            //                 : 'assets/images/starlinkforukraine_black.png'
-            //         ),
-            //         width: constraints.maxWidth*0.75,
-            //       ),
-            //     ),);
-            //   }
-            // )
-          ],
-        )
+    return WillPopScope(
+      onWillPop: () async => AppDrawer.willPopFunc(scaffoldKey),
+      child: Scaffold(
+          key: scaffoldKey,
+          appBar: _buildBar(context) as PreferredSizeWidget?,
+          drawer: AppDrawer(selectedRoute: Routes.DEBUG),
+          body: Stack(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: _buildBody(),
+              ),
+            ],
+          )
+      ),
     );
   }
 

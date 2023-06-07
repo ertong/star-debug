@@ -67,7 +67,9 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
     super.dispose();
   }
 
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
   ThemeData theme = ThemeData.fallback();
+
   @override
   Widget build(BuildContext context) {
     theme = Theme.of(context);
@@ -96,48 +98,52 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
         },
       );
 
-    return Scaffold(
-        appBar: _buildBar(context) as PreferredSizeWidget?,
-        drawer: AppDrawer(selectedRoute: Routes.MAIN),
-        bottomNavigationBar: bar,
-        body: Stack(
-          children: [
-            Container(
-              width: MediaQuery.of(context).size.width,
-              padding: EdgeInsets.all(10.0),
-              child:
-                  (parser?.hasData() ?? false)
-                    ? SingleChildScrollView(controller: scrollController, child: Column(children: _buildSpace(),),)
-                    : Center(child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        TextButton(
-                            onPressed: onOpenClicked,
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Icon(Icons.add_circle),
-                                Container(width: 5, height: 5,),
-                                Text(M.general.open_json_file),
-                              ],
-                            )
-                          ),
-                        TextButton(
-                            onPressed: onOpenClipboardClicked,
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Icon(Icons.paste),
-                                Container(width: 5, height: 5,),
-                                Text(M.general.open_clipboard),
-                              ],
-                            )
-                          ),
-                      ],
-                    ),),
-            ),
-          ],
-        ),
+    return WillPopScope(
+      onWillPop: () async => AppDrawer.willPopFunc(scaffoldKey),
+      child: Scaffold(
+          key: scaffoldKey,
+          appBar: _buildBar(context) as PreferredSizeWidget?,
+          drawer: AppDrawer(selectedRoute: Routes.MAIN),
+          bottomNavigationBar: bar,
+          body: Stack(
+            children: [
+              Container(
+                width: MediaQuery.of(context).size.width,
+                padding: EdgeInsets.all(10.0),
+                child:
+                    (parser?.hasData() ?? false)
+                      ? SingleChildScrollView(controller: scrollController, child: Column(children: _buildSpace(),),)
+                      : Center(child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          TextButton(
+                              onPressed: onOpenClicked,
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(Icons.add_circle),
+                                  Container(width: 5, height: 5,),
+                                  Text(M.general.open_json_file),
+                                ],
+                              )
+                            ),
+                          TextButton(
+                              onPressed: onOpenClipboardClicked,
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(Icons.paste),
+                                  Container(width: 5, height: 5,),
+                                  Text(M.general.open_clipboard),
+                                ],
+                              )
+                            ),
+                        ],
+                      ),),
+              ),
+            ],
+          ),
+      ),
     );
   }
 
