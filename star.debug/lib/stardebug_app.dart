@@ -3,11 +3,10 @@ import 'dart:async';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:star_debug/pages/debug_data.dart';
 import 'package:star_debug/pages/live.dart';
 import 'package:star_debug/preloaded.dart';
 
-import 'messages/I18n.dart';
+import 'messages/i18n.dart';
 import 'routes.dart';
 import 'utils/log_utils.dart';
 

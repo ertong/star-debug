@@ -1,25 +1,18 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:ffi';
-import 'dart:io';
 
-import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart' hide Notification, Card, ConnectionState;
-import 'package:recase/recase.dart';
 import 'package:star_debug/controller/conn/connection.dart';
 import 'package:star_debug/controller/conn/grpc_connection.dart';
 import 'package:star_debug/drawer.dart';
-import 'package:star_debug/grpc/starlink/network.pbenum.dart';
 import 'package:star_debug/grpc/starlink/starlink.pb.dart';
-import 'package:star_debug/grpc/starlink/starlink.pbenum.dart';
-import 'package:star_debug/messages/I18n.dart';
+import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/pages/dialogs/save_debug_data.dart';
 import 'package:star_debug/pages/live/dish.dart';
 import 'package:star_debug/pages/live/general.dart';
 import 'package:star_debug/pages/live/online.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/routes.dart';
-import 'package:star_debug/space/entity.dart';
 import 'package:star_debug/utils/api_helper.dart';
 import 'package:star_debug/utils/debug_data.dart';
 import 'package:star_debug/utils/log_utils.dart';
@@ -246,7 +239,6 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
                       R.router?.wifiGetStatus.apiVersion
                   );
                   await showDialog<String>(context: context, builder: (c) {
-                    print(data);
                     return SaveDebugDataDialog(
                         data: JsonEncoder.withIndent("  ").convert(data),
                         uid: data["dish"]?["deviceInfo"]?["id"] ?? data["router"]?["deviceInfo"]?["id"]

@@ -1,13 +1,10 @@
-import 'dart:developer';
 import 'dart:io';
-import 'dart:convert';
 
 import 'package:clipboard/clipboard.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart' hide Notification, Card;
 import 'package:star_debug/drawer.dart';
-import 'package:star_debug/grpc/starlink/starlink.pb.dart';
-import 'package:star_debug/messages/I18n.dart';
+import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/pages/dialogs/save_debug_data.dart';
 import 'package:star_debug/pages/view/dish.dart';
 import 'package:star_debug/pages/view/router.dart';
@@ -17,7 +14,6 @@ import 'package:star_debug/space/entity.dart';
 import 'package:star_debug/space/obstructions.dart';
 import 'package:star_debug/space/space_parser.dart';
 import 'package:star_debug/utils/api_helper.dart';
-import 'package:star_debug/utils/debug_data.dart';
 import 'package:star_debug/utils/log_utils.dart';
 
 import '../utils/kv_widget.dart';
@@ -122,7 +118,7 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Icon(Icons.add_circle),
-                                  Container(width: 5, height: 5,),
+                                  SizedBox(width: 5, height: 5,),
                                   Text(M.general.open_json_file),
                                 ],
                               )
@@ -133,7 +129,7 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Icon(Icons.paste),
-                                  Container(width: 5, height: 5,),
+                                  SizedBox(width: 5, height: 5,),
                                   Text(M.general.open_clipboard),
                                 ],
                               )
@@ -181,7 +177,7 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
     if (parser.deviceApp!=null)
       pages.add(_Page("app", Icons.ad_units, M.general.device_app, entity: parser.deviceApp!));
 
-    if (!(parser.hasData() ?? false)){
+    if (!parser.hasData()){
       R.showSnackBarText(M.general.no_data_found);
     }
   }

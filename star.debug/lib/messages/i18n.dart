@@ -44,7 +44,7 @@ class I18n{
     onChange = _onChangeController.stream.asBroadcastStream();
   }
 
-  Future<void> init(BuildContext context) async {
+  Future<void> init() async {
     await checkSystemLang();
   }
 

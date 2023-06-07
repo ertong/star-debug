@@ -15,7 +15,7 @@ class Format {
 
   static String sec(int t){
     if (t<120)
-      return "${t} s";
+      return "$t s";
     else if (t<120*60)
       return "${t~/60} m ${t%60} s";
     else
@@ -24,7 +24,7 @@ class Format {
 
   static String secD(double t){
     if (t.isNaN || t.isInfinite)
-      return "${t}";
+      return "$t";
     if (t<2)
       return "${t.toStringAsFixed(3)} s";
     else if (t<60)

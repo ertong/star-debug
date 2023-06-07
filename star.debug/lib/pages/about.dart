@@ -1,19 +1,11 @@
-import 'dart:async';
-import 'dart:developer';
-import 'dart:convert';
 import 'dart:math';
 
-import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart' hide Notification, Card;
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:grpc/grpc.dart';
 import 'package:star_debug/drawer.dart';
-import 'package:star_debug/grpc/starlink/starlink.pbgrpc.dart';
-import 'package:star_debug/messages/I18n.dart';
+import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/routes.dart';
-import 'package:star_debug/utils/log_utils.dart';
-import 'package:star_debug/utils/obstructions.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 const String _TAG="AboutPage";

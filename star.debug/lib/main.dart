@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:star_debug/stardebug_app.dart';
 
 import 'loading.dart';
-import 'messages/I18n.dart';
+import 'messages/i18n.dart';
 import 'preloaded.dart';
 import 'utils/log_utils.dart';
 
@@ -34,7 +34,7 @@ void main() async {
       onInit: (context) async {
         try {
           await R.initialized.future;
-          await I18n.instance.init(context);
+          await I18n.instance.init();
           {
             //device pixels for logical pixel
             // double dpr = WidgetsBinding.instance.window.devicePixelRatio;

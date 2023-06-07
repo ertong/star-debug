@@ -1,7 +1,5 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:star_debug/messages/I18n.dart';
+import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/pages/dialogs/select_lang.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/routes.dart';
@@ -171,7 +169,7 @@ class _AppDrawerState extends State<AppDrawer> {
                               width: 50,
                             ),
                           ),
-                          Container(
+                          SizedBox(
                             width: constraints.maxWidth - 50-20-10,
                             child: Padding(
                                 padding: EdgeInsets.fromLTRB(15, 0, 0, 0),

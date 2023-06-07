@@ -1,10 +1,9 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:star_debug/messages/I18n.dart';
+import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/pages/debug_data.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -50,8 +49,8 @@ class _SaveDebugDataDialogState<TItem> extends State<SaveDebugDataDialog<TItem>>
         // ignore: avoid_slow_async_io
         if (!await directory.exists()) directory = await path_provider.getExternalStorageDirectory();
       }
-    } catch (err, stack) {
-      print("Cannot get download folder path");
+    } catch (e, s) {
+      LogUtils.ers(_TAG, "Cannot get download folder path", e, s);
     }
     return directory?.path;
   }

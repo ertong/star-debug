@@ -18,6 +18,7 @@ class LogUtils {
   }
 
   static void ers(String tag, String msg, dynamic ex, StackTrace stacktrace) {
+    // ignore: avoid_print
     print(stacktrace);
     logger.e("[$tag]: $msg", ex, stacktrace);
   }

@@ -6,7 +6,6 @@ import 'package:drift/native.dart';
 import 'package:drift/isolate.dart';
 import 'package:drift/drift.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:path/path.dart' as p;
 import 'package:star_debug/utils/log_utils.dart';
 
 import 'database.dart';
@@ -73,7 +72,7 @@ class DatabaseHolder {
     // the database path in the foreground isolate and then inform the
     // background isolate about the path.
     final dir = await getApplicationDocumentsDirectory();
-    final path = p.join(dir.path, 'sqlite.db');
+    final path = '${dir.path}/sqlite.db';
     LogUtils.d(_TAG, "Database path: $path");
     final receivePort = ReceivePort();
 

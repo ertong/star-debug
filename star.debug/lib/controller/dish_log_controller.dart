@@ -2,9 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:drift/drift.dart';
-import 'package:flutter/widgets.dart';
 import 'package:mutex/mutex.dart';
-import 'package:star_debug/controller/conn/connection.dart';
 import 'package:star_debug/db/database.dart';
 import 'package:star_debug/grpc/starlink/starlink.pb.dart';
 import 'package:star_debug/preloaded.dart';

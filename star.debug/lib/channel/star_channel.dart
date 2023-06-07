@@ -1,11 +1,14 @@
 import 'package:flutter/services.dart';
+import 'package:star_debug/utils/log_utils.dart';
+
+const String _TAG = "StarChannel";
 
 class StarChannel {
   final MethodChannel channel = MethodChannel('com.stardebug/channel');
 
   StarChannel() {
     channel.setMethodCallHandler((MethodCall call) async {
-      print("CALLED ${call.method} ${call.arguments}");
+      LogUtils.d(_TAG, "CALLED ${call.method} ${call.arguments}");
     });
   }
 
@@ -19,7 +22,7 @@ class StarChannel {
       'method': method,
       'resolveTo': resolveTo,
     });
-    return HttpTestResult(res!["code"], res!["body"]);
+    return HttpTestResult(res!["code"], res["body"]);
   }
 }
 

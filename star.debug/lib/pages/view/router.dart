@@ -1,13 +1,9 @@
-import 'dart:async';
 
 import 'package:flutter/material.dart' hide Notification, Card, ConnectionState;
 import 'package:recase/recase.dart';
-import 'package:star_debug/controller/conn/router_connection.dart';
 import 'package:star_debug/grpc/starlink/starlink.pbgrpc.dart';
-import 'package:star_debug/messages/I18n.dart';
+import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/pages/view/common.dart';
-import 'package:star_debug/preloaded.dart';
-import 'package:grpc/grpc.dart';
 import 'package:star_debug/utils/format.dart';
 import 'package:star_debug/utils/kv_widget.dart';
 

@@ -23,7 +23,7 @@ import 'package:star_debug/stardebug_app.dart';
 import 'package:star_debug/utils/log_utils.dart';
 import 'package:time_machine/time_machine.dart';
 
-import 'messages/I18n.dart';
+import 'messages/i18n.dart';
 import 'utils/shared_prefs.dart';
 
 late Preloaded R;
@@ -170,7 +170,7 @@ class LifecycleObserver extends WidgetsBindingObserver{
   }
 
   @override
-  void didChangeLocales(List<Locale>? locale) {
+  void didChangeLocales(List<Locale>? locales) {
 //    unawaited(R.firebaseController.log("ChangeLocales: $locale"));
   }
 

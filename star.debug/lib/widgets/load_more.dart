@@ -10,7 +10,7 @@ class LoadMore<TItem> extends StatefulWidget {
 
   final LoadMoreData<TItem>? Function()? dataBuilder;
 
-  LoadMore({Key? key, this.builder, this.dataBuilder}) : super(key: key);
+  const LoadMore({Key? key, this.builder, this.dataBuilder}) : super(key: key);
 
   @override
   LoadMoreState createState() => LoadMoreState<TItem>();
@@ -76,7 +76,7 @@ class LoadMoreState<TItem> extends State<LoadMore<TItem>> {
 
     _data = widget.dataBuilder!();
 
-    print("New LoadMoreState is created");
+    // print("New LoadMoreState is created");
     _load();
   }
 
@@ -100,7 +100,7 @@ class LoadMoreState<TItem> extends State<LoadMore<TItem>> {
 
   Future<void> _loadMore() async
   {
-    print("Load till $_loadTill");
+    // print("Load till $_loadTill");
 
     if (_isLoadingMore || _data!.noMore || _data!.loadMoreError)
       return;
@@ -114,7 +114,7 @@ class LoadMoreState<TItem> extends State<LoadMore<TItem>> {
     if (mounted)
       setState(() {
         if (_data!.noMore) {
-          print("Count was too large for some reason.");
+          // print("Count was too large for some reason.");
           _loadTill = _data!.items!.length-1;
         }
         else {

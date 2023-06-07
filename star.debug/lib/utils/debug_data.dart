@@ -36,8 +36,8 @@ class DebugDataHelper {
     if (type==pb.PbFieldType.OF || type==pb.PbFieldType.OD) { // float/double
       double i = (val is num) ? val.toDouble() : double.parse("$val");
       repeated
-          ? obj.getField(value.tagNumber).add(val.toDouble())
-          : obj.setField(value.tagNumber, val.toDouble());
+          ? obj.getField(value.tagNumber).add(i)
+          : obj.setField(value.tagNumber, i);
     }
 
     if (const [
@@ -83,7 +83,7 @@ class DebugDataHelper {
 
         if (e.value.isRepeated) {
           if (val is! List<dynamic>)
-            LogUtils.e(_TAG, "List expected for ${key} received ${val.runtimeType} ${val as List<dynamic>} AAA");
+            LogUtils.e(_TAG, "List expected for $key received ${val.runtimeType} ${val as List<dynamic>} AAA");
           else {
             var msg2 = obj.getField(e.value.tagNumber) as List;
             for (var item in val) {
@@ -103,7 +103,7 @@ class DebugDataHelper {
         _objSetVal(obj, e.value, val);
       }
       catch(ex,s){
-        LogUtils.ers(_TAG, "jsonToProto key ${key} val ${val} field ${e.value}", ex, s);
+        LogUtils.ers(_TAG, "jsonToProto key $key val $val field ${e.value}", ex, s);
       }
     }
 

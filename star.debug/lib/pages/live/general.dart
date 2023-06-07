@@ -6,7 +6,7 @@ import 'package:flutter/material.dart' hide Notification, Card, ConnectionState;
 import 'package:grpc/grpc.dart';
 import 'package:star_debug/grpc/starlink/network.pbenum.dart';
 import 'package:star_debug/grpc/starlink/starlink.pbgrpc.dart';
-import 'package:star_debug/messages/I18n.dart';
+import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/pages/dialogs/wifi_setup.dart';
 import 'package:star_debug/pages/live/dish.dart' show buildGraph;
 import 'package:star_debug/preloaded.dart';
@@ -103,7 +103,7 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
           String code = "${status.disablementCode}";
           bool ok = status.disablementCode == UtDisablementCode.OKAY;
           if (status.hasOutage() && status.outage.hasCause()) {
-            code = "${code}, ${status.outage.cause}";
+            code = "$code, ${status.outage.cause}";
             ok = false;
           }
           b1.kv(M.grpc.DishGetStatus.disablement_code, code, ok: ok);
@@ -115,7 +115,7 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
           Expanded(child: Column(crossAxisAlignment:CrossAxisAlignment.start, children: b1.widgets,))
         ],));
 
-        bool stowed = status.stowRequested || status.outage.cause == DishOutage_Cause.STOWED;
+        // bool stowed = status.stowRequested || status.outage.cause == DishOutage_Cause.STOWED;
         bool gpsInhibited = status.gpsStats.inhibitGps;
         b.widgets.add(Flex(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -189,31 +189,7 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
     return b.widgets;
   }
 
-  Widget _buildButton(String txt, IconData icon, Function()? onPressed,
-      {Color? btnColor, double width=75})
-  {
-    return OutlinedButton(
-      onPressed: onPressed,
-      style: ElevatedButton.styleFrom(
-          padding: EdgeInsets.fromLTRB(2, 5, 2, 5),
-          primary: btnColor,
-          minimumSize: Size(width, 50)
-      ),
-      child:Column(
-        children: <Widget>[
-          Icon(icon),
-          const SizedBox(height: 2.0),
-          Text(txt),
-        ],
-      ),
-    );
-  }
-
   Widget reqButton(String name, Request Function() reqBuilder, {bool router = false}){
-
-    // return _buildButton(name, Icons.add, () => null);
-
-
     return OutlinedButton(
       onPressed: loading.contains(name) ? null : () async {
         setState(() {

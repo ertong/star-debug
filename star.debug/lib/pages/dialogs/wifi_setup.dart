@@ -1,7 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:star_debug/messages/I18n.dart';
-import 'package:star_debug/preloaded.dart';
+import 'package:star_debug/messages/i18n.dart';
 
 class WifiSetupDialog extends StatefulWidget
 {
@@ -37,24 +36,18 @@ class _WifiSetupDialogState extends State<WifiSetupDialog>
         contentPadding: EdgeInsets.all(10.0),
         // actionsPadding: EdgeInsets.all(0.0),
 
-      title: Container(
-        // color: Colors.red,
-        child: Row(
-          children: [
-            Expanded(child: Text(M.wifi.setup_wifi)),
-            Container(
-              // color: Colors.green,
-              child: TextButton(
-                style: TextButton.styleFrom(
-                  padding: EdgeInsets.fromLTRB(0,0,0,0),
-                ) ,
-                onPressed: (){
-                    Navigator.pop(context, null);
-                }, child: Icon(Icons.close)
-              )
-            )
-          ],
-        ),
+      title: Row(
+        children: [
+          Expanded(child: Text(M.wifi.setup_wifi)),
+          TextButton(
+            style: TextButton.styleFrom(
+              padding: EdgeInsets.fromLTRB(0,0,0,0),
+            ) ,
+            onPressed: (){
+                Navigator.pop(context, null);
+            }, child: Icon(Icons.close)
+          )
+        ],
       ),
       content: Form(
         key: formKey,

@@ -39,6 +39,8 @@ dependencies:
   file_picker: any
   flex_list: 1.0.0
   grpc: 3.1.0
+  protobuf: any
+  fixnum: any
   dio: ^5.1.2
   syncfusion_flutter_charts: ^21.2.8
   recase: 4.1.0

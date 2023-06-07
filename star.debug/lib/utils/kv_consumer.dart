@@ -21,6 +21,7 @@ class KVConsumerCounter extends KVConsumer {
   int ok = 0;
   int notOk = 0;
 
+  @override
   void kvs(String k, String v, {bool? ok, String? hint}){
     if (ok==true)
       this.ok+=1;

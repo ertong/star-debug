@@ -3,17 +3,14 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:grpc/grpc.dart';
 import 'package:star_debug/channel/star_channel.dart';
 import 'package:star_debug/controller/conn/connection.dart';
-import 'package:star_debug/messages/I18n.dart';
+import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/preloaded.dart';
-import 'package:star_debug/space/entity.dart';
 import 'package:star_debug/utils/kv_consumer.dart';
 import 'package:star_debug/utils/log_utils.dart';
 import 'package:star_debug/utils/wait_notify.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:http/http.dart' as http;
 
 String _TAG = "OnlineConnection";
 
@@ -201,12 +198,12 @@ class HttpTest {
   int timeOk = 0;
   int latency = 0;
 
-  HttpTest(this.url, this.notify, {this.method = "OPTIONS"}) {}
+  HttpTest(this.url, this.notify, {this.method = "OPTIONS"});
 
   void trigger(){
     unawaited(()async{
       int tsStart = DateTime.now().millisecondsSinceEpoch;
-      var res = await httpOptions(url);
+      await httpOptions(url);
       latency = DateTime.now().millisecondsSinceEpoch - tsStart;
       notify();
     }());
@@ -218,7 +215,7 @@ class HttpTest {
         await doAndroid();
       else
         await doDio();
-    } catch (e,s){
+    } catch (e){
       // LogUtils.ers(_TAG, "$method $url", e, s);
       // LogUtils.e(_TAG, "$method $url: $e");
       LogUtils.e(_TAG, "$method $url: ${"$e".split("\n")[0]}");
@@ -257,7 +254,7 @@ class HttpTest {
       // print("$url: $resp");
       try{
         data = jsonDecode(res.body);
-      }catch(e,s){
+      }catch(e){
         data = res.body;
       }
       return true;

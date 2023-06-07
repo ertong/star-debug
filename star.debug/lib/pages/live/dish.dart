@@ -1,14 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart' hide Notification, Card, ConnectionState;
-import 'package:star_debug/grpc/starlink/network.pb.dart';
 import 'package:star_debug/grpc/starlink/starlink.pbgrpc.dart';
-import 'package:star_debug/messages/I18n.dart';
-import 'package:star_debug/pages/view/common.dart';
+import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/pages/view/dish.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:grpc/grpc.dart';
-import 'package:star_debug/utils/format.dart';
 import 'package:star_debug/utils/kv_widget.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -92,7 +89,7 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
 
     if (conn.dishGetStatus.data!=null && now-conn.dishGetStatus.receivedTime<5000) {
       DishGetStatusResponse status = conn.dishGetStatus.data!;
-      rows.add(DishWidget(status: status, features: {},));
+      rows.add(DishWidget(status: status, features: const {},));
 
       if (charts.isNotEmpty) {
         var b = KVWidgetBuilder(context, theme);

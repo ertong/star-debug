@@ -1,16 +1,13 @@
-import 'dart:async';
 
 import 'package:flutter/material.dart' hide Notification, Card, ConnectionState;
 import 'package:recase/recase.dart';
 import 'package:star_debug/grpc/starlink/network.pb.dart';
 import 'package:star_debug/grpc/starlink/starlink.pbgrpc.dart';
-import 'package:star_debug/messages/I18n.dart';
+import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/pages/view/common.dart';
 import 'package:star_debug/preloaded.dart';
-import 'package:grpc/grpc.dart';
 import 'package:star_debug/utils/format.dart';
 import 'package:star_debug/utils/kv_widget.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 
 const String _TAG="DishWidget";
 
@@ -234,7 +231,7 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
         for (var e in (states.info_.byName).entries) {
           var key = e.key;
           var val = states.getField(e.value.tagNumber) ?? false;
-          b.kv("${key} (${R.i18n.map["grpc.DishReadyStates.${key}"] ?? key})", "${val}", ok: val);
+          b.kv("$key (${R.i18n.map["grpc.DishReadyStates.$key"] ?? key})", "$val", ok: val);
         }
 
         if (b.widgets.length > 1) {

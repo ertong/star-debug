@@ -1,7 +1,6 @@
 // ignore_for_file: non_constant_identifier_names
 
-import 'package:star_debug/messages/I18n.dart';
-import 'package:star_debug/preloaded.dart';
+import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/space/app_data.dart';
 import 'package:star_debug/utils/kv_consumer.dart';
 
@@ -198,7 +197,7 @@ class DeviceSensors extends EntityModule {
       var sensorActive = sensorInfo['active'];
       var sensorAvailable = sensorInfo['available'];
 
-      var sensorStr = '${M.tabs.app.available}: ${sensorAvailable}  ${M.tabs.app.active}: ${sensorActive}';
+      var sensorStr = '${M.tabs.app.available}: $sensorAvailable  ${M.tabs.app.active}: $sensorActive';
 
       kv.kv(sensor, sensorStr);
     }

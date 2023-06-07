@@ -1,5 +1,4 @@
 // Generated file. DO NOT edit manually
-import 'package:star_debug/preloaded.dart';
 
 var dev_images = {
   'unknown': 'assets/images/devices/unknown_app.png',

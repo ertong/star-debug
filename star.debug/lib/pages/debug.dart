@@ -241,7 +241,7 @@ class _DebugPageState extends State<DebugPage> with TickerProviderStateMixin {
       });
     } catch(e,s){
       setState(() {
-        text = "${e} ${s}";
+        text = "$e $s";
       });
     }
   }

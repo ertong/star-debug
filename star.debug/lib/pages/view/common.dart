@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:star_debug/grpc/starlink/starlink.pb.dart';
-import 'package:star_debug/messages/I18n.dart';
+import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/utils/kv_widget.dart';
 import 'package:time_machine/time_machine.dart';
 

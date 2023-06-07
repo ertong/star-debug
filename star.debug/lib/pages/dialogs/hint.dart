@@ -3,7 +3,7 @@ import 'package:clipboard/clipboard.dart';
 import 'package:flex_list/flex_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:star_debug/messages/I18n.dart';
+import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/preloaded.dart';
 
 class HintDialog extends StatefulWidget
@@ -57,7 +57,7 @@ class _HintDialogState extends State<HintDialog>
     await FlutterClipboard.copy(v);
     R.showSnackBar(SnackBar(
       duration: Duration(seconds: 2),
-      content: Text("Copied: ${v}"),
+      content: Text("Copied: $v"),
     ));
   }
 

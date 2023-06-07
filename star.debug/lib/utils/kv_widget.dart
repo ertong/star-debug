@@ -22,7 +22,7 @@ class KVWidgetBuilder extends KVConsumer{
     await FlutterClipboard.copy(v);
     R.showSnackBar(SnackBar(
       duration: Duration(seconds: 2),
-      content: Text("Copied: ${v}"),
+      content: Text("Copied: $v"),
     ));
   }
 
@@ -73,6 +73,7 @@ class KVWidgetBuilder extends KVConsumer{
     ));
   }
 
+  @override
   void header(String name, {bool isAlert = false}){
     widgets.add(Padding(
       padding: const EdgeInsets.fromLTRB(0, 4, 0, 2),
