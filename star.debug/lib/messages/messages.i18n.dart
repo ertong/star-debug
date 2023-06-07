@@ -121,7 +121,11 @@ class MyMessages {
   String get snapshots => """Snapshots""";
   String delete_snapshot_prompt(id, ts) =>
       """Do you want to delete snapshot of dish $id for $ts?""";
+  String delete_all_snapshots_but_last_prompt(id) =>
+      """Do you want to delete ALL snapshot of dish $id but last?""";
   String delete_dish_prompt(id) => """Do you want to delete dish $id?""";
+  String get delete_all_dished_prompt =>
+      """Do you want to delete data for ALL dishes?""";
 }
 
 class AboutMessages {
@@ -601,6 +605,8 @@ Map<String, String> get messagesMap => {
       """general.confirmation""": """Confirmation""",
       """my.my_starlinks""": """My Starlinks""",
       """my.snapshots""": """Snapshots""",
+      """my.delete_all_dished_prompt""":
+          """Do you want to delete data for ALL dishes?""",
       """about.about""": """About""",
       """about.about_starlink_for_ukraine""": """About Narodnyi Starlink""",
       """about.starlink_for_ukraine""": """Narodnyi Starlink""",

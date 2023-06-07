@@ -49,7 +49,9 @@ my:
   my_starlinks: Мої Старлінки
   snapshots: Знімки
   delete_snapshot_prompt(id, ts): Чи бажаєте ви видалити знімок тарілки $id за $ts?
+  delete_all_snapshots_but_last_prompt(id): Ви бажаєте видалити ВСІ знімки для тарілки $id, крім останнього?
   delete_dish_prompt(id): Чи бажаєте ви видалити тарілку $id?
+  delete_all_dished_prompt: Бажаєте видалити дані ВСІХ тарілок?
 
 about:
   about: Про програму

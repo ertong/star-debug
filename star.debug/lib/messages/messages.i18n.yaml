@@ -50,7 +50,9 @@ my:
   my_starlinks: My Starlinks
   snapshots: Snapshots
   delete_snapshot_prompt(id, ts): Do you want to delete snapshot of dish $id for $ts?
+  delete_all_snapshots_but_last_prompt(id): Do you want to delete ALL snapshot of dish $id but last?
   delete_dish_prompt(id): Do you want to delete dish $id?
+  delete_all_dished_prompt: Do you want to delete data for ALL dishes?
 
 about:
   about: About

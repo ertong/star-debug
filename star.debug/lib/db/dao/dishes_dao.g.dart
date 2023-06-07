@@ -32,6 +32,15 @@ mixin _$DishesDaoMixin on DatabaseAccessor<Database> {
     );
   }
 
+  Future<int> deleteDishLogsButLast(String dishId) {
+    return customUpdate(
+      'DELETE FROM dish_logs WHERE dish_id = ?1 AND timestamp != (SELECT MAX(timestamp) FROM dish_logs WHERE dish_id = ?1)',
+      variables: [Variable<String>(dishId)],
+      updates: {dishLogs},
+      updateKind: UpdateKind.delete,
+    );
+  }
+
   Selectable<DishLog> getDishLog(int id) {
     return customSelect('SELECT * FROM dish_logs WHERE id = ?1', variables: [
       Variable<int>(id)

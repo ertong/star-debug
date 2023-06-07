@@ -4,6 +4,9 @@ getDish: SELECT * FROM dishes WHERE dish_id=:dishId;
 deleteDish: DELETE FROM dishes WHERE dish_id=:dishId;
 deleteDishLogs: DELETE FROM dish_logs WHERE dish_id=:dishId;
 
+deleteDishLogsButLast: DELETE FROM dish_logs WHERE dish_id=:dishId
+    AND timestamp!=(SELECT MAX(timestamp) FROM dish_logs WHERE dish_id=:dishId);
+
 getDishLog: SELECT * FROM dish_logs WHERE id=:id;
 hasDishLog: SELECT 1 FROM dish_logs WHERE dish_id=:dishId AND timestamp=:timestamp;
 getDishes(:fromDishId AS TEXT OR NULL):

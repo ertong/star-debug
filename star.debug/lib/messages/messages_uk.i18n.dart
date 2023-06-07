@@ -122,7 +122,11 @@ class MyMessagesUk extends MyMessages {
   String get snapshots => """Знімки""";
   String delete_snapshot_prompt(id, ts) =>
       """Чи бажаєте ви видалити знімок тарілки $id за $ts?""";
+  String delete_all_snapshots_but_last_prompt(id) =>
+      """Ви бажаєте видалити ВСІ знімки для тарілки $id, крім останнього?""";
   String delete_dish_prompt(id) => """Чи бажаєте ви видалити тарілку $id?""";
+  String get delete_all_dished_prompt =>
+      """Бажаєте видалити дані ВСІХ тарілок?""";
 }
 
 class AboutMessagesUk extends AboutMessages {
@@ -603,6 +607,8 @@ Map<String, String> get messagesUkMap => {
       """general.confirmation""": """Підтвердження""",
       """my.my_starlinks""": """Мої Старлінки""",
       """my.snapshots""": """Знімки""",
+      """my.delete_all_dished_prompt""":
+          """Бажаєте видалити дані ВСІХ тарілок?""",
       """about.about""": """Про програму""",
       """about.about_starlink_for_ukraine""": """Про Народний cтарлінк""",
       """about.starlink_for_ukraine""": """Народний старлінк""",

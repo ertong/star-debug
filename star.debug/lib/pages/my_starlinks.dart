@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:drift/drift.dart' show TableStatements;
 import 'package:flutter/material.dart' hide Notification, Card;
 import 'package:star_debug/db/dao/dishes_dao.dart';
 import 'package:star_debug/drawer.dart';
@@ -37,6 +38,7 @@ class _MyStarlinksPageState extends State<MyStarlinksPage> with TickerProviderSt
           var list = await R.db.dishesDao.getDishes(from?.row.dishId, 10).get();
           return list.map((e) => DishRow(e)).toList();
       },
+      onChange: () => setState(() {})
     );
   }
 
@@ -75,7 +77,27 @@ class _MyStarlinksPageState extends State<MyStarlinksPage> with TickerProviderSt
     return AppBar(
       title: Text(M.my.my_starlinks),
       centerTitle: true,
-      // actions: [],
+      actions: [
+        if (loadMoreData.items?.isNotEmpty ?? false)
+          TextButton(
+              onPressed: () async {
+                var res = await showDialog<bool>(context: context,
+                    builder: (c) { return ConfirmDialog(
+                        text: M.my.delete_all_dished_prompt,
+                        title: M.general.confirmation);
+                    }
+                );
+
+                if (res==true) {
+                  await R.db.dishLogs.deleteAll();
+                  await R.db.dishes.deleteAll();
+                  _refreshIndicatorKey.currentState?.show();
+                  setState(() {});
+                }
+              },
+              child: Icon(Icons.delete, color: Colors.white,)
+          ),
+      ],
     );
   }
 

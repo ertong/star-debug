@@ -27,17 +27,19 @@ class LoadMoreData<TItem>{
   int? fixedItemCount;
   bool noMore = false;
   bool loadMoreError = false;
+  void Function()? onChange;
 
   final Future<List<TItem>?> Function(LoadMoreData data, TItem? fromExclusive)?  callback;
 
-  LoadMoreData({this.callback});
+  LoadMoreData({this.callback, this.onChange});
 
   void remove(TItem item) {
     items?.remove(item);
   }
 
-  Future<void> load() async{
+  Future<void> load() async {
     items = await callback!(this, null);
+    onChange?.call();
   }
 
   Future<void> loadMore() async{
@@ -61,6 +63,7 @@ class LoadMoreData<TItem>{
       // noMore = true;
       loadMoreError = true;
     }
+    onChange?.call();
   }
 
 }

@@ -40,6 +40,7 @@ class _SnapshotsPageState extends State<SnapshotsPage> with TickerProviderStateM
           var list = await R.db.dishesDao.getDishLogs(from?.row.timestamp, widget.dishId, 10).get();
           return list.map((e) => DishLogRow(e)).toList();
       },
+      onChange: () => setState(() {})
     );
   }
 
@@ -77,14 +78,30 @@ class _SnapshotsPageState extends State<SnapshotsPage> with TickerProviderStateM
     return AppBar(
       title: Text(M.my.snapshots),
       centerTitle: true,
-      // actions: [],
+      actions: [
+        if ((loadMoreData.items?.length ?? 0) > 1)
+            TextButton(
+                onPressed: () async {
+                  var res = await showDialog<bool>(context: context,
+                      builder: (c) { return ConfirmDialog(
+                          text: M.my.delete_all_snapshots_but_last_prompt(widget.dishId),
+                          title: M.general.confirmation);
+                      }
+                  );
+
+                  if (res==true) {
+                    R.db.dishesDao.deleteDishLogsButLast(widget.dishId);
+                    // await loadMoreData.load();
+                    _refreshIndicatorKey.currentState?.show();
+                  }
+                },
+                child: Icon(Icons.delete, color: Colors.white,)
+            ),
+      ],
     );
   }
 
   Widget buildList(){
-//    return Center(
-//      child: Text(M.general.notifications),
-//    );
     return LoadMore<DishLogRow>(
       key: ValueKey("dish-list"),
       dataBuilder: ()=>loadMoreData,
