@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:star_debug/messages/I18n.dart';
+import 'package:star_debug/messages/i18n.dart';
 
 class ConfirmDialog<TItem> extends StatefulWidget
 {
