@@ -92,6 +92,7 @@ class _SnapshotsPageState extends State<SnapshotsPage> with TickerProviderStateM
                   if (res==true) {
                     R.db.dishesDao.deleteDishLogsButLast(widget.dishId);
                     // await loadMoreData.load();
+                    R.dishLog.invalidateOne(widget.dishId);
                     _refreshIndicatorKey.currentState?.show();
                   }
                 },
@@ -143,6 +144,7 @@ class _SnapshotsPageState extends State<SnapshotsPage> with TickerProviderStateM
 
         if (res==true) {
           R.db.dishLogs.deleteOne(log.row);
+          R.dishLog.invalidateOne(widget.dishId);
           return true;
         }
 

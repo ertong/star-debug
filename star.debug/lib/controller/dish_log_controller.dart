@@ -156,10 +156,10 @@ class DishLogController {
                 );
 
                 if (rec.dish==null) {
-                  rec.dish = await R.db.dishesDao.getDish(rec.dishId).getSingle();
+                  rec.dish = await R.db.dishesDao.getDish(rec.dishId).getSingleOrNull();
                   var latestLogId = rec.dish?.latestLogId;
                   if (latestLogId!=null)
-                    rec.dishLog = await R.db.dishesDao.getDishLog(latestLogId).getSingle();
+                    rec.dishLog = await R.db.dishesDao.getDishLog(latestLogId).getSingleOrNull();
                 }
 
                 var dishLog = rec.dishLog;
@@ -204,6 +204,18 @@ class DishLogController {
     } finally {
       isRunning = false;
     }
+  }
+
+  void invalidateAll() async {
+    await mutex.protect(() async {
+      this.latestRecord.clear();
+    });
+  }
+
+  void invalidateOne(String dishId) async {
+    await mutex.protect(() async {
+      this.latestRecord.remove(dishId);
+    });
   }
 
 }

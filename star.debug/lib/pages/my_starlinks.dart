@@ -91,6 +91,7 @@ class _MyStarlinksPageState extends State<MyStarlinksPage> with TickerProviderSt
                 if (res==true) {
                   await R.db.dishLogs.deleteAll();
                   await R.db.dishes.deleteAll();
+                  R.dishLog.invalidateAll();
                   _refreshIndicatorKey.currentState?.show();
                   setState(() {});
                 }
@@ -132,6 +133,7 @@ class _MyStarlinksPageState extends State<MyStarlinksPage> with TickerProviderSt
         if (res==true) {
           await R.db.dishesDao.deleteDishLogs(dish.row.dishId);
           await R.db.dishesDao.deleteDish(dish.row.dishId);
+          R.dishLog.invalidateOne(dish.row.dishId);
           return true;
         }
 
