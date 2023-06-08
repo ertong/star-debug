@@ -203,7 +203,6 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
   Widget _buildBar(BuildContext context) {
     return AppBar(
       actions: [
-          if (R.isDebug)
             TextButton(
                 onPressed: () async {
                   var msg = "";
