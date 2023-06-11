@@ -203,6 +203,7 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
   Widget _buildBar(BuildContext context) {
     return AppBar(
       actions: [
+        if (R.dish?.dishGetStatus.data!=null)
             TextButton(
                 onPressed: () async {
                   var msg = "";
@@ -228,8 +229,11 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
                 },
                 child: Icon(Icons.save, color: Colors.white,)
             ),
+        if (R.dish?.dishGetStatus.data!=null || R.router?.wifiGetStatus.data!=null)
           TextButton(
               onPressed: () async {
+                if (R.dish?.dishGetStatus.data==null && R.router?.wifiGetStatus.data==null)
+                  return;
                 try {
                   var data = DebugDataHelper.debugData(
                       R.dish?.dishGetStatus.data,
