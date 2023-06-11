@@ -73,6 +73,9 @@ class OnlineConnection extends BaseConnection {
     if (getOpendns.data!=null && now-getOpendns.timeOk < T_OK*2)
       myIp = getOpendns.data["ip"];
 
+    if (getIpify.data!=null && now-getIpify.timeOk < T_OK*2)
+      myIp = getIpify.data["ip"];
+
     if (lastIp=="" || lastIp!=myIp) {
       lastIp = myIp ?? "";
       needIfConfig = true;
@@ -102,6 +105,7 @@ class OnlineConnection extends BaseConnection {
     if (now - optGoogle.timeOk < T_OK) cntOk++; else cntNotOk++;
     if (now - optStarlink.timeOk < T_OK) cntOk++; else cntNotOk++;
     if (getOpendns.data is Map && now-getOpendns.timeOk < T_OK)  cntOk++; else cntNotOk++;
+    if (getIpify.data is Map && now-getIpify.timeOk < T_OK)  cntOk++; else cntNotOk++;
     if (getIfConfig.data is Map && !needIfConfig) cntOk++; else cntNotOk++;
 
     {
@@ -133,6 +137,7 @@ class OnlineConnection extends BaseConnection {
   late HttpTest optStarlink = HttpTest("https://starlink.com/", ()=>notify());
 
   late HttpTest getOpendns = HttpTest("https://myipv4.p1.opendns.com/get_my_ip", ()=>notify(), method: "GET");
+  late HttpTest getIpify = HttpTest("https://api.ipify.org?format=json", ()=>notify(), method: "GET");
   late HttpTest getIfConfig = HttpTest("https://ifconfig.co/json", ()=>notify(), method: "GET");
 
   Future tick() async {
@@ -146,6 +151,7 @@ class OnlineConnection extends BaseConnection {
       optGoogle6.trigger();
       optStarlink.trigger();
       getOpendns.trigger();
+      getIpify.trigger();
 
       if (needIfConfig)
         getIfConfig.trigger();
@@ -169,6 +175,11 @@ class OnlineConnection extends BaseConnection {
       b.kv("OpenDNS", getOpendns.data?["ip"] ?? "", ok: true);
     else
       b.kvs("OpenDNS", "", ok: false);
+
+    if (getIpify.data is Map && now-getIpify.timeOk < T_OK)
+      b.kv("ipify.org", getIpify.data?["ip"] ?? "", ok: true);
+    else
+      b.kvs("ipify.org", "", ok: false);
 
     if (getIfConfig.data is Map && !needIfConfig) {
       var data = getIfConfig.data as Map;
