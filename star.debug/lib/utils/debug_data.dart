@@ -123,6 +123,9 @@ class DebugDataHelper {
       Map<String, dynamic> res = {};
       for (var e in msg.info_.byName.entries) {
         var key = e.key.camelCase;
+        int type = e.value.type & 0xFFFFF8;
+        if (!msg.hasField(e.value.tagNumber) && type!=pb.PbFieldType.OB)
+          continue;
         var val = msg.getField(e.value.tagNumber);
         val = protoToJson(val);
 
