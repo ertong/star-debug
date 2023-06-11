@@ -74,6 +74,7 @@ message Request {
         .SpaceX.API.Device.WifiSetAviationConformedRequest wifi_set_aviation_conformed = 3016;
         .SpaceX.API.Device.WifiSetClientGivenNameRequest wifi_set_client_given_name = 3017;
         .SpaceX.API.Device.WifiSelfTestRequest wifi_self_test = 3018;
+        .SpaceX.API.Device.WifiCalibrationModeRequest wifi_calibration_mode = 3019;
         .SpaceX.API.Device.TransceiverIFLoopbackTestRequest transceiver_if_loopback_test = 4001;
         .SpaceX.API.Device.TransceiverGetStatusRequest transceiver_get_status = 4003;
         .SpaceX.API.Device.TransceiverGetTelemetryRequest transceiver_get_telemetry = 4004;
@@ -410,8 +411,8 @@ message WifiSetConfigRequest {
 
 //SpaceX.API.Device.WifiConfig is a message:
 message WifiConfig {
-    string network_name = 1 [deprecated = true];
-    string network_password = 2 [deprecated = true];
+    string network_name = 1;
+    string network_password = 2;
     string country_code = 3;
     string lan_ipv4 = 5 [deprecated = true];
     bool setup_complete = 7;
@@ -463,6 +464,7 @@ message WifiConfig {
     .SpaceX.API.Device.TxPowerLevel tx_power_level_2ghz = 70;
     .SpaceX.API.Device.TxPowerLevel tx_power_level_5ghz = 71;
     .SpaceX.API.Device.TxPowerLevel tx_power_level_5ghz_high = 72;
+    bool disable_pending_update_reboot = 73;
     bool apply_network_name = 1001 [deprecated = true];
     bool apply_network_password = 1002 [deprecated = true];
     bool apply_wifi_security = 1004 [deprecated = true];
@@ -503,6 +505,10 @@ message WifiConfig {
     bool apply_tx_power_level_2ghz = 1082;
     bool apply_tx_power_level_5ghz = 1083;
     bool apply_tx_power_level_5ghz_high = 1084;
+    bool apply_country_code = 1085;
+    bool apply_pin_country_code = 1086;
+    bool apply_custom_power_table = 1087;
+    bool apply_disable_pending_update_reboot = 1088;
     repeated .SpaceX.API.Device.WifiConfig.Network networks = 1100;
     bool apply_networks = 1101;
     .SpaceX.API.Device.BootInfo boot = 3001;
@@ -718,6 +724,10 @@ message WifiSetClientGivenNameRequest {
 
 //SpaceX.API.Device.WifiSelfTestRequest is a message:
 message WifiSelfTestRequest {
+}
+
+//SpaceX.API.Device.WifiCalibrationModeRequest is a message:
+message WifiCalibrationModeRequest {
 }
 
 //SpaceX.API.Device.TransceiverIFLoopbackTestRequest is a message:
@@ -1139,6 +1149,9 @@ message DishGetStatusResponse {
     bool is_snr_persistently_low = 1022;
     .SpaceX.API.Device.HasActuators has_actuators = 1023;
     .SpaceX.API.Satellites.Network.UtDisablementCode disablement_code = 1024;
+    bool has_signed_cals = 1025;
+    .SpaceX.API.Device.SoftwareUpdateStats software_update_stats = 1026;
+    .SpaceX.API.Device.AlignmentStats alignment_stats = 1027;
     .SpaceX.API.Device.DishConfig config = 2000;
     reserved 1001, 1006, 1013;
 }
@@ -1249,6 +1262,47 @@ enum HasActuators {
     HAS_ACTUATORS_UNKNOWN = 0;
     HAS_ACTUATORS_YES = 1;
     HAS_ACTUATORS_NO = 2;
+}
+
+//SpaceX.API.Device.SoftwareUpdateStats is a message:
+message SoftwareUpdateStats {
+    .SpaceX.API.Device.SoftwareUpdateState software_update_state = 1;
+    float software_update_progress = 2;
+}
+
+//SpaceX.API.Device.AlignmentStats is a message:
+message AlignmentStats {
+    .SpaceX.API.Device.HasActuators has_actuators = 1;
+    .SpaceX.API.Device.ActuatorState actuator_state = 2;
+    float tilt_angle_deg = 3;
+    float boresight_azimuth_deg = 4;
+    float boresight_elevation_deg = 5;
+    .SpaceX.API.Device.AttitudeEstimationState attitude_estimation_state = 6;
+    float attitude_uncertainty_deg = 7;
+}
+
+//SpaceX.API.Device.ActuatorState is an enum:
+enum ActuatorState {
+    ACTUATOR_STATE_IDLE = 0;
+    ACTUATOR_STATE_FULL_TILT = 1;
+    ACTUATOR_STATE_ROTATE = 2;
+    ACTUATOR_STATE_TILT = 3;
+    ACTUATOR_STATE_UNWRAP_POSITIVE = 4;
+    ACTUATOR_STATE_UNWRAP_NEGATIVE = 5;
+    ACTUATOR_STATE_TILT_TO_STOWED = 6;
+    ACTUATOR_STATE_FAULTED = 7;
+    ACTUATOR_STATE_WAIT_TIL_STATIC = 8;
+    ACTUATOR_STATE_DRIVE_TO_MOBILE_POSITION = 9;
+    ACTUATOR_STATE_MOBILE_WAIT = 10;
+}
+
+//SpaceX.API.Device.AttitudeEstimationState is an enum:
+enum AttitudeEstimationState {
+    FILTER_RESET = 0;
+    FILTER_UNCONVERGED = 1;
+    FILTER_CONVERGED = 2;
+    FILTER_FAULTED = 3;
+    FILTER_INVALID = 4;
 }
 
 //SpaceX.API.Device.DishAuthenticateResponse is a message:
@@ -1796,6 +1850,7 @@ message Event {
         .SpaceX.API.Device.WifiNewClientConnectedEvent wifi_new_client_connected = 3001;
         .SpaceX.API.Device.WifiAccountBondingEvent wifi_account_bonding = 3002;
         .SpaceX.API.Device.WifiNewPeerEvent wifi_new_peer = 3003;
+        .SpaceX.API.Device.WifiCloudStatusEvent wifi_cloud_status = 3004;
     }
 }
 
@@ -1814,4 +1869,10 @@ message WifiAccountBondingEvent {
 //SpaceX.API.Device.WifiNewPeerEvent is a message:
 message WifiNewPeerEvent {
     string peer_id = 1;
+}
+
+//SpaceX.API.Device.WifiCloudStatusEvent is a message:
+message WifiCloudStatusEvent {
+    bool direct_link_to_dish = 1;
+    string hardware_version = 2;
 }

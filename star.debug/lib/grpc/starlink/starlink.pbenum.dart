@@ -272,6 +272,60 @@ class HasActuators extends $pb.ProtobufEnum {
   const HasActuators._($core.int v, $core.String n) : super(v, n);
 }
 
+class ActuatorState extends $pb.ProtobufEnum {
+  static const ActuatorState ACTUATOR_STATE_IDLE = ActuatorState._(0, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'ACTUATOR_STATE_IDLE');
+  static const ActuatorState ACTUATOR_STATE_FULL_TILT = ActuatorState._(1, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'ACTUATOR_STATE_FULL_TILT');
+  static const ActuatorState ACTUATOR_STATE_ROTATE = ActuatorState._(2, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'ACTUATOR_STATE_ROTATE');
+  static const ActuatorState ACTUATOR_STATE_TILT = ActuatorState._(3, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'ACTUATOR_STATE_TILT');
+  static const ActuatorState ACTUATOR_STATE_UNWRAP_POSITIVE = ActuatorState._(4, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'ACTUATOR_STATE_UNWRAP_POSITIVE');
+  static const ActuatorState ACTUATOR_STATE_UNWRAP_NEGATIVE = ActuatorState._(5, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'ACTUATOR_STATE_UNWRAP_NEGATIVE');
+  static const ActuatorState ACTUATOR_STATE_TILT_TO_STOWED = ActuatorState._(6, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'ACTUATOR_STATE_TILT_TO_STOWED');
+  static const ActuatorState ACTUATOR_STATE_FAULTED = ActuatorState._(7, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'ACTUATOR_STATE_FAULTED');
+  static const ActuatorState ACTUATOR_STATE_WAIT_TIL_STATIC = ActuatorState._(8, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'ACTUATOR_STATE_WAIT_TIL_STATIC');
+  static const ActuatorState ACTUATOR_STATE_DRIVE_TO_MOBILE_POSITION = ActuatorState._(9, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'ACTUATOR_STATE_DRIVE_TO_MOBILE_POSITION');
+  static const ActuatorState ACTUATOR_STATE_MOBILE_WAIT = ActuatorState._(10, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'ACTUATOR_STATE_MOBILE_WAIT');
+
+  static const $core.List<ActuatorState> values = <ActuatorState> [
+    ACTUATOR_STATE_IDLE,
+    ACTUATOR_STATE_FULL_TILT,
+    ACTUATOR_STATE_ROTATE,
+    ACTUATOR_STATE_TILT,
+    ACTUATOR_STATE_UNWRAP_POSITIVE,
+    ACTUATOR_STATE_UNWRAP_NEGATIVE,
+    ACTUATOR_STATE_TILT_TO_STOWED,
+    ACTUATOR_STATE_FAULTED,
+    ACTUATOR_STATE_WAIT_TIL_STATIC,
+    ACTUATOR_STATE_DRIVE_TO_MOBILE_POSITION,
+    ACTUATOR_STATE_MOBILE_WAIT,
+  ];
+
+  static final $core.Map<$core.int, ActuatorState> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static ActuatorState? valueOf($core.int value) => _byValue[value];
+
+  const ActuatorState._($core.int v, $core.String n) : super(v, n);
+}
+
+class AttitudeEstimationState extends $pb.ProtobufEnum {
+  static const AttitudeEstimationState FILTER_RESET = AttitudeEstimationState._(0, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'FILTER_RESET');
+  static const AttitudeEstimationState FILTER_UNCONVERGED = AttitudeEstimationState._(1, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'FILTER_UNCONVERGED');
+  static const AttitudeEstimationState FILTER_CONVERGED = AttitudeEstimationState._(2, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'FILTER_CONVERGED');
+  static const AttitudeEstimationState FILTER_FAULTED = AttitudeEstimationState._(3, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'FILTER_FAULTED');
+  static const AttitudeEstimationState FILTER_INVALID = AttitudeEstimationState._(4, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'FILTER_INVALID');
+
+  static const $core.List<AttitudeEstimationState> values = <AttitudeEstimationState> [
+    FILTER_RESET,
+    FILTER_UNCONVERGED,
+    FILTER_CONVERGED,
+    FILTER_FAULTED,
+    FILTER_INVALID,
+  ];
+
+  static final $core.Map<$core.int, AttitudeEstimationState> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static AttitudeEstimationState? valueOf($core.int value) => _byValue[value];
+
+  const AttitudeEstimationState._($core.int v, $core.String n) : super(v, n);
+}
+
 class TransceiverModulatorState extends $pb.ProtobufEnum {
   static const TransceiverModulatorState MODSTATE_UNKNOWN = TransceiverModulatorState._(0, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'MODSTATE_UNKNOWN');
   static const TransceiverModulatorState MODSTATE_ENABLED = TransceiverModulatorState._(1, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'MODSTATE_ENABLED');
