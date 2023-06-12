@@ -46,6 +46,7 @@ class StarDebugAppState extends State<StarDebugApp>
         : ThemeData.light(useMaterial3: false);
 
     theme = theme.copyWith(
+      //https://stackoverflow.com/questions/75698363/why-different-paddings-on-mobile-and-desktop-flutter-platforms
       materialTapTargetSize: MaterialTapTargetSize.padded,
     );
 
