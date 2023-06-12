@@ -198,7 +198,7 @@ class DishLogController {
         }
         catch (e, s) {
           LogUtils.ers(_TAG, "", e, s);
-          await Future.delayed(Duration(seconds: 1));
+          await Future.delayed(Duration(seconds: 5));
         }
       }
     } finally {
