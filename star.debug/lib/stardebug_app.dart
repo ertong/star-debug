@@ -41,7 +41,14 @@ class StarDebugAppState extends State<StarDebugApp>
 
   @override
   Widget build(BuildContext context) {
-    // var theme = ThemeData.light();
+    var theme = R.prefs.data.darkMode
+        ? ThemeData.dark(useMaterial3: false)
+        : ThemeData.light(useMaterial3: false);
+
+    theme = theme.copyWith(
+      materialTapTargetSize: MaterialTapTargetSize.padded,
+    );
+
     return MaterialApp(
       scaffoldMessengerKey: R.scaffoldMessengerKey,
       localizationsDelegates: const [
@@ -57,9 +64,7 @@ class StarDebugAppState extends State<StarDebugApp>
 
       onGenerateTitle: (BuildContext context) => M.general.app_name,
 
-      theme: R.prefs.data.darkMode
-          ? ThemeData.dark(useMaterial3: false)
-          : ThemeData.light(useMaterial3: false),
+      theme: theme,
 
       navigatorObservers: [
         if (R.analytics!=null)
