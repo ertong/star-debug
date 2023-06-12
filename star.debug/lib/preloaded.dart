@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -46,7 +47,7 @@ class Preloaded{
 
   late StarChannel starChannel;
 
-  late FirebaseAnalytics analytics;
+  FirebaseAnalytics? analytics;
 
   late DishLogController dishLog = DishLogController();
 
@@ -79,27 +80,41 @@ class Preloaded{
 
     futs.add(() async {
       try {
-        await TimeMachine.initialize({
-          "rootBundle": rootBundle,
-          'timeZone': await FlutterTimezone.getLocalTimezone(),
-        });
+        if (Platform.isAndroid || Platform.isIOS) {
+          await TimeMachine.initialize({
+            "rootBundle": rootBundle,
+            'timeZone': await FlutterTimezone.getLocalTimezone(),
+          });
+        } else {
+          var offset = DateTime.now().timeZoneOffset;
+          var min = offset.inMinutes.abs();
+          var tzName = "UTC${offset.isNegative?"-":"+"}${(min/60).toStringAsFixed(0).padLeft(2,"0")}:${(min%60).toString().padLeft(2,"0")}";
+          await TimeMachine.initialize({
+            "rootBundle": rootBundle,
+            'timeZone': tzName,
+          });
+        }
+
       } catch (e, s) {
         LogUtils.ers(_TAG, "", e, s);
       }
     } ());
 
-    futs.add(() async {
-      await Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform,
-      );
-      FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
-      PlatformDispatcher.instance.onError = (error, stack) {
-        FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
-        return true;
-      };
-      FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(!isDebug);
-      FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(!isDebug);
-    } ());
+    if (Platform.isAndroid || Platform.isIOS)
+      futs.add(() async {
+        await Firebase.initializeApp(
+          options: DefaultFirebaseOptions.currentPlatform,
+        );
+        FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+        PlatformDispatcher.instance.onError = (error, stack) {
+          FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+          return true;
+        };
+        FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(!isDebug);
+        FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(!isDebug);
+        analytics = FirebaseAnalytics.instance;
+
+      } ());
 
     futs.add(() async {
 
@@ -117,7 +132,6 @@ class Preloaded{
 
     await Future.wait(futs);
 
-    analytics = FirebaseAnalytics.instance;
     conn = ConnController();
 
     dishHolder = conn.newHolder((notifyStream) => DishConnection(notifyStream: notifyStream));

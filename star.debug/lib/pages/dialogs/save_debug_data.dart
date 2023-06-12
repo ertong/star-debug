@@ -47,7 +47,11 @@ class _SaveDebugDataDialogState<TItem> extends State<SaveDebugDataDialog<TItem>>
         directory = Directory('/storage/emulated/0/Download');
         // Put file in global download folder, if for an unknown reason it didn't exist, we fallback
         // ignore: avoid_slow_async_io
-        if (!await directory.exists()) directory = await path_provider.getExternalStorageDirectory();
+        if (!await directory.exists())
+          if (Platform.isAndroid)
+            directory = await path_provider.getExternalStorageDirectory();
+          else
+            directory = await path_provider.getDownloadsDirectory();
       }
     } catch (e, s) {
       LogUtils.ers(_TAG, "Cannot get download folder path", e, s);

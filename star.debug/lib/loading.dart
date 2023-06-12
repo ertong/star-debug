@@ -1,4 +1,5 @@
 import 'dart:math' as math;
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 
@@ -42,7 +43,7 @@ class _LoadingState extends State<Loading> {
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Image.asset("assets/images/logo_transparent.png", width: constraints.maxWidth*3/4,),
+                            Image.asset("assets/images/logo_transparent.png", width: min(constraints.maxWidth*3/4, constraints.maxHeight/2),),
                             SizedBox(height: 40,),
                             Image(
                               image: AssetImage('assets/images/starlinkforukraine.png'),

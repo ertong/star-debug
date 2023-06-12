@@ -62,6 +62,7 @@ void main() async {
     ));
   }, (error, stack) {
     LogUtils.ers("UNCATCHED", "", error, stack);
-    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    if (Platform.isIOS || Platform.isAndroid)
+      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
   });
 }

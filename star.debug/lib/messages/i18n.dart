@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:devicelocale/devicelocale.dart';
 import 'package:flutter/cupertino.dart';
@@ -49,6 +50,9 @@ class I18n{
   }
 
   Future<String?> getSystemLang() async {
+    if (!Platform.isAndroid && !Platform.isIOS)
+      return "en";
+
     var pref = await Devicelocale.preferredLanguages ?? [];
     var current = await Devicelocale.currentLocale ?? "en";
 

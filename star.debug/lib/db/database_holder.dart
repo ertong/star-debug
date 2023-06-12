@@ -71,7 +71,12 @@ class DatabaseHolder {
     // getApplicationDocumentsDirectory on a background isolate, we calculate
     // the database path in the foreground isolate and then inform the
     // background isolate about the path.
-    final dir = await getApplicationDocumentsDirectory();
+
+    final dir = Platform.isWindows || Platform.isMacOS || Platform.isLinux
+    // ? File(Platform.script.toFilePath()).parent
+        ? await getApplicationSupportDirectory()
+        : await getApplicationDocumentsDirectory();
+
     final path = '${dir.path}/sqlite.db';
     LogUtils.d(_TAG, "Database path: $path");
     final receivePort = ReceivePort();

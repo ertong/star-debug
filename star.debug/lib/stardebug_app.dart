@@ -62,7 +62,8 @@ class StarDebugAppState extends State<StarDebugApp>
           : ThemeData.light(useMaterial3: false),
 
       navigatorObservers: [
-        FirebaseAnalyticsObserver(analytics: R.analytics),
+        if (R.analytics!=null)
+          FirebaseAnalyticsObserver(analytics: R.analytics!),
         _MyNavigatorObserver(),
       ],
       onGenerateRoute: Routes.generateRoute,
