@@ -47,6 +47,7 @@ dependencies:
   mutex: 3.0.1
   flutter_markdown: ^0.6.15
   url_launcher: 6.1.11
+  flutter_email_sender: ^6.0.0
 
 dev_dependencies:
   flutter_test:

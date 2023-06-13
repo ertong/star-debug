@@ -1,6 +1,9 @@
+import 'dart:io';
 import 'dart:math';
 
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart' hide Notification, Card;
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:star_debug/drawer.dart';
 import 'package:star_debug/messages/i18n.dart';
@@ -89,11 +92,49 @@ class _AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
     ));
 
     res.add(ListTile(
-        leading: Icon(Icons.code),
-        title: Text(M.about.project_on_github),
-        onTap: () {
-          launchUrl(Uri.parse("https://github.com/ertong/star-debug"));
-        },
+      leading: Icon(Icons.code),
+      title: Text(M.about.project_on_github),
+      onTap: () {
+        launchUrl(Uri.parse("https://github.com/ertong/star-debug"));
+      },
+    ));
+
+    res.add(ListTile(
+      leading: Icon(Icons.copyright),
+      title: Text("© Ihor Lytvynenko, 2023"),
+      subtitle: Text("stardebug@ert.org.ua"),
+      onTap: () async {
+        // launchUrl(Uri.parse("https://github.com/ertong/star-debug"));
+
+        DeviceInfoPlugin di = DeviceInfoPlugin();
+
+        String body = 'App version: ${R.versionName}\n';
+
+
+        if (Platform.isAndroid){
+          var info = await di.androidInfo;
+          body = "$body"
+            "Platform: Android ${info.version.release} sdk ${info.version.sdkInt} patch ${info.version.securityPatch}\n"
+            "Device: ${info.manufacturer} ${info.model} ${info.board} ${info.brand} ${info.device}\n";
+        } else if (Platform.isIOS){
+          var info = await di.iosInfo;
+          body = "$body"
+              "Platform: iOS ${info.systemName} ${info.systemVersion} \n"
+              "Device: ${info.model} ${info.name}\n";
+        } else {
+          body = "$body"
+            'Platform: ${Platform.operatingSystem} ${Platform.operatingSystemVersion}\n';
+        }
+
+        final Email email = Email(
+          body: "$body\n",
+          recipients: ['stardebug@ert.org.ua'],
+          isHTML: false,
+        );
+
+        await FlutterEmailSender.send(email);
+
+      },
     ));
 
     return res;

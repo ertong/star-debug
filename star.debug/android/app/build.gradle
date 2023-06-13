@@ -91,6 +91,9 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:31.0.0')
     implementation("com.squareup.okhttp3:okhttp:4.10.0")
     implementation("com.squareup.okhttp3:okhttp-dnsoverhttps:4.10.0")
+
+    // https://gist.github.com/danielcshn/7aa57155d766d46c043fde015f054d40
+    implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))
 }
 
 //apply plugin: 'com.google.firebase.crashlytics'
