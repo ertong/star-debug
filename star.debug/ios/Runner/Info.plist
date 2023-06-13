@@ -51,5 +51,7 @@
     <string>The app does not use this permission.</string>
     <key>ITSAppUsesNonExemptEncryption</key>
     <false/>
+	<key>FLTEnableImpeller</key> <!-- https://github.com/flutter/flutter/issues/126768 -->
+    <false />
 </dict>
 </plist>
