@@ -24,7 +24,7 @@ class OnlineConnection extends BaseConnection {
 
   bool isClosed = false;
 
-  PooledRequest<dynamic> pooledOptions = PooledRequest(2000);
+  PooledRequest<dynamic> pooledOptions = PooledRequest(3000);
 
   // OptionsTest optGoogle = OptionsTest("https://8.8.8.8");
 
@@ -240,8 +240,8 @@ class HttpTest {
     var resp = await dio.request(url,
         cancelToken: token,
         options: Options(
-            sendTimeout: Duration(seconds: 1),
-            receiveTimeout: Duration(seconds: 1),
+            sendTimeout: Duration(seconds: 2),
+            receiveTimeout: Duration(seconds: 4),
             method: method,
             followRedirects: false,
             validateStatus: (s) => s!=null
