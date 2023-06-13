@@ -142,13 +142,32 @@ class _AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
           'Platform: ${Platform.operatingSystem} ${Platform.operatingSystemVersion}\n';
     }
 
-    final Email email = Email(
-      body: "$body\n",
-      recipients: ['stardebug@ert.org.ua'],
-      isHTML: false,
-    );
+    if (Platform.isAndroid || Platform.isIOS) {
+      final Email email = Email(
+        body: "$body\n",
+        recipients: ['stardebug@ert.org.ua'],
+        isHTML: false,
+      );
 
-    await FlutterEmailSender.send(email);
+      await FlutterEmailSender.send(email);
+    } else {
+      final Uri uri = Uri(
+        scheme: 'mailto',
+        path: 'stardebug@ert.org.ua',
+        query: encodeQueryParameters(<String, String>{
+          'subject': body,
+        }),
+      );
+
+      launchUrl(uri);
+    }
+  }
+
+  String? encodeQueryParameters(Map<String, String> params) {
+    return params.entries
+        .map((MapEntry<String, String> e) =>
+    '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
+        .join('&');
   }
 
   Widget _buildBar(BuildContext context) {
