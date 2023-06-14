@@ -2,11 +2,14 @@
 
 ## Star Debug
 
-Mobile app for Android to make it easier to handle your Starlink.
+Star Debug is an alternative tool to manage your Starlink devices.
 
-It can:
-- Decode Starlink debug data.
-- Show online data from connected Starlink
+Currently, it supports:
+- Decode and view DebugData json copied (or saved to file) from the official Starlink app or web panel.
+- Initiate basic operations with the dish: Reboot/Stow/Unstow/GPSon/off and with the router: reboot and basic wifi setup (if applicable).
+- View telemetry available in DebugData, but updated from Starlink online: statuses, alerts, basic stats, current configurations, etc.
+- Create and share DebugData-compatible json data.
+- Check the internet connection in place within the app.
 
 More projects on Starlink monitoring:
 - Python UI to view Debug Data: https://github.com/olegkutkov/Space-Debugger
@@ -42,3 +45,8 @@ For those who care about and failed to verify a particular build,
 you can always build the app for yourself from the source code from this repository. 
 The steps described in [the instructions](_build/reproducible/reproducible_builds.md) mentioned above, 
 will help you to build your own binary. 
+
+### About Narodnyi Starlink
+
+This application was created as part of the volunteer initiative "Narodnyi Starlink" for the needs of people who care about the availability of communications
+even in the places where the russia tries to turn cities into ashes.
