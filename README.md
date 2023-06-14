@@ -48,5 +48,5 @@ will help you to build your own binary.
 
 ### About Narodnyi Starlink
 
-This application was created as part of the volunteer initiative "Narodnyi Starlink" for the needs of people who care about the availability of communications
+This application was created as a part of the volunteer initiative "Narodnyi Starlink" for the needs of people who care about the availability of communications
 even in the places where the russia tries to turn cities into ashes.
