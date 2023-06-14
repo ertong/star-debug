@@ -1,4 +1,4 @@
-image: respo/android-runner:cirrus-3.10.3-api33
+image: respo/flutter:3.10.5-api33
 
 variables:
   PUB_CACHE: ${CI_PROJECT_DIR}/.cache/.pub-cache
