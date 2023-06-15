@@ -72,6 +72,7 @@ class _HintDialogState extends State<HintDialog>
       child: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             InkWell(
               onTap: () async {

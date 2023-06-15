@@ -170,12 +170,12 @@ grpc:
     aap: Цифрові формувачі променя
     rf: RF front end
   DishConfig:
-    snow_melt_mode: snow_melt_mode
-    location_request_mode: location_request_mode
-    level_dish_mode: level_dish_mode
-    power_save_start_minutes: power_save_start_minutes
-    power_save_duration_minutes: power_save_duration_minutes
-    power_save_mode: power_save_mode
+    snow_melt_mode: Snow melt mode
+    location_request_mode: Location request mode
+    level_dish_mode: Level dish mode
+    power_save_start_minutes: Power save start minutes
+    power_save_duration_minutes: Power save duration minutes
+    power_save_mode: Power save mode
   DishObstructionStats:
     fraction_obstructed: Частка часу с перешкодами
     valid_s: Time valid
@@ -187,9 +187,7 @@ grpc:
     patches_valid: Patches valid
   DishGetStatus:
     uptime_s: Час після завантаження
-    uptime_s__hint: 'Час роботи тарілки від останнього перезавантаження.
-
-      '
+    uptime_s__hint: 'Час роботи тарілки від останнього перезавантаження.'
     seconds_to_first_nonempty_slot: Час до першого непорожнього слота
     pop_ping_drop_rate: PoP ping drop rate
     fraction_obstructed: Частка часу с перешкодами
@@ -208,12 +206,28 @@ grpc:
     boresight_elevation_deg: Кут підйому панелі, град
     eth_speed_mbps: Швидкість Ethernet
     mobility_class: Клас мобільності
+    mobility_class__hint: |
+      Можливі варіанти:
+      
+      - **STATIONARY**
+      - **NOMADIC**
+      - **MOBILE**
     is_snr_above_noise_floor: SNR вище за рівень шуму
     class_of_service: Клас сервісу
     software_update_state: Стан оновлення
     is_snr_persistently_low: SNR стабільно низький
     has_actuators: Наявність приводу
     disablement_code: Стан сервісу
+    disablement_code__hint: |
+      Можливі варіанти:
+      
+      - **UNKNOWN_STATE**
+      - **OKAY**
+      - **NO_ACTIVE_ACCOUNT**
+      - **TOO_FAR_FROM_SERVICE_ADDRESS**
+      - **IN_OCEAN**
+      - **INVALID_COUNTRY**
+
   ClientName:
     mac_address: mac_address
     given_name: given_name

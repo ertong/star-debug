@@ -67,7 +67,7 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
           b.kv(M.grpc.DishGetStatus.seconds_to_first_nonempty_slot, status.secondsToFirstNonemptySlot);
 
         if (status.hasMobilityClass()) {
-          b.kv(M.grpc.DishGetStatus.mobility_class, status.mobilityClass);
+          b.kv(M.grpc.DishGetStatus.mobility_class, status.mobilityClass, hint: M.grpc.DishGetStatus.mobility_class__hint);
         }
 
         if (status.hasClassOfService()) {
@@ -89,7 +89,9 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
 
         if (status.hasDisablementCode()) {
           b.kv(M.grpc.DishGetStatus.disablement_code, status.disablementCode,
-              ok: status.disablementCode == UtDisablementCode.OKAY);
+              ok: status.disablementCode == UtDisablementCode.OKAY,
+              hint: M.grpc.DishGetStatus.disablement_code__hint
+          );
         }
 
         if (status.hasSoftwareUpdateState()) {

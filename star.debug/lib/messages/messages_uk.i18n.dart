@@ -330,12 +330,12 @@ class DishReadyStatesGrpcMessagesUk extends DishReadyStatesGrpcMessages {
 class DishConfigGrpcMessagesUk extends DishConfigGrpcMessages {
   final GrpcMessagesUk _parent;
   const DishConfigGrpcMessagesUk(this._parent) : super(_parent);
-  String get snow_melt_mode => """snow_melt_mode""";
-  String get location_request_mode => """location_request_mode""";
-  String get level_dish_mode => """level_dish_mode""";
-  String get power_save_start_minutes => """power_save_start_minutes""";
-  String get power_save_duration_minutes => """power_save_duration_minutes""";
-  String get power_save_mode => """power_save_mode""";
+  String get snow_melt_mode => """Snow melt mode""";
+  String get location_request_mode => """Location request mode""";
+  String get level_dish_mode => """Level dish mode""";
+  String get power_save_start_minutes => """Power save start minutes""";
+  String get power_save_duration_minutes => """Power save duration minutes""";
+  String get power_save_mode => """Power save mode""";
 }
 
 class DishObstructionStatsGrpcMessagesUk
@@ -360,8 +360,7 @@ class DishGetStatusGrpcMessagesUk extends DishGetStatusGrpcMessages {
   const DishGetStatusGrpcMessagesUk(this._parent) : super(_parent);
   String get uptime_s => """Час після завантаження""";
   String get uptime_s__hint =>
-      """Час роботи тарілки від останнього перезавантаження.
-""";
+      """Час роботи тарілки від останнього перезавантаження.""";
   String get seconds_to_first_nonempty_slot =>
       """Час до першого непорожнього слота""";
   String get pop_ping_drop_rate => """PoP ping drop rate""";
@@ -384,12 +383,27 @@ class DishGetStatusGrpcMessagesUk extends DishGetStatusGrpcMessages {
   String get boresight_elevation_deg => """Кут підйому панелі, град""";
   String get eth_speed_mbps => """Швидкість Ethernet""";
   String get mobility_class => """Клас мобільності""";
+  String get mobility_class__hint => """Можливі варіанти:
+
+- **STATIONARY**
+- **NOMADIC**
+- **MOBILE**
+""";
   String get is_snr_above_noise_floor => """SNR вище за рівень шуму""";
   String get class_of_service => """Клас сервісу""";
   String get software_update_state => """Стан оновлення""";
   String get is_snr_persistently_low => """SNR стабільно низький""";
   String get has_actuators => """Наявність приводу""";
   String get disablement_code => """Стан сервісу""";
+  String get disablement_code__hint => """Можливі варіанти:
+
+- **UNKNOWN_STATE**
+- **OKAY**
+- **NO_ACTIVE_ACCOUNT**
+- **TOO_FAR_FROM_SERVICE_ADDRESS**
+- **IN_OCEAN**
+- **INVALID_COUNTRY**
+""";
 }
 
 class ClientNameGrpcMessagesUk extends ClientNameGrpcMessages {
@@ -724,14 +738,14 @@ Map<String, String> get messagesUkMap => {
       """grpc.DishReadyStates.xphy""": """Інтерфейс Xilinx XPHY""",
       """grpc.DishReadyStates.aap""": """Цифрові формувачі променя""",
       """grpc.DishReadyStates.rf""": """RF front end""",
-      """grpc.DishConfig.snow_melt_mode""": """snow_melt_mode""",
-      """grpc.DishConfig.location_request_mode""": """location_request_mode""",
-      """grpc.DishConfig.level_dish_mode""": """level_dish_mode""",
+      """grpc.DishConfig.snow_melt_mode""": """Snow melt mode""",
+      """grpc.DishConfig.location_request_mode""": """Location request mode""",
+      """grpc.DishConfig.level_dish_mode""": """Level dish mode""",
       """grpc.DishConfig.power_save_start_minutes""":
-          """power_save_start_minutes""",
+          """Power save start minutes""",
       """grpc.DishConfig.power_save_duration_minutes""":
-          """power_save_duration_minutes""",
-      """grpc.DishConfig.power_save_mode""": """power_save_mode""",
+          """Power save duration minutes""",
+      """grpc.DishConfig.power_save_mode""": """Power save mode""",
       """grpc.DishObstructionStats.fraction_obstructed""":
           """Частка часу с перешкодами""",
       """grpc.DishObstructionStats.valid_s""": """Time valid""",
@@ -747,8 +761,7 @@ Map<String, String> get messagesUkMap => {
       """grpc.DishObstructionStats.patches_valid""": """Patches valid""",
       """grpc.DishGetStatus.uptime_s""": """Час після завантаження""",
       """grpc.DishGetStatus.uptime_s__hint""":
-          """Час роботи тарілки від останнього перезавантаження.
-""",
+          """Час роботи тарілки від останнього перезавантаження.""",
       """grpc.DishGetStatus.seconds_to_first_nonempty_slot""":
           """Час до першого непорожнього слота""",
       """grpc.DishGetStatus.pop_ping_drop_rate""": """PoP ping drop rate""",
@@ -775,6 +788,12 @@ Map<String, String> get messagesUkMap => {
           """Кут підйому панелі, град""",
       """grpc.DishGetStatus.eth_speed_mbps""": """Швидкість Ethernet""",
       """grpc.DishGetStatus.mobility_class""": """Клас мобільності""",
+      """grpc.DishGetStatus.mobility_class__hint""": """Можливі варіанти:
+
+- **STATIONARY**
+- **NOMADIC**
+- **MOBILE**
+""",
       """grpc.DishGetStatus.is_snr_above_noise_floor""":
           """SNR вище за рівень шуму""",
       """grpc.DishGetStatus.class_of_service""": """Клас сервісу""",
@@ -783,6 +802,15 @@ Map<String, String> get messagesUkMap => {
           """SNR стабільно низький""",
       """grpc.DishGetStatus.has_actuators""": """Наявність приводу""",
       """grpc.DishGetStatus.disablement_code""": """Стан сервісу""",
+      """grpc.DishGetStatus.disablement_code__hint""": """Можливі варіанти:
+
+- **UNKNOWN_STATE**
+- **OKAY**
+- **NO_ACTIVE_ACCOUNT**
+- **TOO_FAR_FROM_SERVICE_ADDRESS**
+- **IN_OCEAN**
+- **INVALID_COUNTRY**
+""",
       """grpc.ClientName.mac_address""": """mac_address""",
       """grpc.ClientName.given_name""": """given_name""",
       """grpc.Network.ipv4""": """ipv4""",

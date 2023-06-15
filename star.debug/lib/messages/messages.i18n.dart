@@ -328,12 +328,12 @@ class DishReadyStatesGrpcMessages {
 class DishConfigGrpcMessages {
   final GrpcMessages _parent;
   const DishConfigGrpcMessages(this._parent);
-  String get snow_melt_mode => """snow_melt_mode""";
-  String get location_request_mode => """location_request_mode""";
-  String get level_dish_mode => """level_dish_mode""";
-  String get power_save_start_minutes => """power_save_start_minutes""";
-  String get power_save_duration_minutes => """power_save_duration_minutes""";
-  String get power_save_mode => """power_save_mode""";
+  String get snow_melt_mode => """Snow melt mode""";
+  String get location_request_mode => """Location request mode""";
+  String get level_dish_mode => """Level dish mode""";
+  String get power_save_start_minutes => """Power save start minutes""";
+  String get power_save_duration_minutes => """Power save duration minutes""";
+  String get power_save_mode => """Power save mode""";
 }
 
 class DishObstructionStatsGrpcMessages {
@@ -382,12 +382,27 @@ class DishGetStatusGrpcMessages {
       """Panel boresight Elevation agngle, deg""";
   String get eth_speed_mbps => """Ethernet speed""";
   String get mobility_class => """Mobility class""";
+  String get mobility_class__hint => """The possible options are:
+
+- **STATIONARY** 
+- **NOMADIC** 
+- **MOBILE**
+""";
   String get is_snr_above_noise_floor => """SNR above noise floor""";
   String get class_of_service => """Class of service""";
   String get software_update_state => """Software update state""";
   String get is_snr_persistently_low => """SNR persistently low""";
   String get has_actuators => """Actuators""";
   String get disablement_code => """Service state""";
+  String get disablement_code__hint => """The possible options are:
+
+- **UNKNOWN_STATE**
+- **OKAY**
+- **NO_ACTIVE_ACCOUNT**
+- **TOO_FAR_FROM_SERVICE_ADDRESS**
+- **IN_OCEAN**
+- **INVALID_COUNTRY**
+""";
 }
 
 class ClientNameGrpcMessages {
@@ -722,14 +737,14 @@ the russian aggressor tries to turn cities into ashes.
       """grpc.DishReadyStates.xphy""": """Xilinx XPHY interface""",
       """grpc.DishReadyStates.aap""": """Digital beamformers""",
       """grpc.DishReadyStates.rf""": """RF front end""",
-      """grpc.DishConfig.snow_melt_mode""": """snow_melt_mode""",
-      """grpc.DishConfig.location_request_mode""": """location_request_mode""",
-      """grpc.DishConfig.level_dish_mode""": """level_dish_mode""",
+      """grpc.DishConfig.snow_melt_mode""": """Snow melt mode""",
+      """grpc.DishConfig.location_request_mode""": """Location request mode""",
+      """grpc.DishConfig.level_dish_mode""": """Level dish mode""",
       """grpc.DishConfig.power_save_start_minutes""":
-          """power_save_start_minutes""",
+          """Power save start minutes""",
       """grpc.DishConfig.power_save_duration_minutes""":
-          """power_save_duration_minutes""",
-      """grpc.DishConfig.power_save_mode""": """power_save_mode""",
+          """Power save duration minutes""",
+      """grpc.DishConfig.power_save_mode""": """Power save mode""",
       """grpc.DishObstructionStats.fraction_obstructed""":
           """Fraction obstructed""",
       """grpc.DishObstructionStats.valid_s""": """Time valid""",
@@ -772,6 +787,13 @@ the russian aggressor tries to turn cities into ashes.
           """Panel boresight Elevation agngle, deg""",
       """grpc.DishGetStatus.eth_speed_mbps""": """Ethernet speed""",
       """grpc.DishGetStatus.mobility_class""": """Mobility class""",
+      """grpc.DishGetStatus.mobility_class__hint""":
+          """The possible options are:
+
+- **STATIONARY** 
+- **NOMADIC** 
+- **MOBILE**
+""",
       """grpc.DishGetStatus.is_snr_above_noise_floor""":
           """SNR above noise floor""",
       """grpc.DishGetStatus.class_of_service""": """Class of service""",
@@ -781,6 +803,16 @@ the russian aggressor tries to turn cities into ashes.
           """SNR persistently low""",
       """grpc.DishGetStatus.has_actuators""": """Actuators""",
       """grpc.DishGetStatus.disablement_code""": """Service state""",
+      """grpc.DishGetStatus.disablement_code__hint""":
+          """The possible options are:
+
+- **UNKNOWN_STATE**
+- **OKAY**
+- **NO_ACTIVE_ACCOUNT**
+- **TOO_FAR_FROM_SERVICE_ADDRESS**
+- **IN_OCEAN**
+- **INVALID_COUNTRY**
+""",
       """grpc.ClientName.mac_address""": """mac_address""",
       """grpc.ClientName.given_name""": """given_name""",
       """grpc.Network.ipv4""": """ipv4""",

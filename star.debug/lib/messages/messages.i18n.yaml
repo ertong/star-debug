@@ -207,12 +207,12 @@ grpc:
     rf: RF front end
 
   DishConfig:
-    snow_melt_mode: snow_melt_mode
-    location_request_mode: location_request_mode
-    level_dish_mode: level_dish_mode
-    power_save_start_minutes: power_save_start_minutes
-    power_save_duration_minutes: power_save_duration_minutes
-    power_save_mode: power_save_mode
+    snow_melt_mode: Snow melt mode
+    location_request_mode: Location request mode
+    level_dish_mode: Level dish mode
+    power_save_start_minutes: Power save start minutes
+    power_save_duration_minutes: Power save duration minutes
+    power_save_mode: Power save mode
 
   DishObstructionStats:
     fraction_obstructed: Fraction obstructed
@@ -248,6 +248,12 @@ grpc:
 
     eth_speed_mbps: Ethernet speed
     mobility_class: Mobility class
+    mobility_class__hint: |
+      The possible options are:
+      
+      - **STATIONARY** 
+      - **NOMADIC** 
+      - **MOBILE**
     is_snr_above_noise_floor: SNR above noise floor
 
     class_of_service: Class of service
@@ -255,6 +261,15 @@ grpc:
     is_snr_persistently_low: SNR persistently low
     has_actuators: Actuators
     disablement_code: Service state
+    disablement_code__hint: |
+      The possible options are:
+      
+      - **UNKNOWN_STATE**
+      - **OKAY**
+      - **NO_ACTIVE_ACCOUNT**
+      - **TOO_FAR_FROM_SERVICE_ADDRESS**
+      - **IN_OCEAN**
+      - **INVALID_COUNTRY**
 
   ClientName:
     mac_address: mac_address
