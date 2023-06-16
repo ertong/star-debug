@@ -53,5 +53,9 @@
     <false/>
 	<key>FLTEnableImpeller</key> <!-- https://github.com/flutter/flutter/issues/126768 -->
     <false />
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<true/>
+	<key>UIFileSharingEnabled</key>
+	<true/>
 </dict>
 </plist>
