@@ -1,17 +1,7 @@
-# This file contains the fastlane.tools configuration
-# You can find the documentation at https://docs.fastlane.tools
-#
-# For a list of all available actions, check out
-#
-#     https://docs.fastlane.tools/actions
-#
-# For a list of all available plugins, check out
-#
-#     https://docs.fastlane.tools/plugins/available-plugins
-#
-
 # Uncomment the line if you want fastlane to automatically update itself
 # update_fastlane
+
+app_package = CredentialsManager::AppfileConfig.try_fetch_value(:app_identifier)
 
 default_platform(:ios)
 
@@ -31,7 +21,7 @@ platform :ios do
   lane :beta do
     match(type: "appstore", readonly: true)
     build_ios_app(
-      workspace: "Runner.xcworkspace", 
+      workspace: "Runner.xcworkspace",
       scheme: "Runner",
       export_method: "app-store",
       output_directory: "build",
@@ -53,14 +43,14 @@ platform :ios do
       devices_file: './adhoc-devices.txt',
       username: ENV["APPLE_ID"]
     )
-    match(type: "adhoc", force_for_new_devices: true)
+	match(type: "adhoc", force_for_new_devices: true)
   end
   lane :do_adhoc do
     match(type: "adhoc", readonly: true)
     update_project_provisioning(
           xcodeproj: "Runner.xcodeproj",
           target_filter: "Runner",
-          profile:ENV["sigh_com.stardebug_adhoc_profile-path"],
+          profile:ENV["sigh_#{app_package}_adhoc_profile-path"],
           build_configuration: "Release"
         )
     gym(
@@ -73,11 +63,15 @@ platform :ios do
       export_options: {
         method: "ad-hoc",
         provisioningProfiles: {
-          "com.stardebug" => ENV["sigh_com.stardebug_adhoc_profile-name"]
+          app_package => ENV["sigh_#{app_package}_adhoc_profile-name"]
         }
       },
       #codesigning_identity:"iPhone Distribution: XXXXXX Common Name(XXXXXX)",
       output_name: "#{ENV["APP_BASENAME"]}.ipa"
     )
+  end
+  lane :clean do
+    clear_derived_data
+    xcclean
   end
 end
