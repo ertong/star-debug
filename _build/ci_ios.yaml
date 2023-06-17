@@ -64,7 +64,7 @@ publish_testflight:
       - "$APPLE_ID"
   except:
     - branches
-#  needs: ["build_ios"]
+  needs: ["build_ios"]
 
 #publish_diawi_ios:
 #  stage: publish
