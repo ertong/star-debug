@@ -34,6 +34,7 @@ general:
   save_debug_data: Зберегти Debug Data
   to_clipboard: В буфер обміну
   to_file: У файл
+  save_as: Зберегти як
   share: Поділитись
   view_in_app: Переглянути в додатку
   reboot: Рестарт

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:clipboard/clipboard.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:star_debug/messages/i18n.dart';
@@ -59,6 +60,43 @@ class _SaveDebugDataDialogState<TItem> extends State<SaveDebugDataDialog<TItem>>
     return directory?.path;
   }
 
+  Future saveAs() async {
+    try {
+
+      var basename = "DebugData";
+      if (widget.uid!=null)
+        basename="$basename.${widget.uid}";
+      var name = "$basename.json.txt";
+
+      var path = await FilePicker.platform.saveFile(
+        dialogTitle: "Save Debug Data json",
+        fileName: name,
+      );
+
+      if (path==null)
+        return;
+
+      var f = File("$path").openWrite();
+      try {
+        f.write(widget.data);
+      } finally {
+        f.close();
+      }
+
+      R.showSnackBar(SnackBar(
+        duration: Duration(seconds: 2),
+        content: Text("Saved to $path"),
+      ));
+
+    } catch(e,s){
+      LogUtils.ers(_TAG, "", e, s);
+      R.showSnackBar(SnackBar(
+        duration: Duration(seconds: 2),
+        content: Text("$e"),
+      ));
+    }
+  }
+
   Future saveToFile() async {
     try {
       await Permission.storage.request();
@@ -76,12 +114,14 @@ class _SaveDebugDataDialogState<TItem> extends State<SaveDebugDataDialog<TItem>>
       var basename = "DebugData";
       if (widget.uid!=null)
         basename="$basename.${widget.uid}";
-      var path = "$dir/$basename.json.txt";
+      var name = "$basename.json.txt";
       int i = 0;
-      while (await File("$path").exists()) {
+      while (await File("$dir/$name").exists()) {
         i = i + 1;
-        path = "$dir/$basename.$i.json.txt";
+        name = "$basename.$i.json.txt";
       }
+
+      var path = "$dir/$name";
 
       var f = File("$path").openWrite();
       try {
@@ -90,9 +130,16 @@ class _SaveDebugDataDialogState<TItem> extends State<SaveDebugDataDialog<TItem>>
         f.close();
       }
 
+      var msg = "Saved to $path";
+
+      if (Platform.isIOS)
+        msg = "Saved to Files/Star Debug/$name";
+      if (Platform.isAndroid)
+        msg = "Saved to Downloads/$name";
+
       R.showSnackBar(SnackBar(
         duration: Duration(seconds: 2),
-        content: Text("Saved to $path"),
+        content: Text(msg),
       ));
 
     } catch(e,s){
@@ -159,14 +206,24 @@ class _SaveDebugDataDialogState<TItem> extends State<SaveDebugDataDialog<TItem>>
               },
               child: Text(M.general.to_clipboard),
             ),
-            OutlinedButton(
-              onPressed: () async {
-                await share();
-                if (mounted)
-                  Navigator.pop(context, null);
-              },
-              child: Text(M.general.share),
-            ),
+            if (Platform.isAndroid || Platform.isAndroid)
+              OutlinedButton(
+                onPressed: () async {
+                  await share();
+                  if (mounted)
+                    Navigator.pop(context, null);
+                },
+                child: Text(M.general.share),
+              ),
+            if (Platform.isWindows || Platform.isLinux || Platform.isIOS)
+              OutlinedButton(
+                onPressed: () async {
+                  await saveAs();
+                  if (mounted)
+                    Navigator.pop(context, null);
+                },
+                child: Text(M.general.save_as),
+              ),
             OutlinedButton(
               onPressed: () async {
                 await saveToFile();

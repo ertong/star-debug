@@ -103,6 +103,7 @@ class GeneralMessagesUk extends GeneralMessages {
   String get save_debug_data => """Зберегти Debug Data""";
   String get to_clipboard => """В буфер обміну""";
   String get to_file => """У файл""";
+  String get save_as => """Зберегти як""";
   String get share => """Поділитись""";
   String get view_in_app => """Переглянути в додатку""";
   String get reboot => """Рестарт""";
@@ -609,6 +610,7 @@ Map<String, String> get messagesUkMap => {
       """general.save_debug_data""": """Зберегти Debug Data""",
       """general.to_clipboard""": """В буфер обміну""",
       """general.to_file""": """У файл""",
+      """general.save_as""": """Зберегти як""",
       """general.share""": """Поділитись""",
       """general.view_in_app""": """Переглянути в додатку""",
       """general.reboot""": """Рестарт""",

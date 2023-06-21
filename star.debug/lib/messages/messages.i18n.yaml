@@ -35,6 +35,7 @@ general:
   save_debug_data: Save Debug Data
   to_clipboard: To Clipboard
   to_file: To File
+  save_as: Save As
   share: Share
   view_in_app: View in app
   reboot: Reboot

@@ -102,6 +102,7 @@ class GeneralMessages {
   String get save_debug_data => """Save Debug Data""";
   String get to_clipboard => """To Clipboard""";
   String get to_file => """To File""";
+  String get save_as => """Save As""";
   String get share => """Share""";
   String get view_in_app => """View in app""";
   String get reboot => """Reboot""";
@@ -608,6 +609,7 @@ Map<String, String> get messagesMap => {
       """general.save_debug_data""": """Save Debug Data""",
       """general.to_clipboard""": """To Clipboard""",
       """general.to_file""": """To File""",
+      """general.save_as""": """Save As""",
       """general.share""": """Share""",
       """general.view_in_app""": """View in app""",
       """general.reboot""": """Reboot""",
