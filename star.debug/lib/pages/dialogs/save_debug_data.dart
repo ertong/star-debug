@@ -206,7 +206,7 @@ class _SaveDebugDataDialogState<TItem> extends State<SaveDebugDataDialog<TItem>>
               },
               child: Text(M.general.to_clipboard),
             ),
-            if (Platform.isAndroid || Platform.isAndroid)
+            if (Platform.isAndroid || Platform.isIOS)
               OutlinedButton(
                 onPressed: () async {
                   await share();
@@ -215,7 +215,7 @@ class _SaveDebugDataDialogState<TItem> extends State<SaveDebugDataDialog<TItem>>
                 },
                 child: Text(M.general.share),
               ),
-            if (Platform.isWindows || Platform.isLinux || Platform.isIOS)
+            if (Platform.isWindows || Platform.isLinux || Platform.isMacOS)
               OutlinedButton(
                 onPressed: () async {
                   await saveAs();
