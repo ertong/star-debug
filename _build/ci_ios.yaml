@@ -61,10 +61,10 @@ publish_testflight:
     refs:
       - /^\d+\.\d+b.*$/
     variables:
-      - "$APPLE_ID"
+      - "$APPLE"
   except:
     - branches
-  needs: ["build_ios"]
+  needs: ["test"]
 
 #publish_diawi_ios:
 #  stage: publish
