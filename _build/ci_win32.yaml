@@ -1,0 +1,24 @@
+build_win32:
+  stage: build
+  before_script:
+    - '& "C:\Program Files\Git\bin\bash.exe" ci-parse-tag.sh'
+    - . ./env.ps1
+  script:
+    - flutter doctor -v
+    - flutter clean
+    - flutter packages get
+    - flutter config --enable-windows-desktop
+    - flutter build windows
+    - pwd
+    - copy windows/dll/*.dll build/windows/runner/Release/
+    - Compress-Archive -Path "build/windows/runner/Release/*" -DestinationPath "build/windows/runner/StarDebug.$NAME.zip"
+  artifacts:
+    expire_in: 6 mos
+    paths:
+      - build/windows/runner/StarDebug*.zip
+  needs: ["test"]
+  only:
+    variables:
+      - "$DIAWI_TOKEN"
+  tags:
+    - win
