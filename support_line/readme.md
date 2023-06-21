@@ -1,5 +1,12 @@
 # Custom Support System API Documentation
 
+## General info
+
+The API is intended to provide a chat like system to process support requests.
+Each session is associated with the actual device ID and an application token,
+generated on the client's side to distinct different users of the same device,
+contacting from the apps on different phones.
+
 ## `/info` Endpoint
 
 ### Description
@@ -25,7 +32,7 @@ This endpoint returns a description of the Support System Service.
 ## `/news` Endpoint
 
 ### Description
-This endpoint returns messages from the support service - latest news, working hours, etc.
+This endpoint returns information messages from the support service - latest news, working hours, etc.
 
 ### Request
 - Method: GET
@@ -51,26 +58,84 @@ This endpoint returns messages from the support service - latest news, working h
 }
 ```
 
-## `/tickets` Endpoint
+## `/messages` Endpoint
 
 ### Description
-This endpoint allows adding a new ticket.
+This endpoint allows adding either a new support request or continue the existing conversation,
+list messages.
+The structure of the conversation is intended to be flat, like a standard chat.
+It is possible to provide extra functionality by different messages types.  
+
+### Request
+- Method: GET
+- URL: `https://api.example.com/messages`
+
+### Headers:
+- Authorization: Basic <base64 encoded string of the format: "device_id:app_token">
+
+### Example Response Body
+```json
+{
+  "messages":[
+    {
+      "id": 1,
+      "direction": "outgoing", 
+      "type": "some_message_type",
+      "message": "I'm unable to log in to my account. Please assist.",
+      "timestamp": "2023-05-20T08:15:00Z"
+    },
+    {
+      "id": 2,
+      "direction": "incoming", 
+      "type": "some_message_type",
+      "message": "Please wait for the support be available.",
+      "timestamp": "2023-05-20T08:15:00Z"
+    }
+  ] 
+}
+```
 
 ### Request
 - Method: POST
-- URL: `https://api.example.com/ticket`
+- URL: `https://api.example.com/messages`
+
+### Headers:
+- Authorization: Basic <base64 encoded string of the format: "device_id:app_token">
+
+
+### Example Request Body
+```json
+{
+  "type": "some_message_type",
+  "message": "I'm unable to log in to my account. Please assist."
+}
+```
 
 ```json
 {
-  "subject": "Issue with account login",
-  "description": "I'm unable to log in to my account. Please assist."
+  "type": "some_message_type",
+  "message": "I'm unable to log in to my account. Please assist."
 }
 ```
 
 ### Example Response
 ```json
 {
-  "ticket_id": "TICKET-12345"
-  "messages": [ .. ]
+  "messages": [
+    {
+      "id": 2,
+      "direction": "incoming", 
+      "type": "some_message_type",
+      "message": "You request is being proceed.",
+      "timestamp": "2023-05-20T08:15:00Z"
+    }
+  ]
 }
 ```
+
+Messages list in this case may return some immediate auto replies,
+like greetings or some generic info on further communication process.
+
+There is no any specific error flag in the response body.
+For the safe of the errors handling it makes sense to go with the HTTP statuses 
+and message types.
