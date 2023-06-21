@@ -105,7 +105,7 @@ class GeneralMessagesUk extends GeneralMessages {
   String get to_file => """У файл""";
   String get save_as => """Зберегти як""";
   String get share => """Поділитись""";
-  String get view_in_app => """Переглянути в додатку""";
+  String get view_in_app => """Переглянути у додатку""";
   String get reboot => """Рестарт""";
   String get stow => """Скласти""";
   String get unstow => """Розкласти""";
@@ -612,7 +612,7 @@ Map<String, String> get messagesUkMap => {
       """general.to_file""": """У файл""",
       """general.save_as""": """Зберегти як""",
       """general.share""": """Поділитись""",
-      """general.view_in_app""": """Переглянути в додатку""",
+      """general.view_in_app""": """Переглянути у додатку""",
       """general.reboot""": """Рестарт""",
       """general.stow""": """Скласти""",
       """general.unstow""": """Розкласти""",

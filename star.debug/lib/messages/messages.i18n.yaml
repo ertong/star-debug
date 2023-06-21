@@ -37,7 +37,7 @@ general:
   to_file: To File
   save_as: Save As
   share: Share
-  view_in_app: View in app
+  view_in_app: View in the app
   reboot: Reboot
   stow: Stow
   unstow: Unstow

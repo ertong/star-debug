@@ -104,7 +104,7 @@ class GeneralMessages {
   String get to_file => """To File""";
   String get save_as => """Save As""";
   String get share => """Share""";
-  String get view_in_app => """View in app""";
+  String get view_in_app => """View in the app""";
   String get reboot => """Reboot""";
   String get stow => """Stow""";
   String get unstow => """Unstow""";
@@ -611,7 +611,7 @@ Map<String, String> get messagesMap => {
       """general.to_file""": """To File""",
       """general.save_as""": """Save As""",
       """general.share""": """Share""",
-      """general.view_in_app""": """View in app""",
+      """general.view_in_app""": """View in the app""",
       """general.reboot""": """Reboot""",
       """general.stow""": """Stow""",
       """general.unstow""": """Unstow""",
