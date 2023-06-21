@@ -4,6 +4,7 @@ build_win32:
     - '& "C:\Program Files\Git\bin\bash.exe" ci-parse-tag.sh'
     - . ./env.ps1
   script:
+    - cd $CI_PROJECT_DIR/star.debug
     - flutter doctor -v
     - flutter clean
     - flutter packages get

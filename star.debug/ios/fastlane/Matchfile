@@ -1,7 +1,7 @@
 app_package = CredentialsManager::AppfileConfig.try_fetch_value(:app_identifier)
 
 git_url(ENV["MATCH_GIT_URL"])
-git_branch(app_package)
+git_branch(ENV["MATCH_GIT_BRANCH"])
 
 storage_mode("git")
 clone_branch_directly(true)
