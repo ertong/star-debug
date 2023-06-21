@@ -72,7 +72,7 @@ class DatabaseHolder {
     // the database path in the foreground isolate and then inform the
     // background isolate about the path.
 
-    final dir = Platform.isWindows || Platform.isMacOS || Platform.isLinux
+    final dir = Platform.isWindows || Platform.isMacOS || Platform.isLinux || Platform.isIOS
     // ? File(Platform.script.toFilePath()).parent
         ? await getApplicationSupportDirectory()
         : await getApplicationDocumentsDirectory();
