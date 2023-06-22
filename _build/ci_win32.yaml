@@ -16,7 +16,7 @@ build_win32:
   artifacts:
     expire_in: 6 mos
     paths:
-      - build/windows/runner/StarDebug*.zip
+      - star.debug/build/windows/runner/StarDebug*.zip
   needs: ["test"]
   only:
     variables:
