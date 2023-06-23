@@ -3,7 +3,7 @@
 ## General info
 
 The API is intended to provide a chat like system to process support requests.
-Each session is associated with the actual device ID and an application token,
+Each session is associated with the actual device ID and an application ID,
 generated on the client's side to distinct different users of the same device,
 contacting from the apps on different phones.
 
@@ -71,7 +71,7 @@ It is possible to provide extra functionality by different messages types.
 - URL: `https://api.example.com/messages`
 
 ### Headers:
-- Authorization: Basic <base64 encoded string of the format: "device_id:app_token">
+- X-App-Session: device_id:app_id
 
 ### Example Response Body
 ```json
@@ -100,7 +100,7 @@ It is possible to provide extra functionality by different messages types.
 - URL: `https://api.example.com/messages`
 
 ### Headers:
-- Authorization: Basic <base64 encoded string of the format: "device_id:app_token">
+- X-App-Session: device_id:app_id
 
 
 ### Example Request Body
