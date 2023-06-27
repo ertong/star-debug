@@ -35,7 +35,8 @@ class _MyStarlinksPageState extends State<MyStarlinksPage> with TickerProviderSt
 
     loadMoreData = LoadMoreData<DishRow>(
       callback: (data, from) async {
-          var list = await R.db.dishesDao.getDishes(from?.row.dishId, 10).get();
+          var list = await R.db.dishesDao.getDishes(from?.row.dishId, from?.row.latestLogTimestamp, 10).get();
+          // print("${from?.row.dishId} ${from?.row.latestLogTimestamp} ${[for (var row in list) row.dishId]}");
           return list.map((e) => DishRow(e)).toList();
       },
       onChange: () => setState(() {})

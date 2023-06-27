@@ -61,11 +61,13 @@ mixin _$DishesDaoMixin on DatabaseAccessor<Database> {
         }).map((QueryRow row) => row.read<int>('_c0'));
   }
 
-  Selectable<GetDishesResult> getDishes(String? fromDishId, int limit) {
+  Selectable<GetDishesResult> getDishes(
+      String? fromDishId, int? fromDishTimestamp, int limit) {
     return customSelect(
-        'SELECT D.*, DL.id, DL.timestamp, DL.force_store, DL.debug_data_json, DL.dish_status_json, DL.dish_history_json, DL.wifi_status_json, DL.online_json, (SELECT COUNT(*) FROM dish_logs AS DLC WHERE D.dish_id = DLC.dish_id) AS log_count FROM dishes AS D LEFT JOIN dish_logs AS DL ON(D.latest_log_id = DL.id)WHERE(?1 IS NULL OR D.dish_id > ?1)ORDER BY D.dish_id LIMIT ?2',
+        'SELECT D.*, DL.id, DL.timestamp, DL.force_store, DL.debug_data_json, DL.dish_status_json, DL.dish_history_json, DL.wifi_status_json, DL.online_json, (SELECT COUNT(*) FROM dish_logs AS DLC WHERE D.dish_id = DLC.dish_id) AS log_count FROM dishes AS D LEFT JOIN dish_logs AS DL ON(D.latest_log_id = DL.id)WHERE ?1 IS NULL OR(D.latest_log_timestamp <= ?2 AND D.dish_id > ?1)ORDER BY D.latest_log_timestamp DESC, D.dish_id ASC LIMIT ?3',
         variables: [
           Variable<String>(fromDishId),
+          Variable<int>(fromDishTimestamp),
           Variable<int>(limit)
         ],
         readsFrom: {
@@ -76,6 +78,7 @@ mixin _$DishesDaoMixin on DatabaseAccessor<Database> {
         dishId: row.read<String>('dish_id'),
         name: row.readNullable<String>('name'),
         latestLogId: row.readNullable<int>('latest_log_id'),
+        latestLogTimestamp: row.read<int>('latest_log_timestamp'),
         id: row.readNullable<int>('id'),
         timestamp: row.readNullable<int>('timestamp'),
         forceStore: row.readNullable<bool>('force_store'),
@@ -107,6 +110,7 @@ class GetDishesResult {
   final String dishId;
   final String? name;
   final int? latestLogId;
+  final int latestLogTimestamp;
   final int? id;
   final int? timestamp;
   final bool? forceStore;
@@ -120,6 +124,7 @@ class GetDishesResult {
     required this.dishId,
     this.name,
     this.latestLogId,
+    required this.latestLogTimestamp,
     this.id,
     this.timestamp,
     this.forceStore,

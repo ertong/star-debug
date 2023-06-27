@@ -9,7 +9,7 @@ deleteDishLogsButLast: DELETE FROM dish_logs WHERE dish_id=:dishId
 
 getDishLog: SELECT * FROM dish_logs WHERE id=:id;
 hasDishLog: SELECT 1 FROM dish_logs WHERE dish_id=:dishId AND timestamp=:timestamp;
-getDishes(:fromDishId AS TEXT OR NULL):
+getDishes(:fromDishTimestamp AS INTEGER OR NULL, :fromDishId AS TEXT OR NULL):
     SELECT
        D.*,
        DL.id,
@@ -23,8 +23,8 @@ getDishes(:fromDishId AS TEXT OR NULL):
        (SELECT COUNT(*) FROM dish_logs DLC WHERE D.dish_id=DLC.dish_id) log_count
     FROM dishes D
     LEFT JOIN dish_logs DL ON (D.latest_log_id=DL.id)
-    WHERE (:fromDishId IS NULL OR D.dish_id>:fromDishId)
-    ORDER BY D.dish_id
+    WHERE :fromDishId IS NULL OR (D.latest_log_timestamp<=:fromDishTimestamp AND D.dish_id>:fromDishId)
+    ORDER BY D.latest_log_timestamp DESC, D.dish_id ASC
     LIMIT :limit;
 
 

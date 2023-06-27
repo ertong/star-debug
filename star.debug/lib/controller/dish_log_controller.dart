@@ -117,12 +117,12 @@ class DishLogController {
       );
 
       if ((rec.dish?.latestLogId ?? 0) < rec.dishLog!.id) {
-        await R.db.dishes.insertOne(
+        await R.db.dishes.insertOnConflictUpdate(
             DishesCompanion(
               dishId: Value(rec.dishId),
               latestLogId: Value(rec.dishLog!.id),
-            ),
-            mode: InsertMode.insertOrReplace);
+              latestLogTimestamp: Value(rec.time),
+            ));
         rec.dish = await R.db.dishesDao.getDish(rec.dishId).getSingleOrNull();
       }
 
@@ -173,12 +173,12 @@ class DishLogController {
                   rec.dishLog = await R.db.dishLogs.insertReturning(logToWrite);
 
                   if ((rec.dish?.latestLogId ?? 0) < (rec.dishLog?.id ?? 0)) {
-                    await R.db.dishes.insertOne(
+                    await R.db.dishes.insertOnConflictUpdate(
                         DishesCompanion(
                           dishId: Value(rec.dishId),
                           latestLogId: Value(rec.dishLog!.id),
-                        ),
-                        mode: InsertMode.insertOrReplace);
+                          latestLogTimestamp: Value(rec.dishLog!.timestamp),
+                        ));
                     rec.dish = await R.db.dishesDao.getDish(rec.dishId).getSingleOrNull();
                   }
 
