@@ -110,7 +110,10 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
         }
 
         b.widgets.add(Row(crossAxisAlignment: CrossAxisAlignment.start,children: [
-          Image.asset(dish.getImage(), height: 50,),
+          ClipRRect(
+              borderRadius: BorderRadius.circular(5),
+              child: Image.asset(dish.getImage(), height: 50,)
+          ),
           SizedBox(width: 5),
           Expanded(child: Column(crossAxisAlignment:CrossAxisAlignment.start, children: b1.widgets,))
         ],));
@@ -148,7 +151,10 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
         // b1.widgets.add(Text(status.deviceInfo.id));
 
         b.widgets.add(Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Image.asset(router.getImage(), height: 50,),
+          ClipRRect(
+              borderRadius: BorderRadius.circular(5),
+              child: Image.asset(router.getImage(), height: 50,)
+          ),
           SizedBox(width: 5),
           Expanded(child: Column(crossAxisAlignment:CrossAxisAlignment.start, children: b1.widgets,))
         ],));

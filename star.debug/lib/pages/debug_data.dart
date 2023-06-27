@@ -188,7 +188,10 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
     String? img = entity.get_device_image_file();
     if (img!=null) {
       rows.add(
-        Image.asset(img, height: 100,),
+        ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: Image.asset(img, height: 60,)
+        ),
       );
     }
 

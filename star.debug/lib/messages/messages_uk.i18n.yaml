@@ -148,13 +148,24 @@ grpc:
     last_reason: Остання причина
   DishOutage:
     cause: Причина
-    cause__hint: "Причина, чому тарілка не на зв'язку. Можливі варіанти:\n\n- **UNKNOWN**\n\
-      - **BOOTING** - Dish is trying to initialize satellite connection\n- **STOWED**\
-      \ - The dish is stowed to be packaged for storage\n- **THERMAL_SHUTDOWN** -\
-      \ Dish is overheated\n- **NO_SCHEDULE**\n- **NO_SATS** - No enough GPS signal\
-      \ received\n- **OBSTRUCTED** - Too much signal obstructions\n- **NO_DOWNLINK**\
-      \ - No downlink from satellites is established \n- **NO_PINGS**\n- **ACTUATOR_ACTIVITY**\n\
-      - **CABLE_TEST**\n- **SLEEPING**\n- **MOVING_WHILE_NOT_ALLOWED**\n"
+    cause__hint: |
+      Причина, чому тарілка не на зв'язку. Можливі варіанти:
+      
+      - **UNKNOWN**
+      - **BOOTING** - Тарілка намагається ініціалізувати з'єднання з супутниками.
+        Не повинно висіти в такому стані занадто довго. Найбільше часу, зазвичай, займає пошук GPS.
+      - **STOWED** - Тарілка складена для упаковки та зберігання.
+      - **THERMAL_SHUTDOWN** - Тарілка перегріта. В режимі очікування до зниження температури.
+      - **NO_SCHEDULE**
+      - **NO_SATS** - Немає GPS сигналу.
+      - **OBSTRUCTED** - Забагато перешкод. Переконайтеся, що антена має кут огляду неба 140°
+         (принаймні в тій частині, куди вона зазвичай орієнтована).
+      - **NO_DOWNLINK** - Канал передачі даних з супутників не ініціалізовано.
+      - **NO_PINGS**
+      - **ACTUATOR_ACTIVITY**
+      - **CABLE_TEST**
+      - **SLEEPING**
+      - **MOVING_WHILE_NOT_ALLOWED**
     start_timestamp_ns: Start timestamp, ns
     duration_ns: Duration, ns
     did_switch: Did switch

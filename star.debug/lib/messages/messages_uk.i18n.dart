@@ -290,13 +290,15 @@ class DishOutageGrpcMessagesUk extends DishOutageGrpcMessages {
       """Причина, чому тарілка не на зв'язку. Можливі варіанти:
 
 - **UNKNOWN**
-- **BOOTING** - Dish is trying to initialize satellite connection
-- **STOWED** - The dish is stowed to be packaged for storage
-- **THERMAL_SHUTDOWN** - Dish is overheated
+- **BOOTING** - Тарілка намагається ініціалізувати з'єднання з супутниками.
+  Не повинно висіти в такому стані занадто довго. Найбільше часу, зазвичай, займає пошук GPS.
+- **STOWED** - Тарілка складена для упаковки та зберігання.
+- **THERMAL_SHUTDOWN** - Тарілка перегріта. В режимі очікування до зниження температури.
 - **NO_SCHEDULE**
-- **NO_SATS** - No enough GPS signal received
-- **OBSTRUCTED** - Too much signal obstructions
-- **NO_DOWNLINK** - No downlink from satellites is established 
+- **NO_SATS** - Немає GPS сигналу.
+- **OBSTRUCTED** - Забагато перешкод. Переконайтеся, що антена має кут огляду неба 140°
+   (принаймні в тій частині, куди вона зазвичай орієнтована).
+- **NO_DOWNLINK** - Канал передачі даних з супутників не ініціалізовано.
 - **NO_PINGS**
 - **ACTUATOR_ACTIVITY**
 - **CABLE_TEST**
@@ -713,13 +715,15 @@ Map<String, String> get messagesUkMap => {
           """Причина, чому тарілка не на зв'язку. Можливі варіанти:
 
 - **UNKNOWN**
-- **BOOTING** - Dish is trying to initialize satellite connection
-- **STOWED** - The dish is stowed to be packaged for storage
-- **THERMAL_SHUTDOWN** - Dish is overheated
+- **BOOTING** - Тарілка намагається ініціалізувати з'єднання з супутниками.
+  Не повинно висіти в такому стані занадто довго. Найбільше часу, зазвичай, займає пошук GPS.
+- **STOWED** - Тарілка складена для упаковки та зберігання.
+- **THERMAL_SHUTDOWN** - Тарілка перегріта. В режимі очікування до зниження температури.
 - **NO_SCHEDULE**
-- **NO_SATS** - No enough GPS signal received
-- **OBSTRUCTED** - Too much signal obstructions
-- **NO_DOWNLINK** - No downlink from satellites is established 
+- **NO_SATS** - Немає GPS сигналу.
+- **OBSTRUCTED** - Забагато перешкод. Переконайтеся, що антена має кут огляду неба 140°
+   (принаймні в тій частині, куди вона зазвичай орієнтована).
+- **NO_DOWNLINK** - Канал передачі даних з супутників не ініціалізовано.
 - **NO_PINGS**
 - **ACTUATOR_ACTIVITY**
 - **CABLE_TEST**

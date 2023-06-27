@@ -288,13 +288,15 @@ class DishOutageGrpcMessages {
       """The reason why the dish is offline. The possible options are:
 
 - **UNKNOWN**
-- **BOOTING** - Dish is trying to initialize satellite connection
-- **STOWED** - The dish is stowed to be packaged for storage
-- **THERMAL_SHUTDOWN** - Dish is overheated
+- **BOOTING** - Dish is trying to initialize satellite connection. 
+  Should not hang in this state for too long. Most of the time, it is waiting for GPS.
+- **STOWED** - The dish is stowed to be packaged for storage.
+- **THERMAL_SHUTDOWN** - Dish is overheated. Waiting to cooldown.
 - **NO_SCHEDULE**
-- **NO_SATS** - No enough GPS signal received
-- **OBSTRUCTED** - Too much signal obstructions
-- **NO_DOWNLINK** - No downlink from satellites is established 
+- **NO_SATS** - No enough GPS signal received.
+- **OBSTRUCTED** - Too many signal obstructions. Ensure the dish has 140° view of the sky
+  (at least in the part, where it is usually oriented).
+- **NO_DOWNLINK** - No downlink from satellites is established.
 - **NO_PINGS**
 - **ACTUATOR_ACTIVITY**
 - **CABLE_TEST**
@@ -712,13 +714,15 @@ the russian aggressor tries to turn cities into ashes.
           """The reason why the dish is offline. The possible options are:
 
 - **UNKNOWN**
-- **BOOTING** - Dish is trying to initialize satellite connection
-- **STOWED** - The dish is stowed to be packaged for storage
-- **THERMAL_SHUTDOWN** - Dish is overheated
+- **BOOTING** - Dish is trying to initialize satellite connection. 
+  Should not hang in this state for too long. Most of the time, it is waiting for GPS.
+- **STOWED** - The dish is stowed to be packaged for storage.
+- **THERMAL_SHUTDOWN** - Dish is overheated. Waiting to cooldown.
 - **NO_SCHEDULE**
-- **NO_SATS** - No enough GPS signal received
-- **OBSTRUCTED** - Too much signal obstructions
-- **NO_DOWNLINK** - No downlink from satellites is established 
+- **NO_SATS** - No enough GPS signal received.
+- **OBSTRUCTED** - Too many signal obstructions. Ensure the dish has 140° view of the sky
+  (at least in the part, where it is usually oriented).
+- **NO_DOWNLINK** - No downlink from satellites is established.
 - **NO_PINGS**
 - **ACTUATOR_ACTIVITY**
 - **CABLE_TEST**
