@@ -63,9 +63,17 @@ class _DebugPageState extends State<DebugPage> with TickerProviderStateMixin {
   List<Widget> _buildBody(){
     List<Widget> res = [];
 
-    res.add(OutlinedButton(onPressed: (){
-      test();
-    }, child: Text("test")));
+    res.add(Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        OutlinedButton(onPressed: (){
+          throw Exception("Test Exception at ${DateTime.now().toString()}");
+        }, child: Text("Throw Test Exception")),
+        OutlinedButton(onPressed: (){
+          test();
+        }, child: Text("test")),
+      ],
+    ));
 
     res.add(Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
