@@ -143,3 +143,7 @@ The values are ids of the last messages the app has for specified dishes (0 if t
   ]
 }
 ```
+
+## TODO
+
+- Upload blobs
