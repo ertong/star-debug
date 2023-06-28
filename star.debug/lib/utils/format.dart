@@ -1,4 +1,6 @@
 
+import 'package:star_debug/messages/i18n.dart';
+
 class Format {
   static String bytesPerSec(double b){
     return "${bytes(b)}/s";
@@ -33,4 +35,19 @@ class Format {
       return sec(t.toInt());
   }
 
+
+  static String? ago(int t){
+    int now = DateTime.now().millisecondsSinceEpoch;
+    int d = now - t;
+    if (d<0)
+      return null;
+    if (d<60*1000)
+      return M.general.just_now;
+    if (d<180*60*1000)
+      return M.general.x_min_ago(d~/1000~/60);
+    if (d<48*60*60*1000)
+      return M.general.x_hours_ago(d~/1000~/60~/60);
+
+    return M.general.x_days_ago(d~/1000~/60~/60~/24);
+  }
 }

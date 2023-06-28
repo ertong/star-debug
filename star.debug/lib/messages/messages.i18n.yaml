@@ -46,6 +46,10 @@ general:
   dump_created_time: Dump created time
   no_alerts: No alerts
   confirmation: Confirmation
+  just_now: Just now
+  x_min_ago(t): ${t}m ago
+  x_hours_ago(t): ${t}h ago
+  x_days_ago(t): ${t}d ago
 
 my:
   my_starlinks: My Starlinks

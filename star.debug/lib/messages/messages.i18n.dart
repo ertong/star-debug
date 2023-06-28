@@ -113,6 +113,10 @@ class GeneralMessages {
   String get dump_created_time => """Dump created time""";
   String get no_alerts => """No alerts""";
   String get confirmation => """Confirmation""";
+  String get just_now => """Just now""";
+  String x_min_ago(t) => """${t}m ago""";
+  String x_hours_ago(t) => """${t}h ago""";
+  String x_days_ago(t) => """${t}d ago""";
 }
 
 class MyMessages {
@@ -622,6 +626,7 @@ Map<String, String> get messagesMap => {
       """general.dump_created_time""": """Dump created time""",
       """general.no_alerts""": """No alerts""",
       """general.confirmation""": """Confirmation""",
+      """general.just_now""": """Just now""",
       """my.my_starlinks""": """My Starlinks""",
       """my.snapshots""": """Snapshots""",
       """my.delete_all_dished_prompt""":

@@ -11,8 +11,10 @@ import 'package:star_debug/pages/snapshots.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/routes.dart';
 import 'package:star_debug/utils/debug_data.dart';
+import 'package:star_debug/utils/format.dart';
 import 'package:star_debug/widgets/load_more.dart';
 import 'package:star_debug/widgets/load_more_styled.dart';
+import 'package:time_machine/time_machine.dart';
 
 
 const String _TAG="MyStarlinksPage";
@@ -117,9 +119,13 @@ class _MyStarlinksPageState extends State<MyStarlinksPage> with TickerProviderSt
   }
 
   Widget buildRow(DishRow dish){
-    DateTime? ts;
-    if (dish.row.timestamp!=null)
-      ts = DateTime.fromMillisecondsSinceEpoch(dish.row.timestamp!);
+    String? ts;
+    if (dish.row.timestamp!=null) {
+      ts = Instant.fromEpochMilliseconds(dish.row.timestamp!).inLocalZone().toString("yyyy-MM-dd HH:mm:ss");
+      var ago = Format.ago(dish.row.timestamp!);
+      if (ago!=null)
+        ts = "$ts ($ago)";
+    }
 
     return Dismissible(
       key: ValueKey("dish-${dish.row.id}"),
@@ -167,7 +173,7 @@ class _MyStarlinksPageState extends State<MyStarlinksPage> with TickerProviderSt
               Text(dish.row.dishId),
               Text("${dish.row.logCount} dumps"),
               Row(children: [
-                Expanded(child: Text("${ts?.toString() ?? ""}")),
+                Expanded(child: Text("${ts ?? ""}")),
                 Icon(Icons.bug_report, size: 18, color: dish.hasDebugData() ? Colors.blue : Colors.blue.withAlpha(50),),
                 Icon(Icons.settings_input_antenna, size: 18, color: dish.hasDish() ? Colors.blue : Colors.blue.withAlpha(50),),
                 Icon(Icons.router, size: 18, color: dish.hasRouter() ? Colors.blue : Colors.blue.withAlpha(50),),

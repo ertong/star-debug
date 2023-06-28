@@ -15,6 +15,7 @@ import 'package:star_debug/utils/debug_data.dart';
 import 'package:star_debug/utils/format.dart';
 import 'package:star_debug/widgets/load_more.dart';
 import 'package:star_debug/widgets/load_more_styled.dart';
+import 'package:time_machine/time_machine.dart';
 
 
 const String _TAG="SnapshotsPage";
@@ -113,8 +114,12 @@ class _SnapshotsPageState extends State<SnapshotsPage> with TickerProviderStateM
   }
 
   Widget buildRow(DishLogRow log){
-    DateTime? ts;
-    ts = DateTime.fromMillisecondsSinceEpoch(log.row.timestamp);
+    String? ts = Instant.fromEpochMilliseconds(log.row.timestamp).inLocalZone().toString("yyyy-MM-dd HH:mm:ss");
+    {
+      var ago = Format.ago(log.row.timestamp);
+      if (ago != null)
+        ts = "$ts ($ago)";
+    }
 
     String? dishStr;
     bool dishOk = true;
@@ -186,7 +191,7 @@ class _SnapshotsPageState extends State<SnapshotsPage> with TickerProviderStateM
                   ],
                 ),
               Row(children: [
-                Expanded(child: Text("${ts.toString()}")),
+                Expanded(child: Text("$ts")),
                 Icon(Icons.bug_report, size: 18, color: log.hasDebugData() ? Colors.blue : Colors.blue.withAlpha(50),),
                 Icon(Icons.settings_input_antenna, size: 18, color: log.hasDish() ? Colors.blue : Colors.blue.withAlpha(50),),
                 Icon(Icons.router, size: 18, color: log.hasRouter() ? Colors.blue : Colors.blue.withAlpha(50),),

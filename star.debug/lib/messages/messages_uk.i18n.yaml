@@ -45,6 +45,10 @@ general:
   dump_created_time: Час створення дампу
   no_alerts: Немає попередженнь
   confirmation: Підтвердження
+  just_now: Щойно
+  x_min_ago(t): ${t}хв тому
+  x_hours_ago(t): ${t}г тому
+  x_days_ago(t): ${t}д тому
 
 my:
   my_starlinks: Мої Старлінки

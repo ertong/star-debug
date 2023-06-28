@@ -114,6 +114,10 @@ class GeneralMessagesUk extends GeneralMessages {
   String get dump_created_time => """Час створення дампу""";
   String get no_alerts => """Немає попередженнь""";
   String get confirmation => """Підтвердження""";
+  String get just_now => """Щойно""";
+  String x_min_ago(t) => """${t}хв тому""";
+  String x_hours_ago(t) => """${t}г тому""";
+  String x_days_ago(t) => """${t}д тому""";
 }
 
 class MyMessagesUk extends MyMessages {
@@ -623,6 +627,7 @@ Map<String, String> get messagesUkMap => {
       """general.dump_created_time""": """Час створення дампу""",
       """general.no_alerts""": """Немає попередженнь""",
       """general.confirmation""": """Підтвердження""",
+      """general.just_now""": """Щойно""",
       """my.my_starlinks""": """Мої Старлінки""",
       """my.snapshots""": """Знімки""",
       """my.delete_all_dished_prompt""":
