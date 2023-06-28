@@ -9,7 +9,7 @@ build_win32:
     - flutter clean
     - flutter packages get
     - flutter config --enable-windows-desktop
-    - flutter build windows
+    - flutter build windows $BUILD_OPTS
     - pwd
     - copy windows/dll/*.dll build/windows/runner/Release/
     - Compress-Archive -Path "build/windows/runner/Release/*" -DestinationPath "build/windows/runner/StarDebug.$NAME.zip"
