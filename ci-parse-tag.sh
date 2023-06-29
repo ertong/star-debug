@@ -9,7 +9,7 @@ then
   if [[ "$OSTYPE" == "darwin"* ]]; then
     NAME=${NAME}i
   elif [[ "$OSTYPE" == "msys" ]]; then
-    NAME=${NAME}w
+    NAME=${NAME}
   else
     NAME=${NAME}a
   fi
