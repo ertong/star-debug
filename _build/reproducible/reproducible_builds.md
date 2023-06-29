@@ -25,3 +25,4 @@ We will try to maintain build configurations for major releases [here](#build-in
 
 ### Build instructions for major versions
 - [1.0.22](1.0.22a.md)
+- [1.0.40](1.0.40a.md)
