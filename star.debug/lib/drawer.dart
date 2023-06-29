@@ -101,6 +101,7 @@ class _AppDrawerState extends State<AppDrawer> {
               Navigator.of(context).pushNamedAndRemoveUntil(Routes.ABOUT, (r) => false);
             },
           ),
+          SizedBox(height: 8,)
         ],
       ),
     );
