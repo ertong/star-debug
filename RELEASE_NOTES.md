@@ -1,6 +1,6 @@
 
 
-## 1.1b31
+## 1.1b40
 
 ### New Features:
 
@@ -9,6 +9,7 @@
   - Users can create snapshots of live data at any specific moment of interest.
   - Snapshots can be viewed or deleted at any time from the app.
   - Snapshot data can be shared as DebugData-compatible JSON.
+- Windows desktop build is available now.
 
 ### Enhancements:
 
