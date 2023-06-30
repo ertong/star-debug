@@ -57,6 +57,7 @@ class StarDebugAppState extends State<StarDebugApp>
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
       ],
+      //debugShowCheckedModeBanner: false,
       navigatorKey: R.navigatorKey,
       supportedLocales: I18n.instance.locales.values,
       locale: I18n.instance.locale,
