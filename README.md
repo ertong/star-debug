@@ -1,15 +1,21 @@
-<a href='https://play.google.com/store/apps/details?id=com.stardebug'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height='80px'/></a>
+<a href='https://play.google.com/store/apps/details?id=com.stardebug'><img alt='Get it on Google Play' src='_misc/google-play-badge.png' height='50px'/></a>
+<a href='https://apps.apple.com/us/app/star-debug/id6449881082'><img alt='Download on the App Store' src='_misc/appstore-badge.png ' height='50px'/></a>
 
 ## Star Debug
 
 Star Debug is an alternative tool to manage your Starlink devices.
 
-Currently (as of version 1.0.22), it supports:
+Currently (as of version 1.1.41), it supports:
 - Decode and view DebugData json copied (or saved to file) from the official Starlink app or web panel.
 - Initiate basic operations with the dish: Reboot/Stow/Unstow/GPSon/off and with the router: reboot and basic wifi setup (if applicable).
 - View telemetry available in DebugData, but updated from Starlink online: statuses, alerts, basic stats, current configurations, etc.
 - Create and share DebugData-compatible json data.
 - Check the internet connection in place within the app.
+- "My Starlinks"
+  - Snapshots of live device data and debug data can now be stored in the local application database.
+  - Users can create snapshots of live data at any specific moment of interest.
+  - Snapshots can be viewed or deleted at any time from the app.
+  - Snapshot data can be shared as DebugData-compatible JSON.
 
 More projects on Starlink monitoring:
 - Python UI to view Debug Data: https://github.com/olegkutkov/Space-Debugger
