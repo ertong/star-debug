@@ -138,11 +138,11 @@ class AboutMessagesUk extends AboutMessages {
   final MessagesUk _parent;
   const AboutMessagesUk(this._parent) : super(_parent);
   String get about => """Про програму""";
-  String get about_starlink_for_ukraine => """Про Народний cтарлінк""";
-  String get starlink_for_ukraine => """Народний старлінк""";
-  String get starlink_for_ukraine_in_fb => """Народний старлінк у Facebook""";
+  String get about_starlink_for_ukraine => """Про Народний Starlink""";
+  String get starlink_for_ukraine => """Народний Starlink""";
+  String get starlink_for_ukraine_in_fb => """Народний Starlink у Facebook""";
   String get about_text =>
-      """Додаток створений в рамках волонтерської ініціативи "**Народний старлінк**"
+      """Додаток створений в рамках волонтерської ініціативи "**Народний Starlink**"
 для потреб людей, що щодня працюють над тим, щоб зв'язок був доступний навіть в місцях,
 які росія намагається перетворити на пустелю.
 """;
@@ -633,12 +633,12 @@ Map<String, String> get messagesUkMap => {
       """my.delete_all_dished_prompt""":
           """Бажаєте видалити дані ВСІХ тарілок?""",
       """about.about""": """Про програму""",
-      """about.about_starlink_for_ukraine""": """Про Народний cтарлінк""",
-      """about.starlink_for_ukraine""": """Народний старлінк""",
+      """about.about_starlink_for_ukraine""": """Про Народний Starlink""",
+      """about.starlink_for_ukraine""": """Народний Starlink""",
       """about.starlink_for_ukraine_in_fb""":
-          """Народний старлінк у Facebook""",
+          """Народний Starlink у Facebook""",
       """about.about_text""":
-          """Додаток створений в рамках волонтерської ініціативи "**Народний старлінк**"
+          """Додаток створений в рамках волонтерської ініціативи "**Народний Starlink**"
 для потреб людей, що щодня працюють над тим, щоб зв'язок був доступний навіть в місцях,
 які росія намагається перетворити на пустелю.
 """,

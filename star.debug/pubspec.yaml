@@ -37,7 +37,7 @@ dependencies:
   upgrader: ^7.1.0
   file_picker: any
   flex_list: 1.0.0
-  grpc: 3.1.0
+  grpc: 3.2.2
   protobuf: any
   fixnum: any
   dio: ^5.2.1

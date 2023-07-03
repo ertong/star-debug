@@ -1,5 +1,6 @@
 
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:star_debug/grpc/starlink/starlink.pb.dart';
 import 'package:star_debug/space/device_app.dart';
@@ -71,6 +72,9 @@ class SpaceParser{
     if (p.jsonRouter!=null && p.jsonRouter!.containsKey("deviceInfo")) {
       p.routerGetStatus = WifiGetStatusResponse();
       DebugDataHelper.jsonToProto(p.jsonRouter!, p.routerGetStatus!);
+
+      // log("SERIALIZED ${jsonEncode(p.jsonRouter)}");
+      // log("PROTO3 ${jsonEncode(p.routerGetStatus!.toProto3Json())}");
 
       {
         var features = p.jsonRouter?["features"];

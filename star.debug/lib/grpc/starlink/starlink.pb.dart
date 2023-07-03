@@ -11262,7 +11262,6 @@ class DishGetStatusResponse extends $pb.GeneratedMessage {
       _result.softwareUpdateStats = softwareUpdateStats;
     }
     if (alignmentStats != null) {
-      _result.alignmentStats = alignmentStats;
     }
     if (config != null) {
       _result.config = config;

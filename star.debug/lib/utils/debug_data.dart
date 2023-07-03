@@ -1,8 +1,11 @@
 
+import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:protobuf/protobuf.dart' as pb;
 import 'package:fixnum/fixnum.dart' as fixnum;
+import 'package:protobuf/protobuf.dart';
 import 'package:recase/recase.dart';
 import 'package:star_debug/grpc/starlink/starlink.pb.dart';
 import 'package:star_debug/preloaded.dart';
@@ -60,9 +63,17 @@ class DebugDataHelper {
   static void jsonToProto(Map<String, dynamic> msg, pb.GeneratedMessage obj) {
     for (var e in obj.info_.byName.entries) {
       var key = e.key.camelCase;
-      if (!msg.containsKey(key))
-        continue;
-      var val = msg[key];
+      dynamic val;
+
+      if (e.value.isMapField && msg.containsKey("${key}Map")) {
+        val = msg["${key}Map"];
+      } else if (e.value.isRepeated && msg.containsKey("${key}List")) {
+        val = msg["${key}List"];
+      } else {
+        if (!msg.containsKey(key))
+          continue;
+        val = msg[key];
+      }
 
       try {
         if (e.value.isEnum) {
@@ -74,16 +85,64 @@ class DebugDataHelper {
 
         var msg2 = obj.getField(e.value.tagNumber);
         if (msg2 is pb.GeneratedMessage) {
-          // var msg2 = obj.getDefaultForField(e.value.tagNumber);
           msg2 = msg2.deepCopy();
           obj.setField(e.value.tagNumber, msg2);
           jsonToProto(msg[key], msg2);
           continue;
         }
 
+        if (e.value.isMapField && msg2 is PbMap){
+          if (val is! List<dynamic>)
+            LogUtils.e(_TAG, "List expected for $key received ${val.runtimeType} ${val as List<dynamic>}");
+          else {
+            var map_info = e.value as MapFieldInfo;
+
+            for (var item in val) {
+              var tuple = item as List;
+              var k = tuple[0];
+              var v = tuple[1];
+
+              if (map_info.valueCreator!=null) {
+                var pv = map_info.valueCreator!();
+                jsonToProto(v, pv);
+
+                msg2.putIfAbsent(k, () => pv);
+              }
+              else {
+                int type = map_info.valueFieldType & 0xFFFFF8;
+
+                if (type==pb.PbFieldType.OS) { // string
+                  msg2.putIfAbsent(k, () => "$v");
+                }
+
+                if (type==pb.PbFieldType.OB) { // bool
+                  msg2.putIfAbsent(k, () => v as bool);
+                }
+
+                if (type==pb.PbFieldType.OF || type==pb.PbFieldType.OD) { // float/double
+                  double i = (v is num) ? v.toDouble() : double.parse("$v");
+                  msg2.putIfAbsent(k, () => i);
+                }
+
+                if (const [
+                  pb.PbFieldType.O3, pb.PbFieldType.OS3, pb.PbFieldType.OU3, pb.PbFieldType.OF3, pb.PbFieldType.OSF3,
+                ].contains(type)) { // int
+                  int i = (v is num) ? v.toInt() : int.parse("$v");
+                  msg2.putIfAbsent(k, () => i);
+                }
+
+                if (const [ pb.PbFieldType.O6, pb.PbFieldType.OS6, pb.PbFieldType.OU6, pb.PbFieldType.OF6, pb.PbFieldType.OSF6 ].contains(type)) { // int
+                  int i = (v is num) ? v.toInt() : int.parse("$v");
+                  msg2.putIfAbsent(k, () => i);
+                }
+              }
+            }
+          }
+        }
+
         if (e.value.isRepeated) {
           if (val is! List<dynamic>)
-            LogUtils.e(_TAG, "List expected for $key received ${val.runtimeType} ${val as List<dynamic>} AAA");
+            LogUtils.e(_TAG, "List expected for $key received ${val.runtimeType} ${val as List<dynamic>}");
           else {
             var msg2 = obj.getField(e.value.tagNumber) as List;
             for (var item in val) {
@@ -129,12 +188,13 @@ class DebugDataHelper {
         var val = msg.getField(e.value.tagNumber);
         val = protoToJson(val);
 
-        if (["countByReason", "countByReasonDelta"].contains(key) && val is Map) {
+        if (e.value.isMapField && val is Map)
+        {
           key = "${key}Map";
-          val = [for (var e1 in val.entries) [e1.key, e1.value]];
+          val = [for (var e1 in val.entries) [e1.key, protoToJson(e1.value)]];
         }
 
-        if (["networks", "basicServiceSets", "nameservers"].contains(key) && val is List) {
+        if (e.value.isRepeated && val is List) {
           key = "${key}List";
         }
 
@@ -145,6 +205,14 @@ class DebugDataHelper {
 
         res[key] = val;
       }
+      return res;
+    }
+
+    if (msg is pb.PbMap) {
+      Map<dynamic, dynamic> res = {};
+      for (var e in msg.entries)
+        res[e.key] = protoToJson(e.value);
+
       return res;
     }
 
@@ -199,10 +267,7 @@ class DebugDataHelper {
         for (var e in (protoToJson(router) as Map<String, dynamic>).entries) {
           if (e.value==null)
             continue;
-          if (e.key == "config") {
-            res["wifiConfig"] = e.value;
-          } else
-            res["router"][e.key] = e.value;
+          res["router"][e.key] = e.value;
         }
       }
     }

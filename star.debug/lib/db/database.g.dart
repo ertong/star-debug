@@ -756,11 +756,13 @@ abstract class _$Database extends GeneratedDatabase {
   late final Index dishLogsTs = Index('dish_logs_ts',
       'CREATE INDEX IF NOT EXISTS dish_logs_ts ON dish_logs (dish_id, timestamp)');
   late final $DishesTable dishes = $DishesTable(this);
+  late final Index dishesTs = Index('dishes_ts',
+      'CREATE INDEX IF NOT EXISTS dishes_ts ON dishes (latest_log_timestamp, dish_id)');
   late final DishesDao dishesDao = DishesDao(this as Database);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [dishLogs, dishLogsTs, dishes];
+      [dishLogs, dishLogsTs, dishes, dishesTs];
 }
