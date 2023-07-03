@@ -17,10 +17,12 @@ class SpaceParser{
   Map<String, dynamic>? jsonApp;
 
   int? dishTs;
+  int? dishApi;
   DishGetStatusResponse? dishGetStatus;
   Map<String, bool> dishFeatures = {};
 
   int? routerTs;
+  int? routerApi;
   WifiGetStatusResponse? routerGetStatus;
   Map<String, bool> routerFeatures = {};
 
@@ -53,9 +55,15 @@ class SpaceParser{
     p.jsonRouter = json['router'] as Map<String, dynamic>?;
     p.jsonApp = json['device'] as Map<String, dynamic>?;
 
+    { // new debug data
+      if (p.jsonRouter?.containsKey("status") ?? false) p.jsonRouter = p.jsonRouter?["status"];
+      if (p.jsonApp?.containsKey("status") ?? false) p.jsonApp = p.jsonApp?["status"];
+      if (p.jsonDish?.containsKey("status") ?? false) p.jsonDish = p.jsonDish?["status"];
+    }
+
     if (json.containsKey("wifiConfig"))
       p.jsonRouter?["config"] = json["wifiConfig"];
-    
+
     p.deviceApp = DeviceApp.of(p.jsonApp);
 
     if (p.jsonDish!=null && p.jsonDish!.containsKey("deviceInfo")) {
@@ -71,13 +79,14 @@ class SpaceParser{
 
       if (p.jsonDish?["timestamp"]!=null)
         p.dishTs = (p.jsonDish?["timestamp"] ?? 0).toInt();
+
+      // v2
+      if (p.jsonDish?["apiVersion"]!=null)
+        p.dishApi = (p.jsonDish?["apiVersion"] ?? 0).toInt();
     }
     if (p.jsonRouter!=null && p.jsonRouter!.containsKey("deviceInfo")) {
       p.routerGetStatus = WifiGetStatusResponse();
       DebugDataHelper.jsonToProto(p.jsonRouter!, p.routerGetStatus!);
-
-      // log("SERIALIZED ${jsonEncode(p.jsonRouter)}");
-      // log("PROTO3 ${jsonEncode(p.routerGetStatus!.toProto3Json())}");
 
       {
         var features = p.jsonRouter?["features"];
@@ -88,7 +97,12 @@ class SpaceParser{
 
       if (p.jsonRouter?["timestamp"]!=null)
         p.routerTs = (p.jsonRouter?["timestamp"] ?? 0).toInt();
+
+      if (p.jsonRouter?["apiVersion"]!=null)
+        p.routerApi = (p.jsonRouter?["apiVersion"] ?? 0).toInt();
     }
+
+
 
     return p;
   }
