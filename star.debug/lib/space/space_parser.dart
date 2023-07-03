@@ -53,6 +53,9 @@ class SpaceParser{
     p.jsonRouter = json['router'] as Map<String, dynamic>?;
     p.jsonApp = json['device'] as Map<String, dynamic>?;
 
+    if (json.containsKey("wifiConfig"))
+      p.jsonRouter?["config"] = json["wifiConfig"];
+    
     p.deviceApp = DeviceApp.of(p.jsonApp);
 
     if (p.jsonDish!=null && p.jsonDish!.containsKey("deviceInfo")) {

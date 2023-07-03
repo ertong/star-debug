@@ -268,6 +268,12 @@ class DebugDataHelper {
           if (e.value==null)
             continue;
           res["router"][e.key] = e.value;
+
+          ///// Look like this logic is deprecated
+          // if (e.key == "config") {
+          //   res["wifiConfig"] = e.value;
+          // } else
+          //   res["router"][e.key] = e.value;
         }
       }
     }
