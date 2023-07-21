@@ -122,27 +122,33 @@ class DeviceNetwork extends EntityModule {
 
     var res = DeviceNetwork();
 
-    Map<String, dynamic> network = jsonObject[DEVICE_NETWORK_KEY];
-    Map<String, dynamic> networkInfo = network[DEVICE_NETWORK_NETINFO_KEY];
-    Map<String, dynamic> networkInfoDetails = networkInfo[DEVICE_NETWORK_NETINFO_DETAILS_KEY];
+    Map<String, dynamic>? network = jsonObject[DEVICE_NETWORK_KEY];
+    Map<String, dynamic>? networkInfo = network?[DEVICE_NETWORK_NETINFO_KEY];
+    Map<String, dynamic>? networkInfoDetails = networkInfo?[DEVICE_NETWORK_NETINFO_DETAILS_KEY];
 
-    res.isVpn = network[DEVICE_NETWORK_VPN_KEY] ?? false;
-    res.gateway_ip = "${network[DEVICE_NETWORK_GATEWAY_IP_ADDR_KEY] ?? '0.0.0.0'}";
-    res.public_ip = "${network[DEVICE_NETWORK_PUBLIC_IP_KEY] ?? '0.0.0.0'}";
-    res.is_starlink_conn = network[DEVICE_NETWORK_IS_STARLINK_KEY] ?? false;
+    if (network!=null) {
+      res.isVpn = network[DEVICE_NETWORK_VPN_KEY] ?? false;
+      res.gateway_ip = "${network[DEVICE_NETWORK_GATEWAY_IP_ADDR_KEY] ?? '0.0.0.0'}";
+      res.public_ip = "${network[DEVICE_NETWORK_PUBLIC_IP_KEY] ?? '0.0.0.0'}";
+      res.is_starlink_conn = network[DEVICE_NETWORK_IS_STARLINK_KEY] ?? false;
+    }
 
-    res.net_type = "${networkInfo[DEVICE_NETWORK_NETINFO_TYPE_KEY] ?? 'wifi'}";
-    res.is_bypass_mode = !(networkInfo[DEVICE_NETWORK_NETINFO_WIFI_ENABLED_KEY] ?? true);
-    res.isConnected = networkInfo[DEVICE_NETWORK_NETINFO_IS_CONNECTED_KEY] ?? false;
-    res.isInternetAvailable = networkInfo[DEVICE_NETWORK_IS_INTERNET_REACHABLE] ?? false;
+    if (networkInfo!=null) {
+      res.net_type = "${networkInfo[DEVICE_NETWORK_NETINFO_TYPE_KEY] ?? 'wifi'}";
+      res.is_bypass_mode = !(networkInfo[DEVICE_NETWORK_NETINFO_WIFI_ENABLED_KEY] ?? true);
+      res.isConnected = networkInfo[DEVICE_NETWORK_NETINFO_IS_CONNECTED_KEY] ?? false;
+      res.isInternetAvailable = networkInfo[DEVICE_NETWORK_IS_INTERNET_REACHABLE] ?? false;
+    }
 
-    res.ip_addr = "${networkInfoDetails[DEVICE_NETWORK_NETINFO_DETAILS_IP_ADDR_KEY] ?? '0.0.0.0'}";
-    res.local_link_speed =  "${networkInfoDetails[DEVICE_NETWORK_NETINFO_DETAILS_LINK_SPEED_KEY] ?? 0}  Mbps";
+    if (networkInfoDetails!=null) {
+      res.ip_addr = "${networkInfoDetails[DEVICE_NETWORK_NETINFO_DETAILS_IP_ADDR_KEY] ?? '0.0.0.0'}";
+      res.local_link_speed = "${networkInfoDetails[DEVICE_NETWORK_NETINFO_DETAILS_LINK_SPEED_KEY] ?? 0}  Mbps";
 
-    res.wifi_link_freq = (networkInfoDetails[DEVICE_NETWORK_NETINFO_DETAILS_FREQ_KEY] ?? 0).toInt();
-    res.wifi_ssid = "${networkInfoDetails[DEVICE_NETWORK_NETINFO_DETAILS_SSID_KEY] ?? ''}";
-    res.wifi_bssid = "${networkInfoDetails[DEVICE_NETWORK_NETINFO_DETAILS_BSSID_KEY] ?? ''}";
-    res.wifi_signal_level = (networkInfoDetails[DEVICE_NETWORK_NETINFO_DTAILS_SIGNAL_LEVEL_KEY] ?? 150).toInt();
+      res.wifi_link_freq = (networkInfoDetails[DEVICE_NETWORK_NETINFO_DETAILS_FREQ_KEY] ?? 0).toInt();
+      res.wifi_ssid = "${networkInfoDetails[DEVICE_NETWORK_NETINFO_DETAILS_SSID_KEY] ?? ''}";
+      res.wifi_bssid = "${networkInfoDetails[DEVICE_NETWORK_NETINFO_DETAILS_BSSID_KEY] ?? ''}";
+      res.wifi_signal_level = (networkInfoDetails[DEVICE_NETWORK_NETINFO_DTAILS_SIGNAL_LEVEL_KEY] ?? 150).toInt();
+    }
 
     return res;
   }
