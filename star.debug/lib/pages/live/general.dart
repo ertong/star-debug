@@ -205,9 +205,10 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
           var text = await withConnectedHandleJson(reqBuilder(), router: router);
           R.showSnackBarText(text);
         }finally{
-          setState(() {
-            loading.remove(name);
-          });
+          if (mounted)
+            setState(() {
+              loading.remove(name);
+            });
         }
       },
       style: OutlinedButton.styleFrom(padding: EdgeInsets.fromLTRB(5,3,5,3)),

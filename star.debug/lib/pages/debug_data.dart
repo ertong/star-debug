@@ -290,9 +290,16 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
 
   void onOpenClicked() async {
     parser = null;
-    final FilePickerResult? result = await FilePicker.platform.pickFiles(
-        allowMultiple: false
-    );
+    FilePickerResult? result;
+    try {
+      result = await FilePicker.platform.pickFiles(
+          allowMultiple: false
+      );
+    } catch (e, s){
+      LogUtils.ers(_TAG, "Pick files", e, s);
+      R.showSnackBarText("$e");
+      return;
+    }
 
     if (result != null && result.files.single.path!=null) {
       try {

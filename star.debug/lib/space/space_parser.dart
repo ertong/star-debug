@@ -1,6 +1,5 @@
 
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:star_debug/grpc/starlink/starlink.pb.dart';
 import 'package:star_debug/space/device_app.dart';

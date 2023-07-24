@@ -6,12 +6,9 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'dart:convert';
-import 'dart:developer';
-import 'dart:ffi';
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:star_debug/grpc/starlink/starlink.pbgrpc.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/space/space_parser.dart';
 import 'package:star_debug/utils/debug_data.dart';
