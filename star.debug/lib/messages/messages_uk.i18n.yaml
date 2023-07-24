@@ -256,6 +256,9 @@ grpc:
     dhcpv4_start: dhcpv4_start
   BasicServiceSet:
     bssid: bssid
+    bssid__hint: |
+      Starlink BSSID спочатку починався з **74:24:9f**, але через проблеми з безпекою,
+       починаючи приблизно з січня 2023 року, маршрутизатори Starlink можуть обрати випадковий BSSID після скидання до заводських налаштувань.
     ssid: ssid
     band: band
     disable: disable

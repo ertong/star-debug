@@ -435,6 +435,10 @@ class BasicServiceSetGrpcMessagesUk extends BasicServiceSetGrpcMessages {
   final GrpcMessagesUk _parent;
   const BasicServiceSetGrpcMessagesUk(this._parent) : super(_parent);
   String get bssid => """bssid""";
+  String get bssid__hint =>
+      """Starlink BSSID спочатку починався з **74:24:9f**, але через проблеми з безпекою,
+ починаючи приблизно з січня 2023 року, маршрутизатори Starlink можуть обрати випадковий BSSID після скидання до заводських налаштувань.
+""";
   String get ssid => """ssid""";
   String get band => """band""";
   String get disable => """disable""";
@@ -831,6 +835,10 @@ Map<String, String> get messagesUkMap => {
       """grpc.Network.domain""": """domain""",
       """grpc.Network.dhcpv4_start""": """dhcpv4_start""",
       """grpc.BasicServiceSet.bssid""": """bssid""",
+      """grpc.BasicServiceSet.bssid__hint""":
+          """Starlink BSSID спочатку починався з **74:24:9f**, але через проблеми з безпекою,
+ починаючи приблизно з січня 2023 року, маршрутизатори Starlink можуть обрати випадковий BSSID після скидання до заводських налаштувань.
+""",
       """grpc.BasicServiceSet.ssid""": """ssid""",
       """grpc.BasicServiceSet.band""": """band""",
       """grpc.BasicServiceSet.disable""": """disable""",

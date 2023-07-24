@@ -290,6 +290,9 @@ grpc:
     dhcpv4_start: dhcpv4_start
   BasicServiceSet:
     bssid: bssid
+    bssid__hint: |
+      Starlink BSSID originally starts with **74:24:9f**, but due to security concerns, 
+      starting from approximately January 2023, Starlink routers are able to pick random BSSID on factory reset.
     ssid: ssid
     band: band
     disable: disable

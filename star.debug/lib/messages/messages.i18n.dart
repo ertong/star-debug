@@ -434,6 +434,10 @@ class BasicServiceSetGrpcMessages {
   final GrpcMessages _parent;
   const BasicServiceSetGrpcMessages(this._parent);
   String get bssid => """bssid""";
+  String get bssid__hint =>
+      """Starlink BSSID originally starts with **74:24:9f**, but due to security concerns, 
+starting from approximately January 2023, Starlink routers are able to pick random BSSID on factory reset.
+""";
   String get ssid => """ssid""";
   String get band => """band""";
   String get disable => """disable""";
@@ -833,6 +837,10 @@ the russian aggressor tries to turn cities into ashes.
       """grpc.Network.domain""": """domain""",
       """grpc.Network.dhcpv4_start""": """dhcpv4_start""",
       """grpc.BasicServiceSet.bssid""": """bssid""",
+      """grpc.BasicServiceSet.bssid__hint""":
+          """Starlink BSSID originally starts with **74:24:9f**, but due to security concerns, 
+starting from approximately January 2023, Starlink routers are able to pick random BSSID on factory reset.
+""",
       """grpc.BasicServiceSet.ssid""": """ssid""",
       """grpc.BasicServiceSet.band""": """band""",
       """grpc.BasicServiceSet.disable""": """disable""",

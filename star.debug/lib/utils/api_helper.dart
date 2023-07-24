@@ -42,6 +42,21 @@ extension WifiGetStatusExt on WifiGetStatusResponse {
         .where((e) => e.value == true)
         .length;
 
+    if (this.hasConfig()) {
+      var config = this.config;
+
+      if (config.networks.isNotEmpty) {
+        for (WifiConfig_Network n in config.networks) {
+          for (var srv in n.basicServiceSets) {
+            if (srv.bssid.startsWith("74:24:9f")) {
+              ++alerts;
+              break;
+            }
+          }
+        }
+      }
+    }
+
     return alerts;
   }
 }

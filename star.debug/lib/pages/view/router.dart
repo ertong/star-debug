@@ -113,7 +113,10 @@ class _RouterWidgetState extends State<RouterWidget> with TickerProviderStateMix
             if (n.hasIpv4())
               b.kv("ipv4", n.ipv4);
             for (var srv in n.basicServiceSets) {
-              b.kv("${srv.band}", "${srv.ssid}\n${srv.bssid}");
+              b.kv("${srv.band}", "${srv.ssid}\n${srv.bssid}",
+                  ok:!srv.bssid.startsWith("74:24:9f"),
+                  hint: M.grpc.BasicServiceSet.bssid__hint
+              );
             }
           }
           rows.addAll(b.widgets);
