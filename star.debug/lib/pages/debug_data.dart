@@ -243,7 +243,11 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
           b.kv(M.general.dump_created_time, DateTime.fromMillisecondsSinceEpoch(parser.dishTs! * 1000));
           rows.addAll(b.widgets);
         }
-        rows.add(DishWidget(status: parser.dishGetStatus, features: parser.dishFeatures,));
+        rows.add(DishWidget(
+          status: parser.dishGetStatus,
+          features: parser.dishFeatures,
+          apiVersion: parser.dishApi,
+        ));
 
         if (this.obstructions!=null) {
           rows.add(SizedBox(
@@ -260,7 +264,11 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
           b.kv(M.general.dump_created_time, DateTime.fromMillisecondsSinceEpoch(parser.routerTs! * 1000));
           rows.addAll(b.widgets);
         }
-        rows.add(RouterWidget(status: parser.routerGetStatus, features: parser.routerFeatures,));
+        rows.add(RouterWidget(
+          status: parser.routerGetStatus,
+          features: parser.routerFeatures,
+          apiVersion: parser.routerApi,
+        ));
 
       }
       if (page.id=="app")

@@ -62,7 +62,11 @@ class _RouterTabState extends State<RouterTab> with TickerProviderStateMixin {
 
     if (conn.wifiGetStatus.data!=null && now-conn.statusReceivedTime<5000) {
       WifiGetStatusResponse status = conn.wifiGetStatus.data!;
-      rows.add(RouterWidget(status: status, features: const {},));
+      rows.add(RouterWidget(
+        status: status,
+        features: const {},
+        apiVersion: conn.wifiGetStatus.apiVersion,
+      ));
     }
 
     return rows;

@@ -4,7 +4,7 @@ import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/utils/kv_widget.dart';
 import 'package:time_machine/time_machine.dart';
 
-List<Widget> buildDeviceInfoWidget(BuildContext context, ThemeData theme, DeviceInfo deviceInfo) {
+List<Widget> buildDeviceInfoWidget(BuildContext context, ThemeData theme, DeviceInfo deviceInfo, {int? apiVersion}) {
     var b = KVWidgetBuilder(context, theme);
 
     b.header(M.header.device_info);
@@ -13,7 +13,7 @@ List<Widget> buildDeviceInfoWidget(BuildContext context, ThemeData theme, Device
     if (deviceInfo.hasHardwareVersion())
       b.kv(M.grpc.DeviceInfo.hardware_version, deviceInfo.hardwareVersion);
     if (deviceInfo.hasSoftwareVersion())
-      b.kv(M.grpc.DeviceInfo.software_version, deviceInfo.softwareVersion);
+      b.kv(M.grpc.DeviceInfo.software_version, deviceInfo.softwareVersion + (apiVersion!=null ? " API $apiVersion" : ""));
     if (deviceInfo.hasManufacturedVersion() && deviceInfo.manufacturedVersion!="")
       b.kv(M.grpc.DeviceInfo.manufactured_version, deviceInfo.manufacturedVersion);
 

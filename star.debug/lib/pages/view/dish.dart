@@ -15,8 +15,9 @@ class DishWidget extends StatefulWidget {
   final DishGetStatusResponse? status;
   final GetLocationResponse? dishGetLocationGPS;
   final GetLocationResponse? dishGetLocationStarlink;
+  final int? apiVersion;
   final Map<String, bool> features;
-  const DishWidget({super.key, required this.status, required this.features, this.dishGetLocationGPS, this.dishGetLocationStarlink});
+  const DishWidget({super.key, required this.status, required this.features, this.dishGetLocationGPS, this.dishGetLocationStarlink, this.apiVersion});
 
   @override
   State createState() => _DishWidgetState();
@@ -130,7 +131,7 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
       }
 
       if (status.hasDeviceInfo())
-        rows.addAll(buildDeviceInfoWidget(context, theme, status.deviceInfo));
+        rows.addAll(buildDeviceInfoWidget(context, theme, status.deviceInfo, apiVersion: widget.apiVersion));
 
       if (widget.features.isNotEmpty){
         var b = KVWidgetBuilder(context, theme);

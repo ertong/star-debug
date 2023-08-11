@@ -250,7 +250,7 @@ class _DebugPageState extends State<DebugPage> with TickerProviderStateMixin {
     try {
       // var r = await R.starChannel.httpTest("http://1.1.1.1", "GET", null);
 
-      final DishGetConfigResponse? resp = await withConnected<DishGetConfigResponse?>((stub, channel) async {
+      await withConnected<DishGetConfigResponse?>((stub, channel) async {
         var res = await stub.handle(Request(getLocation: GetLocationRequest(source: PositionSource.STARLINK)));
         log("Starlink location: ${jsonEncode(res.toProto3Json())}");
 
@@ -261,7 +261,7 @@ class _DebugPageState extends State<DebugPage> with TickerProviderStateMixin {
         setState(() {
           text = "${jsonEncode(res.toProto3Json())}\n\n ${jsonEncode(res1.toProto3Json())}";
         });
-
+        return null;
       }, router: false);
 
     } catch(e,s){

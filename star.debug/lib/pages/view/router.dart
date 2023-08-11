@@ -12,7 +12,8 @@ const String _TAG="RouterWidget";
 class RouterWidget extends StatefulWidget {
   final WifiGetStatusResponse? status;
   final Map<String, bool> features;
-  const RouterWidget({super.key, required this.status, required this.features});
+  final int? apiVersion;
+  const RouterWidget({super.key, required this.status, required this.features, this.apiVersion});
 
   @override
   State createState() => _RouterWidgetState();
@@ -91,7 +92,7 @@ class _RouterWidgetState extends State<RouterWidget> with TickerProviderStateMix
         rows.addAll(buildAlertsWidget(context, theme, status.alerts.toProto3Json() as Map<String, dynamic>));
 
       if (status.hasDeviceInfo())
-        rows.addAll(buildDeviceInfoWidget(context, theme, status.deviceInfo));
+        rows.addAll(buildDeviceInfoWidget(context, theme, status.deviceInfo, apiVersion: widget.apiVersion));
 
       if (widget.features.isNotEmpty){
         var b = KVWidgetBuilder(context, theme);

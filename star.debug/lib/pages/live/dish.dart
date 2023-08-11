@@ -89,11 +89,13 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
 
     if (conn.dishGetStatus.data!=null && now-conn.dishGetStatus.receivedTime<5000) {
       DishGetStatusResponse status = conn.dishGetStatus.data!;
+
       rows.add(DishWidget(
         status: status,
         features: const {},
         dishGetLocationGPS: conn.dishGetLocationGPS.validData(),
         dishGetLocationStarlink: conn.dishGetLocationStarlink.validData(),
+        apiVersion: conn.dishGetStatus.apiVersion,
       ));
 
       if (charts.isNotEmpty) {
