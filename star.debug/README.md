@@ -16,6 +16,12 @@ python msg.py sync
 # ios
 
 ```
+bundler exec fastlane spaceauth
+
+
+bundle update
+pod update
+
 bundle exec fastlane match nuke distribution
 bundle exec fastlane match adhoc
 bundle exec fastlane match appstore
