@@ -12,6 +12,9 @@ class DishConnection extends GrpcConnection {
   PooledRequest<DishGetStatusResponse> dishGetStatus = PooledRequest(2000);
   PooledRequest<DishGetHistoryResponse> dishGetHistory = PooledRequest(10000);
 
+  PooledRequest<GetLocationResponse> dishGetLocationGPS = PooledRequest(2000);
+  PooledRequest<GetLocationResponse> dishGetLocationStarlink = PooledRequest(2000);
+
   DishConnection({required super.notifyStream}):super(host: '192.168.100.1', port: 9200,) {
     TAG = "DishConnection";
   }
@@ -52,7 +55,21 @@ class DishConnection extends GrpcConnection {
 
       if (resp.hasDishGetStatus()) {
         dishGetStatus.setData(now, resp.dishGetStatus, resp.apiVersion.toInt());
+        if (resp.dishGetStatus.config.locationRequestMode == DishConfig_LocationRequestMode.LOCAL) {
+          reqStream.add(ToDevice(request: Request(
+              getLocation: GetLocationRequest(source: PositionSource.GPS)
+          )));
+          reqStream.add(ToDevice(request: Request(
+              getLocation: GetLocationRequest(source: PositionSource.STARLINK)
+          )));
+        }
         statusReceivedTime = now;
+      }
+      if (resp.hasGetLocation()){
+        if (resp.getLocation.source == PositionSource.STARLINK)
+          dishGetLocationStarlink.setData(now, resp.getLocation, resp.apiVersion.toInt());
+        if (resp.getLocation.source == PositionSource.GPS)
+          dishGetLocationGPS.setData(now, resp.getLocation, resp.apiVersion.toInt());
       }
       if (resp.hasDishGetHistory()) {
         dishGetHistory.setData(now, resp.dishGetHistory, resp.apiVersion.toInt());

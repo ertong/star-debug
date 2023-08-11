@@ -72,6 +72,12 @@ class PooledRequest <T> {
     return now-sentTime > poolInterval;
   }
 
+  T? validData(){
+    if (DateTime.now().millisecondsSinceEpoch-receivedTime>5000)
+      return null;
+    return data;
+  }
+
   void setData(int now, T data, int apiVersion) {
     this.receivedTime = now;
     this.apiVersion = apiVersion;

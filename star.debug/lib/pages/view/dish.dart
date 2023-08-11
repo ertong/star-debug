@@ -13,8 +13,10 @@ const String _TAG="DishWidget";
 
 class DishWidget extends StatefulWidget {
   final DishGetStatusResponse? status;
+  final GetLocationResponse? dishGetLocationGPS;
+  final GetLocationResponse? dishGetLocationStarlink;
   final Map<String, bool> features;
-  const DishWidget({super.key, required this.status, required this.features});
+  const DishWidget({super.key, required this.status, required this.features, this.dishGetLocationGPS, this.dishGetLocationStarlink});
 
   @override
   State createState() => _DishWidgetState();
@@ -144,12 +146,9 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
         var b = KVWidgetBuilder(context, theme);
         var config = status.config;
         b.header(M.header.config);
-        if (config.hasSnowMeltMode())
-          b.kv(M.grpc.DishConfig.snow_melt_mode, config.snowMeltMode);
-        if (config.hasLocationRequestMode())
-          b.kv(M.grpc.DishConfig.location_request_mode, config.locationRequestMode);
-        if (config.hasLevelDishMode())
-          b.kv(M.grpc.DishConfig.level_dish_mode, config.levelDishMode);
+        b.kv(M.grpc.DishConfig.snow_melt_mode, config.snowMeltMode);
+        b.kv(M.grpc.DishConfig.location_request_mode, config.locationRequestMode);
+        b.kv(M.grpc.DishConfig.level_dish_mode, config.levelDishMode);
         if (config.hasPowerSaveStartMinutes())
           b.kv(M.grpc.DishConfig.power_save_start_minutes, config.powerSaveStartMinutes);
         if (config.hasPowerSaveDurationMinutes())
@@ -170,6 +169,11 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
           b.kv(M.grpc.DishGpsStats.no_sats_after_ttff, stats.noSatsAfterTtff);
         if (stats.hasInhibitGps())
           b.kv(M.grpc.DishGpsStats.inhibit_gps, stats.inhibitGps);
+
+        if (widget.dishGetLocationStarlink!=null)
+          location(b, "Strlink", widget.dishGetLocationStarlink!);
+        if (widget.dishGetLocationGPS!=null)
+          location(b, "GPS", widget.dishGetLocationGPS!);
 
         if (b.widgets.length > 1) {
           rows.addAll(b.widgets);
@@ -244,4 +248,10 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
     return rows;
   }
 
+  void location(KVWidgetBuilder b, String key, GetLocationResponse loc) {
+    var str = "lat ${loc.lla.lat.toStringAsFixed(4)} lon ${loc.lla.lon.toStringAsFixed(4)} alt ${loc.lla.alt.toStringAsFixed(0)}m";
+    if (loc.source==PositionSource.STARLINK)
+      str = "$str\nsigma ${loc.sigmaM.toStringAsFixed(1)}";
+    b.kv(key, str);
+  }
 }
