@@ -172,7 +172,7 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
           b.kv(M.grpc.DishGpsStats.inhibit_gps, stats.inhibitGps);
 
         if (widget.dishGetLocationStarlink!=null)
-          location(b, "Strlink", widget.dishGetLocationStarlink!);
+          location(b, "Starlink", widget.dishGetLocationStarlink!);
         if (widget.dishGetLocationGPS!=null)
           location(b, "GPS", widget.dishGetLocationGPS!);
 
