@@ -31,15 +31,12 @@ class $DishLogsTable extends DishLogs with TableInfo<$DishLogsTable, DishLog> {
   static const VerificationMeta _forceStoreMeta =
       const VerificationMeta('forceStore');
   @override
-  late final GeneratedColumn<bool> forceStore =
-      GeneratedColumn<bool>('force_store', aliasedName, false,
-          type: DriftSqlType.bool,
-          requiredDuringInsert: true,
-          defaultConstraints: GeneratedColumn.constraintsDependsOnDialect({
-            SqlDialect.sqlite: 'CHECK ("force_store" IN (0, 1))',
-            SqlDialect.mysql: '',
-            SqlDialect.postgres: '',
-          }));
+  late final GeneratedColumn<bool> forceStore = GeneratedColumn<bool>(
+      'force_store', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: true,
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'CHECK ("force_store" IN (0, 1))'));
   static const VerificationMeta _debugDataJsonMeta =
       const VerificationMeta('debugDataJson');
   @override

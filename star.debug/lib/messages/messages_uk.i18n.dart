@@ -1,5 +1,5 @@
 // GENERATED FILE, do not edit!
-// ignore_for_file: unused_element, unused_field
+// ignore_for_file: annotate_overrides, non_constant_identifier_names, prefer_single_quotes, unused_element, unused_field
 import 'package:i18n/i18n.dart' as i18n;
 import 'messages.i18n.dart';
 
@@ -339,6 +339,14 @@ class DishConfigGrpcMessagesUk extends DishConfigGrpcMessages {
   const DishConfigGrpcMessagesUk(this._parent) : super(_parent);
   String get snow_melt_mode => """Snow melt mode""";
   String get location_request_mode => """Location request mode""";
+  String get location_request_mode__hint => """Можливі варіанти:
+ - **NONE** - Starlink не публікує своє місцезнаходження в локальну мережу.
+ - **LOCAL** - Starlink публікує своє місцезнаходження локальній мережі через DHCP та API.
+
+Щоб змінити це налаштування, вам потрібний оригінальний додаток Starlink з залогіненим обліковим записом,
+доступом до Інтернету та доступом до Starlink. Ви можете знайти це налаштування в
+*Advanced* -> *Debug Data* -> *Allow access on local network*.
+""";
   String get level_dish_mode => """Level dish mode""";
   String get power_save_start_minutes => """Power save start minutes""";
   String get power_save_duration_minutes => """Power save duration minutes""";
@@ -755,6 +763,14 @@ Map<String, String> get messagesUkMap => {
       """grpc.DishReadyStates.rf""": """RF front end""",
       """grpc.DishConfig.snow_melt_mode""": """Snow melt mode""",
       """grpc.DishConfig.location_request_mode""": """Location request mode""",
+      """grpc.DishConfig.location_request_mode__hint""": """Можливі варіанти:
+ - **NONE** - Starlink не публікує своє місцезнаходження в локальну мережу.
+ - **LOCAL** - Starlink публікує своє місцезнаходження локальній мережі через DHCP та API.
+
+Щоб змінити це налаштування, вам потрібний оригінальний додаток Starlink з залогіненим обліковим записом,
+доступом до Інтернету та доступом до Starlink. Ви можете знайти це налаштування в
+*Advanced* -> *Debug Data* -> *Allow access on local network*.
+""",
       """grpc.DishConfig.level_dish_mode""": """Level dish mode""",
       """grpc.DishConfig.power_save_start_minutes""":
           """Power save start minutes""",

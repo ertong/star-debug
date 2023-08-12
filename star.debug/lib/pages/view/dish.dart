@@ -148,7 +148,10 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
         var config = status.config;
         b.header(M.header.config);
         b.kv(M.grpc.DishConfig.snow_melt_mode, config.snowMeltMode);
-        b.kv(M.grpc.DishConfig.location_request_mode, config.locationRequestMode);
+        b.kv(M.grpc.DishConfig.location_request_mode,
+            config.locationRequestMode,
+            hint: M.grpc.DishConfig.location_request_mode__hint
+        );
         b.kv(M.grpc.DishConfig.level_dish_mode, config.levelDishMode);
         if (config.hasPowerSaveStartMinutes())
           b.kv(M.grpc.DishConfig.power_save_start_minutes, config.powerSaveStartMinutes);
@@ -250,6 +253,10 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
   }
 
   void location(KVWidgetBuilder b, String key, GetLocationResponse loc) {
+    if (loc.lla.lat.isNaN) {
+      b.kv(key, "N/A");
+      return;
+    }
     var str = "lat ${loc.lla.lat.toStringAsFixed(4)} lon ${loc.lla.lon.toStringAsFixed(4)} alt ${loc.lla.alt.toStringAsFixed(0)}m";
     if (loc.source==PositionSource.STARLINK)
       str = "$str\nsigma ${loc.sigmaM.toStringAsFixed(1)}";

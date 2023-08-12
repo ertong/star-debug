@@ -73,23 +73,21 @@ mixin _$DishesDaoMixin on DatabaseAccessor<Database> {
         readsFrom: {
           dishLogs,
           dishes,
-        }).map((QueryRow row) {
-      return GetDishesResult(
-        dishId: row.read<String>('dish_id'),
-        name: row.readNullable<String>('name'),
-        latestLogId: row.readNullable<int>('latest_log_id'),
-        latestLogTimestamp: row.read<int>('latest_log_timestamp'),
-        id: row.readNullable<int>('id'),
-        timestamp: row.readNullable<int>('timestamp'),
-        forceStore: row.readNullable<bool>('force_store'),
-        debugDataJson: row.readNullable<String>('debug_data_json'),
-        dishStatusJson: row.readNullable<Uint8List>('dish_status_json'),
-        dishHistoryJson: row.readNullable<Uint8List>('dish_history_json'),
-        wifiStatusJson: row.readNullable<Uint8List>('wifi_status_json'),
-        onlineJson: row.readNullable<String>('online_json'),
-        logCount: row.read<int>('log_count'),
-      );
-    });
+        }).map((QueryRow row) => GetDishesResult(
+          dishId: row.read<String>('dish_id'),
+          name: row.readNullable<String>('name'),
+          latestLogId: row.readNullable<int>('latest_log_id'),
+          latestLogTimestamp: row.read<int>('latest_log_timestamp'),
+          id: row.readNullable<int>('id'),
+          timestamp: row.readNullable<int>('timestamp'),
+          forceStore: row.readNullable<bool>('force_store'),
+          debugDataJson: row.readNullable<String>('debug_data_json'),
+          dishStatusJson: row.readNullable<Uint8List>('dish_status_json'),
+          dishHistoryJson: row.readNullable<Uint8List>('dish_history_json'),
+          wifiStatusJson: row.readNullable<Uint8List>('wifi_status_json'),
+          onlineJson: row.readNullable<String>('online_json'),
+          logCount: row.read<int>('log_count'),
+        ));
   }
 
   Selectable<DishLog> getDishLogs(int? ts, String dishId, int limit) {

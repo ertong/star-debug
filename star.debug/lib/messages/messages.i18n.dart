@@ -1,5 +1,5 @@
 // GENERATED FILE, do not edit!
-// ignore_for_file: unused_element, unused_field
+// ignore_for_file: annotate_overrides, non_constant_identifier_names, prefer_single_quotes, unused_element, unused_field
 import 'package:i18n/i18n.dart' as i18n;
 
 String get _languageCode => 'en';
@@ -337,6 +337,14 @@ class DishConfigGrpcMessages {
   const DishConfigGrpcMessages(this._parent);
   String get snow_melt_mode => """Snow melt mode""";
   String get location_request_mode => """Location request mode""";
+  String get location_request_mode__hint => """The possible options are:
+- **NONE** - Starlink does not expose it's location to the local network.
+- **LOCAL** - Starlink exposes it's location to the local network via DHCP and dish API.
+
+In order to change this setting, you need the original Starlink app with logged in account 
+with internet access and dish access. You can find this setting in 
+*Advanced* -> *Debug Data* -> *Allow access on local network*.
+""";
   String get level_dish_mode => """Level dish mode""";
   String get power_save_start_minutes => """Power save start minutes""";
   String get power_save_duration_minutes => """Power save duration minutes""";
@@ -754,6 +762,15 @@ the russian aggressor tries to turn cities into ashes.
       """grpc.DishReadyStates.rf""": """RF front end""",
       """grpc.DishConfig.snow_melt_mode""": """Snow melt mode""",
       """grpc.DishConfig.location_request_mode""": """Location request mode""",
+      """grpc.DishConfig.location_request_mode__hint""":
+          """The possible options are:
+- **NONE** - Starlink does not expose it's location to the local network.
+- **LOCAL** - Starlink exposes it's location to the local network via DHCP and dish API.
+
+In order to change this setting, you need the original Starlink app with logged in account 
+with internet access and dish access. You can find this setting in 
+*Advanced* -> *Debug Data* -> *Allow access on local network*.
+""",
       """grpc.DishConfig.level_dish_mode""": """Level dish mode""",
       """grpc.DishConfig.power_save_start_minutes""":
           """Power save start minutes""",

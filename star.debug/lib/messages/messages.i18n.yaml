@@ -216,6 +216,15 @@ grpc:
   DishConfig:
     snow_melt_mode: Snow melt mode
     location_request_mode: Location request mode
+    location_request_mode__hint: |
+      The possible options are:
+      - **NONE** - Starlink does not expose it's location to the local network.
+      - **LOCAL** - Starlink exposes it's location to the local network via DHCP and dish API.
+      
+      In order to change this setting, you need the original Starlink app with logged in account 
+      with internet access and dish access. You can find this setting in 
+      *Advanced* -> *Debug Data* -> *Allow access on local network*.
+
     level_dish_mode: Level dish mode
     power_save_start_minutes: Power save start minutes
     power_save_duration_minutes: Power save duration minutes

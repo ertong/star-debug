@@ -188,6 +188,15 @@ grpc:
   DishConfig:
     snow_melt_mode: Snow melt mode
     location_request_mode: Location request mode
+    location_request_mode__hint: |
+      Можливі варіанти:
+       - **NONE** - Starlink не публікує своє місцезнаходження в локальну мережу.
+       - **LOCAL** - Starlink публікує своє місцезнаходження локальній мережі через DHCP та API.
+      
+      Щоб змінити це налаштування, вам потрібний оригінальний додаток Starlink з залогіненим обліковим записом,
+      доступом до Інтернету та доступом до Starlink. Ви можете знайти це налаштування в
+      *Advanced* -> *Debug Data* -> *Allow access on local network*.
+
     level_dish_mode: Level dish mode
     power_save_start_minutes: Power save start minutes
     power_save_duration_minutes: Power save duration minutes
