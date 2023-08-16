@@ -1,4 +1,15 @@
 
+## 1.1b48
+
+### New Features:
+
+- Receive Starlink location data, if available (turned off by default).
+
+### Enhancements:
+
+- Improved Debug Data parsing 
+
+
 ## 1.1b43
 
 ### New Features:
