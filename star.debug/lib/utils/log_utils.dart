@@ -14,13 +14,13 @@ class LogUtils {
   }
 
   static void er(String tag, String msg, dynamic ex) {
-      logger.e("[$tag]: $msg", ex);
+      logger.e("[$tag]: $msg", error: ex);
   }
 
   static void ers(String tag, String msg, dynamic ex, StackTrace stacktrace) {
     // ignore: avoid_print
     print(stacktrace);
-    logger.e("[$tag]: $msg", ex, stacktrace);
+    logger.e("[$tag]: $msg", error: ex, stackTrace: stacktrace);
   }
 
 }
