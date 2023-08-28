@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart' hide Notification, Card, ConnectionState;
 import 'package:grpc/grpc.dart';
 import 'package:star_debug/grpc/starlink/network.pbenum.dart';
@@ -163,7 +164,10 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             reqButton(M.general.reboot, () => Request(reboot: RebootRequest()), router: true),
-            if (!status.config.setupComplete)
+            if ((R.router?.wifiGetStatus.hasRecentData() ?? false)
+                && !status.config.setupComplete
+                && (R.router?.httpPool.data?.location ?? "")=="/setup"
+            )
               OutlinedButton(
                   onPressed: isWifiSettingUp ? null : onWifiSetup,
                   child: Text(M.wifi.setup)
@@ -260,16 +264,42 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
       if (res == null)
         return;
 
-      WifiSetupRequest req;
-      if (res.skip!=null && res.skip==true)
-        req = WifiSetupRequest(skip: true);
-      else if (res.name!=null && res.pass!=null)
-        req = WifiSetupRequest(networkName: res.name, networkPassword: res.pass);
-      else
-        return;
+      if (res.result==WifiSetupResult.RES_BYPASS) {
+        final dio = Dio();
+        var token = CancelToken();
+        var resp = await dio.request("http://192.168.1.1/bypass",
+            cancelToken: token,
+            options: Options(
+                sendTimeout: Duration(seconds: 2),
+                receiveTimeout: Duration(seconds: 4),
+                method: "POST",
+                followRedirects: false,
+                validateStatus: (s) => s!=null
+            )
+        );
+        LogUtils.d(_TAG, "Status: ${resp.statusCode}\n${resp.data}");
+        if (resp.statusCode==200)
+          R.showSnackBarText("Bypass request successful");
+        else if (resp.statusCode==303)
+          R.showSnackBarText("Bypass request failed");
+        else
+          R.showSnackBarText("Bypass request failed: status ${resp.statusCode}");
+      } else {
+        WifiSetupRequest req;
+        if (res.result == WifiSetupResult.RES_SKIP)
+          req = WifiSetupRequest(skip: true);
+        else if (res.result == WifiSetupResult.RES_WIFI && res.name != null && res.pass != null)
+          req = WifiSetupRequest(networkName: res.name, networkPassword: res.pass);
+        else
+          return;
 
-      var text = await withConnectedHandleJson(Request(wifiSetup: req), router: true);
-      R.showSnackBarText(text);
+        var text = await withConnectedHandleJson(Request(wifiSetup: req), router: true);
+        R.showSnackBarText(text);
+      }
+    }
+    catch (e, s) {
+      LogUtils.ers(_TAG, "", e, s);
+      R.showSnackBarText("Error: $e");
     }
     finally{
       setState(() { isWifiSettingUp = false; });

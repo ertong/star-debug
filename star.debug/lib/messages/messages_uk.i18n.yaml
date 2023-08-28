@@ -79,6 +79,11 @@ wifi:
   password: Пароль
   skip: Пропустити
   apply: Застосувати
+  bypass: Bypass
+  setup_ssid_and_password: Налаштувати SSID та пароль
+  keep_default_wifi_settings: Залишити типові налаштування
+  enable_bypass_mode: Увімкнути режим Bypass
+
 live:
   starlink_live: Starlink Live
 header:

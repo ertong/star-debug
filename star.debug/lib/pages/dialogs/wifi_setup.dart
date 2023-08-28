@@ -72,35 +72,44 @@ class _WifiSetupDialogState extends State<WifiSetupDialog>
               validator: (String? value) {
                 return (value == null || value.trim().length<8) ? '8 chars or more' : null;
               },
-            )
+            ),
+            ElevatedButton(
+              onPressed: () {
+                if (formKey.currentState!.validate()) {
+                  Navigator.pop(context, WifiSetupResult(WifiSetupResult.RES_WIFI, name:tecName.text, pass:tecPassword.text));
+                }
+              },
+              child: Text(M.wifi.setup_ssid_and_password),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context, WifiSetupResult(WifiSetupResult.RES_SKIP));
+              },
+              child: Text(M.wifi.keep_default_wifi_settings),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context, WifiSetupResult(WifiSetupResult.RES_BYPASS));
+              },
+              child: Text(M.wifi.enable_bypass_mode),
+            ),
           ],
         ),
       ),
 
       actions: <Widget>[
-        ElevatedButton(
-          onPressed: () {
-            Navigator.pop(context, WifiSetupResult(skip: true));
-          },
-          child: Text(M.wifi.skip),
-        ),
-        ElevatedButton(
-          onPressed: () {
-            if (formKey.currentState!.validate()) {
-              Navigator.pop(context, WifiSetupResult(name:tecName.text, pass:tecPassword.text));
-            }
-          },
-          child: Text(M.general.ok),
-        ),
       ],
     );
   }
 }
 
 class WifiSetupResult{
-  bool? skip;
+  static const String RES_SKIP = "skip";
+  static const String RES_WIFI = "wifi";
+  static const String RES_BYPASS = "wifi";
+  String result;
   String? name;
   String? pass;
 
-  WifiSetupResult({this.skip, this.name, this.pass});
+  WifiSetupResult(this.result, {this.name, this.pass});
 }

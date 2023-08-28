@@ -78,6 +78,10 @@ class PooledRequest <T> {
     return data;
   }
 
+  bool hasRecentData(){
+    return data!=null && DateTime.now().millisecondsSinceEpoch-receivedTime<5000;
+  }
+
   void setData(int now, T data, int apiVersion) {
     this.receivedTime = now;
     this.apiVersion = apiVersion;

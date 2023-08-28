@@ -77,6 +77,10 @@ wifi:
   password: Network password
   skip: Skip
   apply: Apply
+  bypass: Bypass
+  setup_ssid_and_password: Setup SSID and password
+  keep_default_wifi_settings: Keep default wifi settings
+  enable_bypass_mode: Enable bypass mode
 
 live:
   starlink_live: "Starlink Live"

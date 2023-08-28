@@ -157,6 +157,10 @@ class WifiMessages {
   String get password => """Network password""";
   String get skip => """Skip""";
   String get apply => """Apply""";
+  String get bypass => """Bypass""";
+  String get setup_ssid_and_password => """Setup SSID and password""";
+  String get keep_default_wifi_settings => """Keep default wifi settings""";
+  String get enable_bypass_mode => """Enable bypass mode""";
 }
 
 class LiveMessages {
@@ -660,6 +664,10 @@ the russian aggressor tries to turn cities into ashes.
       """wifi.password""": """Network password""",
       """wifi.skip""": """Skip""",
       """wifi.apply""": """Apply""",
+      """wifi.bypass""": """Bypass""",
+      """wifi.setup_ssid_and_password""": """Setup SSID and password""",
+      """wifi.keep_default_wifi_settings""": """Keep default wifi settings""",
+      """wifi.enable_bypass_mode""": """Enable bypass mode""",
       """live.starlink_live""": """Starlink Live""",
       """header.general""": """General""",
       """header.signal""": """Signal""",
