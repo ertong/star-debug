@@ -167,7 +167,7 @@ class _SaveDebugDataDialogState<TItem> extends State<SaveDebugDataDialog<TItem>>
         f.close();
       }
 
-      Share.shareXFiles([XFile(path)], text: widget.uid ?? basename);
+      Share.shareXFiles([XFile(path)], subject: widget.uid ?? basename);
 
     } catch(e,s){
       LogUtils.ers(_TAG, "", e, s);
