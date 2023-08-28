@@ -106,7 +106,7 @@ class _WifiSetupDialogState extends State<WifiSetupDialog>
 class WifiSetupResult{
   static const String RES_SKIP = "skip";
   static const String RES_WIFI = "wifi";
-  static const String RES_BYPASS = "wifi";
+  static const String RES_BYPASS = "bypass";
   String result;
   String? name;
   String? pass;
