@@ -1,6 +1,7 @@
 general:
   lang: Українська
   app_name: Star Debug
+  language: Мова
   close: Закрити
   cancel: Скасувати
   next: Далі
@@ -20,6 +21,7 @@ general:
   ok: OK
   select_lang: Оберіть мову
   change_language: Змінити мову
+  settings: Налаштування
   dish: Тарілка
   router: Роутер
   device_app: Додаток

@@ -73,6 +73,7 @@ class _AppDrawerState extends State<AppDrawer> {
                 _createDrawerItemRoute(context, Icons.pets, M.my.my_starlinks, Routes.MY_STARLINKS),
                 if (R.isDebug)
                   _createDrawerItemRoute(context, Icons.smart_toy, "Sandbox", Routes.DEBUG),
+                _createDrawerItemRoute(context, Icons.settings, M.general.settings, Routes.SETTINGS),
                 _createDrawerItem(context, Icons.color_lens, '${M.general.dark_mode}', () async{
                   await R.prefs.save((p){
                     p.darkMode = !p.darkMode;

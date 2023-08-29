@@ -4,12 +4,14 @@ import 'package:star_debug/pages/about.dart';
 import 'package:star_debug/pages/debug_data.dart';
 import 'package:star_debug/pages/live.dart';
 import 'package:star_debug/pages/my_starlinks.dart';
+import 'package:star_debug/pages/settings.dart';
 import 'pages/debug.dart';
 
 class Routes {
   static const String MAIN = "/main";
   static const String MY_STARLINKS = "/my_starlinks";
   static const String DEBUG = "/debug";
+  static const String SETTINGS = "/settings";
   static const String LIVE = "/live";
   static const String ABOUT = "/about";
 
@@ -21,6 +23,8 @@ class Routes {
         return MaterialPageRoute(settings: settings, builder: (context) => LivePage());
       case ABOUT:
         return MaterialPageRoute(settings: settings, builder: (context) => AboutPage());
+      case SETTINGS:
+        return MaterialPageRoute(settings: settings, builder: (context) => SettingsPage());
       case MY_STARLINKS:
         return MaterialPageRoute(settings: settings, builder: (context) => MyStarlinksPage());
       case MAIN:

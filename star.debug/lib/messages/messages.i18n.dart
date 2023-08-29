@@ -69,6 +69,7 @@ class GeneralMessages {
   const GeneralMessages(this._parent);
   String get lang => """English""";
   String get app_name => """Star Debug""";
+  String get language => """Language""";
   String get close => """Close""";
   String get cancel => """Cancel""";
   String get next => """Next""";
@@ -88,6 +89,7 @@ class GeneralMessages {
   String get ok => """OK""";
   String get select_lang => """Select language""";
   String get change_language => """Change language""";
+  String get settings => """Settings""";
   String get dish => """Dish""";
   String get router => """Router""";
   String get device_app => """Device App""";
@@ -598,6 +600,7 @@ class WifiGetStatusGrpcMessages {
 Map<String, String> get messagesMap => {
       """general.lang""": """English""",
       """general.app_name""": """Star Debug""",
+      """general.language""": """Language""",
       """general.close""": """Close""",
       """general.cancel""": """Cancel""",
       """general.next""": """Next""",
@@ -617,6 +620,7 @@ Map<String, String> get messagesMap => {
       """general.ok""": """OK""",
       """general.select_lang""": """Select language""",
       """general.change_language""": """Change language""",
+      """general.settings""": """Settings""",
       """general.dish""": """Dish""",
       """general.router""": """Router""",
       """general.device_app""": """Device App""",

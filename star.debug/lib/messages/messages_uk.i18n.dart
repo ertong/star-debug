@@ -70,6 +70,7 @@ class GeneralMessagesUk extends GeneralMessages {
   const GeneralMessagesUk(this._parent) : super(_parent);
   String get lang => """Українська""";
   String get app_name => """Star Debug""";
+  String get language => """Мова""";
   String get close => """Закрити""";
   String get cancel => """Скасувати""";
   String get next => """Далі""";
@@ -89,6 +90,7 @@ class GeneralMessagesUk extends GeneralMessages {
   String get ok => """OK""";
   String get select_lang => """Оберіть мову""";
   String get change_language => """Змінити мову""";
+  String get settings => """Налаштування""";
   String get dish => """Тарілка""";
   String get router => """Роутер""";
   String get device_app => """Додаток""";
@@ -599,6 +601,7 @@ class WifiGetStatusGrpcMessagesUk extends WifiGetStatusGrpcMessages {
 Map<String, String> get messagesUkMap => {
       """general.lang""": """Українська""",
       """general.app_name""": """Star Debug""",
+      """general.language""": """Мова""",
       """general.close""": """Закрити""",
       """general.cancel""": """Скасувати""",
       """general.next""": """Далі""",
@@ -618,6 +621,7 @@ Map<String, String> get messagesUkMap => {
       """general.ok""": """OK""",
       """general.select_lang""": """Оберіть мову""",
       """general.change_language""": """Змінити мову""",
+      """general.settings""": """Налаштування""",
       """general.dish""": """Тарілка""",
       """general.router""": """Роутер""",
       """general.device_app""": """Додаток""",

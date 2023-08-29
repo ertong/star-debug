@@ -2,6 +2,7 @@
 general:
   lang: 'English'
   app_name: 'Star Debug'
+  language: Language
   close: Close
   cancel: Cancel
   next: Next
@@ -21,6 +22,7 @@ general:
   ok: OK
   select_lang: Select language
   change_language: Change language
+  settings: Settings
   dish: Dish
   router: Router
   device_app: Device App
