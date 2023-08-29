@@ -81,27 +81,33 @@ class RouterConnection extends GrpcConnection {
   CancelToken? token;
   final dio = Dio();
   Future doHttpPool() async {
-    token?.cancel();
-    token = CancelToken();
-    var resp = await dio.request("http://192.168.1.1",
-        cancelToken: token,
-        options: Options(
-            sendTimeout: Duration(seconds: 2),
-            receiveTimeout: Duration(seconds: 4),
-            method: "GET",
-            followRedirects: false,
-            validateStatus: (s) => s!=null
-        )
-    );
+    try {
+      token?.cancel();
+      token = CancelToken();
+      var resp = await dio.request("http://192.168.1.1",
+          cancelToken: token,
+          options: Options(
+              sendTimeout: Duration(seconds: 2),
+              receiveTimeout: Duration(seconds: 4),
+              method: "GET",
+              followRedirects: false,
+              validateStatus: (s) => s != null
+          )
+      );
 
-    int now = DateTime.now().millisecondsSinceEpoch;
+      int now = DateTime
+          .now()
+          .millisecondsSinceEpoch;
 
-    var res = RouterPoolResponse();
-    res.code = resp.statusCode ?? 0;
-    res.location = resp.headers["Location"]?.singleOrNull ?? "";
-    httpPool.setData(now, res, 0);
+      var res = RouterPoolResponse();
+      res.code = resp.statusCode ?? 0;
+      res.location = resp.headers["Location"]?.singleOrNull ?? "";
+      httpPool.setData(now, res, 0);
 
-    LogUtils.d(_TAG, "GET http://192.168.1.1: ${resp.statusCode}");
+      LogUtils.d(_TAG, "GET http://192.168.1.1: ${resp.statusCode}");
+    } catch (e){
+      LogUtils.e(_TAG, "GET http://192.168.1.1: ${"$e".split("\n")[0]}");
+    }
   }
 
 }
