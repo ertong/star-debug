@@ -1,4 +1,14 @@
 
+## 1.1b53
+
+### New Features:
+
+- Allow enabling Bypass mode on initial router setup.
+
+### Enhancements:
+
+- Fix issues with DebugData share. 
+
 ## 1.1b48
 
 ### New Features:
