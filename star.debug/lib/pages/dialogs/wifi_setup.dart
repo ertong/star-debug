@@ -51,49 +51,51 @@ class _WifiSetupDialogState extends State<WifiSetupDialog>
       ),
       content: Form(
         key: formKey,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            TextFormField(
-              controller: tecName,
-              decoration: InputDecoration(
-                labelText: M.wifi.network_name,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              TextFormField(
+                controller: tecName,
+                decoration: InputDecoration(
+                  labelText: M.wifi.network_name,
+                ),
+                validator: (String? value) {
+                  return (value != null && value.trim().isEmpty) ? 'Should not be empty' : null;
+                },
               ),
-              validator: (String? value) {
-                return (value != null && value.trim().isEmpty) ? 'Should not be empty' : null;
-              },
-            ),
-            TextFormField(
-              controller: tecPassword,
-              decoration: InputDecoration(
-                labelText: M.wifi.password,
+              TextFormField(
+                controller: tecPassword,
+                decoration: InputDecoration(
+                  labelText: M.wifi.password,
+                ),
+                validator: (String? value) {
+                  return (value == null || value.trim().length<8) ? '8 chars or more' : null;
+                },
               ),
-              validator: (String? value) {
-                return (value == null || value.trim().length<8) ? '8 chars or more' : null;
-              },
-            ),
-            ElevatedButton(
-              onPressed: () {
-                if (formKey.currentState!.validate()) {
-                  Navigator.pop(context, WifiSetupResult(WifiSetupResult.RES_WIFI, name:tecName.text, pass:tecPassword.text));
-                }
-              },
-              child: Text(M.wifi.setup_ssid_and_password),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context, WifiSetupResult(WifiSetupResult.RES_SKIP));
-              },
-              child: Text(M.wifi.keep_default_wifi_settings),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context, WifiSetupResult(WifiSetupResult.RES_BYPASS));
-              },
-              child: Text(M.wifi.enable_bypass_mode),
-            ),
-          ],
+              ElevatedButton(
+                onPressed: () {
+                  if (formKey.currentState!.validate()) {
+                    Navigator.pop(context, WifiSetupResult(WifiSetupResult.RES_WIFI, name:tecName.text, pass:tecPassword.text));
+                  }
+                },
+                child: Text(M.wifi.setup_ssid_and_password),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context, WifiSetupResult(WifiSetupResult.RES_SKIP));
+                },
+                child: Text(M.wifi.keep_default_wifi_settings),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context, WifiSetupResult(WifiSetupResult.RES_BYPASS));
+                },
+                child: Text(M.wifi.enable_bypass_mode),
+              ),
+            ],
+          ),
         ),
       ),
 
