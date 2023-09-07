@@ -21,7 +21,6 @@ general:
   ok: OK
   select_lang: Оберіть мову
   change_language: Змінити мову
-  settings: Налаштування
   dish: Тарілка
   router: Роутер
   device_app: Додаток
@@ -74,6 +73,10 @@ about:
 
     '
   project_on_github: Проект на GitHub
+
+settings:
+  settings: Налаштування
+
 wifi:
   setup: Налаштувати
   setup_wifi: Налаштувати Wifi

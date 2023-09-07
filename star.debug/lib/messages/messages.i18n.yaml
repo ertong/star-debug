@@ -22,7 +22,6 @@ general:
   ok: OK
   select_lang: Select language
   change_language: Change language
-  settings: Settings
   dish: Dish
   router: Router
   device_app: Device App
@@ -71,6 +70,9 @@ about:
     of people who care about the availability of communications even in the places where 
     the russian aggressor tries to turn cities into ashes.
   project_on_github: Project on GitHub
+
+settings:
+  settings: Settings
 
 wifi:
   setup: Setup

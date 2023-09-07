@@ -3,22 +3,34 @@
 import 'package:i18n/i18n.dart' as i18n;
 
 String get _languageCode => 'en';
-String _plural(int count,
-        {String? zero,
-        String? one,
-        String? two,
-        String? few,
-        String? many,
-        String? other}) =>
-    i18n.plural(count, _languageCode,
-        zero: zero, one: one, two: two, few: few, many: many, other: other);
-String _ordinal(int count,
-        {String? zero,
-        String? one,
-        String? two,
-        String? few,
-        String? many,
-        String? other}) =>
+String _plural(
+  int count, {
+  String? zero,
+  String? one,
+  String? two,
+  String? few,
+  String? many,
+  String? other,
+}) =>
+    i18n.plural(
+      count,
+      _languageCode,
+      zero: zero,
+      one: one,
+      two: two,
+      few: few,
+      many: many,
+      other: other,
+    );
+String _ordinal(
+  int count, {
+  String? zero,
+  String? one,
+  String? two,
+  String? few,
+  String? many,
+  String? other,
+}) =>
     i18n.ordinal(
       count,
       _languageCode,
@@ -56,6 +68,7 @@ class Messages {
   GeneralMessages get general => GeneralMessages(this);
   MyMessages get my => MyMessages(this);
   AboutMessages get about => AboutMessages(this);
+  SettingsMessages get settings => SettingsMessages(this);
   WifiMessages get wifi => WifiMessages(this);
   LiveMessages get live => LiveMessages(this);
   HeaderMessages get header => HeaderMessages(this);
@@ -89,7 +102,6 @@ class GeneralMessages {
   String get ok => """OK""";
   String get select_lang => """Select language""";
   String get change_language => """Change language""";
-  String get settings => """Settings""";
   String get dish => """Dish""";
   String get router => """Router""";
   String get device_app => """Device App""";
@@ -148,6 +160,12 @@ of people who care about the availability of communications even in the places w
 the russian aggressor tries to turn cities into ashes.
 """;
   String get project_on_github => """Project on GitHub""";
+}
+
+class SettingsMessages {
+  final Messages _parent;
+  const SettingsMessages(this._parent);
+  String get settings => """Settings""";
 }
 
 class WifiMessages {
@@ -620,7 +638,6 @@ Map<String, String> get messagesMap => {
       """general.ok""": """OK""",
       """general.select_lang""": """Select language""",
       """general.change_language""": """Change language""",
-      """general.settings""": """Settings""",
       """general.dish""": """Dish""",
       """general.router""": """Router""",
       """general.device_app""": """Device App""",
@@ -662,6 +679,7 @@ of people who care about the availability of communications even in the places w
 the russian aggressor tries to turn cities into ashes.
 """,
       """about.project_on_github""": """Project on GitHub""",
+      """settings.settings""": """Settings""",
       """wifi.setup""": """Setup""",
       """wifi.setup_wifi""": """Setup Wifi""",
       """wifi.network_name""": """Network name""",

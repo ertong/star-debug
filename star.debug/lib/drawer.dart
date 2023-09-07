@@ -67,31 +67,13 @@ class _AppDrawerState extends State<AppDrawer> {
               padding: EdgeInsets.zero,
               children: <Widget>[
                 _createHeader(),
-//          _createDrawerItemRoute(context, Icons.contacts, 'Test main page', Routes.MAIN),
                 _createDrawerItemRoute(context, Icons.play_arrow, "Strarlink Live", Routes.LIVE),
                 _createDrawerItemRoute(context, Icons.bug_report, M.general.debug_data_viewer, Routes.MAIN),
                 _createDrawerItemRoute(context, Icons.pets, M.my.my_starlinks, Routes.MY_STARLINKS),
                 if (R.isDebug)
                   _createDrawerItemRoute(context, Icons.smart_toy, "Sandbox", Routes.DEBUG),
-                _createDrawerItemRoute(context, Icons.settings, M.general.settings, Routes.SETTINGS),
-                _createDrawerItem(context, Icons.color_lens, '${M.general.dark_mode}', () async{
-                  await R.prefs.save((p){
-                    p.darkMode = !p.darkMode;
-                  });
-                  R.appKey.currentState?.setState(() {});
-                }, R.prefs.data.darkMode?"On":"Off", false),
-                _createDrawerItem(context, Icons.language, '${M.general.change_language}', () async{
-                  var lang = await showDialog<String>(context: context, builder: (c){ return SelectLangDialog(); });
-                  if (lang!=null){
-                    await R.prefs.save((p) {
-                      p.lang = lang;
-                    });
-                    await I18n.instance.setLang(lang);
-                    R.appKey.currentState?.setState(() {});
-                    if (context.mounted)
-                      Navigator.pop(context);
-                  }
-                }, M.general.lang, false),
+                _createDrawerItemRoute(context, Icons.settings, M.settings.settings, Routes.SETTINGS),
+
               ],
             ),
           ),
