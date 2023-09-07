@@ -1,6 +1,7 @@
 general:
   lang: Українська
   app_name: Star Debug
+  language: Мова
   close: Закрити
   cancel: Скасувати
   next: Далі
@@ -72,6 +73,10 @@ about:
 
     '
   project_on_github: Проект на GitHub
+
+settings:
+  settings: Налаштування
+
 wifi:
   setup: Налаштувати
   setup_wifi: Налаштувати Wifi

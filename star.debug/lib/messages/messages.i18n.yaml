@@ -2,6 +2,7 @@
 general:
   lang: 'English'
   app_name: 'Star Debug'
+  language: Language
   close: Close
   cancel: Cancel
   next: Next
@@ -69,6 +70,9 @@ about:
     of people who care about the availability of communications even in the places where 
     the russian aggressor tries to turn cities into ashes.
   project_on_github: Project on GitHub
+
+settings:
+  settings: Settings
 
 wifi:
   setup: Setup

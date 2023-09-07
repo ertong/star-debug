@@ -4,22 +4,34 @@ import 'package:i18n/i18n.dart' as i18n;
 import 'messages.i18n.dart';
 
 String get _languageCode => 'uk';
-String _plural(int count,
-        {String? zero,
-        String? one,
-        String? two,
-        String? few,
-        String? many,
-        String? other}) =>
-    i18n.plural(count, _languageCode,
-        zero: zero, one: one, two: two, few: few, many: many, other: other);
-String _ordinal(int count,
-        {String? zero,
-        String? one,
-        String? two,
-        String? few,
-        String? many,
-        String? other}) =>
+String _plural(
+  int count, {
+  String? zero,
+  String? one,
+  String? two,
+  String? few,
+  String? many,
+  String? other,
+}) =>
+    i18n.plural(
+      count,
+      _languageCode,
+      zero: zero,
+      one: one,
+      two: two,
+      few: few,
+      many: many,
+      other: other,
+    );
+String _ordinal(
+  int count, {
+  String? zero,
+  String? one,
+  String? two,
+  String? few,
+  String? many,
+  String? other,
+}) =>
     i18n.ordinal(
       count,
       _languageCode,
@@ -57,6 +69,7 @@ class MessagesUk extends Messages {
   GeneralMessagesUk get general => GeneralMessagesUk(this);
   MyMessagesUk get my => MyMessagesUk(this);
   AboutMessagesUk get about => AboutMessagesUk(this);
+  SettingsMessagesUk get settings => SettingsMessagesUk(this);
   WifiMessagesUk get wifi => WifiMessagesUk(this);
   LiveMessagesUk get live => LiveMessagesUk(this);
   HeaderMessagesUk get header => HeaderMessagesUk(this);
@@ -70,6 +83,7 @@ class GeneralMessagesUk extends GeneralMessages {
   const GeneralMessagesUk(this._parent) : super(_parent);
   String get lang => """Українська""";
   String get app_name => """Star Debug""";
+  String get language => """Мова""";
   String get close => """Закрити""";
   String get cancel => """Скасувати""";
   String get next => """Далі""";
@@ -147,6 +161,12 @@ class AboutMessagesUk extends AboutMessages {
 які росія намагається перетворити на пустелю.
 """;
   String get project_on_github => """Проект на GitHub""";
+}
+
+class SettingsMessagesUk extends SettingsMessages {
+  final MessagesUk _parent;
+  const SettingsMessagesUk(this._parent) : super(_parent);
+  String get settings => """Налаштування""";
 }
 
 class WifiMessagesUk extends WifiMessages {
@@ -599,6 +619,7 @@ class WifiGetStatusGrpcMessagesUk extends WifiGetStatusGrpcMessages {
 Map<String, String> get messagesUkMap => {
       """general.lang""": """Українська""",
       """general.app_name""": """Star Debug""",
+      """general.language""": """Мова""",
       """general.close""": """Закрити""",
       """general.cancel""": """Скасувати""",
       """general.next""": """Далі""",
@@ -659,6 +680,7 @@ Map<String, String> get messagesUkMap => {
 які росія намагається перетворити на пустелю.
 """,
       """about.project_on_github""": """Проект на GitHub""",
+      """settings.settings""": """Налаштування""",
       """wifi.setup""": """Налаштувати""",
       """wifi.setup_wifi""": """Налаштувати Wifi""",
       """wifi.network_name""": """Назва мережі""",
