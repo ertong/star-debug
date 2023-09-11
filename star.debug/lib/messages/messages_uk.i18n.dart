@@ -106,7 +106,7 @@ class GeneralMessagesUk extends GeneralMessages {
   String get change_language => """Змінити мову""";
   String get dish => """Тарілка""";
   String get router => """Роутер""";
-  String get Security => """Безпека""";
+  String get security => """Безпека""";
   String get device_app => """Додаток""";
   String get open_json_file => """Відкрити JSON файл""";
   String get open_clipboard => """Відкрити JSON з буфера обміну""";
@@ -665,7 +665,7 @@ Map<String, String> get messagesUkMap => {
       """general.change_language""": """Змінити мову""",
       """general.dish""": """Тарілка""",
       """general.router""": """Роутер""",
-      """general.Security""": """Безпека""",
+      """general.security""": """Безпека""",
       """general.device_app""": """Додаток""",
       """general.open_json_file""": """Відкрити JSON файл""",
       """general.open_clipboard""": """Відкрити JSON з буфера обміну""",

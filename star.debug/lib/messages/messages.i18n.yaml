@@ -24,7 +24,7 @@ general:
   change_language: Change language
   dish: Dish
   router: Router
-  Security: Security
+  security: Security
   device_app: Device App
   open_json_file: Open JSON file
   open_clipboard: Open JSON from clipboard

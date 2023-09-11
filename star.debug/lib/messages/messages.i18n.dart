@@ -105,7 +105,7 @@ class GeneralMessages {
   String get change_language => """Change language""";
   String get dish => """Dish""";
   String get router => """Router""";
-  String get Security => """Security""";
+  String get security => """Security""";
   String get device_app => """Device App""";
   String get open_json_file => """Open JSON file""";
   String get open_clipboard => """Open JSON from clipboard""";
@@ -664,7 +664,7 @@ Map<String, String> get messagesMap => {
       """general.change_language""": """Change language""",
       """general.dish""": """Dish""",
       """general.router""": """Router""",
-      """general.Security""": """Security""",
+      """general.security""": """Security""",
       """general.device_app""": """Device App""",
       """general.open_json_file""": """Open JSON file""",
       """general.open_clipboard""": """Open JSON from clipboard""",
