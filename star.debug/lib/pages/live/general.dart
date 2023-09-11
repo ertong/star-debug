@@ -190,6 +190,18 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
       }
     }
 
+    if (R.prefs.data.valkyrieCheck) {
+      b.header("Security");
+
+      var status = R.router?.wifiGetStatus.data;
+      var service = status?.config.networks[0].basicServiceSets[0];
+      if (service!=null) {
+        b.widgets.add(R.valkyrie.widget(service.bssid, theme));
+      }
+
+      // b.kv(M.online.starlink_internet, online.starlinkInternetDetected, ok: online.starlinkInternetDetected);
+    }
+
     if (charts.isNotEmpty)
     {
       b.header(M.general.charts);

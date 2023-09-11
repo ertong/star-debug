@@ -4,6 +4,7 @@ import 'package:recase/recase.dart';
 import 'package:star_debug/grpc/starlink/starlink.pbgrpc.dart';
 import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/pages/view/common.dart';
+import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/utils/format.dart';
 import 'package:star_debug/utils/kv_widget.dart';
 
@@ -26,8 +27,7 @@ class _RouterWidgetState extends State<RouterWidget> with TickerProviderStateMix
   @override
   Widget build(BuildContext context) {
     theme = Theme.of(context);
-    return Column(children:
-    _buildBody(),);
+    return Column(children:_buildBody(),);
   }
 
   List<Widget> _buildBody(){
@@ -110,16 +110,20 @@ class _RouterWidgetState extends State<RouterWidget> with TickerProviderStateMix
         if (config.networks.isNotEmpty) {
           var b = KVWidgetBuilder(context, theme);
           b.header(M.header.networks);
+          String? bssid;
           for (WifiConfig_Network n in config.networks) {
             if (n.hasIpv4())
-              b.kv("ipv4", n.ipv4);
+              b.kv("IPv4", n.ipv4);
             for (var srv in n.basicServiceSets) {
+              bssid = srv.bssid;
               b.kv("${srv.band}", "${srv.ssid}\n${srv.bssid}",
                   ok:!srv.bssid.startsWith("74:24:9f"),
                   hint: M.grpc.BasicServiceSet.bssid__hint
               );
             }
           }
+          if (bssid!=null && R.prefs.data.valkyrieCheck)
+            b.widgets.add(R.valkyrie.widget(bssid, theme));
           rows.addAll(b.widgets);
         }
 

@@ -24,6 +24,7 @@ import 'package:star_debug/stardebug_app.dart';
 import 'package:star_debug/utils/log_utils.dart';
 import 'package:time_machine/time_machine.dart';
 
+import 'controller/valkyrie_controller.dart';
 import 'messages/i18n.dart';
 import 'utils/shared_prefs.dart';
 
@@ -50,6 +51,7 @@ class Preloaded{
   FirebaseAnalytics? analytics;
 
   late DishLogController dishLog = DishLogController();
+  ValkyrieController valkyrie = ValkyrieController();
 
   late ConnController conn;
   late ConnectionHolder<DishConnection> dishHolder;

@@ -24,6 +24,7 @@ general:
   change_language: Change language
   dish: Dish
   router: Router
+  Security: Security
   device_app: Device App
   open_json_file: Open JSON file
   open_clipboard: Open JSON from clipboard
@@ -74,6 +75,22 @@ about:
 settings:
   settings: Settings
 
+valkyrie:
+  valkyrie_check: Valkyrie Check
+  valkyrie_check_sub: Checks whether router BSSID (wireless MAC address) is found in databases from Valkyrie.
+  found: Found
+  not_found: Not found
+  hint: |
+    Checks whether router BSSID (wireless MAC address) is found in databases from Valkyrie.
+    
+    The possible options are:
+    
+      - **Found** - BSSID is found in the Valkyrie database. It means its location can be exposed online. 
+      - **Not found** - BSSID is not found in the Valkyrie database ... at least yet.   
+
+    In any case, it is recommended to change BSSID regularly for security-critical usage. 
+    If not, it is possible that it will help to expose the location of connected devices. 
+    Moreover, in the case of a moving router, its route can be followed.
 wifi:
   setup: Setup
   setup_wifi: Setup Wifi

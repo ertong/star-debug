@@ -69,6 +69,7 @@ class Messages {
   MyMessages get my => MyMessages(this);
   AboutMessages get about => AboutMessages(this);
   SettingsMessages get settings => SettingsMessages(this);
+  ValkyrieMessages get valkyrie => ValkyrieMessages(this);
   WifiMessages get wifi => WifiMessages(this);
   LiveMessages get live => LiveMessages(this);
   HeaderMessages get header => HeaderMessages(this);
@@ -104,6 +105,7 @@ class GeneralMessages {
   String get change_language => """Change language""";
   String get dish => """Dish""";
   String get router => """Router""";
+  String get Security => """Security""";
   String get device_app => """Device App""";
   String get open_json_file => """Open JSON file""";
   String get open_clipboard => """Open JSON from clipboard""";
@@ -166,6 +168,28 @@ class SettingsMessages {
   final Messages _parent;
   const SettingsMessages(this._parent);
   String get settings => """Settings""";
+}
+
+class ValkyrieMessages {
+  final Messages _parent;
+  const ValkyrieMessages(this._parent);
+  String get valkyrie_check => """Valkyrie Check""";
+  String get valkyrie_check_sub =>
+      """Checks whether router BSSID (wireless MAC address) is found in databases from Valkyrie.""";
+  String get found => """Found""";
+  String get not_found => """Not found""";
+  String get hint =>
+      """Checks whether router BSSID (wireless MAC address) is found in databases from Valkyrie.
+
+The possible options are:
+
+  - **Found** - BSSID is found in the Valkyrie database. It means its location can be exposed online. 
+  - **Not found** - BSSID is not found in the Valkyrie database ... at least yet.   
+
+In any case, it is recommended to change BSSID regularly for security-critical usage. 
+If not, it is possible that it will help to expose the location of connected devices. 
+Moreover, in the case of a moving router, its route can be followed.
+""";
 }
 
 class WifiMessages {
@@ -640,6 +664,7 @@ Map<String, String> get messagesMap => {
       """general.change_language""": """Change language""",
       """general.dish""": """Dish""",
       """general.router""": """Router""",
+      """general.Security""": """Security""",
       """general.device_app""": """Device App""",
       """general.open_json_file""": """Open JSON file""",
       """general.open_clipboard""": """Open JSON from clipboard""",
@@ -680,6 +705,23 @@ the russian aggressor tries to turn cities into ashes.
 """,
       """about.project_on_github""": """Project on GitHub""",
       """settings.settings""": """Settings""",
+      """valkyrie.valkyrie_check""": """Valkyrie Check""",
+      """valkyrie.valkyrie_check_sub""":
+          """Checks whether router BSSID (wireless MAC address) is found in databases from Valkyrie.""",
+      """valkyrie.found""": """Found""",
+      """valkyrie.not_found""": """Not found""",
+      """valkyrie.hint""":
+          """Checks whether router BSSID (wireless MAC address) is found in databases from Valkyrie.
+
+The possible options are:
+
+  - **Found** - BSSID is found in the Valkyrie database. It means its location can be exposed online. 
+  - **Not found** - BSSID is not found in the Valkyrie database ... at least yet.   
+
+In any case, it is recommended to change BSSID regularly for security-critical usage. 
+If not, it is possible that it will help to expose the location of connected devices. 
+Moreover, in the case of a moving router, its route can be followed.
+""",
       """wifi.setup""": """Setup""",
       """wifi.setup_wifi""": """Setup Wifi""",
       """wifi.network_name""": """Network name""",

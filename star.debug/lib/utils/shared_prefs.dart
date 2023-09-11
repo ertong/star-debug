@@ -8,6 +8,8 @@ class Prefs{
 
   bool darkMode = false;
 
+  bool valkyrieCheck = false;
+
   Prefs();
 }
 
@@ -33,6 +35,7 @@ class SharedPrefs {
     res.lang = prefs.getString("lang");
     res.lastSystemLang = prefs.getString("lastSystemLang");
     res.darkMode = prefs.getBool("darkMode") ?? false;
+    res.valkyrieCheck = prefs.getBool("valkyrieCheck") ?? false;
 
     return res;
   }
@@ -79,6 +82,9 @@ class SharedPrefs {
 
     if (saved.darkMode!=data.darkMode)
       await setBool("darkMode", data.darkMode);
+
+    if (saved.valkyrieCheck!=data.valkyrieCheck)
+      await setBool("valkyrieCheck", data.valkyrieCheck);
 
     _data = await _load();
     _streamController.add(_data);

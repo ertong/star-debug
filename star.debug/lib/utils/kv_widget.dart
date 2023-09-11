@@ -27,7 +27,7 @@ class KVWidgetBuilder extends KVConsumer{
   }
 
   @override
-  void kvs(String k, String v, {bool? ok, String? hint}) {
+  void kvs(String k, String v, {bool? ok, String? hint, bool isLoading = false}) {
     widgets.add(InkWell(
       onTap: () async {
         if (hint==null)
@@ -64,9 +64,26 @@ class KVWidgetBuilder extends KVConsumer{
             ),
           // Container(width: 5,),
           // Expanded(child: Container()),
-          Text("$v",
-            // overflow: TextOverflow.fade,
-            textAlign: TextAlign.right,
+
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              if (isLoading)
+                ...[
+                  SizedBox(
+                      width: 10,
+                      height: 10,
+                      child: CircularProgressIndicator(strokeWidth: 2,)
+                  ),
+                  if (v!="")
+                    SizedBox(width: 5,)
+                ],
+              Text("$v",
+                // overflow: TextOverflow.fade,
+                textAlign: TextAlign.right,
+              ),
+            ],
           ),
         ],
       ),

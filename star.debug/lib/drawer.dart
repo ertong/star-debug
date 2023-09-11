@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:star_debug/messages/i18n.dart';
-import 'package:star_debug/pages/dialogs/select_lang.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/routes.dart';
 import 'package:star_debug/utils/log_utils.dart';

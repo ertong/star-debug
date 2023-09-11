@@ -78,14 +78,14 @@ class RouterConnection extends GrpcConnection {
     return res;
   }
 
-  CancelToken? token;
+  CancelToken? httpPoolCancelToken;
   final dio = Dio();
   Future doHttpPool() async {
     try {
-      token?.cancel();
-      token = CancelToken();
+      httpPoolCancelToken?.cancel();
+      httpPoolCancelToken = CancelToken();
       var resp = await dio.request("http://192.168.1.1",
-          cancelToken: token,
+          cancelToken: httpPoolCancelToken,
           options: Options(
               sendTimeout: Duration(seconds: 2),
               receiveTimeout: Duration(seconds: 4),
@@ -109,7 +109,6 @@ class RouterConnection extends GrpcConnection {
       LogUtils.e(_TAG, "GET http://192.168.1.1: ${"$e".split("\n")[0]}");
     }
   }
-
 }
 
 var _dev_images = {

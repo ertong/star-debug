@@ -1,6 +1,7 @@
 
 import 'package:star_debug/grpc/starlink/network.pbenum.dart';
 import 'package:star_debug/grpc/starlink/starlink.pb.dart';
+import 'package:star_debug/preloaded.dart';
 
 extension DishGetStatusExt on DishGetStatusResponse {
   int countAlerts(){
@@ -55,6 +56,13 @@ extension WifiGetStatusExt on WifiGetStatusResponse {
           }
         }
       }
+    }
+
+    if (R.prefs.data.valkyrieCheck) {
+      var service = config.networks[0].basicServiceSets[0];
+      var record = R.valkyrie.checkNow(service.bssid);
+      if (record?.device_is_found ?? false)
+        ++alerts;
     }
 
     return alerts;

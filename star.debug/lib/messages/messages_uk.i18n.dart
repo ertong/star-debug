@@ -70,6 +70,7 @@ class MessagesUk extends Messages {
   MyMessagesUk get my => MyMessagesUk(this);
   AboutMessagesUk get about => AboutMessagesUk(this);
   SettingsMessagesUk get settings => SettingsMessagesUk(this);
+  ValkyrieMessagesUk get valkyrie => ValkyrieMessagesUk(this);
   WifiMessagesUk get wifi => WifiMessagesUk(this);
   LiveMessagesUk get live => LiveMessagesUk(this);
   HeaderMessagesUk get header => HeaderMessagesUk(this);
@@ -105,6 +106,7 @@ class GeneralMessagesUk extends GeneralMessages {
   String get change_language => """Змінити мову""";
   String get dish => """Тарілка""";
   String get router => """Роутер""";
+  String get Security => """Безпека""";
   String get device_app => """Додаток""";
   String get open_json_file => """Відкрити JSON файл""";
   String get open_clipboard => """Відкрити JSON з буфера обміну""";
@@ -167,6 +169,28 @@ class SettingsMessagesUk extends SettingsMessages {
   final MessagesUk _parent;
   const SettingsMessagesUk(this._parent) : super(_parent);
   String get settings => """Налаштування""";
+}
+
+class ValkyrieMessagesUk extends ValkyrieMessages {
+  final MessagesUk _parent;
+  const ValkyrieMessagesUk(this._parent) : super(_parent);
+  String get valkyrie_check => """Перевірка від Valkyrie""";
+  String get valkyrie_check_sub =>
+      """Перевіряє SSID роутера на наявність в базах від Valkyrie""";
+  String get found => """Знайдено""";
+  String get not_found => """Не знайдено""";
+  String get hint =>
+      """Перевіряє, чи BSSID (MAC-адреса бездротового інтерфейсу) маршрутизатора знайдена в базах даних від Valkyrie.
+
+Можливі варіанти:
+
+ - **Знайдено** - BSSID знайдена в базі даних Valkyrie. Це означає, що місцезнаходження роутера може бути опубліковане в Інтернеті.
+ - **Не знайдено** - BSSID не знайдено в базі даних Valkyrie ... принаймні поки що.
+
+У будь-якому випадку, рекомендовано регулярно змінювати BSSID у роутерів, для яких безпека є важливою.
+Якщо цього не робити, можливо, це допоможе виявити місцезнаходження підключених пристроїв.
+Крім того, у випадку рухомого маршрутизатора, можна прослідкувати його маршрут.
+""";
 }
 
 class WifiMessagesUk extends WifiMessages {
@@ -641,6 +665,7 @@ Map<String, String> get messagesUkMap => {
       """general.change_language""": """Змінити мову""",
       """general.dish""": """Тарілка""",
       """general.router""": """Роутер""",
+      """general.Security""": """Безпека""",
       """general.device_app""": """Додаток""",
       """general.open_json_file""": """Відкрити JSON файл""",
       """general.open_clipboard""": """Відкрити JSON з буфера обміну""",
@@ -681,6 +706,23 @@ Map<String, String> get messagesUkMap => {
 """,
       """about.project_on_github""": """Проект на GitHub""",
       """settings.settings""": """Налаштування""",
+      """valkyrie.valkyrie_check""": """Перевірка від Valkyrie""",
+      """valkyrie.valkyrie_check_sub""":
+          """Перевіряє SSID роутера на наявність в базах від Valkyrie""",
+      """valkyrie.found""": """Знайдено""",
+      """valkyrie.not_found""": """Не знайдено""",
+      """valkyrie.hint""":
+          """Перевіряє, чи BSSID (MAC-адреса бездротового інтерфейсу) маршрутизатора знайдена в базах даних від Valkyrie.
+
+Можливі варіанти:
+
+ - **Знайдено** - BSSID знайдена в базі даних Valkyrie. Це означає, що місцезнаходження роутера може бути опубліковане в Інтернеті.
+ - **Не знайдено** - BSSID не знайдено в базі даних Valkyrie ... принаймні поки що.
+
+У будь-якому випадку, рекомендовано регулярно змінювати BSSID у роутерів, для яких безпека є важливою.
+Якщо цього не робити, можливо, це допоможе виявити місцезнаходження підключених пристроїв.
+Крім того, у випадку рухомого маршрутизатора, можна прослідкувати його маршрут.
+""",
       """wifi.setup""": """Налаштувати""",
       """wifi.setup_wifi""": """Налаштувати Wifi""",
       """wifi.network_name""": """Назва мережі""",

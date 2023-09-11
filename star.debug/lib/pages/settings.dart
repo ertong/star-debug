@@ -49,26 +49,6 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
 
 
     res.add(ListTile(
-      leading: Icon(Icons.format_paint),
-      title: Text(M.general.dark_mode),
-      trailing: Switch(
-        onChanged: (value) async {
-          await R.prefs.save((p){
-            p.darkMode = !p.darkMode;
-          });
-          R.appKey.currentState?.setState(() {});
-        },
-        value: R.prefs.data.darkMode,
-      ),
-      onTap: () async {
-        await R.prefs.save((p){
-          p.darkMode = !p.darkMode;
-        });
-        R.appKey.currentState?.setState(() {});
-      },
-    ));
-
-    res.add(ListTile(
       leading: Icon(Icons.language),
       title: Text(M.general.language),
       trailing: Row(
@@ -90,10 +70,55 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
       },
     ));
 
+    res.add(checkbox(
+      icon: Icons.format_paint,
+      title: M.general.dark_mode,
+      value: R.prefs.data.darkMode,
+      onToggle: () async {
+        await R.prefs.save((p){
+          p.darkMode = !p.darkMode;
+        });
+        R.appKey.currentState?.setState(() {});
+      }
+    ));
+
+    res.add(checkbox(
+        icon: Icons.podcasts,
+        title: M.valkyrie.valkyrie_check,
+        subtitle: M.valkyrie.valkyrie_check_sub,
+        value: R.prefs.data.valkyrieCheck,
+        onToggle: () async {
+          await R.prefs.save((p){
+            p.valkyrieCheck = !p.valkyrieCheck;
+            setState(() {});
+          });
+        }
+    ));
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: res,
+    );
+  }
+
+  Widget checkbox({required IconData icon,
+      required String title, String? subtitle,
+      required bool value, required Function() onToggle})
+  {
+    return ListTile(
+      leading: Icon(icon),
+      title: Text(title),
+      subtitle: subtitle==null ? null : Text(subtitle),
+      trailing: Switch(
+        onChanged: (value) {
+          onToggle();
+        },
+        value: value,
+      ),
+      onTap: () {
+        onToggle();
+      },
     );
   }
 
