@@ -59,10 +59,10 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDmAdXziCYFIkMZtjvmPNDXWKKmkh8TI6A',
-    appId: '1:523637359255:ios:b7526bc7ef1bdc0a801fd2',
+    appId: '1:523637359255:ios:2b7dac7e88163547801fd2',
     messagingSenderId: '523637359255',
     projectId: 'stardebug',
     storageBucket: 'stardebug.appspot.com',
-    iosBundleId: 'com.stardebug.starDebug',
+    iosBundleId: 'com.stardebug',
   );
 }
