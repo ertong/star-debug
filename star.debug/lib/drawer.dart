@@ -66,7 +66,7 @@ class _AppDrawerState extends State<AppDrawer> {
               padding: EdgeInsets.zero,
               children: <Widget>[
                 _createHeader(),
-                _createDrawerItemRoute(context, Icons.play_arrow, "Strarlink Live", Routes.LIVE),
+                _createDrawerItemRoute(context, Icons.play_arrow, "Starlink Live", Routes.LIVE),
                 _createDrawerItemRoute(context, Icons.bug_report, M.general.debug_data_viewer, Routes.MAIN),
                 _createDrawerItemRoute(context, Icons.pets, M.my.my_starlinks, Routes.MY_STARLINKS),
                 if (R.isDebug)

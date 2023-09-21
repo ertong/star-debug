@@ -203,7 +203,7 @@ class WifiMessages {
   String get apply => """Apply""";
   String get bypass => """Bypass""";
   String get setup_ssid_and_password => """Setup SSID and password""";
-  String get keep_default_wifi_settings => """Keep default wifi settings""";
+  String get keep_default_wifi_settings => """STARLINK/no password""";
   String get enable_bypass_mode => """Enable bypass mode""";
 }
 
@@ -730,7 +730,7 @@ Moreover, in the case of a moving router, its route can be followed.
       """wifi.apply""": """Apply""",
       """wifi.bypass""": """Bypass""",
       """wifi.setup_ssid_and_password""": """Setup SSID and password""",
-      """wifi.keep_default_wifi_settings""": """Keep default wifi settings""",
+      """wifi.keep_default_wifi_settings""": """STARLINK/no password""",
       """wifi.enable_bypass_mode""": """Enable bypass mode""",
       """live.starlink_live""": """Starlink Live""",
       """header.general""": """General""",

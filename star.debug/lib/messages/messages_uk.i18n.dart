@@ -204,7 +204,7 @@ class WifiMessagesUk extends WifiMessages {
   String get apply => """Застосувати""";
   String get bypass => """Bypass""";
   String get setup_ssid_and_password => """Налаштувати SSID та пароль""";
-  String get keep_default_wifi_settings => """Залишити типові налаштування""";
+  String get keep_default_wifi_settings => """STARLINK/без пароля""";
   String get enable_bypass_mode => """Увімкнути режим Bypass""";
 }
 
@@ -731,7 +731,7 @@ Map<String, String> get messagesUkMap => {
       """wifi.apply""": """Застосувати""",
       """wifi.bypass""": """Bypass""",
       """wifi.setup_ssid_and_password""": """Налаштувати SSID та пароль""",
-      """wifi.keep_default_wifi_settings""": """Залишити типові налаштування""",
+      """wifi.keep_default_wifi_settings""": """STARLINK/без пароля""",
       """wifi.enable_bypass_mode""": """Увімкнути режим Bypass""",
       """live.starlink_live""": """Starlink Live""",
       """header.general""": """Загальне""",

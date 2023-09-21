@@ -104,7 +104,7 @@ wifi:
   apply: Застосувати
   bypass: Bypass
   setup_ssid_and_password: Налаштувати SSID та пароль
-  keep_default_wifi_settings: Залишити типові налаштування
+  keep_default_wifi_settings: STARLINK/без пароля
   enable_bypass_mode: Увімкнути режим Bypass
 
 live:
