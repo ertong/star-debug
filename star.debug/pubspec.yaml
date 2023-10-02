@@ -16,19 +16,19 @@ dependencies:
     sdk: flutter
 
   shared_preferences: any
-  logger: ^2.0.1
+  logger: ^2.0.2+1
   path_provider: any
-  drift: ^2.11.1
-  sqlite3_flutter_libs: ^0.5.16
+  drift: ^2.12.1
+  sqlite3_flutter_libs: ^0.5.17
   i18n: any
-  devicelocale: ^0.6.0
-  permission_handler: ^10.4.3
+  devicelocale: ^0.7.0
+  permission_handler: ^11.0.0
   device_info_plus: ^9.0.3
   connectivity_plus: ^4.0.2
   json_annotation: ^4.8.1
   package_info_plus: ^4.1.0
   intl: any
-  firebase_core: ^2.15.1
+  firebase_core: ^2.16.0
   firebase_crashlytics: any
   firebase_analytics: any
   clipboard: ^0.1.3
@@ -37,17 +37,17 @@ dependencies:
   upgrader: ^8.1.0
   file_picker: any
   flex_list: 1.0.0
-  grpc: ^3.2.3
+  grpc: ^3.2.4
   protobuf: any
   fixnum: any
-  dio: ^5.3.2
-  syncfusion_flutter_charts: ^22.2.10
+  dio: ^5.3.3
+  syncfusion_flutter_charts: ^23.1.38
   recase: 4.1.0
   share_plus: ^7.1.0
   mutex: 3.0.1
-  flutter_markdown: ^0.6.17+1
-  url_launcher: ^6.1.12
-  flutter_email_sender: ^6.0.1
+  flutter_markdown: ^0.6.17+3
+  url_launcher: ^6.1.14
+  flutter_email_sender: ^6.0.2
   convert: 3.1.1
 dev_dependencies:
   flutter_test:
@@ -55,10 +55,10 @@ dev_dependencies:
   json_serializable: ^6.7.1
   build_runner: any
   flutter_launcher_icons: any
-  drift_dev: ^2.11.1
+  drift_dev: ^2.12.1
 
   # The lint set provided by the package is activated in the `analysis_options.yaml`
-  flutter_lints: ^2.0.2
+  flutter_lints: ^2.0.3
 
 flutter_launcher_icons:
   android: "launcher_icon"
