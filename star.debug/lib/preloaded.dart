@@ -21,6 +21,7 @@ import 'package:star_debug/db/database.dart';
 import 'package:star_debug/db/database_holder.dart';
 import 'package:star_debug/firebase_options.dart';
 import 'package:star_debug/stardebug_app.dart';
+import 'package:star_debug/utils/features.dart';
 import 'package:star_debug/utils/log_utils.dart';
 import 'package:time_machine/time_machine.dart';
 
@@ -39,6 +40,7 @@ class Preloaded{
   bool? wasLaunchedFromNotification = false;
   late Database db;
   late SharedPrefs prefs;
+  Features features = Features();
 
   LifecycleObserver lifecycleObserver = LifecycleObserver();
 

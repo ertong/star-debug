@@ -82,18 +82,19 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
       }
     ));
 
-    res.add(checkbox(
-        icon: Icons.podcasts,
-        title: M.valkyrie.valkyrie_check,
-        subtitle: M.valkyrie.valkyrie_check_sub,
-        value: R.prefs.data.valkyrieCheck,
-        onToggle: () async {
-          await R.prefs.save((p){
-            p.valkyrieCheck = !p.valkyrieCheck;
-            setState(() {});
-          });
-        }
-    ));
+    if (R.features.valkyrieCheck)
+      res.add(checkbox(
+          icon: Icons.podcasts,
+          title: M.valkyrie.valkyrie_check,
+          subtitle: M.valkyrie.valkyrie_check_sub,
+          value: R.prefs.data.valkyrieCheck,
+          onToggle: () async {
+            await R.prefs.save((p){
+              p.valkyrieCheck = !p.valkyrieCheck;
+              setState(() {});
+            });
+          }
+      ));
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
