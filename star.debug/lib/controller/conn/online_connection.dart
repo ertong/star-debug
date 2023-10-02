@@ -61,6 +61,7 @@ class OnlineConnection extends BaseConnection {
 
   String lastIp = "";
   bool needIfConfig = false;
+  bool needStarlinkGeoIp = false;
   int cntNotOk = 0;
   int cntOk = 0;
   bool starlinkInternetDetected = false;
@@ -79,11 +80,8 @@ class OnlineConnection extends BaseConnection {
     if (lastIp=="" || lastIp!=myIp) {
       lastIp = myIp ?? "";
       needIfConfig = true;
+      needStarlinkGeoIp = true;
       getIfConfig.data = null;
-    }
-
-    if (getIfConfig.data!=null) {
-      needIfConfig = false;
     }
 
     hasIpv6 = false;
@@ -138,7 +136,18 @@ class OnlineConnection extends BaseConnection {
 
   late HttpTest getOpendns = HttpTest("https://myipv4.p1.opendns.com/get_my_ip", ()=>notify(), method: "GET");
   late HttpTest getIpify = HttpTest("https://api.ipify.org?format=json", ()=>notify(), method: "GET");
-  late HttpTest getIfConfig = HttpTest("https://ifconfig.co/json", ()=>notify(), method: "GET");
+
+  late HttpTest getIfConfig = HttpTest("https://ifconfig.co/json", () {
+    if (getIfConfig.data!=null)
+      needIfConfig = false;
+    notify();
+  }, method: "GET");
+
+  late HttpTest getStarlinkGeoIp = HttpTest("https://geoip.starlinkisp.net/feed.csv", () {
+    if (getStarlinkGeoIp.data!=null)
+      needStarlinkGeoIp = false;
+    notify();
+  }, method: "GET");
 
   Future tick() async {
 
@@ -152,6 +161,9 @@ class OnlineConnection extends BaseConnection {
       optStarlink.trigger();
       getOpendns.trigger();
       getIpify.trigger();
+
+      if (needStarlinkGeoIp)
+        getStarlinkGeoIp.trigger();
 
       if (needIfConfig)
         getIfConfig.trigger();
@@ -204,6 +216,7 @@ class HttpTest {
   String url;
   String method;
   dynamic data;
+  dynamic newData;
   final dio = Dio();
   CancelToken? token;
   int timeOk = 0;
@@ -237,6 +250,7 @@ class HttpTest {
   Future doDio() async{
     token?.cancel();
     token = CancelToken();
+    newData = null;
     var resp = await dio.request(url,
         cancelToken: token,
         options: Options(
@@ -250,6 +264,7 @@ class HttpTest {
     if (resp.statusCode!=null && (resp.statusCode!~/100 == 2 || resp.statusCode!~/100 == 3)) {
       timeOk = DateTime.now().millisecondsSinceEpoch;
       // print("$url: $resp");
+      newData = resp.data;
       data = resp.data;
       return true;
     }
@@ -257,6 +272,7 @@ class HttpTest {
   }
 
   Future doAndroid() async{
+    newData = null;
 
     HttpTestResult res = await R.starChannel.httpTest(url, method, null).timeout(Duration(seconds: 4));
 
