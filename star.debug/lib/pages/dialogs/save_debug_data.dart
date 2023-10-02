@@ -133,7 +133,7 @@ class _SaveDebugDataDialogState<TItem> extends State<SaveDebugDataDialog<TItem>>
       var msg = "Saved to $path";
 
       if (Platform.isIOS)
-        msg = "Saved to Files/Star Debug/$name";
+        msg = "Saved to Files/${M.general.app_name}/$name";
       if (Platform.isAndroid)
         msg = "Saved to Downloads/$name";
 

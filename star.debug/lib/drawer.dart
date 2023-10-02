@@ -159,7 +159,7 @@ class _AppDrawerState extends State<AppDrawer> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
-                                    Text("StarDebug", style: TextStyle(color: Colors.white), softWrap: true,),
+                                    Text("${M.general.app_name}", style: TextStyle(color: Colors.white), softWrap: true,),
                                     Text("${R.versionName}", style: TextStyle(color: Colors.white), softWrap: true,),
                                   ],
                                 )
