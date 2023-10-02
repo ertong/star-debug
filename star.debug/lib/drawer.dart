@@ -77,8 +77,13 @@ class _AppDrawerState extends State<AppDrawer> {
             ),
           ),
           ListTile(
-            leading: Transform.scale(scale:0.8, child: _buildLogo()),
+            leading: Padding(
+                padding: EdgeInsets.fromLTRB(4, 0, 0, 0),
+                child: Transform.scale(scale: 1, child:_buildLogo())
+            ),
             title: Text(M.about.about_starlink_for_ukraine,),
+            contentPadding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+            dense: true,
             onTap: (){
               Navigator.of(context).pushNamedAndRemoveUntil(Routes.ABOUT, (r) => false);
             },
@@ -96,18 +101,18 @@ class _AppDrawerState extends State<AppDrawer> {
           borderRadius: BorderRadius.all(Radius.circular(25)),
           color: Colors.black
       ),
-      width: 50,
-      height: 50,
+      width: 30,
+      height: 30,
       child: ClipRRect(
         borderRadius: BorderRadius.all(Radius.circular(25)),
         child: OverflowBox(
-          maxWidth: 70,
-          maxHeight: 70,
+          maxWidth: 50,
+          maxHeight: 50,
           child: Padding(
             padding: const EdgeInsets.fromLTRB(13, 0, 0, 0),
             child: Image(
               image: AssetImage('assets/images/starlinkforukraine1.png'),
-              width: 70,
+              width: 50,
             ),
           ),
         ),
