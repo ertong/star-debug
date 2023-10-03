@@ -121,8 +121,9 @@ class _AppDrawerState extends State<AppDrawer> {
   }
 
   Widget _createHeader() {
+    var media = MediaQuery.of(context);
     return SizedBox(
-      height: 130,
+      height: 130 + media.viewPadding.top,
       child: DrawerHeader(
           margin: EdgeInsets.zero,
           padding: EdgeInsets.zero,
