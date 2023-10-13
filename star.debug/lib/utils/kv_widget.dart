@@ -79,9 +79,10 @@ class KVWidgetBuilder extends KVConsumer{
                   if (v!="")
                     SizedBox(width: 5,)
                 ],
-              Text("$v",
-                // overflow: TextOverflow.fade,
-                textAlign: TextAlign.right,
+              Flexible(
+                child: Text("$v",
+                  textAlign: TextAlign.right,
+                ),
               ),
             ],
           ),
