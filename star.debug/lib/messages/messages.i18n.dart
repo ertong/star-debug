@@ -456,6 +456,7 @@ class DishGetStatusGrpcMessages {
   String get software_update_state => """Software update state""";
   String get is_snr_persistently_low => """SNR persistently low""";
   String get has_actuators => """Actuators""";
+  String get actuator_state => """Actuators state""";
   String get disablement_code => """Service state""";
   String get disablement_code__hint => """The possible options are:
 
@@ -906,6 +907,7 @@ with internet access and dish access. You can find this setting in
       """grpc.DishGetStatus.is_snr_persistently_low""":
           """SNR persistently low""",
       """grpc.DishGetStatus.has_actuators""": """Actuators""",
+      """grpc.DishGetStatus.actuator_state""": """Actuators state""",
       """grpc.DishGetStatus.disablement_code""": """Service state""",
       """grpc.DishGetStatus.disablement_code__hint""":
           """The possible options are:

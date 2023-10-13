@@ -270,6 +270,7 @@ grpc:
     software_update_state: Стан оновлення
     is_snr_persistently_low: SNR стабільно низький
     has_actuators: Наявність приводу
+    actuator_state: Стан приводів
     disablement_code: Стан сервісу
     disablement_code__hint: |
       Можливі варіанти:

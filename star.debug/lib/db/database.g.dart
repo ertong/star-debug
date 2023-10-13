@@ -80,9 +80,10 @@ class $DishLogsTable extends DishLogs with TableInfo<$DishLogsTable, DishLog> {
         onlineJson
       ];
   @override
-  String get aliasedName => _alias ?? 'dish_logs';
+  String get aliasedName => _alias ?? actualTableName;
   @override
-  String get actualTableName => 'dish_logs';
+  String get actualTableName => $name;
+  static const String $name = 'dish_logs';
   @override
   VerificationContext validateIntegrity(Insertable<DishLog> instance,
       {bool isInserting = false}) {
@@ -514,9 +515,10 @@ class $DishesTable extends Dishes with TableInfo<$DishesTable, Dish> {
   List<GeneratedColumn> get $columns =>
       [dishId, name, latestLogId, latestLogTimestamp];
   @override
-  String get aliasedName => _alias ?? 'dishes';
+  String get aliasedName => _alias ?? actualTableName;
   @override
-  String get actualTableName => 'dishes';
+  String get actualTableName => $name;
+  static const String $name = 'dishes';
   @override
   VerificationContext validateIntegrity(Insertable<Dish> instance,
       {bool isInserting = false}) {
