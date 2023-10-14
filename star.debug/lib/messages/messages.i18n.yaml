@@ -301,6 +301,7 @@ grpc:
     software_update_state: Software update state
     is_snr_persistently_low: SNR persistently low
     has_actuators: Actuators
+    actuator_state: Actuators state
     disablement_code: Service state
     disablement_code__hint: |
       The possible options are:

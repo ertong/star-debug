@@ -11,5 +11,4 @@ GeneratedPluginRegistrant.java
 key.properties
 **/*.keystore
 **/*.jks
-/stardebug-4be77abc4bec.json
-/tmsatcomlink-da25a11b87b3.json
+/*.json

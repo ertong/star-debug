@@ -457,6 +457,7 @@ class DishGetStatusGrpcMessagesUk extends DishGetStatusGrpcMessages {
   String get software_update_state => """Стан оновлення""";
   String get is_snr_persistently_low => """SNR стабільно низький""";
   String get has_actuators => """Наявність приводу""";
+  String get actuator_state => """Стан приводів""";
   String get disablement_code => """Стан сервісу""";
   String get disablement_code__hint => """Можливі варіанти:
 
@@ -904,6 +905,7 @@ Map<String, String> get messagesUkMap => {
       """grpc.DishGetStatus.is_snr_persistently_low""":
           """SNR стабільно низький""",
       """grpc.DishGetStatus.has_actuators""": """Наявність приводу""",
+      """grpc.DishGetStatus.actuator_state""": """Стан приводів""",
       """grpc.DishGetStatus.disablement_code""": """Стан сервісу""",
       """grpc.DishGetStatus.disablement_code__hint""": """Можливі варіанти:
 

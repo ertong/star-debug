@@ -80,6 +80,11 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
         if (status.hasHasActuators()) {
           b.kv(M.grpc.DishGetStatus.has_actuators, status.hasActuators);
         }
+        if (status.hasAlignmentStats()) {
+          if (status.alignmentStats.hasActuatorState()){
+            b.kv(M.grpc.DishGetStatus.actuator_state, status.alignmentStats.actuatorState);
+          }
+        }
 
         if (status.hasOutage()) {
           if (status.outage.hasCause())
@@ -98,7 +103,11 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
         }
 
         if (status.hasSoftwareUpdateState()) {
-          b.kv(M.grpc.DishGetStatus.software_update_state, status.softwareUpdateState);
+          var s = "${status.softwareUpdateState}";
+          if (status.hasSoftwareUpdateStats() && status.softwareUpdateStats.hasSoftwareUpdateProgress()) {
+            s = "$s (${(status.softwareUpdateStats.softwareUpdateProgress*100).toStringAsFixed(0)}%)";
+          }
+          b.kv(M.grpc.DishGetStatus.software_update_state, s);
         }
 
         rows.addAll(b.widgets);
