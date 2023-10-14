@@ -104,9 +104,15 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
 
         if (status.hasSoftwareUpdateState()) {
           var s = "${status.softwareUpdateState}";
-          if (status.hasSoftwareUpdateStats() && status.softwareUpdateStats.hasSoftwareUpdateProgress()) {
-            s = "$s (${(status.softwareUpdateStats.softwareUpdateProgress*100).toStringAsFixed(0)}%)";
-          }
+          if (![
+            SoftwareUpdateState.IDLE,
+            SoftwareUpdateState.REBOOT_REQUIRED,
+            SoftwareUpdateState.DISABLED,
+            SoftwareUpdateState.FAULTED,
+          ].contains(status.softwareUpdateState))
+            if (status.hasSoftwareUpdateStats() && status.softwareUpdateStats.hasSoftwareUpdateProgress()) {
+              s = "$s (${(status.softwareUpdateStats.softwareUpdateProgress*100).toStringAsFixed(0)}%)";
+            }
           b.kv(M.grpc.DishGetStatus.software_update_state, s);
         }
 
