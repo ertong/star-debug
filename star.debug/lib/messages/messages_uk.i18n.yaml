@@ -109,6 +109,8 @@ wifi:
 
 live:
   starlink_live: Starlink Live
+  check_update: Перевірити оновлення
+
 header:
   general: Загальне
   signal: Сигнал

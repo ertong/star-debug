@@ -212,6 +212,7 @@ class LiveMessagesUk extends LiveMessages {
   final MessagesUk _parent;
   const LiveMessagesUk(this._parent) : super(_parent);
   String get starlink_live => """Starlink Live""";
+  String get check_update => """Перевірити оновлення""";
 }
 
 class HeaderMessagesUk extends HeaderMessages {
@@ -735,6 +736,7 @@ Map<String, String> get messagesUkMap => {
       """wifi.keep_default_wifi_settings""": """STARLINK/без пароля""",
       """wifi.enable_bypass_mode""": """Увімкнути режим Bypass""",
       """live.starlink_live""": """Starlink Live""",
+      """live.check_update""": """Перевірити оновлення""",
       """header.general""": """Загальне""",
       """header.signal""": """Сигнал""",
       """header.network""": """Мережа""",

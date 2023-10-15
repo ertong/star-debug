@@ -211,6 +211,7 @@ class LiveMessages {
   final Messages _parent;
   const LiveMessages(this._parent);
   String get starlink_live => """Starlink Live""";
+  String get check_update => """Check Update""";
 }
 
 class HeaderMessages {
@@ -734,6 +735,7 @@ Moreover, in the case of a moving router, its route can be followed.
       """wifi.keep_default_wifi_settings""": """STARLINK/no password""",
       """wifi.enable_bypass_mode""": """Enable bypass mode""",
       """live.starlink_live""": """Starlink Live""",
+      """live.check_update""": """Check Update""",
       """header.general""": """General""",
       """header.signal""": """Signal""",
       """header.network""": """Network""",
