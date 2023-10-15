@@ -121,9 +121,9 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
 
         // bool stowed = status.stowRequested || status.outage.cause == DishOutage_Cause.STOWED;
         bool gpsInhibited = status.gpsStats.inhibitGps;
-        b.widgets.add(Flex(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          direction: Axis.horizontal,
+        b.widgets.add(Wrap(
+          spacing: 5,
+          alignment: WrapAlignment.spaceAround,
           children: [
             reqButton(M.general.reboot, () => Request(reboot: RebootRequest())),
             reqButton(M.general.stow, () => Request(dishStow: DishStowRequest(unstow: false))),
@@ -160,10 +160,12 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
           Expanded(child: Column(crossAxisAlignment:CrossAxisAlignment.start, children: b1.widgets,))
         ],));
 
-        b.widgets.add(Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+        b.widgets.add(Wrap(
+          spacing: 5,
+          alignment: WrapAlignment.spaceAround,
           children: [
             reqButton(M.general.reboot, () => Request(reboot: RebootRequest()), router: true),
+            reqButton(M.live.check_update, () => Request(update: UpdateRequest()), router: true),
             if ((R.router?.wifiGetStatus.hasRecentData() ?? false)
                 && !status.config.setupComplete
                 && (R.router?.httpPool.data?.location ?? "")=="/setup"

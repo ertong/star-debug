@@ -170,6 +170,13 @@ class _DebugPageState extends State<DebugPage> with TickerProviderStateMixin {
     //   ],
     // ));
 
+    res.add(Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        reqButton("UpdateRequestRouter", () => Request(update: UpdateRequest()), router: true),
+      ],
+    ));
+
     res.add(InkWell(
       onTap: () async {
         if (text.isEmpty)
