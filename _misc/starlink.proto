@@ -1164,17 +1164,6 @@ message DeviceState {
   uint64 uptime_s = 1;
 }
 
-//SpaceX.API.Satellites.Network.UtDisablementCode is an enum:
-enum UtDisablementCode {
-  UNKNOWN_STATE = 0;
-  OKAY = 1;
-  NO_ACTIVE_ACCOUNT = 2;
-  TOO_FAR_FROM_SERVICE_ADDRESS = 3;
-  IN_OCEAN = 4;
-  INVALID_COUNTRY = 5;
-  BLOCKED_COUNTRY = 6;
-}
-
 //SpaceX.API.Device.DishGetStatusResponse is a message:
 message DishGetStatusResponse {
   .SpaceX.API.Device.DeviceInfo device_info = 1;

@@ -159,26 +159,6 @@ final $typed_data.Uint8List speedtestErrorDescriptor = $convert.base64Decode(
     'X0VSUk9SX0FQSRADEh0KGVNQRUVEVEVTVF9FUlJPUl9OT19SRVNVTFQQBBIbChdTUEVFRFRFU1'
     'RfRVJST1JfT0ZGTElORRAF');
 
-@$core.Deprecated('Use utDisablementCodeDescriptor instead')
-const UtDisablementCode$json = {
-  '1': 'UtDisablementCode',
-  '2': [
-    {'1': 'UNKNOWN_STATE', '2': 0},
-    {'1': 'OKAY', '2': 1},
-    {'1': 'NO_ACTIVE_ACCOUNT', '2': 2},
-    {'1': 'TOO_FAR_FROM_SERVICE_ADDRESS', '2': 3},
-    {'1': 'IN_OCEAN', '2': 4},
-    {'1': 'INVALID_COUNTRY', '2': 5},
-    {'1': 'BLOCKED_COUNTRY', '2': 6},
-  ],
-};
-
-/// Descriptor for `UtDisablementCode`. Decode as a `google.protobuf.EnumDescriptorProto`.
-final $typed_data.Uint8List utDisablementCodeDescriptor = $convert.base64Decode(
-    'ChFVdERpc2FibGVtZW50Q29kZRIRCg1VTktOT1dOX1NUQVRFEAASCAoET0tBWRABEhUKEU5PX0'
-    'FDVElWRV9BQ0NPVU5UEAISIAocVE9PX0ZBUl9GUk9NX1NFUlZJQ0VfQUREUkVTUxADEgwKCElO'
-    'X09DRUFOEAQSEwoPSU5WQUxJRF9DT1VOVFJZEAUSEwoPQkxPQ0tFRF9DT1VOVFJZEAY=');
-
 @$core.Deprecated('Use userMobilityClassDescriptor instead')
 const UserMobilityClass$json = {
   '1': 'UserMobilityClass',
