@@ -44,4 +44,51 @@ void main() {
     }
 
   });
+
+  test('GeoIp v4', () async {
+    var geo = GeoIp();
+    geo.readStarlinkFeed('''14.1.72.0/24,IN,IN-MH,Mumbai,
+14.1.73.0/24,IN,IN-MH,Mumbai,
+14.1.74.0/24,IN,IN-MH,Mumbai,
+14.1.75.0/24,IN,IN-MH,Mumbai,
+14.1.76.0/24,PK,PK-SD,Karachi,
+14.1.77.0/24,PK,PK-SD,Karachi,
+14.1.78.0/24,PK,PK-SD,Karachi,
+14.1.79.0/24,PK,PK-SD,Karachi,
+65.181.0.0/24,AU,AU-NSW,Sydney,
+65.181.1.0/24,AU,AU-NSW,Sydney,
+65.181.2.0/24,AU,AU-NSW,Sydney,
+65.181.3.0/24,AU,AU-NSW,Sydney,
+2a0d:3344:1cc0::/42,PT,PT-11,Lisbon,
+2a0d:3344:1d00::/42,RO,RO-B,Bucharest,
+2a0d:3344:1d40::/42,RS,RS-00,Belgrade,''');
+
+    expect(geo.checkIpv4("65.181.3.1"), "AU, Sydney");
+    expect(geo.checkIpv4("65.181.4.0"), null);
+    expect(geo.checkIpv4("65.181.4.1"), null);
+
+    expect(geo.checkIpv4("127.0.0.1"), null);
+
+    expect(geo.checkIpv4("14.1.76.0"), "PK, Karachi");
+    expect(geo.checkIpv4("14.1.76.255"), "PK, Karachi");
+
+    expect(geo.checkIpv6("2a0d:3344:1d80::"), null);
+
+    expect(geo.checkIpv6("2a0d:3344:1d40::"), "RS, Belgrade");
+    expect(geo.checkIpv6("2a0d:3344:1d41::"), "RS, Belgrade");
+    expect(geo.checkIpv6("2a0d:3344:1d44::"), "RS, Belgrade");
+    expect(geo.checkIpv6("2a0d:3344:1d40::0"), "RS, Belgrade");
+    expect(geo.checkIpv6("2a0d:3344:1d40::1"), "RS, Belgrade");
+    expect(geo.checkIpv6("2a0d:3344:1d40:0:0:0:0:1"), "RS, Belgrade");
+    expect(geo.checkIpv6("2a0d:3344:1d4f:ffff:ffff:ffff:ffff:ffff"), "RS, Belgrade");
+
+
+    expect(geo.check("127.0.0.1"), null);
+    expect(geo.check("14.1.76.255"), "PK, Karachi");
+    expect(geo.check("2a0d:3344:1d80::"), null);
+    expect(geo.check("2a0d:3344:1d40::"), "RS, Belgrade");
+
+    expect(geo.check("2A0D:3344:1D40::"), "RS, Belgrade");
+  });
+
 }
