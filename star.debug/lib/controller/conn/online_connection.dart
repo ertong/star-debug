@@ -69,17 +69,21 @@ class OnlineConnection extends BaseConnection {
   String? starlinkInternetCity;
   bool hasIpv6 = false;
 
+  String? myIp;
   GeoIp? geoIp;
 
   void notify(){
-    String? myIp;
     int now = DateTime.now().millisecondsSinceEpoch;
 
-    if (getOpendns.data!=null && now-getOpendns.timeOk < T_OK*2)
+    myIp = null;
+    if (myIp==null && getOpendns.data!=null && now-getOpendns.timeOk < T_OK*2)
       myIp = getOpendns.data["ip"];
 
-    if (getIpify.data!=null && now-getIpify.timeOk < T_OK*2)
+    if (myIp==null && getIpify.data!=null && now-getIpify.timeOk < T_OK*2)
       myIp = getIpify.data["ip"];
+
+    if (myIp==null && getIfConfig.data!=null && now-getIfConfig.timeOk < T_OK*2)
+      myIp = getIfConfig.data["ip"];
 
     if (lastIp=="" || lastIp!=myIp) {
       lastIp = myIp ?? "";
@@ -122,7 +126,7 @@ class OnlineConnection extends BaseConnection {
       }
       var geo = geoIp;
       if (geo!=null && myIp!=null) {
-        starlinkInternetCity = geo.check(myIp);
+        starlinkInternetCity = geo.check(myIp!);
         starlinkInternetDetected = starlinkInternetCity!=null;
       }
 
@@ -160,8 +164,10 @@ class OnlineConnection extends BaseConnection {
     if (getStarlinkGeoIp.data!=null) {
       var geo = GeoIp();
       geo.readStarlinkFeed(getStarlinkGeoIp.data);
-      needStarlinkGeoIp = false;
-      geoIp = geo;
+      if (geo.map.isNotEmpty) {
+        needStarlinkGeoIp = false;
+        geoIp = geo;
+      }
     }
     notify();
   }, method: "GET");
@@ -224,7 +230,16 @@ class OnlineConnection extends BaseConnection {
       b.kv("ifconfig.co", "", ok: false);
 
     b.header(M.header.network);
-    b.kv(M.online.starlink_internet, starlinkInternetCity ?? false, ok: starlinkInternetDetected);
+    {
+      var str = "false";
+      if (myIp==null)
+        str = "no ip";
+      else if (geoIp==null)
+        str = "fetching";
+      else
+        str = "${ starlinkInternetCity ?? false}";
+      b.kv(M.online.starlink_internet, str, ok: starlinkInternetDetected);
+    }
   }
 }
 
