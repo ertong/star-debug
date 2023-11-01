@@ -7,6 +7,7 @@ import 'package:star_debug/channel/star_channel.dart';
 import 'package:star_debug/controller/conn/connection.dart';
 import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/preloaded.dart';
+import 'package:star_debug/utils/geoip.dart';
 import 'package:star_debug/utils/kv_consumer.dart';
 import 'package:star_debug/utils/log_utils.dart';
 import 'package:star_debug/utils/wait_notify.dart';
@@ -61,29 +62,34 @@ class OnlineConnection extends BaseConnection {
 
   String lastIp = "";
   bool needIfConfig = false;
+  bool needStarlinkGeoIp = false;
   int cntNotOk = 0;
   int cntOk = 0;
   bool starlinkInternetDetected = false;
+  String? starlinkInternetCity;
   bool hasIpv6 = false;
 
+  String? myIp;
+  GeoIp? geoIp;
+
   void notify(){
-    String? myIp;
     int now = DateTime.now().millisecondsSinceEpoch;
 
-    if (getOpendns.data!=null && now-getOpendns.timeOk < T_OK*2)
+    myIp = null;
+    if (myIp==null && getOpendns.data!=null && now-getOpendns.timeOk < T_OK*2)
       myIp = getOpendns.data["ip"];
 
-    if (getIpify.data!=null && now-getIpify.timeOk < T_OK*2)
+    if (myIp==null && getIpify.data!=null && now-getIpify.timeOk < T_OK*2)
       myIp = getIpify.data["ip"];
+
+    if (myIp==null && getIfConfig.data!=null && now-getIfConfig.timeOk < T_OK*2)
+      myIp = getIfConfig.data["ip"];
 
     if (lastIp=="" || lastIp!=myIp) {
       lastIp = myIp ?? "";
       needIfConfig = true;
+      needStarlinkGeoIp = true;
       getIfConfig.data = null;
-    }
-
-    if (getIfConfig.data!=null) {
-      needIfConfig = false;
     }
 
     hasIpv6 = false;
@@ -110,11 +116,20 @@ class OnlineConnection extends BaseConnection {
 
     {
       starlinkInternetDetected = false;
-      if (getIfConfig.data is Map && !needIfConfig) {
-        var data = getIfConfig.data as Map;
-        if (data["asn"]=="AS14593" || "${data["asn-org"]}".toUpperCase().contains("STARLINK"))
-          starlinkInternetDetected = true;
+      starlinkInternetCity = null;
+      if (false) {
+        if (getIfConfig.data is Map && !needIfConfig) {
+          var data = getIfConfig.data as Map;
+          if (data["asn"] == "AS14593" || "${data["asn-org"]}".toUpperCase().contains("STARLINK"))
+            starlinkInternetDetected = true;
+        }
       }
+      var geo = geoIp;
+      if (geo!=null && myIp!=null) {
+        starlinkInternetCity = geo.check(myIp!);
+        starlinkInternetDetected = starlinkInternetCity!=null;
+      }
+
       if (starlinkInternetDetected)
         cntOk++;
       else
@@ -138,7 +153,24 @@ class OnlineConnection extends BaseConnection {
 
   late HttpTest getOpendns = HttpTest("https://myipv4.p1.opendns.com/get_my_ip", ()=>notify(), method: "GET");
   late HttpTest getIpify = HttpTest("https://api.ipify.org?format=json", ()=>notify(), method: "GET");
-  late HttpTest getIfConfig = HttpTest("https://ifconfig.co/json", ()=>notify(), method: "GET");
+
+  late HttpTest getIfConfig = HttpTest("https://ifconfig.co/json", () {
+    if (getIfConfig.data!=null)
+      needIfConfig = false;
+    notify();
+  }, method: "GET");
+
+  late HttpTest getStarlinkGeoIp = HttpTest("https://geoip.starlinkisp.net/feed.csv", () {
+    if (getStarlinkGeoIp.data!=null) {
+      var geo = GeoIp();
+      geo.readStarlinkFeed(getStarlinkGeoIp.data);
+      if (geo.map.isNotEmpty) {
+        needStarlinkGeoIp = false;
+        geoIp = geo;
+      }
+    }
+    notify();
+  }, method: "GET");
 
   Future tick() async {
 
@@ -152,6 +184,9 @@ class OnlineConnection extends BaseConnection {
       optStarlink.trigger();
       getOpendns.trigger();
       getIpify.trigger();
+
+      if (needStarlinkGeoIp)
+        getStarlinkGeoIp.trigger();
 
       if (needIfConfig)
         getIfConfig.trigger();
@@ -195,7 +230,16 @@ class OnlineConnection extends BaseConnection {
       b.kv("ifconfig.co", "", ok: false);
 
     b.header(M.header.network);
-    b.kv(M.online.starlink_internet, starlinkInternetDetected, ok: starlinkInternetDetected);
+    {
+      var str = "false";
+      if (myIp==null)
+        str = "no ip";
+      else if (geoIp==null)
+        str = "fetching";
+      else
+        str = "${ starlinkInternetCity ?? false}";
+      b.kv(M.online.starlink_internet, str, ok: starlinkInternetDetected);
+    }
   }
 }
 
@@ -204,6 +248,7 @@ class HttpTest {
   String url;
   String method;
   dynamic data;
+  dynamic newData;
   final dio = Dio();
   CancelToken? token;
   int timeOk = 0;
@@ -237,6 +282,7 @@ class HttpTest {
   Future doDio() async{
     token?.cancel();
     token = CancelToken();
+    newData = null;
     var resp = await dio.request(url,
         cancelToken: token,
         options: Options(
@@ -250,6 +296,7 @@ class HttpTest {
     if (resp.statusCode!=null && (resp.statusCode!~/100 == 2 || resp.statusCode!~/100 == 3)) {
       timeOk = DateTime.now().millisecondsSinceEpoch;
       // print("$url: $resp");
+      newData = resp.data;
       data = resp.data;
       return true;
     }
@@ -257,6 +304,7 @@ class HttpTest {
   }
 
   Future doAndroid() async{
+    newData = null;
 
     HttpTestResult res = await R.starChannel.httpTest(url, method, null).timeout(Duration(seconds: 4));
 
