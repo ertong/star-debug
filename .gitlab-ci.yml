@@ -1,4 +1,4 @@
-image: respo/flutter:3.13.6-api33
+image: respo/flutter:3.13.9-api33
 
 variables:
   PUB_CACHE: ${CI_PROJECT_DIR}/.cache/.pub-cache
