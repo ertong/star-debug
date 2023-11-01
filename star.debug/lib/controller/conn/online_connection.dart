@@ -7,6 +7,7 @@ import 'package:star_debug/channel/star_channel.dart';
 import 'package:star_debug/controller/conn/connection.dart';
 import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/preloaded.dart';
+import 'package:star_debug/utils/geoip.dart';
 import 'package:star_debug/utils/kv_consumer.dart';
 import 'package:star_debug/utils/log_utils.dart';
 import 'package:star_debug/utils/wait_notify.dart';
@@ -65,7 +66,10 @@ class OnlineConnection extends BaseConnection {
   int cntNotOk = 0;
   int cntOk = 0;
   bool starlinkInternetDetected = false;
+  String? starlinkInternetCity;
   bool hasIpv6 = false;
+
+  GeoIp? geoIp;
 
   void notify(){
     String? myIp;
@@ -108,11 +112,20 @@ class OnlineConnection extends BaseConnection {
 
     {
       starlinkInternetDetected = false;
-      if (getIfConfig.data is Map && !needIfConfig) {
-        var data = getIfConfig.data as Map;
-        if (data["asn"]=="AS14593" || "${data["asn-org"]}".toUpperCase().contains("STARLINK"))
-          starlinkInternetDetected = true;
+      starlinkInternetCity = null;
+      if (false) {
+        if (getIfConfig.data is Map && !needIfConfig) {
+          var data = getIfConfig.data as Map;
+          if (data["asn"] == "AS14593" || "${data["asn-org"]}".toUpperCase().contains("STARLINK"))
+            starlinkInternetDetected = true;
+        }
       }
+      var geo = geoIp;
+      if (geo!=null && myIp!=null) {
+        starlinkInternetCity = geo.check(myIp);
+        starlinkInternetDetected = starlinkInternetCity!=null;
+      }
+
       if (starlinkInternetDetected)
         cntOk++;
       else
@@ -144,8 +157,12 @@ class OnlineConnection extends BaseConnection {
   }, method: "GET");
 
   late HttpTest getStarlinkGeoIp = HttpTest("https://geoip.starlinkisp.net/feed.csv", () {
-    if (getStarlinkGeoIp.data!=null)
+    if (getStarlinkGeoIp.data!=null) {
+      var geo = GeoIp();
+      geo.readStarlinkFeed(getStarlinkGeoIp.data);
       needStarlinkGeoIp = false;
+      geoIp = geo;
+    }
     notify();
   }, method: "GET");
 
@@ -207,7 +224,7 @@ class OnlineConnection extends BaseConnection {
       b.kv("ifconfig.co", "", ok: false);
 
     b.header(M.header.network);
-    b.kv(M.online.starlink_internet, starlinkInternetDetected, ok: starlinkInternetDetected);
+    b.kv(M.online.starlink_internet, starlinkInternetCity ?? false, ok: starlinkInternetDetected);
   }
 }
 

@@ -82,7 +82,6 @@ void main() {
     expect(geo.checkIpv6("2a0d:3344:1d40:0:0:0:0:1"), "RS, Belgrade");
     expect(geo.checkIpv6("2a0d:3344:1d4f:ffff:ffff:ffff:ffff:ffff"), "RS, Belgrade");
 
-
     expect(geo.check("127.0.0.1"), null);
     expect(geo.check("14.1.76.255"), "PK, Karachi");
     expect(geo.check("2a0d:3344:1d80::"), null);

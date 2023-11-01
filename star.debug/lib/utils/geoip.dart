@@ -7,6 +7,8 @@ class GeoIp {
   void readStarlinkFeed(String feed) {
     for (var line in feed.split("\n")) {
       var A = line.split(",");
+      if (A.length<4)
+        continue;
       var range = A[0];
       var country = A[1];
       var region = A[2];
