@@ -67,6 +67,7 @@ class MessagesUk extends Messages {
   String get locale => "uk";
   String get languageCode => "uk";
   GeneralMessagesUk get general => GeneralMessagesUk(this);
+  RecentMessagesUk get recent => RecentMessagesUk(this);
   MyMessagesUk get my => MyMessagesUk(this);
   AboutMessagesUk get about => AboutMessagesUk(this);
   SettingsMessagesUk get settings => SettingsMessagesUk(this);
@@ -134,6 +135,13 @@ class GeneralMessagesUk extends GeneralMessages {
   String x_min_ago(t) => """${t}хв тому""";
   String x_hours_ago(t) => """${t}г тому""";
   String x_days_ago(t) => """${t}д тому""";
+}
+
+class RecentMessagesUk extends RecentMessages {
+  final MessagesUk _parent;
+  const RecentMessagesUk(this._parent) : super(_parent);
+  String get search => """Пошук""";
+  String get no_options => """Пустий список""";
 }
 
 class MyMessagesUk extends MyMessages {
@@ -692,6 +700,8 @@ Map<String, String> get messagesUkMap => {
       """general.no_alerts""": """Немає попередженнь""",
       """general.confirmation""": """Підтвердження""",
       """general.just_now""": """Щойно""",
+      """recent.search""": """Пошук""",
+      """recent.no_options""": """Пустий список""",
       """my.my_starlinks""": """Мої Старлінки""",
       """my.snapshots""": """Знімки""",
       """my.delete_all_dished_prompt""":

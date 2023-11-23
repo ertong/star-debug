@@ -16,8 +16,11 @@ class WifiSetupDialog extends StatefulWidget
 class _WifiSetupDialogState extends State<WifiSetupDialog>
 {
   final formKey = GlobalKey<FormState>();
-  static TextEditingController tecName = TextEditingController();
-  static TextEditingController tecPassword = TextEditingController();
+  TextEditingController tecName = TextEditingController();
+  TextEditingController tecPassword = TextEditingController();
+
+  final FocusNode fnName = FocusNode();
+  final FocusNode fnPassword = FocusNode();
 
   @override
   void initState()
@@ -61,14 +64,20 @@ class _WifiSetupDialogState extends State<WifiSetupDialog>
             children: [
               TextFormField(
                 controller: tecName,
+                autofocus: true,
+                textInputAction: TextInputAction.next,
+                focusNode: fnName,
+                onEditingComplete: () {
+                  FocusScope.of(context).requestFocus(fnPassword);
+                },
                 decoration: InputDecoration(
                   labelText: M.wifi.network_name,
-                  suffixIcon: IconButton(icon: Icon(Icons.dehaze), onPressed: () async {
+                  suffixIcon: IconButton(icon: Icon(Icons.more_horiz), onPressed: () async {
                     var res = await showDialog<String?>(
                         context: context,
                         builder: (c) => RecentInputDialog(
                             type: RecentInputs.TYPE_WIFI_SSID,
-                            title: "Choose SSID",
+                            title: M.wifi.network_name,
                             text: tecName.text
                         )
                     );
@@ -84,8 +93,24 @@ class _WifiSetupDialogState extends State<WifiSetupDialog>
               ),
               TextFormField(
                 controller: tecPassword,
+                textInputAction: TextInputAction.done,
+                focusNode: fnPassword,
                 decoration: InputDecoration(
                   labelText: M.wifi.password,
+                  suffixIcon: IconButton(icon: Icon(Icons.more_horiz), onPressed: () async {
+                    var res = await showDialog<String?>(
+                        context: context,
+                        builder: (c) => RecentInputDialog(
+                            type: RecentInputs.TYPE_WIFI_PASS,
+                            title: M.wifi.password,
+                            text: tecPassword.text
+                        )
+                    );
+                    if (res!=null)
+                      setState(() {
+                        tecPassword.text = res;
+                      });
+                  },)
                 ),
                 validator: (String? value) {
                   return (value == null || value.trim().length<8) ? '8 chars or more' : null;

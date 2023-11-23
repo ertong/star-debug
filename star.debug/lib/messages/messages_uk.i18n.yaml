@@ -52,6 +52,10 @@ general:
   x_hours_ago(t): ${t}г тому
   x_days_ago(t): ${t}д тому
 
+recent:
+  search: Пошук
+  no_options: Пустий список
+
 my:
   my_starlinks: Мої Старлінки
   snapshots: Знімки

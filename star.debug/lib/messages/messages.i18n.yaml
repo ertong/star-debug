@@ -53,6 +53,10 @@ general:
   x_hours_ago(t): ${t}h ago
   x_days_ago(t): ${t}d ago
 
+recent:
+  search: Search
+  no_options: No options to show
+
 my:
   my_starlinks: My Starlinks
   snapshots: Snapshots

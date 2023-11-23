@@ -66,6 +66,7 @@ class Messages {
   String get locale => "en";
   String get languageCode => "en";
   GeneralMessages get general => GeneralMessages(this);
+  RecentMessages get recent => RecentMessages(this);
   MyMessages get my => MyMessages(this);
   AboutMessages get about => AboutMessages(this);
   SettingsMessages get settings => SettingsMessages(this);
@@ -133,6 +134,13 @@ class GeneralMessages {
   String x_min_ago(t) => """${t}m ago""";
   String x_hours_ago(t) => """${t}h ago""";
   String x_days_ago(t) => """${t}d ago""";
+}
+
+class RecentMessages {
+  final Messages _parent;
+  const RecentMessages(this._parent);
+  String get search => """Search""";
+  String get no_options => """No options to show""";
 }
 
 class MyMessages {
@@ -691,6 +699,8 @@ Map<String, String> get messagesMap => {
       """general.no_alerts""": """No alerts""",
       """general.confirmation""": """Confirmation""",
       """general.just_now""": """Just now""",
+      """recent.search""": """Search""",
+      """recent.no_options""": """No options to show""",
       """my.my_starlinks""": """My Starlinks""",
       """my.snapshots""": """Snapshots""",
       """my.delete_all_dished_prompt""":
