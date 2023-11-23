@@ -5,6 +5,7 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart' hide Notification, Card, ConnectionState;
 import 'package:grpc/grpc.dart';
+import 'package:star_debug/db/models/recent_inputs.dart';
 import 'package:star_debug/grpc/starlink/network.pbenum.dart';
 import 'package:star_debug/grpc/starlink/starlink.pbgrpc.dart';
 import 'package:star_debug/messages/i18n.dart';
@@ -166,10 +167,10 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
           children: [
             reqButton(M.general.reboot, () => Request(reboot: RebootRequest()), router: true),
             reqButton(M.live.check_update, () => Request(update: UpdateRequest()), router: true),
-            if ((R.router?.wifiGetStatus.hasRecentData() ?? false)
-                && !status.config.setupComplete
-                && (R.router?.httpPool.data?.location ?? "")=="/setup"
-            )
+            // if ((R.router?.wifiGetStatus.hasRecentData() ?? false)
+            //     && !status.config.setupComplete
+            //     && (R.router?.httpPool.data?.location ?? "")=="/setup"
+            // )
               OutlinedButton(
                   onPressed: isWifiSettingUp ? null : onWifiSetup,
                   child: Text(M.wifi.setup)
@@ -302,8 +303,11 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
         WifiSetupRequest req;
         if (res.result == WifiSetupResult.RES_SKIP)
           req = WifiSetupRequest(skip: true);
-        else if (res.result == WifiSetupResult.RES_WIFI && res.name != null && res.pass != null)
+        else if (res.result == WifiSetupResult.RES_WIFI && res.name != null && res.pass != null) {
+          unawaited(R.db.recentInputsDao.addInputChecked(RecentInputs.TYPE_WIFI_SSID, res.name));
+          unawaited(R.db.recentInputsDao.addInputChecked(RecentInputs.TYPE_WIFI_PASS, res.pass));
           req = WifiSetupRequest(networkName: res.name, networkPassword: res.pass);
+        }
         else
           return;
 

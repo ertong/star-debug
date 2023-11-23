@@ -1,10 +1,13 @@
 
 import 'package:flutter/material.dart';
+import 'package:star_debug/db/database.dart';
+import 'package:star_debug/db/models/recent_inputs.dart';
 import 'package:star_debug/messages/i18n.dart';
+import 'package:star_debug/pages/dialogs/recent_input.dart';
 
 class WifiSetupDialog extends StatefulWidget
 {
-  const WifiSetupDialog({Key? key,}) : super(key: key);
+  const WifiSetupDialog({super.key,});
 
   @override
   State createState() => _WifiSetupDialogState();
@@ -60,6 +63,20 @@ class _WifiSetupDialogState extends State<WifiSetupDialog>
                 controller: tecName,
                 decoration: InputDecoration(
                   labelText: M.wifi.network_name,
+                  suffixIcon: IconButton(icon: Icon(Icons.dehaze), onPressed: () async {
+                    var res = await showDialog<String?>(
+                        context: context,
+                        builder: (c) => RecentInputDialog(
+                            type: RecentInputs.TYPE_WIFI_SSID,
+                            title: "Choose SSID",
+                            text: tecName.text
+                        )
+                    );
+                    if (res!=null)
+                      setState(() {
+                        tecName.text = res;
+                      });
+                  },)
                 ),
                 validator: (String? value) {
                   return (value != null && value.trim().isEmpty) ? 'Should not be empty' : null;
@@ -74,25 +91,43 @@ class _WifiSetupDialogState extends State<WifiSetupDialog>
                   return (value == null || value.trim().length<8) ? '8 chars or more' : null;
                 },
               ),
-              ElevatedButton(
-                onPressed: () {
-                  if (formKey.currentState!.validate()) {
-                    Navigator.pop(context, WifiSetupResult(WifiSetupResult.RES_WIFI, name:tecName.text, pass:tecPassword.text));
-                  }
-                },
-                child: Text(M.wifi.setup_ssid_and_password),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context, WifiSetupResult(WifiSetupResult.RES_SKIP));
-                },
-                child: Text(M.wifi.keep_default_wifi_settings),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context, WifiSetupResult(WifiSetupResult.RES_BYPASS));
-                },
-                child: Text(M.wifi.enable_bypass_mode),
+              SizedBox(height: 5,),
+              Wrap(
+                alignment: WrapAlignment.spaceBetween,
+                children: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.fromLTRB(2, 5, 2, 5),
+                        fixedSize: Size(80, 70)
+                    ),
+                    onPressed: () {
+                      if (formKey.currentState!.validate()) {
+                        Navigator.pop(context, WifiSetupResult(WifiSetupResult.RES_WIFI, name:tecName.text, pass:tecPassword.text));
+                      }
+                    },
+                    child: Text(M.wifi.setup_ssid_and_password, textAlign: TextAlign.center,),
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.fromLTRB(2, 5, 2, 5),
+                        fixedSize: Size(80, 70)
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context, WifiSetupResult(WifiSetupResult.RES_SKIP));
+                    },
+                    child: Text(M.wifi.keep_default_wifi_settings, textAlign: TextAlign.center),
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.fromLTRB(2, 5, 2, 5),
+                        fixedSize: Size(80, 70)
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context, WifiSetupResult(WifiSetupResult.RES_BYPASS));
+                    },
+                    child: Text(M.wifi.enable_bypass_mode, textAlign: TextAlign.center),
+                  ),
+                ],
               ),
             ],
           ),
