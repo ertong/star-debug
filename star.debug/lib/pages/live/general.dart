@@ -167,10 +167,10 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
           children: [
             reqButton(M.general.reboot, () => Request(reboot: RebootRequest()), router: true),
             reqButton(M.live.check_update, () => Request(update: UpdateRequest()), router: true),
-            // if ((R.router?.wifiGetStatus.hasRecentData() ?? false)
-            //     && !status.config.setupComplete
-            //     && (R.router?.httpPool.data?.location ?? "")=="/setup"
-            // )
+            if ((R.router?.wifiGetStatus.hasRecentData() ?? false)
+                && !status.config.setupComplete
+                && (R.router?.httpPool.data?.location ?? "")=="/setup"
+            )
               OutlinedButton(
                   onPressed: isWifiSettingUp ? null : onWifiSetup,
                   child: Text(M.wifi.setup)
