@@ -135,6 +135,7 @@ class GeneralMessagesUk extends GeneralMessages {
   String x_min_ago(t) => """${t}хв тому""";
   String x_hours_ago(t) => """${t}г тому""";
   String x_days_ago(t) => """${t}д тому""";
+  String get should_not_be_empty => """Має бути заповненим""";
 }
 
 class RecentMessagesUk extends RecentMessages {
@@ -214,6 +215,13 @@ class WifiMessagesUk extends WifiMessages {
   String get setup_ssid_and_password => """Налаштувати SSID та пароль""";
   String get keep_default_wifi_settings => """STARLINK/без пароля""";
   String get enable_bypass_mode => """Увімкнути режим Bypass""";
+  String setup_ssid_pass(ssid, pass) =>
+      """Ви обрали назву мережі "$ssid" та пароль "$pass". Вірно?""";
+  String get setup_default =>
+      """Ви вирішили залишити назву мережі за замовчуванням "STARLINK" і без пароля. Вірно?""";
+  String get setup_bypass =>
+      """Ви обрали активувати mypass mode. Роутер буде недоступний в цьому режимі аж до наступного апаратного скидання. Підтвердити?""";
+  String get more_8_chars => """8 символів або більше""";
 }
 
 class LiveMessagesUk extends LiveMessages {
@@ -700,6 +708,7 @@ Map<String, String> get messagesUkMap => {
       """general.no_alerts""": """Немає попередженнь""",
       """general.confirmation""": """Підтвердження""",
       """general.just_now""": """Щойно""",
+      """general.should_not_be_empty""": """Має бути заповненим""",
       """recent.search""": """Пошук""",
       """recent.no_options""": """Пустий список""",
       """my.my_starlinks""": """Мої Старлінки""",
@@ -745,6 +754,11 @@ Map<String, String> get messagesUkMap => {
       """wifi.setup_ssid_and_password""": """Налаштувати SSID та пароль""",
       """wifi.keep_default_wifi_settings""": """STARLINK/без пароля""",
       """wifi.enable_bypass_mode""": """Увімкнути режим Bypass""",
+      """wifi.setup_default""":
+          """Ви вирішили залишити назву мережі за замовчуванням "STARLINK" і без пароля. Вірно?""",
+      """wifi.setup_bypass""":
+          """Ви обрали активувати mypass mode. Роутер буде недоступний в цьому режимі аж до наступного апаратного скидання. Підтвердити?""",
+      """wifi.more_8_chars""": """8 символів або більше""",
       """live.starlink_live""": """Starlink Live""",
       """live.check_update""": """Перевірити оновлення""",
       """header.general""": """Загальне""",

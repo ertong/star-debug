@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:star_debug/db/database.dart';
 import 'package:star_debug/db/models/recent_inputs.dart';
 import 'package:star_debug/messages/i18n.dart';
+import 'package:star_debug/pages/dialogs/confirm.dart';
 import 'package:star_debug/pages/dialogs/recent_input.dart';
 
 class WifiSetupDialog extends StatefulWidget
@@ -22,6 +23,8 @@ class _WifiSetupDialogState extends State<WifiSetupDialog>
   final FocusNode fnName = FocusNode();
   final FocusNode fnPassword = FocusNode();
 
+  String? passwordHint;
+
   @override
   void initState()
   {
@@ -37,10 +40,10 @@ class _WifiSetupDialogState extends State<WifiSetupDialog>
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-        // insetPadding: EdgeInsets.fromLTRB(0, 0,0,0),
-        titlePadding: EdgeInsets.fromLTRB(15, 0, 0, 0),
-        contentPadding: EdgeInsets.all(10.0),
-        // actionsPadding: EdgeInsets.all(0.0),
+      insetPadding: EdgeInsets.fromLTRB(0, 0,0,0),
+      titlePadding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+      contentPadding: EdgeInsets.fromLTRB(10,0,10,10),
+      actionsPadding: EdgeInsets.all(0.0),
 
       title: Row(
         children: [
@@ -88,7 +91,7 @@ class _WifiSetupDialogState extends State<WifiSetupDialog>
                   },)
                 ),
                 validator: (String? value) {
-                  return (value != null && value.trim().isEmpty) ? 'Should not be empty' : null;
+                  return (value != null && value.trim().isEmpty) ? M.general.should_not_be_empty : null;
                 },
               ),
               TextFormField(
@@ -97,6 +100,8 @@ class _WifiSetupDialogState extends State<WifiSetupDialog>
                 focusNode: fnPassword,
                 decoration: InputDecoration(
                   labelText: M.wifi.password,
+                  // helperText: "asdf",
+                  // helperStyle: TextStyle(color: Colors.red),
                   suffixIcon: IconButton(icon: Icon(Icons.more_horiz), onPressed: () async {
                     var res = await showDialog<String?>(
                         context: context,
@@ -113,7 +118,7 @@ class _WifiSetupDialogState extends State<WifiSetupDialog>
                   },)
                 ),
                 validator: (String? value) {
-                  return (value == null || value.trim().length<8) ? '8 chars or more' : null;
+                  return (value == null || value.trim().length<8) ? M.wifi.more_8_chars : null;
                 },
               ),
               SizedBox(height: 5,),
@@ -125,9 +130,16 @@ class _WifiSetupDialogState extends State<WifiSetupDialog>
                         padding: EdgeInsets.fromLTRB(2, 5, 2, 5),
                         fixedSize: Size(80, 70)
                     ),
-                    onPressed: () {
+                    onPressed: () async {
                       if (formKey.currentState!.validate()) {
-                        Navigator.pop(context, WifiSetupResult(WifiSetupResult.RES_WIFI, name:tecName.text, pass:tecPassword.text));
+                        var res = await showDialog<bool>(context: context,
+                            builder: (c) { return ConfirmDialog(
+                                text: M.wifi.setup_ssid_pass(tecName.text, tecPassword.text),
+                                title: M.general.confirmation);
+                            }
+                        );
+                        if (mounted && res==true)
+                          Navigator.pop(context, WifiSetupResult(WifiSetupResult.RES_WIFI, name:tecName.text, pass:tecPassword.text));
                       }
                     },
                     child: Text(M.wifi.setup_ssid_and_password, textAlign: TextAlign.center,),
@@ -137,8 +149,15 @@ class _WifiSetupDialogState extends State<WifiSetupDialog>
                         padding: EdgeInsets.fromLTRB(2, 5, 2, 5),
                         fixedSize: Size(80, 70)
                     ),
-                    onPressed: () {
-                      Navigator.pop(context, WifiSetupResult(WifiSetupResult.RES_SKIP));
+                    onPressed: () async {
+                      var res = await showDialog<bool>(context: context,
+                          builder: (c) { return ConfirmDialog(
+                              text: M.wifi.setup_default,
+                              title: M.general.confirmation);
+                          }
+                      );
+                      if (mounted && res==true)
+                        Navigator.pop(context, WifiSetupResult(WifiSetupResult.RES_SKIP));
                     },
                     child: Text(M.wifi.keep_default_wifi_settings, textAlign: TextAlign.center),
                   ),
@@ -147,8 +166,15 @@ class _WifiSetupDialogState extends State<WifiSetupDialog>
                         padding: EdgeInsets.fromLTRB(2, 5, 2, 5),
                         fixedSize: Size(80, 70)
                     ),
-                    onPressed: () {
-                      Navigator.pop(context, WifiSetupResult(WifiSetupResult.RES_BYPASS));
+                    onPressed: () async {
+                      var res = await showDialog<bool>(context: context,
+                          builder: (c) { return ConfirmDialog(
+                              text: M.wifi.setup_bypass,
+                              title: M.general.confirmation);
+                          }
+                      );
+                      if (mounted && res==true)
+                        Navigator.pop(context, WifiSetupResult(WifiSetupResult.RES_BYPASS));
                     },
                     child: Text(M.wifi.enable_bypass_mode, textAlign: TextAlign.center),
                   ),
