@@ -1,9 +1,11 @@
 
 import 'package:drift/drift.dart';
 import 'package:star_debug/db/dao/dishes_dao.dart';
+import 'package:star_debug/db/dao/recent_inputs_dao.dart';
 import 'package:star_debug/utils/log_utils.dart';
 import 'models/dishes.dart';
 import 'models/dish_logs.dart';
+import 'models/recent_inputs.dart';
 
 part 'database.g.dart';
 
@@ -11,7 +13,7 @@ const String _TAG = "Database";
 
 @DriftDatabase(
     tables: [],
-    daos: [DishesDao],
+    daos: [DishesDao, RecentInputsDao],
   include: {'database.drift'},
 )
 class Database extends _$Database {
@@ -19,7 +21,7 @@ class Database extends _$Database {
   Database.connect(DatabaseConnection connection) : super(connection);
 
   @override
-  int get schemaVersion => 4;
+  int get schemaVersion => 5;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(

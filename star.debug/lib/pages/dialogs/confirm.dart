@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:star_debug/messages/i18n.dart';
 
-class ConfirmDialog<TItem> extends StatefulWidget
+class ConfirmDialog extends StatefulWidget
 {
   final String? title;
-  final String? text;
+  final String text;
+  final bool markdown;
   final List<Widget> extraActions;
-  const ConfirmDialog({Key? key, this.text, this.title, this.extraActions=const []}) : super(key: key);
+  const ConfirmDialog({super.key, required this.text, this.title, this.markdown = false, this.extraActions=const []});
 
   @override
-  State createState() => _ConfirmDialogState<TItem>();
+  State createState() => _ConfirmDialogState();
 }
 
-class _ConfirmDialogState<TItem> extends State<ConfirmDialog<TItem>>
+class _ConfirmDialogState extends State<ConfirmDialog>
 {
   @override
   void initState()
@@ -35,7 +37,11 @@ class _ConfirmDialogState<TItem> extends State<ConfirmDialog<TItem>>
             contentPadding: EdgeInsets.all(10.0),
 //            actionsPadding: EdgeInsets.all(0.0),
             title: Text(widget.title!),
-            content: Text(widget.text!),
+            content: widget.markdown ? MarkdownBody(
+              // styleSheet: style,
+              selectable: true,
+              data: widget.text,
+            ) : Text(widget.text),
             actions: <Widget>[
               ...widget.extraActions,
               TextButton(

@@ -749,6 +749,290 @@ class DishesCompanion extends UpdateCompanion<Dish> {
   }
 }
 
+class $RecentInputsTable extends RecentInputs
+    with TableInfo<$RecentInputsTable, RecentInput> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $RecentInputsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _typeMeta = const VerificationMeta('type');
+  @override
+  late final GeneratedColumn<String> type = GeneratedColumn<String>(
+      'type', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _timestampMeta =
+      const VerificationMeta('timestamp');
+  @override
+  late final GeneratedColumn<int> timestamp = GeneratedColumn<int>(
+      'timestamp', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultValue: const Constant(0));
+  static const VerificationMeta _dataMeta = const VerificationMeta('data');
+  @override
+  late final GeneratedColumn<String> data = GeneratedColumn<String>(
+      'data', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _searchMeta = const VerificationMeta('search');
+  @override
+  late final GeneratedColumn<String> search = GeneratedColumn<String>(
+      'search', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns => [id, type, timestamp, data, search];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'recent_inputs';
+  @override
+  VerificationContext validateIntegrity(Insertable<RecentInput> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('type')) {
+      context.handle(
+          _typeMeta, type.isAcceptableOrUnknown(data['type']!, _typeMeta));
+    } else if (isInserting) {
+      context.missing(_typeMeta);
+    }
+    if (data.containsKey('timestamp')) {
+      context.handle(_timestampMeta,
+          timestamp.isAcceptableOrUnknown(data['timestamp']!, _timestampMeta));
+    }
+    if (data.containsKey('data')) {
+      context.handle(
+          _dataMeta, this.data.isAcceptableOrUnknown(data['data']!, _dataMeta));
+    } else if (isInserting) {
+      context.missing(_dataMeta);
+    }
+    if (data.containsKey('search')) {
+      context.handle(_searchMeta,
+          search.isAcceptableOrUnknown(data['search']!, _searchMeta));
+    } else if (isInserting) {
+      context.missing(_searchMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  RecentInput map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return RecentInput(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      type: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}type'])!,
+      timestamp: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}timestamp'])!,
+      data: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}data'])!,
+      search: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}search'])!,
+    );
+  }
+
+  @override
+  $RecentInputsTable createAlias(String alias) {
+    return $RecentInputsTable(attachedDatabase, alias);
+  }
+}
+
+class RecentInput extends DataClass implements Insertable<RecentInput> {
+  final int id;
+  final String type;
+  final int timestamp;
+  final String data;
+  final String search;
+  const RecentInput(
+      {required this.id,
+      required this.type,
+      required this.timestamp,
+      required this.data,
+      required this.search});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['type'] = Variable<String>(type);
+    map['timestamp'] = Variable<int>(timestamp);
+    map['data'] = Variable<String>(data);
+    map['search'] = Variable<String>(search);
+    return map;
+  }
+
+  RecentInputsCompanion toCompanion(bool nullToAbsent) {
+    return RecentInputsCompanion(
+      id: Value(id),
+      type: Value(type),
+      timestamp: Value(timestamp),
+      data: Value(data),
+      search: Value(search),
+    );
+  }
+
+  factory RecentInput.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return RecentInput(
+      id: serializer.fromJson<int>(json['id']),
+      type: serializer.fromJson<String>(json['type']),
+      timestamp: serializer.fromJson<int>(json['timestamp']),
+      data: serializer.fromJson<String>(json['data']),
+      search: serializer.fromJson<String>(json['search']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'type': serializer.toJson<String>(type),
+      'timestamp': serializer.toJson<int>(timestamp),
+      'data': serializer.toJson<String>(data),
+      'search': serializer.toJson<String>(search),
+    };
+  }
+
+  RecentInput copyWith(
+          {int? id,
+          String? type,
+          int? timestamp,
+          String? data,
+          String? search}) =>
+      RecentInput(
+        id: id ?? this.id,
+        type: type ?? this.type,
+        timestamp: timestamp ?? this.timestamp,
+        data: data ?? this.data,
+        search: search ?? this.search,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('RecentInput(')
+          ..write('id: $id, ')
+          ..write('type: $type, ')
+          ..write('timestamp: $timestamp, ')
+          ..write('data: $data, ')
+          ..write('search: $search')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, type, timestamp, data, search);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is RecentInput &&
+          other.id == this.id &&
+          other.type == this.type &&
+          other.timestamp == this.timestamp &&
+          other.data == this.data &&
+          other.search == this.search);
+}
+
+class RecentInputsCompanion extends UpdateCompanion<RecentInput> {
+  final Value<int> id;
+  final Value<String> type;
+  final Value<int> timestamp;
+  final Value<String> data;
+  final Value<String> search;
+  const RecentInputsCompanion({
+    this.id = const Value.absent(),
+    this.type = const Value.absent(),
+    this.timestamp = const Value.absent(),
+    this.data = const Value.absent(),
+    this.search = const Value.absent(),
+  });
+  RecentInputsCompanion.insert({
+    this.id = const Value.absent(),
+    required String type,
+    this.timestamp = const Value.absent(),
+    required String data,
+    required String search,
+  })  : type = Value(type),
+        data = Value(data),
+        search = Value(search);
+  static Insertable<RecentInput> custom({
+    Expression<int>? id,
+    Expression<String>? type,
+    Expression<int>? timestamp,
+    Expression<String>? data,
+    Expression<String>? search,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (type != null) 'type': type,
+      if (timestamp != null) 'timestamp': timestamp,
+      if (data != null) 'data': data,
+      if (search != null) 'search': search,
+    });
+  }
+
+  RecentInputsCompanion copyWith(
+      {Value<int>? id,
+      Value<String>? type,
+      Value<int>? timestamp,
+      Value<String>? data,
+      Value<String>? search}) {
+    return RecentInputsCompanion(
+      id: id ?? this.id,
+      type: type ?? this.type,
+      timestamp: timestamp ?? this.timestamp,
+      data: data ?? this.data,
+      search: search ?? this.search,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (type.present) {
+      map['type'] = Variable<String>(type.value);
+    }
+    if (timestamp.present) {
+      map['timestamp'] = Variable<int>(timestamp.value);
+    }
+    if (data.present) {
+      map['data'] = Variable<String>(data.value);
+    }
+    if (search.present) {
+      map['search'] = Variable<String>(search.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('RecentInputsCompanion(')
+          ..write('id: $id, ')
+          ..write('type: $type, ')
+          ..write('timestamp: $timestamp, ')
+          ..write('data: $data, ')
+          ..write('search: $search')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$Database extends GeneratedDatabase {
   _$Database(QueryExecutor e) : super(e);
   late final $DishLogsTable dishLogs = $DishLogsTable(this);
@@ -757,11 +1041,25 @@ abstract class _$Database extends GeneratedDatabase {
   late final $DishesTable dishes = $DishesTable(this);
   late final Index dishesTs = Index('dishes_ts',
       'CREATE INDEX IF NOT EXISTS dishes_ts ON dishes (latest_log_timestamp, dish_id)');
+  late final $RecentInputsTable recentInputs = $RecentInputsTable(this);
+  late final Index recentInputsTs = Index('recent_inputs_ts',
+      'CREATE INDEX IF NOT EXISTS recent_inputs_ts ON recent_inputs (type, timestamp)');
+  late final Index recentInputsData = Index('recent_inputs_data',
+      'CREATE UNIQUE INDEX IF NOT EXISTS recent_inputs_data ON recent_inputs (type, data)');
   late final DishesDao dishesDao = DishesDao(this as Database);
+  late final RecentInputsDao recentInputsDao =
+      RecentInputsDao(this as Database);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [dishLogs, dishLogsTs, dishes, dishesTs];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [
+        dishLogs,
+        dishLogsTs,
+        dishes,
+        dishesTs,
+        recentInputs,
+        recentInputsTs,
+        recentInputsData
+      ];
 }

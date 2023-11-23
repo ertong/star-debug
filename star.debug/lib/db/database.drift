@@ -1,5 +1,9 @@
 import 'models/dishes.dart';
 import 'models/dish_logs.dart';
+import 'models/recent_inputs.dart';
 
 CREATE INDEX IF NOT EXISTS "dish_logs_ts" ON "dish_logs" ("dish_id", "timestamp");
 CREATE INDEX IF NOT EXISTS "dishes_ts" ON "dishes" ("latest_log_timestamp", "dish_id");
+
+CREATE INDEX IF NOT EXISTS "recent_inputs_ts" ON "recent_inputs" ("type", "timestamp");
+CREATE UNIQUE INDEX IF NOT EXISTS "recent_inputs_data" ON "recent_inputs" ("type", "data");

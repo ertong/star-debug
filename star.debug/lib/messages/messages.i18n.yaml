@@ -52,6 +52,11 @@ general:
   x_min_ago(t): ${t}m ago
   x_hours_ago(t): ${t}h ago
   x_days_ago(t): ${t}d ago
+  should_not_be_empty: Should not be empty
+
+recent:
+  search: Search
+  no_options: No options to show
 
 my:
   my_starlinks: My Starlinks
@@ -102,6 +107,10 @@ wifi:
   setup_ssid_and_password: Setup SSID and password
   keep_default_wifi_settings: STARLINK/no password
   enable_bypass_mode: Enable bypass mode
+  setup_ssid_pass(ssid, pass): You have selected network name "$ssid" and password "$pass". Confirm?
+  setup_default: You have selected to leave default network name "STARLINK" and no password. Confirm?
+  setup_bypass: You have selected to enable bypass mode. Router will be not accessible in this mode until next hardware reset. Confirm?
+  more_8_chars: 8 chars or more
 
 live:
   starlink_live: "Starlink Live"

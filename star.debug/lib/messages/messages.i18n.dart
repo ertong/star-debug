@@ -66,6 +66,7 @@ class Messages {
   String get locale => "en";
   String get languageCode => "en";
   GeneralMessages get general => GeneralMessages(this);
+  RecentMessages get recent => RecentMessages(this);
   MyMessages get my => MyMessages(this);
   AboutMessages get about => AboutMessages(this);
   SettingsMessages get settings => SettingsMessages(this);
@@ -133,6 +134,14 @@ class GeneralMessages {
   String x_min_ago(t) => """${t}m ago""";
   String x_hours_ago(t) => """${t}h ago""";
   String x_days_ago(t) => """${t}d ago""";
+  String get should_not_be_empty => """Should not be empty""";
+}
+
+class RecentMessages {
+  final Messages _parent;
+  const RecentMessages(this._parent);
+  String get search => """Search""";
+  String get no_options => """No options to show""";
 }
 
 class MyMessages {
@@ -205,6 +214,13 @@ class WifiMessages {
   String get setup_ssid_and_password => """Setup SSID and password""";
   String get keep_default_wifi_settings => """STARLINK/no password""";
   String get enable_bypass_mode => """Enable bypass mode""";
+  String setup_ssid_pass(ssid, pass) =>
+      """You have selected network name "$ssid" and password "$pass". Confirm?""";
+  String get setup_default =>
+      """You have selected to leave default network name "STARLINK" and no password. Confirm?""";
+  String get setup_bypass =>
+      """You have selected to enable bypass mode. Router will be not accessible in this mode until next hardware reset. Confirm?""";
+  String get more_8_chars => """8 chars or more""";
 }
 
 class LiveMessages {
@@ -691,6 +707,9 @@ Map<String, String> get messagesMap => {
       """general.no_alerts""": """No alerts""",
       """general.confirmation""": """Confirmation""",
       """general.just_now""": """Just now""",
+      """general.should_not_be_empty""": """Should not be empty""",
+      """recent.search""": """Search""",
+      """recent.no_options""": """No options to show""",
       """my.my_starlinks""": """My Starlinks""",
       """my.snapshots""": """Snapshots""",
       """my.delete_all_dished_prompt""":
@@ -734,6 +753,11 @@ Moreover, in the case of a moving router, its route can be followed.
       """wifi.setup_ssid_and_password""": """Setup SSID and password""",
       """wifi.keep_default_wifi_settings""": """STARLINK/no password""",
       """wifi.enable_bypass_mode""": """Enable bypass mode""",
+      """wifi.setup_default""":
+          """You have selected to leave default network name "STARLINK" and no password. Confirm?""",
+      """wifi.setup_bypass""":
+          """You have selected to enable bypass mode. Router will be not accessible in this mode until next hardware reset. Confirm?""",
+      """wifi.more_8_chars""": """8 chars or more""",
       """live.starlink_live""": """Starlink Live""",
       """live.check_update""": """Check Update""",
       """header.general""": """General""",
