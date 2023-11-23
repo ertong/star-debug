@@ -1,4 +1,6 @@
 
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:star_debug/db/database.dart';
 import 'package:star_debug/db/models/recent_inputs.dart';
@@ -23,7 +25,7 @@ class _WifiSetupDialogState extends State<WifiSetupDialog>
   final FocusNode fnName = FocusNode();
   final FocusNode fnPassword = FocusNode();
 
-  String? passwordHint;
+  int? passRate;
 
   @override
   void initState()
@@ -36,6 +38,43 @@ class _WifiSetupDialogState extends State<WifiSetupDialog>
   {
     super.dispose();
   }
+
+  static final reDigit = RegExp(r'[0-9]+');
+  static final reLower = RegExp(r'[a-z]+');
+  static final reUpper = RegExp(r'[A-Z]+');
+  static final reSymb = RegExp(r'[^0-9a-zA-Z]+');
+
+  int ratePassword(String text) {
+    int nChars = 0;
+    if (reDigit.hasMatch(text)) nChars+=10;
+    if (reLower.hasMatch(text)) nChars+=26;
+    if (reUpper.hasMatch(text)) nChars+=26;
+    if (reSymb.hasMatch(text)) nChars+=5; // not so much symbols are usually used
+    // 2414.8kH/s WPA2 hashes on RTX 4090
+    var rateD = (text.length*log(nChars)-log(2414800*60*60*24))/log(10);
+    // rateD approximately from -3.3 to 10, with threshold in 2 and 6
+    int rate = ((rateD+4)/1.4*10).toInt(); // from ~0 to ~100 with threshold 42 and 71
+    if (rate<5) rate=5;
+    if (rate>99) rate=100;
+    return rate;
+  }
+
+  Color rateColor(int rate) {
+    if (rate<41)
+      return Colors.red;
+    if (rate<71)
+      return Colors.orange;
+    return Colors.green;
+  }
+
+  void onTextChanged(){
+    if (tecPassword.text.length<8)
+      passRate = null;
+    else
+      passRate = ratePassword(tecPassword.text);
+    setState(() {});
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -98,6 +137,7 @@ class _WifiSetupDialogState extends State<WifiSetupDialog>
                 controller: tecPassword,
                 textInputAction: TextInputAction.done,
                 focusNode: fnPassword,
+                onChanged: (_) => onTextChanged(),
                 decoration: InputDecoration(
                   labelText: M.wifi.password,
                   // helperText: "asdf",
@@ -121,6 +161,8 @@ class _WifiSetupDialogState extends State<WifiSetupDialog>
                   return (value == null || value.trim().length<8) ? M.wifi.more_8_chars : null;
                 },
               ),
+              if (passRate!=null)
+                LinearProgressIndicator(value: passRate!/100.0, color: rateColor(passRate!),),
               SizedBox(height: 5,),
               Wrap(
                 alignment: WrapAlignment.spaceBetween,
