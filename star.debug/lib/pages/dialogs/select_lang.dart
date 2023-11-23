@@ -22,7 +22,23 @@ class _SelectLangDialogState<TItem> extends State<SelectLangDialog<TItem>> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(M.general.select_lang),
+      insetPadding: EdgeInsets.fromLTRB(0, 0,0,0),
+      titlePadding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+      contentPadding: EdgeInsets.fromLTRB(10,0,10,10),
+      actionsPadding: EdgeInsets.all(0.0),
+      title: Row(
+        children: [
+          Expanded(child: Text(M.general.select_lang)),
+          TextButton(
+              style: TextButton.styleFrom(
+                padding: EdgeInsets.fromLTRB(0,0,0,0),
+              ) ,
+              onPressed: (){
+                Navigator.pop(context, null);
+              }, child: Icon(Icons.close)
+          )
+        ],
+      ),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -32,14 +48,22 @@ class _SelectLangDialogState<TItem> extends State<SelectLangDialog<TItem>> {
           ),
           for (var lang in I18n.instance.langs.keys)
             ListTile(
-              leading: Radio(value: lang, groupValue: I18n.instance.lang, onChanged: (v) {}),
-              title: Text(I18n.instance.langs[lang]!().general.lang),
-              onTap: () {
-                Navigator.pop(context, lang);
-              },
+              contentPadding: EdgeInsets.zero,
+              dense: true,
+              title: Row(
+                children: [
+                  Radio(value: lang, groupValue: I18n.instance.lang, onChanged: (v) => onSelect(lang)),
+                  Text(I18n.instance.langs[lang]!().general.lang),
+                ],
+              ),
+              onTap: () => onSelect(lang),
             ),
         ],
       ),
     );
+  }
+
+  void onSelect(String lang) {
+    Navigator.pop(context, lang);
   }
 }
