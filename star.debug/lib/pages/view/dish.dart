@@ -209,6 +209,14 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
         if (status.hasBoresightElevationDeg())
           b.kv(M.grpc.DishGetStatus.boresight_elevation_deg, status.boresightElevationDeg.toStringAsFixed(2));
 
+        if (status.hasAlignmentStats()) {
+          if (status.alignmentStats.hasDesiredBoresightAzimuthDeg())
+            b.kv(M.grpc.AlignmentStats.desired_boresight_azimuth_deg, status.alignmentStats.desiredBoresightAzimuthDeg.toStringAsFixed(2));
+
+          if (status.alignmentStats.hasDesiredBoresightElevationDeg())
+            b.kv(M.grpc.AlignmentStats.desired_boresight_elevation_deg, status.alignmentStats.desiredBoresightElevationDeg.toStringAsFixed(2));
+        }
+
         // if (status.hasIsSnrAboveNoiseFloor())
         b.kv(M.grpc.DishGetStatus.is_snr_above_noise_floor, status.isSnrAboveNoiseFloor, ok:status.isSnrAboveNoiseFloor);
 

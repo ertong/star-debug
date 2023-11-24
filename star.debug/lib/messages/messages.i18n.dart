@@ -314,6 +314,8 @@ class GrpcMessages {
       DishObstructionStatsGrpcMessages(this);
   DishGetStatusGrpcMessages get DishGetStatus =>
       DishGetStatusGrpcMessages(this);
+  AlignmentStatsGrpcMessages get AlignmentStats =>
+      AlignmentStatsGrpcMessages(this);
   ClientNameGrpcMessages get ClientName => ClientNameGrpcMessages(this);
   NetworkGrpcMessages get Network => NetworkGrpcMessages(this);
   BasicServiceSetGrpcMessages get BasicServiceSet =>
@@ -487,6 +489,23 @@ class DishGetStatusGrpcMessages {
 - **IN_OCEAN**
 - **INVALID_COUNTRY**
 """;
+}
+
+class AlignmentStatsGrpcMessages {
+  final GrpcMessages _parent;
+  const AlignmentStatsGrpcMessages(this._parent);
+  String get has_actuators => """has_actuators""";
+  String get actuator_state => """actuator_state""";
+  String get tilt_angle_deg => """tilt_angle_deg""";
+  String get boresight_azimuth_deg => """Panel boresight Azimuth angle, deg""";
+  String get boresight_elevation_deg =>
+      """Panel boresight Elevation agngle, deg""";
+  String get attitude_estimation_state => """Attitude estimation state""";
+  String get attitude_uncertainty_deg => """Attitude uncertainty, deg""";
+  String get desired_boresight_azimuth_deg =>
+      """Desired boresight Azimuth angle, deg""";
+  String get desired_boresight_elevation_deg =>
+      """Desired boresight Elevation agngle, deg""";
 }
 
 class ClientNameGrpcMessages {
@@ -951,6 +970,21 @@ with internet access and dish access. You can find this setting in
 - **IN_OCEAN**
 - **INVALID_COUNTRY**
 """,
+      """grpc.AlignmentStats.has_actuators""": """has_actuators""",
+      """grpc.AlignmentStats.actuator_state""": """actuator_state""",
+      """grpc.AlignmentStats.tilt_angle_deg""": """tilt_angle_deg""",
+      """grpc.AlignmentStats.boresight_azimuth_deg""":
+          """Panel boresight Azimuth angle, deg""",
+      """grpc.AlignmentStats.boresight_elevation_deg""":
+          """Panel boresight Elevation agngle, deg""",
+      """grpc.AlignmentStats.attitude_estimation_state""":
+          """Attitude estimation state""",
+      """grpc.AlignmentStats.attitude_uncertainty_deg""":
+          """Attitude uncertainty, deg""",
+      """grpc.AlignmentStats.desired_boresight_azimuth_deg""":
+          """Desired boresight Azimuth angle, deg""",
+      """grpc.AlignmentStats.desired_boresight_elevation_deg""":
+          """Desired boresight Elevation agngle, deg""",
       """grpc.ClientName.mac_address""": """mac_address""",
       """grpc.ClientName.given_name""": """given_name""",
       """grpc.Network.ipv4""": """ipv4""",

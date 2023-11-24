@@ -298,7 +298,16 @@ grpc:
       - **TOO_FAR_FROM_SERVICE_ADDRESS**
       - **IN_OCEAN**
       - **INVALID_COUNTRY**
-
+  AlignmentStats:
+    has_actuators: has_actuators
+    actuator_state: actuator_state
+    tilt_angle_deg: tilt_angle_deg
+    boresight_azimuth_deg: Panel boresight Azimuth angle, deg
+    boresight_elevation_deg: Panel boresight Elevation agngle, deg
+    attitude_estimation_state: Attitude estimation state
+    attitude_uncertainty_deg: Attitude uncertainty, deg
+    desired_boresight_azimuth_deg: Desired boresight Azimuth angle, deg
+    desired_boresight_elevation_deg: Desired boresight Elevation agngle, deg
   ClientName:
     mac_address: mac_address
     given_name: given_name

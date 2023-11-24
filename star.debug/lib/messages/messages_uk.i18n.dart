@@ -316,6 +316,8 @@ class GrpcMessagesUk extends GrpcMessages {
       DishObstructionStatsGrpcMessagesUk(this);
   DishGetStatusGrpcMessagesUk get DishGetStatus =>
       DishGetStatusGrpcMessagesUk(this);
+  AlignmentStatsGrpcMessagesUk get AlignmentStats =>
+      AlignmentStatsGrpcMessagesUk(this);
   ClientNameGrpcMessagesUk get ClientName => ClientNameGrpcMessagesUk(this);
   NetworkGrpcMessagesUk get Network => NetworkGrpcMessagesUk(this);
   BasicServiceSetGrpcMessagesUk get BasicServiceSet =>
@@ -488,6 +490,23 @@ class DishGetStatusGrpcMessagesUk extends DishGetStatusGrpcMessages {
 - **IN_OCEAN**
 - **INVALID_COUNTRY**
 """;
+}
+
+class AlignmentStatsGrpcMessagesUk extends AlignmentStatsGrpcMessages {
+  final GrpcMessagesUk _parent;
+  const AlignmentStatsGrpcMessagesUk(this._parent) : super(_parent);
+  String get has_actuators => """has_actuators""";
+  String get actuator_state => """actuator_state""";
+  String get tilt_angle_deg => """tilt_angle_deg""";
+  String get boresight_azimuth_deg => """Panel boresight Azimuth angle, deg""";
+  String get boresight_elevation_deg =>
+      """Panel boresight Elevation agngle, deg""";
+  String get attitude_estimation_state => """Attitude estimation state""";
+  String get attitude_uncertainty_deg => """Attitude uncertainty, deg""";
+  String get desired_boresight_azimuth_deg =>
+      """Desired boresight Azimuth angle, deg""";
+  String get desired_boresight_elevation_deg =>
+      """Desired boresight Elevation agngle, deg""";
 }
 
 class ClientNameGrpcMessagesUk extends ClientNameGrpcMessages {
@@ -948,6 +967,21 @@ Map<String, String> get messagesUkMap => {
 - **IN_OCEAN**
 - **INVALID_COUNTRY**
 """,
+      """grpc.AlignmentStats.has_actuators""": """has_actuators""",
+      """grpc.AlignmentStats.actuator_state""": """actuator_state""",
+      """grpc.AlignmentStats.tilt_angle_deg""": """tilt_angle_deg""",
+      """grpc.AlignmentStats.boresight_azimuth_deg""":
+          """Panel boresight Azimuth angle, deg""",
+      """grpc.AlignmentStats.boresight_elevation_deg""":
+          """Panel boresight Elevation agngle, deg""",
+      """grpc.AlignmentStats.attitude_estimation_state""":
+          """Attitude estimation state""",
+      """grpc.AlignmentStats.attitude_uncertainty_deg""":
+          """Attitude uncertainty, deg""",
+      """grpc.AlignmentStats.desired_boresight_azimuth_deg""":
+          """Desired boresight Azimuth angle, deg""",
+      """grpc.AlignmentStats.desired_boresight_elevation_deg""":
+          """Desired boresight Elevation agngle, deg""",
       """grpc.ClientName.mac_address""": """mac_address""",
       """grpc.ClientName.given_name""": """given_name""",
       """grpc.Network.ipv4""": """ipv4""",
