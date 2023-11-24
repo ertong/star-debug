@@ -178,6 +178,9 @@ class SettingsMessagesUk extends SettingsMessages {
   final MessagesUk _parent;
   const SettingsMessagesUk(this._parent) : super(_parent);
   String get settings => """Налаштування""";
+  String get auto_store_dish_log => """Автозбереження знімків""";
+  String get auto_store_dish_log_sub =>
+      """Автоматично зберігати знімки з Starlink Live в Мої Старлінки""";
 }
 
 class ValkyrieMessagesUk extends ValkyrieMessages {
@@ -727,6 +730,9 @@ Map<String, String> get messagesUkMap => {
 """,
       """about.project_on_github""": """Проект на GitHub""",
       """settings.settings""": """Налаштування""",
+      """settings.auto_store_dish_log""": """Автозбереження знімків""",
+      """settings.auto_store_dish_log_sub""":
+          """Автоматично зберігати знімки з Starlink Live в Мої Старлінки""",
       """valkyrie.valkyrie_check""": """Перевірка від Valkyrie""",
       """valkyrie.valkyrie_check_sub""":
           """Перевіряє SSID роутера на наявність в базах від Valkyrie""",

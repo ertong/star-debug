@@ -83,6 +83,8 @@ about:
 
 settings:
   settings: Налаштування
+  auto_store_dish_log: Автозбереження знімків
+  auto_store_dish_log_sub: Автоматично зберігати знімки з Starlink Live в Мої Старлінки
 
 valkyrie:
   valkyrie_check: Перевірка від Valkyrie

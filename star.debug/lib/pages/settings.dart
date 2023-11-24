@@ -82,6 +82,19 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
       }
     ));
 
+    res.add(checkbox(
+      icon: Icons.save,
+      title: M.settings.auto_store_dish_log,
+      subtitle: M.settings.auto_store_dish_log_sub,
+      value: R.prefs.data.autoStoreDiskLog,
+      onToggle: () async {
+        await R.prefs.save((p){
+          p.autoStoreDiskLog = !p.autoStoreDiskLog;
+        });
+        R.appKey.currentState?.setState(() {});
+      }
+    ));
+
     if (R.features.valkyrieCheck)
       res.add(checkbox(
           icon: Icons.podcasts,

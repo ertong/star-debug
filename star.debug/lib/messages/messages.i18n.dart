@@ -177,6 +177,9 @@ class SettingsMessages {
   final Messages _parent;
   const SettingsMessages(this._parent);
   String get settings => """Settings""";
+  String get auto_store_dish_log => """Autostore snapshots""";
+  String get auto_store_dish_log_sub =>
+      """Store snapshots automatically from Starlink Live in My Starlinks""";
 }
 
 class ValkyrieMessages {
@@ -726,6 +729,9 @@ the russian aggressor tries to turn cities into ashes.
 """,
       """about.project_on_github""": """Project on GitHub""",
       """settings.settings""": """Settings""",
+      """settings.auto_store_dish_log""": """Autostore snapshots""",
+      """settings.auto_store_dish_log_sub""":
+          """Store snapshots automatically from Starlink Live in My Starlinks""",
       """valkyrie.valkyrie_check""": """Valkyrie Check""",
       """valkyrie.valkyrie_check_sub""":
           """Checks whether router BSSID (wireless MAC address) is found in databases from Valkyrie.""",

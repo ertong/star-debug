@@ -79,6 +79,8 @@ about:
 
 settings:
   settings: Settings
+  auto_store_dish_log: Autostore snapshots
+  auto_store_dish_log_sub: Store snapshots automatically from Starlink Live in My Starlinks
 
 valkyrie:
   valkyrie_check: Valkyrie Check
