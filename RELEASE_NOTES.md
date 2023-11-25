@@ -1,4 +1,19 @@
 
+## 1.1b59
+
+### New Features:
+
+- Upgrade Starlink network detection.
+- Allow to choose previous SSID/passwords while Router setup. Add password complexity visualization.
+- Add Valkyrie check.
+- [Experimental] Add Check Update button for a Router.
+
+### Enhancements:
+
+- Update metadata visualization.
+- Extract app settings to dedicated page. 
+- Allow to disable snapshots autosave in settings.
+
 ## 1.1b53
 
 ### New Features:
