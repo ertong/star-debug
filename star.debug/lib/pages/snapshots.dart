@@ -192,7 +192,10 @@ class _SnapshotsPageState extends State<SnapshotsPage> with TickerProviderStateM
                 ),
               Row(children: [
                 Expanded(child: Text("$ts")),
-                Icon(Icons.bug_report, size: 18, color: log.hasDebugData() ? Colors.blue : Colors.blue.withAlpha(50),),
+                if (log.row.forceStore)
+                  Icon(Icons.person, size: 18, color: Colors.blue)
+                else
+                  Icon(Icons.bug_report, size: 18, color: log.hasDebugData() ? Colors.blue : Colors.blue.withAlpha(50),),
                 Icon(Icons.settings_input_antenna, size: 18, color: log.hasDish() ? Colors.blue : Colors.blue.withAlpha(50),),
                 Icon(Icons.router, size: 18, color: log.hasRouter() ? Colors.blue : Colors.blue.withAlpha(50),),
               ],),

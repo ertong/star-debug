@@ -67,6 +67,7 @@ class MessagesUk extends Messages {
   String get locale => "uk";
   String get languageCode => "uk";
   GeneralMessagesUk get general => GeneralMessagesUk(this);
+  RecentMessagesUk get recent => RecentMessagesUk(this);
   MyMessagesUk get my => MyMessagesUk(this);
   AboutMessagesUk get about => AboutMessagesUk(this);
   SettingsMessagesUk get settings => SettingsMessagesUk(this);
@@ -134,6 +135,14 @@ class GeneralMessagesUk extends GeneralMessages {
   String x_min_ago(t) => """${t}хв тому""";
   String x_hours_ago(t) => """${t}г тому""";
   String x_days_ago(t) => """${t}д тому""";
+  String get should_not_be_empty => """Має бути заповненим""";
+}
+
+class RecentMessagesUk extends RecentMessages {
+  final MessagesUk _parent;
+  const RecentMessagesUk(this._parent) : super(_parent);
+  String get search => """Пошук""";
+  String get no_options => """Пустий список""";
 }
 
 class MyMessagesUk extends MyMessages {
@@ -169,6 +178,9 @@ class SettingsMessagesUk extends SettingsMessages {
   final MessagesUk _parent;
   const SettingsMessagesUk(this._parent) : super(_parent);
   String get settings => """Налаштування""";
+  String get auto_store_dish_log => """Автозбереження знімків""";
+  String get auto_store_dish_log_sub =>
+      """Автоматично зберігати знімки з Starlink Live в Мої Старлінки""";
 }
 
 class ValkyrieMessagesUk extends ValkyrieMessages {
@@ -206,6 +218,13 @@ class WifiMessagesUk extends WifiMessages {
   String get setup_ssid_and_password => """Налаштувати SSID та пароль""";
   String get keep_default_wifi_settings => """STARLINK/без пароля""";
   String get enable_bypass_mode => """Увімкнути режим Bypass""";
+  String setup_ssid_pass(ssid, pass) =>
+      """Ви обрали назву мережі "$ssid" та пароль "$pass". Вірно?""";
+  String get setup_default =>
+      """Ви вирішили залишити назву мережі за замовчуванням "STARLINK" і без пароля. Вірно?""";
+  String get setup_bypass =>
+      """Ви обрали активувати mypass mode. Роутер буде недоступний в цьому режимі аж до наступного апаратного скидання. Підтвердити?""";
+  String get more_8_chars => """8 символів або більше""";
 }
 
 class LiveMessagesUk extends LiveMessages {
@@ -297,6 +316,8 @@ class GrpcMessagesUk extends GrpcMessages {
       DishObstructionStatsGrpcMessagesUk(this);
   DishGetStatusGrpcMessagesUk get DishGetStatus =>
       DishGetStatusGrpcMessagesUk(this);
+  AlignmentStatsGrpcMessagesUk get AlignmentStats =>
+      AlignmentStatsGrpcMessagesUk(this);
   ClientNameGrpcMessagesUk get ClientName => ClientNameGrpcMessagesUk(this);
   NetworkGrpcMessagesUk get Network => NetworkGrpcMessagesUk(this);
   BasicServiceSetGrpcMessagesUk get BasicServiceSet =>
@@ -469,6 +490,23 @@ class DishGetStatusGrpcMessagesUk extends DishGetStatusGrpcMessages {
 - **IN_OCEAN**
 - **INVALID_COUNTRY**
 """;
+}
+
+class AlignmentStatsGrpcMessagesUk extends AlignmentStatsGrpcMessages {
+  final GrpcMessagesUk _parent;
+  const AlignmentStatsGrpcMessagesUk(this._parent) : super(_parent);
+  String get has_actuators => """has_actuators""";
+  String get actuator_state => """actuator_state""";
+  String get tilt_angle_deg => """tilt_angle_deg""";
+  String get boresight_azimuth_deg => """Panel boresight Azimuth angle, deg""";
+  String get boresight_elevation_deg =>
+      """Panel boresight Elevation agngle, deg""";
+  String get attitude_estimation_state => """Attitude estimation state""";
+  String get attitude_uncertainty_deg => """Attitude uncertainty, deg""";
+  String get desired_boresight_azimuth_deg =>
+      """Desired boresight Azimuth angle, deg""";
+  String get desired_boresight_elevation_deg =>
+      """Desired boresight Elevation agngle, deg""";
 }
 
 class ClientNameGrpcMessagesUk extends ClientNameGrpcMessages {
@@ -692,6 +730,9 @@ Map<String, String> get messagesUkMap => {
       """general.no_alerts""": """Немає попередженнь""",
       """general.confirmation""": """Підтвердження""",
       """general.just_now""": """Щойно""",
+      """general.should_not_be_empty""": """Має бути заповненим""",
+      """recent.search""": """Пошук""",
+      """recent.no_options""": """Пустий список""",
       """my.my_starlinks""": """Мої Старлінки""",
       """my.snapshots""": """Знімки""",
       """my.delete_all_dished_prompt""":
@@ -708,6 +749,9 @@ Map<String, String> get messagesUkMap => {
 """,
       """about.project_on_github""": """Проект на GitHub""",
       """settings.settings""": """Налаштування""",
+      """settings.auto_store_dish_log""": """Автозбереження знімків""",
+      """settings.auto_store_dish_log_sub""":
+          """Автоматично зберігати знімки з Starlink Live в Мої Старлінки""",
       """valkyrie.valkyrie_check""": """Перевірка від Valkyrie""",
       """valkyrie.valkyrie_check_sub""":
           """Перевіряє SSID роутера на наявність в базах від Valkyrie""",
@@ -735,6 +779,11 @@ Map<String, String> get messagesUkMap => {
       """wifi.setup_ssid_and_password""": """Налаштувати SSID та пароль""",
       """wifi.keep_default_wifi_settings""": """STARLINK/без пароля""",
       """wifi.enable_bypass_mode""": """Увімкнути режим Bypass""",
+      """wifi.setup_default""":
+          """Ви вирішили залишити назву мережі за замовчуванням "STARLINK" і без пароля. Вірно?""",
+      """wifi.setup_bypass""":
+          """Ви обрали активувати mypass mode. Роутер буде недоступний в цьому режимі аж до наступного апаратного скидання. Підтвердити?""",
+      """wifi.more_8_chars""": """8 символів або більше""",
       """live.starlink_live""": """Starlink Live""",
       """live.check_update""": """Перевірити оновлення""",
       """header.general""": """Загальне""",
@@ -918,6 +967,21 @@ Map<String, String> get messagesUkMap => {
 - **IN_OCEAN**
 - **INVALID_COUNTRY**
 """,
+      """grpc.AlignmentStats.has_actuators""": """has_actuators""",
+      """grpc.AlignmentStats.actuator_state""": """actuator_state""",
+      """grpc.AlignmentStats.tilt_angle_deg""": """tilt_angle_deg""",
+      """grpc.AlignmentStats.boresight_azimuth_deg""":
+          """Panel boresight Azimuth angle, deg""",
+      """grpc.AlignmentStats.boresight_elevation_deg""":
+          """Panel boresight Elevation agngle, deg""",
+      """grpc.AlignmentStats.attitude_estimation_state""":
+          """Attitude estimation state""",
+      """grpc.AlignmentStats.attitude_uncertainty_deg""":
+          """Attitude uncertainty, deg""",
+      """grpc.AlignmentStats.desired_boresight_azimuth_deg""":
+          """Desired boresight Azimuth angle, deg""",
+      """grpc.AlignmentStats.desired_boresight_elevation_deg""":
+          """Desired boresight Elevation agngle, deg""",
       """grpc.ClientName.mac_address""": """mac_address""",
       """grpc.ClientName.given_name""": """given_name""",
       """grpc.Network.ipv4""": """ipv4""",

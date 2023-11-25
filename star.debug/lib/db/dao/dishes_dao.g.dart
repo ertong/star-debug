@@ -6,6 +6,7 @@ part of 'dishes_dao.dart';
 mixin _$DishesDaoMixin on DatabaseAccessor<Database> {
   $DishesTable get dishes => attachedDatabase.dishes;
   $DishLogsTable get dishLogs => attachedDatabase.dishLogs;
+  $RecentInputsTable get recentInputs => attachedDatabase.recentInputs;
   Selectable<Dish> getDish(String dishId) {
     return customSelect('SELECT * FROM dishes WHERE dish_id = ?1', variables: [
       Variable<String>(dishId)

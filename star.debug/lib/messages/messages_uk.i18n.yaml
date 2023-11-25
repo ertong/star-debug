@@ -51,6 +51,12 @@ general:
   x_min_ago(t): ${t}хв тому
   x_hours_ago(t): ${t}г тому
   x_days_ago(t): ${t}д тому
+  should_not_be_empty: Має бути заповненим
+
+
+recent:
+  search: Пошук
+  no_options: Пустий список
 
 my:
   my_starlinks: Мої Старлінки
@@ -77,6 +83,8 @@ about:
 
 settings:
   settings: Налаштування
+  auto_store_dish_log: Автозбереження знімків
+  auto_store_dish_log_sub: Автоматично зберігати знімки з Starlink Live в Мої Старлінки
 
 valkyrie:
   valkyrie_check: Перевірка від Valkyrie
@@ -106,6 +114,13 @@ wifi:
   setup_ssid_and_password: Налаштувати SSID та пароль
   keep_default_wifi_settings: STARLINK/без пароля
   enable_bypass_mode: Увімкнути режим Bypass
+#  setup_ssid_pass(ssid, pass): You selected network name "$ssid" and password "$pass". Confirm?
+#  setup_default: You have selected to leave default network name "STARLINK" and no password. Confirm?
+#  setup_bypass: You have selected to enable bypass mode. Router will be not accessible in this mode until next hardware reset. Confirm?
+  setup_ssid_pass(ssid, pass): Ви обрали назву мережі "$ssid" та пароль "$pass". Вірно?
+  setup_default: Ви вирішили залишити назву мережі за замовчуванням "STARLINK" і без пароля. Вірно?
+  setup_bypass: Ви обрали активувати mypass mode. Роутер буде недоступний в цьому режимі аж до наступного апаратного скидання. Підтвердити?
+  more_8_chars: 8 символів або більше
 
 live:
   starlink_live: Starlink Live
@@ -283,7 +298,16 @@ grpc:
       - **TOO_FAR_FROM_SERVICE_ADDRESS**
       - **IN_OCEAN**
       - **INVALID_COUNTRY**
-
+  AlignmentStats:
+    has_actuators: has_actuators
+    actuator_state: actuator_state
+    tilt_angle_deg: tilt_angle_deg
+    boresight_azimuth_deg: Panel boresight Azimuth angle, deg
+    boresight_elevation_deg: Panel boresight Elevation agngle, deg
+    attitude_estimation_state: Attitude estimation state
+    attitude_uncertainty_deg: Attitude uncertainty, deg
+    desired_boresight_azimuth_deg: Desired boresight Azimuth angle, deg
+    desired_boresight_elevation_deg: Desired boresight Elevation agngle, deg
   ClientName:
     mac_address: mac_address
     given_name: given_name

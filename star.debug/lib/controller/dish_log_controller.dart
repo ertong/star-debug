@@ -26,6 +26,8 @@ class DishLogController {
     WifiGetStatusResponse? wifiStatusJson,
     Map<String, dynamic>? onlineJson
   }) {
+    if (!R.prefs.data.autoStoreDiskLog)
+      return;
     Record? rec = latestRecord[dishId];
     if (rec==null) {
       rec = Record();
@@ -103,18 +105,32 @@ class DishLogController {
       rec.time = timestamp ?? DateTime.now().millisecondsSinceEpoch;
       rec.stored = false;
 
-      rec.dishLog = await R.db.dishLogs.insertReturning(
-          DishLogsCompanion(
-            timestamp: Value(rec.time),
-            forceStore: Value(true),
-            dishId: Value(rec.dishId),
-            debugDataJson: Value(jsonEncode(debugData)),
-            dishStatusJson: Value(dishStatus?.writeToBuffer()),
-            dishHistoryJson: Value(dishHistoryJson?.writeToBuffer()),
-            wifiStatusJson: Value(wifiStatusJson?.writeToBuffer()),
-            onlineJson: Value(jsonEncode(onlineJson)),
-          )
+      var logToWrite = DishLogsCompanion(
+        timestamp: Value(rec.time),
+        forceStore: Value(true),
+        dishId: Value(rec.dishId),
+        debugDataJson: Value(jsonEncode(debugData)),
+        dishStatusJson: Value(dishStatus?.writeToBuffer()),
+        dishHistoryJson: Value(dishHistoryJson?.writeToBuffer()),
+        wifiStatusJson: Value(wifiStatusJson?.writeToBuffer()),
+        onlineJson: Value(jsonEncode(onlineJson)),
       );
+
+      int now = DateTime.now().millisecondsSinceEpoch;
+      var dishLog = rec.dishLog;
+      if (dishLog==null || dishLog.forceStore==true
+          || now-dishLog.timestamp>1000*60 // last seen more than 1m ago
+      ) { // insert new record
+        LogUtils.d(_TAG, "Force Store new log for ${rec.dishId}"
+            " current log $dishLog ts ${dishLog?.timestamp} force ${dishLog?.forceStore}");
+        rec.dishLog = await R.db.dishLogs.insertReturning(logToWrite);
+      } else { //update existent
+        LogUtils.d(_TAG, "Force Store updated log for ${rec.dishId}");
+        await (R.db.dishLogs.update()
+          ..where((t) => t.id.equals(dishLog.id))
+        ).write(logToWrite);
+        rec.dishLog = await R.db.dishesDao.getDishLog(dishLog.id).getSingleOrNull();
+      }
 
       if ((rec.dish?.latestLogId ?? 0) < rec.dishLog!.id) {
         await R.db.dishes.insertOnConflictUpdate(
@@ -187,6 +203,7 @@ class DishLogController {
                   await (R.db.dishLogs.update()
                       ..where((t) => t.id.equals(dishLog.id))
                   ).write(logToWrite);
+                  rec.dishLog = await R.db.dishesDao.getDishLog(dishLog.id).getSingleOrNull();
                 }
                 rec.timeLastStore = now;
                 rec.stored = true;

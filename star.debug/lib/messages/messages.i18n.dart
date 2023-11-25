@@ -66,6 +66,7 @@ class Messages {
   String get locale => "en";
   String get languageCode => "en";
   GeneralMessages get general => GeneralMessages(this);
+  RecentMessages get recent => RecentMessages(this);
   MyMessages get my => MyMessages(this);
   AboutMessages get about => AboutMessages(this);
   SettingsMessages get settings => SettingsMessages(this);
@@ -133,6 +134,14 @@ class GeneralMessages {
   String x_min_ago(t) => """${t}m ago""";
   String x_hours_ago(t) => """${t}h ago""";
   String x_days_ago(t) => """${t}d ago""";
+  String get should_not_be_empty => """Should not be empty""";
+}
+
+class RecentMessages {
+  final Messages _parent;
+  const RecentMessages(this._parent);
+  String get search => """Search""";
+  String get no_options => """No options to show""";
 }
 
 class MyMessages {
@@ -168,6 +177,9 @@ class SettingsMessages {
   final Messages _parent;
   const SettingsMessages(this._parent);
   String get settings => """Settings""";
+  String get auto_store_dish_log => """Autostore snapshots""";
+  String get auto_store_dish_log_sub =>
+      """Store snapshots automatically from Starlink Live in My Starlinks""";
 }
 
 class ValkyrieMessages {
@@ -205,6 +217,13 @@ class WifiMessages {
   String get setup_ssid_and_password => """Setup SSID and password""";
   String get keep_default_wifi_settings => """STARLINK/no password""";
   String get enable_bypass_mode => """Enable bypass mode""";
+  String setup_ssid_pass(ssid, pass) =>
+      """You have selected network name "$ssid" and password "$pass". Confirm?""";
+  String get setup_default =>
+      """You have selected to leave default network name "STARLINK" and no password. Confirm?""";
+  String get setup_bypass =>
+      """You have selected to enable bypass mode. Router will be not accessible in this mode until next hardware reset. Confirm?""";
+  String get more_8_chars => """8 chars or more""";
 }
 
 class LiveMessages {
@@ -295,6 +314,8 @@ class GrpcMessages {
       DishObstructionStatsGrpcMessages(this);
   DishGetStatusGrpcMessages get DishGetStatus =>
       DishGetStatusGrpcMessages(this);
+  AlignmentStatsGrpcMessages get AlignmentStats =>
+      AlignmentStatsGrpcMessages(this);
   ClientNameGrpcMessages get ClientName => ClientNameGrpcMessages(this);
   NetworkGrpcMessages get Network => NetworkGrpcMessages(this);
   BasicServiceSetGrpcMessages get BasicServiceSet =>
@@ -468,6 +489,23 @@ class DishGetStatusGrpcMessages {
 - **IN_OCEAN**
 - **INVALID_COUNTRY**
 """;
+}
+
+class AlignmentStatsGrpcMessages {
+  final GrpcMessages _parent;
+  const AlignmentStatsGrpcMessages(this._parent);
+  String get has_actuators => """has_actuators""";
+  String get actuator_state => """actuator_state""";
+  String get tilt_angle_deg => """tilt_angle_deg""";
+  String get boresight_azimuth_deg => """Panel boresight Azimuth angle, deg""";
+  String get boresight_elevation_deg =>
+      """Panel boresight Elevation agngle, deg""";
+  String get attitude_estimation_state => """Attitude estimation state""";
+  String get attitude_uncertainty_deg => """Attitude uncertainty, deg""";
+  String get desired_boresight_azimuth_deg =>
+      """Desired boresight Azimuth angle, deg""";
+  String get desired_boresight_elevation_deg =>
+      """Desired boresight Elevation agngle, deg""";
 }
 
 class ClientNameGrpcMessages {
@@ -691,6 +729,9 @@ Map<String, String> get messagesMap => {
       """general.no_alerts""": """No alerts""",
       """general.confirmation""": """Confirmation""",
       """general.just_now""": """Just now""",
+      """general.should_not_be_empty""": """Should not be empty""",
+      """recent.search""": """Search""",
+      """recent.no_options""": """No options to show""",
       """my.my_starlinks""": """My Starlinks""",
       """my.snapshots""": """Snapshots""",
       """my.delete_all_dished_prompt""":
@@ -707,6 +748,9 @@ the russian aggressor tries to turn cities into ashes.
 """,
       """about.project_on_github""": """Project on GitHub""",
       """settings.settings""": """Settings""",
+      """settings.auto_store_dish_log""": """Autostore snapshots""",
+      """settings.auto_store_dish_log_sub""":
+          """Store snapshots automatically from Starlink Live in My Starlinks""",
       """valkyrie.valkyrie_check""": """Valkyrie Check""",
       """valkyrie.valkyrie_check_sub""":
           """Checks whether router BSSID (wireless MAC address) is found in databases from Valkyrie.""",
@@ -734,6 +778,11 @@ Moreover, in the case of a moving router, its route can be followed.
       """wifi.setup_ssid_and_password""": """Setup SSID and password""",
       """wifi.keep_default_wifi_settings""": """STARLINK/no password""",
       """wifi.enable_bypass_mode""": """Enable bypass mode""",
+      """wifi.setup_default""":
+          """You have selected to leave default network name "STARLINK" and no password. Confirm?""",
+      """wifi.setup_bypass""":
+          """You have selected to enable bypass mode. Router will be not accessible in this mode until next hardware reset. Confirm?""",
+      """wifi.more_8_chars""": """8 chars or more""",
       """live.starlink_live""": """Starlink Live""",
       """live.check_update""": """Check Update""",
       """header.general""": """General""",
@@ -921,6 +970,21 @@ with internet access and dish access. You can find this setting in
 - **IN_OCEAN**
 - **INVALID_COUNTRY**
 """,
+      """grpc.AlignmentStats.has_actuators""": """has_actuators""",
+      """grpc.AlignmentStats.actuator_state""": """actuator_state""",
+      """grpc.AlignmentStats.tilt_angle_deg""": """tilt_angle_deg""",
+      """grpc.AlignmentStats.boresight_azimuth_deg""":
+          """Panel boresight Azimuth angle, deg""",
+      """grpc.AlignmentStats.boresight_elevation_deg""":
+          """Panel boresight Elevation agngle, deg""",
+      """grpc.AlignmentStats.attitude_estimation_state""":
+          """Attitude estimation state""",
+      """grpc.AlignmentStats.attitude_uncertainty_deg""":
+          """Attitude uncertainty, deg""",
+      """grpc.AlignmentStats.desired_boresight_azimuth_deg""":
+          """Desired boresight Azimuth angle, deg""",
+      """grpc.AlignmentStats.desired_boresight_elevation_deg""":
+          """Desired boresight Elevation agngle, deg""",
       """grpc.ClientName.mac_address""": """mac_address""",
       """grpc.ClientName.given_name""": """given_name""",
       """grpc.Network.ipv4""": """ipv4""",

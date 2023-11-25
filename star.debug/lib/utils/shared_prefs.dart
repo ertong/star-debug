@@ -8,6 +8,8 @@ class Prefs{
 
   bool darkMode = false;
 
+  bool autoStoreDiskLog = true;
+
   bool valkyrieCheck = false;
 
   Prefs();
@@ -34,8 +36,9 @@ class SharedPrefs {
 
     res.lang = prefs.getString("lang");
     res.lastSystemLang = prefs.getString("lastSystemLang");
-    res.darkMode = prefs.getBool("darkMode") ?? false;
-    res.valkyrieCheck = prefs.getBool("valkyrieCheck") ?? false;
+    res.darkMode = prefs.getBool("darkMode") ?? res.darkMode;
+    res.valkyrieCheck = prefs.getBool("valkyrieCheck") ?? res.valkyrieCheck;
+    res.autoStoreDiskLog = prefs.getBool("autoStoreDiskLog") ?? res.autoStoreDiskLog;
 
     return res;
   }
@@ -85,6 +88,9 @@ class SharedPrefs {
 
     if (saved.valkyrieCheck!=data.valkyrieCheck)
       await setBool("valkyrieCheck", data.valkyrieCheck);
+
+    if (saved.autoStoreDiskLog!=data.autoStoreDiskLog)
+      await setBool("autoStoreDiskLog", data.autoStoreDiskLog);
 
     _data = await _load();
     _streamController.add(_data);

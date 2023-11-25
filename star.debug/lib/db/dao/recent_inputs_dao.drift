@@ -1,0 +1,13 @@
+import '../database.drift';
+
+
+addInput: INSERT INTO recent_inputs(type, timestamp, data, search)
+    VALUES(:type, :timestamp, :data, :search)
+    ON CONFLICT(type, data)
+    DO UPDATE SET timestamp = excluded.timestamp, search = excluded.search;
+
+removeInput: DELETE FROM recent_inputs WHERE type=:type AND data=:data;
+
+find: SELECT * FROM recent_inputs
+    WHERE type=:type AND search LIKE  '%' || :search || '%'
+    ORDER BY timestamp DESC;

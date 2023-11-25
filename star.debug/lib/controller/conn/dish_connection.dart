@@ -113,10 +113,9 @@ var _dev_images = {
   'hp1_proto0': 'assets/images/devices/dishy_hp.png',
   'hp1_proto1': 'assets/images/devices/dishy_hp.png',
   'hp_flat': 'assets/images/devices/dishy_hp_flat.png',
-  'rev4_proto3': 'assets/images/devices/dishy_unknown.png',
-  'rev4_proto4': 'assets/images/devices/dishy_unknown.png',
-  'rev4_prod1': 'assets/images/devices/dishy_unknown.png',
+  'rev4_proto3': 'assets/images/devices/dishy_v4.png',
+  'rev4_proto4': 'assets/images/devices/dishy_v4.png',
+  'rev4_prod1': 'assets/images/devices/dishy_v4.png',
   'mini1_proto0': 'assets/images/devices/dishy_unknown.png',
-  'rev_never_gonna_give_you_up': 'assets/images/devices/entity_astl.png',
   'unknown': 'assets/images/devices/dishy_unknown.png',
 };
