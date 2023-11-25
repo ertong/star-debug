@@ -59,10 +59,11 @@ extension WifiGetStatusExt on WifiGetStatusResponse {
     }
 
     if (R.prefs.data.valkyrieCheck) {
-      var service = config.networks[0].basicServiceSets[0];
-      var record = R.valkyrie.checkNow(service.bssid);
-      if (record?.device_is_found ?? false)
-        ++alerts;
+      var service = config.networks.firstOrNull?.basicServiceSets.firstOrNull;
+      if (service!=null) {
+        var record = R.valkyrie.checkNow(service.bssid);
+        if (record?.device_is_found ?? false) ++alerts;
+      }
     }
 
     return alerts;
