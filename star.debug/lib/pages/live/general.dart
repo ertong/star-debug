@@ -197,7 +197,7 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
       b.header(M.general.security);
 
       var status = R.router?.wifiGetStatus.data;
-      var service = status?.config.networks[0].basicServiceSets[0];
+      var service = status?.config.networks.firstOrNull?.basicServiceSets.firstOrNull;
       if (service!=null) {
         b.widgets.add(R.valkyrie.widget(service.bssid, theme));
       }
