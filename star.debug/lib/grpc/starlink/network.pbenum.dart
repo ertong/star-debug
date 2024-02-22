@@ -20,6 +20,8 @@ class UtDisablementCode extends $pb.ProtobufEnum {
   static const UtDisablementCode TOO_FAR_FROM_SERVICE_ADDRESS = UtDisablementCode._(3, _omitEnumNames ? '' : 'TOO_FAR_FROM_SERVICE_ADDRESS');
   static const UtDisablementCode IN_OCEAN = UtDisablementCode._(4, _omitEnumNames ? '' : 'IN_OCEAN');
   static const UtDisablementCode INVALID_COUNTRY = UtDisablementCode._(5, _omitEnumNames ? '' : 'INVALID_COUNTRY');
+  static const UtDisablementCode BLOCKED_COUNTRY = UtDisablementCode._(6, _omitEnumNames ? '' : 'BLOCKED_COUNTRY');
+  static const UtDisablementCode DATA_OVERAGE_SANDBOX_POLICY = UtDisablementCode._(7, _omitEnumNames ? '' : 'DATA_OVERAGE_SANDBOX_POLICY');
 
   static const $core.List<UtDisablementCode> values = <UtDisablementCode> [
     UNKNOWN_STATE,
@@ -28,6 +30,8 @@ class UtDisablementCode extends $pb.ProtobufEnum {
     TOO_FAR_FROM_SERVICE_ADDRESS,
     IN_OCEAN,
     INVALID_COUNTRY,
+    BLOCKED_COUNTRY,
+    DATA_OVERAGE_SANDBOX_POLICY,
   ];
 
   static final $core.Map<$core.int, UtDisablementCode> _byValue = $pb.ProtobufEnum.initByValue(values);
