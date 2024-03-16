@@ -67,6 +67,7 @@ message Request {
     .SpaceX.API.Device.DishInhibitGpsRequest dish_inhibit_gps = 2014;
     .SpaceX.API.Device.DishGetDataRequest dish_get_data = 2015;
     .SpaceX.API.Device.DishPrioritizedUpdateRequest dish_prioritized_update = 2016;
+    .SpaceX.API.Device.DishClearObstructionMapRequest dish_clear_obstruction_map = 2017;
     .SpaceX.API.Device.WifiSetConfigRequest wifi_set_config = 3001;
     .SpaceX.API.Device.WifiGetClientsRequest wifi_get_clients = 3002;
     .SpaceX.API.Device.WifiSetupRequest wifi_setup = 3003;
@@ -459,6 +460,10 @@ message DishPrioritizedUpdateRequest {
   bool prioritized = 1;
 }
 
+//SpaceX.API.Device.DishClearObstructionMapRequest is a message:
+message DishClearObstructionMapRequest {
+}
+
 //SpaceX.API.Device.WifiSetConfigRequest is a message:
 message WifiSetConfigRequest {
   .SpaceX.API.Device.WifiConfig wifi_config = 1;
@@ -466,14 +471,9 @@ message WifiSetConfigRequest {
 
 //SpaceX.API.Device.WifiConfig is a message:
 message WifiConfig {
-  string network_name = 1;
-  string network_password = 2;
   string country_code = 3;
-  string lan_ipv4 = 5 [deprecated = true];
   bool setup_complete = 7;
   uint32 version = 9;
-  .SpaceX.API.Device.WifiConfig.Security wifi_security = 10 [deprecated = true];
-  string network_name_5ghz = 11 [deprecated = true];
   string mac_wan = 12;
   string mac_lan = 13;
   uint32 channel_2ghz = 19;
@@ -484,9 +484,6 @@ message WifiConfig {
   repeated string nameservers = 30;
   bool bypass_mode = 31;
   map<string, .SpaceX.API.Device.MeshConfig> mesh_configs = 33;
-  bool enable_remote_ssh = 34 [deprecated = true];
-  int64 last_remote_ssh_access = 35 [deprecated = true];
-  bool apply_lan_ipv4 = 37 [deprecated = true];
   bool apply_dynamic_keys = 39;
   bool dfs_enabled = 42;
   uint64 incarnation = 43;
@@ -524,10 +521,7 @@ message WifiConfig {
   bool disable_set_wifi_config_from_controller = 75;
   bytes client_key = 76;
   int32 wan_host_dscp_mark = 77;
-  bool apply_network_name = 1001 [deprecated = true];
-  bool apply_network_password = 1002 [deprecated = true];
-  bool apply_wifi_security = 1004 [deprecated = true];
-  bool apply_network_name_5ghz = 1005 [deprecated = true];
+  uint32 tag = 78;
   bool apply_setup_complete = 1010;
   bool apply_channel_2ghz = 1013;
   bool apply_channel_5ghz = 1014;
@@ -536,7 +530,6 @@ message WifiConfig {
   bool apply_mesh_configs = 1033;
   bool apply_nameservers = 1054;
   bool apply_bypass_mode = 1055;
-  bool apply_enable_remote_ssh = 1057 [deprecated = true];
   bool apply_dfs_enabled = 1058;
   bool apply_wireless_mode_2ghz = 1059;
   bool apply_wireless_mode_5ghz = 1060;
@@ -610,6 +603,7 @@ message WifiConfig {
     uint32 vlan = 1014;
     bool dhcp_disabled = 1015;
     uint32 dhcpv4_lease_duration_s = 1016;
+    bool landing_page_v2 = 1017;
     reserved 1000, 1001, 1002, 1004, 1005, 1006;
   }
   enum Band {
@@ -651,7 +645,8 @@ message WifiConfig {
     B_G_N_AX_MIXED = 11;
     A_AN_AC_AX_MIXED = 12;
   }
-  reserved 4, 6, 8, 14, 15, 16, 17, 18, 21, 24, 25, 27, 28, 29, 32, 36, 38, 40, 41, 1003, 1006, 1007, 1008, 1009, 1011, 1012, 1015, 1021, 1041, 1051, 1052, 1053, 1056, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008;
+  reserved 1, 2, 4, 5, 6, 8, 10, 11, 14, 15, 16, 17, 18, 21, 24, 25, 27, 28, 29, 32, 34, 35, 36, 37, 38, 40, 41, 1001, 1002, 1003, 1004, 1005, 1006, 1007, 1008, 1009, 1011, 1012, 1015, 1021, 1041, 1051, 1052, 1053, 1056, 1057, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008;
+  reserved "apply_enable_remote_ssh", "apply_lan_ipv4", "apply_network_name", "apply_network_name_5ghz", "apply_network_password", "apply_wifi_security", "enable_remote_ssh", "lan_ipv4", "last_remote_ssh_access", "network_name", "network_name_5ghz", "network_password", "wifi_security";
 }
 
 //SpaceX.API.Device.MeshConfig is a message:
@@ -743,8 +738,10 @@ enum BootReason {
   REPEATER_FDIR = 7;
   AVIATION_ETH_WAN_FDIR = 8;
   KERNEL_PANIC = 9;
-  AVIATION_5M_OUTAGE_FDIR = 10;
   MCU_BRINGUP_FAILED_FDIR = 11;
+  AVIATION_OUTAGE_FDIR = 12;
+  reserved 10;
+  reserved "AVIATION_5M_OUTAGE_FDIR";
 }
 
 //SpaceX.API.Device.NoTrafficControl is a message:
@@ -972,6 +969,7 @@ message Response {
     .SpaceX.API.Device.StartDishSelfTestResponse start_dish_self_test = 2012;
     .SpaceX.API.Device.DishInhibitGpsResponse dish_inhibit_gps = 2013;
     .SpaceX.API.Device.DishPrioritizedUpdateResponse dish_prioritized_update = 2014;
+    .SpaceX.API.Device.DishClearObstructionMapResponse dish_clear_obstruction_map = 2015;
     .SpaceX.API.Device.WifiSetConfigResponse wifi_set_config = 3001;
     .SpaceX.API.Device.WifiGetClientsResponse wifi_get_clients = 3002;
     .SpaceX.API.Device.WifiSetupResponse wifi_setup = 3003;
@@ -999,6 +997,7 @@ message Response {
   }
   reserved 1018, 1026, 2025, 3008, 3011, 3014;
 }
+
 
 //SpaceX.API.Device.RebootResponse is a message:
 message RebootResponse {
@@ -1332,6 +1331,7 @@ message DeviceState {
   uint64 uptime_s = 1;
 }
 
+
 //SpaceX.API.Device.DishGetStatusResponse is a message:
 message DishGetStatusResponse {
   .SpaceX.API.Device.DeviceInfo device_info = 1;
@@ -1566,7 +1566,8 @@ message DishGetObstructionMapResponse {
   uint32 num_rows = 1;
   uint32 num_cols = 2;
   repeated float snr = 3;
-  float min_elevation_deg = 4;
+  float min_elevation_deg = 4 [deprecated = true];
+  float max_theta_deg = 5;
 }
 
 //SpaceX.API.Device.DishGetEmcResponse is a message:
@@ -1651,6 +1652,10 @@ message DishInhibitGpsResponse {
 //SpaceX.API.Device.DishPrioritizedUpdateResponse is a message:
 message DishPrioritizedUpdateResponse {
   bool prioritized = 1;
+}
+
+//SpaceX.API.Device.DishClearObstructionMapResponse is a message:
+message DishClearObstructionMapResponse {
 }
 
 //SpaceX.API.Device.WifiSetConfigResponse is a message:
@@ -1800,6 +1805,7 @@ message WifiGetStatusResponse {
   float ping_drop_rate_5m = 1021;
   .SpaceX.API.Device.PoeStats poe_stats = 1022;
   string dish_id = 1023;
+  int64 utc_ns = 1024;
   .SpaceX.API.Device.WifiConfig config = 2000;
   repeated .SpaceX.API.Device.WifiClient clients = 3000;
   bool has_client_index = 3001;
@@ -1915,7 +1921,7 @@ message PingMetrics {
   float latency_stddev_ms = 2;
   float latency_mean_ms_5m = 3;
   float latency_mean_ms_1h = 4;
-  float latency_mean_ms_1d = 5;
+  float latency_mean_ms_1d = 5 [deprecated = true];
   float drop_rate = 6;
   float drop_rate_5m = 7;
   float drop_rate_1h = 8;

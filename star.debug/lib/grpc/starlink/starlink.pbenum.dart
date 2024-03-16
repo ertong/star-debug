@@ -193,8 +193,8 @@ class BootReason extends $pb.ProtobufEnum {
   static const BootReason REPEATER_FDIR = BootReason._(7, _omitEnumNames ? '' : 'REPEATER_FDIR');
   static const BootReason AVIATION_ETH_WAN_FDIR = BootReason._(8, _omitEnumNames ? '' : 'AVIATION_ETH_WAN_FDIR');
   static const BootReason KERNEL_PANIC = BootReason._(9, _omitEnumNames ? '' : 'KERNEL_PANIC');
-  static const BootReason AVIATION_5M_OUTAGE_FDIR = BootReason._(10, _omitEnumNames ? '' : 'AVIATION_5M_OUTAGE_FDIR');
   static const BootReason MCU_BRINGUP_FAILED_FDIR = BootReason._(11, _omitEnumNames ? '' : 'MCU_BRINGUP_FAILED_FDIR');
+  static const BootReason AVIATION_OUTAGE_FDIR = BootReason._(12, _omitEnumNames ? '' : 'AVIATION_OUTAGE_FDIR');
 
   static const $core.List<BootReason> values = <BootReason> [
     BOOT_REASON_UNKNOWN,
@@ -207,8 +207,8 @@ class BootReason extends $pb.ProtobufEnum {
     REPEATER_FDIR,
     AVIATION_ETH_WAN_FDIR,
     KERNEL_PANIC,
-    AVIATION_5M_OUTAGE_FDIR,
     MCU_BRINGUP_FAILED_FDIR,
+    AVIATION_OUTAGE_FDIR,
   ];
 
   static final $core.Map<$core.int, BootReason> _byValue = $pb.ProtobufEnum.initByValue(values);
