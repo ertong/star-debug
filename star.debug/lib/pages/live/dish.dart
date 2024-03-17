@@ -8,6 +8,7 @@ import 'package:star_debug/preloaded.dart';
 import 'package:grpc/grpc.dart';
 import 'package:star_debug/utils/kv_widget.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:time_machine/time_machine.dart';
 
 const String _TAG="DishTab";
 
@@ -50,10 +51,10 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
     lastGraphTime = time;
 
     charts.clear();
-    charts.add(buildGraph("Ping latency", history.popPingLatencyMs));
-    charts.add(buildGraph("Ping drop rate", history.popPingDropRate));
-    charts.add(buildGraph("Uplink, MB/s", [for (var v in history.uplinkThroughputBps) v/1024/1024]));
-    charts.add(buildGraph("Downlink, MB/s", [for (var v in history.downlinkThroughputBps) v/1024/1024]));
+    charts.add(buildGraph("Ping latency", history.current.toInt(), history.popPingLatencyMs));
+    charts.add(buildGraph("Ping drop rate", history.current.toInt(), history.popPingDropRate));
+    charts.add(buildGraph("Uplink, MB/s", history.current.toInt(), [for (var v in history.uplinkThroughputBps) v/1024/1024]));
+    charts.add(buildGraph("Downlink, MB/s", history.current.toInt(), [for (var v in history.downlinkThroughputBps) v/1024/1024]));
   }
 
   @override
@@ -118,11 +119,14 @@ class _GraphPoint {
   _GraphPoint(this.t, this.value);
 }
 
-Widget buildGraph(String name, List<double> data){
+Widget buildGraph(String name, int current, List<double> data){
+  data = data.sublist(current%900)+data.sublist(0, current%900);
   var A = [];
   A.addAll(data);
   A.sort();
   double max = A[A.length*95~/100]*1.2;
+
+  var now = Instant.now();
 
   return SizedBox(
     height: 120,
@@ -130,13 +134,16 @@ Widget buildGraph(String name, List<double> data){
         title: ChartTitle(text: name, textStyle: TextStyle(fontSize: 10)),
         primaryXAxis: CategoryAxis(),
         primaryYAxis: NumericAxis(minimum: 0, maximum: max),
+        enableAxisAnimation: false,
         series: <ChartSeries>[
-          LineSeries<_GraphPoint, int>(
+          LineSeries<_GraphPoint, String>(
               dataSource:  <_GraphPoint>[
                 for (var i=0; i<data.length; ++i)
                   _GraphPoint(i, data[i]),
               ],
-              xValueMapper: (_GraphPoint pt, _) => data.length-pt.t,
+              animationDuration: 0,
+              // xValueMapper: (_GraphPoint pt, _) => "${data.length-pt.t}",
+              xValueMapper: (_GraphPoint pt, _) => "${now.subtract(Time(seconds: data.length-pt.t)).toString("HH:mm:ss")}",
               yValueMapper: (_GraphPoint pt, _) => pt.value
           )
         ]

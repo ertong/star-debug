@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:drift/drift.dart' hide Column;
 import 'package:flutter/material.dart' hide Notification, Card, ConnectionState;
 import 'package:grpc/grpc.dart';
 import 'package:star_debug/db/models/recent_inputs.dart';
@@ -81,7 +82,7 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
     lastGraphTime = time;
 
     charts.clear();
-    charts.add(buildGraph("Ping latency", history.popPingLatencyMs));
+    charts.add(buildGraph("Ping latency", history.current.toInt(), history.popPingLatencyMs));
     // charts.add(buildGraph("Ping drop rate", history.popPingDropRate));
     // charts.add(buildGraph("Uplink, MB/s", [for (var v in history.uplinkThroughputBps) v/1024/1024]));
     // charts.add(buildGraph("Downlink, MB/s", [for (var v in history.downlinkThroughputBps) v/1024/1024]));

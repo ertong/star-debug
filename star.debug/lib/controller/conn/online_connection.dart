@@ -69,6 +69,10 @@ class OnlineConnection extends BaseConnection {
   String? starlinkInternetCity;
   bool hasIpv6 = false;
 
+  bool get isOk {
+    return cntOk>0 && myIp!=null;
+  }
+
   String? myIp;
   GeoIp? geoIp;
 
