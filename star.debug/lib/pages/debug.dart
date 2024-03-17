@@ -166,7 +166,7 @@ class _DebugPageState extends State<DebugPage> with TickerProviderStateMixin {
     //   mainAxisAlignment: MainAxisAlignment.spaceAround,
     //   children: [
     //     reqButton("GetPersistentStats", () => Request(getPersistentStats: GetPersistentStatsRequest()), router: true),
-    //     reqButton("WifiGetDiagnostics", () => Request(wifiGetDiagnostics: WifiGetDiagnosticsRequest()), router: true),
+    //     reqButton("DishClearObstructionMap", () => Request(dishClearObstructionMap: DishClearObstructionMapRequest()), router: true),
     //   ],
     // ));
 
