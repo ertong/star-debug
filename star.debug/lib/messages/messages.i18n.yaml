@@ -304,9 +304,7 @@ grpc:
     mobility_class__hint: |
       The possible options are:
       
-      - **STATIONARY** 
-      - **NOMADIC** 
-      - **MOBILE**
+      - OTHER_OPTIONS
     is_snr_above_noise_floor: SNR above noise floor
 
     class_of_service: Class of service
@@ -318,13 +316,7 @@ grpc:
     disablement_code__hint: |
       The possible options are:
       
-      - **UNKNOWN_STATE**
-      - **OKAY**
-      - **NO_ACTIVE_ACCOUNT**
-      - **TOO_FAR_FROM_SERVICE_ADDRESS**
-      - **IN_OCEAN**
-      - **INVALID_COUNTRY**
-
+      - OTHER_OPTIONS
   AlignmentStats:
     has_actuators: has_actuators
     actuator_state: actuator_state

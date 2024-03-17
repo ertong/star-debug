@@ -470,9 +470,7 @@ class DishGetStatusGrpcMessagesUk extends DishGetStatusGrpcMessages {
   String get mobility_class => """Клас мобільності""";
   String get mobility_class__hint => """Можливі варіанти:
 
-- **STATIONARY**
-- **NOMADIC**
-- **MOBILE**
+- OTHER_OPTIONS
 """;
   String get is_snr_above_noise_floor => """SNR вище за рівень шуму""";
   String get class_of_service => """Клас сервісу""";
@@ -483,12 +481,7 @@ class DishGetStatusGrpcMessagesUk extends DishGetStatusGrpcMessages {
   String get disablement_code => """Стан сервісу""";
   String get disablement_code__hint => """Можливі варіанти:
 
-- **UNKNOWN_STATE**
-- **OKAY**
-- **NO_ACTIVE_ACCOUNT**
-- **TOO_FAR_FROM_SERVICE_ADDRESS**
-- **IN_OCEAN**
-- **INVALID_COUNTRY**
+- OTHER_OPTIONS
 """;
 }
 
@@ -945,9 +938,7 @@ Map<String, String> get messagesUkMap => {
       """grpc.DishGetStatus.mobility_class""": """Клас мобільності""",
       """grpc.DishGetStatus.mobility_class__hint""": """Можливі варіанти:
 
-- **STATIONARY**
-- **NOMADIC**
-- **MOBILE**
+- OTHER_OPTIONS
 """,
       """grpc.DishGetStatus.is_snr_above_noise_floor""":
           """SNR вище за рівень шуму""",
@@ -960,12 +951,7 @@ Map<String, String> get messagesUkMap => {
       """grpc.DishGetStatus.disablement_code""": """Стан сервісу""",
       """grpc.DishGetStatus.disablement_code__hint""": """Можливі варіанти:
 
-- **UNKNOWN_STATE**
-- **OKAY**
-- **NO_ACTIVE_ACCOUNT**
-- **TOO_FAR_FROM_SERVICE_ADDRESS**
-- **IN_OCEAN**
-- **INVALID_COUNTRY**
+- OTHER_OPTIONS
 """,
       """grpc.AlignmentStats.has_actuators""": """has_actuators""",
       """grpc.AlignmentStats.actuator_state""": """actuator_state""",

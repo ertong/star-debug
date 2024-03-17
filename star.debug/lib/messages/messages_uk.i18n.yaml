@@ -279,9 +279,7 @@ grpc:
     mobility_class__hint: |
       Можливі варіанти:
       
-      - **STATIONARY**
-      - **NOMADIC**
-      - **MOBILE**
+      - OTHER_OPTIONS
     is_snr_above_noise_floor: SNR вище за рівень шуму
     class_of_service: Клас сервісу
     software_update_state: Стан оновлення
@@ -292,12 +290,7 @@ grpc:
     disablement_code__hint: |
       Можливі варіанти:
       
-      - **UNKNOWN_STATE**
-      - **OKAY**
-      - **NO_ACTIVE_ACCOUNT**
-      - **TOO_FAR_FROM_SERVICE_ADDRESS**
-      - **IN_OCEAN**
-      - **INVALID_COUNTRY**
+      - OTHER_OPTIONS
   AlignmentStats:
     has_actuators: has_actuators
     actuator_state: actuator_state

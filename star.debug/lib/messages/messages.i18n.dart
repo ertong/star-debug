@@ -469,9 +469,7 @@ class DishGetStatusGrpcMessages {
   String get mobility_class => """Mobility class""";
   String get mobility_class__hint => """The possible options are:
 
-- **STATIONARY** 
-- **NOMADIC** 
-- **MOBILE**
+- OTHER_OPTIONS
 """;
   String get is_snr_above_noise_floor => """SNR above noise floor""";
   String get class_of_service => """Class of service""";
@@ -482,12 +480,7 @@ class DishGetStatusGrpcMessages {
   String get disablement_code => """Service state""";
   String get disablement_code__hint => """The possible options are:
 
-- **UNKNOWN_STATE**
-- **OKAY**
-- **NO_ACTIVE_ACCOUNT**
-- **TOO_FAR_FROM_SERVICE_ADDRESS**
-- **IN_OCEAN**
-- **INVALID_COUNTRY**
+- OTHER_OPTIONS
 """;
 }
 
@@ -946,9 +939,7 @@ with internet access and dish access. You can find this setting in
       """grpc.DishGetStatus.mobility_class__hint""":
           """The possible options are:
 
-- **STATIONARY** 
-- **NOMADIC** 
-- **MOBILE**
+- OTHER_OPTIONS
 """,
       """grpc.DishGetStatus.is_snr_above_noise_floor""":
           """SNR above noise floor""",
@@ -963,12 +954,7 @@ with internet access and dish access. You can find this setting in
       """grpc.DishGetStatus.disablement_code__hint""":
           """The possible options are:
 
-- **UNKNOWN_STATE**
-- **OKAY**
-- **NO_ACTIVE_ACCOUNT**
-- **TOO_FAR_FROM_SERVICE_ADDRESS**
-- **IN_OCEAN**
-- **INVALID_COUNTRY**
+- OTHER_OPTIONS
 """,
       """grpc.AlignmentStats.has_actuators""": """has_actuators""",
       """grpc.AlignmentStats.actuator_state""": """actuator_state""",
