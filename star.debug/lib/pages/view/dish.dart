@@ -75,7 +75,9 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
         }
 
         if (status.hasClassOfService()) {
-          b.kv(M.grpc.DishGetStatus.class_of_service, status.classOfService);
+          b.kv(M.grpc.DishGetStatus.class_of_service, status.classOfService,
+              hint: Format.formatEnumHint(M.grpc.possible_options__hint, UserClassOfService.values)
+          );
         }
 
         if (status.hasHasActuators()) {
@@ -83,7 +85,9 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
         }
         if (status.hasAlignmentStats()) {
           if (status.alignmentStats.hasActuatorState()){
-            b.kv(M.grpc.DishGetStatus.actuator_state, status.alignmentStats.actuatorState);
+            b.kv(M.grpc.DishGetStatus.actuator_state, status.alignmentStats.actuatorState,
+                hint: Format.formatEnumHint(M.grpc.possible_options__hint, ActuatorState.values)
+            );
           }
         }
 
@@ -91,7 +95,7 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
           if (status.outage.hasCause())
             b.kv(M.grpc.DishOutage.cause,
                 status.outage.cause,
-                hint: M.grpc.DishOutage.cause__hint,
+                hint: Format.formatEnumHint(M.grpc.DishOutage.cause__hint, ActuatorState.values),
                 ok: false
             );
         }

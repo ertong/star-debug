@@ -1016,11 +1016,7 @@ class DishOutageGrpcMessages {
   /// - **OBSTRUCTED** - Too many signal obstructions. Ensure the dish has 140° view of the sky
   ///   (at least in the part, where it is usually oriented).
   /// - **NO_DOWNLINK** - No downlink from satellites is established.
-  /// - **NO_PINGS**
-  /// - **ACTUATOR_ACTIVITY**
-  /// - **CABLE_TEST**
-  /// - **SLEEPING**
-  /// - **MOVING_WHILE_NOT_ALLOWED**
+  /// - OTHER_OPTIONS
   /// """
   /// ```
   String get cause__hint =>
@@ -1036,11 +1032,7 @@ class DishOutageGrpcMessages {
 - **OBSTRUCTED** - Too many signal obstructions. Ensure the dish has 140° view of the sky
   (at least in the part, where it is usually oriented).
 - **NO_DOWNLINK** - No downlink from satellites is established.
-- **NO_PINGS**
-- **ACTUATOR_ACTIVITY**
-- **CABLE_TEST**
-- **SLEEPING**
-- **MOVING_WHILE_NOT_ALLOWED**
+- OTHER_OPTIONS
 """;
 
   /// ```dart
@@ -2308,11 +2300,7 @@ Moreover, in the case of a moving router, its route can be followed.
 - **OBSTRUCTED** - Too many signal obstructions. Ensure the dish has 140° view of the sky
   (at least in the part, where it is usually oriented).
 - **NO_DOWNLINK** - No downlink from satellites is established.
-- **NO_PINGS**
-- **ACTUATOR_ACTIVITY**
-- **CABLE_TEST**
-- **SLEEPING**
-- **MOVING_WHILE_NOT_ALLOWED**
+- OTHER_OPTIONS
 """,
       """grpc.DishOutage.start_timestamp_ns""": """Start timestamp, ns""",
       """grpc.DishOutage.duration_ns""": """Duration, ns""",

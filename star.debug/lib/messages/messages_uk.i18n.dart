@@ -1018,11 +1018,7 @@ class DishOutageGrpcMessagesUk extends DishOutageGrpcMessages {
   /// - **OBSTRUCTED** - Забагато перешкод. Переконайтеся, що антена має кут огляду неба 140°
   ///    (принаймні в тій частині, куди вона зазвичай орієнтована).
   /// - **NO_DOWNLINK** - Канал передачі даних з супутників не ініціалізовано.
-  /// - **NO_PINGS**
-  /// - **ACTUATOR_ACTIVITY**
-  /// - **CABLE_TEST**
-  /// - **SLEEPING**
-  /// - **MOVING_WHILE_NOT_ALLOWED**
+  /// - OTHER_OPTIONS
   /// """
   /// ```
   String get cause__hint =>
@@ -1038,11 +1034,7 @@ class DishOutageGrpcMessagesUk extends DishOutageGrpcMessages {
 - **OBSTRUCTED** - Забагато перешкод. Переконайтеся, що антена має кут огляду неба 140°
    (принаймні в тій частині, куди вона зазвичай орієнтована).
 - **NO_DOWNLINK** - Канал передачі даних з супутників не ініціалізовано.
-- **NO_PINGS**
-- **ACTUATOR_ACTIVITY**
-- **CABLE_TEST**
-- **SLEEPING**
-- **MOVING_WHILE_NOT_ALLOWED**
+- OTHER_OPTIONS
 """;
 
   /// ```dart
@@ -2310,11 +2302,7 @@ Map<String, String> get messagesUkMap => {
 - **OBSTRUCTED** - Забагато перешкод. Переконайтеся, що антена має кут огляду неба 140°
    (принаймні в тій частині, куди вона зазвичай орієнтована).
 - **NO_DOWNLINK** - Канал передачі даних з супутників не ініціалізовано.
-- **NO_PINGS**
-- **ACTUATOR_ACTIVITY**
-- **CABLE_TEST**
-- **SLEEPING**
-- **MOVING_WHILE_NOT_ALLOWED**
+- OTHER_OPTIONS
 """,
       """grpc.DishOutage.start_timestamp_ns""": """Start timestamp, ns""",
       """grpc.DishOutage.duration_ns""": """Duration, ns""",
