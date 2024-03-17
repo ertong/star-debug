@@ -135,7 +135,7 @@ Widget buildGraph(String name, int current, List<double> data){
         primaryXAxis: CategoryAxis(),
         primaryYAxis: NumericAxis(minimum: 0, maximum: max),
         enableAxisAnimation: false,
-        series: <ChartSeries>[
+        series: <CartesianSeries>[
           LineSeries<_GraphPoint, String>(
               dataSource:  <_GraphPoint>[
                 for (var i=0; i<data.length; ++i)
