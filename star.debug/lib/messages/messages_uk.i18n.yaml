@@ -177,6 +177,10 @@ online:
   internet: Інтернет
   starlink_internet: Інтернет через Starlink
 grpc:
+  possible_options__hint: |
+    Можливі варіанти:
+
+    - OTHER_OPTIONS
   DeviceInfo:
     id: Id
     hardware_version: Версія апаратна

@@ -304,6 +304,10 @@ class OnlineMessagesUk extends OnlineMessages {
 class GrpcMessagesUk extends GrpcMessages {
   final MessagesUk _parent;
   const GrpcMessagesUk(this._parent) : super(_parent);
+  String get possible_options__hint => """Можливі варіанти:
+
+- OTHER_OPTIONS
+""";
   DeviceInfoGrpcMessagesUk get DeviceInfo => DeviceInfoGrpcMessagesUk(this);
   BootInfoGrpcMessagesUk get BootInfo => BootInfoGrpcMessagesUk(this);
   DishOutageGrpcMessagesUk get DishOutage => DishOutageGrpcMessagesUk(this);
@@ -826,6 +830,10 @@ Map<String, String> get messagesUkMap => {
       """tabs.app.active""": """Активно""",
       """online.internet""": """Інтернет""",
       """online.starlink_internet""": """Інтернет через Starlink""",
+      """grpc.possible_options__hint""": """Можливі варіанти:
+
+- OTHER_OPTIONS
+""",
       """grpc.DeviceInfo.id""": """Id""",
       """grpc.DeviceInfo.hardware_version""": """Версія апаратна""",
       """grpc.DeviceInfo.software_version""": """Версія прошивки""",

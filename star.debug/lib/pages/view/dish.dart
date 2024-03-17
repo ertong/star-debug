@@ -114,7 +114,9 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
             if (status.hasSoftwareUpdateStats() && status.softwareUpdateStats.hasSoftwareUpdateProgress()) {
               s = "$s (${(status.softwareUpdateStats.softwareUpdateProgress*100).toStringAsFixed(0)}%)";
             }
-          b.kv(M.grpc.DishGetStatus.software_update_state, s);
+          b.kv(M.grpc.DishGetStatus.software_update_state, s,
+              hint: Format.formatEnumHint(M.grpc.possible_options__hint, SoftwareUpdateState.values)
+          );
         }
 
         rows.addAll(b.widgets);
@@ -163,12 +165,16 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
         var b = KVWidgetBuilder(context, theme);
         var config = status.config;
         b.header(M.header.config);
-        b.kv(M.grpc.DishConfig.snow_melt_mode, config.snowMeltMode);
+        b.kv(M.grpc.DishConfig.snow_melt_mode, config.snowMeltMode,
+          hint: Format.formatEnumHint(M.grpc.possible_options__hint, DishConfig_SnowMeltMode.values)
+        );
         b.kv(M.grpc.DishConfig.location_request_mode,
             config.locationRequestMode,
             hint: M.grpc.DishConfig.location_request_mode__hint
         );
-        b.kv(M.grpc.DishConfig.level_dish_mode, config.levelDishMode);
+        b.kv(M.grpc.DishConfig.level_dish_mode, config.levelDishMode,
+            hint: Format.formatEnumHint(M.grpc.possible_options__hint, DishConfig_LevelDishMode.values)
+        );
         if (config.hasPowerSaveStartMinutes())
           b.kv(M.grpc.DishConfig.power_save_start_minutes, config.powerSaveStartMinutes);
         if (config.hasPowerSaveDurationMinutes())

@@ -173,6 +173,10 @@ online:
   starlink_internet: Starlink Internet
 
 grpc:
+  possible_options__hint: |
+    The possible options are:
+
+    - OTHER_OPTIONS
   DeviceInfo:
     id: Id
     hardware_version: Hardware revision

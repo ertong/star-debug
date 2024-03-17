@@ -303,6 +303,10 @@ class OnlineMessages {
 class GrpcMessages {
   final Messages _parent;
   const GrpcMessages(this._parent);
+  String get possible_options__hint => """The possible options are:
+
+- OTHER_OPTIONS
+""";
   DeviceInfoGrpcMessages get DeviceInfo => DeviceInfoGrpcMessages(this);
   BootInfoGrpcMessages get BootInfo => BootInfoGrpcMessages(this);
   DishOutageGrpcMessages get DishOutage => DishOutageGrpcMessages(this);
@@ -825,6 +829,10 @@ Moreover, in the case of a moving router, its route can be followed.
       """tabs.app.active""": """Active""",
       """online.internet""": """Internet""",
       """online.starlink_internet""": """Starlink Internet""",
+      """grpc.possible_options__hint""": """The possible options are:
+
+- OTHER_OPTIONS
+""",
       """grpc.DeviceInfo.id""": """Id""",
       """grpc.DeviceInfo.hardware_version""": """Hardware revision""",
       """grpc.DeviceInfo.software_version""": """Software version""",
