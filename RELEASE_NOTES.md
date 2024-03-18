@@ -1,4 +1,12 @@
 
+## 1.1b63
+
+### Enhancements:
+
+- Update protocol version.
+- Show time labels on history charts.
+- Improve property hints.
+
 ## 1.1b60
 
 ### New Features:
