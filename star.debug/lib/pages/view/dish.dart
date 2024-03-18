@@ -95,7 +95,7 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
           if (status.outage.hasCause())
             b.kv(M.grpc.DishOutage.cause,
                 status.outage.cause,
-                hint: Format.formatEnumHint(M.grpc.DishOutage.cause__hint, ActuatorState.values),
+                hint: Format.formatEnumHint(M.grpc.DishOutage.cause__hint, DishOutage_Cause.values),
                 ok: false
             );
         }
