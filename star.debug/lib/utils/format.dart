@@ -1,4 +1,5 @@
 
+import 'package:protobuf/protobuf.dart';
 import 'package:star_debug/messages/i18n.dart';
 
 class Format {
@@ -49,5 +50,16 @@ class Format {
       return M.general.x_hours_ago(d~/1000~/60~/60);
 
     return M.general.x_days_ago(d~/1000~/60~/60~/24);
+  }
+
+  static String formatEnumHint(String tmp, List<ProtobufEnum> values ) {
+    String str = "";
+    for (var val in values) {
+      var s = val.name;
+      if (!tmp.contains("- **$s**"))
+        str = "$str\n- **$s**";
+    }
+
+    return tmp.replaceFirst("- OTHER_OPTIONS", str);
   }
 }

@@ -93,7 +93,7 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
           if (online==null)
             return Colors.amber;
 
-          return online.cntOk>0 ? Colors.green : Colors.red;
+          return online.isOk ? Colors.green : Colors.red;
         },
         () => OnlineTab(),
         alert: () {

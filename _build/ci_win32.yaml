@@ -11,12 +11,12 @@ build_win32:
     - flutter config --enable-windows-desktop
     - flutter build windows $BUILD_OPTS.split()
     - pwd
-    - copy windows/dll/*.dll build/windows/runner/Release/
-    - Compress-Archive -Path "build/windows/runner/Release/*" -DestinationPath "build/windows/runner/StarDebug.$NAME.zip"
+    - copy windows/dll/*.dll build/windows/x64/runner/Release/
+    - Compress-Archive -Path "build/windows/x64/runner/Release/*" -DestinationPath "build/windows/x64/runner/StarDebug.$NAME.zip"
   artifacts:
     expire_in: 6 mos
     paths:
-      - star.debug/build/windows/runner/StarDebug*.zip
+      - star.debug/build/windows/x64/runner/StarDebug*.zip
   needs: ["test"]
   only:
     variables:

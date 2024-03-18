@@ -173,6 +173,10 @@ online:
   starlink_internet: Starlink Internet
 
 grpc:
+  possible_options__hint: |
+    The possible options are:
+
+    - OTHER_OPTIONS
   DeviceInfo:
     id: Id
     hardware_version: Hardware revision
@@ -227,11 +231,7 @@ grpc:
       - **OBSTRUCTED** - Too many signal obstructions. Ensure the dish has 140° view of the sky
         (at least in the part, where it is usually oriented).
       - **NO_DOWNLINK** - No downlink from satellites is established.
-      - **NO_PINGS**
-      - **ACTUATOR_ACTIVITY**
-      - **CABLE_TEST**
-      - **SLEEPING**
-      - **MOVING_WHILE_NOT_ALLOWED**
+      - OTHER_OPTIONS
     start_timestamp_ns: Start timestamp, ns
     duration_ns: Duration, ns
     did_switch: Did switch
@@ -279,8 +279,7 @@ grpc:
 
   DishGetStatus:
     uptime_s: Uptime
-    uptime_s__hint: >
-      Time the dish is running since the last reboot.
+    uptime_s__hint: Time the dish is running since the last reboot.
     seconds_to_first_nonempty_slot: Seconds to first non-empty slot
     pop_ping_drop_rate: PoP ping drop rate
     fraction_obstructed: fraction_obstructed
@@ -304,9 +303,7 @@ grpc:
     mobility_class__hint: |
       The possible options are:
       
-      - **STATIONARY** 
-      - **NOMADIC** 
-      - **MOBILE**
+      - OTHER_OPTIONS
     is_snr_above_noise_floor: SNR above noise floor
 
     class_of_service: Class of service
@@ -318,13 +315,7 @@ grpc:
     disablement_code__hint: |
       The possible options are:
       
-      - **UNKNOWN_STATE**
-      - **OKAY**
-      - **NO_ACTIVE_ACCOUNT**
-      - **TOO_FAR_FROM_SERVICE_ADDRESS**
-      - **IN_OCEAN**
-      - **INVALID_COUNTRY**
-
+      - OTHER_OPTIONS
   AlignmentStats:
     has_actuators: has_actuators
     actuator_state: actuator_state

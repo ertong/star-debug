@@ -30,6 +30,7 @@ class Capability extends $pb.ProtobufEnum {
   static const Capability SSH = Capability._(12, _omitEnumNames ? '' : 'SSH');
   static const Capability READ_INTERNAL = Capability._(13, _omitEnumNames ? '' : 'READ_INTERNAL');
   static const Capability LOCAL = Capability._(14, _omitEnumNames ? '' : 'LOCAL');
+  static const Capability GUEST = Capability._(15, _omitEnumNames ? '' : 'GUEST');
 
   static const $core.List<Capability> values = <Capability> [
     READ,
@@ -47,12 +48,39 @@ class Capability extends $pb.ProtobufEnum {
     SSH,
     READ_INTERNAL,
     LOCAL,
+    GUEST,
   ];
 
   static final $core.Map<$core.int, Capability> _byValue = $pb.ProtobufEnum.initByValue(values);
   static Capability? valueOf($core.int value) => _byValue[value];
 
   const Capability._($core.int v, $core.String n) : super(v, n);
+}
+
+/// SpaceX.API.Device.User is an enum:
+class User extends $pb.ProtobufEnum {
+  static const User NO_USER = User._(0, _omitEnumNames ? '' : 'NO_USER');
+  static const User GOD = User._(1, _omitEnumNames ? '' : 'GOD');
+  static const User LAN = User._(2, _omitEnumNames ? '' : 'LAN');
+  static const User CLOUD = User._(3, _omitEnumNames ? '' : 'CLOUD');
+  static const User FACTORY = User._(4, _omitEnumNames ? '' : 'FACTORY');
+  static const User ROUTER = User._(5, _omitEnumNames ? '' : 'ROUTER');
+  static const User GUEST_LAN = User._(6, _omitEnumNames ? '' : 'GUEST_LAN');
+
+  static const $core.List<User> values = <User> [
+    NO_USER,
+    GOD,
+    LAN,
+    CLOUD,
+    FACTORY,
+    ROUTER,
+    GUEST_LAN,
+  ];
+
+  static final $core.Map<$core.int, User> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static User? valueOf($core.int value) => _byValue[value];
+
+  const User._($core.int v, $core.String n) : super(v, n);
 }
 
 /// SpaceX.API.Device.PositionSource is an enum:
@@ -63,6 +91,10 @@ class PositionSource extends $pb.ProtobufEnum {
   static const PositionSource EXTERNAL = PositionSource._(3, _omitEnumNames ? '' : 'EXTERNAL');
   static const PositionSource GPS = PositionSource._(4, _omitEnumNames ? '' : 'GPS');
   static const PositionSource STARLINK = PositionSource._(5, _omitEnumNames ? '' : 'STARLINK');
+  static const PositionSource GNC_GPS = PositionSource._(6, _omitEnumNames ? '' : 'GNC_GPS');
+  static const PositionSource GNC_PNT = PositionSource._(7, _omitEnumNames ? '' : 'GNC_PNT');
+  static const PositionSource GNC_FUSED = PositionSource._(8, _omitEnumNames ? '' : 'GNC_FUSED');
+  static const PositionSource GNC_RAW = PositionSource._(9, _omitEnumNames ? '' : 'GNC_RAW');
 
   static const $core.List<PositionSource> values = <PositionSource> [
     AUTO,
@@ -71,6 +103,10 @@ class PositionSource extends $pb.ProtobufEnum {
     EXTERNAL,
     GPS,
     STARLINK,
+    GNC_GPS,
+    GNC_PNT,
+    GNC_FUSED,
+    GNC_RAW,
   ];
 
   static final $core.Map<$core.int, PositionSource> _byValue = $pb.ProtobufEnum.initByValue(values);
@@ -157,7 +193,8 @@ class BootReason extends $pb.ProtobufEnum {
   static const BootReason REPEATER_FDIR = BootReason._(7, _omitEnumNames ? '' : 'REPEATER_FDIR');
   static const BootReason AVIATION_ETH_WAN_FDIR = BootReason._(8, _omitEnumNames ? '' : 'AVIATION_ETH_WAN_FDIR');
   static const BootReason KERNEL_PANIC = BootReason._(9, _omitEnumNames ? '' : 'KERNEL_PANIC');
-  static const BootReason AVIATION_5M_OUTAGE_FDIR = BootReason._(10, _omitEnumNames ? '' : 'AVIATION_5M_OUTAGE_FDIR');
+  static const BootReason MCU_BRINGUP_FAILED_FDIR = BootReason._(11, _omitEnumNames ? '' : 'MCU_BRINGUP_FAILED_FDIR');
+  static const BootReason AVIATION_OUTAGE_FDIR = BootReason._(12, _omitEnumNames ? '' : 'AVIATION_OUTAGE_FDIR');
 
   static const $core.List<BootReason> values = <BootReason> [
     BOOT_REASON_UNKNOWN,
@@ -170,13 +207,52 @@ class BootReason extends $pb.ProtobufEnum {
     REPEATER_FDIR,
     AVIATION_ETH_WAN_FDIR,
     KERNEL_PANIC,
-    AVIATION_5M_OUTAGE_FDIR,
+    MCU_BRINGUP_FAILED_FDIR,
+    AVIATION_OUTAGE_FDIR,
   ];
 
   static final $core.Map<$core.int, BootReason> _byValue = $pb.ProtobufEnum.initByValue(values);
   static BootReason? valueOf($core.int value) => _byValue[value];
 
   const BootReason._($core.int v, $core.String n) : super(v, n);
+}
+
+/// SpaceX.API.Device.CakePriorityQueueParameter is an enum:
+class CakePriorityQueueParameter extends $pb.ProtobufEnum {
+  static const CakePriorityQueueParameter DIFFSERV3 = CakePriorityQueueParameter._(0, _omitEnumNames ? '' : 'DIFFSERV3');
+  static const CakePriorityQueueParameter DIFFSERV4 = CakePriorityQueueParameter._(1, _omitEnumNames ? '' : 'DIFFSERV4');
+  static const CakePriorityQueueParameter PRECEDENCE = CakePriorityQueueParameter._(2, _omitEnumNames ? '' : 'PRECEDENCE');
+  static const CakePriorityQueueParameter BEST_EFFORT = CakePriorityQueueParameter._(3, _omitEnumNames ? '' : 'BEST_EFFORT');
+
+  static const $core.List<CakePriorityQueueParameter> values = <CakePriorityQueueParameter> [
+    DIFFSERV3,
+    DIFFSERV4,
+    PRECEDENCE,
+    BEST_EFFORT,
+  ];
+
+  static final $core.Map<$core.int, CakePriorityQueueParameter> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static CakePriorityQueueParameter? valueOf($core.int value) => _byValue[value];
+
+  const CakePriorityQueueParameter._($core.int v, $core.String n) : super(v, n);
+}
+
+/// SpaceX.API.Device.CakeAckFilter is an enum:
+class CakeAckFilter extends $pb.ProtobufEnum {
+  static const CakeAckFilter NO_ACK_FILTER = CakeAckFilter._(0, _omitEnumNames ? '' : 'NO_ACK_FILTER');
+  static const CakeAckFilter ACK_FILTER = CakeAckFilter._(1, _omitEnumNames ? '' : 'ACK_FILTER');
+  static const CakeAckFilter ACK_FILTER_AGGRESSIVE = CakeAckFilter._(2, _omitEnumNames ? '' : 'ACK_FILTER_AGGRESSIVE');
+
+  static const $core.List<CakeAckFilter> values = <CakeAckFilter> [
+    NO_ACK_FILTER,
+    ACK_FILTER,
+    ACK_FILTER_AGGRESSIVE,
+  ];
+
+  static final $core.Map<$core.int, CakeAckFilter> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static CakeAckFilter? valueOf($core.int value) => _byValue[value];
+
+  const CakeAckFilter._($core.int v, $core.String n) : super(v, n);
 }
 
 /// SpaceX.API.Device.SpeedtestError is an enum:
@@ -345,6 +421,30 @@ class AttitudeEstimationState extends $pb.ProtobufEnum {
   static AttitudeEstimationState? valueOf($core.int value) => _byValue[value];
 
   const AttitudeEstimationState._($core.int v, $core.String n) : super(v, n);
+}
+
+/// SpaceX.API.Device.PoeState is an enum:
+class PoeState extends $pb.ProtobufEnum {
+  static const PoeState POE_STATE_DISABLED = PoeState._(0, _omitEnumNames ? '' : 'POE_STATE_DISABLED');
+  static const PoeState POE_STATE_NEGOTIATING = PoeState._(1, _omitEnumNames ? '' : 'POE_STATE_NEGOTIATING');
+  static const PoeState POE_STATE_ON_RAMPUP = PoeState._(2, _omitEnumNames ? '' : 'POE_STATE_ON_RAMPUP');
+  static const PoeState POE_STATE_ON = PoeState._(3, _omitEnumNames ? '' : 'POE_STATE_ON');
+  static const PoeState POE_STATE_WATER_DETECT_RAMPUP = PoeState._(4, _omitEnumNames ? '' : 'POE_STATE_WATER_DETECT_RAMPUP');
+  static const PoeState POE_STATE_WATER_DETECT = PoeState._(5, _omitEnumNames ? '' : 'POE_STATE_WATER_DETECT');
+
+  static const $core.List<PoeState> values = <PoeState> [
+    POE_STATE_DISABLED,
+    POE_STATE_NEGOTIATING,
+    POE_STATE_ON_RAMPUP,
+    POE_STATE_ON,
+    POE_STATE_WATER_DETECT_RAMPUP,
+    POE_STATE_WATER_DETECT,
+  ];
+
+  static final $core.Map<$core.int, PoeState> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static PoeState? valueOf($core.int value) => _byValue[value];
+
+  const PoeState._($core.int v, $core.String n) : super(v, n);
 }
 
 /// SpaceX.API.Device.TransceiverModulatorState is an enum:
@@ -734,40 +834,6 @@ class WifiClient_Role extends $pb.ProtobufEnum {
   const WifiClient_Role._($core.int v, $core.String n) : super(v, n);
 }
 
-class WifiScanResults_Network_Source extends $pb.ProtobufEnum {
-  static const WifiScanResults_Network_Source UNKNOWN = WifiScanResults_Network_Source._(0, _omitEnumNames ? '' : 'UNKNOWN');
-  static const WifiScanResults_Network_Source SCAN_2_4GHZ = WifiScanResults_Network_Source._(1, _omitEnumNames ? '' : 'SCAN_2_4GHZ');
-  static const WifiScanResults_Network_Source SCAN_5GHZ = WifiScanResults_Network_Source._(2, _omitEnumNames ? '' : 'SCAN_5GHZ');
-
-  static const $core.List<WifiScanResults_Network_Source> values = <WifiScanResults_Network_Source> [
-    UNKNOWN,
-    SCAN_2_4GHZ,
-    SCAN_5GHZ,
-  ];
-
-  static final $core.Map<$core.int, WifiScanResults_Network_Source> _byValue = $pb.ProtobufEnum.initByValue(values);
-  static WifiScanResults_Network_Source? valueOf($core.int value) => _byValue[value];
-
-  const WifiScanResults_Network_Source._($core.int v, $core.String n) : super(v, n);
-}
-
-class WifiNetwork_Band extends $pb.ProtobufEnum {
-  static const WifiNetwork_Band WIFI_UNKNOWN = WifiNetwork_Band._(0, _omitEnumNames ? '' : 'WIFI_UNKNOWN');
-  static const WifiNetwork_Band WIFI_2_4GHZ = WifiNetwork_Band._(1, _omitEnumNames ? '' : 'WIFI_2_4GHZ');
-  static const WifiNetwork_Band WIFI_5GHZ = WifiNetwork_Band._(2, _omitEnumNames ? '' : 'WIFI_5GHZ');
-
-  static const $core.List<WifiNetwork_Band> values = <WifiNetwork_Band> [
-    WIFI_UNKNOWN,
-    WIFI_2_4GHZ,
-    WIFI_5GHZ,
-  ];
-
-  static final $core.Map<$core.int, WifiNetwork_Band> _byValue = $pb.ProtobufEnum.initByValue(values);
-  static WifiNetwork_Band? valueOf($core.int value) => _byValue[value];
-
-  const WifiNetwork_Band._($core.int v, $core.String n) : super(v, n);
-}
-
 class WifiGetClientHistoryResponse_WifiLimitedReason extends $pb.ProtobufEnum {
   static const WifiGetClientHistoryResponse_WifiLimitedReason LIMIT_UNKNOWN = WifiGetClientHistoryResponse_WifiLimitedReason._(0, _omitEnumNames ? '' : 'LIMIT_UNKNOWN');
   static const WifiGetClientHistoryResponse_WifiLimitedReason LIMIT_NONE = WifiGetClientHistoryResponse_WifiLimitedReason._(1, _omitEnumNames ? '' : 'LIMIT_NONE');
@@ -785,6 +851,50 @@ class WifiGetClientHistoryResponse_WifiLimitedReason extends $pb.ProtobufEnum {
   static WifiGetClientHistoryResponse_WifiLimitedReason? valueOf($core.int value) => _byValue[value];
 
   const WifiGetClientHistoryResponse_WifiLimitedReason._($core.int v, $core.String n) : super(v, n);
+}
+
+class DishGetDiagnosticsResponse_DisablementCode extends $pb.ProtobufEnum {
+  static const DishGetDiagnosticsResponse_DisablementCode UNKNOWN = DishGetDiagnosticsResponse_DisablementCode._(0, _omitEnumNames ? '' : 'UNKNOWN');
+  static const DishGetDiagnosticsResponse_DisablementCode OKAY = DishGetDiagnosticsResponse_DisablementCode._(1, _omitEnumNames ? '' : 'OKAY');
+  static const DishGetDiagnosticsResponse_DisablementCode NO_ACTIVE_ACCOUNT = DishGetDiagnosticsResponse_DisablementCode._(2, _omitEnumNames ? '' : 'NO_ACTIVE_ACCOUNT');
+  static const DishGetDiagnosticsResponse_DisablementCode TOO_FAR_FROM_SERVICE_ADDRESS = DishGetDiagnosticsResponse_DisablementCode._(3, _omitEnumNames ? '' : 'TOO_FAR_FROM_SERVICE_ADDRESS');
+  static const DishGetDiagnosticsResponse_DisablementCode IN_OCEAN = DishGetDiagnosticsResponse_DisablementCode._(4, _omitEnumNames ? '' : 'IN_OCEAN');
+  static const DishGetDiagnosticsResponse_DisablementCode INVALID_COUNTRY = DishGetDiagnosticsResponse_DisablementCode._(5, _omitEnumNames ? '' : 'INVALID_COUNTRY');
+  static const DishGetDiagnosticsResponse_DisablementCode BLOCKED_COUNTRY = DishGetDiagnosticsResponse_DisablementCode._(6, _omitEnumNames ? '' : 'BLOCKED_COUNTRY');
+  static const DishGetDiagnosticsResponse_DisablementCode DATA_OVERAGE_SANDBOX_POLICY = DishGetDiagnosticsResponse_DisablementCode._(7, _omitEnumNames ? '' : 'DATA_OVERAGE_SANDBOX_POLICY');
+
+  static const $core.List<DishGetDiagnosticsResponse_DisablementCode> values = <DishGetDiagnosticsResponse_DisablementCode> [
+    UNKNOWN,
+    OKAY,
+    NO_ACTIVE_ACCOUNT,
+    TOO_FAR_FROM_SERVICE_ADDRESS,
+    IN_OCEAN,
+    INVALID_COUNTRY,
+    BLOCKED_COUNTRY,
+    DATA_OVERAGE_SANDBOX_POLICY,
+  ];
+
+  static final $core.Map<$core.int, DishGetDiagnosticsResponse_DisablementCode> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static DishGetDiagnosticsResponse_DisablementCode? valueOf($core.int value) => _byValue[value];
+
+  const DishGetDiagnosticsResponse_DisablementCode._($core.int v, $core.String n) : super(v, n);
+}
+
+class DishGetDiagnosticsResponse_TestResult extends $pb.ProtobufEnum {
+  static const DishGetDiagnosticsResponse_TestResult NO_RESULT = DishGetDiagnosticsResponse_TestResult._(0, _omitEnumNames ? '' : 'NO_RESULT');
+  static const DishGetDiagnosticsResponse_TestResult PASSED = DishGetDiagnosticsResponse_TestResult._(1, _omitEnumNames ? '' : 'PASSED');
+  static const DishGetDiagnosticsResponse_TestResult FAILED = DishGetDiagnosticsResponse_TestResult._(2, _omitEnumNames ? '' : 'FAILED');
+
+  static const $core.List<DishGetDiagnosticsResponse_TestResult> values = <DishGetDiagnosticsResponse_TestResult> [
+    NO_RESULT,
+    PASSED,
+    FAILED,
+  ];
+
+  static final $core.Map<$core.int, DishGetDiagnosticsResponse_TestResult> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static DishGetDiagnosticsResponse_TestResult? valueOf($core.int value) => _byValue[value];
+
+  const DishGetDiagnosticsResponse_TestResult._($core.int v, $core.String n) : super(v, n);
 }
 
 

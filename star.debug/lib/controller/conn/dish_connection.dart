@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:grpc/grpc.dart';
 import 'package:star_debug/controller/conn/connection.dart';
 import 'package:star_debug/grpc/starlink/starlink.pbgrpc.dart';
@@ -10,7 +11,7 @@ import 'grpc_connection.dart';
 class DishConnection extends GrpcConnection {
 
   PooledRequest<DishGetStatusResponse> dishGetStatus = PooledRequest(2000);
-  PooledRequest<DishGetHistoryResponse> dishGetHistory = PooledRequest(10000);
+  PooledRequest<DishGetHistoryResponse> dishGetHistory = PooledRequest(2000);
 
   PooledRequest<GetLocationResponse> dishGetLocationGPS = PooledRequest(2000);
   PooledRequest<GetLocationResponse> dishGetLocationStarlink = PooledRequest(2000);

@@ -70,11 +70,14 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
           b.kv(M.grpc.DishGetStatus.seconds_to_first_nonempty_slot, status.secondsToFirstNonemptySlot);
 
         if (status.hasMobilityClass()) {
-          b.kv(M.grpc.DishGetStatus.mobility_class, status.mobilityClass, hint: M.grpc.DishGetStatus.mobility_class__hint);
+          b.kv(M.grpc.DishGetStatus.mobility_class, status.mobilityClass,
+              hint: Format.formatEnumHint(M.grpc.DishGetStatus.mobility_class__hint, UserMobilityClass.values));
         }
 
         if (status.hasClassOfService()) {
-          b.kv(M.grpc.DishGetStatus.class_of_service, status.classOfService);
+          b.kv(M.grpc.DishGetStatus.class_of_service, status.classOfService,
+              hint: Format.formatEnumHint(M.grpc.possible_options__hint, UserClassOfService.values)
+          );
         }
 
         if (status.hasHasActuators()) {
@@ -82,7 +85,9 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
         }
         if (status.hasAlignmentStats()) {
           if (status.alignmentStats.hasActuatorState()){
-            b.kv(M.grpc.DishGetStatus.actuator_state, status.alignmentStats.actuatorState);
+            b.kv(M.grpc.DishGetStatus.actuator_state, status.alignmentStats.actuatorState,
+                hint: Format.formatEnumHint(M.grpc.possible_options__hint, ActuatorState.values)
+            );
           }
         }
 
@@ -90,7 +95,7 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
           if (status.outage.hasCause())
             b.kv(M.grpc.DishOutage.cause,
                 status.outage.cause,
-                hint: M.grpc.DishOutage.cause__hint,
+                hint: Format.formatEnumHint(M.grpc.DishOutage.cause__hint, DishOutage_Cause.values),
                 ok: false
             );
         }
@@ -98,7 +103,7 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
         if (status.hasDisablementCode()) {
           b.kv(M.grpc.DishGetStatus.disablement_code, status.disablementCode,
               ok: status.disablementCode == UtDisablementCode.OKAY,
-              hint: M.grpc.DishGetStatus.disablement_code__hint
+              hint: Format.formatEnumHint(M.grpc.DishGetStatus.disablement_code__hint, UtDisablementCode.values)
           );
         }
 
@@ -113,7 +118,9 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
             if (status.hasSoftwareUpdateStats() && status.softwareUpdateStats.hasSoftwareUpdateProgress()) {
               s = "$s (${(status.softwareUpdateStats.softwareUpdateProgress*100).toStringAsFixed(0)}%)";
             }
-          b.kv(M.grpc.DishGetStatus.software_update_state, s);
+          b.kv(M.grpc.DishGetStatus.software_update_state, s,
+              hint: Format.formatEnumHint(M.grpc.possible_options__hint, SoftwareUpdateState.values)
+          );
         }
 
         rows.addAll(b.widgets);
@@ -162,12 +169,16 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
         var b = KVWidgetBuilder(context, theme);
         var config = status.config;
         b.header(M.header.config);
-        b.kv(M.grpc.DishConfig.snow_melt_mode, config.snowMeltMode);
+        b.kv(M.grpc.DishConfig.snow_melt_mode, config.snowMeltMode,
+          hint: Format.formatEnumHint(M.grpc.possible_options__hint, DishConfig_SnowMeltMode.values)
+        );
         b.kv(M.grpc.DishConfig.location_request_mode,
             config.locationRequestMode,
             hint: M.grpc.DishConfig.location_request_mode__hint
         );
-        b.kv(M.grpc.DishConfig.level_dish_mode, config.levelDishMode);
+        b.kv(M.grpc.DishConfig.level_dish_mode, config.levelDishMode,
+            hint: Format.formatEnumHint(M.grpc.possible_options__hint, DishConfig_LevelDishMode.values)
+        );
         if (config.hasPowerSaveStartMinutes())
           b.kv(M.grpc.DishConfig.power_save_start_minutes, config.powerSaveStartMinutes);
         if (config.hasPowerSaveDurationMinutes())

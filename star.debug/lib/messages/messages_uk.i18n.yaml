@@ -177,6 +177,10 @@ online:
   internet: Інтернет
   starlink_internet: Інтернет через Starlink
 grpc:
+  possible_options__hint: |
+    Можливі варіанти:
+
+    - OTHER_OPTIONS
   DeviceInfo:
     id: Id
     hardware_version: Версія апаратна
@@ -210,11 +214,7 @@ grpc:
       - **OBSTRUCTED** - Забагато перешкод. Переконайтеся, що антена має кут огляду неба 140°
          (принаймні в тій частині, куди вона зазвичай орієнтована).
       - **NO_DOWNLINK** - Канал передачі даних з супутників не ініціалізовано.
-      - **NO_PINGS**
-      - **ACTUATOR_ACTIVITY**
-      - **CABLE_TEST**
-      - **SLEEPING**
-      - **MOVING_WHILE_NOT_ALLOWED**
+      - OTHER_OPTIONS
     start_timestamp_ns: Start timestamp, ns
     duration_ns: Duration, ns
     did_switch: Did switch
@@ -279,9 +279,7 @@ grpc:
     mobility_class__hint: |
       Можливі варіанти:
       
-      - **STATIONARY**
-      - **NOMADIC**
-      - **MOBILE**
+      - OTHER_OPTIONS
     is_snr_above_noise_floor: SNR вище за рівень шуму
     class_of_service: Клас сервісу
     software_update_state: Стан оновлення
@@ -292,12 +290,7 @@ grpc:
     disablement_code__hint: |
       Можливі варіанти:
       
-      - **UNKNOWN_STATE**
-      - **OKAY**
-      - **NO_ACTIVE_ACCOUNT**
-      - **TOO_FAR_FROM_SERVICE_ADDRESS**
-      - **IN_OCEAN**
-      - **INVALID_COUNTRY**
+      - OTHER_OPTIONS
   AlignmentStats:
     has_actuators: has_actuators
     actuator_state: actuator_state
