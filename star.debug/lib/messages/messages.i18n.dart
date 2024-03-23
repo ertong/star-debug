@@ -1236,11 +1236,6 @@ class DishGetStatusGrpcMessages {
       """Seconds to first non-empty slot""";
 
   /// ```dart
-  /// "PoP ping drop rate"
-  /// ```
-  String get pop_ping_drop_rate => """PoP ping drop rate""";
-
-  /// ```dart
   /// "fraction_obstructed"
   /// ```
   String get fraction_obstructed => """fraction_obstructed""";
@@ -1294,9 +1289,39 @@ class DishGetStatusGrpcMessages {
   String get uplink_throughput_bps => """Uplink Throughput""";
 
   /// ```dart
+  /// "PoP ping drop rate"
+  /// ```
+  String get pop_ping_drop_rate => """PoP ping drop rate""";
+
+  /// ```dart
   /// "PoP ping latency, ms"
   /// ```
   String get pop_ping_latency_ms => """PoP ping latency, ms""";
+
+  /// ```dart
+  /// """
+  /// The Starlink network comprises the following components:
+  /// - User Terminals (UT)
+  /// - Satellites (SAT)
+  /// - Ground Stations (which physically connect with satellites)
+  /// - Points of Presence (PoP) (connecting with ground stations via fiber, and routing network traffic to the Internet)
+  ///
+  /// **PoP Ping Latency** refers to the time taken for a packet to be transmitted from the User Terminal to a Point of Presence and back.
+  ///
+  /// **PoP Ping Drop Rate** indicates the fraction of packets lost during transmission between the User Terminal and a Point of Presence.
+  /// """
+  /// ```
+  String get pop_ping__hint =>
+      """The Starlink network comprises the following components:
+- User Terminals (UT)
+- Satellites (SAT)
+- Ground Stations (which physically connect with satellites)
+- Points of Presence (PoP) (connecting with ground stations via fiber, and routing network traffic to the Internet)
+
+**PoP Ping Latency** refers to the time taken for a packet to be transmitted from the User Terminal to a Point of Presence and back.
+
+**PoP Ping Drop Rate** indicates the fraction of packets lost during transmission between the User Terminal and a Point of Presence.
+""";
 
   /// ```dart
   /// "Stow requested"
@@ -2351,7 +2376,6 @@ with internet access and dish access. You can find this setting in
           """Time the dish is running since the last reboot.""",
       """grpc.DishGetStatus.seconds_to_first_nonempty_slot""":
           """Seconds to first non-empty slot""",
-      """grpc.DishGetStatus.pop_ping_drop_rate""": """PoP ping drop rate""",
       """grpc.DishGetStatus.fraction_obstructed""": """fraction_obstructed""",
       """grpc.DishGetStatus.valid_s""": """valid_s""",
       """grpc.DishGetStatus.currently_obstructed""": """currently_obstructed""",
@@ -2366,7 +2390,19 @@ with internet access and dish access. You can find this setting in
       """grpc.DishGetStatus.downlink_throughput_bps""":
           """Downlink Throughput""",
       """grpc.DishGetStatus.uplink_throughput_bps""": """Uplink Throughput""",
+      """grpc.DishGetStatus.pop_ping_drop_rate""": """PoP ping drop rate""",
       """grpc.DishGetStatus.pop_ping_latency_ms""": """PoP ping latency, ms""",
+      """grpc.DishGetStatus.pop_ping__hint""":
+          """The Starlink network comprises the following components:
+- User Terminals (UT)
+- Satellites (SAT)
+- Ground Stations (which physically connect with satellites)
+- Points of Presence (PoP) (connecting with ground stations via fiber, and routing network traffic to the Internet)
+
+**PoP Ping Latency** refers to the time taken for a packet to be transmitted from the User Terminal to a Point of Presence and back.
+
+**PoP Ping Drop Rate** indicates the fraction of packets lost during transmission between the User Terminal and a Point of Presence.
+""",
       """grpc.DishGetStatus.stow_requested""": """Stow requested""",
       """grpc.DishGetStatus.boresight_azimuth_deg""":
           """Panel boresight Azimuth angle, deg""",

@@ -1239,11 +1239,6 @@ class DishGetStatusGrpcMessagesUk extends DishGetStatusGrpcMessages {
       """Час до першого непорожнього слота""";
 
   /// ```dart
-  /// "PoP ping drop rate"
-  /// ```
-  String get pop_ping_drop_rate => """PoP ping drop rate""";
-
-  /// ```dart
   /// "Частка часу с перешкодами"
   /// ```
   String get fraction_obstructed => """Частка часу с перешкодами""";
@@ -1297,9 +1292,39 @@ class DishGetStatusGrpcMessagesUk extends DishGetStatusGrpcMessages {
   String get uplink_throughput_bps => """Uplink Throughput""";
 
   /// ```dart
+  /// "PoP ping drop rate"
+  /// ```
+  String get pop_ping_drop_rate => """PoP ping drop rate""";
+
+  /// ```dart
   /// "PoP ping затримка, мс"
   /// ```
   String get pop_ping_latency_ms => """PoP ping затримка, мс""";
+
+  /// ```dart
+  /// """
+  /// Мережа Starlink, грубо кажучи, складається з таких компонентів:
+  /// - Користувацькі термінали (UT)
+  /// - Супутники (SAT)
+  /// - Наземні станції (які фізично з'єднуються з супутниками)
+  /// - Точки присутності (PoP) (що з'єднуються наемними станціями через оптоволокно та маршрутизують мережевий трафік в Інтернет)
+  ///
+  /// **PoP Ping Latency** вказує на час, необхідний для передачі пакета з користувацького терміналу до точки присутності і назад.
+  ///
+  /// **PoP Ping Drop Rate** вказує на частку пакетів, які втрачаються під час передачі між користувацьким терміналом та точкою присутності.
+  /// """
+  /// ```
+  String get pop_ping__hint =>
+      """Мережа Starlink, грубо кажучи, складається з таких компонентів:
+- Користувацькі термінали (UT)
+- Супутники (SAT)
+- Наземні станції (які фізично з'єднуються з супутниками)
+- Точки присутності (PoP) (що з'єднуються наемними станціями через оптоволокно та маршрутизують мережевий трафік в Інтернет)
+
+**PoP Ping Latency** вказує на час, необхідний для передачі пакета з користувацького терміналу до точки присутності і назад.
+
+**PoP Ping Drop Rate** вказує на частку пакетів, які втрачаються під час передачі між користувацьким терміналом та точкою присутності.
+""";
 
   /// ```dart
   /// "Складання в процесі"
@@ -2352,7 +2377,6 @@ Map<String, String> get messagesUkMap => {
           """Час роботи тарілки від останнього перезавантаження.""",
       """grpc.DishGetStatus.seconds_to_first_nonempty_slot""":
           """Час до першого непорожнього слота""",
-      """grpc.DishGetStatus.pop_ping_drop_rate""": """PoP ping drop rate""",
       """grpc.DishGetStatus.fraction_obstructed""":
           """Частка часу с перешкодами""",
       """grpc.DishGetStatus.valid_s""": """valid_s""",
@@ -2368,7 +2392,19 @@ Map<String, String> get messagesUkMap => {
       """grpc.DishGetStatus.downlink_throughput_bps""":
           """Downlink Throughput""",
       """grpc.DishGetStatus.uplink_throughput_bps""": """Uplink Throughput""",
+      """grpc.DishGetStatus.pop_ping_drop_rate""": """PoP ping drop rate""",
       """grpc.DishGetStatus.pop_ping_latency_ms""": """PoP ping затримка, мс""",
+      """grpc.DishGetStatus.pop_ping__hint""":
+          """Мережа Starlink, грубо кажучи, складається з таких компонентів:
+- Користувацькі термінали (UT)
+- Супутники (SAT)
+- Наземні станції (які фізично з'єднуються з супутниками)
+- Точки присутності (PoP) (що з'єднуються наемними станціями через оптоволокно та маршрутизують мережевий трафік в Інтернет)
+
+**PoP Ping Latency** вказує на час, необхідний для передачі пакета з користувацького терміналу до точки присутності і назад.
+
+**PoP Ping Drop Rate** вказує на частку пакетів, які втрачаються під час передачі між користувацьким терміналом та точкою присутності.
+""",
       """grpc.DishGetStatus.stow_requested""": """Складання в процесі""",
       """grpc.DishGetStatus.boresight_azimuth_deg""":
           """Азимут осі панелі, град""",

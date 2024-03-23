@@ -281,7 +281,6 @@ grpc:
     uptime_s: Uptime
     uptime_s__hint: Time the dish is running since the last reboot.
     seconds_to_first_nonempty_slot: Seconds to first non-empty slot
-    pop_ping_drop_rate: PoP ping drop rate
     fraction_obstructed: fraction_obstructed
     valid_s: valid_s
     currently_obstructed: currently_obstructed
@@ -293,7 +292,19 @@ grpc:
 
     downlink_throughput_bps: Downlink Throughput
     uplink_throughput_bps: Uplink Throughput
+    pop_ping_drop_rate: PoP ping drop rate
     pop_ping_latency_ms: PoP ping latency, ms
+    pop_ping__hint: |
+      The Starlink network comprises the following components:
+      - User Terminals (UT)
+      - Satellites (SAT)
+      - Ground Stations (which physically connect with satellites)
+      - Points of Presence (PoP) (connecting with ground stations via fiber, and routing network traffic to the Internet)
+      
+      **PoP Ping Latency** refers to the time taken for a packet to be transmitted from the User Terminal to a Point of Presence and back.
+      
+      **PoP Ping Drop Rate** indicates the fraction of packets lost during transmission between the User Terminal and a Point of Presence.
+
     stow_requested: Stow requested
     boresight_azimuth_deg: Panel boresight Azimuth angle, deg
     boresight_elevation_deg: Panel boresight Elevation agngle, deg

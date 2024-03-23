@@ -141,10 +141,10 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
           b.kv(M.grpc.DishGetStatus.uplink_throughput_bps, Format.bytesPerSec(status.uplinkThroughputBps));
 
         if (status.hasPopPingDropRate())
-          b.kv(M.grpc.DishGetStatus.pop_ping_drop_rate, status.popPingDropRate);
+          b.kv(M.grpc.DishGetStatus.pop_ping_drop_rate, status.popPingDropRate, hint: M.grpc.DishGetStatus.pop_ping__hint);
 
         if (status.hasPopPingLatencyMs())
-          b.kv(M.grpc.DishGetStatus.pop_ping_latency_ms, "${status.popPingLatencyMs.toStringAsFixed(2)}");
+          b.kv(M.grpc.DishGetStatus.pop_ping_latency_ms, "${status.popPingLatencyMs.toStringAsFixed(2)}", hint: M.grpc.DishGetStatus.pop_ping__hint);
 
         if (status.hasEthSpeedMbps())
           b.kv(M.grpc.DishGetStatus.eth_speed_mbps, status.ethSpeedMbps, ok: status.ethSpeedMbps==1000);
