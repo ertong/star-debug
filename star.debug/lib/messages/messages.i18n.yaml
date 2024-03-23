@@ -309,7 +309,7 @@ grpc:
     boresight_azimuth_deg: Panel boresight Azimuth angle, deg
     boresight_elevation_deg: Panel boresight Elevation agngle, deg
 
-    eth_speed_mbps: Ethernet speed
+    eth_speed_mbps: Ethernet speed, Mbps
     mobility_class: Mobility class
     mobility_class__hint: |
       The possible options are:

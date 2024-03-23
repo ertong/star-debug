@@ -284,7 +284,7 @@ grpc:
     stow_requested: Складання в процесі
     boresight_azimuth_deg: Азимут осі панелі, град
     boresight_elevation_deg: Кут підйому панелі, град
-    eth_speed_mbps: Швидкість Ethernet
+    eth_speed_mbps: Швидкість Ethernet, Mbps
     mobility_class: Клас мобільності
     mobility_class__hint: |
       Можливі варіанти:

@@ -82,7 +82,7 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
     lastGraphTime = time;
 
     charts.clear();
-    charts.add(buildGraph("Ping latency", history.current.toInt(), history.popPingLatencyMs));
+    charts.add(buildGraph(M.grpc.DishGetStatus.pop_ping_latency_ms, history.current.toInt(), history.popPingLatencyMs));
     // charts.add(buildGraph("Ping drop rate", history.popPingDropRate));
     // charts.add(buildGraph("Uplink, MB/s", [for (var v in history.uplinkThroughputBps) v/1024/1024]));
     // charts.add(buildGraph("Downlink, MB/s", [for (var v in history.downlinkThroughputBps) v/1024/1024]));
