@@ -20,7 +20,7 @@ class OnlineConnection extends BaseConnection {
 
   WaitNotify waitNotify = WaitNotify();
 
-  StreamSubscription<List<ConnectivityResult>>? subsConnectivity;
+  StreamSubscription? subsConnectivity;
   StreamController notifyStream;
 
   bool isClosed = false;

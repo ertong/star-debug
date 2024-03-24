@@ -24,7 +24,7 @@ dependencies:
   devicelocale: ^0.7.1
   permission_handler: ^11.3.0
   device_info_plus: ^10.0.1
-  connectivity_plus: ^6.0.1
+  connectivity_plus: 5.0.2 # 6.0.1 floods too much events
   json_annotation: ^4.8.1
   package_info_plus: ^6.0.0
   intl: any
