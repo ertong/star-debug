@@ -246,6 +246,9 @@ grpc:
     power_save_start_minutes: Power save start minutes
     power_save_duration_minutes: Power save duration minutes
     power_save_mode: Power save mode
+    power_save_mode__hint: |-
+      Для Starlink можна налаштувати режим сну. Starlink не надає Інтернет і не топить сніг під час сну.
+
   DishObstructionStats:
     fraction_obstructed: Частка часу с перешкодами
     valid_s: Time valid
@@ -259,7 +262,6 @@ grpc:
     uptime_s: Час після завантаження
     uptime_s__hint: 'Час роботи тарілки від останнього перезавантаження.'
     seconds_to_first_nonempty_slot: Час до першого непорожнього слота
-    pop_ping_drop_rate: PoP ping drop rate
     fraction_obstructed: Частка часу с перешкодами
     valid_s: valid_s
     currently_obstructed: currently_obstructed
@@ -270,11 +272,22 @@ grpc:
     patches_valid: patches_valid
     downlink_throughput_bps: Downlink Throughput
     uplink_throughput_bps: Uplink Throughput
+    pop_ping_drop_rate: PoP ping drop rate
     pop_ping_latency_ms: PoP ping затримка, мс
+    pop_ping__hint: |
+      Мережа Starlink, грубо кажучи, складається з таких компонентів:
+      - Користувацькі термінали (UT)
+      - Супутники (SAT)
+      - Наземні станції (які фізично з'єднуються з супутниками)
+      - Точки присутності (PoP) (що з'єднуються наемними станціями через оптоволокно та маршрутизують мережевий трафік в Інтернет)
+      
+      **PoP Ping Latency** вказує на час, необхідний для передачі пакета з користувацького терміналу до точки присутності і назад.
+      
+      **PoP Ping Drop Rate** вказує на частку пакетів, які втрачаються під час передачі між користувацьким терміналом та точкою присутності.
     stow_requested: Складання в процесі
     boresight_azimuth_deg: Азимут осі панелі, град
     boresight_elevation_deg: Кут підйому панелі, град
-    eth_speed_mbps: Швидкість Ethernet
+    eth_speed_mbps: Швидкість Ethernet, Mbps
     mobility_class: Клас мобільності
     mobility_class__hint: |
       Можливі варіанти:
