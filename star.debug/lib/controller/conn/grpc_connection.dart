@@ -20,7 +20,7 @@ abstract class GrpcConnection extends BaseConnection {
   DeviceClient? stub;
   StreamSubscription? subsChannel;
   StreamSubscription? subsStream;
-  StreamSubscription<ConnectivityResult>? subsConnectivity;
+  StreamSubscription<List<ConnectivityResult>>? subsConnectivity;
   StreamController notifyStream;
 
   bool isClosed = false;

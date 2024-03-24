@@ -1166,6 +1166,12 @@ class DishConfigGrpcMessagesUk extends DishConfigGrpcMessages {
   /// "Power save mode"
   /// ```
   String get power_save_mode => """Power save mode""";
+
+  /// ```dart
+  /// "Для Starlink можна налаштувати режим сну. Starlink не надає Інтернет і не топить сніг під час сну."
+  /// ```
+  String get power_save_mode__hint =>
+      """Для Starlink можна налаштувати режим сну. Starlink не надає Інтернет і не топить сніг під час сну.""";
 }
 
 class DishObstructionStatsGrpcMessagesUk
@@ -1342,9 +1348,9 @@ class DishGetStatusGrpcMessagesUk extends DishGetStatusGrpcMessages {
   String get boresight_elevation_deg => """Кут підйому панелі, град""";
 
   /// ```dart
-  /// "Швидкість Ethernet"
+  /// "Швидкість Ethernet, Mbps"
   /// ```
-  String get eth_speed_mbps => """Швидкість Ethernet""";
+  String get eth_speed_mbps => """Швидкість Ethernet, Mbps""";
 
   /// ```dart
   /// "Клас мобільності"
@@ -2359,6 +2365,8 @@ Map<String, String> get messagesUkMap => {
       """grpc.DishConfig.power_save_duration_minutes""":
           """Power save duration minutes""",
       """grpc.DishConfig.power_save_mode""": """Power save mode""",
+      """grpc.DishConfig.power_save_mode__hint""":
+          """Для Starlink можна налаштувати режим сну. Starlink не надає Інтернет і не топить сніг під час сну.""",
       """grpc.DishObstructionStats.fraction_obstructed""":
           """Частка часу с перешкодами""",
       """grpc.DishObstructionStats.valid_s""": """Time valid""",
@@ -2410,7 +2418,7 @@ Map<String, String> get messagesUkMap => {
           """Азимут осі панелі, град""",
       """grpc.DishGetStatus.boresight_elevation_deg""":
           """Кут підйому панелі, град""",
-      """grpc.DishGetStatus.eth_speed_mbps""": """Швидкість Ethernet""",
+      """grpc.DishGetStatus.eth_speed_mbps""": """Швидкість Ethernet, Mbps""",
       """grpc.DishGetStatus.mobility_class""": """Клас мобільності""",
       """grpc.DishGetStatus.mobility_class__hint""": """Можливі варіанти:
 

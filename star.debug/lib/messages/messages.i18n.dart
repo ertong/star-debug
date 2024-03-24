@@ -1164,6 +1164,12 @@ with internet access and dish access. You can find this setting in
   /// "Power save mode"
   /// ```
   String get power_save_mode => """Power save mode""";
+
+  /// ```dart
+  /// "You can set a sleep mode for your Starlink. Starlink won't provide Internet or melt snow while sleeping."
+  /// ```
+  String get power_save_mode__hint =>
+      """You can set a sleep mode for your Starlink. Starlink won't provide Internet or melt snow while sleeping.""";
 }
 
 class DishObstructionStatsGrpcMessages {
@@ -1340,9 +1346,9 @@ class DishGetStatusGrpcMessages {
       """Panel boresight Elevation agngle, deg""";
 
   /// ```dart
-  /// "Ethernet speed"
+  /// "Ethernet speed, Mbps"
   /// ```
-  String get eth_speed_mbps => """Ethernet speed""";
+  String get eth_speed_mbps => """Ethernet speed, Mbps""";
 
   /// ```dart
   /// "Mobility class"
@@ -2358,6 +2364,8 @@ with internet access and dish access. You can find this setting in
       """grpc.DishConfig.power_save_duration_minutes""":
           """Power save duration minutes""",
       """grpc.DishConfig.power_save_mode""": """Power save mode""",
+      """grpc.DishConfig.power_save_mode__hint""":
+          """You can set a sleep mode for your Starlink. Starlink won't provide Internet or melt snow while sleeping.""",
       """grpc.DishObstructionStats.fraction_obstructed""":
           """Fraction obstructed""",
       """grpc.DishObstructionStats.valid_s""": """Time valid""",
@@ -2408,7 +2416,7 @@ with internet access and dish access. You can find this setting in
           """Panel boresight Azimuth angle, deg""",
       """grpc.DishGetStatus.boresight_elevation_deg""":
           """Panel boresight Elevation agngle, deg""",
-      """grpc.DishGetStatus.eth_speed_mbps""": """Ethernet speed""",
+      """grpc.DishGetStatus.eth_speed_mbps""": """Ethernet speed, Mbps""",
       """grpc.DishGetStatus.mobility_class""": """Mobility class""",
       """grpc.DishGetStatus.mobility_class__hint""":
           """The possible options are:

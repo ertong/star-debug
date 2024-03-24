@@ -8,6 +8,7 @@ import 'package:star_debug/pages/view/common.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/utils/format.dart';
 import 'package:star_debug/utils/kv_widget.dart';
+import 'package:time_machine/time_machine.dart';
 
 const String _TAG="DishWidget";
 
@@ -179,10 +180,19 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
         b.kv(M.grpc.DishConfig.level_dish_mode, config.levelDishMode,
             hint: Format.formatEnumHint(M.grpc.possible_options__hint, DishConfig_LevelDishMode.values)
         );
-        if (config.hasPowerSaveStartMinutes())
-          b.kv(M.grpc.DishConfig.power_save_start_minutes, config.powerSaveStartMinutes);
-        if (config.hasPowerSaveDurationMinutes())
-          b.kv(M.grpc.DishConfig.power_save_duration_minutes, config.powerSaveDurationMinutes);
+
+        if (!config.powerSaveMode)
+          b.kv(M.grpc.DishConfig.power_save_mode, config.powerSaveMode, hint: M.grpc.DishConfig.power_save_mode__hint);
+        else {
+          var offset = LocalTime.midnight.addSeconds(DateTimeZone.local.getUtcOffset(Instant.now()).inSeconds);
+          b.kv(
+              M.grpc.DishConfig.power_save_mode,
+              "${offset.addMinutes(config.powerSaveStartMinutes).toString("HH:mm")}"
+              "-${offset.addMinutes(config.powerSaveStartMinutes+ config.powerSaveDurationMinutes).toString("HH:mm")}"
+              " UTC${DateTimeZone.local.getUtcOffset(Instant.now()).toString("+HH:mm")}",
+              hint: M.grpc.DishConfig.power_save_mode__hint);
+        }
+
         rows.addAll(b.widgets);
       }
 

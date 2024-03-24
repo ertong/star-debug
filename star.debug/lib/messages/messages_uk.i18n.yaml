@@ -246,6 +246,9 @@ grpc:
     power_save_start_minutes: Power save start minutes
     power_save_duration_minutes: Power save duration minutes
     power_save_mode: Power save mode
+    power_save_mode__hint: |-
+      Для Starlink можна налаштувати режим сну. Starlink не надає Інтернет і не топить сніг під час сну.
+
   DishObstructionStats:
     fraction_obstructed: Частка часу с перешкодами
     valid_s: Time valid

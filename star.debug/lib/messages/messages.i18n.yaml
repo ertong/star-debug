@@ -266,6 +266,8 @@ grpc:
     power_save_start_minutes: Power save start minutes
     power_save_duration_minutes: Power save duration minutes
     power_save_mode: Power save mode
+    power_save_mode__hint: |-
+      You can set a sleep mode for your Starlink. Starlink won't provide Internet or melt snow while sleeping.
 
   DishObstructionStats:
     fraction_obstructed: Fraction obstructed
