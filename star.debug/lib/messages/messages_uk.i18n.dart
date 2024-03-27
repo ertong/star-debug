@@ -611,6 +611,16 @@ class LiveMessagesUk extends LiveMessages {
   /// "Перевірити оновлення"
   /// ```
   String get check_update => """Перевірити оновлення""";
+
+  /// ```dart
+  /// "Відключення"
+  /// ```
+  String get outages => """Відключення""";
+
+  /// ```dart
+  /// "... $n записів попереду ..."
+  /// ```
+  String n_records_before(n) => """... $n записів попереду ...""";
 }
 
 class HeaderMessagesUk extends HeaderMessages {
@@ -2250,6 +2260,7 @@ Map<String, String> get messagesUkMap => {
       """wifi.more_8_chars""": """8 символів або більше""",
       """live.starlink_live""": """Starlink Live""",
       """live.check_update""": """Перевірити оновлення""",
+      """live.outages""": """Відключення""",
       """header.general""": """Загальне""",
       """header.signal""": """Сигнал""",
       """header.network""": """Мережа""",

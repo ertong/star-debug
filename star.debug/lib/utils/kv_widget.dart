@@ -2,6 +2,7 @@
 
 import 'package:clipboard/clipboard.dart';
 import 'package:flex_list/flex_list.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:star_debug/pages/dialogs/hint.dart';
 import 'package:star_debug/preloaded.dart';
@@ -92,19 +93,23 @@ class KVWidgetBuilder extends KVConsumer{
   }
 
   @override
-  void header(String name, {bool isAlert = false}){
-    widgets.add(Padding(
-      padding: const EdgeInsets.fromLTRB(0, 4, 0, 2),
-      child: Container(
-          padding: EdgeInsets.fromLTRB(3, 3, 3, 3),
-          color: isAlert
-              ? theme.colorScheme.error.withAlpha(150)
-              : theme.secondaryHeaderColor,
-          child: Row(
-            children: [
-              Text(name),
-            ],
-          )
+  void header(String name, {bool isAlert = false, List<Widget> more=const [], Function()? onTap}){
+    widgets.add(GestureDetector(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(0, 4, 0, 2),
+        child: Container(
+            padding: EdgeInsets.fromLTRB(3, 3, 3, 3),
+            color: isAlert
+                ? theme.colorScheme.error.withAlpha(150)
+                : theme.secondaryHeaderColor,
+            child: Row(
+              children: [
+                Text(name),
+                ...more
+              ],
+            )
+        ),
       ),
     ));
   }

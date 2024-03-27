@@ -1,8 +1,9 @@
 
+import 'package:flutter/widgets.dart';
 import 'package:time_machine/time_machine.dart';
 
 abstract class KVConsumer {
-  void header(String name, {bool isAlert = false}) {}
+  void header(String name, {bool isAlert = false, List<Widget> more=const []}) {}
 
   void kv(String k, dynamic v, {bool? ok, String? hint}) {
     if (v is DateTime)

@@ -610,6 +610,16 @@ class LiveMessages {
   /// "Check Update"
   /// ```
   String get check_update => """Check Update""";
+
+  /// ```dart
+  /// "Outages"
+  /// ```
+  String get outages => """Outages""";
+
+  /// ```dart
+  /// "... $n records before ..."
+  /// ```
+  String n_records_before(n) => """... $n records before ...""";
 }
 
 class HeaderMessages {
@@ -2248,6 +2258,7 @@ Moreover, in the case of a moving router, its route can be followed.
       """wifi.more_8_chars""": """8 chars or more""",
       """live.starlink_live""": """Starlink Live""",
       """live.check_update""": """Check Update""",
+      """live.outages""": """Outages""",
       """header.general""": """General""",
       """header.signal""": """Signal""",
       """header.network""": """Network""",
