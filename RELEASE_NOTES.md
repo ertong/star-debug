@@ -1,11 +1,12 @@
 
-## 1.1b63
+## 1.1b65
 
 ### Enhancements:
 
 - Update protocol version.
 - Show time labels on history charts.
 - Improve property hints.
+- Show dish outages log.
 
 ## 1.1b60
 
