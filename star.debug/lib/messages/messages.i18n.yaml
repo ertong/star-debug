@@ -117,6 +117,8 @@ wifi:
 live:
   starlink_live: "Starlink Live"
   check_update: Check Update
+  outages: Outages
+  n_records_before(n): ... $n records before ...
 
 header:
   general: General

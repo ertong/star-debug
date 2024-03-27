@@ -125,6 +125,8 @@ wifi:
 live:
   starlink_live: Starlink Live
   check_update: Перевірити оновлення
+  outages: Відключення
+  n_records_before(n): ... $n записів попереду ...
 
 header:
   general: Загальне
