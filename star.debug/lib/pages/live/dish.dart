@@ -118,7 +118,7 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
           });
         },);
 
-        if (outages.length>=10 && !outageExpand)
+        if (outages.length>10 && !outageExpand)
           b.widgets.add(GestureDetector(
             onTap: () {
               setState(() {
@@ -131,7 +131,7 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
         // int now = DateTime.now().millisecondsSinceEpoch;
         // int last = (outages.last.startTimestampNs~/1000~/1000).toInt();
         // int delta = (now-last)~/(60*60*24*1000)*60*60*24*1000;
-        for (var o in outages.length<10 || outageExpand ? outages : outages.skip(outages.length-10) ) {
+        for (var o in outages.length<=10 || outageExpand ? outages : outages.skip(outages.length-10) ) {
           if (o.startTimestampNs==-1) {
             b.kvs("${o.cause}", "");
             continue;
