@@ -122,7 +122,7 @@ class _RouterWidgetState extends State<RouterWidget> with TickerProviderStateMix
               );
             }
           }
-          if (bssid!=null && R.prefs.data.valkyrieCheck)
+          if (bssid!=null && R.prefs.data.valkyrieCheck && R.features.valkyrieCheck)
             b.widgets.add(R.valkyrie.widget(bssid, theme));
           rows.addAll(b.widgets);
         }

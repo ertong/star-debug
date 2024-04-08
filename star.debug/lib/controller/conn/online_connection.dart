@@ -182,9 +182,11 @@ class OnlineConnection extends BaseConnection {
     if (pooledOptions.needSend(now)) {
       pooledOptions.sentTime = now;
       optCloudflare.trigger();
-      optCloudflare6.trigger();
+      if (R.features.checkIpV6)
+        optCloudflare6.trigger();
       optGoogle.trigger();
-      optGoogle6.trigger();
+      if (R.features.checkIpV6)
+        optGoogle6.trigger();
       optStarlink.trigger();
       getOpendns.trigger();
       getIpify.trigger();
@@ -203,9 +205,11 @@ class OnlineConnection extends BaseConnection {
     int now = DateTime.now().millisecondsSinceEpoch;
 
     b.kv("1.1.1.1", optCloudflare.latency, ok: now - optCloudflare.timeOk<T_OK);
-    b.kv("2606:4700:4700::1111", "${optCloudflare6.latency}", ok: now-optCloudflare6.timeOk < T_OK);
+    if (R.features.checkIpV6)
+      b.kv("2606:4700:4700::1111", "${optCloudflare6.latency}", ok: now-optCloudflare6.timeOk < T_OK);
     b.kv("dns.google", optGoogle.latency, ok: now-optGoogle.timeOk < T_OK);
-    b.kv("ipv6.google.com", optGoogle6.latency, ok: now-optGoogle6.timeOk < T_OK);
+    if (R.features.checkIpV6)
+      b.kv("ipv6.google.com", optGoogle6.latency, ok: now-optGoogle6.timeOk < T_OK);
     b.kv("starlink.com", optStarlink.latency, ok: now-optStarlink.timeOk < T_OK);
 
     b.header("My Ip");
