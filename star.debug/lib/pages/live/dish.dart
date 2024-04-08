@@ -107,7 +107,7 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
       ));
 
       var outages = conn.dishGetHistory.data?.outages ?? [];
-      if (outages.isNotEmpty) {
+      if (outages.isNotEmpty && R.features.outagesHistory) {
         var b = KVWidgetBuilder(context, theme);
         b.header(M.live.outages, more: [
           Expanded(child: Container()),
