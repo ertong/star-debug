@@ -60,7 +60,7 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
         Icons.settings_input_antenna,
         () => M.header.general,
         () => Colors.black,
-        () => GeneralTab(),
+        () => SingleChildScrollView(controller: scrollController, child: GeneralTab()),
         // alert: () { return 0; }
     ));
 
@@ -68,7 +68,7 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
         Icons.settings_input_antenna,
         () => M.general.dish,
         () => colorOf(R.dishHolder),
-        () => DishTab(),
+        () => SingleChildScrollView(controller: scrollController, child: DishTab()),
         alert: () {
           DishGetStatusResponse? data = R.dish?.dishGetStatus.data;
           if (data==null) return 0;
@@ -79,7 +79,7 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
         Icons.router,
         () => M.general.router,
         () => colorOf(R.routerHolder),
-        () => RouterTab(),
+        () => SingleChildScrollView(controller: scrollController, child: RouterTab()),
         alert: () {
           var data = R.router?.wifiGetStatus.data;
           if (data==null) return 0;
@@ -99,7 +99,7 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
 
           return online.isOk ? Colors.green : Colors.red;
         },
-        () => OnlineTab(),
+        () => SingleChildScrollView(controller: scrollController, child: OnlineTab()),
         alert: () {
           return R.online?.cntNotOk ?? 0;
         }
@@ -185,7 +185,7 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
             Container(
               width: MediaQuery.of(context).size.width,
               padding: EdgeInsets.all(10.0),
-              child: SingleChildScrollView(controller: scrollController, child: pages[_selectedIndex].builder(),),
+              child: pages[_selectedIndex].builder(),
             ),
           ],
         ),
