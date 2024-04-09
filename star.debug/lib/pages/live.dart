@@ -35,8 +35,9 @@ class _Page {
   Widget Function() builder;
   Color Function() color;
   int Function()? alert;
+  bool Function()? visible;
 
-  _Page(this.icon, this.label, this.color, this.builder, {this.alert});
+  _Page(this.icon, this.label, this.color, this.builder, {this.alert, this.visible});
 }
 
 class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
@@ -83,6 +84,9 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
           var data = R.router?.wifiGetStatus.data;
           if (data==null) return 0;
           return data.countAlerts();
+        },
+        visible: () {
+          return !R.features.routerOptional || R.router?.wifiGetStatus.data!=null;
         }
     ));
     pages.add(_Page(
@@ -136,6 +140,9 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
       List<BottomNavigationBarItem> items = [];
       for(int i=0; i<pages.length; ++i) {
         var p = pages[i];
+
+        if (!(p.visible?.call() ?? true))
+          continue;
 
         int alerts = 0;
 

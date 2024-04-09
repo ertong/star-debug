@@ -140,12 +140,14 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
     }
 
     {
+      var bt = KVWidgetBuilder(context, theme);
       var router = R.router;
       var status = R.router?.wifiGetStatus.data;
-      b.header(M.general.router);
-      if (router==null || status==null || router.isClosed)
-        b.kv("Status", "connecting");
-      else {
+      bt.header(M.general.router);
+      if (router==null || status==null || router.isClosed) {
+        if (!R.features.routerOptional)
+          bt.kv("Status", "connecting");
+      } else {
         var b1 = KVWidgetBuilder(context, theme);
         b1.kv(M.grpc.DeviceInfo.id, status.deviceInfo.id);
         b1.kv(M.general.version, status.deviceInfo.softwareVersion);
@@ -153,7 +155,7 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
           b1.kv(M.grpc.WifiGetStatus.ping_latency_ms, status.pingLatencyMs, ok: status.pingLatencyMs<200);
         // b1.widgets.add(Text(status.deviceInfo.id));
 
-        b.widgets.add(Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        bt.widgets.add(Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
           ClipRRect(
               borderRadius: BorderRadius.circular(5),
               child: Image.asset(router.getImage(), height: 50,)
@@ -162,7 +164,7 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
           Expanded(child: Column(crossAxisAlignment:CrossAxisAlignment.start, children: b1.widgets,))
         ],));
 
-        b.widgets.add(Wrap(
+        bt.widgets.add(Wrap(
           spacing: 5,
           alignment: WrapAlignment.spaceAround,
           children: [
@@ -180,6 +182,8 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
           ],
         ));
       }
+      if (bt.widgets.length>1)
+        b.widgets.addAll(bt.widgets);
     }
 
     {
@@ -196,15 +200,16 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
     }
 
     if (R.prefs.data.valkyrieCheck && R.features.valkyrieCheck) {
-      b.header(M.general.security);
+      var bt = KVWidgetBuilder(context, theme);
+      bt.header(M.general.security);
 
       var status = R.router?.wifiGetStatus.data;
       var service = status?.config.networks.firstOrNull?.basicServiceSets.firstOrNull;
       if (service!=null) {
-        b.widgets.add(R.valkyrie.widget(service.bssid, theme));
+        bt.widgets.add(R.valkyrie.widget(service.bssid, theme));
       }
-
-      // b.kv(M.online.starlink_internet, online.starlinkInternetDetected, ok: online.starlinkInternetDetected);
+      if (bt.widgets.length>1)
+        b.widgets.addAll(bt.widgets);
     }
 
     if (charts.isNotEmpty)

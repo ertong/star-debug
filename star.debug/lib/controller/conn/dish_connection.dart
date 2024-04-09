@@ -51,7 +51,7 @@ class DishConnection extends GrpcConnection {
       var resp = msg.response;
       var respJson = resp.toProto3Json();
       if (respJson is Map<String, dynamic>) {
-        LogUtils.d(TAG, "Received response: ${respJson.keys}");
+        // LogUtils.d(TAG, "Received response: ${respJson.keys}");
       }
 
       if (resp.hasDishGetStatus()) {

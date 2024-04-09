@@ -53,7 +53,7 @@ class RouterConnection extends GrpcConnection {
       var resp = msg.response;
       var respJson = resp.toProto3Json();
       if (respJson is Map<String, dynamic>) {
-        LogUtils.d(TAG, "Received response: ${respJson.keys}");
+        // LogUtils.d(TAG, "Received response: ${respJson.keys}");
       }
 
       if (resp.hasWifiGetStatus()) {
@@ -104,7 +104,7 @@ class RouterConnection extends GrpcConnection {
       res.location = resp.headers["Location"]?.singleOrNull ?? "";
       httpPool.setData(now, res, 0);
 
-      LogUtils.d(_TAG, "GET http://192.168.1.1: ${resp.statusCode}");
+      // LogUtils.d(_TAG, "GET http://192.168.1.1: ${resp.statusCode}");
     } catch (e){
       LogUtils.e(_TAG, "GET http://192.168.1.1: ${"$e".split("\n")[0]}");
     }
