@@ -60,7 +60,7 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
         Icons.settings_input_antenna,
         () => M.header.general,
         () => Colors.black,
-        () => SingleChildScrollView(controller: scrollController, child: GeneralTab()),
+        () => scrolledPage(GeneralTab()),
         // alert: () { return 0; }
     ));
 
@@ -68,7 +68,7 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
         Icons.settings_input_antenna,
         () => M.general.dish,
         () => colorOf(R.dishHolder),
-        () => SingleChildScrollView(controller: scrollController, child: DishTab()),
+        () => scrolledPage(DishTab()),
         alert: () {
           DishGetStatusResponse? data = R.dish?.dishGetStatus.data;
           if (data==null) return 0;
@@ -79,7 +79,7 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
         Icons.router,
         () => M.general.router,
         () => colorOf(R.routerHolder),
-        () => SingleChildScrollView(controller: scrollController, child: RouterTab()),
+        () => scrolledPage(RouterTab()),
         alert: () {
           var data = R.router?.wifiGetStatus.data;
           if (data==null) return 0;
@@ -99,7 +99,7 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
 
           return online.isOk ? Colors.green : Colors.red;
         },
-        () => SingleChildScrollView(controller: scrollController, child: OnlineTab()),
+        () => scrolledPage(OnlineTab()),
         alert: () {
           return R.online?.cntNotOk ?? 0;
         }
@@ -167,7 +167,8 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
         type: BottomNavigationBarType.fixed,
         onTap: (idx) {
           _selectedIndex = idx;
-          scrollController.jumpTo(0);
+          if (scrollController.hasClients)
+            scrollController.jumpTo(0);
           setState(() {});
         },
       );
@@ -180,15 +181,7 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
         appBar: _buildBar(context) as PreferredSizeWidget?,
         drawer: AppDrawer(selectedRoute: Routes.LIVE),
         bottomNavigationBar: bar,
-        body: Stack(
-          children: [
-            Container(
-              width: MediaQuery.of(context).size.width,
-              padding: EdgeInsets.all(10.0),
-              child: pages[_selectedIndex].builder(),
-            ),
-          ],
-        ),
+        body: pages[_selectedIndex].builder(),
       ),
     );
   }
@@ -206,6 +199,13 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
     return color;
   }
 
+  Widget scrolledPage(Widget child) {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      padding: EdgeInsets.all(10.0),
+      child: SingleChildScrollView(controller: scrollController, child: child),
+    );
+  }
 
   Widget _buildBar(BuildContext context) {
     return AppBar(
