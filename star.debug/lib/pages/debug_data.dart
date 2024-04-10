@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:clipboard/clipboard.dart';
@@ -36,7 +37,10 @@ class _Page {
   int alertsCount;
   Entity? entity;
 
-  _Page(this.id, this.icon, this.label, {this.entity, this.alertsCount=0});
+  Widget Function() builder;
+  bool Function()? visible;
+
+  _Page(this.id, this.icon, this.label, this.builder, {this.entity, this.alertsCount=0, this.visible});
 }
 
 class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateMixin {
@@ -71,19 +75,36 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
     theme = Theme.of(context);
     Widget? bar;
 
-    if (pages.length>=2)
+    var items = <BottomNavigationBarItem>[
+      for (var p in pages)
+        if (p.visible?.call() ?? true)
+          BottomNavigationBarItem(
+            label: p.label,
+            icon: p.alertsCount==0
+                ? Icon(p.icon)
+                : Badge(
+              label: Text("${p.alertsCount}"),
+              child: Icon(p.icon),
+            ),
+          ),
+    ];
+    if (_selectedIndex>=items.length)
+      _selectedIndex = 0;
+
+    if (items.isNotEmpty)
       bar = BottomNavigationBar(
         items: <BottomNavigationBarItem>[
           for (var p in pages)
-            BottomNavigationBarItem(
-              label: p.label,
-              icon: p.alertsCount==0
-                  ? Icon(p.icon)
-                  : Badge(
-                    label: Text("${p.alertsCount}"),
-                    child: Icon(p.icon),
-                  ),
-            ),
+            if (p.visible?.call() ?? true)
+              BottomNavigationBarItem(
+                label: p.label,
+                icon: p.alertsCount==0
+                    ? Icon(p.icon)
+                    : Badge(
+                      label: Text("${p.alertsCount}"),
+                      child: Icon(p.icon),
+                    ),
+              ),
         ],
         currentIndex: _selectedIndex,
         // selectedItemColor: Colors.amber[800],
@@ -101,45 +122,48 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
           appBar: _buildBar(context) as PreferredSizeWidget?,
           drawer: AppDrawer(selectedRoute: Routes.MAIN),
           bottomNavigationBar: bar,
-          body: Stack(
-            children: [
-              Container(
-                width: MediaQuery.of(context).size.width,
-                padding: EdgeInsets.all(10.0),
-                child:
-                    (parser?.hasData() ?? false)
-                      ? SingleChildScrollView(controller: scrollController, child: Column(children: _buildSpace(),),)
-                      : Center(child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          TextButton(
-                              onPressed: onOpenClicked,
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(Icons.add_circle),
-                                  SizedBox(width: 5, height: 5,),
-                                  Text(M.general.open_json_file),
-                                ],
-                              )
-                            ),
-                          TextButton(
-                              onPressed: onOpenClipboardClicked,
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(Icons.paste),
-                                  SizedBox(width: 5, height: 5,),
-                                  Text(M.general.open_clipboard),
-                                ],
-                              )
-                            ),
-                        ],
-                      ),),
-              ),
-            ],
+          body: (parser?.hasData() ?? false)
+              ? _buildSpace()
+              : Container(
+                  width: MediaQuery.of(context).size.width,
+                  padding: EdgeInsets.all(10.0),
+                  child: Center(child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            TextButton(
+                                onPressed: onOpenClicked,
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(Icons.add_circle),
+                                    SizedBox(width: 5, height: 5,),
+                                    Text(M.general.open_json_file),
+                                  ],
+                                )
+                              ),
+                            TextButton(
+                                onPressed: onOpenClipboardClicked,
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(Icons.paste),
+                                    SizedBox(width: 5, height: 5,),
+                                    Text(M.general.open_clipboard),
+                                  ],
+                                )
+                              ),
+                          ],
+                        ),),
           ),
       ),
+    );
+  }
+
+  Widget scrolledPage(Widget child) {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      padding: EdgeInsets.all(10.0),
+      child: SingleChildScrollView(controller: scrollController, child: child),
     );
   }
 
@@ -150,7 +174,30 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
     _selectedIndex = 0;
 
     if (parser.dishGetStatus!=null){
-      pages.add(_Page("dishy", Icons.settings_input_antenna, M.general.dish, alertsCount: parser.dishGetStatus!.countAlerts()));
+      pages.add(_Page("dishy", Icons.settings_input_antenna, M.general.dish,
+          () {
+            List<Widget> rows = [];
+            if (parser.dishTs!=null) {
+              var b = KVWidgetBuilder(context, theme);
+              b.kv(M.general.dump_created_time, DateTime.fromMillisecondsSinceEpoch(parser.dishTs! * 1000));
+              rows.addAll(b.widgets);
+            }
+            rows.add(DishWidget(
+              status: parser.dishGetStatus,
+              features: parser.dishFeatures,
+              apiVersion: parser.dishApi,
+            ));
+
+            if (this.obstructions!=null) {
+              rows.add(SizedBox(
+                  width: 200,
+                  child: obstructions!
+              ));
+            }
+            return scrolledPage(Column(children: rows,));
+          },
+          alertsCount: parser.dishGetStatus!.countAlerts())
+      );
       Map<String, dynamic>? obstr_data = parser.jsonDish?['obstructionStats'];
       if (obstr_data!=null) {
         List<double> frac_obstr_list = [for (var f in obstr_data['wedgeFractionObstructedList'] ?? []) f.toDouble()];
@@ -172,10 +219,30 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
     }
 
     if (parser.routerGetStatus!=null)
-      pages.add(_Page("router", Icons.router, M.general.router, alertsCount: parser.routerGetStatus!.countAlerts()));
+      pages.add(_Page(
+        "router", Icons.router, M.general.router,
+        () {
+          List<Widget> rows = [];
+          if (parser.routerTs != null) {
+            var b = KVWidgetBuilder(context, theme);
+            b.kv(M.general.dump_created_time, DateTime.fromMillisecondsSinceEpoch(parser.routerTs! * 1000));
+            rows.addAll(b.widgets);
+          }
+          rows.add(RouterWidget(
+            status: parser.routerGetStatus,
+            features: parser.routerFeatures,
+            apiVersion: parser.routerApi,
+          ));
+          return scrolledPage(Column(children: rows,));
+        },
+        alertsCount: parser.routerGetStatus!.countAlerts())
+      );
 
     if (parser.deviceApp!=null)
-      pages.add(_Page("app", Icons.ad_units, M.general.device_app, entity: parser.deviceApp!));
+      pages.add(_Page("app", Icons.ad_units, M.general.device_app,
+        () => scrolledPage(Column(children: _buildPage(parser.deviceApp!),)),
+        entity: parser.deviceApp!)
+      );
 
     if (!parser.hasData()){
       R.showSnackBarText(M.general.no_data_found);
@@ -218,64 +285,17 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
     return rows;
   }
 
-
-  List<Widget> _buildSpace() {
+  Widget _buildSpace() {
     final parser = this.parser;
     if (parser == null)
-      return [];
-
-    List<Widget> rows = [];
-
-    // rows.add(Center(
-    //   child: ElevatedButton(
-    //     onPressed: () async {
-    //       await test();
-    //     },
-    //     child: Text("test"),
-    //   ),
-    // ));
+      return Container();
 
     if (_selectedIndex<pages.length){
       var page = pages[_selectedIndex];
-      if (page.id=="dishy" && parser.dishGetStatus!=null) {
-        if (parser.dishTs!=null) {
-          var b = KVWidgetBuilder(context, theme);
-          b.kv(M.general.dump_created_time, DateTime.fromMillisecondsSinceEpoch(parser.dishTs! * 1000));
-          rows.addAll(b.widgets);
-        }
-        rows.add(DishWidget(
-          status: parser.dishGetStatus,
-          features: parser.dishFeatures,
-          apiVersion: parser.dishApi,
-        ));
-
-        if (this.obstructions!=null) {
-          rows.add(SizedBox(
-              width: 200,
-              child: obstructions!
-          ));
-        }
-
-      }
-      if (page.id=="router" && parser.routerGetStatus!=null) {
-        // rows.addAll(_buildPage(parser.router!));
-        if (parser.routerTs!=null) {
-          var b = KVWidgetBuilder(context, theme);
-          b.kv(M.general.dump_created_time, DateTime.fromMillisecondsSinceEpoch(parser.routerTs! * 1000));
-          rows.addAll(b.widgets);
-        }
-        rows.add(RouterWidget(
-          status: parser.routerGetStatus,
-          features: parser.routerFeatures,
-          apiVersion: parser.routerApi,
-        ));
-
-      }
-      if (page.id=="app")
-        rows.addAll(_buildPage(parser.deviceApp!));
+      return page.builder();
     }
 
-    return rows;
+    return Container();
   }
 
   Future test() async {
