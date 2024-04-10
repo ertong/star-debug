@@ -110,7 +110,8 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
         // selectedItemColor: Colors.amber[800],
         onTap: (idx) {
           _selectedIndex = idx;
-          scrollController.jumpTo(0);
+          if (scrollController.hasClients)
+            scrollController.jumpTo(0);
           setState(() {});
         },
       );
