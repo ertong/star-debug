@@ -36,8 +36,11 @@ class _Page {
   Color Function() color;
   int Function()? alert;
   bool Function()? visible;
+  late ValueKey<_Page> key;
 
-  _Page(this.icon, this.label, this.color, this.builder, {this.alert, this.visible});
+  _Page(this.icon, this.label, this.color, this.builder, {this.alert, this.visible}) {
+    key = ValueKey(this);
+  }
 }
 
 class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
@@ -48,6 +51,7 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
   var scrollController = ScrollController();
   int _selectedIndex=0;
   List<_Page> pages = [];
+  List<_Page> visiblePages = [];
 
   @override
   void initState() {
@@ -136,13 +140,12 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
 
     Widget? bar;
 
-    if (pages.isNotEmpty) {
-      List<BottomNavigationBarItem> items = [];
-      for(int i=0; i<pages.length; ++i) {
-        var p = pages[i];
+    visiblePages = [for (var p in pages) if (p.visible?.call() ?? true) p];
 
-        if (!(p.visible?.call() ?? true))
-          continue;
+    if (visiblePages.isNotEmpty) {
+      List<BottomNavigationBarItem> items = [];
+      for(int i=0; i<visiblePages.length; ++i) {
+        var p = visiblePages[i];
 
         int alerts = 0;
 
@@ -152,6 +155,7 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
         var icon = Icon(p.icon, color: p.color().withAlpha(_selectedIndex==i?255:100),);
         items.add(BottomNavigationBarItem(
           label: p.label(),
+          key: p.key,
           icon: alerts==0
               ? icon
               : Badge(
@@ -181,7 +185,7 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
         appBar: _buildBar(context) as PreferredSizeWidget?,
         drawer: AppDrawer(selectedRoute: Routes.LIVE),
         bottomNavigationBar: bar,
-        body: pages[_selectedIndex].builder(),
+        body: visiblePages[_selectedIndex].builder(),
       ),
     );
   }
