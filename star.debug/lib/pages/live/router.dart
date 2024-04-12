@@ -6,6 +6,7 @@ import 'package:star_debug/grpc/starlink/starlink.pbgrpc.dart';
 import 'package:star_debug/pages/view/router.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:grpc/grpc.dart';
+import 'package:star_debug/utils/view_options.dart';
 
 
 const String _TAG="RouterTab";
@@ -66,6 +67,7 @@ class _RouterTabState extends State<RouterTab> with TickerProviderStateMixin {
         status: status,
         features: const {},
         apiVersion: conn.wifiGetStatus.apiVersion,
+        viewOptions: ViewOptions(),
       ));
     }
 

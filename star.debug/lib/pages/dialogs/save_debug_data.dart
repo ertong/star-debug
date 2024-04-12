@@ -8,11 +8,13 @@ import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/pages/debug_data.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:star_debug/space/space_parser.dart';
 import 'package:star_debug/utils/log_utils.dart';
+import 'package:star_debug/utils/utils.dart';
+import 'package:path_provider/path_provider.dart' as path_provider;
 
-const String _TAG="LivePage";
+
+const String _TAG="SaveDebugDataDialog";
 
 class SaveDebugDataDialog<TItem> extends StatefulWidget
 {
@@ -39,28 +41,7 @@ class _SaveDebugDataDialogState<TItem> extends State<SaveDebugDataDialog<TItem>>
     super.dispose();
   }
 
-  Future<String?> getDownloadPath() async {
-    Directory? directory;
-    try {
-      if (Platform.isIOS) {
-        directory = await path_provider.getApplicationDocumentsDirectory();
-      } else {
-        directory = Directory('/storage/emulated/0/Download');
-        // Put file in global download folder, if for an unknown reason it didn't exist, we fallback
-        // ignore: avoid_slow_async_io
-        if (!await directory.exists())
-          if (Platform.isAndroid)
-            directory = await path_provider.getExternalStorageDirectory();
-          else
-            directory = await path_provider.getDownloadsDirectory();
-      }
-    } catch (e, s) {
-      LogUtils.ers(_TAG, "Cannot get download folder path", e, s);
-    }
-    return directory?.path;
-  }
-
-  Future saveAs() async {
+  Future saveToFileDesktop() async {
     try {
 
       var basename = "DebugData";
@@ -97,7 +78,7 @@ class _SaveDebugDataDialogState<TItem> extends State<SaveDebugDataDialog<TItem>>
     }
   }
 
-  Future saveToFile() async {
+  Future saveToFileMobile() async {
     try {
       await Permission.storage.request();
       // If it is not granted, we can try to write ... it is possible that it is allowed by default
@@ -218,7 +199,7 @@ class _SaveDebugDataDialogState<TItem> extends State<SaveDebugDataDialog<TItem>>
             if (Platform.isWindows || Platform.isLinux || Platform.isMacOS)
               OutlinedButton(
                 onPressed: () async {
-                  await saveAs();
+                  await saveToFileDesktop();
                   if (mounted)
                     Navigator.pop(context, null);
                 },
@@ -226,7 +207,7 @@ class _SaveDebugDataDialogState<TItem> extends State<SaveDebugDataDialog<TItem>>
               ),
             OutlinedButton(
               onPressed: () async {
-                await saveToFile();
+                await saveToFileMobile();
                 if (mounted)
                   Navigator.pop(context, null);
               },

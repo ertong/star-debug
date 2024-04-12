@@ -5,7 +5,10 @@ import 'package:time_machine/time_machine.dart';
 abstract class KVConsumer {
   void header(String name, {bool isAlert = false, List<Widget> more=const []}) {}
 
-  void kv(String k, dynamic v, {bool? ok, String? hint}) {
+  void kv(String k, dynamic v, {bool? ok, String? hint, bool hide = false}) {
+    if (hide)
+      v = "***";
+
     if (v is DateTime)
       v = Instant.dateTime(v).inLocalZone().toString("yyyy-MM-dd HH:mm:ss 'GMT'o<g>");
     if (v is List<String>)

@@ -8,6 +8,7 @@ import 'package:star_debug/pages/view/common.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/utils/format.dart';
 import 'package:star_debug/utils/kv_widget.dart';
+import 'package:star_debug/utils/view_options.dart';
 import 'package:time_machine/time_machine.dart';
 
 const String _TAG="DishWidget";
@@ -18,7 +19,8 @@ class DishWidget extends StatefulWidget {
   final GetLocationResponse? dishGetLocationStarlink;
   final int? apiVersion;
   final Map<String, bool> features;
-  const DishWidget({super.key, required this.status, required this.features, this.dishGetLocationGPS, this.dishGetLocationStarlink, this.apiVersion});
+  final ViewOptions viewOptions;
+  const DishWidget({super.key, required this.status, required this.features, this.dishGetLocationGPS, this.dishGetLocationStarlink, this.apiVersion, required this.viewOptions});
 
   @override
   State createState() => _DishWidgetState();
@@ -36,10 +38,14 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
   }
 
   ThemeData theme = ThemeData.fallback();
+  late ViewOptions opts;
+
 
   @override
   Widget build(BuildContext context) {
     theme = Theme.of(context);
+    opts = widget.viewOptions;
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: _buildBody(),
@@ -154,7 +160,7 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
       }
 
       if (status.hasDeviceInfo())
-        rows.addAll(buildDeviceInfoWidget(context, theme, status.deviceInfo, apiVersion: widget.apiVersion));
+        rows.addAll(buildDeviceInfoWidget(context, theme, status.deviceInfo, apiVersion: widget.apiVersion, opts: opts));
 
       if (widget.features.isNotEmpty){
         var b = KVWidgetBuilder(context, theme);
@@ -211,9 +217,9 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
           b.kv(M.grpc.DishGpsStats.inhibit_gps, stats.inhibitGps);
 
         if (widget.dishGetLocationStarlink!=null)
-          location(b, "Starlink", widget.dishGetLocationStarlink!);
+          location(b, "Starlink", widget.dishGetLocationStarlink!, hide: opts.hideLocation);
         if (widget.dishGetLocationGPS!=null)
-          location(b, "GPS", widget.dishGetLocationGPS!);
+          location(b, "GPS", widget.dishGetLocationGPS!, hide: opts.hideLocation);
 
         if (b.widgets.length > 1) {
           rows.addAll(b.widgets);
@@ -296,7 +302,7 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
     return rows;
   }
 
-  void location(KVWidgetBuilder b, String key, GetLocationResponse loc) {
+  void location(KVWidgetBuilder b, String key, GetLocationResponse loc, {bool hide = false}) {
     if (loc.lla.lat.isNaN) {
       b.kv(key, "N/A");
       return;
@@ -304,6 +310,6 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
     var str = "lat ${loc.lla.lat.toStringAsFixed(4)} lon ${loc.lla.lon.toStringAsFixed(4)} alt ${loc.lla.alt.toStringAsFixed(0)}m";
     if (loc.source==PositionSource.STARLINK)
       str = "$str\nsigma ${loc.sigmaM.toStringAsFixed(1)}";
-    b.kv(key, str);
+    b.kv(key, str, hide: hide);
   }
 }

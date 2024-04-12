@@ -99,7 +99,7 @@ class ValkyrieRecord {
         LogUtils.d(_TAG, "GET valkyrie $bssid: ${resp.statusCode}: device_is_found=${device_is_found} data=${data}");
         break;
       } catch (e, s) {
-        LogUtils.ers(_TAG, "Checking $bssid", e, s);
+        LogUtils.e(_TAG, "Checking $bssid: $e");
         await Future.delayed(Duration(seconds: 5));
       }
     }

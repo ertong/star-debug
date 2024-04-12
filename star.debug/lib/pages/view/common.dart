@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:star_debug/grpc/starlink/starlink.pb.dart';
 import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/utils/kv_widget.dart';
+import 'package:star_debug/utils/view_options.dart';
 import 'package:time_machine/time_machine.dart';
 
-List<Widget> buildDeviceInfoWidget(BuildContext context, ThemeData theme, DeviceInfo deviceInfo, {int? apiVersion}) {
+List<Widget> buildDeviceInfoWidget(BuildContext context, ThemeData theme, DeviceInfo deviceInfo, {int? apiVersion, required ViewOptions opts}) {
     var b = KVWidgetBuilder(context, theme);
 
     b.header(M.header.device_info);
     if (deviceInfo.hasId())
-      b.kv(M.grpc.DeviceInfo.id, deviceInfo.id);
+      b.kv(M.grpc.DeviceInfo.id, deviceInfo.id, hide: opts.hideIds);
     if (deviceInfo.hasHardwareVersion())
       b.kv(M.grpc.DeviceInfo.hardware_version, deviceInfo.hardwareVersion);
     if (deviceInfo.hasSoftwareVersion())

@@ -4,6 +4,7 @@ class Features {
   bool outagesHistory = true;
   bool checkIpV6 = true;
   bool routerOptional = false;
+  bool shareScreenshot = true;
 
   // ***
 

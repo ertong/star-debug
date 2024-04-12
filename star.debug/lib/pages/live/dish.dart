@@ -9,6 +9,7 @@ import 'package:star_debug/preloaded.dart';
 import 'package:grpc/grpc.dart';
 import 'package:star_debug/utils/debug_data.dart';
 import 'package:star_debug/utils/kv_widget.dart';
+import 'package:star_debug/utils/view_options.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:time_machine/time_machine.dart';
 import 'package:time_machine/time_machine.dart' as time_machine;
@@ -104,6 +105,7 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
         dishGetLocationGPS: conn.dishGetLocationGPS.validData(),
         dishGetLocationStarlink: conn.dishGetLocationStarlink.validData(),
         apiVersion: conn.dishGetStatus.apiVersion,
+        viewOptions: ViewOptions(),
       ));
 
       var outages = conn.dishGetHistory.data?.outages ?? [];

@@ -7,6 +7,7 @@ import 'package:star_debug/pages/view/common.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/utils/format.dart';
 import 'package:star_debug/utils/kv_widget.dart';
+import 'package:star_debug/utils/view_options.dart';
 
 const String _TAG="RouterWidget";
 
@@ -14,7 +15,8 @@ class RouterWidget extends StatefulWidget {
   final WifiGetStatusResponse? status;
   final Map<String, bool> features;
   final int? apiVersion;
-  const RouterWidget({super.key, required this.status, required this.features, this.apiVersion});
+  final ViewOptions viewOptions;
+  const RouterWidget({super.key, required this.status, required this.features, this.apiVersion, required this.viewOptions});
 
   @override
   State createState() => _RouterWidgetState();
@@ -24,9 +26,12 @@ class _RouterWidgetState extends State<RouterWidget> with TickerProviderStateMix
 
   ThemeData theme = ThemeData.fallback();
 
+  late ViewOptions opts;
+
   @override
   Widget build(BuildContext context) {
     theme = Theme.of(context);
+    opts = widget.viewOptions;
     return Column(children:_buildBody(),);
   }
 
@@ -46,10 +51,10 @@ class _RouterWidgetState extends State<RouterWidget> with TickerProviderStateMix
         }
 
         if (status.hasIpv4WanAddress())
-          b.kv(M.grpc.WifiGetStatus.ipv4_wan_address, status.ipv4WanAddress);
+          b.kv(M.grpc.WifiGetStatus.ipv4_wan_address, status.ipv4WanAddress, hide: opts.hideIp);
 
         if (status.ipv6WanAddresses.isNotEmpty)
-          b.kv(M.grpc.WifiGetStatus.ipv6_wan_addresses, status.ipv6WanAddresses.join("\n"));
+          b.kv(M.grpc.WifiGetStatus.ipv6_wan_addresses, status.ipv6WanAddresses.join("\n"), hide: opts.hideIp);
 
         if (status.hasPingLatencyMs())
           b.kv(M.grpc.WifiGetStatus.ping_latency_ms, status.pingLatencyMs.toStringAsFixed(2));
@@ -92,7 +97,7 @@ class _RouterWidgetState extends State<RouterWidget> with TickerProviderStateMix
         rows.addAll(buildAlertsWidget(context, theme, status.alerts.toProto3Json() as Map<String, dynamic>));
 
       if (status.hasDeviceInfo())
-        rows.addAll(buildDeviceInfoWidget(context, theme, status.deviceInfo, apiVersion: widget.apiVersion));
+        rows.addAll(buildDeviceInfoWidget(context, theme, status.deviceInfo, apiVersion: widget.apiVersion, opts: opts));
 
       if (widget.features.isNotEmpty){
         var b = KVWidgetBuilder(context, theme);
@@ -113,12 +118,13 @@ class _RouterWidgetState extends State<RouterWidget> with TickerProviderStateMix
           String? bssid;
           for (WifiConfig_Network n in config.networks) {
             if (n.hasIpv4())
-              b.kv("IPv4", n.ipv4);
+              b.kv("IPv4", n.ipv4, hide: opts.hideIp);
             for (var srv in n.basicServiceSets) {
               bssid = srv.bssid;
               b.kv("${srv.band}", "${srv.ssid}\n${srv.bssid}",
                   ok:!srv.bssid.startsWith("74:24:9f"),
-                  hint: M.grpc.BasicServiceSet.bssid__hint
+                  hint: M.grpc.BasicServiceSet.bssid__hint,
+                  hide: opts.hideMac
               );
             }
           }
@@ -152,11 +158,11 @@ class _RouterWidgetState extends State<RouterWidget> with TickerProviderStateMix
           if (client.hasIface())
             b.kv(M.grpc.WifiClient.iface, "${client.iface}");
           if (client.hasIpAddress())
-            b.kv(M.grpc.WifiClient.ip_address, "${client.ipAddress}");
+            b.kv(M.grpc.WifiClient.ip_address, "${client.ipAddress}", hide: opts.hideIp);
           if (client.ipv6Addresses.isNotEmpty)
-            b.kv(M.grpc.WifiClient.ipv6_addresses, client.ipv6Addresses.join("\n"));
+            b.kv(M.grpc.WifiClient.ipv6_addresses, client.ipv6Addresses.join("\n"), hide: opts.hideIp);
           if (client.hasMacAddress())
-            b.kv(M.grpc.WifiClient.mac_address, "${client.macAddress}");
+            b.kv(M.grpc.WifiClient.mac_address, "${client.macAddress}", hide: opts.hideMac);
           if (client.hasAssociatedTimeS())
             b.kv(M.grpc.WifiClient.associated_time_s, Format.sec(client.associatedTimeS));
           if (client.hasSignalStrength())

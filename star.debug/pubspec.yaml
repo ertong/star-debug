@@ -49,6 +49,8 @@ dependencies:
   url_launcher: ^6.2.5
   flutter_email_sender: ^6.0.2
   convert: 3.1.1
+  screenshot: 2.3.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

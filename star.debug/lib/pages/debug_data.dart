@@ -16,6 +16,7 @@ import 'package:star_debug/space/obstructions.dart';
 import 'package:star_debug/space/space_parser.dart';
 import 'package:star_debug/utils/api_helper.dart';
 import 'package:star_debug/utils/log_utils.dart';
+import 'package:star_debug/utils/view_options.dart';
 
 import '../utils/kv_widget.dart';
 
@@ -187,6 +188,7 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
               status: parser.dishGetStatus,
               features: parser.dishFeatures,
               apiVersion: parser.dishApi,
+              viewOptions: ViewOptions(),
             ));
 
             if (this.obstructions!=null) {
@@ -233,6 +235,7 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
             status: parser.routerGetStatus,
             features: parser.routerFeatures,
             apiVersion: parser.routerApi,
+            viewOptions: ViewOptions(),
           ));
           return scrolledPage(Column(children: rows,));
         },
