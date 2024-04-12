@@ -50,6 +50,7 @@ dependencies:
   flutter_email_sender: ^6.0.2
   convert: 3.1.1
   screenshot: 2.3.0
+  image: 4.1.7
 
 dev_dependencies:
   flutter_test:

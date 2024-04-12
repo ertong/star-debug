@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
+import 'dart:ui' as ui;
+import 'package:image/image.dart' as img;
 
 import 'package:clipboard/clipboard.dart';
 import 'package:file_picker/file_picker.dart';
@@ -73,7 +75,7 @@ class _ShareScreenshotState<TItem> extends State<ShareScreenshot<TItem>>
       image = null;
       memImage = null;
 
-      image = await screenshotController.captureFromLongWidget(
+      Uint8List png = await screenshotController.captureFromLongWidget(
         pixelRatio: 3,
         // Text("This text will be captured as image"),
         InheritedTheme.captureAll(
@@ -112,6 +114,14 @@ class _ShareScreenshotState<TItem> extends State<ShareScreenshot<TItem>>
         ),
       );
 
+      Uint8List? jpg = await (img.Command()
+        ..decodePng(png)
+        ..encodeJpg(quality: 85))
+        .getBytes()
+        ;
+
+      image = jpg;
+
       // if (image!=null)
       memImage = MemoryImage(image!);
 
@@ -136,8 +146,17 @@ class _ShareScreenshotState<TItem> extends State<ShareScreenshot<TItem>>
     Uint8List? img = image;
     if (img==null)
       return;
+
     try {
-      Share.shareXFiles([XFile.fromData(img, name: "${getBasename()}.png", mimeType: "image/png")]);
+      String dir = (await path_provider.getApplicationSupportDirectory()).path;
+
+      var basename = getBasename();
+      var path = "$dir/$basename.jpg";
+
+      await File("$path").writeAsBytes(img);
+
+      Share.shareXFiles([XFile(path)], subject: basename);
+
     } catch(e,s){
       LogUtils.ers(_TAG, "", e, s);
       R.showSnackBar(SnackBar(
@@ -147,32 +166,12 @@ class _ShareScreenshotState<TItem> extends State<ShareScreenshot<TItem>>
     }
   }
 
-  Widget _buildButton(String txt,Function()? onPressed,
-      {Color? btnColor, double width=75})
-  {
-    return OutlinedButton(
-      onPressed: onPressed,
-      style: OutlinedButton.styleFrom(
-          padding: EdgeInsets.fromLTRB(2, 5, 2, 5),
-          // backgroundColor: btnColor,
-          minimumSize: Size(width, 50)
-      ),
-      child:Column(
-        children: <Widget>[
-          // Icon(icon),
-          const SizedBox(height: 2.0),
-          Text(txt, textAlign: TextAlign.center,),
-        ],
-      ),
-    );
-  }
-
   Future saveToFileDesktop() async {
     Uint8List? img = image;
     if (img==null)
       return;
     try {
-      var name = "${getBasename()}.png";
+      var name = "${getBasename()}.jpg";
 
       var path = await FilePicker.platform.saveFile(
         dialogTitle: "Save Screenshot",
@@ -216,11 +215,11 @@ class _ShareScreenshotState<TItem> extends State<ShareScreenshot<TItem>>
       }
 
       var basename = getBasename();
-      var name = "$basename.png";
+      var name = "$basename.jpg";
       int i = 0;
       while (await File("$dir/$name").exists()) {
         i = i + 1;
-        name = "$basename.$i.png";
+        name = "$basename.$i.jpg";
       }
 
       var path = "$dir/$name";
@@ -304,6 +303,26 @@ class _ShareScreenshotState<TItem> extends State<ShareScreenshot<TItem>>
               Text("Error"),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildButton(String txt,Function()? onPressed,
+      {Color? btnColor, double width=75})
+  {
+    return OutlinedButton(
+      onPressed: onPressed,
+      style: OutlinedButton.styleFrom(
+          padding: EdgeInsets.fromLTRB(2, 5, 2, 5),
+          // backgroundColor: btnColor,
+          minimumSize: Size(width, 50)
+      ),
+      child:Column(
+        children: <Widget>[
+          // Icon(icon),
+          const SizedBox(height: 2.0),
+          Text(txt, textAlign: TextAlign.center,),
+        ],
       ),
     );
   }
