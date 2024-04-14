@@ -147,10 +147,12 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
 
   Snapshot buildLiveSnapshot() {
     return Snapshot(
+        timestamp: DateTime.now().millisecondsSinceEpoch~/1000,
         dishGetStatus: R.dish?.dishGetStatus.data,
         dishApiVersion: R.dish?.dishGetStatus.apiVersion,
         routerGetStatus: R.router?.wifiGetStatus.data,
         routerApiVersion: R.router?.wifiGetStatus.apiVersion,
+        timestampHistory: (R.dish?.dishGetHistory.receivedTime ?? 0) ~/1000,
         dishGetHistory: R.dish?.dishGetHistory.data,
         dishGetLocationGPS: R.dish?.dishGetLocationGPS.validData(),
         dishGetLocationStarlink: R.dish?.dishGetLocationStarlink.validData(),

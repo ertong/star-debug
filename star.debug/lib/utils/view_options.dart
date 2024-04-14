@@ -4,4 +4,5 @@ class ViewOptions {
   bool hideLocation = false;
   bool hideMac = false;
   bool hideIp = false;
+  bool hideRouterClients = false;
 }

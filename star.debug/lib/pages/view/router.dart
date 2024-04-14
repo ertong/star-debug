@@ -149,7 +149,7 @@ class _RouterWidgetState extends State<RouterWidget> with TickerProviderStateMix
         }
       }
 
-      if (status.clients.isNotEmpty) {
+      if (status.clients.isNotEmpty && !opts.hideRouterClients) {
         var b = KVWidgetBuilder(context, theme);
         for (var client in status.clients) {
           b.header("${M.header.client}: ${client.name}");
