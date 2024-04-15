@@ -179,27 +179,27 @@ class _SnapshotsPageState extends State<SnapshotsPage> with TickerProviderStateM
                   if (log.row.debugDataJson!=null && log.row.debugDataJson!="null") {
                     var p = SpaceParser.ofJsonStr(log.row.debugDataJson!);
                     snap = Snapshot(
-                        timestamp: p.dishTs ?? 0,
-                        dishTs: p.dishTs,
+                        timestamp: (p.dishTs ?? 0)*1000,
+                        dishTs: p.dishTs==null ? null : p.dishTs!*1000,
                         dishGetStatus: p.dishGetStatus,
                         dishFeatures: p.dishFeatures,
                         dishApiVersion: p.dishApi,
-                        routerTs: p.routerTs,
+                        routerTs: p.routerTs==null ? null : p.routerTs!*1000,
                         routerGetStatus: p.routerGetStatus,
                         routerFeatures: p.routerFeatures,
                         routerApiVersion: p.routerApi,
                         deviceApp: p.deviceApp,
                         debug_data: p.json
 
-                      // timestampHistory: (R.dish?.dishGetHistory.receivedTime ?? 0) ~/1000,
+                      // timestampHistory: R.dish?.dishGetHistory.receivedTime,
                       // dishGetHistory: R.dish?.dishGetHistory.data,
                     );
                   } else {
                     snap = Snapshot(
-                        timestamp: log.row.timestamp~/1000,
-                        dishTs: log.row.timestamp~/1000,
+                        timestamp: log.row.timestamp,
+                        dishTs: log.row.timestamp,
                         dishGetStatus: log.dish,
-                        routerTs: log.row.timestamp~/1000,
+                        routerTs: log.row.timestamp,
                         routerGetStatus: log.router,
                     );
                   }

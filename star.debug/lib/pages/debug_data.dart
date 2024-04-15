@@ -128,11 +128,11 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
     else {
       snap = Snapshot(
           timestamp: parser.dishTs ?? 0,
-          dishTs: parser.dishTs,
+          dishTs: parser.dishTs==null ? null : parser.dishTs!*1000,
           dishGetStatus: parser.dishGetStatus,
           dishFeatures: parser.dishFeatures,
           dishApiVersion: parser.dishApi,
-          routerTs: parser.routerTs,
+          routerTs: parser.routerTs==null ? null : parser.routerTs!*1000,
           routerGetStatus: parser.routerGetStatus,
           routerFeatures: parser.routerFeatures,
           routerApiVersion: parser.routerApi,

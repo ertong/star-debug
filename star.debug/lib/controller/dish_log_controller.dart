@@ -78,7 +78,7 @@ class DishLogController {
     if (dishId == null || timestamp == null || snap.debug_data == null)
       return;
 
-    var res = await R.db.dishesDao.hasDishLog(dishId, timestamp*1000).getSingleOrNull();
+    var res = await R.db.dishesDao.hasDishLog(dishId, timestamp).getSingleOrNull();
 
     if (res==null) {
       forceStore(snap);

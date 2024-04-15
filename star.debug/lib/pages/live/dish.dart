@@ -60,10 +60,10 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
     lastGraphTime = time;
 
     charts.clear();
-    charts.add(buildGraph(M.grpc.DishGetStatus.pop_ping_latency_ms, history.current.toInt(), time~/1000, history.popPingLatencyMs));
-    charts.add(buildGraph(M.grpc.DishGetStatus.pop_ping_drop_rate, history.current.toInt(), time~/1000, history.popPingDropRate));
-    charts.add(buildGraph("Uplink, MB/s", history.current.toInt(), time~/1000, [for (var v in history.uplinkThroughputBps) v/1024/1024]));
-    charts.add(buildGraph("Downlink, MB/s", history.current.toInt(), time~/1000, [for (var v in history.downlinkThroughputBps) v/1024/1024]));
+    charts.add(buildGraph(M.grpc.DishGetStatus.pop_ping_latency_ms, history.current.toInt(), time, history.popPingLatencyMs));
+    charts.add(buildGraph(M.grpc.DishGetStatus.pop_ping_drop_rate, history.current.toInt(), time, history.popPingDropRate));
+    charts.add(buildGraph("Uplink, MB/s", history.current.toInt(), time, [for (var v in history.uplinkThroughputBps) v/1024/1024]));
+    charts.add(buildGraph("Downlink, MB/s", history.current.toInt(), time, [for (var v in history.downlinkThroughputBps) v/1024/1024]));
   }
 
   @override
@@ -167,14 +167,14 @@ class _GraphPoint {
   _GraphPoint(this.t, this.value);
 }
 
-Widget buildGraph(String name, int current, int tsSec, List<double> data){
+Widget buildGraph(String name, int current, int ts, List<double> data){
   data = data.sublist(current%900)+data.sublist(0, current%900);
   var A = [];
   A.addAll(data);
   A.sort();
   double max = A[A.length*95~/100]*1.2;
 
-  var now = Instant.fromEpochSeconds(tsSec).inLocalZone();
+  var now = Instant.fromEpochMilliseconds(ts).inLocalZone();
 
   return SizedBox(
     height: 120,

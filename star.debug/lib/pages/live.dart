@@ -306,25 +306,15 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
 }
 
 Snapshot buildLiveSnapshot() {
-
-  var dishTs = R.dish?.dishGetStatus.receivedTime;
-  if (dishTs!=null) dishTs=dishTs~/1000;
-
-  var routerTs = R.router?.wifiGetStatus.receivedTime;
-  if (routerTs!=null) routerTs=routerTs~/1000;
-
-  var historyTs = R.dish?.dishGetHistory.receivedTime;
-  if (historyTs!=null) historyTs=historyTs~/1000;
-
   return Snapshot(
-    timestamp: DateTime.now().millisecondsSinceEpoch~/1000,
-    dishTs: dishTs,
+    timestamp: DateTime.now().millisecondsSinceEpoch,
+    dishTs: R.dish?.dishGetStatus.receivedTime,
     dishGetStatus: R.dish?.dishGetStatus.data,
     dishApiVersion: R.dish?.dishGetStatus.apiVersion,
-    routerTs: routerTs,
+    routerTs: R.router?.wifiGetStatus.receivedTime,
     routerGetStatus: R.router?.wifiGetStatus.data,
     routerApiVersion: R.router?.wifiGetStatus.apiVersion,
-    historyTs: historyTs,
+    historyTs: R.dish?.dishGetHistory.receivedTime,
     dishGetHistory: R.dish?.dishGetHistory.data,
     dishGetLocationGPS: R.dish?.dishGetLocationGPS.validData(),
     dishGetLocationStarlink: R.dish?.dishGetLocationStarlink.validData(),

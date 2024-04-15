@@ -147,7 +147,7 @@ class _SnapshotPageState extends State<SnapshotPage> with TickerProviderStateMix
             List<Widget> rows = [];
             if (snap.dishTs!=null) {
               var b = KVWidgetBuilder(context, theme);
-              b.kv(M.general.dump_created_time, DateTime.fromMillisecondsSinceEpoch(snap.dishTs! * 1000));
+              b.kv(M.general.dump_created_time, DateTime.fromMillisecondsSinceEpoch(snap.dishTs!));
               rows.addAll(b.widgets);
             }
             rows.add(DishWidget(
@@ -193,7 +193,7 @@ class _SnapshotPageState extends State<SnapshotPage> with TickerProviderStateMix
           List<Widget> rows = [];
           if (snap.routerTs != null) {
             var b = KVWidgetBuilder(context, theme);
-            b.kv(M.general.dump_created_time, DateTime.fromMillisecondsSinceEpoch(snap.routerTs! * 1000));
+            b.kv(M.general.dump_created_time, DateTime.fromMillisecondsSinceEpoch(snap.routerTs!));
             rows.addAll(b.widgets);
           }
           rows.add(RouterWidget(

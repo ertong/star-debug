@@ -7,7 +7,6 @@ import 'package:star_debug/space/device_app.dart';
 import 'package:star_debug/utils/debug_data.dart';
 
 class Snapshot {
-  /// Unix seconds
   final int timestamp;
 
   final int? dishTs;
