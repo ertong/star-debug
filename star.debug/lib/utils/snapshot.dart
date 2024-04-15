@@ -2,9 +2,14 @@
 
 import 'dart:convert';
 
+import 'package:star_debug/db/database.dart';
 import 'package:star_debug/grpc/starlink/starlink.pb.dart';
 import 'package:star_debug/space/device_app.dart';
+import 'package:star_debug/space/space_parser.dart';
 import 'package:star_debug/utils/debug_data.dart';
+import 'package:star_debug/utils/log_utils.dart';
+
+const String _TAG = "Snapshot";
 
 class Snapshot {
   final int timestamp;
@@ -60,5 +65,75 @@ class Snapshot {
       );
       return JsonEncoder.withIndent("  ").convert(data);
     }
+  }
+
+  static Snapshot ofRow(DishLog row) {
+    if (row.debugDataJson!=null && row.debugDataJson!="null") {
+      var p = SpaceParser.ofJsonStr(row.debugDataJson!);
+      return Snapshot(
+          timestamp: (p.dishTs ?? 0) * 1000,
+          dishTs: p.dishTs == null ? null : p.dishTs! * 1000,
+          dishGetStatus: p.dishGetStatus,
+          dishFeatures: p.dishFeatures,
+          dishApiVersion: p.dishApi,
+          routerTs: p.routerTs == null ? null : p.routerTs! * 1000,
+          routerGetStatus: p.routerGetStatus,
+          routerFeatures: p.routerFeatures,
+          routerApiVersion: p.routerApi,
+          deviceApp: p.deviceApp,
+          debug_data: p.json
+
+        // timestampHistory: R.dish?.dishGetHistory.receivedTime,
+        // dishGetHistory: R.dish?.dishGetHistory.data,
+      );
+    }
+
+    DishGetStatusResponse? dish;
+    if (row.dishStatusJson?.isNotEmpty ?? false) {
+      try {
+        dish = DishGetStatusResponse.fromBuffer(row.dishStatusJson!);
+      }catch(e,s) {
+        LogUtils.ers(_TAG, "Loading ${row.dishStatusJson}", e, s);
+      }
+    }
+
+    WifiGetStatusResponse? router;
+    if (row.wifiStatusJson?.isNotEmpty ?? false) {
+      try {
+        router = WifiGetStatusResponse.fromBuffer(row.wifiStatusJson!);
+      }catch(e,s) {
+        LogUtils.ers(_TAG, "Loading ${row.wifiStatusJson}", e, s);
+      }
+    }
+
+    DishGetHistoryResponse? history;
+    if (row.dishHistoryJson?.isNotEmpty ?? false) {
+      try {
+        history = DishGetHistoryResponse.fromBuffer(row.dishHistoryJson!);
+      }catch(e,s) {
+        LogUtils.ers(_TAG, "Loading ${row.dishHistoryJson}", e, s);
+      }
+    }
+
+    Map<String, dynamic>? onlineJson;
+    if (row.onlineJson!=null && row.onlineJson!="null") {
+      try {
+        onlineJson = jsonDecode(row.onlineJson!);
+      }catch(e,s) {
+        LogUtils.ers(_TAG, "Loading ${row.wifiStatusJson}", e, s);
+      }
+    }
+
+    return Snapshot(
+      timestamp: row.timestamp,
+      dishTs: row.timestamp, // todo
+      dishGetStatus: dish,
+      routerTs: row.timestamp, // todo
+      routerGetStatus: router,
+      onlineJson: onlineJson,
+      historyTs: row.timestamp, // todo
+      dishGetHistory: history,
+    );
+
   }
 }

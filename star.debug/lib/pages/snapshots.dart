@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:drift/drift.dart' show TableStatements;
 import 'package:flutter/material.dart' hide Notification, Card;
 import 'package:star_debug/db/database.dart';
+import 'package:star_debug/db/models/dish_logs.dart';
 import 'package:star_debug/drawer.dart';
 import 'package:star_debug/grpc/starlink/network.pbenum.dart';
 import 'package:star_debug/grpc/starlink/starlink.pb.dart';
@@ -125,16 +126,17 @@ class _SnapshotsPageState extends State<SnapshotsPage> with TickerProviderStateM
 
     String? dishStr;
     bool dishOk = true;
-    if (log.dish!=null) {
-      dishStr = "${Format.sec(log.dish!.deviceState.uptimeS.toInt())}";
-      if (log.dish!.hasDisablementCode())
-        dishStr = "$dishStr, ${log.dish!.disablementCode}";
+    var dish = log.snap.dishGetStatus;
+    if (dish!=null) {
+      dishStr = "${Format.sec(dish.deviceState.uptimeS.toInt())}";
+      if (dish.hasDisablementCode())
+        dishStr = "$dishStr, ${dish.disablementCode}";
 
-      if (log.dish!.disablementCode != UtDisablementCode.OKAY)
+      if (dish.disablementCode != UtDisablementCode.OKAY)
         dishOk = false;
 
-      if (log.dish!.hasOutage()) {
-        dishStr = "$dishStr, ${log.dish!.outage.cause}";
+      if (dish.hasOutage()) {
+        dishStr = "$dishStr, ${dish.outage.cause}";
         dishOk = false;
       }
     }
@@ -173,39 +175,7 @@ class _SnapshotsPageState extends State<SnapshotsPage> with TickerProviderStateM
             await Navigator.push(context,
               MaterialPageRoute(
                 builder: (context) {
-
-                  Snapshot? snap;
-
-                  if (log.row.debugDataJson!=null && log.row.debugDataJson!="null") {
-                    var p = SpaceParser.ofJsonStr(log.row.debugDataJson!);
-                    snap = Snapshot(
-                        timestamp: (p.dishTs ?? 0)*1000,
-                        dishTs: p.dishTs==null ? null : p.dishTs!*1000,
-                        dishGetStatus: p.dishGetStatus,
-                        dishFeatures: p.dishFeatures,
-                        dishApiVersion: p.dishApi,
-                        routerTs: p.routerTs==null ? null : p.routerTs!*1000,
-                        routerGetStatus: p.routerGetStatus,
-                        routerFeatures: p.routerFeatures,
-                        routerApiVersion: p.routerApi,
-                        deviceApp: p.deviceApp,
-                        debug_data: p.json
-
-                      // timestampHistory: R.dish?.dishGetHistory.receivedTime,
-                      // dishGetHistory: R.dish?.dishGetHistory.data,
-                    );
-                  } else {
-                    snap = Snapshot(
-                        timestamp: log.row.timestamp,
-                        dishTs: log.row.timestamp,
-                        dishGetStatus: log.dish,
-                        routerTs: log.row.timestamp,
-                        routerGetStatus: log.router,
-                    );
-                  }
-
-
-                  return SnapshotPage(snap: snap);
+                  return SnapshotPage(snap: log.snap);
                 },
               ),
             );
@@ -236,45 +206,19 @@ class _SnapshotsPageState extends State<SnapshotsPage> with TickerProviderStateM
       ),
     );
   }
-
 }
 
 class DishLogRow {
   DishLog row;
-  DishGetStatusResponse? dish;
-  WifiGetStatusResponse? router;
-  // bool _hasRouter = false;
+  late Snapshot snap;
 
   bool hasDebugData() => row.debugDataJson!=null && row.debugDataJson!="null";
   // bool hasDish() => row.dishStatusJson?.isNotEmpty ?? false;
-  bool hasDish() => dish!=null;
+  bool hasDish() => snap.dishGetStatus!=null;
   // bool hasRouter() => row.wifiStatusJson?.isNotEmpty ?? false;
-  bool hasRouter() => router!=null;
+  bool hasRouter() => snap.routerGetStatus!=null;
 
   DishLogRow(this.row) {
-    if (row.dishStatusJson?.isNotEmpty ?? false) {
-      dish = DishGetStatusResponse.fromBuffer(row.dishStatusJson!);
-    }
-
-    if (row.wifiStatusJson?.isNotEmpty ?? false) {
-      router = WifiGetStatusResponse.fromBuffer(row.wifiStatusJson!);
-    }
-
-    if (row.debugDataJson!=null && row.debugDataJson!="null") {
-      var json = jsonDecode(row.debugDataJson!);
-
-      var jsonDish = json["dish"] as Map<String, dynamic>?;
-      if (jsonDish!=null && jsonDish.containsKey("deviceInfo")) {
-        dish = DishGetStatusResponse();
-        DebugDataHelper.jsonToProto(jsonDish, dish!);
-      }
-
-      var jsonRouter = json['router'] as Map<String, dynamic>?;
-      // _hasRouter = jsonRouter!=null && jsonRouter.containsKey("deviceInfo");
-      if (jsonRouter!=null && jsonRouter.containsKey("deviceInfo")) {
-        router = WifiGetStatusResponse();
-        DebugDataHelper.jsonToProto(jsonRouter, router!);
-      }
-    }
+    snap = Snapshot.ofRow(row);
   }
 }
