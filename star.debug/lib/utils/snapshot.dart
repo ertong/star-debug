@@ -25,6 +25,7 @@ class Snapshot {
   final GetLocationResponse? dishGetLocationGPS;
   final GetLocationResponse? dishGetLocationStarlink;
 
+  final Map<String, dynamic>? onlineJson;
   final DeviceApp? deviceApp;
 
   final Map<String, dynamic>? debug_data;
@@ -44,7 +45,8 @@ class Snapshot {
       this.dishGetLocationGPS,
       this.dishGetLocationStarlink,
       this.deviceApp,
-      this.debug_data
+      this.debug_data,
+      this.onlineJson
       });
 
   String toDebugDataJson(){

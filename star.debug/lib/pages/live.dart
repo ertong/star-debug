@@ -123,14 +123,10 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
 
   Future notify() async {
     setState(() {});
-    var dish = R.dish?.dishGetStatus.data;
+    var snap = buildLiveSnapshot();
+    var dish = snap.dishGetStatus;
     if (dish!=null && dish.hasDeviceInfo() && dish.deviceInfo.hasId()){
-      R.dishLog.notify(dish.deviceInfo.id,
-        dishStatus: dish,
-        wifiStatusJson: R.router?.wifiGetStatus.data,
-        dishHistoryJson: R.dish?.dishGetHistory.data,
-        onlineJson: null
-      );
+      R.dishLog.notify(snap);
     }
   }
 
@@ -255,14 +251,10 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
   Future onSave() async {
     var msg = "";
     try {
-      var dish = R.dish?.dishGetStatus.data;
+      var snap = buildLiveSnapshot();
+      var dish = snap.dishGetStatus;
       if (dish != null && dish.hasDeviceInfo() && dish.deviceInfo.hasId()) {
-        await R.dishLog.forceStore(dish.deviceInfo.id,
-            dishStatus: dish,
-            wifiStatusJson: R.router?.wifiGetStatus.data,
-            dishHistoryJson: R.dish?.dishGetHistory.data,
-            onlineJson: null
-        );
+        await R.dishLog.forceStore(snap);
         msg = "Snapshot saved to DB";
       }
       else {
@@ -314,6 +306,7 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
 }
 
 Snapshot buildLiveSnapshot() {
+
   var dishTs = R.dish?.dishGetStatus.receivedTime;
   if (dishTs!=null) dishTs=dishTs~/1000;
 

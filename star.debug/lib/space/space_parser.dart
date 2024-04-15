@@ -26,22 +26,6 @@ class SpaceParser{
   WifiGetStatusResponse? routerGetStatus;
   Map<String, bool> routerFeatures = {};
 
-  static SpaceParser ofGrpc(int ts, DishGetStatusResponse? dish, WifiGetStatusResponse? router) {
-    SpaceParser p = SpaceParser();
-
-    if (dish!=null) {
-      p.dishGetStatus = dish;
-      p.dishTs = ts~/1000;
-    }
-
-    if (router!=null) {
-      p.routerGetStatus = router;
-      p.routerTs = ts~/1000;
-    }
-
-    return p;
-  }
-
   static SpaceParser ofJsonStr(String json) {
     return ofJson(jsonDecode(json));
   }

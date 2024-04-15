@@ -7,6 +7,7 @@ import 'package:star_debug/db/database.dart';
 import 'package:star_debug/grpc/starlink/starlink.pb.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/utils/log_utils.dart';
+import 'package:star_debug/utils/snapshot.dart';
 import 'package:star_debug/utils/wait_notify.dart';
 
 const String _TAG = "DishLogController";
@@ -19,26 +20,21 @@ class DishLogController {
 
   bool isRunning = false;
 
-  void notify(String dishId, {
-    Map<String, dynamic>? debugData,
-    DishGetStatusResponse? dishStatus,
-    DishGetHistoryResponse? dishHistoryJson,
-    WifiGetStatusResponse? wifiStatusJson,
-    Map<String, dynamic>? onlineJson
-  }) {
+  void notify(Snapshot snap) {
     if (!R.prefs.data.autoStoreDiskLog)
       return;
+    var dishId = snap.dishGetStatus?.deviceInfo.id;
+    var timestamp = snap.dishTs;
+    if (dishId == null || timestamp == null)
+      return;
+
     Record? rec = latestRecord[dishId];
     if (rec==null) {
-      rec = Record();
+      rec = Record(snap);
       rec.dishId = dishId;
       latestRecord[dishId] = rec;
     }
-    rec.debugData = debugData;
-    rec.dishStatus = dishStatus;
-    rec.dishHistoryJson = dishHistoryJson;
-    rec.wifiStatusJson = wifiStatusJson;
-    rec.onlineJson = onlineJson;
+    rec.snap = snap;
     rec.time = DateTime.now().millisecondsSinceEpoch;
     rec.stored = false;
     latestRecord[dishId] = rec;
@@ -47,14 +43,15 @@ class DishLogController {
       unawaited(run());
   }
 
-  Future<Record> ensureRecord(String dishId) async {
+  Future<Record> ensureRecord(String dishId, Snapshot snap) async {
     return mutex.protect(() async{
       Record? rec = latestRecord[dishId];
       if (rec==null) {
-        rec = Record();
+        rec = Record(snap);
         rec.dishId = dishId;
         latestRecord[dishId] = rec;
       }
+      rec.snap = snap;
       if (rec.dish==null) {
         rec.dish = await R.db.dishesDao.getDish(dishId).getSingleOrNull();
         rec.dish ??= await R.db.dishes.insertReturning(
@@ -74,46 +71,47 @@ class DishLogController {
     });
   }
 
-  Future<void> storeDebugData(String dishId, int timestamp, Map<String, dynamic> debugData) async {
-    var res = await R.db.dishesDao.hasDishLog(dishId, timestamp).getSingleOrNull();
+  Future<void> storeDebugData(Snapshot snap) async {
+    var dishId = snap.dishGetStatus?.deviceInfo.id;
+    var timestamp = snap.dishTs;
+
+    if (dishId == null || timestamp == null || snap.debug_data == null)
+      return;
+
+    var res = await R.db.dishesDao.hasDishLog(dishId, timestamp*1000).getSingleOrNull();
 
     if (res==null) {
-      forceStore(dishId, debugData: debugData, timestamp: timestamp);
+      forceStore(snap);
     } else {
       LogUtils.d(_TAG, "Debug data is already saved. Do noothing");
     }
   }
 
-  Future<void> forceStore(String dishId, {
-    Map<String, dynamic>? debugData,
-    DishGetStatusResponse? dishStatus,
-    DishGetHistoryResponse? dishHistoryJson,
-    WifiGetStatusResponse? wifiStatusJson,
-    Map<String, dynamic>? onlineJson,
-    int? timestamp,
-  }) async {
-    var rec = await ensureRecord(dishId);
+  Future<void> forceStore(Snapshot snap) async {
+    var dishId = snap.dishGetStatus?.deviceInfo.id;
+    var timestamp = snap.dishTs;
+
+    if (dishId == null || timestamp == null || snap.debug_data == null)
+      return;
+
+    var rec = await ensureRecord(dishId, snap);
 
     await mutex.protect(() async{
       LogUtils.d(_TAG, "Store FORCED log for ${rec.dishId}");
 
-      rec.debugData = debugData;
-      rec.dishStatus = dishStatus;
-      rec.dishHistoryJson = dishHistoryJson;
-      rec.wifiStatusJson = wifiStatusJson;
-      rec.onlineJson = onlineJson;
-      rec.time = timestamp ?? DateTime.now().millisecondsSinceEpoch;
+      rec.snap = snap;
+      rec.time = timestamp;
       rec.stored = false;
 
       var logToWrite = DishLogsCompanion(
         timestamp: Value(rec.time),
         forceStore: Value(true),
         dishId: Value(rec.dishId),
-        debugDataJson: Value(jsonEncode(debugData)),
-        dishStatusJson: Value(dishStatus?.writeToBuffer()),
-        dishHistoryJson: Value(dishHistoryJson?.writeToBuffer()),
-        wifiStatusJson: Value(wifiStatusJson?.writeToBuffer()),
-        onlineJson: Value(jsonEncode(onlineJson)),
+        debugDataJson: Value(jsonEncode(snap.debug_data)),
+        dishStatusJson: Value(snap.dishGetStatus?.writeToBuffer()),
+        dishHistoryJson: Value(snap.dishGetHistory?.writeToBuffer()),
+        wifiStatusJson: Value(snap.routerGetStatus?.writeToBuffer()),
+        onlineJson: Value(jsonEncode(snap.onlineJson)),
       );
 
       int now = DateTime.now().millisecondsSinceEpoch;
@@ -164,11 +162,11 @@ class DishLogController {
                   timestamp: Value(rec.time),
                   forceStore: Value(false),
                   dishId: Value(rec.dishId),
-                  debugDataJson: Value(jsonEncode(rec.debugData)),
-                  dishStatusJson: Value(rec.dishStatus?.writeToBuffer()),
-                  dishHistoryJson: Value(rec.dishHistoryJson?.writeToBuffer()),
-                  wifiStatusJson: Value(rec.wifiStatusJson?.writeToBuffer()),
-                  onlineJson: Value(jsonEncode(rec.onlineJson)),
+                  debugDataJson: Value(jsonEncode(rec.snap.debug_data)),
+                  dishStatusJson: Value(rec.snap.dishGetStatus?.writeToBuffer()),
+                  dishHistoryJson: Value(rec.snap.dishGetHistory?.writeToBuffer()),
+                  wifiStatusJson: Value(rec.snap.routerGetStatus?.writeToBuffer()),
+                  onlineJson: Value(jsonEncode(rec.snap.onlineJson)),
                 );
 
                 if (rec.dish==null) {
@@ -240,12 +238,7 @@ class DishLogController {
 class Record {
   String dishId = "";
 
-  Map<String, dynamic>? debugData;
-
-  DishGetStatusResponse? dishStatus;
-  DishGetHistoryResponse? dishHistoryJson;
-  WifiGetStatusResponse? wifiStatusJson;
-  Map<String, dynamic>? onlineJson;
+  Snapshot snap;
 
   bool stored = false;
   int time = 0;
@@ -254,4 +247,6 @@ class Record {
 
   Dish? dish;
   DishLog? dishLog;
+
+  Record(this.snap);
 }

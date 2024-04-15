@@ -125,7 +125,7 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
 
     if (!parser.hasData())
       R.showSnackBarText(M.general.no_data_found);
-    else
+    else {
       snap = Snapshot(
           timestamp: parser.dishTs ?? 0,
           dishTs: parser.dishTs,
@@ -142,6 +142,8 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
           // timestampHistory: (R.dish?.dishGetHistory.receivedTime ?? 0) ~/1000,
           // dishGetHistory: R.dish?.dishGetHistory.data,
           );
+      R.dishLog.storeDebugData(snap!);
+    }
 
     setState(() {});
   }

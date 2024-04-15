@@ -9,10 +9,12 @@ import 'package:star_debug/grpc/starlink/starlink.pb.dart';
 import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/pages/debug_data.dart';
 import 'package:star_debug/pages/dialogs/confirm.dart';
+import 'package:star_debug/pages/snapshot.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/space/space_parser.dart';
 import 'package:star_debug/utils/debug_data.dart';
 import 'package:star_debug/utils/format.dart';
+import 'package:star_debug/utils/snapshot.dart';
 import 'package:star_debug/widgets/load_more.dart';
 import 'package:star_debug/widgets/load_more_styled.dart';
 import 'package:time_machine/time_machine.dart';
@@ -171,10 +173,39 @@ class _SnapshotsPageState extends State<SnapshotsPage> with TickerProviderStateM
             await Navigator.push(context,
               MaterialPageRoute(
                 builder: (context) {
-                  SpaceParser p = log.row.debugDataJson!=null && log.row.debugDataJson!="null"
-                      ? SpaceParser.ofJsonStr(log.row.debugDataJson!)
-                      : SpaceParser.ofGrpc(log.row.timestamp, log.dish, log.router);
-                  return DebugDataPage(parser: p);
+
+                  Snapshot? snap;
+
+                  if (log.row.debugDataJson!=null && log.row.debugDataJson!="null") {
+                    var p = SpaceParser.ofJsonStr(log.row.debugDataJson!);
+                    snap = Snapshot(
+                        timestamp: p.dishTs ?? 0,
+                        dishTs: p.dishTs,
+                        dishGetStatus: p.dishGetStatus,
+                        dishFeatures: p.dishFeatures,
+                        dishApiVersion: p.dishApi,
+                        routerTs: p.routerTs,
+                        routerGetStatus: p.routerGetStatus,
+                        routerFeatures: p.routerFeatures,
+                        routerApiVersion: p.routerApi,
+                        deviceApp: p.deviceApp,
+                        debug_data: p.json
+
+                      // timestampHistory: (R.dish?.dishGetHistory.receivedTime ?? 0) ~/1000,
+                      // dishGetHistory: R.dish?.dishGetHistory.data,
+                    );
+                  } else {
+                    snap = Snapshot(
+                        timestamp: log.row.timestamp~/1000,
+                        dishTs: log.row.timestamp~/1000,
+                        dishGetStatus: log.dish,
+                        routerTs: log.row.timestamp~/1000,
+                        routerGetStatus: log.router,
+                    );
+                  }
+
+
+                  return SnapshotPage(snap: snap);
                 },
               ),
             );
