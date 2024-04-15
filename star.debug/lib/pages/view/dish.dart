@@ -11,6 +11,7 @@ import 'package:star_debug/utils/kv_widget.dart';
 import 'package:star_debug/utils/snapshot.dart';
 import 'package:star_debug/utils/view_options.dart';
 import 'package:time_machine/time_machine.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 const String _TAG="DishWidget";
 
@@ -310,4 +311,42 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
       str = "$str\nsigma ${loc.sigmaM.toStringAsFixed(1)}";
     b.kv(key, str, hide: hide);
   }
+}
+
+class _GraphPoint {
+  int t = 0;
+  double value = 0;
+  _GraphPoint(this.t, this.value);
+}
+
+Widget buildGraph(String name, int current, int ts, List<double> data){
+  data = data.sublist(current%900)+data.sublist(0, current%900);
+  var A = [];
+  A.addAll(data);
+  A.sort();
+  double max = A[A.length*95~/100]*1.2;
+
+  var now = Instant.fromEpochMilliseconds(ts).inLocalZone();
+
+  return SizedBox(
+    height: 120,
+    child: SfCartesianChart(
+        title: ChartTitle(text: name, textStyle: TextStyle(fontSize: 10)),
+        primaryXAxis: CategoryAxis(),
+        primaryYAxis: NumericAxis(minimum: 0, maximum: max),
+        enableAxisAnimation: false,
+        series: <CartesianSeries>[
+          LineSeries<_GraphPoint, String>(
+              dataSource:  <_GraphPoint>[
+                for (var i=0; i<data.length; ++i)
+                  _GraphPoint(i, data[i]),
+              ],
+              animationDuration: 0,
+              // xValueMapper: (_GraphPoint pt, _) => "${data.length-pt.t}",
+              xValueMapper: (_GraphPoint pt, _) => "${now.subtract(Time(seconds: data.length-pt.t)).toString("HH:mm:ss")}",
+              yValueMapper: (_GraphPoint pt, _) => pt.value
+          )
+        ]
+    ),
+  );
 }
