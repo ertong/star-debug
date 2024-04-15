@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart' hide Notification, Card, ConnectionState;
 import 'package:star_debug/grpc/starlink/starlink.pbgrpc.dart';
 import 'package:star_debug/messages/i18n.dart';
+import 'package:star_debug/pages/live.dart';
 import 'package:star_debug/pages/view/dish.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:grpc/grpc.dart';
@@ -97,14 +98,9 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
     }
 
     if (conn.dishGetStatus.data!=null && now-conn.dishGetStatus.receivedTime<5000) {
-      DishGetStatusResponse status = conn.dishGetStatus.data!;
 
       rows.add(DishWidget(
-        status: status,
-        features: const {},
-        dishGetLocationGPS: conn.dishGetLocationGPS.validData(),
-        dishGetLocationStarlink: conn.dishGetLocationStarlink.validData(),
-        apiVersion: conn.dishGetStatus.apiVersion,
+        snap: buildLiveSnapshot(),
         viewOptions: ViewOptions(),
       ));
 

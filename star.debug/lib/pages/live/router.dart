@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart' hide Notification, Card, ConnectionState;
 import 'package:star_debug/controller/conn/router_connection.dart';
 import 'package:star_debug/grpc/starlink/starlink.pbgrpc.dart';
+import 'package:star_debug/pages/live.dart';
 import 'package:star_debug/pages/view/router.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:grpc/grpc.dart';
@@ -62,11 +63,8 @@ class _RouterTabState extends State<RouterTab> with TickerProviderStateMixin {
     }
 
     if (conn.wifiGetStatus.data!=null && now-conn.statusReceivedTime<5000) {
-      WifiGetStatusResponse status = conn.wifiGetStatus.data!;
       rows.add(RouterWidget(
-        status: status,
-        features: const {},
-        apiVersion: conn.wifiGetStatus.apiVersion,
+        snap: buildLiveSnapshot(),
         viewOptions: ViewOptions(),
       ));
     }

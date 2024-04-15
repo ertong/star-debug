@@ -8,19 +8,16 @@ import 'package:star_debug/pages/view/common.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/utils/format.dart';
 import 'package:star_debug/utils/kv_widget.dart';
+import 'package:star_debug/utils/snapshot.dart';
 import 'package:star_debug/utils/view_options.dart';
 import 'package:time_machine/time_machine.dart';
 
 const String _TAG="DishWidget";
 
 class DishWidget extends StatefulWidget {
-  final DishGetStatusResponse? status;
-  final GetLocationResponse? dishGetLocationGPS;
-  final GetLocationResponse? dishGetLocationStarlink;
-  final int? apiVersion;
-  final Map<String, bool> features;
   final ViewOptions viewOptions;
-  const DishWidget({super.key, required this.status, required this.features, this.dishGetLocationGPS, this.dishGetLocationStarlink, this.apiVersion, required this.viewOptions});
+  final Snapshot snap;
+  const DishWidget({super.key, required this.viewOptions, required this.snap});
 
   @override
   State createState() => _DishWidgetState();
@@ -55,7 +52,7 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
   List<Widget> _buildBody(){
     List<Widget> rows = [];
 
-    DishGetStatusResponse? status = widget.status;
+    DishGetStatusResponse? status = widget.snap.dishGetStatus;
     if (status!=null) {
       {
         var b = KVWidgetBuilder(context, theme);
@@ -160,13 +157,14 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
       }
 
       if (status.hasDeviceInfo())
-        rows.addAll(buildDeviceInfoWidget(context, theme, status.deviceInfo, apiVersion: widget.apiVersion, opts: opts));
+        rows.addAll(buildDeviceInfoWidget(context, theme, status.deviceInfo, apiVersion: widget.snap.dishApiVersion, opts: opts));
 
-      if (widget.features.isNotEmpty){
+      Map<String, bool> features = widget.snap.dishFeatures ?? {};
+      if (features.isNotEmpty){
         var b = KVWidgetBuilder(context, theme);
         b.header(M.header.features);
 
-        for (var v in widget.features.entries)
+        for (var v in features.entries)
           b.kv(v.key.pascalCase, v.value);
 
         rows.addAll(b.widgets);
@@ -216,10 +214,10 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
         if (stats.hasInhibitGps())
           b.kv(M.grpc.DishGpsStats.inhibit_gps, stats.inhibitGps);
 
-        if (widget.dishGetLocationStarlink!=null)
-          location(b, "Starlink", widget.dishGetLocationStarlink!, hide: opts.hideLocation);
-        if (widget.dishGetLocationGPS!=null)
-          location(b, "GPS", widget.dishGetLocationGPS!, hide: opts.hideLocation);
+        if (widget.snap.dishGetLocationStarlink!=null)
+          location(b, "Starlink", widget.snap.dishGetLocationStarlink!, hide: opts.hideLocation);
+        if (widget.snap.dishGetLocationGPS!=null)
+          location(b, "GPS", widget.snap.dishGetLocationGPS!, hide: opts.hideLocation);
 
         if (b.widgets.length > 1) {
           rows.addAll(b.widgets);

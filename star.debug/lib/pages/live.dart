@@ -145,20 +145,6 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
   ThemeData theme = ThemeData.fallback();
 
-  Snapshot buildLiveSnapshot() {
-    return Snapshot(
-        timestamp: DateTime.now().millisecondsSinceEpoch~/1000,
-        dishGetStatus: R.dish?.dishGetStatus.data,
-        dishApiVersion: R.dish?.dishGetStatus.apiVersion,
-        routerGetStatus: R.router?.wifiGetStatus.data,
-        routerApiVersion: R.router?.wifiGetStatus.apiVersion,
-        timestampHistory: (R.dish?.dishGetHistory.receivedTime ?? 0) ~/1000,
-        dishGetHistory: R.dish?.dishGetHistory.data,
-        dishGetLocationGPS: R.dish?.dishGetLocationGPS.validData(),
-        dishGetLocationStarlink: R.dish?.dishGetLocationStarlink.validData(),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     theme = Theme.of(context);
@@ -320,9 +306,34 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
 
     await showDialog<String>(context: context, builder: (c) {
       return ShareScreenshot(
-          snap: buildLiveSnapshot(),
+          snap: snap,
       );
     });
 
   }
+}
+
+Snapshot buildLiveSnapshot() {
+  var dishTs = R.dish?.dishGetStatus.receivedTime;
+  if (dishTs!=null) dishTs=dishTs~/1000;
+
+  var routerTs = R.router?.wifiGetStatus.receivedTime;
+  if (routerTs!=null) routerTs=routerTs~/1000;
+
+  var historyTs = R.dish?.dishGetHistory.receivedTime;
+  if (historyTs!=null) historyTs=historyTs~/1000;
+
+  return Snapshot(
+    timestamp: DateTime.now().millisecondsSinceEpoch~/1000,
+    dishTs: dishTs,
+    dishGetStatus: R.dish?.dishGetStatus.data,
+    dishApiVersion: R.dish?.dishGetStatus.apiVersion,
+    routerTs: routerTs,
+    routerGetStatus: R.router?.wifiGetStatus.data,
+    routerApiVersion: R.router?.wifiGetStatus.apiVersion,
+    historyTs: historyTs,
+    dishGetHistory: R.dish?.dishGetHistory.data,
+    dishGetLocationGPS: R.dish?.dishGetLocationGPS.validData(),
+    dishGetLocationStarlink: R.dish?.dishGetLocationStarlink.validData(),
+  );
 }

@@ -15,6 +15,7 @@ class SpaceParser{
   Map<String, dynamic>? jsonRouter;
   Map<String, dynamic>? jsonApp;
 
+  /// seconds
   int? dishTs;
   int? dishApi;
   DishGetStatusResponse? dishGetStatus;

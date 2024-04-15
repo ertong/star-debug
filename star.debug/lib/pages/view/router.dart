@@ -7,16 +7,15 @@ import 'package:star_debug/pages/view/common.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/utils/format.dart';
 import 'package:star_debug/utils/kv_widget.dart';
+import 'package:star_debug/utils/snapshot.dart';
 import 'package:star_debug/utils/view_options.dart';
 
 const String _TAG="RouterWidget";
 
 class RouterWidget extends StatefulWidget {
-  final WifiGetStatusResponse? status;
-  final Map<String, bool> features;
-  final int? apiVersion;
+  final Snapshot snap;
   final ViewOptions viewOptions;
-  const RouterWidget({super.key, required this.status, required this.features, this.apiVersion, required this.viewOptions});
+  const RouterWidget({super.key, required this.viewOptions, required this.snap});
 
   @override
   State createState() => _RouterWidgetState();
@@ -38,7 +37,7 @@ class _RouterWidgetState extends State<RouterWidget> with TickerProviderStateMix
   List<Widget> _buildBody(){
     List<Widget> rows = [];
 
-    WifiGetStatusResponse? status = widget.status;
+    WifiGetStatusResponse? status = widget.snap.routerGetStatus;
     if (status!=null) {
 
       {
@@ -97,13 +96,14 @@ class _RouterWidgetState extends State<RouterWidget> with TickerProviderStateMix
         rows.addAll(buildAlertsWidget(context, theme, status.alerts.toProto3Json() as Map<String, dynamic>));
 
       if (status.hasDeviceInfo())
-        rows.addAll(buildDeviceInfoWidget(context, theme, status.deviceInfo, apiVersion: widget.apiVersion, opts: opts));
+        rows.addAll(buildDeviceInfoWidget(context, theme, status.deviceInfo, apiVersion: widget.snap.routerApiVersion, opts: opts));
 
-      if (widget.features.isNotEmpty){
+      var features = widget.snap.routerFeatures ?? {};
+      if (features.isNotEmpty){
         var b = KVWidgetBuilder(context, theme);
         b.header(M.header.features);
 
-        for (var v in widget.features.entries)
+        for (var v in features.entries)
           b.kv(v.key.pascalCase, v.value);
 
         rows.addAll(b.widgets);

@@ -124,11 +124,7 @@ class _ShareScreenshotState<TItem> extends State<ShareScreenshot<TItem>>
                   padding: EdgeInsets.all(10),
                   width: 380,
                   child: DishWidget(
-                    status: widget.snap.dishGetStatus,
-                    features: const {},
-                    dishGetLocationGPS: widget.snap.dishGetLocationGPS,
-                    dishGetLocationStarlink: widget.snap.dishGetLocationStarlink,
-                    apiVersion: widget.snap.dishApiVersion,
+                    snap: widget.snap,
                     viewOptions: viewOptions,
                   ),
                 ),
@@ -137,9 +133,7 @@ class _ShareScreenshotState<TItem> extends State<ShareScreenshot<TItem>>
                   padding: EdgeInsets.all(10),
                   width: 380,
                   child: RouterWidget(
-                    status: widget.snap.routerGetStatus,
-                    features: const {},
-                    apiVersion: widget.snap.routerApiVersion,
+                    snap: widget.snap,
                     viewOptions: viewOptions,
                   ),
                 ),
@@ -206,7 +200,7 @@ class _ShareScreenshotState<TItem> extends State<ShareScreenshot<TItem>>
     if (history==null)
       return items;
 
-    var time = widget.snap.timestampHistory ?? widget.snap.timestamp;
+    var time = widget.snap.historyTs ?? widget.snap.timestamp;
 
     items.add(buildGraph(M.grpc.DishGetStatus.pop_ping_latency_ms, history.current.toInt(), time, history.popPingLatencyMs));
     items.add(buildGraph(M.grpc.DishGetStatus.pop_ping_drop_rate, history.current.toInt(), time, history.popPingDropRate));
