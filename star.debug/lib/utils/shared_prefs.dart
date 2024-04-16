@@ -1,12 +1,13 @@
 import 'dart:async';
 
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:star_debug/preloaded.dart';
 
 class Prefs{
   String? lang;
   String? lastSystemLang;
 
-  bool darkMode = false;
+  bool darkMode = R.features.defaultDarkMode;
 
   bool autoStoreDiskLog = true;
 

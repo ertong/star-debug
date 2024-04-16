@@ -5,6 +5,7 @@ class Features {
   bool checkIpV6 = true;
   bool routerOptional = false;
   bool shareScreenshot = true;
+  bool defaultDarkMode = true;
 
   // ***
 
