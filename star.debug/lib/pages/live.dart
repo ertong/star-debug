@@ -1,21 +1,32 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
+import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart' hide Notification, Card, ConnectionState;
+import 'package:grpc/grpc.dart';
+import 'package:screenshot/screenshot.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:star_debug/controller/conn/connection.dart';
 import 'package:star_debug/controller/conn/grpc_connection.dart';
+import 'package:star_debug/controller/conn/router_connection.dart';
 import 'package:star_debug/drawer.dart';
 import 'package:star_debug/grpc/starlink/starlink.pb.dart';
 import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/pages/dialogs/save_debug_data.dart';
+import 'package:star_debug/pages/dialogs/share_screenshot.dart';
 import 'package:star_debug/pages/live/dish.dart';
 import 'package:star_debug/pages/live/general.dart';
 import 'package:star_debug/pages/live/online.dart';
+import 'package:star_debug/pages/view/dish.dart';
+import 'package:star_debug/pages/view/router.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/routes.dart';
 import 'package:star_debug/utils/api_helper.dart';
 import 'package:star_debug/utils/debug_data.dart';
 import 'package:star_debug/utils/log_utils.dart';
+import 'package:star_debug/utils/snapshot.dart';
 
 import 'live/router.dart';
 
@@ -35,8 +46,12 @@ class _Page {
   Widget Function() builder;
   Color Function() color;
   int Function()? alert;
+  bool Function()? visible;
+  late ValueKey<_Page> key;
 
-  _Page(this.icon, this.label, this.color, this.builder, {this.alert});
+  _Page(this.icon, this.label, this.color, this.builder, {this.alert, this.visible}) {
+    key = ValueKey(this);
+  }
 }
 
 class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
@@ -47,6 +62,7 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
   var scrollController = ScrollController();
   int _selectedIndex=0;
   List<_Page> pages = [];
+  List<_Page> visiblePages = [];
 
   @override
   void initState() {
@@ -59,7 +75,7 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
         Icons.settings_input_antenna,
         () => M.header.general,
         () => Colors.black,
-        () => GeneralTab(),
+        () => scrolledPage(GeneralTab()),
         // alert: () { return 0; }
     ));
 
@@ -67,7 +83,7 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
         Icons.settings_input_antenna,
         () => M.general.dish,
         () => colorOf(R.dishHolder),
-        () => DishTab(),
+        () => scrolledPage(DishTab()),
         alert: () {
           DishGetStatusResponse? data = R.dish?.dishGetStatus.data;
           if (data==null) return 0;
@@ -78,11 +94,14 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
         Icons.router,
         () => M.general.router,
         () => colorOf(R.routerHolder),
-        () => RouterTab(),
+        () => scrolledPage(RouterTab()),
         alert: () {
           var data = R.router?.wifiGetStatus.data;
           if (data==null) return 0;
           return data.countAlerts();
+        },
+        visible: () {
+          return !R.features.routerOptional || R.router?.wifiGetStatus.data!=null;
         }
     ));
     pages.add(_Page(
@@ -95,7 +114,7 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
 
           return online.isOk ? Colors.green : Colors.red;
         },
-        () => OnlineTab(),
+        () => scrolledPage(OnlineTab()),
         alert: () {
           return R.online?.cntNotOk ?? 0;
         }
@@ -104,14 +123,10 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
 
   Future notify() async {
     setState(() {});
-    var dish = R.dish?.dishGetStatus.data;
+    var snap = buildLiveSnapshot();
+    var dish = snap.dishGetStatus;
     if (dish!=null && dish.hasDeviceInfo() && dish.deviceInfo.hasId()){
-      R.dishLog.notify(dish.deviceInfo.id,
-        dishStatus: dish,
-        wifiStatusJson: R.router?.wifiGetStatus.data,
-        dishHistoryJson: R.dish?.dishGetHistory.data,
-        onlineJson: null
-      );
+      R.dishLog.notify(snap);
     }
   }
 
@@ -132,10 +147,12 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
 
     Widget? bar;
 
-    if (pages.isNotEmpty) {
+    visiblePages = [for (var p in pages) if (p.visible?.call() ?? true) p];
+
+    if (visiblePages.isNotEmpty) {
       List<BottomNavigationBarItem> items = [];
-      for(int i=0; i<pages.length; ++i) {
-        var p = pages[i];
+      for(int i=0; i<visiblePages.length; ++i) {
+        var p = visiblePages[i];
 
         int alerts = 0;
 
@@ -145,6 +162,7 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
         var icon = Icon(p.icon, color: p.color().withAlpha(_selectedIndex==i?255:100),);
         items.add(BottomNavigationBarItem(
           label: p.label(),
+          key: p.key,
           icon: alerts==0
               ? icon
               : Badge(
@@ -160,7 +178,8 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
         type: BottomNavigationBarType.fixed,
         onTap: (idx) {
           _selectedIndex = idx;
-          scrollController.jumpTo(0);
+          if (scrollController.hasClients)
+            scrollController.jumpTo(0);
           setState(() {});
         },
       );
@@ -173,15 +192,7 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
         appBar: _buildBar(context) as PreferredSizeWidget?,
         drawer: AppDrawer(selectedRoute: Routes.LIVE),
         bottomNavigationBar: bar,
-        body: Stack(
-          children: [
-            Container(
-              width: MediaQuery.of(context).size.width,
-              padding: EdgeInsets.all(10.0),
-              child: SingleChildScrollView(controller: scrollController, child: pages[_selectedIndex].builder(),),
-            ),
-          ],
-        ),
+        body: visiblePages[_selectedIndex].builder(),
       ),
     );
   }
@@ -199,62 +210,32 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
     return color;
   }
 
+  Widget scrolledPage(Widget child) {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      padding: EdgeInsets.all(10.0),
+      child: SingleChildScrollView(controller: scrollController, child: child),
+    );
+  }
 
   Widget _buildBar(BuildContext context) {
     return AppBar(
       actions: [
         if (R.dish?.dishGetStatus.data!=null)
-            TextButton(
-                onPressed: () async {
-                  var msg = "";
-                  try {
-                    var dish = R.dish?.dishGetStatus.data;
-                    if (dish != null && dish.hasDeviceInfo() && dish.deviceInfo.hasId()) {
-                      await R.dishLog.forceStore(dish.deviceInfo.id,
-                          dishStatus: dish,
-                          wifiStatusJson: R.router?.wifiGetStatus.data,
-                          dishHistoryJson: R.dish?.dishGetHistory.data,
-                          onlineJson: null
-                      );
-                      msg = "Snapshot saved to DB";
-                    }
-                    else {
-                      msg = "Not enough data to save";
-                    }
-                  } catch(e,s){
-                    msg = "$e";
-                    LogUtils.ers(_TAG, "", e, s);
-                  }
-                  R.showSnackBarText(msg);
-                },
-                child: Icon(Icons.save, color: Colors.white,)
+            IconButton(
+                onPressed: onSave,
+                icon: Icon(Icons.save, color: Colors.white,)
             ),
         if (R.dish?.dishGetStatus.data!=null || R.router?.wifiGetStatus.data!=null)
-          TextButton(
-              onPressed: () async {
-                if (R.dish?.dishGetStatus.data==null && R.router?.wifiGetStatus.data==null)
-                  return;
-                try {
-                  var data = DebugDataHelper.debugData(
-                      R.dish?.dishGetStatus.data,
-                      R.dish?.dishGetStatus.apiVersion,
-                      R.router?.wifiGetStatus.data,
-                      R.router?.wifiGetStatus.apiVersion
-                  );
-                  await showDialog<String>(context: context, builder: (c) {
-                    return SaveDebugDataDialog(
-                        data: JsonEncoder.withIndent("  ").convert(data),
-                        uid: data["dish"]?["deviceInfo"]?["id"] ?? data["router"]?["deviceInfo"]?["id"]
-                    );
-                  });
-                }catch(e,s){
-                  LogUtils.ers(_TAG, "", e, s);
-                  R.showSnackBarText("$e");
-                }
-              },
-              child: Icon(Icons.share, color: Colors.white,)
+          IconButton(
+              onPressed: onShare,
+            icon: Icon(Icons.share, color: Colors.white,),
           ),
-
+        if (R.features.shareScreenshot && (R.dish?.dishGetStatus.data!=null || R.router?.wifiGetStatus.data!=null))
+          IconButton(
+              onPressed: onScreenshot,
+              icon: Icon(Icons.photo_camera_outlined, color: Colors.white,)
+          ),
       ],
       title: Row(
         children: [
@@ -267,4 +248,75 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
     );
   }
 
+  Future onSave() async {
+    var msg = "";
+    try {
+      var snap = buildLiveSnapshot();
+      var dish = snap.dishGetStatus;
+      if (dish != null && dish.hasDeviceInfo() && dish.deviceInfo.hasId()) {
+        await R.dishLog.forceStore(snap);
+        msg = "Snapshot saved to DB";
+      }
+      else {
+        msg = "Not enough data to save";
+      }
+    } catch(e,s){
+      msg = "$e";
+      LogUtils.ers(_TAG, "", e, s);
+    }
+    R.showSnackBarText(msg);
+  }
+
+  Future onShare() async {
+    if (R.dish?.dishGetStatus.data == null && R.router?.wifiGetStatus.data == null)
+      return;
+    try {
+      var data = DebugDataHelper.debugData(
+          R.dish?.dishGetStatus.data,
+          R.dish?.dishGetStatus.apiVersion,
+          R.router?.wifiGetStatus.data,
+          R.router?.wifiGetStatus.apiVersion
+      );
+      await showDialog<String>(context: context, builder: (c) {
+        return SaveDebugDataDialog(
+            data: JsonEncoder.withIndent("  ").convert(data),
+            uid: data["dish"]?["deviceInfo"]?["id"] ?? data["router"]?["deviceInfo"]?["id"]
+        );
+      });
+    } catch (e, s) {
+      LogUtils.ers(_TAG, "", e, s);
+      R.showSnackBarText("$e");
+    }
+  }
+
+  Future onScreenshot() async {
+    var snap = buildLiveSnapshot();
+    if (snap.dishGetStatus?.deviceInfo.id==null) {
+      R.showSnackBarText("No data available");
+      return;
+    }
+
+    await showDialog<String>(context: context, builder: (c) {
+      return ShareScreenshot(
+          snap: snap,
+      );
+    });
+
+  }
+}
+
+Snapshot buildLiveSnapshot() {
+  return Snapshot(
+    timestamp: DateTime.now().millisecondsSinceEpoch,
+    dishTs: R.dish?.dishGetStatus.receivedTime,
+    dishGetStatus: R.dish?.dishGetStatus.data,
+    dishApiVersion: R.dish?.dishGetStatus.apiVersion,
+    routerTs: R.router?.wifiGetStatus.receivedTime,
+    routerGetStatus: R.router?.wifiGetStatus.data,
+    routerApiVersion: R.router?.wifiGetStatus.apiVersion,
+    historyTs: R.dish?.dishGetHistory.receivedTime,
+    dishGetHistory: R.dish?.dishGetHistory.data,
+    dishGetLocationGPS: R.dish?.dishGetLocationGPS.validData(),
+    dishGetLocationStarlink: R.dish?.dishGetLocationStarlink.validData(),
+  );
 }

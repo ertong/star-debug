@@ -1,5 +1,6 @@
 
 import 'dart:async';
+import 'dart:io';
 
 import 'package:star_debug/utils/log_utils.dart';
 
@@ -47,7 +48,7 @@ class ConnectionHolder<T extends BaseConnection> {
       conn = null;
     }
 
-    if (timePaused>0 && now-timePaused>5000) {
+    if (!Platform.isWindows && timePaused>0 && now-timePaused>5000) {
       conn?.close();
       conn = null;
     }

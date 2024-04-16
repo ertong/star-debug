@@ -8,17 +8,17 @@ import 'package:star_debug/pages/view/common.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/utils/format.dart';
 import 'package:star_debug/utils/kv_widget.dart';
+import 'package:star_debug/utils/snapshot.dart';
+import 'package:star_debug/utils/view_options.dart';
 import 'package:time_machine/time_machine.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 const String _TAG="DishWidget";
 
 class DishWidget extends StatefulWidget {
-  final DishGetStatusResponse? status;
-  final GetLocationResponse? dishGetLocationGPS;
-  final GetLocationResponse? dishGetLocationStarlink;
-  final int? apiVersion;
-  final Map<String, bool> features;
-  const DishWidget({super.key, required this.status, required this.features, this.dishGetLocationGPS, this.dishGetLocationStarlink, this.apiVersion});
+  final ViewOptions viewOptions;
+  final Snapshot snap;
+  const DishWidget({super.key, required this.viewOptions, required this.snap});
 
   @override
   State createState() => _DishWidgetState();
@@ -36,10 +36,14 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
   }
 
   ThemeData theme = ThemeData.fallback();
+  late ViewOptions opts;
+
 
   @override
   Widget build(BuildContext context) {
     theme = Theme.of(context);
+    opts = widget.viewOptions;
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: _buildBody(),
@@ -49,7 +53,7 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
   List<Widget> _buildBody(){
     List<Widget> rows = [];
 
-    DishGetStatusResponse? status = widget.status;
+    DishGetStatusResponse? status = widget.snap.dishGetStatus;
     if (status!=null) {
       {
         var b = KVWidgetBuilder(context, theme);
@@ -154,13 +158,14 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
       }
 
       if (status.hasDeviceInfo())
-        rows.addAll(buildDeviceInfoWidget(context, theme, status.deviceInfo, apiVersion: widget.apiVersion));
+        rows.addAll(buildDeviceInfoWidget(context, theme, status.deviceInfo, apiVersion: widget.snap.dishApiVersion, opts: opts));
 
-      if (widget.features.isNotEmpty){
+      Map<String, bool> features = widget.snap.dishFeatures ?? {};
+      if (features.isNotEmpty){
         var b = KVWidgetBuilder(context, theme);
         b.header(M.header.features);
 
-        for (var v in widget.features.entries)
+        for (var v in features.entries)
           b.kv(v.key.pascalCase, v.value);
 
         rows.addAll(b.widgets);
@@ -210,10 +215,10 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
         if (stats.hasInhibitGps())
           b.kv(M.grpc.DishGpsStats.inhibit_gps, stats.inhibitGps);
 
-        if (widget.dishGetLocationStarlink!=null)
-          location(b, "Starlink", widget.dishGetLocationStarlink!);
-        if (widget.dishGetLocationGPS!=null)
-          location(b, "GPS", widget.dishGetLocationGPS!);
+        if (widget.snap.dishGetLocationStarlink!=null)
+          location(b, "Starlink", widget.snap.dishGetLocationStarlink!, hide: opts.hideLocation);
+        if (widget.snap.dishGetLocationGPS!=null)
+          location(b, "GPS", widget.snap.dishGetLocationGPS!, hide: opts.hideLocation);
 
         if (b.widgets.length > 1) {
           rows.addAll(b.widgets);
@@ -296,7 +301,7 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
     return rows;
   }
 
-  void location(KVWidgetBuilder b, String key, GetLocationResponse loc) {
+  void location(KVWidgetBuilder b, String key, GetLocationResponse loc, {bool hide = false}) {
     if (loc.lla.lat.isNaN) {
       b.kv(key, "N/A");
       return;
@@ -304,6 +309,44 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
     var str = "lat ${loc.lla.lat.toStringAsFixed(4)} lon ${loc.lla.lon.toStringAsFixed(4)} alt ${loc.lla.alt.toStringAsFixed(0)}m";
     if (loc.source==PositionSource.STARLINK)
       str = "$str\nsigma ${loc.sigmaM.toStringAsFixed(1)}";
-    b.kv(key, str);
+    b.kv(key, str, hide: hide);
   }
+}
+
+class _GraphPoint {
+  int t = 0;
+  double value = 0;
+  _GraphPoint(this.t, this.value);
+}
+
+Widget buildGraph(String name, int current, int ts, List<double> data){
+  data = data.sublist(current%900)+data.sublist(0, current%900);
+  var A = [];
+  A.addAll(data);
+  A.sort();
+  double max = A[A.length*95~/100]*1.2;
+
+  var now = Instant.fromEpochMilliseconds(ts).inLocalZone();
+
+  return SizedBox(
+    height: 120,
+    child: SfCartesianChart(
+        title: ChartTitle(text: name, textStyle: TextStyle(fontSize: 10)),
+        primaryXAxis: CategoryAxis(),
+        primaryYAxis: NumericAxis(minimum: 0, maximum: max),
+        enableAxisAnimation: false,
+        series: <CartesianSeries>[
+          LineSeries<_GraphPoint, String>(
+              dataSource:  <_GraphPoint>[
+                for (var i=0; i<data.length; ++i)
+                  _GraphPoint(i, data[i]),
+              ],
+              animationDuration: 0,
+              // xValueMapper: (_GraphPoint pt, _) => "${data.length-pt.t}",
+              xValueMapper: (_GraphPoint pt, _) => "${now.subtract(Time(seconds: data.length-pt.t)).toString("HH:mm:ss")}",
+              yValueMapper: (_GraphPoint pt, _) => pt.value
+          )
+        ]
+    ),
+  );
 }
