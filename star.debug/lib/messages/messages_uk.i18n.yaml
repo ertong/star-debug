@@ -114,9 +114,6 @@ wifi:
   setup_ssid_and_password: Налаштувати SSID та пароль
   keep_default_wifi_settings: STARLINK/без пароля
   enable_bypass_mode: Увімкнути режим Bypass
-#  setup_ssid_pass(ssid, pass): You selected network name "$ssid" and password "$pass". Confirm?
-#  setup_default: You have selected to leave default network name "STARLINK" and no password. Confirm?
-#  setup_bypass: You have selected to enable bypass mode. Router will be not accessible in this mode until next hardware reset. Confirm?
   setup_ssid_pass(ssid, pass): Ви обрали назву мережі "$ssid" та пароль "$pass". Вірно?
   setup_default: Ви вирішили залишити назву мережі за замовчуванням "STARLINK" і без пароля. Вірно?
   setup_bypass: Ви обрали активувати mypass mode. Роутер буде недоступний в цьому режимі аж до наступного апаратного скидання. Підтвердити?
@@ -311,11 +308,11 @@ grpc:
     actuator_state: actuator_state
     tilt_angle_deg: tilt_angle_deg
     boresight_azimuth_deg: Panel boresight Azimuth angle, deg
-    boresight_elevation_deg: Panel boresight Elevation agngle, deg
+    boresight_elevation_deg: Panel boresight Elevation angle, deg
     attitude_estimation_state: Attitude estimation state
     attitude_uncertainty_deg: Attitude uncertainty, deg
     desired_boresight_azimuth_deg: Desired boresight Azimuth angle, deg
-    desired_boresight_elevation_deg: Desired boresight Elevation agngle, deg
+    desired_boresight_elevation_deg: Desired boresight Elevation angle, deg
   ClientName:
     mac_address: mac_address
     given_name: given_name
@@ -405,7 +402,7 @@ grpc:
     associated_time_s: Associated time, s
     mode_str: mode_str
     iface: Інтерфейс
-    snr: Signal to noice
+    snr: Signal to noise
     psmode: psmode
     channel_width: channel_width
     upstream_mac_address: upstream_mac_address

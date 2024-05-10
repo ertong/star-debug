@@ -204,8 +204,8 @@ class _ShareScreenshotState<TItem> extends State<ShareScreenshot<TItem>>
 
     items.add(buildGraph(M.grpc.DishGetStatus.pop_ping_latency_ms, history.current.toInt(), time, history.popPingLatencyMs));
     items.add(buildGraph(M.grpc.DishGetStatus.pop_ping_drop_rate, history.current.toInt(), time, history.popPingDropRate));
-    items.add(buildGraph("Uplink, MB/s", history.current.toInt(), time, [for (var v in history.uplinkThroughputBps) v/1024/1024]));
-    items.add(buildGraph("Downlink, MB/s", history.current.toInt(), time, [for (var v in history.downlinkThroughputBps) v/1024/1024]));
+    items.add(buildGraph("Uplink, Mb/s", history.current.toInt(), time, [for (var v in history.uplinkThroughputBps) v/1024/1024]));
+    items.add(buildGraph("Downlink, Mb/s", history.current.toInt(), time, [for (var v in history.downlinkThroughputBps) v/1024/1024]));
 
     return items;
   }

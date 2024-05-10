@@ -1452,10 +1452,10 @@ class AlignmentStatsGrpcMessagesUk extends AlignmentStatsGrpcMessages {
   String get boresight_azimuth_deg => """Panel boresight Azimuth angle, deg""";
 
   /// ```dart
-  /// "Panel boresight Elevation agngle, deg"
+  /// "Panel boresight Elevation angle, deg"
   /// ```
   String get boresight_elevation_deg =>
-      """Panel boresight Elevation agngle, deg""";
+      """Panel boresight Elevation angle, deg""";
 
   /// ```dart
   /// "Attitude estimation state"
@@ -1474,10 +1474,10 @@ class AlignmentStatsGrpcMessagesUk extends AlignmentStatsGrpcMessages {
       """Desired boresight Azimuth angle, deg""";
 
   /// ```dart
-  /// "Desired boresight Elevation agngle, deg"
+  /// "Desired boresight Elevation angle, deg"
   /// ```
   String get desired_boresight_elevation_deg =>
-      """Desired boresight Elevation agngle, deg""";
+      """Desired boresight Elevation angle, deg""";
 }
 
 class ClientNameGrpcMessagesUk extends ClientNameGrpcMessages {
@@ -1921,9 +1921,9 @@ class WifiClientGrpcMessagesUk extends WifiClientGrpcMessages {
   String get iface => """Інтерфейс""";
 
   /// ```dart
-  /// "Signal to noice"
+  /// "Signal to noise"
   /// ```
-  String get snr => """Signal to noice""";
+  String get snr => """Signal to noise""";
 
   /// ```dart
   /// "psmode"
@@ -2454,7 +2454,7 @@ Map<String, String> get messagesUkMap => {
       """grpc.AlignmentStats.boresight_azimuth_deg""":
           """Panel boresight Azimuth angle, deg""",
       """grpc.AlignmentStats.boresight_elevation_deg""":
-          """Panel boresight Elevation agngle, deg""",
+          """Panel boresight Elevation angle, deg""",
       """grpc.AlignmentStats.attitude_estimation_state""":
           """Attitude estimation state""",
       """grpc.AlignmentStats.attitude_uncertainty_deg""":
@@ -2462,7 +2462,7 @@ Map<String, String> get messagesUkMap => {
       """grpc.AlignmentStats.desired_boresight_azimuth_deg""":
           """Desired boresight Azimuth angle, deg""",
       """grpc.AlignmentStats.desired_boresight_elevation_deg""":
-          """Desired boresight Elevation agngle, deg""",
+          """Desired boresight Elevation angle, deg""",
       """grpc.ClientName.mac_address""": """mac_address""",
       """grpc.ClientName.given_name""": """given_name""",
       """grpc.Network.ipv4""": """ipv4""",
@@ -2556,7 +2556,7 @@ Map<String, String> get messagesUkMap => {
       """grpc.WifiClient.associated_time_s""": """Associated time, s""",
       """grpc.WifiClient.mode_str""": """mode_str""",
       """grpc.WifiClient.iface""": """Інтерфейс""",
-      """grpc.WifiClient.snr""": """Signal to noice""",
+      """grpc.WifiClient.snr""": """Signal to noise""",
       """grpc.WifiClient.psmode""": """psmode""",
       """grpc.WifiClient.channel_width""": """channel_width""",
       """grpc.WifiClient.upstream_mac_address""": """upstream_mac_address""",
