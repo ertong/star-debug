@@ -27,7 +27,7 @@ general:
   security: Security
   device_app: Device App
   open_json_file: Open JSON file
-  open_clipboard: Open JSON from clipboard
+  open_clipboard: Open JSON from the clipboard
   debug_data_viewer: Debug Data Viewer
   no_data_found: No data found
   dark_mode: Dark mode
@@ -62,7 +62,7 @@ my:
   my_starlinks: My Starlinks
   snapshots: Snapshots
   delete_snapshot_prompt(id, ts): Do you want to delete snapshot of dish $id for $ts?
-  delete_all_snapshots_but_last_prompt(id): Do you want to delete ALL snapshot of dish $id but last?
+  delete_all_snapshots_but_last_prompt(id): Do you want to delete ALL snapshots of dish $id but last?
   delete_dish_prompt(id): Do you want to delete dish $id?
   delete_all_dished_prompt: Do you want to delete data for ALL dishes?
 
@@ -74,7 +74,7 @@ about:
   about_text: |
     This application was created as part of the volunteer initiative "**Narodnyi Starlink**" for the needs 
     of people who care about the availability of communications even in the places where 
-    the russian aggressor tries to turn cities into ashes.
+    the russian aggressor is trying to turn cities into ashes.
   project_on_github: Project on GitHub
 
 settings:
@@ -93,10 +93,10 @@ valkyrie:
     The possible options are:
     
       - **Found** - BSSID is found in the Valkyrie database. It means its location can be exposed online. 
-      - **Not found** - BSSID is not found in the Valkyrie database ... at least yet.   
+      - **Not found** - BSSID is not found in the Valkyrie database ... at least not yet.   
 
     In any case, it is recommended to change BSSID regularly for security-critical usage. 
-    If not, it is possible that it will help to expose the location of connected devices. 
+    If not, it may help to expose the location of connected devices. 
     Moreover, in the case of a moving router, its route can be followed.
 wifi:
   setup: Setup
@@ -110,8 +110,8 @@ wifi:
   keep_default_wifi_settings: STARLINK/no password
   enable_bypass_mode: Enable bypass mode
   setup_ssid_pass(ssid, pass): You have selected network name "$ssid" and password "$pass". Confirm?
-  setup_default: You have selected to leave default network name "STARLINK" and no password. Confirm?
-  setup_bypass: You have selected to enable bypass mode. Router will be not accessible in this mode until next hardware reset. Confirm?
+  setup_default: You have selected to leave the default network name "STARLINK" and no password. Confirm?
+  setup_bypass: You have selected to enable bypass mode. The router will be not accessible in this mode until the next hardware reset. Confirm?
   more_8_chars: 8 chars or more
 
 live:
@@ -224,13 +224,13 @@ grpc:
       The reason why the dish is offline. The possible options are:
       
       - **UNKNOWN**
-      - **BOOTING** - Dish is trying to initialize satellite connection. 
+      - **BOOTING** - Dish is trying to initialize a satellite connection. 
         Should not hang in this state for too long. Most of the time, it is waiting for GPS.
       - **STOWED** - The dish is stowed to be packaged for storage.
-      - **THERMAL_SHUTDOWN** - Dish is overheated. Waiting to cooldown.
+      - **THERMAL_SHUTDOWN** - Dish is overheated. Waiting to cool down.
       - **NO_SCHEDULE**
       - **NO_SATS** - No enough GPS signal received.
-      - **OBSTRUCTED** - Too many signal obstructions. Ensure the dish has 140° view of the sky
+      - **OBSTRUCTED** - Too many signal obstructions. Ensure the dish has a 140° view of the sky
         (at least in the part, where it is usually oriented).
       - **NO_DOWNLINK** - No downlink from satellites is established.
       - OTHER_OPTIONS
@@ -241,7 +241,7 @@ grpc:
   DishGpsStats:
     gps_valid: GPS valid
     gps_sats: GPS satellites
-    no_sats_after_ttff: No GPS satellites after first fix
+    no_sats_after_ttff: No GPS satellites after a first fix
     inhibit_gps: Don't trust Dishy's GPS
 
   DishReadyStates:
@@ -257,10 +257,10 @@ grpc:
     location_request_mode: Location request mode
     location_request_mode__hint: |
       The possible options are:
-      - **NONE** - Starlink does not expose it's location to the local network.
-      - **LOCAL** - Starlink exposes it's location to the local network via DHCP and dish API.
+      - **NONE** - Starlink does not expose its location to the local network.
+      - **LOCAL** - Starlink exposes its location to the local network via DHCP and dish API.
       
-      In order to change this setting, you need the original Starlink app with logged in account 
+      In order to change this setting, you need the original Starlink app with a logged-in account 
       with internet access and dish access. You can find this setting in 
       *Advanced* -> *Debug Data* -> *Allow access on local network*.
 
@@ -283,7 +283,7 @@ grpc:
 
   DishGetStatus:
     uptime_s: Uptime
-    uptime_s__hint: Time the dish is running since the last reboot.
+    uptime_s__hint: Time the dish has been running since the last reboot.
     seconds_to_first_nonempty_slot: Seconds to first non-empty slot
     fraction_obstructed: fraction_obstructed
     valid_s: valid_s
@@ -311,7 +311,7 @@ grpc:
 
     stow_requested: Stow requested
     boresight_azimuth_deg: Panel boresight Azimuth angle, deg
-    boresight_elevation_deg: Panel boresight Elevation agngle, deg
+    boresight_elevation_deg: Panel boresight Elevation angle, deg
 
     eth_speed_mbps: Ethernet speed, Mbps
     mobility_class: Mobility class
@@ -319,7 +319,7 @@ grpc:
       The possible options are:
       
       - OTHER_OPTIONS
-    is_snr_above_noise_floor: SNR above noise floor
+    is_snr_above_noise_floor: SNR above the noise floor
 
     class_of_service: Class of service
     software_update_state: Software update state
@@ -336,11 +336,11 @@ grpc:
     actuator_state: actuator_state
     tilt_angle_deg: tilt_angle_deg
     boresight_azimuth_deg: Panel boresight Azimuth angle, deg
-    boresight_elevation_deg: Panel boresight Elevation agngle, deg
+    boresight_elevation_deg: Panel boresight Elevation angle, deg
     attitude_estimation_state: Attitude estimation state
     attitude_uncertainty_deg: Attitude uncertainty, deg
     desired_boresight_azimuth_deg: Desired boresight Azimuth angle, deg
-    desired_boresight_elevation_deg: Desired boresight Elevation agngle, deg
+    desired_boresight_elevation_deg: Desired boresight Elevation angle, deg
 
   ClientName:
     mac_address: mac_address
@@ -441,7 +441,7 @@ grpc:
     associated_time_s: Associated time, s
     mode_str: mode_str
     iface: Interface
-    snr: Signal to noice
+    snr: Signal to noise
     psmode: psmode
     channel_width: channel_width
     upstream_mac_address: upstream_mac_address

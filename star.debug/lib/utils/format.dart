@@ -16,6 +16,19 @@ class Format {
       return "${(b/1024/1024).toStringAsFixed(2)} MB";
   }
 
+  static String bitsPerSec(double b){
+    return "${bits(b)}/s";
+  }
+
+  static String bits(double b){
+    if (b<2048)
+      return "${b.toStringAsFixed(0)} bits";
+    else if (b<2048*1024)
+      return "${(b/1024).toStringAsFixed(2)} Kb";
+    else //if (b<2048*1024*1024)
+      return "${(b/1024/1024).toStringAsFixed(2)} Mb";
+  }
+
   static String sec(int t){
     if (t<120)
       return "$t s";

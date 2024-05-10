@@ -219,9 +219,9 @@ class GeneralMessages {
   String get open_json_file => """Open JSON file""";
 
   /// ```dart
-  /// "Open JSON from clipboard"
+  /// "Open JSON from the clipboard"
   /// ```
-  String get open_clipboard => """Open JSON from clipboard""";
+  String get open_clipboard => """Open JSON from the clipboard""";
 
   /// ```dart
   /// "Debug Data Viewer"
@@ -385,10 +385,10 @@ class MyMessages {
       """Do you want to delete snapshot of dish $id for $ts?""";
 
   /// ```dart
-  /// "Do you want to delete ALL snapshot of dish $id but last?"
+  /// "Do you want to delete ALL snapshots of dish $id but last?"
   /// ```
   String delete_all_snapshots_but_last_prompt(id) =>
-      """Do you want to delete ALL snapshot of dish $id but last?""";
+      """Do you want to delete ALL snapshots of dish $id but last?""";
 
   /// ```dart
   /// "Do you want to delete dish $id?"
@@ -430,13 +430,13 @@ class AboutMessages {
   /// """
   /// This application was created as part of the volunteer initiative "**Narodnyi Starlink**" for the needs
   /// of people who care about the availability of communications even in the places where
-  /// the russian aggressor tries to turn cities into ashes.
+  /// the russian aggressor is trying to turn cities into ashes.
   /// """
   /// ```
   String get about_text =>
       """This application was created as part of the volunteer initiative "**Narodnyi Starlink**" for the needs 
 of people who care about the availability of communications even in the places where 
-the russian aggressor tries to turn cities into ashes.
+the russian aggressor is trying to turn cities into ashes.
 """;
 
   /// ```dart
@@ -498,10 +498,10 @@ class ValkyrieMessages {
   /// The possible options are:
   ///
   ///   - **Found** - BSSID is found in the Valkyrie database. It means its location can be exposed online.
-  ///   - **Not found** - BSSID is not found in the Valkyrie database ... at least yet.
+  ///   - **Not found** - BSSID is not found in the Valkyrie database ... at least not yet.
   ///
   /// In any case, it is recommended to change BSSID regularly for security-critical usage.
-  /// If not, it is possible that it will help to expose the location of connected devices.
+  /// If not, it may help to expose the location of connected devices.
   /// Moreover, in the case of a moving router, its route can be followed.
   /// """
   /// ```
@@ -511,10 +511,10 @@ class ValkyrieMessages {
 The possible options are:
 
   - **Found** - BSSID is found in the Valkyrie database. It means its location can be exposed online. 
-  - **Not found** - BSSID is not found in the Valkyrie database ... at least yet.   
+  - **Not found** - BSSID is not found in the Valkyrie database ... at least not yet.   
 
 In any case, it is recommended to change BSSID regularly for security-critical usage. 
-If not, it is possible that it will help to expose the location of connected devices. 
+If not, it may help to expose the location of connected devices. 
 Moreover, in the case of a moving router, its route can be followed.
 """;
 }
@@ -580,16 +580,16 @@ class WifiMessages {
       """You have selected network name "$ssid" and password "$pass". Confirm?""";
 
   /// ```dart
-  /// "You have selected to leave default network name "STARLINK" and no password. Confirm?"
+  /// "You have selected to leave the default network name "STARLINK" and no password. Confirm?"
   /// ```
   String get setup_default =>
-      """You have selected to leave default network name "STARLINK" and no password. Confirm?""";
+      """You have selected to leave the default network name "STARLINK" and no password. Confirm?""";
 
   /// ```dart
-  /// "You have selected to enable bypass mode. Router will be not accessible in this mode until next hardware reset. Confirm?"
+  /// "You have selected to enable bypass mode. The router will be not accessible in this mode until the next hardware reset. Confirm?"
   /// ```
   String get setup_bypass =>
-      """You have selected to enable bypass mode. Router will be not accessible in this mode until next hardware reset. Confirm?""";
+      """You have selected to enable bypass mode. The router will be not accessible in this mode until the next hardware reset. Confirm?""";
 
   /// ```dart
   /// "8 chars or more"
@@ -1017,13 +1017,13 @@ class DishOutageGrpcMessages {
   /// The reason why the dish is offline. The possible options are:
   ///
   /// - **UNKNOWN**
-  /// - **BOOTING** - Dish is trying to initialize satellite connection.
+  /// - **BOOTING** - Dish is trying to initialize a satellite connection.
   ///   Should not hang in this state for too long. Most of the time, it is waiting for GPS.
   /// - **STOWED** - The dish is stowed to be packaged for storage.
-  /// - **THERMAL_SHUTDOWN** - Dish is overheated. Waiting to cooldown.
+  /// - **THERMAL_SHUTDOWN** - Dish is overheated. Waiting to cool down.
   /// - **NO_SCHEDULE**
   /// - **NO_SATS** - No enough GPS signal received.
-  /// - **OBSTRUCTED** - Too many signal obstructions. Ensure the dish has 140° view of the sky
+  /// - **OBSTRUCTED** - Too many signal obstructions. Ensure the dish has a 140° view of the sky
   ///   (at least in the part, where it is usually oriented).
   /// - **NO_DOWNLINK** - No downlink from satellites is established.
   /// - OTHER_OPTIONS
@@ -1033,13 +1033,13 @@ class DishOutageGrpcMessages {
       """The reason why the dish is offline. The possible options are:
 
 - **UNKNOWN**
-- **BOOTING** - Dish is trying to initialize satellite connection. 
+- **BOOTING** - Dish is trying to initialize a satellite connection. 
   Should not hang in this state for too long. Most of the time, it is waiting for GPS.
 - **STOWED** - The dish is stowed to be packaged for storage.
-- **THERMAL_SHUTDOWN** - Dish is overheated. Waiting to cooldown.
+- **THERMAL_SHUTDOWN** - Dish is overheated. Waiting to cool down.
 - **NO_SCHEDULE**
 - **NO_SATS** - No enough GPS signal received.
-- **OBSTRUCTED** - Too many signal obstructions. Ensure the dish has 140° view of the sky
+- **OBSTRUCTED** - Too many signal obstructions. Ensure the dish has a 140° view of the sky
   (at least in the part, where it is usually oriented).
 - **NO_DOWNLINK** - No downlink from satellites is established.
 - OTHER_OPTIONS
@@ -1076,9 +1076,9 @@ class DishGpsStatsGrpcMessages {
   String get gps_sats => """GPS satellites""";
 
   /// ```dart
-  /// "No GPS satellites after first fix"
+  /// "No GPS satellites after a first fix"
   /// ```
-  String get no_sats_after_ttff => """No GPS satellites after first fix""";
+  String get no_sats_after_ttff => """No GPS satellites after a first fix""";
 
   /// ```dart
   /// "Don't trust Dishy's GPS"
@@ -1138,19 +1138,19 @@ class DishConfigGrpcMessages {
   /// ```dart
   /// """
   /// The possible options are:
-  /// - **NONE** - Starlink does not expose it's location to the local network.
-  /// - **LOCAL** - Starlink exposes it's location to the local network via DHCP and dish API.
+  /// - **NONE** - Starlink does not expose its location to the local network.
+  /// - **LOCAL** - Starlink exposes its location to the local network via DHCP and dish API.
   ///
-  /// In order to change this setting, you need the original Starlink app with logged in account
+  /// In order to change this setting, you need the original Starlink app with a logged-in account
   /// with internet access and dish access. You can find this setting in
   /// *Advanced* -> *Debug Data* -> *Allow access on local network*.
   /// """
   /// ```
   String get location_request_mode__hint => """The possible options are:
-- **NONE** - Starlink does not expose it's location to the local network.
-- **LOCAL** - Starlink exposes it's location to the local network via DHCP and dish API.
+- **NONE** - Starlink does not expose its location to the local network.
+- **LOCAL** - Starlink exposes its location to the local network via DHCP and dish API.
 
-In order to change this setting, you need the original Starlink app with logged in account 
+In order to change this setting, you need the original Starlink app with a logged-in account 
 with internet access and dish access. You can find this setting in 
 *Advanced* -> *Debug Data* -> *Allow access on local network*.
 """;
@@ -1240,10 +1240,10 @@ class DishGetStatusGrpcMessages {
   String get uptime_s => """Uptime""";
 
   /// ```dart
-  /// "Time the dish is running since the last reboot."
+  /// "Time the dish has been running since the last reboot."
   /// ```
   String get uptime_s__hint =>
-      """Time the dish is running since the last reboot.""";
+      """Time the dish has been running since the last reboot.""";
 
   /// ```dart
   /// "Seconds to first non-empty slot"
@@ -1350,10 +1350,10 @@ class DishGetStatusGrpcMessages {
   String get boresight_azimuth_deg => """Panel boresight Azimuth angle, deg""";
 
   /// ```dart
-  /// "Panel boresight Elevation agngle, deg"
+  /// "Panel boresight Elevation angle, deg"
   /// ```
   String get boresight_elevation_deg =>
-      """Panel boresight Elevation agngle, deg""";
+      """Panel boresight Elevation angle, deg""";
 
   /// ```dart
   /// "Ethernet speed, Mbps"
@@ -1378,9 +1378,9 @@ class DishGetStatusGrpcMessages {
 """;
 
   /// ```dart
-  /// "SNR above noise floor"
+  /// "SNR above the noise floor"
   /// ```
-  String get is_snr_above_noise_floor => """SNR above noise floor""";
+  String get is_snr_above_noise_floor => """SNR above the noise floor""";
 
   /// ```dart
   /// "Class of service"
@@ -1450,10 +1450,10 @@ class AlignmentStatsGrpcMessages {
   String get boresight_azimuth_deg => """Panel boresight Azimuth angle, deg""";
 
   /// ```dart
-  /// "Panel boresight Elevation agngle, deg"
+  /// "Panel boresight Elevation angle, deg"
   /// ```
   String get boresight_elevation_deg =>
-      """Panel boresight Elevation agngle, deg""";
+      """Panel boresight Elevation angle, deg""";
 
   /// ```dart
   /// "Attitude estimation state"
@@ -1472,10 +1472,10 @@ class AlignmentStatsGrpcMessages {
       """Desired boresight Azimuth angle, deg""";
 
   /// ```dart
-  /// "Desired boresight Elevation agngle, deg"
+  /// "Desired boresight Elevation angle, deg"
   /// ```
   String get desired_boresight_elevation_deg =>
-      """Desired boresight Elevation agngle, deg""";
+      """Desired boresight Elevation angle, deg""";
 }
 
 class ClientNameGrpcMessages {
@@ -1919,9 +1919,9 @@ class WifiClientGrpcMessages {
   String get iface => """Interface""";
 
   /// ```dart
-  /// "Signal to noice"
+  /// "Signal to noise"
   /// ```
-  String get snr => """Signal to noice""";
+  String get snr => """Signal to noise""";
 
   /// ```dart
   /// "psmode"
@@ -2180,7 +2180,7 @@ Map<String, String> get messagesMap => {
       """general.security""": """Security""",
       """general.device_app""": """Device App""",
       """general.open_json_file""": """Open JSON file""",
-      """general.open_clipboard""": """Open JSON from clipboard""",
+      """general.open_clipboard""": """Open JSON from the clipboard""",
       """general.debug_data_viewer""": """Debug Data Viewer""",
       """general.no_data_found""": """No data found""",
       """general.dark_mode""": """Dark mode""",
@@ -2217,7 +2217,7 @@ Map<String, String> get messagesMap => {
       """about.about_text""":
           """This application was created as part of the volunteer initiative "**Narodnyi Starlink**" for the needs 
 of people who care about the availability of communications even in the places where 
-the russian aggressor tries to turn cities into ashes.
+the russian aggressor is trying to turn cities into ashes.
 """,
       """about.project_on_github""": """Project on GitHub""",
       """settings.settings""": """Settings""",
@@ -2235,10 +2235,10 @@ the russian aggressor tries to turn cities into ashes.
 The possible options are:
 
   - **Found** - BSSID is found in the Valkyrie database. It means its location can be exposed online. 
-  - **Not found** - BSSID is not found in the Valkyrie database ... at least yet.   
+  - **Not found** - BSSID is not found in the Valkyrie database ... at least not yet.   
 
 In any case, it is recommended to change BSSID regularly for security-critical usage. 
-If not, it is possible that it will help to expose the location of connected devices. 
+If not, it may help to expose the location of connected devices. 
 Moreover, in the case of a moving router, its route can be followed.
 """,
       """wifi.setup""": """Setup""",
@@ -2252,9 +2252,9 @@ Moreover, in the case of a moving router, its route can be followed.
       """wifi.keep_default_wifi_settings""": """STARLINK/no password""",
       """wifi.enable_bypass_mode""": """Enable bypass mode""",
       """wifi.setup_default""":
-          """You have selected to leave default network name "STARLINK" and no password. Confirm?""",
+          """You have selected to leave the default network name "STARLINK" and no password. Confirm?""",
       """wifi.setup_bypass""":
-          """You have selected to enable bypass mode. Router will be not accessible in this mode until next hardware reset. Confirm?""",
+          """You have selected to enable bypass mode. The router will be not accessible in this mode until the next hardware reset. Confirm?""",
       """wifi.more_8_chars""": """8 chars or more""",
       """live.starlink_live""": """Starlink Live""",
       """live.check_update""": """Check Update""",
@@ -2333,13 +2333,13 @@ Moreover, in the case of a moving router, its route can be followed.
           """The reason why the dish is offline. The possible options are:
 
 - **UNKNOWN**
-- **BOOTING** - Dish is trying to initialize satellite connection. 
+- **BOOTING** - Dish is trying to initialize a satellite connection. 
   Should not hang in this state for too long. Most of the time, it is waiting for GPS.
 - **STOWED** - The dish is stowed to be packaged for storage.
-- **THERMAL_SHUTDOWN** - Dish is overheated. Waiting to cooldown.
+- **THERMAL_SHUTDOWN** - Dish is overheated. Waiting to cool down.
 - **NO_SCHEDULE**
 - **NO_SATS** - No enough GPS signal received.
-- **OBSTRUCTED** - Too many signal obstructions. Ensure the dish has 140° view of the sky
+- **OBSTRUCTED** - Too many signal obstructions. Ensure the dish has a 140° view of the sky
   (at least in the part, where it is usually oriented).
 - **NO_DOWNLINK** - No downlink from satellites is established.
 - OTHER_OPTIONS
@@ -2350,7 +2350,7 @@ Moreover, in the case of a moving router, its route can be followed.
       """grpc.DishGpsStats.gps_valid""": """GPS valid""",
       """grpc.DishGpsStats.gps_sats""": """GPS satellites""",
       """grpc.DishGpsStats.no_sats_after_ttff""":
-          """No GPS satellites after first fix""",
+          """No GPS satellites after a first fix""",
       """grpc.DishGpsStats.inhibit_gps""": """Don't trust Dishy's GPS""",
       """grpc.DishReadyStates.cady""": """Clock generator""",
       """grpc.DishReadyStates.scp""": """RFFE bus interface""",
@@ -2362,10 +2362,10 @@ Moreover, in the case of a moving router, its route can be followed.
       """grpc.DishConfig.location_request_mode""": """Location request mode""",
       """grpc.DishConfig.location_request_mode__hint""":
           """The possible options are:
-- **NONE** - Starlink does not expose it's location to the local network.
-- **LOCAL** - Starlink exposes it's location to the local network via DHCP and dish API.
+- **NONE** - Starlink does not expose its location to the local network.
+- **LOCAL** - Starlink exposes its location to the local network via DHCP and dish API.
 
-In order to change this setting, you need the original Starlink app with logged in account 
+In order to change this setting, you need the original Starlink app with a logged-in account 
 with internet access and dish access. You can find this setting in 
 *Advanced* -> *Debug Data* -> *Allow access on local network*.
 """,
@@ -2392,7 +2392,7 @@ with internet access and dish access. You can find this setting in
       """grpc.DishObstructionStats.patches_valid""": """Patches valid""",
       """grpc.DishGetStatus.uptime_s""": """Uptime""",
       """grpc.DishGetStatus.uptime_s__hint""":
-          """Time the dish is running since the last reboot.""",
+          """Time the dish has been running since the last reboot.""",
       """grpc.DishGetStatus.seconds_to_first_nonempty_slot""":
           """Seconds to first non-empty slot""",
       """grpc.DishGetStatus.fraction_obstructed""": """fraction_obstructed""",
@@ -2426,7 +2426,7 @@ with internet access and dish access. You can find this setting in
       """grpc.DishGetStatus.boresight_azimuth_deg""":
           """Panel boresight Azimuth angle, deg""",
       """grpc.DishGetStatus.boresight_elevation_deg""":
-          """Panel boresight Elevation agngle, deg""",
+          """Panel boresight Elevation angle, deg""",
       """grpc.DishGetStatus.eth_speed_mbps""": """Ethernet speed, Mbps""",
       """grpc.DishGetStatus.mobility_class""": """Mobility class""",
       """grpc.DishGetStatus.mobility_class__hint""":
@@ -2435,7 +2435,7 @@ with internet access and dish access. You can find this setting in
 - OTHER_OPTIONS
 """,
       """grpc.DishGetStatus.is_snr_above_noise_floor""":
-          """SNR above noise floor""",
+          """SNR above the noise floor""",
       """grpc.DishGetStatus.class_of_service""": """Class of service""",
       """grpc.DishGetStatus.software_update_state""":
           """Software update state""",
@@ -2455,7 +2455,7 @@ with internet access and dish access. You can find this setting in
       """grpc.AlignmentStats.boresight_azimuth_deg""":
           """Panel boresight Azimuth angle, deg""",
       """grpc.AlignmentStats.boresight_elevation_deg""":
-          """Panel boresight Elevation agngle, deg""",
+          """Panel boresight Elevation angle, deg""",
       """grpc.AlignmentStats.attitude_estimation_state""":
           """Attitude estimation state""",
       """grpc.AlignmentStats.attitude_uncertainty_deg""":
@@ -2463,7 +2463,7 @@ with internet access and dish access. You can find this setting in
       """grpc.AlignmentStats.desired_boresight_azimuth_deg""":
           """Desired boresight Azimuth angle, deg""",
       """grpc.AlignmentStats.desired_boresight_elevation_deg""":
-          """Desired boresight Elevation agngle, deg""",
+          """Desired boresight Elevation angle, deg""",
       """grpc.ClientName.mac_address""": """mac_address""",
       """grpc.ClientName.given_name""": """given_name""",
       """grpc.Network.ipv4""": """ipv4""",
@@ -2557,7 +2557,7 @@ starting from approximately January 2023, Starlink routers are able to pick rand
       """grpc.WifiClient.associated_time_s""": """Associated time, s""",
       """grpc.WifiClient.mode_str""": """mode_str""",
       """grpc.WifiClient.iface""": """Interface""",
-      """grpc.WifiClient.snr""": """Signal to noice""",
+      """grpc.WifiClient.snr""": """Signal to noise""",
       """grpc.WifiClient.psmode""": """psmode""",
       """grpc.WifiClient.channel_width""": """channel_width""",
       """grpc.WifiClient.upstream_mac_address""": """upstream_mac_address""",

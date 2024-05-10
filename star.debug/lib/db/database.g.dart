@@ -1035,6 +1035,7 @@ class RecentInputsCompanion extends UpdateCompanion<RecentInput> {
 
 abstract class _$Database extends GeneratedDatabase {
   _$Database(QueryExecutor e) : super(e);
+  _$DatabaseManager get managers => _$DatabaseManager(this);
   late final $DishLogsTable dishLogs = $DishLogsTable(this);
   late final Index dishLogsTs = Index('dish_logs_ts',
       'CREATE INDEX IF NOT EXISTS dish_logs_ts ON dish_logs (dish_id, timestamp)');
@@ -1062,4 +1063,475 @@ abstract class _$Database extends GeneratedDatabase {
         recentInputsTs,
         recentInputsData
       ];
+}
+
+typedef $$DishLogsTableInsertCompanionBuilder = DishLogsCompanion Function({
+  Value<int> id,
+  required int timestamp,
+  required String dishId,
+  required bool forceStore,
+  Value<String?> debugDataJson,
+  Value<Uint8List?> dishStatusJson,
+  Value<Uint8List?> dishHistoryJson,
+  Value<Uint8List?> wifiStatusJson,
+  Value<String?> onlineJson,
+});
+typedef $$DishLogsTableUpdateCompanionBuilder = DishLogsCompanion Function({
+  Value<int> id,
+  Value<int> timestamp,
+  Value<String> dishId,
+  Value<bool> forceStore,
+  Value<String?> debugDataJson,
+  Value<Uint8List?> dishStatusJson,
+  Value<Uint8List?> dishHistoryJson,
+  Value<Uint8List?> wifiStatusJson,
+  Value<String?> onlineJson,
+});
+
+class $$DishLogsTableTableManager extends RootTableManager<
+    _$Database,
+    $DishLogsTable,
+    DishLog,
+    $$DishLogsTableFilterComposer,
+    $$DishLogsTableOrderingComposer,
+    $$DishLogsTableProcessedTableManager,
+    $$DishLogsTableInsertCompanionBuilder,
+    $$DishLogsTableUpdateCompanionBuilder> {
+  $$DishLogsTableTableManager(_$Database db, $DishLogsTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          filteringComposer:
+              $$DishLogsTableFilterComposer(ComposerState(db, table)),
+          orderingComposer:
+              $$DishLogsTableOrderingComposer(ComposerState(db, table)),
+          getChildManagerBuilder: (p) =>
+              $$DishLogsTableProcessedTableManager(p),
+          getUpdateCompanionBuilder: ({
+            Value<int> id = const Value.absent(),
+            Value<int> timestamp = const Value.absent(),
+            Value<String> dishId = const Value.absent(),
+            Value<bool> forceStore = const Value.absent(),
+            Value<String?> debugDataJson = const Value.absent(),
+            Value<Uint8List?> dishStatusJson = const Value.absent(),
+            Value<Uint8List?> dishHistoryJson = const Value.absent(),
+            Value<Uint8List?> wifiStatusJson = const Value.absent(),
+            Value<String?> onlineJson = const Value.absent(),
+          }) =>
+              DishLogsCompanion(
+            id: id,
+            timestamp: timestamp,
+            dishId: dishId,
+            forceStore: forceStore,
+            debugDataJson: debugDataJson,
+            dishStatusJson: dishStatusJson,
+            dishHistoryJson: dishHistoryJson,
+            wifiStatusJson: wifiStatusJson,
+            onlineJson: onlineJson,
+          ),
+          getInsertCompanionBuilder: ({
+            Value<int> id = const Value.absent(),
+            required int timestamp,
+            required String dishId,
+            required bool forceStore,
+            Value<String?> debugDataJson = const Value.absent(),
+            Value<Uint8List?> dishStatusJson = const Value.absent(),
+            Value<Uint8List?> dishHistoryJson = const Value.absent(),
+            Value<Uint8List?> wifiStatusJson = const Value.absent(),
+            Value<String?> onlineJson = const Value.absent(),
+          }) =>
+              DishLogsCompanion.insert(
+            id: id,
+            timestamp: timestamp,
+            dishId: dishId,
+            forceStore: forceStore,
+            debugDataJson: debugDataJson,
+            dishStatusJson: dishStatusJson,
+            dishHistoryJson: dishHistoryJson,
+            wifiStatusJson: wifiStatusJson,
+            onlineJson: onlineJson,
+          ),
+        ));
+}
+
+class $$DishLogsTableProcessedTableManager extends ProcessedTableManager<
+    _$Database,
+    $DishLogsTable,
+    DishLog,
+    $$DishLogsTableFilterComposer,
+    $$DishLogsTableOrderingComposer,
+    $$DishLogsTableProcessedTableManager,
+    $$DishLogsTableInsertCompanionBuilder,
+    $$DishLogsTableUpdateCompanionBuilder> {
+  $$DishLogsTableProcessedTableManager(super.$state);
+}
+
+class $$DishLogsTableFilterComposer
+    extends FilterComposer<_$Database, $DishLogsTable> {
+  $$DishLogsTableFilterComposer(super.$state);
+  ColumnFilters<int> get id => $state.composableBuilder(
+      column: $state.table.id,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<int> get timestamp => $state.composableBuilder(
+      column: $state.table.timestamp,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get dishId => $state.composableBuilder(
+      column: $state.table.dishId,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<bool> get forceStore => $state.composableBuilder(
+      column: $state.table.forceStore,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get debugDataJson => $state.composableBuilder(
+      column: $state.table.debugDataJson,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<Uint8List> get dishStatusJson => $state.composableBuilder(
+      column: $state.table.dishStatusJson,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<Uint8List> get dishHistoryJson => $state.composableBuilder(
+      column: $state.table.dishHistoryJson,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<Uint8List> get wifiStatusJson => $state.composableBuilder(
+      column: $state.table.wifiStatusJson,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get onlineJson => $state.composableBuilder(
+      column: $state.table.onlineJson,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+}
+
+class $$DishLogsTableOrderingComposer
+    extends OrderingComposer<_$Database, $DishLogsTable> {
+  $$DishLogsTableOrderingComposer(super.$state);
+  ColumnOrderings<int> get id => $state.composableBuilder(
+      column: $state.table.id,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<int> get timestamp => $state.composableBuilder(
+      column: $state.table.timestamp,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get dishId => $state.composableBuilder(
+      column: $state.table.dishId,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<bool> get forceStore => $state.composableBuilder(
+      column: $state.table.forceStore,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get debugDataJson => $state.composableBuilder(
+      column: $state.table.debugDataJson,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<Uint8List> get dishStatusJson => $state.composableBuilder(
+      column: $state.table.dishStatusJson,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<Uint8List> get dishHistoryJson => $state.composableBuilder(
+      column: $state.table.dishHistoryJson,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<Uint8List> get wifiStatusJson => $state.composableBuilder(
+      column: $state.table.wifiStatusJson,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get onlineJson => $state.composableBuilder(
+      column: $state.table.onlineJson,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+}
+
+typedef $$DishesTableInsertCompanionBuilder = DishesCompanion Function({
+  required String dishId,
+  Value<String?> name,
+  Value<int?> latestLogId,
+  Value<int> latestLogTimestamp,
+  Value<int> rowid,
+});
+typedef $$DishesTableUpdateCompanionBuilder = DishesCompanion Function({
+  Value<String> dishId,
+  Value<String?> name,
+  Value<int?> latestLogId,
+  Value<int> latestLogTimestamp,
+  Value<int> rowid,
+});
+
+class $$DishesTableTableManager extends RootTableManager<
+    _$Database,
+    $DishesTable,
+    Dish,
+    $$DishesTableFilterComposer,
+    $$DishesTableOrderingComposer,
+    $$DishesTableProcessedTableManager,
+    $$DishesTableInsertCompanionBuilder,
+    $$DishesTableUpdateCompanionBuilder> {
+  $$DishesTableTableManager(_$Database db, $DishesTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          filteringComposer:
+              $$DishesTableFilterComposer(ComposerState(db, table)),
+          orderingComposer:
+              $$DishesTableOrderingComposer(ComposerState(db, table)),
+          getChildManagerBuilder: (p) => $$DishesTableProcessedTableManager(p),
+          getUpdateCompanionBuilder: ({
+            Value<String> dishId = const Value.absent(),
+            Value<String?> name = const Value.absent(),
+            Value<int?> latestLogId = const Value.absent(),
+            Value<int> latestLogTimestamp = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              DishesCompanion(
+            dishId: dishId,
+            name: name,
+            latestLogId: latestLogId,
+            latestLogTimestamp: latestLogTimestamp,
+            rowid: rowid,
+          ),
+          getInsertCompanionBuilder: ({
+            required String dishId,
+            Value<String?> name = const Value.absent(),
+            Value<int?> latestLogId = const Value.absent(),
+            Value<int> latestLogTimestamp = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              DishesCompanion.insert(
+            dishId: dishId,
+            name: name,
+            latestLogId: latestLogId,
+            latestLogTimestamp: latestLogTimestamp,
+            rowid: rowid,
+          ),
+        ));
+}
+
+class $$DishesTableProcessedTableManager extends ProcessedTableManager<
+    _$Database,
+    $DishesTable,
+    Dish,
+    $$DishesTableFilterComposer,
+    $$DishesTableOrderingComposer,
+    $$DishesTableProcessedTableManager,
+    $$DishesTableInsertCompanionBuilder,
+    $$DishesTableUpdateCompanionBuilder> {
+  $$DishesTableProcessedTableManager(super.$state);
+}
+
+class $$DishesTableFilterComposer
+    extends FilterComposer<_$Database, $DishesTable> {
+  $$DishesTableFilterComposer(super.$state);
+  ColumnFilters<String> get dishId => $state.composableBuilder(
+      column: $state.table.dishId,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get name => $state.composableBuilder(
+      column: $state.table.name,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<int> get latestLogId => $state.composableBuilder(
+      column: $state.table.latestLogId,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<int> get latestLogTimestamp => $state.composableBuilder(
+      column: $state.table.latestLogTimestamp,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+}
+
+class $$DishesTableOrderingComposer
+    extends OrderingComposer<_$Database, $DishesTable> {
+  $$DishesTableOrderingComposer(super.$state);
+  ColumnOrderings<String> get dishId => $state.composableBuilder(
+      column: $state.table.dishId,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get name => $state.composableBuilder(
+      column: $state.table.name,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<int> get latestLogId => $state.composableBuilder(
+      column: $state.table.latestLogId,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<int> get latestLogTimestamp => $state.composableBuilder(
+      column: $state.table.latestLogTimestamp,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+}
+
+typedef $$RecentInputsTableInsertCompanionBuilder = RecentInputsCompanion
+    Function({
+  Value<int> id,
+  required String type,
+  Value<int> timestamp,
+  required String data,
+  required String search,
+});
+typedef $$RecentInputsTableUpdateCompanionBuilder = RecentInputsCompanion
+    Function({
+  Value<int> id,
+  Value<String> type,
+  Value<int> timestamp,
+  Value<String> data,
+  Value<String> search,
+});
+
+class $$RecentInputsTableTableManager extends RootTableManager<
+    _$Database,
+    $RecentInputsTable,
+    RecentInput,
+    $$RecentInputsTableFilterComposer,
+    $$RecentInputsTableOrderingComposer,
+    $$RecentInputsTableProcessedTableManager,
+    $$RecentInputsTableInsertCompanionBuilder,
+    $$RecentInputsTableUpdateCompanionBuilder> {
+  $$RecentInputsTableTableManager(_$Database db, $RecentInputsTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          filteringComposer:
+              $$RecentInputsTableFilterComposer(ComposerState(db, table)),
+          orderingComposer:
+              $$RecentInputsTableOrderingComposer(ComposerState(db, table)),
+          getChildManagerBuilder: (p) =>
+              $$RecentInputsTableProcessedTableManager(p),
+          getUpdateCompanionBuilder: ({
+            Value<int> id = const Value.absent(),
+            Value<String> type = const Value.absent(),
+            Value<int> timestamp = const Value.absent(),
+            Value<String> data = const Value.absent(),
+            Value<String> search = const Value.absent(),
+          }) =>
+              RecentInputsCompanion(
+            id: id,
+            type: type,
+            timestamp: timestamp,
+            data: data,
+            search: search,
+          ),
+          getInsertCompanionBuilder: ({
+            Value<int> id = const Value.absent(),
+            required String type,
+            Value<int> timestamp = const Value.absent(),
+            required String data,
+            required String search,
+          }) =>
+              RecentInputsCompanion.insert(
+            id: id,
+            type: type,
+            timestamp: timestamp,
+            data: data,
+            search: search,
+          ),
+        ));
+}
+
+class $$RecentInputsTableProcessedTableManager extends ProcessedTableManager<
+    _$Database,
+    $RecentInputsTable,
+    RecentInput,
+    $$RecentInputsTableFilterComposer,
+    $$RecentInputsTableOrderingComposer,
+    $$RecentInputsTableProcessedTableManager,
+    $$RecentInputsTableInsertCompanionBuilder,
+    $$RecentInputsTableUpdateCompanionBuilder> {
+  $$RecentInputsTableProcessedTableManager(super.$state);
+}
+
+class $$RecentInputsTableFilterComposer
+    extends FilterComposer<_$Database, $RecentInputsTable> {
+  $$RecentInputsTableFilterComposer(super.$state);
+  ColumnFilters<int> get id => $state.composableBuilder(
+      column: $state.table.id,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get type => $state.composableBuilder(
+      column: $state.table.type,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<int> get timestamp => $state.composableBuilder(
+      column: $state.table.timestamp,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get data => $state.composableBuilder(
+      column: $state.table.data,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get search => $state.composableBuilder(
+      column: $state.table.search,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+}
+
+class $$RecentInputsTableOrderingComposer
+    extends OrderingComposer<_$Database, $RecentInputsTable> {
+  $$RecentInputsTableOrderingComposer(super.$state);
+  ColumnOrderings<int> get id => $state.composableBuilder(
+      column: $state.table.id,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get type => $state.composableBuilder(
+      column: $state.table.type,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<int> get timestamp => $state.composableBuilder(
+      column: $state.table.timestamp,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get data => $state.composableBuilder(
+      column: $state.table.data,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get search => $state.composableBuilder(
+      column: $state.table.search,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+}
+
+class _$DatabaseManager {
+  final _$Database _db;
+  _$DatabaseManager(this._db);
+  $$DishLogsTableTableManager get dishLogs =>
+      $$DishLogsTableTableManager(_db, _db.dishLogs);
+  $$DishesTableTableManager get dishes =>
+      $$DishesTableTableManager(_db, _db.dishes);
+  $$RecentInputsTableTableManager get recentInputs =>
+      $$RecentInputsTableTableManager(_db, _db.recentInputs);
 }

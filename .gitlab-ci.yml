@@ -1,4 +1,4 @@
-image: ertong/flutter:3.19.4-api34
+image: ertong/flutter:3.19.6-api34-jdk17
 
 variables:
   PUB_CACHE: ${CI_PROJECT_DIR}/.cache/.pub-cache

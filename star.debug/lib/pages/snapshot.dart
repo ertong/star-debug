@@ -150,8 +150,8 @@ class _SnapshotPageState extends State<SnapshotPage> with TickerProviderStateMix
       if (history!=null && historyTs!=null) {
         charts.add(buildGraph(M.grpc.DishGetStatus.pop_ping_latency_ms, history.current.toInt(), historyTs, history.popPingLatencyMs));
         charts.add(buildGraph(M.grpc.DishGetStatus.pop_ping_drop_rate, history.current.toInt(), historyTs, history.popPingDropRate));
-        charts.add(buildGraph("Uplink, MB/s", history.current.toInt(), historyTs, [for (var v in history.uplinkThroughputBps) v / 1024 / 1024]));
-        charts.add(buildGraph("Downlink, MB/s", history.current.toInt(), historyTs, [for (var v in history.downlinkThroughputBps) v / 1024 / 1024]));
+        charts.add(buildGraph("Uplink, Mb/s", history.current.toInt(), historyTs, [for (var v in history.uplinkThroughputBps) v / 1024 / 1024]));
+        charts.add(buildGraph("Downlink, Mb/s", history.current.toInt(), historyTs, [for (var v in history.downlinkThroughputBps) v / 1024 / 1024]));
       }
 
       pages.add(_Page("dishy", Icons.settings_input_antenna, M.general.dish,
