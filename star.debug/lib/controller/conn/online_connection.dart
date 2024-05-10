@@ -101,15 +101,18 @@ class OnlineConnection extends BaseConnection {
     cntNotOk = 0;
     cntOk = 0;
 
-    if (now - optCloudflare6.timeOk < T_OK) {
-      cntOk++;
-      hasIpv6 = true;
-    } else cntNotOk++;
+    if (R.features.checkIpV6) {
+      if (now - optCloudflare6.timeOk < T_OK) {
+        cntOk++;
+        hasIpv6 = true;
+      } else
+        cntNotOk++;
 
-    if (now - optGoogle6.timeOk < T_OK) {
-      cntOk++;
-      hasIpv6 = true;
-    } else cntNotOk++;
+      if (now - optGoogle6.timeOk < T_OK) {
+        cntOk++;
+        hasIpv6 = true;
+      } else cntNotOk++;
+    }
 
     if (now - optCloudflare.timeOk < T_OK) cntOk++; else cntNotOk++;
     if (now - optGoogle.timeOk < T_OK) cntOk++; else cntNotOk++;
