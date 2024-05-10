@@ -74,7 +74,7 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
     pages.add(_Page(
         Icons.settings_input_antenna,
         () => M.header.general,
-        () => Colors.black,
+        () => R.prefs.data.darkMode ? Colors.white : Colors.black,
         () => scrolledPage(GeneralTab()),
         // alert: () { return 0; }
     ));
