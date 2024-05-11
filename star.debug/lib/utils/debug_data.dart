@@ -1,4 +1,5 @@
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:protobuf/protobuf.dart' as pb;
@@ -8,6 +9,7 @@ import 'package:recase/recase.dart';
 import 'package:star_debug/grpc/starlink/starlink.pb.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/utils/log_utils.dart';
+import 'package:star_debug/utils/snapshot.dart';
 
 
 const String _TAG = "DebugDataHelper";
@@ -217,7 +219,7 @@ class DebugDataHelper {
     return msg;
   }
 
-  static Map<String, dynamic> debugData(DishGetStatusResponse? dish, int? dishApiVersion, WifiGetStatusResponse? router, int? routerApiVersion) {
+  static Map<String, dynamic> debugData(Snapshot snap) {
     Map<String, dynamic> res = {};
     int nowS = DateTime.now().millisecondsSinceEpoch ~/ 1000;
 
@@ -232,21 +234,32 @@ class DebugDataHelper {
     };
 
     {
+      var dish = snap.dishGetStatus;
       if (dish == null) {
         res["dish"] = {"reachable": false, "service": "dish", "cloud":false, "features": {}, "timestamp": nowS};
       } else {
         Map<String, dynamic> features = {};
+
+        var dishApiVersion = snap.dishApiVersion;
         if (dishApiVersion!=null) {
           features["stowRequested"] = dishApiVersion >= 1;
           features["unstow"] = dishApiVersion >= 3;
         }
-        res["dish"] = {"reachable": true, "service": "dish", "features": features, "timestamp": nowS};
+        res["dish"] = {
+          "_proto": base64Encode(dish.writeToBuffer()),
+          "reachable": true,
+          "service": "dish",
+          "features": features,
+          "timestamp": nowS
+        };
+
         for (var e in (protoToJson(dish) as Map<String, dynamic>).entries)
           res["dish"][e.key] = e.value;
       }
     }
 
     {
+      var router = snap.routerGetStatus;
       if (router == null) {
         res["router"] = {"reachable": false, "service": "router", "cloud":false, "features": {}, "timestamp": nowS};
       } else {
@@ -254,6 +267,7 @@ class DebugDataHelper {
 
         var swVer = router.deviceInfo.softwareVersion;
 
+        var routerApiVersion = snap.routerApiVersion;
         if (routerApiVersion!=null) {
           features["speedTest"] = routerApiVersion >= 1;
           features["speedTestLive"] = routerApiVersion >= 2;
@@ -261,7 +275,14 @@ class DebugDataHelper {
           features["clientHistory"] = routerApiVersion >= 4;
         }
 
-        res["router"] = {"reachable": true, "service": "router", "features": features, "timestamp": nowS};
+        res["router"] = {
+          "_proto": base64Encode(router.writeToBuffer()),
+          "reachable": true,
+          "service": "router",
+          "features": features,
+          "timestamp": nowS
+        };
+
         for (var e in (protoToJson(router) as Map<String, dynamic>).entries) {
           if (e.value==null)
             continue;

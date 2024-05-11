@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:star_debug/grpc/starlink/starlink.pb.dart';
 import 'package:star_debug/space/device_app.dart';
 import 'package:star_debug/utils/debug_data.dart';
+import 'package:star_debug/utils/snapshot.dart';
 
 class SpaceParser{
 
@@ -51,8 +52,12 @@ class SpaceParser{
     p.deviceApp = DeviceApp.of(p.jsonApp);
 
     if (p.jsonDish!=null && p.jsonDish!.containsKey("deviceInfo")) {
-      p.dishGetStatus = DishGetStatusResponse();
-      DebugDataHelper.jsonToProto(p.jsonDish!, p.dishGetStatus!);
+      if (p.jsonDish!.containsKey("_proto")) {
+        p.dishGetStatus = DishGetStatusResponse.fromBuffer(base64Decode(p.jsonDish!["_proto"]));
+      } else {
+        p.dishGetStatus = DishGetStatusResponse();
+        DebugDataHelper.jsonToProto(p.jsonDish!, p.dishGetStatus!);
+      }
 
       {
         var features = p.jsonDish?["features"];
@@ -69,8 +74,13 @@ class SpaceParser{
         p.dishApi = (p.jsonDish?["apiVersion"] ?? 0).toInt();
     }
     if (p.jsonRouter!=null && p.jsonRouter!.containsKey("deviceInfo")) {
-      p.routerGetStatus = WifiGetStatusResponse();
-      DebugDataHelper.jsonToProto(p.jsonRouter!, p.routerGetStatus!);
+
+      if (p.jsonRouter!.containsKey("_proto")) {
+        p.routerGetStatus = WifiGetStatusResponse.fromBuffer(base64Decode(p.jsonRouter!["_proto"]));
+      } else {
+        p.routerGetStatus = WifiGetStatusResponse();
+        DebugDataHelper.jsonToProto(p.jsonRouter!, p.routerGetStatus!);
+      }
 
       {
         var features = p.jsonRouter?["features"];
@@ -86,24 +96,28 @@ class SpaceParser{
         p.routerApi = (p.jsonRouter?["apiVersion"] ?? 0).toInt();
     }
 
-
-
     return p;
   }
 
   bool hasData() => dishGetStatus!=null || routerGetStatus!=null || deviceApp!=null;
 
-  String toDebugDataJson(){
-    if (this.json!=null)
-      return JsonEncoder.withIndent("  ").convert(this.json);
-    else {
-      var data = DebugDataHelper.debugData(
-          dishGetStatus,
-          null,
-          routerGetStatus,
-          null
-      );
-      return JsonEncoder.withIndent("  ").convert(data);
-    }
+  Snapshot toSnapshot() {
+    return Snapshot(
+        timestamp: (dishTs ?? 0) * 1000,
+        dishTs: dishTs == null ? null : dishTs! * 1000,
+        dishGetStatus: dishGetStatus,
+        dishFeatures: dishFeatures,
+        dishApiVersion: dishApi,
+        routerTs: routerTs == null ? null : routerTs! * 1000,
+        routerGetStatus: routerGetStatus,
+        routerFeatures: routerFeatures,
+        routerApiVersion: routerApi,
+        deviceApp: deviceApp,
+        debug_data: json
+
+      // timestampHistory: R.dish?.dishGetHistory.receivedTime,
+      // dishGetHistory: R.dish?.dishGetHistory.data,
+    );
+
   }
 }

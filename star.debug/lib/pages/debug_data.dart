@@ -25,9 +25,9 @@ import '../utils/kv_widget.dart';
 const String _TAG = "MainPage";
 
 class DebugDataPage extends StatefulWidget {
-  final SpaceParser? parser;
+  final Snapshot? snap;
 
-  const DebugDataPage({super.key, this.parser});
+  const DebugDataPage({super.key, this.snap});
 
   @override
   State createState() => _DebugDataPageState();
@@ -36,15 +36,13 @@ class DebugDataPage extends StatefulWidget {
 class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateMixin {
   Snapshot? snap;
 
-  SpaceParser? parser;
-
   Image? obstructions;
 
   @override
   void initState() {
     super.initState();
-    if (widget.parser != null) {
-      newData(widget.parser!);
+    if (widget.snap != null) {
+      newData(widget.snap!);
     }
   }
 
@@ -63,7 +61,6 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
       return SnapshotPage(
         snap: snap!,
         onClose: () {
-          parser = null;
           obstructions = null;
           snap = null;
           setState(() {});
@@ -118,31 +115,15 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
     );
   }
 
-  void newData(SpaceParser parser) {
-    this.parser = parser;
+  void newData(Snapshot snap) {
     obstructions = null;
-    snap = null;
+    this.snap = null;
 
-    if (!parser.hasData())
+    if (!snap.hasData())
       R.showSnackBarText(M.general.no_data_found);
     else {
-      snap = Snapshot(
-          timestamp: parser.dishTs ?? 0,
-          dishTs: parser.dishTs==null ? null : parser.dishTs!*1000,
-          dishGetStatus: parser.dishGetStatus,
-          dishFeatures: parser.dishFeatures,
-          dishApiVersion: parser.dishApi,
-          routerTs: parser.routerTs==null ? null : parser.routerTs!*1000,
-          routerGetStatus: parser.routerGetStatus,
-          routerFeatures: parser.routerFeatures,
-          routerApiVersion: parser.routerApi,
-          deviceApp: parser.deviceApp,
-          debug_data: parser.json
-
-          // timestampHistory: (R.dish?.dishGetHistory.receivedTime ?? 0) ~/1000,
-          // dishGetHistory: R.dish?.dishGetHistory.data,
-          );
-      R.dishLog.storeDebugData(snap!);
+      this.snap = snap;
+      R.dishLog.storeDebugData(snap);
     }
 
     setState(() {});
@@ -151,7 +132,7 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
   void onOpenClipboardClicked() async {
     try {
       var str = await FlutterClipboard.paste();
-      newData(SpaceParser.ofJsonStr(str));
+      newData(SpaceParser.ofJsonStr(str).toSnapshot());
       setState(() {});
     } catch (e, s) {
       LogUtils.ers(_TAG, "Opening clipboard", e, s);
@@ -160,7 +141,7 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
   }
 
   void onOpenClicked() async {
-    parser = null;
+    snap = null;
     FilePickerResult? result;
     try {
       result = await FilePicker.platform.pickFiles(allowMultiple: false);
@@ -175,7 +156,7 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
         var f = File(result.files.single.path!);
         if ((await f.stat()).size > 1024 * 1024) R.showSnackBarText("Too large file");
 
-        newData(SpaceParser.ofJsonStr(await f.readAsString()));
+        newData(SpaceParser.ofJsonStr(await f.readAsString()).toSnapshot());
         setState(() {});
       } catch (e, s) {
         LogUtils.ers(_TAG, "Opening $result", e, s);

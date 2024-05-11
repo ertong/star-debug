@@ -221,7 +221,7 @@ class _SaveDebugDataDialogState<TItem> extends State<SaveDebugDataDialog<TItem>>
                     await Navigator.push(context,
                       MaterialPageRoute(
                         builder: (context) {
-                          return DebugDataPage(parser: SpaceParser.ofJsonStr(widget.data));
+                          return DebugDataPage(snap: SpaceParser.ofJsonStr(widget.data).toSnapshot());
                         },
                       ),
                     );

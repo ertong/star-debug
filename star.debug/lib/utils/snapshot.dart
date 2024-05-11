@@ -57,35 +57,17 @@ class Snapshot {
     if (this.debug_data!=null)
       return JsonEncoder.withIndent("  ").convert(this.debug_data);
     else {
-      var data = DebugDataHelper.debugData(
-          dishGetStatus,
-          null,
-          routerGetStatus,
-          null
-      );
+      var data = DebugDataHelper.debugData(this);
       return JsonEncoder.withIndent("  ").convert(data);
     }
   }
 
+  bool hasData() => dishGetStatus!=null || routerGetStatus!=null;
+
   static Snapshot ofRow(DishLog row) {
     if (row.debugDataJson!=null && row.debugDataJson!="null") {
       var p = SpaceParser.ofJsonStr(row.debugDataJson!);
-      return Snapshot(
-          timestamp: (p.dishTs ?? 0) * 1000,
-          dishTs: p.dishTs == null ? null : p.dishTs! * 1000,
-          dishGetStatus: p.dishGetStatus,
-          dishFeatures: p.dishFeatures,
-          dishApiVersion: p.dishApi,
-          routerTs: p.routerTs == null ? null : p.routerTs! * 1000,
-          routerGetStatus: p.routerGetStatus,
-          routerFeatures: p.routerFeatures,
-          routerApiVersion: p.routerApi,
-          deviceApp: p.deviceApp,
-          debug_data: p.json
-
-        // timestampHistory: R.dish?.dishGetHistory.receivedTime,
-        // dishGetHistory: R.dish?.dishGetHistory.data,
-      );
+      return p.toSnapshot();
     }
 
     DishGetStatusResponse? dish;

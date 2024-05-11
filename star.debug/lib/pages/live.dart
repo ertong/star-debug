@@ -268,15 +268,11 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
   }
 
   Future onShare() async {
-    if (R.dish?.dishGetStatus.data == null && R.router?.wifiGetStatus.data == null)
+    var snap = buildLiveSnapshot();
+    if (snap.dishGetStatus == null && snap.routerGetStatus == null)
       return;
     try {
-      var data = DebugDataHelper.debugData(
-          R.dish?.dishGetStatus.data,
-          R.dish?.dishGetStatus.apiVersion,
-          R.router?.wifiGetStatus.data,
-          R.router?.wifiGetStatus.apiVersion
-      );
+      var data = DebugDataHelper.debugData(snap);
       await showDialog<String>(context: context, builder: (c) {
         return SaveDebugDataDialog(
             data: JsonEncoder.withIndent("  ").convert(data),
