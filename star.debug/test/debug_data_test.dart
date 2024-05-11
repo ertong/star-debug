@@ -52,10 +52,18 @@ void main() {
     SpaceParser parser = SpaceParser.ofJson(json);
     check_debug_data_with_router(parser);
 
-    Map<String, dynamic> debugData = DebugDataHelper.debugData(parser.dishGetStatus, 7, parser.routerGetStatus, 34);
+    Map<String, dynamic> debugData = DebugDataHelper.debugData(parser.toSnapshot());
 
-    var parser2 = SpaceParser.ofJson(debugData);
-    check_debug_data_with_router(parser2);
+    {
+      var parser2 = SpaceParser.ofJson(debugData);
+      check_debug_data_with_router(parser2);
+    }
+    debugData["dish"].remove("_proto");
+    debugData["router"].remove("_proto");
+    {
+      var parser2 = SpaceParser.ofJson(debugData);
+      check_debug_data_with_router(parser2);
+    }
   });
 
   test('Counter increments smoke test', () async {
@@ -64,9 +72,18 @@ void main() {
     SpaceParser parser = SpaceParser.ofJson(json);
     check_debug_data_v2(parser);
 
-    Map<String, dynamic> debugData = DebugDataHelper.debugData(parser.dishGetStatus, 7, parser.routerGetStatus, 34);
+    Map<String, dynamic> debugData = DebugDataHelper.debugData(parser.toSnapshot());
 
-    var parser2 = SpaceParser.ofJson(debugData);
-    check_debug_data_v2(parser2);
+    {
+      var parser2 = SpaceParser.ofJson(debugData);
+      check_debug_data_v2(parser2);
+    }
+    debugData["dish"].remove("_proto");
+    debugData["router"].remove("_proto");
+    {
+      var parser2 = SpaceParser.ofJson(debugData);
+      check_debug_data_v2(parser2);
+    }
+
   });
 }
