@@ -157,6 +157,8 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
         rows.addAll(b.widgets);
       }
 
+      final String hw = status.deviceInfo.hardwareVersion ?? "";
+
       if (status.hasDeviceInfo())
         rows.addAll(buildDeviceInfoWidget(context, theme, status.deviceInfo, apiVersion: widget.snap.dishApiVersion, opts: opts));
 
@@ -290,6 +292,8 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
         for (var e in (states.info_.byName).entries) {
           var key = e.key;
           var val = states.getField(e.value.tagNumber) ?? false;
+          if (key=="cady" && (hw.startsWith("rev4") || hw=="rev_mini_prod1"))
+            continue;
           b.kv("$key (${R.i18n.map["grpc.DishReadyStates.$key"] ?? key})", "$val", ok: val);
         }
 

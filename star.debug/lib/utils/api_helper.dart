@@ -12,9 +12,16 @@ extension DishGetStatusExt on DishGetStatusResponse {
     if (this.hasOutage() && this.outage.hasCause())
       alerts++;
 
+    final String hw = deviceInfo.hardwareVersion ?? "";
+
     if (hasReadyStates()) {
       for (var e in (readyStates.info_.byName).entries) {
+        var key = e.key;
         var val = readyStates.getField(e.value.tagNumber) ?? false;
+
+        if (key=="cady" && (hw.startsWith("rev4") || hw=="rev_mini_prod1"))
+          continue;
+
         if (!val)
           alerts++;
       }
