@@ -1,3 +1,12 @@
+## 1.2b66
+
+### New Features:
+
+- Now you can share generated "screenshots" with all the relevant data.
+
+### Enhancements:
+
+- Add raw proto data as base64 in exported Debug Data.
 
 ## 1.1b65
 
