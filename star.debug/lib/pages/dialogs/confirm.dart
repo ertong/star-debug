@@ -40,6 +40,8 @@ class _ConfirmDialogState extends State<ConfirmDialog>
             content: widget.markdown ? MarkdownBody(
               // styleSheet: style,
               selectable: true,
+              // try to fix NPE ... wait for fixes
+              onSelectionChanged: (String? text, TextSelection selection, SelectionChangedCause? cause) {},
               data: widget.text,
             ) : Text(widget.text),
             actions: <Widget>[
