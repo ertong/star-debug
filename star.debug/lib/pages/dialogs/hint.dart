@@ -93,6 +93,8 @@ class _HintDialogState extends State<HintDialog>
             MarkdownBody(
               styleSheet: style,
               selectable: true,
+              // try to fix NPE ... wait for fixes
+              onSelectionChanged: (String? text, TextSelection selection, SelectionChangedCause? cause) {},
               data: widget.hint,
             ),
           ],
