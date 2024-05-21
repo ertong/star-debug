@@ -2,7 +2,7 @@
 
 ### New Features:
 
-- Now you can share generated "screenshots" with all the relevant data.
+- Shareable Screenshots: You can now create sharable "screenshots" with all the current device data.
 
 ### Enhancements:
 
