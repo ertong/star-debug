@@ -328,7 +328,8 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
       R.showSnackBarText("Error: $e");
     }
     finally{
-      setState(() { isWifiSettingUp = false; });
+      if (mounted)
+        setState(() { isWifiSettingUp = false; });
     }
   }
 
