@@ -66,6 +66,7 @@ class User extends $pb.ProtobufEnum {
   static const User FACTORY = User._(4, _omitEnumNames ? '' : 'FACTORY');
   static const User ROUTER = User._(5, _omitEnumNames ? '' : 'ROUTER');
   static const User GUEST_LAN = User._(6, _omitEnumNames ? '' : 'GUEST_LAN');
+  static const User SENSITIVE_COMMANDING = User._(7, _omitEnumNames ? '' : 'SENSITIVE_COMMANDING');
 
   static const $core.List<User> values = <User> [
     NO_USER,
@@ -75,6 +76,7 @@ class User extends $pb.ProtobufEnum {
     FACTORY,
     ROUTER,
     GUEST_LAN,
+    SENSITIVE_COMMANDING,
   ];
 
   static final $core.Map<$core.int, User> _byValue = $pb.ProtobufEnum.initByValue(values);
@@ -195,6 +197,8 @@ class BootReason extends $pb.ProtobufEnum {
   static const BootReason KERNEL_PANIC = BootReason._(9, _omitEnumNames ? '' : 'KERNEL_PANIC');
   static const BootReason MCU_BRINGUP_FAILED_FDIR = BootReason._(11, _omitEnumNames ? '' : 'MCU_BRINGUP_FAILED_FDIR');
   static const BootReason AVIATION_OUTAGE_FDIR = BootReason._(12, _omitEnumNames ? '' : 'AVIATION_OUTAGE_FDIR');
+  static const BootReason SOFTWARE_WATCHDOG = BootReason._(13, _omitEnumNames ? '' : 'SOFTWARE_WATCHDOG');
+  static const BootReason INTENTIONAL_KERNEL_PANIC = BootReason._(14, _omitEnumNames ? '' : 'INTENTIONAL_KERNEL_PANIC');
 
   static const $core.List<BootReason> values = <BootReason> [
     BOOT_REASON_UNKNOWN,
@@ -209,6 +213,8 @@ class BootReason extends $pb.ProtobufEnum {
     KERNEL_PANIC,
     MCU_BRINGUP_FAILED_FDIR,
     AVIATION_OUTAGE_FDIR,
+    SOFTWARE_WATCHDOG,
+    INTENTIONAL_KERNEL_PANIC,
   ];
 
   static final $core.Map<$core.int, BootReason> _byValue = $pb.ProtobufEnum.initByValue(values);
@@ -253,6 +259,26 @@ class CakeAckFilter extends $pb.ProtobufEnum {
   static CakeAckFilter? valueOf($core.int value) => _byValue[value];
 
   const CakeAckFilter._($core.int v, $core.String n) : super(v, n);
+}
+
+/// SpaceX.API.Device.Protocol is an enum:
+class Protocol extends $pb.ProtobufEnum {
+  static const Protocol TCP = Protocol._(0, _omitEnumNames ? '' : 'TCP');
+  static const Protocol UDP = Protocol._(1, _omitEnumNames ? '' : 'UDP');
+  static const Protocol TLS = Protocol._(2, _omitEnumNames ? '' : 'TLS');
+  static const Protocol DTLS = Protocol._(3, _omitEnumNames ? '' : 'DTLS');
+
+  static const $core.List<Protocol> values = <Protocol> [
+    TCP,
+    UDP,
+    TLS,
+    DTLS,
+  ];
+
+  static final $core.Map<$core.int, Protocol> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static Protocol? valueOf($core.int value) => _byValue[value];
+
+  const Protocol._($core.int v, $core.String n) : super(v, n);
 }
 
 /// SpaceX.API.Device.SpeedtestError is an enum:
@@ -445,6 +471,70 @@ class PoeState extends $pb.ProtobufEnum {
   static PoeState? valueOf($core.int value) => _byValue[value];
 
   const PoeState._($core.int v, $core.String n) : super(v, n);
+}
+
+/// SpaceX.API.Device.WifiSecurity is an enum:
+class WifiSecurity extends $pb.ProtobufEnum {
+  static const WifiSecurity WIFI_SECURITY_UNKNOWN = WifiSecurity._(0, _omitEnumNames ? '' : 'WIFI_SECURITY_UNKNOWN');
+  static const WifiSecurity OPEN = WifiSecurity._(1, _omitEnumNames ? '' : 'OPEN');
+  static const WifiSecurity WPA2 = WifiSecurity._(2, _omitEnumNames ? '' : 'WPA2');
+  static const WifiSecurity WPA3 = WifiSecurity._(3, _omitEnumNames ? '' : 'WPA3');
+  static const WifiSecurity WPA2WPA3 = WifiSecurity._(4, _omitEnumNames ? '' : 'WPA2WPA3');
+
+  static const $core.List<WifiSecurity> values = <WifiSecurity> [
+    WIFI_SECURITY_UNKNOWN,
+    OPEN,
+    WPA2,
+    WPA3,
+    WPA2WPA3,
+  ];
+
+  static final $core.Map<$core.int, WifiSecurity> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static WifiSecurity? valueOf($core.int value) => _byValue[value];
+
+  const WifiSecurity._($core.int v, $core.String n) : super(v, n);
+}
+
+/// SpaceX.API.Device.WifiMode is an enum:
+class WifiMode extends $pb.ProtobufEnum {
+  static const WifiMode WIFI_MODE_DEFAULT = WifiMode._(0, _omitEnumNames ? '' : 'WIFI_MODE_DEFAULT');
+  static const WifiMode A_ONLY = WifiMode._(1, _omitEnumNames ? '' : 'A_ONLY');
+  static const WifiMode B_ONLY = WifiMode._(2, _omitEnumNames ? '' : 'B_ONLY');
+  static const WifiMode G_ONLY = WifiMode._(3, _omitEnumNames ? '' : 'G_ONLY');
+  static const WifiMode N_ONLY = WifiMode._(4, _omitEnumNames ? '' : 'N_ONLY');
+  static const WifiMode B_G_MIXED = WifiMode._(5, _omitEnumNames ? '' : 'B_G_MIXED');
+  static const WifiMode A_N_MIXED = WifiMode._(6, _omitEnumNames ? '' : 'A_N_MIXED');
+  static const WifiMode G_N_MIXED = WifiMode._(7, _omitEnumNames ? '' : 'G_N_MIXED');
+  static const WifiMode B_G_N_MIXED = WifiMode._(8, _omitEnumNames ? '' : 'B_G_N_MIXED');
+  static const WifiMode A_AN_AC_MIXED = WifiMode._(9, _omitEnumNames ? '' : 'A_AN_AC_MIXED');
+  static const WifiMode AN_AC_MIXED = WifiMode._(10, _omitEnumNames ? '' : 'AN_AC_MIXED');
+  static const WifiMode B_G_N_AX_MIXED = WifiMode._(11, _omitEnumNames ? '' : 'B_G_N_AX_MIXED');
+  static const WifiMode A_AN_AC_AX_MIXED = WifiMode._(12, _omitEnumNames ? '' : 'A_AN_AC_AX_MIXED');
+  static const WifiMode A_N_AC_MIXED = WifiMode._(13, _omitEnumNames ? '' : 'A_N_AC_MIXED');
+  static const WifiMode A_N_AC_AX_MIXED = WifiMode._(14, _omitEnumNames ? '' : 'A_N_AC_AX_MIXED');
+
+  static const $core.List<WifiMode> values = <WifiMode> [
+    WIFI_MODE_DEFAULT,
+    A_ONLY,
+    B_ONLY,
+    G_ONLY,
+    N_ONLY,
+    B_G_MIXED,
+    A_N_MIXED,
+    G_N_MIXED,
+    B_G_N_MIXED,
+    A_AN_AC_MIXED,
+    AN_AC_MIXED,
+    B_G_N_AX_MIXED,
+    A_AN_AC_AX_MIXED,
+    A_N_AC_MIXED,
+    A_N_AC_AX_MIXED,
+  ];
+
+  static final $core.Map<$core.int, WifiMode> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static WifiMode? valueOf($core.int value) => _byValue[value];
+
+  const WifiMode._($core.int v, $core.String n) : super(v, n);
 }
 
 /// SpaceX.API.Device.TransceiverModulatorState is an enum:
@@ -738,6 +828,25 @@ class WifiConfig_WirelessMode extends $pb.ProtobufEnum {
   static WifiConfig_WirelessMode? valueOf($core.int value) => _byValue[value];
 
   const WifiConfig_WirelessMode._($core.int v, $core.String n) : super(v, n);
+}
+
+class IwprivCommand_Ioctl extends $pb.ProtobufEnum {
+  static const IwprivCommand_Ioctl IOCTL_SET = IwprivCommand_Ioctl._(0, _omitEnumNames ? '' : 'IOCTL_SET');
+  static const IwprivCommand_Ioctl IOCTL_E2P = IwprivCommand_Ioctl._(1, _omitEnumNames ? '' : 'IOCTL_E2P');
+  static const IwprivCommand_Ioctl IOCTL_MAC = IwprivCommand_Ioctl._(3, _omitEnumNames ? '' : 'IOCTL_MAC');
+  static const IwprivCommand_Ioctl IOCTL_SX_ALLOW_5GHZ_HIGH = IwprivCommand_Ioctl._(4, _omitEnumNames ? '' : 'IOCTL_SX_ALLOW_5GHZ_HIGH');
+
+  static const $core.List<IwprivCommand_Ioctl> values = <IwprivCommand_Ioctl> [
+    IOCTL_SET,
+    IOCTL_E2P,
+    IOCTL_MAC,
+    IOCTL_SX_ALLOW_5GHZ_HIGH,
+  ];
+
+  static final $core.Map<$core.int, IwprivCommand_Ioctl> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static IwprivCommand_Ioctl? valueOf($core.int value) => _byValue[value];
+
+  const IwprivCommand_Ioctl._($core.int v, $core.String n) : super(v, n);
 }
 
 class EthernetNetworkInterface_Duplex extends $pb.ProtobufEnum {
