@@ -55,6 +55,8 @@ message Request {
     .SpaceX.API.Device.IQCaptureRequest iq_capture = 1035;
     .SpaceX.API.Device.GetRadioStatsRequest get_radio_stats = 1036;
     .SpaceX.API.Device.GetTimeRequest time = 1037;
+    .SpaceX.API.Device.RunIperfServerRequest run_iperf_server = 1038;
+    .SpaceX.API.Device.SignedData sensitive_request = 1078;
     .SpaceX.API.Device.DishStowRequest dish_stow = 2002;
     .SpaceX.API.Device.DishGetContextRequest dish_get_context = 2003;
     .SpaceX.API.Device.DishSetEmcRequest dish_set_emc = 2007;
@@ -66,8 +68,11 @@ message Request {
     .SpaceX.API.Device.DishPowerSaveRequest dish_power_save = 2013;
     .SpaceX.API.Device.DishInhibitGpsRequest dish_inhibit_gps = 2014;
     .SpaceX.API.Device.DishGetDataRequest dish_get_data = 2015;
-    .SpaceX.API.Device.DishPrioritizedUpdateRequest dish_prioritized_update = 2016;
     .SpaceX.API.Device.DishClearObstructionMapRequest dish_clear_obstruction_map = 2017;
+    .SpaceX.API.Device.DishSetMaxPowerTestModeRequest dish_set_max_power_test_mode = 2018;
+    .SpaceX.API.Device.DishActivateRssiScanRequest dish_activate_rssi_scan = 2019;
+    .SpaceX.API.Device.DishGetRssiScanResultRequest dish_get_rssi_scan_result = 2020;
+    .SpaceX.API.Device.DishFactoryResetRequest dish_factory_reset = 2021;
     .SpaceX.API.Device.WifiSetConfigRequest wifi_set_config = 3001;
     .SpaceX.API.Device.WifiGetClientsRequest wifi_get_clients = 3002;
     .SpaceX.API.Device.WifiSetupRequest wifi_setup = 3003;
@@ -82,9 +87,13 @@ message Request {
     .SpaceX.API.Device.WifiCalibrationModeRequest wifi_calibration_mode = 3019;
     .SpaceX.API.Device.WifiGuestInfoRequest wifi_guest_info = 3020;
     .SpaceX.API.Device.WifiRfTestRequest wifi_rf_test = 3021;
-    .SpaceX.API.Device.WifiUnbypassRequest wifi_unbypass = 3022;
     .SpaceX.API.Device.WifiGetFirewallRequest wifi_get_firewall = 3024;
     .SpaceX.API.Device.WifiTogglePoeNegotiationRequest wifi_toggle_poe_negotiation = 3025;
+    .SpaceX.API.Device.WifiFactoryTestCommandRequest wifi_factory_test_command = 3026;
+    .SpaceX.API.Device.WifiStartLocalTelemProxyRequest wifi_start_local_telem_proxy = 3027;
+    .SpaceX.API.Device.WifiRunSelfTestRequest wifi_run_self_test = 3028;
+    .SpaceX.API.Device.WifiBackhaulStatsRequest wifi_backhaul_stats = 3029;
+    .SpaceX.API.Device.WifiToggleUmbilicalModeRequest wifi_toggle_umbilical_mode = 3030;
     .SpaceX.API.Device.TransceiverIFLoopbackTestRequest transceiver_if_loopback_test = 4001;
     .SpaceX.API.Device.TransceiverGetStatusRequest transceiver_get_status = 4003;
     .SpaceX.API.Device.TransceiverGetTelemetryRequest transceiver_get_telemetry = 4004;
@@ -92,7 +101,7 @@ message Request {
 //    .SpaceX.API.Device.Services.Unlock.FinishUnlockRequest finish_unlock = 5001;
     .SpaceX.API.Device.GetDiagnosticsRequest get_diagnostics = 6000;
   }
-  reserved 1018, 1025, 1026, 3011, 3014;
+  reserved 1018, 1025, 1026, 2016, 3011, 3014, 3202;
 }
 
 //SpaceX.API.Device.SignedData is a message:
@@ -118,7 +127,7 @@ message SpeedTestStats {
   float upload_mbps = 1;
   float download_mbps = 2;
   float latency_ms = 3 [deprecated = true];
-  uint64 start_time = 4;
+  uint64 start_time = 4 [deprecated = true];
   int64 upload_start_time = 5;
   int64 download_start_time = 6;
   .SpaceX.API.Device.SpeedTestStats.Target target = 7;
@@ -209,6 +218,7 @@ enum User {
   FACTORY = 4;
   ROUTER = 5;
   GUEST_LAN = 6;
+  SENSITIVE_COMMANDING = 7;
 }
 
 //SpaceX.API.Device.FactoryResetRequest is a message:
@@ -239,6 +249,7 @@ message GetNetworkInterfacesRequest {
 //SpaceX.API.Device.PingHostRequest is a message:
 message PingHostRequest {
   string address = 3;
+  uint32 size = 4;
 }
 
 //SpaceX.API.Device.GetLocationRequest is a message:
@@ -349,6 +360,11 @@ message GetRadioStatsRequest {
 message GetTimeRequest {
 }
 
+//SpaceX.API.Device.RunIperfServerRequest is a message:
+message RunIperfServerRequest {
+  uint32 duration_s = 1;
+}
+
 //SpaceX.API.Device.DishStowRequest is a message:
 message DishStowRequest {
   bool unstow = 1;
@@ -409,12 +425,14 @@ message DishConfig {
   uint32 power_save_start_minutes = 4;
   uint32 power_save_duration_minutes = 5;
   bool power_save_mode = 6;
+  bool swupdate_three_day_deferral_enabled = 7;
   bool apply_snow_melt_mode = 1001;
   bool apply_location_request_mode = 2001;
   bool apply_level_dish_mode = 3001;
   bool apply_power_save_start_minutes = 4001;
   bool apply_power_save_duration_minutes = 5001;
   bool apply_power_save_mode = 6001;
+  bool apply_swupdate_three_day_deferral_enabled = 7001;
   enum LevelDishMode {
     TILT_LIKE_NORMAL = 0;
     FORCE_LEVEL = 1;
@@ -455,13 +473,31 @@ message DishGetDataRequest {
   uint32 id = 1;
 }
 
-//SpaceX.API.Device.DishPrioritizedUpdateRequest is a message:
-message DishPrioritizedUpdateRequest {
-  bool prioritized = 1;
-}
-
 //SpaceX.API.Device.DishClearObstructionMapRequest is a message:
 message DishClearObstructionMapRequest {
+}
+
+//SpaceX.API.Device.DishSetMaxPowerTestModeRequest is a message:
+message DishSetMaxPowerTestModeRequest {
+  bool enabled = 1;
+}
+
+//SpaceX.API.Device.DishActivateRssiScanRequest is a message:
+message DishActivateRssiScanRequest {
+  .SpaceX.API.Device.DishActivateRssiScan scan_query = 1;
+}
+
+//SpaceX.API.Device.DishActivateRssiScan is a message:
+message DishActivateRssiScan {
+  uint32 channel = 1;
+}
+
+//SpaceX.API.Device.DishGetRssiScanResultRequest is a message:
+message DishGetRssiScanResultRequest {
+}
+
+//SpaceX.API.Device.DishFactoryResetRequest is a message:
+message DishFactoryResetRequest {
 }
 
 //SpaceX.API.Device.WifiSetConfigRequest is a message:
@@ -522,6 +558,7 @@ message WifiConfig {
   bytes client_key = 76;
   int32 wan_host_dscp_mark = 77;
   uint32 tag = 78;
+  bool debug_pop_pings = 79;
   bool apply_setup_complete = 1010;
   bool apply_channel_2ghz = 1013;
   bool apply_channel_5ghz = 1014;
@@ -566,6 +603,7 @@ message WifiConfig {
   bool apply_client_key = 1091;
   bool apply_wan_traffic_control = 1092;
   bool apply_wan_host_dscp_mark = 1093;
+  bool apply_debug_pop_pings = 1095;
   repeated .SpaceX.API.Device.WifiConfig.Network networks = 1100;
   bool apply_networks = 1101;
   .SpaceX.API.Device.BootInfo boot = 3001;
@@ -740,6 +778,8 @@ enum BootReason {
   KERNEL_PANIC = 9;
   MCU_BRINGUP_FAILED_FDIR = 11;
   AVIATION_OUTAGE_FDIR = 12;
+  SOFTWARE_WATCHDOG = 13;
+  INTENTIONAL_KERNEL_PANIC = 14;
   reserved 10;
   reserved "AVIATION_5M_OUTAGE_FDIR";
 }
@@ -807,6 +847,15 @@ message AuthRadius {
   string password = 2;
   string server_ca = 3 [deprecated = true];
   string server_ca_base_64 = 4;
+  .SpaceX.API.Device.Protocol transport = 5;
+}
+
+//SpaceX.API.Device.Protocol is an enum:
+enum Protocol {
+  TCP = 0;
+  UDP = 1;
+  TLS = 2;
+  DTLS = 3;
 }
 
 //SpaceX.API.Device.WifiGetClientsRequest is a message:
@@ -883,16 +932,65 @@ message WifiRfTestRequest {
   uint32 phy_mode_5ghz_high = 10;
 }
 
-//SpaceX.API.Device.WifiUnbypassRequest is a message:
-message WifiUnbypassRequest {
-}
-
 //SpaceX.API.Device.WifiGetFirewallRequest is a message:
 message WifiGetFirewallRequest {
 }
 
 //SpaceX.API.Device.WifiTogglePoeNegotiationRequest is a message:
 message WifiTogglePoeNegotiationRequest {
+  bool enable = 1;
+}
+
+//SpaceX.API.Device.WifiFactoryTestCommandRequest is a message:
+message WifiFactoryTestCommandRequest {
+  oneof command {
+    .SpaceX.API.Device.IwprivCommand iwpriv_command = 1;
+    .SpaceX.API.Device.IpLinkSetCommand ip_link_set_command = 2;
+    .SpaceX.API.Device.IpAddrSetCommand ip_addr_set_command = 3;
+  }
+}
+
+//SpaceX.API.Device.IwprivCommand is a message:
+message IwprivCommand {
+  string iface = 1;
+  string arg = 2;
+  .SpaceX.API.Device.IwprivCommand.Ioctl ioctl = 3;
+  enum Ioctl {
+    IOCTL_SET = 0;
+    IOCTL_E2P = 1;
+    IOCTL_MAC = 3;
+    IOCTL_SX_ALLOW_5GHZ_HIGH = 4;
+  }
+}
+
+//SpaceX.API.Device.IpLinkSetCommand is a message:
+message IpLinkSetCommand {
+  string iface = 1;
+  bool up = 2;
+}
+
+//SpaceX.API.Device.IpAddrSetCommand is a message:
+message IpAddrSetCommand {
+  string iface = 1;
+  bool add = 2;
+  string cidr = 3;
+}
+
+//SpaceX.API.Device.WifiStartLocalTelemProxyRequest is a message:
+message WifiStartLocalTelemProxyRequest {
+  int32 port = 1;
+}
+
+//SpaceX.API.Device.WifiRunSelfTestRequest is a message:
+message WifiRunSelfTestRequest {
+}
+
+//SpaceX.API.Device.WifiBackhaulStatsRequest is a message:
+message WifiBackhaulStatsRequest {
+}
+
+//SpaceX.API.Device.WifiToggleUmbilicalModeRequest is a message:
+message WifiToggleUmbilicalModeRequest {
   bool enable = 1;
 }
 
@@ -956,6 +1054,7 @@ message Response {
     .SpaceX.API.Device.EnableDebugTelemResponse enable_debug_telem = 1034;
     .SpaceX.API.Device.GetRadioStatsResponse get_radio_stats = 1035;
     .SpaceX.API.Device.GetTimeResponse time = 1037;
+    .SpaceX.API.Device.RunIperfServerResponse run_iperf_server = 1038;
     .SpaceX.API.Device.DishStowResponse dish_stow = 2002;
     .SpaceX.API.Device.DishGetContextResponse dish_get_context = 2003;
     .SpaceX.API.Device.DishGetStatusResponse dish_get_status = 2004;
@@ -968,8 +1067,11 @@ message Response {
     .SpaceX.API.Device.DishGetConfigResponse dish_get_config = 2011;
     .SpaceX.API.Device.StartDishSelfTestResponse start_dish_self_test = 2012;
     .SpaceX.API.Device.DishInhibitGpsResponse dish_inhibit_gps = 2013;
-    .SpaceX.API.Device.DishPrioritizedUpdateResponse dish_prioritized_update = 2014;
     .SpaceX.API.Device.DishClearObstructionMapResponse dish_clear_obstruction_map = 2015;
+    .SpaceX.API.Device.DishSetMaxPowerTestModeResponse dish_set_max_power_test_mode = 2018;
+    .SpaceX.API.Device.DishActivateRssiScanResponse dish_activate_rssi_scan = 2019;
+    .SpaceX.API.Device.DishGetRssiScanResultResponse dish_get_rssi_scan_result = 2020;
+    .SpaceX.API.Device.DishFactoryResetResponse dish_factory_reset = 2021;
     .SpaceX.API.Device.WifiSetConfigResponse wifi_set_config = 3001;
     .SpaceX.API.Device.WifiGetClientsResponse wifi_get_clients = 3002;
     .SpaceX.API.Device.WifiSetupResponse wifi_setup = 3003;
@@ -985,8 +1087,9 @@ message Response {
     .SpaceX.API.Device.WifiGuestInfoResponse wifi_guest_info = 3020;
     .SpaceX.API.Device.WifiRfTestResponse wifi_rf_test = 3021;
     .SpaceX.API.Device.WifiGetPersistentStatsResponse wifi_get_persistent_stats = 3022;
-    .SpaceX.API.Device.WifiUnbypassResponse wifi_unbypass = 3023;
     .SpaceX.API.Device.WifiGetFirewallResponse wifi_get_firewall = 3024;
+    .SpaceX.API.Device.WifiFactoryTestCommandResponse wifi_factory_test_command = 3025;
+    .SpaceX.API.Device.WifiBackhaulStatsResponse wifi_backhaul_stats = 3026;
     .SpaceX.API.Device.TransceiverIFLoopbackTestResponse transceiver_if_loopback_test = 4001;
     .SpaceX.API.Device.TransceiverGetStatusResponse transceiver_get_status = 4003;
     .SpaceX.API.Device.TransceiverGetTelemetryResponse transceiver_get_telemetry = 4004;
@@ -995,9 +1098,14 @@ message Response {
     .SpaceX.API.Device.WifiGetDiagnosticsResponse wifi_get_diagnostics = 6000;
     .SpaceX.API.Device.DishGetDiagnosticsResponse dish_get_diagnostics = 6001;
   }
-  reserved 1018, 1026, 2025, 3008, 3011, 3014;
+  reserved 1018, 1026, 2014, 2025, 3008, 3011, 3014, 3203;
 }
 
+//SpaceX.API.Status.Status is a message:
+message Status {
+  int32 code = 1;
+  string message = 2;
+}
 
 //SpaceX.API.Device.RebootResponse is a message:
 message RebootResponse {
@@ -1081,9 +1189,17 @@ message FactoryResetResponse {
 
 //SpaceX.API.Device.GetLogResponse is a message:
 message GetLogResponse {
-  string syslog = 1;
-  string offline_log = 2;
-  string persistent_log = 3;
+  string syslog = 1 [deprecated = true];
+  string offline_log = 2 [deprecated = true];
+  string persistent_log = 3 [deprecated = true];
+  .SpaceX.API.Device.GetLogResponse.Logs current = 4;
+  .SpaceX.API.Device.GetLogResponse.Logs saved = 5;
+  message Logs {
+    string syslog = 1;
+    string dmesg = 2;
+    string kernel_panic = 3;
+    string mtk_eth_procs = 4;
+  }
 }
 
 //SpaceX.API.Device.SetSkuResponse is a message:
@@ -1296,6 +1412,11 @@ message GetTimeResponse {
   int64 unix_nano = 1;
 }
 
+//SpaceX.API.Device.RunIperfServerResponse is a message:
+message RunIperfServerResponse {
+  uint32 port = 1;
+}
+
 //SpaceX.API.Device.DishStowResponse is a message:
 message DishStowResponse {
 }
@@ -1362,6 +1483,8 @@ message DishGetStatusResponse {
   .SpaceX.API.Device.AlignmentStats alignment_stats = 1027;
   .SpaceX.API.Device.InitializationDurationSeconds initialization_duration_seconds = 1028;
   bool is_cell_disabled = 1029;
+  bool swupdate_reboot_ready = 1030;
+  int32 seconds_until_swupdate_reboot_possible = 1031;
   .SpaceX.API.Device.DishConfig config = 2000;
   reserved 1001, 1006, 1013;
 }
@@ -1397,6 +1520,8 @@ message DishAlerts {
   bool dbf_telem_stale = 14;
   bool moving_too_fast_for_policy = 15;
   bool low_motor_current = 16;
+  bool lower_signal_than_predicted = 17;
+  bool slow_ethernet_speeds_100 = 18;
   reserved 13;
   reserved "moving_fast_while_not_aviation";
 }
@@ -1649,13 +1774,44 @@ message DishInhibitGpsResponse {
   bool inhibit_gps = 1;
 }
 
-//SpaceX.API.Device.DishPrioritizedUpdateResponse is a message:
-message DishPrioritizedUpdateResponse {
-  bool prioritized = 1;
-}
-
 //SpaceX.API.Device.DishClearObstructionMapResponse is a message:
 message DishClearObstructionMapResponse {
+}
+
+//SpaceX.API.Device.DishSetMaxPowerTestModeResponse is a message:
+message DishSetMaxPowerTestModeResponse {
+  bool enabled = 1;
+}
+
+//SpaceX.API.Device.DishActivateRssiScanResponse is a message:
+message DishActivateRssiScanResponse {
+  bool success = 1;
+}
+
+//SpaceX.API.Device.DishGetRssiScanResultResponse is a message:
+message DishGetRssiScanResultResponse {
+  .SpaceX.API.Device.DishGetRssiScanResult result = 1;
+}
+
+//SpaceX.API.Device.DishGetRssiScanResult is a message:
+message DishGetRssiScanResult {
+  bool success = 1;
+  uint32 channel = 2;
+  uint64 request_timestamp = 3;
+  uint32 number_samples = 4;
+  repeated .SpaceX.API.Device.RssiEntry rssi_scan_points = 5;
+}
+
+//SpaceX.API.Device.RssiEntry is a message:
+message RssiEntry {
+  double theta_degree = 1;
+  double phi_degree = 2;
+  double rssi_dbf = 3;
+  uint64 scan_timestamp_ms = 4;
+}
+
+//SpaceX.API.Device.DishFactoryResetResponse is a message:
+message DishFactoryResetResponse {
 }
 
 //SpaceX.API.Device.WifiSetConfigResponse is a message:
@@ -1712,6 +1868,7 @@ message WifiClient {
   bool blocked = 42;
   uint32 client_id = 43;
   .SpaceX.API.Device.WifiClient.FqcodelInfo fqcodel_info = 44;
+  uint32 no_data_idle_s = 45;
   message FqcodelInfo {
     uint64 enqs_hi_prio = 1;
     uint64 enqs_fqcodel = 2;
@@ -2019,14 +2176,64 @@ message WifiPersistentStats {
   }
 }
 
-//SpaceX.API.Device.WifiUnbypassResponse is a message:
-message WifiUnbypassResponse {
-}
-
 //SpaceX.API.Device.WifiGetFirewallResponse is a message:
 message WifiGetFirewallResponse {
   string iptables = 1;
   string iptables_6 = 2;
+}
+
+//SpaceX.API.Device.WifiFactoryTestCommandResponse is a message:
+message WifiFactoryTestCommandResponse {
+  string response = 1;
+}
+
+//SpaceX.API.Device.WifiBackhaulStatsResponse is a message:
+message WifiBackhaulStatsResponse {
+  bool success = 1;
+  string bssid = 2;
+  .SpaceX.API.Device.IfaceType iface = 3;
+  uint32 preference = 4;
+  repeated .SpaceX.API.Device.WifiSiteSurveyResult siteSurveyScan = 5;
+}
+
+//SpaceX.API.Device.WifiSiteSurveyResult is a message:
+message WifiSiteSurveyResult {
+  float rssi = 1;
+  uint32 channel = 2;
+  string ssid = 3;
+  .SpaceX.API.Device.WifiSecurity security = 4;
+  .SpaceX.API.Device.WifiMode wireless_mode = 5;
+  .SpaceX.API.Device.IfaceType iface = 6;
+  string mac_address = 7;
+  float est_rx_rate = 8;
+}
+
+//SpaceX.API.Device.WifiSecurity is an enum:
+enum WifiSecurity {
+  WIFI_SECURITY_UNKNOWN = 0;
+  OPEN = 1;
+  WPA2 = 2;
+  WPA3 = 3;
+  WPA2WPA3 = 4;
+}
+
+//SpaceX.API.Device.WifiMode is an enum:
+enum WifiMode {
+  WIFI_MODE_DEFAULT = 0;
+  A_ONLY = 1;
+  B_ONLY = 2;
+  G_ONLY = 3;
+  N_ONLY = 4;
+  B_G_MIXED = 5;
+  A_N_MIXED = 6;
+  G_N_MIXED = 7;
+  B_G_N_MIXED = 8;
+  A_AN_AC_MIXED = 9;
+  AN_AC_MIXED = 10;
+  B_G_N_AX_MIXED = 11;
+  A_AN_AC_AX_MIXED = 12;
+  A_N_AC_MIXED = 13;
+  A_N_AC_AX_MIXED = 14;
 }
 
 //SpaceX.API.Device.TransceiverIFLoopbackTestResponse is a message:
@@ -2137,6 +2344,15 @@ message WifiGetDiagnosticsResponse {
   string id = 1;
   string hardware_version = 2;
   string software_version = 3;
+  repeated .SpaceX.API.Device.WifiGetDiagnosticsResponse.Network networks = 4;
+  message Network {
+    string domain = 1;
+    string ipv4 = 2;
+    repeated string ipv6 = 3;
+    uint32 clients_ethernet = 10;
+    uint32 clients_2ghz = 11;
+    uint32 clients_5ghz = 12;
+  }
 }
 
 //SpaceX.API.Device.DishGetDiagnosticsResponse is a message:
@@ -2148,6 +2364,7 @@ message DishGetDiagnosticsResponse {
   .SpaceX.API.Device.DishGetDiagnosticsResponse.Alerts alerts = 5;
   .SpaceX.API.Device.DishGetDiagnosticsResponse.DisablementCode disablement_code = 6;
   .SpaceX.API.Device.DishGetDiagnosticsResponse.TestResult hardware_self_test = 7;
+  .SpaceX.API.Device.DishGetDiagnosticsResponse.Location location = 8;
   message Alerts {
     bool dish_is_heating = 1;
     bool dish_thermal_throttle = 2;
@@ -2158,6 +2375,13 @@ message DishGetDiagnosticsResponse {
     bool slow_ethernet_speeds = 7;
     bool software_install_pending = 8;
     bool moving_too_fast_for_policy = 9;
+    bool obstructed = 10;
+  }
+  message Location {
+    bool enabled = 1;
+    double latitude = 2;
+    double longitude = 3;
+    double altitude_meters = 4;
   }
   enum DisablementCode {
     UNKNOWN = 0;
