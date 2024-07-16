@@ -134,6 +134,7 @@ header:
   boot: Boot
   client: Client
   features: Features
+  connected_routers: Connected routers
 
 tabs:
   app:

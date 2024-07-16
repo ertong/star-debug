@@ -139,6 +139,8 @@ header:
   boot: Завантаження
   client: Клієнт
   features: Функції
+  connected_routers: Під'єднані роутери
+
 tabs:
   app:
     unknown: Невідомо

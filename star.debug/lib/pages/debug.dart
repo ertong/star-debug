@@ -167,6 +167,10 @@ class _DebugPageState extends State<DebugPage> with TickerProviderStateMixin {
     //   children: [
     //     reqButton("GetPersistentStats", () => Request(getPersistentStats: GetPersistentStatsRequest()), router: true),
     //     reqButton("DishClearObstructionMap", () => Request(dishClearObstructionMap: DishClearObstructionMapRequest()), router: true),
+    //     reqButton("GetDiagnosticsRequest", () => Request(getDiagnostics: GetDiagnosticsRequest()), router: true),
+    //     reqButton("ResetButtonRequest", () => Request(resetButton: ResetButtonRequest()), router: true),
+    //     reqButton("TcpConnectivityTestRequest", () => Request(tcpConnectivityTest: TcpConnectivityTestRequest()), router: true),
+    //     reqButton("UdpConnectivityTestRequest", () => Request(udpConnectivityTest: UdpConnectivityTestRequest()), router: true),
     //     reqButton("DishSetConfigRequest", () => Request(dishSetConfig: DishSetConfigRequest(
     //         dishConfig: DishConfig(
     //           applyPowerSaveMode: false,
