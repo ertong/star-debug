@@ -67,6 +67,7 @@ class User extends $pb.ProtobufEnum {
   static const User ROUTER = User._(5, _omitEnumNames ? '' : 'ROUTER');
   static const User GUEST_LAN = User._(6, _omitEnumNames ? '' : 'GUEST_LAN');
   static const User SENSITIVE_COMMANDING = User._(7, _omitEnumNames ? '' : 'SENSITIVE_COMMANDING');
+  static const User LAN_TLS = User._(8, _omitEnumNames ? '' : 'LAN_TLS');
 
   static const $core.List<User> values = <User> [
     NO_USER,
@@ -77,6 +78,7 @@ class User extends $pb.ProtobufEnum {
     ROUTER,
     GUEST_LAN,
     SENSITIVE_COMMANDING,
+    LAN_TLS,
   ];
 
   static final $core.Map<$core.int, User> _byValue = $pb.ProtobufEnum.initByValue(values);
@@ -473,6 +475,64 @@ class PoeState extends $pb.ProtobufEnum {
   const PoeState._($core.int v, $core.String n) : super(v, n);
 }
 
+/// SpaceX.API.Device.WifiSoftwareUpdateState is an enum:
+class WifiSoftwareUpdateState extends $pb.ProtobufEnum {
+  static const WifiSoftwareUpdateState NOT_RUN = WifiSoftwareUpdateState._(0, _omitEnumNames ? '' : 'NOT_RUN');
+  static const WifiSoftwareUpdateState GETTING_TARGET_VERSION = WifiSoftwareUpdateState._(1, _omitEnumNames ? '' : 'GETTING_TARGET_VERSION');
+  static const WifiSoftwareUpdateState DOWNLOADING_UPDATE_IMAGE = WifiSoftwareUpdateState._(2, _omitEnumNames ? '' : 'DOWNLOADING_UPDATE_IMAGE');
+  static const WifiSoftwareUpdateState FLASHING = WifiSoftwareUpdateState._(3, _omitEnumNames ? '' : 'FLASHING');
+  static const WifiSoftwareUpdateState NO_UPDATE_REQUIRED = WifiSoftwareUpdateState._(4, _omitEnumNames ? '' : 'NO_UPDATE_REQUIRED');
+  static const WifiSoftwareUpdateState REBOOT_PENDING = WifiSoftwareUpdateState._(5, _omitEnumNames ? '' : 'REBOOT_PENDING');
+  static const WifiSoftwareUpdateState GETTING_TARGET_VERSION_FAILED = WifiSoftwareUpdateState._(6, _omitEnumNames ? '' : 'GETTING_TARGET_VERSION_FAILED');
+  static const WifiSoftwareUpdateState GETTING_TARGET_VERSION_EXHAUSTED = WifiSoftwareUpdateState._(7, _omitEnumNames ? '' : 'GETTING_TARGET_VERSION_EXHAUSTED');
+  static const WifiSoftwareUpdateState NO_VALID_ARTIFACT = WifiSoftwareUpdateState._(8, _omitEnumNames ? '' : 'NO_VALID_ARTIFACT');
+  static const WifiSoftwareUpdateState ILLEGAL_ARTIFACT = WifiSoftwareUpdateState._(9, _omitEnumNames ? '' : 'ILLEGAL_ARTIFACT');
+  static const WifiSoftwareUpdateState DOWNLOADING_UPDATE_IMAGE_FAILED = WifiSoftwareUpdateState._(10, _omitEnumNames ? '' : 'DOWNLOADING_UPDATE_IMAGE_FAILED');
+  static const WifiSoftwareUpdateState DOWNLOADING_UPDATE_IMAGE_EXHAUSTED = WifiSoftwareUpdateState._(11, _omitEnumNames ? '' : 'DOWNLOADING_UPDATE_IMAGE_EXHAUSTED');
+  static const WifiSoftwareUpdateState FLASHING_FAILED = WifiSoftwareUpdateState._(12, _omitEnumNames ? '' : 'FLASHING_FAILED');
+
+  static const $core.List<WifiSoftwareUpdateState> values = <WifiSoftwareUpdateState> [
+    NOT_RUN,
+    GETTING_TARGET_VERSION,
+    DOWNLOADING_UPDATE_IMAGE,
+    FLASHING,
+    NO_UPDATE_REQUIRED,
+    REBOOT_PENDING,
+    GETTING_TARGET_VERSION_FAILED,
+    GETTING_TARGET_VERSION_EXHAUSTED,
+    NO_VALID_ARTIFACT,
+    ILLEGAL_ARTIFACT,
+    DOWNLOADING_UPDATE_IMAGE_FAILED,
+    DOWNLOADING_UPDATE_IMAGE_EXHAUSTED,
+    FLASHING_FAILED,
+  ];
+
+  static final $core.Map<$core.int, WifiSoftwareUpdateState> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static WifiSoftwareUpdateState? valueOf($core.int value) => _byValue[value];
+
+  const WifiSoftwareUpdateState._($core.int v, $core.String n) : super(v, n);
+}
+
+/// SpaceX.API.Device.WifiSetupRequirementState is an enum:
+class WifiSetupRequirementState extends $pb.ProtobufEnum {
+  static const WifiSetupRequirementState NOT_REQUIRED = WifiSetupRequirementState._(0, _omitEnumNames ? '' : 'NOT_REQUIRED');
+  static const WifiSetupRequirementState REQUIRED_COUNTDOWN = WifiSetupRequirementState._(1, _omitEnumNames ? '' : 'REQUIRED_COUNTDOWN');
+  static const WifiSetupRequirementState REQUIRED_PAUSED = WifiSetupRequirementState._(2, _omitEnumNames ? '' : 'REQUIRED_PAUSED');
+  static const WifiSetupRequirementState REQUIRED_COMPLETE = WifiSetupRequirementState._(3, _omitEnumNames ? '' : 'REQUIRED_COMPLETE');
+
+  static const $core.List<WifiSetupRequirementState> values = <WifiSetupRequirementState> [
+    NOT_REQUIRED,
+    REQUIRED_COUNTDOWN,
+    REQUIRED_PAUSED,
+    REQUIRED_COMPLETE,
+  ];
+
+  static final $core.Map<$core.int, WifiSetupRequirementState> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static WifiSetupRequirementState? valueOf($core.int value) => _byValue[value];
+
+  const WifiSetupRequirementState._($core.int v, $core.String n) : super(v, n);
+}
+
 /// SpaceX.API.Device.WifiSecurity is an enum:
 class WifiSecurity extends $pb.ProtobufEnum {
   static const WifiSecurity WIFI_SECURITY_UNKNOWN = WifiSecurity._(0, _omitEnumNames ? '' : 'WIFI_SECURITY_UNKNOWN');
@@ -668,6 +728,61 @@ class SetTestModeRequest_RfMode extends $pb.ProtobufEnum {
   static SetTestModeRequest_RfMode? valueOf($core.int value) => _byValue[value];
 
   const SetTestModeRequest_RfMode._($core.int v, $core.String n) : super(v, n);
+}
+
+class UdpConnectivityTestRequest_UDPProbeDataType extends $pb.ProtobufEnum {
+  static const UdpConnectivityTestRequest_UDPProbeDataType EMPTY = UdpConnectivityTestRequest_UDPProbeDataType._(0, _omitEnumNames ? '' : 'EMPTY');
+  static const UdpConnectivityTestRequest_UDPProbeDataType DNS_STATUS_REQUEST = UdpConnectivityTestRequest_UDPProbeDataType._(1, _omitEnumNames ? '' : 'DNS_STATUS_REQUEST');
+  static const UdpConnectivityTestRequest_UDPProbeDataType DTLS_CLIENT_HELLO = UdpConnectivityTestRequest_UDPProbeDataType._(2, _omitEnumNames ? '' : 'DTLS_CLIENT_HELLO');
+  static const UdpConnectivityTestRequest_UDPProbeDataType DNS_VERSION_BIND_REQ = UdpConnectivityTestRequest_UDPProbeDataType._(3, _omitEnumNames ? '' : 'DNS_VERSION_BIND_REQ');
+  static const UdpConnectivityTestRequest_UDPProbeDataType RPC_CHECK = UdpConnectivityTestRequest_UDPProbeDataType._(4, _omitEnumNames ? '' : 'RPC_CHECK');
+  static const UdpConnectivityTestRequest_UDPProbeDataType DNS_SD = UdpConnectivityTestRequest_UDPProbeDataType._(5, _omitEnumNames ? '' : 'DNS_SD');
+  static const UdpConnectivityTestRequest_UDPProbeDataType SNMP_V1_PUBLIC = UdpConnectivityTestRequest_UDPProbeDataType._(6, _omitEnumNames ? '' : 'SNMP_V1_PUBLIC');
+  static const UdpConnectivityTestRequest_UDPProbeDataType SNMP_V3_GET_REQUEST = UdpConnectivityTestRequest_UDPProbeDataType._(7, _omitEnumNames ? '' : 'SNMP_V3_GET_REQUEST');
+  static const UdpConnectivityTestRequest_UDPProbeDataType NTP_MESSAGE = UdpConnectivityTestRequest_UDPProbeDataType._(8, _omitEnumNames ? '' : 'NTP_MESSAGE');
+  static const UdpConnectivityTestRequest_UDPProbeDataType XDMCP = UdpConnectivityTestRequest_UDPProbeDataType._(9, _omitEnumNames ? '' : 'XDMCP');
+  static const UdpConnectivityTestRequest_UDPProbeDataType KERBEROS = UdpConnectivityTestRequest_UDPProbeDataType._(10, _omitEnumNames ? '' : 'KERBEROS');
+  static const UdpConnectivityTestRequest_UDPProbeDataType SIP_OPTIONS = UdpConnectivityTestRequest_UDPProbeDataType._(11, _omitEnumNames ? '' : 'SIP_OPTIONS');
+  static const UdpConnectivityTestRequest_UDPProbeDataType LDAP_SEARCH_REQ = UdpConnectivityTestRequest_UDPProbeDataType._(12, _omitEnumNames ? '' : 'LDAP_SEARCH_REQ');
+  static const UdpConnectivityTestRequest_UDPProbeDataType MEMCACHED_STATS = UdpConnectivityTestRequest_UDPProbeDataType._(13, _omitEnumNames ? '' : 'MEMCACHED_STATS');
+  static const UdpConnectivityTestRequest_UDPProbeDataType OPENVPN = UdpConnectivityTestRequest_UDPProbeDataType._(14, _omitEnumNames ? '' : 'OPENVPN');
+  static const UdpConnectivityTestRequest_UDPProbeDataType CIFS_NS_UC = UdpConnectivityTestRequest_UDPProbeDataType._(15, _omitEnumNames ? '' : 'CIFS_NS_UC');
+  static const UdpConnectivityTestRequest_UDPProbeDataType TFTP_GET = UdpConnectivityTestRequest_UDPProbeDataType._(16, _omitEnumNames ? '' : 'TFTP_GET');
+  static const UdpConnectivityTestRequest_UDPProbeDataType DHCP_INFORM = UdpConnectivityTestRequest_UDPProbeDataType._(17, _omitEnumNames ? '' : 'DHCP_INFORM');
+  static const UdpConnectivityTestRequest_UDPProbeDataType QUIC = UdpConnectivityTestRequest_UDPProbeDataType._(18, _omitEnumNames ? '' : 'QUIC');
+  static const UdpConnectivityTestRequest_UDPProbeDataType RIPV1 = UdpConnectivityTestRequest_UDPProbeDataType._(19, _omitEnumNames ? '' : 'RIPV1');
+  static const UdpConnectivityTestRequest_UDPProbeDataType NFS_PROC_NULL = UdpConnectivityTestRequest_UDPProbeDataType._(20, _omitEnumNames ? '' : 'NFS_PROC_NULL');
+  static const UdpConnectivityTestRequest_UDPProbeDataType COAP_REQUEST = UdpConnectivityTestRequest_UDPProbeDataType._(21, _omitEnumNames ? '' : 'COAP_REQUEST');
+
+  static const $core.List<UdpConnectivityTestRequest_UDPProbeDataType> values = <UdpConnectivityTestRequest_UDPProbeDataType> [
+    EMPTY,
+    DNS_STATUS_REQUEST,
+    DTLS_CLIENT_HELLO,
+    DNS_VERSION_BIND_REQ,
+    RPC_CHECK,
+    DNS_SD,
+    SNMP_V1_PUBLIC,
+    SNMP_V3_GET_REQUEST,
+    NTP_MESSAGE,
+    XDMCP,
+    KERBEROS,
+    SIP_OPTIONS,
+    LDAP_SEARCH_REQ,
+    MEMCACHED_STATS,
+    OPENVPN,
+    CIFS_NS_UC,
+    TFTP_GET,
+    DHCP_INFORM,
+    QUIC,
+    RIPV1,
+    NFS_PROC_NULL,
+    COAP_REQUEST,
+  ];
+
+  static final $core.Map<$core.int, UdpConnectivityTestRequest_UDPProbeDataType> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static UdpConnectivityTestRequest_UDPProbeDataType? valueOf($core.int value) => _byValue[value];
+
+  const UdpConnectivityTestRequest_UDPProbeDataType._($core.int v, $core.String n) : super(v, n);
 }
 
 class DishConfig_LevelDishMode extends $pb.ProtobufEnum {
@@ -971,6 +1086,8 @@ class DishGetDiagnosticsResponse_DisablementCode extends $pb.ProtobufEnum {
   static const DishGetDiagnosticsResponse_DisablementCode INVALID_COUNTRY = DishGetDiagnosticsResponse_DisablementCode._(5, _omitEnumNames ? '' : 'INVALID_COUNTRY');
   static const DishGetDiagnosticsResponse_DisablementCode BLOCKED_COUNTRY = DishGetDiagnosticsResponse_DisablementCode._(6, _omitEnumNames ? '' : 'BLOCKED_COUNTRY');
   static const DishGetDiagnosticsResponse_DisablementCode DATA_OVERAGE_SANDBOX_POLICY = DishGetDiagnosticsResponse_DisablementCode._(7, _omitEnumNames ? '' : 'DATA_OVERAGE_SANDBOX_POLICY');
+  static const DishGetDiagnosticsResponse_DisablementCode CELL_IS_DISABLED = DishGetDiagnosticsResponse_DisablementCode._(8, _omitEnumNames ? '' : 'CELL_IS_DISABLED');
+  static const DishGetDiagnosticsResponse_DisablementCode UNLICENSED_COUNTRY = DishGetDiagnosticsResponse_DisablementCode._(9, _omitEnumNames ? '' : 'UNLICENSED_COUNTRY');
 
   static const $core.List<DishGetDiagnosticsResponse_DisablementCode> values = <DishGetDiagnosticsResponse_DisablementCode> [
     UNKNOWN,
@@ -981,6 +1098,8 @@ class DishGetDiagnosticsResponse_DisablementCode extends $pb.ProtobufEnum {
     INVALID_COUNTRY,
     BLOCKED_COUNTRY,
     DATA_OVERAGE_SANDBOX_POLICY,
+    CELL_IS_DISABLED,
+    UNLICENSED_COUNTRY,
   ];
 
   static final $core.Map<$core.int, DishGetDiagnosticsResponse_DisablementCode> _byValue = $pb.ProtobufEnum.initByValue(values);

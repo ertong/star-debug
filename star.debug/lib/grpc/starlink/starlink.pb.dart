@@ -55,6 +55,8 @@ enum Request_Request {
   getRadioStats, 
   time, 
   runIperfServer, 
+  tcpConnectivityTest, 
+  udpConnectivityTest, 
   sensitiveRequest, 
   dishStow, 
   dishGetContext, 
@@ -72,6 +74,7 @@ enum Request_Request {
   dishActivateRssiScan, 
   dishGetRssiScanResult, 
   dishFactoryReset, 
+  resetButton, 
   wifiSetConfig, 
   wifiGetClients, 
   wifiSetup, 
@@ -141,6 +144,8 @@ class Request extends $pb.GeneratedMessage {
     GetRadioStatsRequest? getRadioStats,
     GetTimeRequest? time,
     RunIperfServerRequest? runIperfServer,
+    TcpConnectivityTestRequest? tcpConnectivityTest,
+    UdpConnectivityTestRequest? udpConnectivityTest,
     SignedData? sensitiveRequest,
     DishStowRequest? dishStow,
     DishGetContextRequest? dishGetContext,
@@ -158,6 +163,7 @@ class Request extends $pb.GeneratedMessage {
     DishActivateRssiScanRequest? dishActivateRssiScan,
     DishGetRssiScanResultRequest? dishGetRssiScanResult,
     DishFactoryResetRequest? dishFactoryReset,
+    ResetButtonRequest? resetButton,
     WifiSetConfigRequest? wifiSetConfig,
     WifiGetClientsRequest? wifiGetClients,
     WifiSetupRequest? wifiSetup,
@@ -298,6 +304,12 @@ class Request extends $pb.GeneratedMessage {
     if (runIperfServer != null) {
       $result.runIperfServer = runIperfServer;
     }
+    if (tcpConnectivityTest != null) {
+      $result.tcpConnectivityTest = tcpConnectivityTest;
+    }
+    if (udpConnectivityTest != null) {
+      $result.udpConnectivityTest = udpConnectivityTest;
+    }
     if (sensitiveRequest != null) {
       $result.sensitiveRequest = sensitiveRequest;
     }
@@ -348,6 +360,9 @@ class Request extends $pb.GeneratedMessage {
     }
     if (dishFactoryReset != null) {
       $result.dishFactoryReset = dishFactoryReset;
+    }
+    if (resetButton != null) {
+      $result.resetButton = resetButton;
     }
     if (wifiSetConfig != null) {
       $result.wifiSetConfig = wifiSetConfig;
@@ -466,6 +481,8 @@ class Request extends $pb.GeneratedMessage {
     1036 : Request_Request.getRadioStats,
     1037 : Request_Request.time,
     1038 : Request_Request.runIperfServer,
+    1039 : Request_Request.tcpConnectivityTest,
+    1040 : Request_Request.udpConnectivityTest,
     1078 : Request_Request.sensitiveRequest,
     2002 : Request_Request.dishStow,
     2003 : Request_Request.dishGetContext,
@@ -483,6 +500,7 @@ class Request extends $pb.GeneratedMessage {
     2019 : Request_Request.dishActivateRssiScan,
     2020 : Request_Request.dishGetRssiScanResult,
     2021 : Request_Request.dishFactoryReset,
+    2022 : Request_Request.resetButton,
     3001 : Request_Request.wifiSetConfig,
     3002 : Request_Request.wifiGetClients,
     3003 : Request_Request.wifiSetup,
@@ -511,7 +529,7 @@ class Request extends $pb.GeneratedMessage {
     0 : Request_Request.notSet
   };
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'Request', package: const $pb.PackageName(_omitMessageNames ? '' : 'SpaceX.API.Device'), createEmptyInstance: create)
-    ..oo(0, [15, 1001, 1003, 1004, 1005, 1006, 1007, 1008, 1009, 1010, 1011, 1012, 1013, 1014, 1015, 1016, 1017, 1019, 1020, 1021, 1022, 1023, 1027, 1028, 1029, 1030, 1031, 1032, 1033, 1034, 1035, 1036, 1037, 1038, 1078, 2002, 2003, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2017, 2018, 2019, 2020, 2021, 3001, 3002, 3003, 3007, 3009, 3012, 3013, 3015, 3016, 3017, 3018, 3019, 3020, 3021, 3024, 3025, 3026, 3027, 3028, 3029, 3030, 4001, 4003, 4004, 6000])
+    ..oo(0, [15, 1001, 1003, 1004, 1005, 1006, 1007, 1008, 1009, 1010, 1011, 1012, 1013, 1014, 1015, 1016, 1017, 1019, 1020, 1021, 1022, 1023, 1027, 1028, 1029, 1030, 1031, 1032, 1033, 1034, 1035, 1036, 1037, 1038, 1039, 1040, 1078, 2002, 2003, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2017, 2018, 2019, 2020, 2021, 2022, 3001, 3002, 3003, 3007, 3009, 3012, 3013, 3015, 3016, 3017, 3018, 3019, 3020, 3021, 3024, 3025, 3026, 3027, 3028, 3029, 3030, 4001, 4003, 4004, 6000])
     ..a<$fixnum.Int64>(1, _omitFieldNames ? '' : 'id', $pb.PbFieldType.OU6, defaultOrMaker: $fixnum.Int64.ZERO)
     ..aOS(13, _omitFieldNames ? '' : 'targetId')
     ..a<$fixnum.Int64>(14, _omitFieldNames ? '' : 'epochId', $pb.PbFieldType.OU6, defaultOrMaker: $fixnum.Int64.ZERO)
@@ -549,6 +567,8 @@ class Request extends $pb.GeneratedMessage {
     ..aOM<GetRadioStatsRequest>(1036, _omitFieldNames ? '' : 'getRadioStats', subBuilder: GetRadioStatsRequest.create)
     ..aOM<GetTimeRequest>(1037, _omitFieldNames ? '' : 'time', subBuilder: GetTimeRequest.create)
     ..aOM<RunIperfServerRequest>(1038, _omitFieldNames ? '' : 'runIperfServer', subBuilder: RunIperfServerRequest.create)
+    ..aOM<TcpConnectivityTestRequest>(1039, _omitFieldNames ? '' : 'tcpConnectivityTest', subBuilder: TcpConnectivityTestRequest.create)
+    ..aOM<UdpConnectivityTestRequest>(1040, _omitFieldNames ? '' : 'udpConnectivityTest', subBuilder: UdpConnectivityTestRequest.create)
     ..aOM<SignedData>(1078, _omitFieldNames ? '' : 'sensitiveRequest', subBuilder: SignedData.create)
     ..aOM<DishStowRequest>(2002, _omitFieldNames ? '' : 'dishStow', subBuilder: DishStowRequest.create)
     ..aOM<DishGetContextRequest>(2003, _omitFieldNames ? '' : 'dishGetContext', subBuilder: DishGetContextRequest.create)
@@ -566,6 +586,7 @@ class Request extends $pb.GeneratedMessage {
     ..aOM<DishActivateRssiScanRequest>(2019, _omitFieldNames ? '' : 'dishActivateRssiScan', subBuilder: DishActivateRssiScanRequest.create)
     ..aOM<DishGetRssiScanResultRequest>(2020, _omitFieldNames ? '' : 'dishGetRssiScanResult', subBuilder: DishGetRssiScanResultRequest.create)
     ..aOM<DishFactoryResetRequest>(2021, _omitFieldNames ? '' : 'dishFactoryReset', subBuilder: DishFactoryResetRequest.create)
+    ..aOM<ResetButtonRequest>(2022, _omitFieldNames ? '' : 'resetButton', subBuilder: ResetButtonRequest.create)
     ..aOM<WifiSetConfigRequest>(3001, _omitFieldNames ? '' : 'wifiSetConfig', subBuilder: WifiSetConfigRequest.create)
     ..aOM<WifiGetClientsRequest>(3002, _omitFieldNames ? '' : 'wifiGetClients', subBuilder: WifiGetClientsRequest.create)
     ..aOM<WifiSetupRequest>(3003, _omitFieldNames ? '' : 'wifiSetup', subBuilder: WifiSetupRequest.create)
@@ -1024,474 +1045,507 @@ class Request extends $pb.GeneratedMessage {
   @$pb.TagNumber(1038)
   RunIperfServerRequest ensureRunIperfServer() => $_ensure(36);
 
+  @$pb.TagNumber(1039)
+  TcpConnectivityTestRequest get tcpConnectivityTest => $_getN(37);
+  @$pb.TagNumber(1039)
+  set tcpConnectivityTest(TcpConnectivityTestRequest v) { setField(1039, v); }
+  @$pb.TagNumber(1039)
+  $core.bool hasTcpConnectivityTest() => $_has(37);
+  @$pb.TagNumber(1039)
+  void clearTcpConnectivityTest() => clearField(1039);
+  @$pb.TagNumber(1039)
+  TcpConnectivityTestRequest ensureTcpConnectivityTest() => $_ensure(37);
+
+  @$pb.TagNumber(1040)
+  UdpConnectivityTestRequest get udpConnectivityTest => $_getN(38);
+  @$pb.TagNumber(1040)
+  set udpConnectivityTest(UdpConnectivityTestRequest v) { setField(1040, v); }
+  @$pb.TagNumber(1040)
+  $core.bool hasUdpConnectivityTest() => $_has(38);
+  @$pb.TagNumber(1040)
+  void clearUdpConnectivityTest() => clearField(1040);
+  @$pb.TagNumber(1040)
+  UdpConnectivityTestRequest ensureUdpConnectivityTest() => $_ensure(38);
+
   @$pb.TagNumber(1078)
-  SignedData get sensitiveRequest => $_getN(37);
+  SignedData get sensitiveRequest => $_getN(39);
   @$pb.TagNumber(1078)
   set sensitiveRequest(SignedData v) { setField(1078, v); }
   @$pb.TagNumber(1078)
-  $core.bool hasSensitiveRequest() => $_has(37);
+  $core.bool hasSensitiveRequest() => $_has(39);
   @$pb.TagNumber(1078)
   void clearSensitiveRequest() => clearField(1078);
   @$pb.TagNumber(1078)
-  SignedData ensureSensitiveRequest() => $_ensure(37);
+  SignedData ensureSensitiveRequest() => $_ensure(39);
 
   @$pb.TagNumber(2002)
-  DishStowRequest get dishStow => $_getN(38);
+  DishStowRequest get dishStow => $_getN(40);
   @$pb.TagNumber(2002)
   set dishStow(DishStowRequest v) { setField(2002, v); }
   @$pb.TagNumber(2002)
-  $core.bool hasDishStow() => $_has(38);
+  $core.bool hasDishStow() => $_has(40);
   @$pb.TagNumber(2002)
   void clearDishStow() => clearField(2002);
   @$pb.TagNumber(2002)
-  DishStowRequest ensureDishStow() => $_ensure(38);
+  DishStowRequest ensureDishStow() => $_ensure(40);
 
   @$pb.TagNumber(2003)
-  DishGetContextRequest get dishGetContext => $_getN(39);
+  DishGetContextRequest get dishGetContext => $_getN(41);
   @$pb.TagNumber(2003)
   set dishGetContext(DishGetContextRequest v) { setField(2003, v); }
   @$pb.TagNumber(2003)
-  $core.bool hasDishGetContext() => $_has(39);
+  $core.bool hasDishGetContext() => $_has(41);
   @$pb.TagNumber(2003)
   void clearDishGetContext() => clearField(2003);
   @$pb.TagNumber(2003)
-  DishGetContextRequest ensureDishGetContext() => $_ensure(39);
+  DishGetContextRequest ensureDishGetContext() => $_ensure(41);
 
   @$pb.TagNumber(2007)
-  DishSetEmcRequest get dishSetEmc => $_getN(40);
+  DishSetEmcRequest get dishSetEmc => $_getN(42);
   @$pb.TagNumber(2007)
   set dishSetEmc(DishSetEmcRequest v) { setField(2007, v); }
   @$pb.TagNumber(2007)
-  $core.bool hasDishSetEmc() => $_has(40);
+  $core.bool hasDishSetEmc() => $_has(42);
   @$pb.TagNumber(2007)
   void clearDishSetEmc() => clearField(2007);
   @$pb.TagNumber(2007)
-  DishSetEmcRequest ensureDishSetEmc() => $_ensure(40);
+  DishSetEmcRequest ensureDishSetEmc() => $_ensure(42);
 
   @$pb.TagNumber(2008)
-  DishGetObstructionMapRequest get dishGetObstructionMap => $_getN(41);
+  DishGetObstructionMapRequest get dishGetObstructionMap => $_getN(43);
   @$pb.TagNumber(2008)
   set dishGetObstructionMap(DishGetObstructionMapRequest v) { setField(2008, v); }
   @$pb.TagNumber(2008)
-  $core.bool hasDishGetObstructionMap() => $_has(41);
+  $core.bool hasDishGetObstructionMap() => $_has(43);
   @$pb.TagNumber(2008)
   void clearDishGetObstructionMap() => clearField(2008);
   @$pb.TagNumber(2008)
-  DishGetObstructionMapRequest ensureDishGetObstructionMap() => $_ensure(41);
+  DishGetObstructionMapRequest ensureDishGetObstructionMap() => $_ensure(43);
 
   @$pb.TagNumber(2009)
-  DishGetEmcRequest get dishGetEmc => $_getN(42);
+  DishGetEmcRequest get dishGetEmc => $_getN(44);
   @$pb.TagNumber(2009)
   set dishGetEmc(DishGetEmcRequest v) { setField(2009, v); }
   @$pb.TagNumber(2009)
-  $core.bool hasDishGetEmc() => $_has(42);
+  $core.bool hasDishGetEmc() => $_has(44);
   @$pb.TagNumber(2009)
   void clearDishGetEmc() => clearField(2009);
   @$pb.TagNumber(2009)
-  DishGetEmcRequest ensureDishGetEmc() => $_ensure(42);
+  DishGetEmcRequest ensureDishGetEmc() => $_ensure(44);
 
   @$pb.TagNumber(2010)
-  DishSetConfigRequest get dishSetConfig => $_getN(43);
+  DishSetConfigRequest get dishSetConfig => $_getN(45);
   @$pb.TagNumber(2010)
   set dishSetConfig(DishSetConfigRequest v) { setField(2010, v); }
   @$pb.TagNumber(2010)
-  $core.bool hasDishSetConfig() => $_has(43);
+  $core.bool hasDishSetConfig() => $_has(45);
   @$pb.TagNumber(2010)
   void clearDishSetConfig() => clearField(2010);
   @$pb.TagNumber(2010)
-  DishSetConfigRequest ensureDishSetConfig() => $_ensure(43);
+  DishSetConfigRequest ensureDishSetConfig() => $_ensure(45);
 
   @$pb.TagNumber(2011)
-  DishGetConfigRequest get dishGetConfig => $_getN(44);
+  DishGetConfigRequest get dishGetConfig => $_getN(46);
   @$pb.TagNumber(2011)
   set dishGetConfig(DishGetConfigRequest v) { setField(2011, v); }
   @$pb.TagNumber(2011)
-  $core.bool hasDishGetConfig() => $_has(44);
+  $core.bool hasDishGetConfig() => $_has(46);
   @$pb.TagNumber(2011)
   void clearDishGetConfig() => clearField(2011);
   @$pb.TagNumber(2011)
-  DishGetConfigRequest ensureDishGetConfig() => $_ensure(44);
+  DishGetConfigRequest ensureDishGetConfig() => $_ensure(46);
 
   @$pb.TagNumber(2012)
-  StartDishSelfTestRequest get startDishSelfTest => $_getN(45);
+  StartDishSelfTestRequest get startDishSelfTest => $_getN(47);
   @$pb.TagNumber(2012)
   set startDishSelfTest(StartDishSelfTestRequest v) { setField(2012, v); }
   @$pb.TagNumber(2012)
-  $core.bool hasStartDishSelfTest() => $_has(45);
+  $core.bool hasStartDishSelfTest() => $_has(47);
   @$pb.TagNumber(2012)
   void clearStartDishSelfTest() => clearField(2012);
   @$pb.TagNumber(2012)
-  StartDishSelfTestRequest ensureStartDishSelfTest() => $_ensure(45);
+  StartDishSelfTestRequest ensureStartDishSelfTest() => $_ensure(47);
 
   @$pb.TagNumber(2013)
-  DishPowerSaveRequest get dishPowerSave => $_getN(46);
+  DishPowerSaveRequest get dishPowerSave => $_getN(48);
   @$pb.TagNumber(2013)
   set dishPowerSave(DishPowerSaveRequest v) { setField(2013, v); }
   @$pb.TagNumber(2013)
-  $core.bool hasDishPowerSave() => $_has(46);
+  $core.bool hasDishPowerSave() => $_has(48);
   @$pb.TagNumber(2013)
   void clearDishPowerSave() => clearField(2013);
   @$pb.TagNumber(2013)
-  DishPowerSaveRequest ensureDishPowerSave() => $_ensure(46);
+  DishPowerSaveRequest ensureDishPowerSave() => $_ensure(48);
 
   @$pb.TagNumber(2014)
-  DishInhibitGpsRequest get dishInhibitGps => $_getN(47);
+  DishInhibitGpsRequest get dishInhibitGps => $_getN(49);
   @$pb.TagNumber(2014)
   set dishInhibitGps(DishInhibitGpsRequest v) { setField(2014, v); }
   @$pb.TagNumber(2014)
-  $core.bool hasDishInhibitGps() => $_has(47);
+  $core.bool hasDishInhibitGps() => $_has(49);
   @$pb.TagNumber(2014)
   void clearDishInhibitGps() => clearField(2014);
   @$pb.TagNumber(2014)
-  DishInhibitGpsRequest ensureDishInhibitGps() => $_ensure(47);
+  DishInhibitGpsRequest ensureDishInhibitGps() => $_ensure(49);
 
   @$pb.TagNumber(2015)
-  DishGetDataRequest get dishGetData => $_getN(48);
+  DishGetDataRequest get dishGetData => $_getN(50);
   @$pb.TagNumber(2015)
   set dishGetData(DishGetDataRequest v) { setField(2015, v); }
   @$pb.TagNumber(2015)
-  $core.bool hasDishGetData() => $_has(48);
+  $core.bool hasDishGetData() => $_has(50);
   @$pb.TagNumber(2015)
   void clearDishGetData() => clearField(2015);
   @$pb.TagNumber(2015)
-  DishGetDataRequest ensureDishGetData() => $_ensure(48);
+  DishGetDataRequest ensureDishGetData() => $_ensure(50);
 
   @$pb.TagNumber(2017)
-  DishClearObstructionMapRequest get dishClearObstructionMap => $_getN(49);
+  DishClearObstructionMapRequest get dishClearObstructionMap => $_getN(51);
   @$pb.TagNumber(2017)
   set dishClearObstructionMap(DishClearObstructionMapRequest v) { setField(2017, v); }
   @$pb.TagNumber(2017)
-  $core.bool hasDishClearObstructionMap() => $_has(49);
+  $core.bool hasDishClearObstructionMap() => $_has(51);
   @$pb.TagNumber(2017)
   void clearDishClearObstructionMap() => clearField(2017);
   @$pb.TagNumber(2017)
-  DishClearObstructionMapRequest ensureDishClearObstructionMap() => $_ensure(49);
+  DishClearObstructionMapRequest ensureDishClearObstructionMap() => $_ensure(51);
 
   @$pb.TagNumber(2018)
-  DishSetMaxPowerTestModeRequest get dishSetMaxPowerTestMode => $_getN(50);
+  DishSetMaxPowerTestModeRequest get dishSetMaxPowerTestMode => $_getN(52);
   @$pb.TagNumber(2018)
   set dishSetMaxPowerTestMode(DishSetMaxPowerTestModeRequest v) { setField(2018, v); }
   @$pb.TagNumber(2018)
-  $core.bool hasDishSetMaxPowerTestMode() => $_has(50);
+  $core.bool hasDishSetMaxPowerTestMode() => $_has(52);
   @$pb.TagNumber(2018)
   void clearDishSetMaxPowerTestMode() => clearField(2018);
   @$pb.TagNumber(2018)
-  DishSetMaxPowerTestModeRequest ensureDishSetMaxPowerTestMode() => $_ensure(50);
+  DishSetMaxPowerTestModeRequest ensureDishSetMaxPowerTestMode() => $_ensure(52);
 
   @$pb.TagNumber(2019)
-  DishActivateRssiScanRequest get dishActivateRssiScan => $_getN(51);
+  DishActivateRssiScanRequest get dishActivateRssiScan => $_getN(53);
   @$pb.TagNumber(2019)
   set dishActivateRssiScan(DishActivateRssiScanRequest v) { setField(2019, v); }
   @$pb.TagNumber(2019)
-  $core.bool hasDishActivateRssiScan() => $_has(51);
+  $core.bool hasDishActivateRssiScan() => $_has(53);
   @$pb.TagNumber(2019)
   void clearDishActivateRssiScan() => clearField(2019);
   @$pb.TagNumber(2019)
-  DishActivateRssiScanRequest ensureDishActivateRssiScan() => $_ensure(51);
+  DishActivateRssiScanRequest ensureDishActivateRssiScan() => $_ensure(53);
 
   @$pb.TagNumber(2020)
-  DishGetRssiScanResultRequest get dishGetRssiScanResult => $_getN(52);
+  DishGetRssiScanResultRequest get dishGetRssiScanResult => $_getN(54);
   @$pb.TagNumber(2020)
   set dishGetRssiScanResult(DishGetRssiScanResultRequest v) { setField(2020, v); }
   @$pb.TagNumber(2020)
-  $core.bool hasDishGetRssiScanResult() => $_has(52);
+  $core.bool hasDishGetRssiScanResult() => $_has(54);
   @$pb.TagNumber(2020)
   void clearDishGetRssiScanResult() => clearField(2020);
   @$pb.TagNumber(2020)
-  DishGetRssiScanResultRequest ensureDishGetRssiScanResult() => $_ensure(52);
+  DishGetRssiScanResultRequest ensureDishGetRssiScanResult() => $_ensure(54);
 
   @$pb.TagNumber(2021)
-  DishFactoryResetRequest get dishFactoryReset => $_getN(53);
+  DishFactoryResetRequest get dishFactoryReset => $_getN(55);
   @$pb.TagNumber(2021)
   set dishFactoryReset(DishFactoryResetRequest v) { setField(2021, v); }
   @$pb.TagNumber(2021)
-  $core.bool hasDishFactoryReset() => $_has(53);
+  $core.bool hasDishFactoryReset() => $_has(55);
   @$pb.TagNumber(2021)
   void clearDishFactoryReset() => clearField(2021);
   @$pb.TagNumber(2021)
-  DishFactoryResetRequest ensureDishFactoryReset() => $_ensure(53);
+  DishFactoryResetRequest ensureDishFactoryReset() => $_ensure(55);
+
+  @$pb.TagNumber(2022)
+  ResetButtonRequest get resetButton => $_getN(56);
+  @$pb.TagNumber(2022)
+  set resetButton(ResetButtonRequest v) { setField(2022, v); }
+  @$pb.TagNumber(2022)
+  $core.bool hasResetButton() => $_has(56);
+  @$pb.TagNumber(2022)
+  void clearResetButton() => clearField(2022);
+  @$pb.TagNumber(2022)
+  ResetButtonRequest ensureResetButton() => $_ensure(56);
 
   @$pb.TagNumber(3001)
-  WifiSetConfigRequest get wifiSetConfig => $_getN(54);
+  WifiSetConfigRequest get wifiSetConfig => $_getN(57);
   @$pb.TagNumber(3001)
   set wifiSetConfig(WifiSetConfigRequest v) { setField(3001, v); }
   @$pb.TagNumber(3001)
-  $core.bool hasWifiSetConfig() => $_has(54);
+  $core.bool hasWifiSetConfig() => $_has(57);
   @$pb.TagNumber(3001)
   void clearWifiSetConfig() => clearField(3001);
   @$pb.TagNumber(3001)
-  WifiSetConfigRequest ensureWifiSetConfig() => $_ensure(54);
+  WifiSetConfigRequest ensureWifiSetConfig() => $_ensure(57);
 
   @$pb.TagNumber(3002)
-  WifiGetClientsRequest get wifiGetClients => $_getN(55);
+  WifiGetClientsRequest get wifiGetClients => $_getN(58);
   @$pb.TagNumber(3002)
   set wifiGetClients(WifiGetClientsRequest v) { setField(3002, v); }
   @$pb.TagNumber(3002)
-  $core.bool hasWifiGetClients() => $_has(55);
+  $core.bool hasWifiGetClients() => $_has(58);
   @$pb.TagNumber(3002)
   void clearWifiGetClients() => clearField(3002);
   @$pb.TagNumber(3002)
-  WifiGetClientsRequest ensureWifiGetClients() => $_ensure(55);
+  WifiGetClientsRequest ensureWifiGetClients() => $_ensure(58);
 
   @$pb.TagNumber(3003)
-  WifiSetupRequest get wifiSetup => $_getN(56);
+  WifiSetupRequest get wifiSetup => $_getN(59);
   @$pb.TagNumber(3003)
   set wifiSetup(WifiSetupRequest v) { setField(3003, v); }
   @$pb.TagNumber(3003)
-  $core.bool hasWifiSetup() => $_has(56);
+  $core.bool hasWifiSetup() => $_has(59);
   @$pb.TagNumber(3003)
   void clearWifiSetup() => clearField(3003);
   @$pb.TagNumber(3003)
-  WifiSetupRequest ensureWifiSetup() => $_ensure(56);
+  WifiSetupRequest ensureWifiSetup() => $_ensure(59);
 
   @$pb.TagNumber(3007)
-  WifiGetPingMetricsRequest get wifiGetPingMetrics => $_getN(57);
+  WifiGetPingMetricsRequest get wifiGetPingMetrics => $_getN(60);
   @$pb.TagNumber(3007)
   set wifiGetPingMetrics(WifiGetPingMetricsRequest v) { setField(3007, v); }
   @$pb.TagNumber(3007)
-  $core.bool hasWifiGetPingMetrics() => $_has(57);
+  $core.bool hasWifiGetPingMetrics() => $_has(60);
   @$pb.TagNumber(3007)
   void clearWifiGetPingMetrics() => clearField(3007);
   @$pb.TagNumber(3007)
-  WifiGetPingMetricsRequest ensureWifiGetPingMetrics() => $_ensure(57);
+  WifiGetPingMetricsRequest ensureWifiGetPingMetrics() => $_ensure(60);
 
   @$pb.TagNumber(3009)
-  WifiGetConfigRequest get wifiGetConfig => $_getN(58);
+  WifiGetConfigRequest get wifiGetConfig => $_getN(61);
   @$pb.TagNumber(3009)
   set wifiGetConfig(WifiGetConfigRequest v) { setField(3009, v); }
   @$pb.TagNumber(3009)
-  $core.bool hasWifiGetConfig() => $_has(58);
+  $core.bool hasWifiGetConfig() => $_has(61);
   @$pb.TagNumber(3009)
   void clearWifiGetConfig() => clearField(3009);
   @$pb.TagNumber(3009)
-  WifiGetConfigRequest ensureWifiGetConfig() => $_ensure(58);
+  WifiGetConfigRequest ensureWifiGetConfig() => $_ensure(61);
 
   @$pb.TagNumber(3012)
-  WifiSetMeshDeviceTrustRequest get wifiSetMeshDeviceTrust => $_getN(59);
+  WifiSetMeshDeviceTrustRequest get wifiSetMeshDeviceTrust => $_getN(62);
   @$pb.TagNumber(3012)
   set wifiSetMeshDeviceTrust(WifiSetMeshDeviceTrustRequest v) { setField(3012, v); }
   @$pb.TagNumber(3012)
-  $core.bool hasWifiSetMeshDeviceTrust() => $_has(59);
+  $core.bool hasWifiSetMeshDeviceTrust() => $_has(62);
   @$pb.TagNumber(3012)
   void clearWifiSetMeshDeviceTrust() => clearField(3012);
   @$pb.TagNumber(3012)
-  WifiSetMeshDeviceTrustRequest ensureWifiSetMeshDeviceTrust() => $_ensure(59);
+  WifiSetMeshDeviceTrustRequest ensureWifiSetMeshDeviceTrust() => $_ensure(62);
 
   @$core.Deprecated('This field is deprecated.')
   @$pb.TagNumber(3013)
-  WifiSetMeshConfigRequest get wifiSetMeshConfig => $_getN(60);
+  WifiSetMeshConfigRequest get wifiSetMeshConfig => $_getN(63);
   @$core.Deprecated('This field is deprecated.')
   @$pb.TagNumber(3013)
   set wifiSetMeshConfig(WifiSetMeshConfigRequest v) { setField(3013, v); }
   @$core.Deprecated('This field is deprecated.')
   @$pb.TagNumber(3013)
-  $core.bool hasWifiSetMeshConfig() => $_has(60);
+  $core.bool hasWifiSetMeshConfig() => $_has(63);
   @$core.Deprecated('This field is deprecated.')
   @$pb.TagNumber(3013)
   void clearWifiSetMeshConfig() => clearField(3013);
   @$core.Deprecated('This field is deprecated.')
   @$pb.TagNumber(3013)
-  WifiSetMeshConfigRequest ensureWifiSetMeshConfig() => $_ensure(60);
+  WifiSetMeshConfigRequest ensureWifiSetMeshConfig() => $_ensure(63);
 
   @$pb.TagNumber(3015)
-  WifiGetClientHistoryRequest get wifiGetClientHistory => $_getN(61);
+  WifiGetClientHistoryRequest get wifiGetClientHistory => $_getN(64);
   @$pb.TagNumber(3015)
   set wifiGetClientHistory(WifiGetClientHistoryRequest v) { setField(3015, v); }
   @$pb.TagNumber(3015)
-  $core.bool hasWifiGetClientHistory() => $_has(61);
+  $core.bool hasWifiGetClientHistory() => $_has(64);
   @$pb.TagNumber(3015)
   void clearWifiGetClientHistory() => clearField(3015);
   @$pb.TagNumber(3015)
-  WifiGetClientHistoryRequest ensureWifiGetClientHistory() => $_ensure(61);
+  WifiGetClientHistoryRequest ensureWifiGetClientHistory() => $_ensure(64);
 
   @$pb.TagNumber(3016)
-  WifiSetAviationConformedRequest get wifiSetAviationConformed => $_getN(62);
+  WifiSetAviationConformedRequest get wifiSetAviationConformed => $_getN(65);
   @$pb.TagNumber(3016)
   set wifiSetAviationConformed(WifiSetAviationConformedRequest v) { setField(3016, v); }
   @$pb.TagNumber(3016)
-  $core.bool hasWifiSetAviationConformed() => $_has(62);
+  $core.bool hasWifiSetAviationConformed() => $_has(65);
   @$pb.TagNumber(3016)
   void clearWifiSetAviationConformed() => clearField(3016);
   @$pb.TagNumber(3016)
-  WifiSetAviationConformedRequest ensureWifiSetAviationConformed() => $_ensure(62);
+  WifiSetAviationConformedRequest ensureWifiSetAviationConformed() => $_ensure(65);
 
   @$pb.TagNumber(3017)
-  WifiSetClientGivenNameRequest get wifiSetClientGivenName => $_getN(63);
+  WifiSetClientGivenNameRequest get wifiSetClientGivenName => $_getN(66);
   @$pb.TagNumber(3017)
   set wifiSetClientGivenName(WifiSetClientGivenNameRequest v) { setField(3017, v); }
   @$pb.TagNumber(3017)
-  $core.bool hasWifiSetClientGivenName() => $_has(63);
+  $core.bool hasWifiSetClientGivenName() => $_has(66);
   @$pb.TagNumber(3017)
   void clearWifiSetClientGivenName() => clearField(3017);
   @$pb.TagNumber(3017)
-  WifiSetClientGivenNameRequest ensureWifiSetClientGivenName() => $_ensure(63);
+  WifiSetClientGivenNameRequest ensureWifiSetClientGivenName() => $_ensure(66);
 
   @$pb.TagNumber(3018)
-  WifiSelfTestRequest get wifiSelfTest => $_getN(64);
+  WifiSelfTestRequest get wifiSelfTest => $_getN(67);
   @$pb.TagNumber(3018)
   set wifiSelfTest(WifiSelfTestRequest v) { setField(3018, v); }
   @$pb.TagNumber(3018)
-  $core.bool hasWifiSelfTest() => $_has(64);
+  $core.bool hasWifiSelfTest() => $_has(67);
   @$pb.TagNumber(3018)
   void clearWifiSelfTest() => clearField(3018);
   @$pb.TagNumber(3018)
-  WifiSelfTestRequest ensureWifiSelfTest() => $_ensure(64);
+  WifiSelfTestRequest ensureWifiSelfTest() => $_ensure(67);
 
   @$pb.TagNumber(3019)
-  WifiCalibrationModeRequest get wifiCalibrationMode => $_getN(65);
+  WifiCalibrationModeRequest get wifiCalibrationMode => $_getN(68);
   @$pb.TagNumber(3019)
   set wifiCalibrationMode(WifiCalibrationModeRequest v) { setField(3019, v); }
   @$pb.TagNumber(3019)
-  $core.bool hasWifiCalibrationMode() => $_has(65);
+  $core.bool hasWifiCalibrationMode() => $_has(68);
   @$pb.TagNumber(3019)
   void clearWifiCalibrationMode() => clearField(3019);
   @$pb.TagNumber(3019)
-  WifiCalibrationModeRequest ensureWifiCalibrationMode() => $_ensure(65);
+  WifiCalibrationModeRequest ensureWifiCalibrationMode() => $_ensure(68);
 
   @$pb.TagNumber(3020)
-  WifiGuestInfoRequest get wifiGuestInfo => $_getN(66);
+  WifiGuestInfoRequest get wifiGuestInfo => $_getN(69);
   @$pb.TagNumber(3020)
   set wifiGuestInfo(WifiGuestInfoRequest v) { setField(3020, v); }
   @$pb.TagNumber(3020)
-  $core.bool hasWifiGuestInfo() => $_has(66);
+  $core.bool hasWifiGuestInfo() => $_has(69);
   @$pb.TagNumber(3020)
   void clearWifiGuestInfo() => clearField(3020);
   @$pb.TagNumber(3020)
-  WifiGuestInfoRequest ensureWifiGuestInfo() => $_ensure(66);
+  WifiGuestInfoRequest ensureWifiGuestInfo() => $_ensure(69);
 
   @$pb.TagNumber(3021)
-  WifiRfTestRequest get wifiRfTest => $_getN(67);
+  WifiRfTestRequest get wifiRfTest => $_getN(70);
   @$pb.TagNumber(3021)
   set wifiRfTest(WifiRfTestRequest v) { setField(3021, v); }
   @$pb.TagNumber(3021)
-  $core.bool hasWifiRfTest() => $_has(67);
+  $core.bool hasWifiRfTest() => $_has(70);
   @$pb.TagNumber(3021)
   void clearWifiRfTest() => clearField(3021);
   @$pb.TagNumber(3021)
-  WifiRfTestRequest ensureWifiRfTest() => $_ensure(67);
+  WifiRfTestRequest ensureWifiRfTest() => $_ensure(70);
 
   @$pb.TagNumber(3024)
-  WifiGetFirewallRequest get wifiGetFirewall => $_getN(68);
+  WifiGetFirewallRequest get wifiGetFirewall => $_getN(71);
   @$pb.TagNumber(3024)
   set wifiGetFirewall(WifiGetFirewallRequest v) { setField(3024, v); }
   @$pb.TagNumber(3024)
-  $core.bool hasWifiGetFirewall() => $_has(68);
+  $core.bool hasWifiGetFirewall() => $_has(71);
   @$pb.TagNumber(3024)
   void clearWifiGetFirewall() => clearField(3024);
   @$pb.TagNumber(3024)
-  WifiGetFirewallRequest ensureWifiGetFirewall() => $_ensure(68);
+  WifiGetFirewallRequest ensureWifiGetFirewall() => $_ensure(71);
 
   @$pb.TagNumber(3025)
-  WifiTogglePoeNegotiationRequest get wifiTogglePoeNegotiation => $_getN(69);
+  WifiTogglePoeNegotiationRequest get wifiTogglePoeNegotiation => $_getN(72);
   @$pb.TagNumber(3025)
   set wifiTogglePoeNegotiation(WifiTogglePoeNegotiationRequest v) { setField(3025, v); }
   @$pb.TagNumber(3025)
-  $core.bool hasWifiTogglePoeNegotiation() => $_has(69);
+  $core.bool hasWifiTogglePoeNegotiation() => $_has(72);
   @$pb.TagNumber(3025)
   void clearWifiTogglePoeNegotiation() => clearField(3025);
   @$pb.TagNumber(3025)
-  WifiTogglePoeNegotiationRequest ensureWifiTogglePoeNegotiation() => $_ensure(69);
+  WifiTogglePoeNegotiationRequest ensureWifiTogglePoeNegotiation() => $_ensure(72);
 
   @$pb.TagNumber(3026)
-  WifiFactoryTestCommandRequest get wifiFactoryTestCommand => $_getN(70);
+  WifiFactoryTestCommandRequest get wifiFactoryTestCommand => $_getN(73);
   @$pb.TagNumber(3026)
   set wifiFactoryTestCommand(WifiFactoryTestCommandRequest v) { setField(3026, v); }
   @$pb.TagNumber(3026)
-  $core.bool hasWifiFactoryTestCommand() => $_has(70);
+  $core.bool hasWifiFactoryTestCommand() => $_has(73);
   @$pb.TagNumber(3026)
   void clearWifiFactoryTestCommand() => clearField(3026);
   @$pb.TagNumber(3026)
-  WifiFactoryTestCommandRequest ensureWifiFactoryTestCommand() => $_ensure(70);
+  WifiFactoryTestCommandRequest ensureWifiFactoryTestCommand() => $_ensure(73);
 
   @$pb.TagNumber(3027)
-  WifiStartLocalTelemProxyRequest get wifiStartLocalTelemProxy => $_getN(71);
+  WifiStartLocalTelemProxyRequest get wifiStartLocalTelemProxy => $_getN(74);
   @$pb.TagNumber(3027)
   set wifiStartLocalTelemProxy(WifiStartLocalTelemProxyRequest v) { setField(3027, v); }
   @$pb.TagNumber(3027)
-  $core.bool hasWifiStartLocalTelemProxy() => $_has(71);
+  $core.bool hasWifiStartLocalTelemProxy() => $_has(74);
   @$pb.TagNumber(3027)
   void clearWifiStartLocalTelemProxy() => clearField(3027);
   @$pb.TagNumber(3027)
-  WifiStartLocalTelemProxyRequest ensureWifiStartLocalTelemProxy() => $_ensure(71);
+  WifiStartLocalTelemProxyRequest ensureWifiStartLocalTelemProxy() => $_ensure(74);
 
   @$pb.TagNumber(3028)
-  WifiRunSelfTestRequest get wifiRunSelfTest => $_getN(72);
+  WifiRunSelfTestRequest get wifiRunSelfTest => $_getN(75);
   @$pb.TagNumber(3028)
   set wifiRunSelfTest(WifiRunSelfTestRequest v) { setField(3028, v); }
   @$pb.TagNumber(3028)
-  $core.bool hasWifiRunSelfTest() => $_has(72);
+  $core.bool hasWifiRunSelfTest() => $_has(75);
   @$pb.TagNumber(3028)
   void clearWifiRunSelfTest() => clearField(3028);
   @$pb.TagNumber(3028)
-  WifiRunSelfTestRequest ensureWifiRunSelfTest() => $_ensure(72);
+  WifiRunSelfTestRequest ensureWifiRunSelfTest() => $_ensure(75);
 
   @$pb.TagNumber(3029)
-  WifiBackhaulStatsRequest get wifiBackhaulStats => $_getN(73);
+  WifiBackhaulStatsRequest get wifiBackhaulStats => $_getN(76);
   @$pb.TagNumber(3029)
   set wifiBackhaulStats(WifiBackhaulStatsRequest v) { setField(3029, v); }
   @$pb.TagNumber(3029)
-  $core.bool hasWifiBackhaulStats() => $_has(73);
+  $core.bool hasWifiBackhaulStats() => $_has(76);
   @$pb.TagNumber(3029)
   void clearWifiBackhaulStats() => clearField(3029);
   @$pb.TagNumber(3029)
-  WifiBackhaulStatsRequest ensureWifiBackhaulStats() => $_ensure(73);
+  WifiBackhaulStatsRequest ensureWifiBackhaulStats() => $_ensure(76);
 
   @$pb.TagNumber(3030)
-  WifiToggleUmbilicalModeRequest get wifiToggleUmbilicalMode => $_getN(74);
+  WifiToggleUmbilicalModeRequest get wifiToggleUmbilicalMode => $_getN(77);
   @$pb.TagNumber(3030)
   set wifiToggleUmbilicalMode(WifiToggleUmbilicalModeRequest v) { setField(3030, v); }
   @$pb.TagNumber(3030)
-  $core.bool hasWifiToggleUmbilicalMode() => $_has(74);
+  $core.bool hasWifiToggleUmbilicalMode() => $_has(77);
   @$pb.TagNumber(3030)
   void clearWifiToggleUmbilicalMode() => clearField(3030);
   @$pb.TagNumber(3030)
-  WifiToggleUmbilicalModeRequest ensureWifiToggleUmbilicalMode() => $_ensure(74);
+  WifiToggleUmbilicalModeRequest ensureWifiToggleUmbilicalMode() => $_ensure(77);
 
   @$pb.TagNumber(4001)
-  TransceiverIFLoopbackTestRequest get transceiverIfLoopbackTest => $_getN(75);
+  TransceiverIFLoopbackTestRequest get transceiverIfLoopbackTest => $_getN(78);
   @$pb.TagNumber(4001)
   set transceiverIfLoopbackTest(TransceiverIFLoopbackTestRequest v) { setField(4001, v); }
   @$pb.TagNumber(4001)
-  $core.bool hasTransceiverIfLoopbackTest() => $_has(75);
+  $core.bool hasTransceiverIfLoopbackTest() => $_has(78);
   @$pb.TagNumber(4001)
   void clearTransceiverIfLoopbackTest() => clearField(4001);
   @$pb.TagNumber(4001)
-  TransceiverIFLoopbackTestRequest ensureTransceiverIfLoopbackTest() => $_ensure(75);
+  TransceiverIFLoopbackTestRequest ensureTransceiverIfLoopbackTest() => $_ensure(78);
 
   @$pb.TagNumber(4003)
-  TransceiverGetStatusRequest get transceiverGetStatus => $_getN(76);
+  TransceiverGetStatusRequest get transceiverGetStatus => $_getN(79);
   @$pb.TagNumber(4003)
   set transceiverGetStatus(TransceiverGetStatusRequest v) { setField(4003, v); }
   @$pb.TagNumber(4003)
-  $core.bool hasTransceiverGetStatus() => $_has(76);
+  $core.bool hasTransceiverGetStatus() => $_has(79);
   @$pb.TagNumber(4003)
   void clearTransceiverGetStatus() => clearField(4003);
   @$pb.TagNumber(4003)
-  TransceiverGetStatusRequest ensureTransceiverGetStatus() => $_ensure(76);
+  TransceiverGetStatusRequest ensureTransceiverGetStatus() => $_ensure(79);
 
   @$pb.TagNumber(4004)
-  TransceiverGetTelemetryRequest get transceiverGetTelemetry => $_getN(77);
+  TransceiverGetTelemetryRequest get transceiverGetTelemetry => $_getN(80);
   @$pb.TagNumber(4004)
   set transceiverGetTelemetry(TransceiverGetTelemetryRequest v) { setField(4004, v); }
   @$pb.TagNumber(4004)
-  $core.bool hasTransceiverGetTelemetry() => $_has(77);
+  $core.bool hasTransceiverGetTelemetry() => $_has(80);
   @$pb.TagNumber(4004)
   void clearTransceiverGetTelemetry() => clearField(4004);
   @$pb.TagNumber(4004)
-  TransceiverGetTelemetryRequest ensureTransceiverGetTelemetry() => $_ensure(77);
+  TransceiverGetTelemetryRequest ensureTransceiverGetTelemetry() => $_ensure(80);
 
   /// .SpaceX.API.Device.Services.Unlock.StartUnlockRequest start_unlock = 5000;
   /// .SpaceX.API.Device.Services.Unlock.FinishUnlockRequest finish_unlock = 5001;
   @$pb.TagNumber(6000)
-  GetDiagnosticsRequest get getDiagnostics => $_getN(78);
+  GetDiagnosticsRequest get getDiagnostics => $_getN(81);
   @$pb.TagNumber(6000)
   set getDiagnostics(GetDiagnosticsRequest v) { setField(6000, v); }
   @$pb.TagNumber(6000)
-  $core.bool hasGetDiagnostics() => $_has(78);
+  $core.bool hasGetDiagnostics() => $_has(81);
   @$pb.TagNumber(6000)
   void clearGetDiagnostics() => clearField(6000);
   @$pb.TagNumber(6000)
-  GetDiagnosticsRequest ensureGetDiagnostics() => $_ensure(78);
+  GetDiagnosticsRequest ensureGetDiagnostics() => $_ensure(81);
 }
 
 /// SpaceX.API.Device.SignedData is a message:
@@ -3470,6 +3524,150 @@ class RunIperfServerRequest extends $pb.GeneratedMessage {
   void clearDurationS() => clearField(1);
 }
 
+/// SpaceX.API.Device.TcpConnectivityTestRequest is a message:
+class TcpConnectivityTestRequest extends $pb.GeneratedMessage {
+  factory TcpConnectivityTestRequest({
+    $core.String? target,
+    $core.int? port,
+  }) {
+    final $result = create();
+    if (target != null) {
+      $result.target = target;
+    }
+    if (port != null) {
+      $result.port = port;
+    }
+    return $result;
+  }
+  TcpConnectivityTestRequest._() : super();
+  factory TcpConnectivityTestRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory TcpConnectivityTestRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'TcpConnectivityTestRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'SpaceX.API.Device'), createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'target')
+    ..a<$core.int>(2, _omitFieldNames ? '' : 'port', $pb.PbFieldType.OU3)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  TcpConnectivityTestRequest clone() => TcpConnectivityTestRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  TcpConnectivityTestRequest copyWith(void Function(TcpConnectivityTestRequest) updates) => super.copyWith((message) => updates(message as TcpConnectivityTestRequest)) as TcpConnectivityTestRequest;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static TcpConnectivityTestRequest create() => TcpConnectivityTestRequest._();
+  TcpConnectivityTestRequest createEmptyInstance() => create();
+  static $pb.PbList<TcpConnectivityTestRequest> createRepeated() => $pb.PbList<TcpConnectivityTestRequest>();
+  @$core.pragma('dart2js:noInline')
+  static TcpConnectivityTestRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<TcpConnectivityTestRequest>(create);
+  static TcpConnectivityTestRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get target => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set target($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasTarget() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearTarget() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.int get port => $_getIZ(1);
+  @$pb.TagNumber(2)
+  set port($core.int v) { $_setUnsignedInt32(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasPort() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearPort() => clearField(2);
+}
+
+/// SpaceX.API.Device.UdpConnectivityTestRequest is a message:
+class UdpConnectivityTestRequest extends $pb.GeneratedMessage {
+  factory UdpConnectivityTestRequest({
+    $core.String? target,
+    $core.int? port,
+    UdpConnectivityTestRequest_UDPProbeDataType? probeData,
+  }) {
+    final $result = create();
+    if (target != null) {
+      $result.target = target;
+    }
+    if (port != null) {
+      $result.port = port;
+    }
+    if (probeData != null) {
+      $result.probeData = probeData;
+    }
+    return $result;
+  }
+  UdpConnectivityTestRequest._() : super();
+  factory UdpConnectivityTestRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory UdpConnectivityTestRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'UdpConnectivityTestRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'SpaceX.API.Device'), createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'target')
+    ..a<$core.int>(2, _omitFieldNames ? '' : 'port', $pb.PbFieldType.OU3)
+    ..e<UdpConnectivityTestRequest_UDPProbeDataType>(3, _omitFieldNames ? '' : 'probeData', $pb.PbFieldType.OE, defaultOrMaker: UdpConnectivityTestRequest_UDPProbeDataType.EMPTY, valueOf: UdpConnectivityTestRequest_UDPProbeDataType.valueOf, enumValues: UdpConnectivityTestRequest_UDPProbeDataType.values)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  UdpConnectivityTestRequest clone() => UdpConnectivityTestRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  UdpConnectivityTestRequest copyWith(void Function(UdpConnectivityTestRequest) updates) => super.copyWith((message) => updates(message as UdpConnectivityTestRequest)) as UdpConnectivityTestRequest;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static UdpConnectivityTestRequest create() => UdpConnectivityTestRequest._();
+  UdpConnectivityTestRequest createEmptyInstance() => create();
+  static $pb.PbList<UdpConnectivityTestRequest> createRepeated() => $pb.PbList<UdpConnectivityTestRequest>();
+  @$core.pragma('dart2js:noInline')
+  static UdpConnectivityTestRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<UdpConnectivityTestRequest>(create);
+  static UdpConnectivityTestRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get target => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set target($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasTarget() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearTarget() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.int get port => $_getIZ(1);
+  @$pb.TagNumber(2)
+  set port($core.int v) { $_setUnsignedInt32(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasPort() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearPort() => clearField(2);
+
+  @$pb.TagNumber(3)
+  UdpConnectivityTestRequest_UDPProbeDataType get probeData => $_getN(2);
+  @$pb.TagNumber(3)
+  set probeData(UdpConnectivityTestRequest_UDPProbeDataType v) { setField(3, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasProbeData() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearProbeData() => clearField(3);
+}
+
 /// SpaceX.API.Device.DishStowRequest is a message:
 class DishStowRequest extends $pb.GeneratedMessage {
   factory DishStowRequest({
@@ -4808,6 +5006,57 @@ class DishFactoryResetRequest extends $pb.GeneratedMessage {
   static DishFactoryResetRequest? _defaultInstance;
 }
 
+/// SpaceX.API.Device.ResetButtonRequest is a message:
+class ResetButtonRequest extends $pb.GeneratedMessage {
+  factory ResetButtonRequest({
+    $core.bool? pressed,
+  }) {
+    final $result = create();
+    if (pressed != null) {
+      $result.pressed = pressed;
+    }
+    return $result;
+  }
+  ResetButtonRequest._() : super();
+  factory ResetButtonRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ResetButtonRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'ResetButtonRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'SpaceX.API.Device'), createEmptyInstance: create)
+    ..aOB(1, _omitFieldNames ? '' : 'pressed')
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  ResetButtonRequest clone() => ResetButtonRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  ResetButtonRequest copyWith(void Function(ResetButtonRequest) updates) => super.copyWith((message) => updates(message as ResetButtonRequest)) as ResetButtonRequest;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static ResetButtonRequest create() => ResetButtonRequest._();
+  ResetButtonRequest createEmptyInstance() => create();
+  static $pb.PbList<ResetButtonRequest> createRepeated() => $pb.PbList<ResetButtonRequest>();
+  @$core.pragma('dart2js:noInline')
+  static ResetButtonRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ResetButtonRequest>(create);
+  static ResetButtonRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.bool get pressed => $_getBF(0);
+  @$pb.TagNumber(1)
+  set pressed($core.bool v) { $_setBool(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasPressed() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearPressed() => clearField(1);
+}
+
 /// SpaceX.API.Device.WifiSetConfigRequest is a message:
 class WifiSetConfigRequest extends $pb.GeneratedMessage {
   factory WifiSetConfigRequest({
@@ -5345,6 +5594,7 @@ class WifiConfig extends $pb.GeneratedMessage {
     $core.int? wanHostDscpMark,
     $core.int? tag,
     $core.bool? debugPopPings,
+    $core.bool? clientTester,
     $core.bool? applySetupComplete,
     $core.bool? applyChannel2ghz,
     $core.bool? applyChannel5ghz,
@@ -5393,6 +5643,7 @@ class WifiConfig extends $pb.GeneratedMessage {
     $core.bool? applyWanTrafficControl,
     $core.bool? applyWanHostDscpMark,
     $core.bool? applyDebugPopPings,
+    $core.bool? applyClientTester,
     $core.Iterable<WifiConfig_Network>? networks,
     $core.bool? applyNetworks,
     BootInfo? boot,
@@ -5561,6 +5812,9 @@ class WifiConfig extends $pb.GeneratedMessage {
     if (debugPopPings != null) {
       $result.debugPopPings = debugPopPings;
     }
+    if (clientTester != null) {
+      $result.clientTester = clientTester;
+    }
     if (applySetupComplete != null) {
       $result.applySetupComplete = applySetupComplete;
     }
@@ -5699,6 +5953,9 @@ class WifiConfig extends $pb.GeneratedMessage {
     if (applyDebugPopPings != null) {
       $result.applyDebugPopPings = applyDebugPopPings;
     }
+    if (applyClientTester != null) {
+      $result.applyClientTester = applyClientTester;
+    }
     if (networks != null) {
       $result.networks.addAll(networks);
     }
@@ -5786,6 +6043,7 @@ class WifiConfig extends $pb.GeneratedMessage {
     ..a<$core.int>(77, _omitFieldNames ? '' : 'wanHostDscpMark', $pb.PbFieldType.O3)
     ..a<$core.int>(78, _omitFieldNames ? '' : 'tag', $pb.PbFieldType.OU3)
     ..aOB(79, _omitFieldNames ? '' : 'debugPopPings')
+    ..aOB(80, _omitFieldNames ? '' : 'clientTester')
     ..aOB(1010, _omitFieldNames ? '' : 'applySetupComplete')
     ..aOB(1013, _omitFieldNames ? '' : 'applyChannel2ghz', protoName: 'apply_channel_2ghz')
     ..aOB(1014, _omitFieldNames ? '' : 'applyChannel5ghz', protoName: 'apply_channel_5ghz')
@@ -5831,6 +6089,7 @@ class WifiConfig extends $pb.GeneratedMessage {
     ..aOB(1092, _omitFieldNames ? '' : 'applyWanTrafficControl')
     ..aOB(1093, _omitFieldNames ? '' : 'applyWanHostDscpMark')
     ..aOB(1095, _omitFieldNames ? '' : 'applyDebugPopPings')
+    ..aOB(1096, _omitFieldNames ? '' : 'applyClientTester')
     ..pc<WifiConfig_Network>(1100, _omitFieldNames ? '' : 'networks', $pb.PbFieldType.PM, subBuilder: WifiConfig_Network.create)
     ..aOB(1101, _omitFieldNames ? '' : 'applyNetworks')
     ..aOM<BootInfo>(3001, _omitFieldNames ? '' : 'boot', subBuilder: BootInfo.create)
@@ -6312,481 +6571,499 @@ class WifiConfig extends $pb.GeneratedMessage {
   @$pb.TagNumber(79)
   void clearDebugPopPings() => clearField(79);
 
+  @$pb.TagNumber(80)
+  $core.bool get clientTester => $_getBF(52);
+  @$pb.TagNumber(80)
+  set clientTester($core.bool v) { $_setBool(52, v); }
+  @$pb.TagNumber(80)
+  $core.bool hasClientTester() => $_has(52);
+  @$pb.TagNumber(80)
+  void clearClientTester() => clearField(80);
+
   @$pb.TagNumber(1010)
-  $core.bool get applySetupComplete => $_getBF(52);
+  $core.bool get applySetupComplete => $_getBF(53);
   @$pb.TagNumber(1010)
-  set applySetupComplete($core.bool v) { $_setBool(52, v); }
+  set applySetupComplete($core.bool v) { $_setBool(53, v); }
   @$pb.TagNumber(1010)
-  $core.bool hasApplySetupComplete() => $_has(52);
+  $core.bool hasApplySetupComplete() => $_has(53);
   @$pb.TagNumber(1010)
   void clearApplySetupComplete() => clearField(1010);
 
   @$pb.TagNumber(1013)
-  $core.bool get applyChannel2ghz => $_getBF(53);
+  $core.bool get applyChannel2ghz => $_getBF(54);
   @$pb.TagNumber(1013)
-  set applyChannel2ghz($core.bool v) { $_setBool(53, v); }
+  set applyChannel2ghz($core.bool v) { $_setBool(54, v); }
   @$pb.TagNumber(1013)
-  $core.bool hasApplyChannel2ghz() => $_has(53);
+  $core.bool hasApplyChannel2ghz() => $_has(54);
   @$pb.TagNumber(1013)
   void clearApplyChannel2ghz() => clearField(1013);
 
   @$pb.TagNumber(1014)
-  $core.bool get applyChannel5ghz => $_getBF(54);
+  $core.bool get applyChannel5ghz => $_getBF(55);
   @$pb.TagNumber(1014)
-  set applyChannel5ghz($core.bool v) { $_setBool(54, v); }
+  set applyChannel5ghz($core.bool v) { $_setBool(55, v); }
   @$pb.TagNumber(1014)
-  $core.bool hasApplyChannel5ghz() => $_has(54);
+  $core.bool hasApplyChannel5ghz() => $_has(55);
   @$pb.TagNumber(1014)
   void clearApplyChannel5ghz() => clearField(1014);
 
   @$pb.TagNumber(1016)
-  $core.bool get applyChannel5ghzHigh => $_getBF(55);
+  $core.bool get applyChannel5ghzHigh => $_getBF(56);
   @$pb.TagNumber(1016)
-  set applyChannel5ghzHigh($core.bool v) { $_setBool(55, v); }
+  set applyChannel5ghzHigh($core.bool v) { $_setBool(56, v); }
   @$pb.TagNumber(1016)
-  $core.bool hasApplyChannel5ghzHigh() => $_has(55);
+  $core.bool hasApplyChannel5ghzHigh() => $_has(56);
   @$pb.TagNumber(1016)
   void clearApplyChannel5ghzHigh() => clearField(1016);
 
   @$pb.TagNumber(1031)
-  $core.bool get applyIsRepeater => $_getBF(56);
+  $core.bool get applyIsRepeater => $_getBF(57);
   @$pb.TagNumber(1031)
-  set applyIsRepeater($core.bool v) { $_setBool(56, v); }
+  set applyIsRepeater($core.bool v) { $_setBool(57, v); }
   @$pb.TagNumber(1031)
-  $core.bool hasApplyIsRepeater() => $_has(56);
+  $core.bool hasApplyIsRepeater() => $_has(57);
   @$pb.TagNumber(1031)
   void clearApplyIsRepeater() => clearField(1031);
 
   @$pb.TagNumber(1033)
-  $core.bool get applyMeshConfigs => $_getBF(57);
+  $core.bool get applyMeshConfigs => $_getBF(58);
   @$pb.TagNumber(1033)
-  set applyMeshConfigs($core.bool v) { $_setBool(57, v); }
+  set applyMeshConfigs($core.bool v) { $_setBool(58, v); }
   @$pb.TagNumber(1033)
-  $core.bool hasApplyMeshConfigs() => $_has(57);
+  $core.bool hasApplyMeshConfigs() => $_has(58);
   @$pb.TagNumber(1033)
   void clearApplyMeshConfigs() => clearField(1033);
 
   @$pb.TagNumber(1054)
-  $core.bool get applyNameservers => $_getBF(58);
+  $core.bool get applyNameservers => $_getBF(59);
   @$pb.TagNumber(1054)
-  set applyNameservers($core.bool v) { $_setBool(58, v); }
+  set applyNameservers($core.bool v) { $_setBool(59, v); }
   @$pb.TagNumber(1054)
-  $core.bool hasApplyNameservers() => $_has(58);
+  $core.bool hasApplyNameservers() => $_has(59);
   @$pb.TagNumber(1054)
   void clearApplyNameservers() => clearField(1054);
 
   @$pb.TagNumber(1055)
-  $core.bool get applyBypassMode => $_getBF(59);
+  $core.bool get applyBypassMode => $_getBF(60);
   @$pb.TagNumber(1055)
-  set applyBypassMode($core.bool v) { $_setBool(59, v); }
+  set applyBypassMode($core.bool v) { $_setBool(60, v); }
   @$pb.TagNumber(1055)
-  $core.bool hasApplyBypassMode() => $_has(59);
+  $core.bool hasApplyBypassMode() => $_has(60);
   @$pb.TagNumber(1055)
   void clearApplyBypassMode() => clearField(1055);
 
   @$pb.TagNumber(1058)
-  $core.bool get applyDfsEnabled => $_getBF(60);
+  $core.bool get applyDfsEnabled => $_getBF(61);
   @$pb.TagNumber(1058)
-  set applyDfsEnabled($core.bool v) { $_setBool(60, v); }
+  set applyDfsEnabled($core.bool v) { $_setBool(61, v); }
   @$pb.TagNumber(1058)
-  $core.bool hasApplyDfsEnabled() => $_has(60);
+  $core.bool hasApplyDfsEnabled() => $_has(61);
   @$pb.TagNumber(1058)
   void clearApplyDfsEnabled() => clearField(1058);
 
   @$pb.TagNumber(1059)
-  $core.bool get applyWirelessMode2ghz => $_getBF(61);
+  $core.bool get applyWirelessMode2ghz => $_getBF(62);
   @$pb.TagNumber(1059)
-  set applyWirelessMode2ghz($core.bool v) { $_setBool(61, v); }
+  set applyWirelessMode2ghz($core.bool v) { $_setBool(62, v); }
   @$pb.TagNumber(1059)
-  $core.bool hasApplyWirelessMode2ghz() => $_has(61);
+  $core.bool hasApplyWirelessMode2ghz() => $_has(62);
   @$pb.TagNumber(1059)
   void clearApplyWirelessMode2ghz() => clearField(1059);
 
   @$pb.TagNumber(1060)
-  $core.bool get applyWirelessMode5ghz => $_getBF(62);
+  $core.bool get applyWirelessMode5ghz => $_getBF(63);
   @$pb.TagNumber(1060)
-  set applyWirelessMode5ghz($core.bool v) { $_setBool(62, v); }
+  set applyWirelessMode5ghz($core.bool v) { $_setBool(63, v); }
   @$pb.TagNumber(1060)
-  $core.bool hasApplyWirelessMode5ghz() => $_has(62);
+  $core.bool hasApplyWirelessMode5ghz() => $_has(63);
   @$pb.TagNumber(1060)
   void clearApplyWirelessMode5ghz() => clearField(1060);
 
   @$pb.TagNumber(1061)
-  $core.bool get applyHtBandwidth2ghz => $_getBF(63);
+  $core.bool get applyHtBandwidth2ghz => $_getBF(64);
   @$pb.TagNumber(1061)
-  set applyHtBandwidth2ghz($core.bool v) { $_setBool(63, v); }
+  set applyHtBandwidth2ghz($core.bool v) { $_setBool(64, v); }
   @$pb.TagNumber(1061)
-  $core.bool hasApplyHtBandwidth2ghz() => $_has(63);
+  $core.bool hasApplyHtBandwidth2ghz() => $_has(64);
   @$pb.TagNumber(1061)
   void clearApplyHtBandwidth2ghz() => clearField(1061);
 
   @$pb.TagNumber(1062)
-  $core.bool get applyHtBandwidth5ghz => $_getBF(64);
+  $core.bool get applyHtBandwidth5ghz => $_getBF(65);
   @$pb.TagNumber(1062)
-  set applyHtBandwidth5ghz($core.bool v) { $_setBool(64, v); }
+  set applyHtBandwidth5ghz($core.bool v) { $_setBool(65, v); }
   @$pb.TagNumber(1062)
-  $core.bool hasApplyHtBandwidth5ghz() => $_has(64);
+  $core.bool hasApplyHtBandwidth5ghz() => $_has(65);
   @$pb.TagNumber(1062)
   void clearApplyHtBandwidth5ghz() => clearField(1062);
 
   @$pb.TagNumber(1063)
-  $core.bool get applyVhtBandwidth => $_getBF(65);
+  $core.bool get applyVhtBandwidth => $_getBF(66);
   @$pb.TagNumber(1063)
-  set applyVhtBandwidth($core.bool v) { $_setBool(65, v); }
+  set applyVhtBandwidth($core.bool v) { $_setBool(66, v); }
   @$pb.TagNumber(1063)
-  $core.bool hasApplyVhtBandwidth() => $_has(65);
+  $core.bool hasApplyVhtBandwidth() => $_has(66);
   @$pb.TagNumber(1063)
   void clearApplyVhtBandwidth() => clearField(1063);
 
   @$pb.TagNumber(1064)
-  $core.bool get applyIsAviation => $_getBF(66);
+  $core.bool get applyIsAviation => $_getBF(67);
   @$pb.TagNumber(1064)
-  set applyIsAviation($core.bool v) { $_setBool(66, v); }
+  set applyIsAviation($core.bool v) { $_setBool(67, v); }
   @$pb.TagNumber(1064)
-  $core.bool hasApplyIsAviation() => $_has(66);
+  $core.bool hasApplyIsAviation() => $_has(67);
   @$pb.TagNumber(1064)
   void clearApplyIsAviation() => clearField(1064);
 
   @$pb.TagNumber(1065)
-  $core.bool get applySecureDns => $_getBF(67);
+  $core.bool get applySecureDns => $_getBF(68);
   @$pb.TagNumber(1065)
-  set applySecureDns($core.bool v) { $_setBool(67, v); }
+  set applySecureDns($core.bool v) { $_setBool(68, v); }
   @$pb.TagNumber(1065)
-  $core.bool hasApplySecureDns() => $_has(67);
+  $core.bool hasApplySecureDns() => $_has(68);
   @$pb.TagNumber(1065)
   void clearApplySecureDns() => clearField(1065);
 
   @$pb.TagNumber(1066)
-  $core.bool get applyApMode => $_getBF(68);
+  $core.bool get applyApMode => $_getBF(69);
   @$pb.TagNumber(1066)
-  set applyApMode($core.bool v) { $_setBool(68, v); }
+  set applyApMode($core.bool v) { $_setBool(69, v); }
   @$pb.TagNumber(1066)
-  $core.bool hasApplyApMode() => $_has(68);
+  $core.bool hasApplyApMode() => $_has(69);
   @$pb.TagNumber(1066)
   void clearApplyApMode() => clearField(1066);
 
   @$pb.TagNumber(1067)
-  $core.bool get applyDisableMeshOnboarding => $_getBF(69);
+  $core.bool get applyDisableMeshOnboarding => $_getBF(70);
   @$pb.TagNumber(1067)
-  set applyDisableMeshOnboarding($core.bool v) { $_setBool(69, v); }
+  set applyDisableMeshOnboarding($core.bool v) { $_setBool(70, v); }
   @$pb.TagNumber(1067)
-  $core.bool hasApplyDisableMeshOnboarding() => $_has(69);
+  $core.bool hasApplyDisableMeshOnboarding() => $_has(70);
   @$pb.TagNumber(1067)
   void clearApplyDisableMeshOnboarding() => clearField(1067);
 
   @$pb.TagNumber(1068)
-  $core.bool get applyUsePublicServices => $_getBF(70);
+  $core.bool get applyUsePublicServices => $_getBF(71);
   @$pb.TagNumber(1068)
-  set applyUsePublicServices($core.bool v) { $_setBool(70, v); }
+  set applyUsePublicServices($core.bool v) { $_setBool(71, v); }
   @$pb.TagNumber(1068)
-  $core.bool hasApplyUsePublicServices() => $_has(70);
+  $core.bool hasApplyUsePublicServices() => $_has(71);
   @$pb.TagNumber(1068)
   void clearApplyUsePublicServices() => clearField(1068);
 
   @$pb.TagNumber(1069)
-  $core.bool get applyDisableAutomatedSpeedtests => $_getBF(71);
+  $core.bool get applyDisableAutomatedSpeedtests => $_getBF(72);
   @$pb.TagNumber(1069)
-  set applyDisableAutomatedSpeedtests($core.bool v) { $_setBool(71, v); }
+  set applyDisableAutomatedSpeedtests($core.bool v) { $_setBool(72, v); }
   @$pb.TagNumber(1069)
-  $core.bool hasApplyDisableAutomatedSpeedtests() => $_has(71);
+  $core.bool hasApplyDisableAutomatedSpeedtests() => $_has(72);
   @$pb.TagNumber(1069)
   void clearApplyDisableAutomatedSpeedtests() => clearField(1069);
 
   @$pb.TagNumber(1070)
-  $core.bool get applyWirelessMode5ghzHigh => $_getBF(72);
+  $core.bool get applyWirelessMode5ghzHigh => $_getBF(73);
   @$pb.TagNumber(1070)
-  set applyWirelessMode5ghzHigh($core.bool v) { $_setBool(72, v); }
+  set applyWirelessMode5ghzHigh($core.bool v) { $_setBool(73, v); }
   @$pb.TagNumber(1070)
-  $core.bool hasApplyWirelessMode5ghzHigh() => $_has(72);
+  $core.bool hasApplyWirelessMode5ghzHigh() => $_has(73);
   @$pb.TagNumber(1070)
   void clearApplyWirelessMode5ghzHigh() => clearField(1070);
 
   @$pb.TagNumber(1071)
-  $core.bool get applyHtBandwidth5ghzHigh => $_getBF(73);
+  $core.bool get applyHtBandwidth5ghzHigh => $_getBF(74);
   @$pb.TagNumber(1071)
-  set applyHtBandwidth5ghzHigh($core.bool v) { $_setBool(73, v); }
+  set applyHtBandwidth5ghzHigh($core.bool v) { $_setBool(74, v); }
   @$pb.TagNumber(1071)
-  $core.bool hasApplyHtBandwidth5ghzHigh() => $_has(73);
+  $core.bool hasApplyHtBandwidth5ghzHigh() => $_has(74);
   @$pb.TagNumber(1071)
   void clearApplyHtBandwidth5ghzHigh() => clearField(1071);
 
   @$pb.TagNumber(1072)
-  $core.bool get applyVhtBandwidth5ghzHigh => $_getBF(74);
+  $core.bool get applyVhtBandwidth5ghzHigh => $_getBF(75);
   @$pb.TagNumber(1072)
-  set applyVhtBandwidth5ghzHigh($core.bool v) { $_setBool(74, v); }
+  set applyVhtBandwidth5ghzHigh($core.bool v) { $_setBool(75, v); }
   @$pb.TagNumber(1072)
-  $core.bool hasApplyVhtBandwidth5ghzHigh() => $_has(74);
+  $core.bool hasApplyVhtBandwidth5ghzHigh() => $_has(75);
   @$pb.TagNumber(1072)
   void clearApplyVhtBandwidth5ghzHigh() => clearField(1072);
 
   @$pb.TagNumber(1073)
-  $core.bool get applyEnableUmbilicalVlan => $_getBF(75);
+  $core.bool get applyEnableUmbilicalVlan => $_getBF(76);
   @$pb.TagNumber(1073)
-  set applyEnableUmbilicalVlan($core.bool v) { $_setBool(75, v); }
+  set applyEnableUmbilicalVlan($core.bool v) { $_setBool(76, v); }
   @$pb.TagNumber(1073)
-  $core.bool hasApplyEnableUmbilicalVlan() => $_has(75);
+  $core.bool hasApplyEnableUmbilicalVlan() => $_has(76);
   @$pb.TagNumber(1073)
   void clearApplyEnableUmbilicalVlan() => clearField(1073);
 
   @$core.Deprecated('This field is deprecated.')
   @$pb.TagNumber(1074)
-  $core.bool get applyClientNames => $_getBF(76);
+  $core.bool get applyClientNames => $_getBF(77);
   @$core.Deprecated('This field is deprecated.')
   @$pb.TagNumber(1074)
-  set applyClientNames($core.bool v) { $_setBool(76, v); }
+  set applyClientNames($core.bool v) { $_setBool(77, v); }
   @$core.Deprecated('This field is deprecated.')
   @$pb.TagNumber(1074)
-  $core.bool hasApplyClientNames() => $_has(76);
+  $core.bool hasApplyClientNames() => $_has(77);
   @$core.Deprecated('This field is deprecated.')
   @$pb.TagNumber(1074)
   void clearApplyClientNames() => clearField(1074);
 
   @$pb.TagNumber(1075)
-  $core.bool get applyOutdoorMode => $_getBF(77);
+  $core.bool get applyOutdoorMode => $_getBF(78);
   @$pb.TagNumber(1075)
-  set applyOutdoorMode($core.bool v) { $_setBool(77, v); }
+  set applyOutdoorMode($core.bool v) { $_setBool(78, v); }
   @$pb.TagNumber(1075)
-  $core.bool hasApplyOutdoorMode() => $_has(77);
+  $core.bool hasApplyOutdoorMode() => $_has(78);
   @$pb.TagNumber(1075)
   void clearApplyOutdoorMode() => clearField(1075);
 
   @$pb.TagNumber(1076)
-  $core.bool get applyDisable2ghz => $_getBF(78);
+  $core.bool get applyDisable2ghz => $_getBF(79);
   @$pb.TagNumber(1076)
-  set applyDisable2ghz($core.bool v) { $_setBool(78, v); }
+  set applyDisable2ghz($core.bool v) { $_setBool(79, v); }
   @$pb.TagNumber(1076)
-  $core.bool hasApplyDisable2ghz() => $_has(78);
+  $core.bool hasApplyDisable2ghz() => $_has(79);
   @$pb.TagNumber(1076)
   void clearApplyDisable2ghz() => clearField(1076);
 
   @$pb.TagNumber(1077)
-  $core.bool get applyDisable5ghz => $_getBF(79);
+  $core.bool get applyDisable5ghz => $_getBF(80);
   @$pb.TagNumber(1077)
-  set applyDisable5ghz($core.bool v) { $_setBool(79, v); }
+  set applyDisable5ghz($core.bool v) { $_setBool(80, v); }
   @$pb.TagNumber(1077)
-  $core.bool hasApplyDisable5ghz() => $_has(79);
+  $core.bool hasApplyDisable5ghz() => $_has(80);
   @$pb.TagNumber(1077)
   void clearApplyDisable5ghz() => clearField(1077);
 
   @$pb.TagNumber(1078)
-  $core.bool get applyDisable5ghzHigh => $_getBF(80);
+  $core.bool get applyDisable5ghzHigh => $_getBF(81);
   @$pb.TagNumber(1078)
-  set applyDisable5ghzHigh($core.bool v) { $_setBool(80, v); }
+  set applyDisable5ghzHigh($core.bool v) { $_setBool(81, v); }
   @$pb.TagNumber(1078)
-  $core.bool hasApplyDisable5ghzHigh() => $_has(80);
+  $core.bool hasApplyDisable5ghzHigh() => $_has(81);
   @$pb.TagNumber(1078)
   void clearApplyDisable5ghzHigh() => clearField(1078);
 
   @$pb.TagNumber(1079)
-  $core.bool get applyDisableXMeshBackhaul => $_getBF(81);
+  $core.bool get applyDisableXMeshBackhaul => $_getBF(82);
   @$pb.TagNumber(1079)
-  set applyDisableXMeshBackhaul($core.bool v) { $_setBool(81, v); }
+  set applyDisableXMeshBackhaul($core.bool v) { $_setBool(82, v); }
   @$pb.TagNumber(1079)
-  $core.bool hasApplyDisableXMeshBackhaul() => $_has(81);
+  $core.bool hasApplyDisableXMeshBackhaul() => $_has(82);
   @$pb.TagNumber(1079)
   void clearApplyDisableXMeshBackhaul() => clearField(1079);
 
   @$core.Deprecated('This field is deprecated.')
   @$pb.TagNumber(1080)
-  $core.bool get applyGoldenBssid => $_getBF(82);
+  $core.bool get applyGoldenBssid => $_getBF(83);
   @$core.Deprecated('This field is deprecated.')
   @$pb.TagNumber(1080)
-  set applyGoldenBssid($core.bool v) { $_setBool(82, v); }
+  set applyGoldenBssid($core.bool v) { $_setBool(83, v); }
   @$core.Deprecated('This field is deprecated.')
   @$pb.TagNumber(1080)
-  $core.bool hasApplyGoldenBssid() => $_has(82);
+  $core.bool hasApplyGoldenBssid() => $_has(83);
   @$core.Deprecated('This field is deprecated.')
   @$pb.TagNumber(1080)
   void clearApplyGoldenBssid() => clearField(1080);
 
   @$core.Deprecated('This field is deprecated.')
   @$pb.TagNumber(1081)
-  $core.bool get applyGoldenIfaceType => $_getBF(83);
+  $core.bool get applyGoldenIfaceType => $_getBF(84);
   @$core.Deprecated('This field is deprecated.')
   @$pb.TagNumber(1081)
-  set applyGoldenIfaceType($core.bool v) { $_setBool(83, v); }
+  set applyGoldenIfaceType($core.bool v) { $_setBool(84, v); }
   @$core.Deprecated('This field is deprecated.')
   @$pb.TagNumber(1081)
-  $core.bool hasApplyGoldenIfaceType() => $_has(83);
+  $core.bool hasApplyGoldenIfaceType() => $_has(84);
   @$core.Deprecated('This field is deprecated.')
   @$pb.TagNumber(1081)
   void clearApplyGoldenIfaceType() => clearField(1081);
 
   @$pb.TagNumber(1082)
-  $core.bool get applyTxPowerLevel2ghz => $_getBF(84);
+  $core.bool get applyTxPowerLevel2ghz => $_getBF(85);
   @$pb.TagNumber(1082)
-  set applyTxPowerLevel2ghz($core.bool v) { $_setBool(84, v); }
+  set applyTxPowerLevel2ghz($core.bool v) { $_setBool(85, v); }
   @$pb.TagNumber(1082)
-  $core.bool hasApplyTxPowerLevel2ghz() => $_has(84);
+  $core.bool hasApplyTxPowerLevel2ghz() => $_has(85);
   @$pb.TagNumber(1082)
   void clearApplyTxPowerLevel2ghz() => clearField(1082);
 
   @$pb.TagNumber(1083)
-  $core.bool get applyTxPowerLevel5ghz => $_getBF(85);
+  $core.bool get applyTxPowerLevel5ghz => $_getBF(86);
   @$pb.TagNumber(1083)
-  set applyTxPowerLevel5ghz($core.bool v) { $_setBool(85, v); }
+  set applyTxPowerLevel5ghz($core.bool v) { $_setBool(86, v); }
   @$pb.TagNumber(1083)
-  $core.bool hasApplyTxPowerLevel5ghz() => $_has(85);
+  $core.bool hasApplyTxPowerLevel5ghz() => $_has(86);
   @$pb.TagNumber(1083)
   void clearApplyTxPowerLevel5ghz() => clearField(1083);
 
   @$pb.TagNumber(1084)
-  $core.bool get applyTxPowerLevel5ghzHigh => $_getBF(86);
+  $core.bool get applyTxPowerLevel5ghzHigh => $_getBF(87);
   @$pb.TagNumber(1084)
-  set applyTxPowerLevel5ghzHigh($core.bool v) { $_setBool(86, v); }
+  set applyTxPowerLevel5ghzHigh($core.bool v) { $_setBool(87, v); }
   @$pb.TagNumber(1084)
-  $core.bool hasApplyTxPowerLevel5ghzHigh() => $_has(86);
+  $core.bool hasApplyTxPowerLevel5ghzHigh() => $_has(87);
   @$pb.TagNumber(1084)
   void clearApplyTxPowerLevel5ghzHigh() => clearField(1084);
 
   @$pb.TagNumber(1085)
-  $core.bool get applyCountryCode => $_getBF(87);
+  $core.bool get applyCountryCode => $_getBF(88);
   @$pb.TagNumber(1085)
-  set applyCountryCode($core.bool v) { $_setBool(87, v); }
+  set applyCountryCode($core.bool v) { $_setBool(88, v); }
   @$pb.TagNumber(1085)
-  $core.bool hasApplyCountryCode() => $_has(87);
+  $core.bool hasApplyCountryCode() => $_has(88);
   @$pb.TagNumber(1085)
   void clearApplyCountryCode() => clearField(1085);
 
   @$pb.TagNumber(1086)
-  $core.bool get applyPinCountryCode => $_getBF(88);
+  $core.bool get applyPinCountryCode => $_getBF(89);
   @$pb.TagNumber(1086)
-  set applyPinCountryCode($core.bool v) { $_setBool(88, v); }
+  set applyPinCountryCode($core.bool v) { $_setBool(89, v); }
   @$pb.TagNumber(1086)
-  $core.bool hasApplyPinCountryCode() => $_has(88);
+  $core.bool hasApplyPinCountryCode() => $_has(89);
   @$pb.TagNumber(1086)
   void clearApplyPinCountryCode() => clearField(1086);
 
   @$pb.TagNumber(1087)
-  $core.bool get applyCustomPowerTable => $_getBF(89);
+  $core.bool get applyCustomPowerTable => $_getBF(90);
   @$pb.TagNumber(1087)
-  set applyCustomPowerTable($core.bool v) { $_setBool(89, v); }
+  set applyCustomPowerTable($core.bool v) { $_setBool(90, v); }
   @$pb.TagNumber(1087)
-  $core.bool hasApplyCustomPowerTable() => $_has(89);
+  $core.bool hasApplyCustomPowerTable() => $_has(90);
   @$pb.TagNumber(1087)
   void clearApplyCustomPowerTable() => clearField(1087);
 
   @$pb.TagNumber(1088)
-  $core.bool get applyDisablePendingUpdateReboot => $_getBF(90);
+  $core.bool get applyDisablePendingUpdateReboot => $_getBF(91);
   @$pb.TagNumber(1088)
-  set applyDisablePendingUpdateReboot($core.bool v) { $_setBool(90, v); }
+  set applyDisablePendingUpdateReboot($core.bool v) { $_setBool(91, v); }
   @$pb.TagNumber(1088)
-  $core.bool hasApplyDisablePendingUpdateReboot() => $_has(90);
+  $core.bool hasApplyDisablePendingUpdateReboot() => $_has(91);
   @$pb.TagNumber(1088)
   void clearApplyDisablePendingUpdateReboot() => clearField(1088);
 
   @$pb.TagNumber(1089)
-  $core.bool get applyClientConfigs => $_getBF(91);
+  $core.bool get applyClientConfigs => $_getBF(92);
   @$pb.TagNumber(1089)
-  set applyClientConfigs($core.bool v) { $_setBool(91, v); }
+  set applyClientConfigs($core.bool v) { $_setBool(92, v); }
   @$pb.TagNumber(1089)
-  $core.bool hasApplyClientConfigs() => $_has(91);
+  $core.bool hasApplyClientConfigs() => $_has(92);
   @$pb.TagNumber(1089)
   void clearApplyClientConfigs() => clearField(1089);
 
   @$pb.TagNumber(1090)
-  $core.bool get applyDisableSetWifiConfigFromController => $_getBF(92);
+  $core.bool get applyDisableSetWifiConfigFromController => $_getBF(93);
   @$pb.TagNumber(1090)
-  set applyDisableSetWifiConfigFromController($core.bool v) { $_setBool(92, v); }
+  set applyDisableSetWifiConfigFromController($core.bool v) { $_setBool(93, v); }
   @$pb.TagNumber(1090)
-  $core.bool hasApplyDisableSetWifiConfigFromController() => $_has(92);
+  $core.bool hasApplyDisableSetWifiConfigFromController() => $_has(93);
   @$pb.TagNumber(1090)
   void clearApplyDisableSetWifiConfigFromController() => clearField(1090);
 
   @$pb.TagNumber(1091)
-  $core.bool get applyClientKey => $_getBF(93);
+  $core.bool get applyClientKey => $_getBF(94);
   @$pb.TagNumber(1091)
-  set applyClientKey($core.bool v) { $_setBool(93, v); }
+  set applyClientKey($core.bool v) { $_setBool(94, v); }
   @$pb.TagNumber(1091)
-  $core.bool hasApplyClientKey() => $_has(93);
+  $core.bool hasApplyClientKey() => $_has(94);
   @$pb.TagNumber(1091)
   void clearApplyClientKey() => clearField(1091);
 
   @$pb.TagNumber(1092)
-  $core.bool get applyWanTrafficControl => $_getBF(94);
+  $core.bool get applyWanTrafficControl => $_getBF(95);
   @$pb.TagNumber(1092)
-  set applyWanTrafficControl($core.bool v) { $_setBool(94, v); }
+  set applyWanTrafficControl($core.bool v) { $_setBool(95, v); }
   @$pb.TagNumber(1092)
-  $core.bool hasApplyWanTrafficControl() => $_has(94);
+  $core.bool hasApplyWanTrafficControl() => $_has(95);
   @$pb.TagNumber(1092)
   void clearApplyWanTrafficControl() => clearField(1092);
 
   @$pb.TagNumber(1093)
-  $core.bool get applyWanHostDscpMark => $_getBF(95);
+  $core.bool get applyWanHostDscpMark => $_getBF(96);
   @$pb.TagNumber(1093)
-  set applyWanHostDscpMark($core.bool v) { $_setBool(95, v); }
+  set applyWanHostDscpMark($core.bool v) { $_setBool(96, v); }
   @$pb.TagNumber(1093)
-  $core.bool hasApplyWanHostDscpMark() => $_has(95);
+  $core.bool hasApplyWanHostDscpMark() => $_has(96);
   @$pb.TagNumber(1093)
   void clearApplyWanHostDscpMark() => clearField(1093);
 
   @$pb.TagNumber(1095)
-  $core.bool get applyDebugPopPings => $_getBF(96);
+  $core.bool get applyDebugPopPings => $_getBF(97);
   @$pb.TagNumber(1095)
-  set applyDebugPopPings($core.bool v) { $_setBool(96, v); }
+  set applyDebugPopPings($core.bool v) { $_setBool(97, v); }
   @$pb.TagNumber(1095)
-  $core.bool hasApplyDebugPopPings() => $_has(96);
+  $core.bool hasApplyDebugPopPings() => $_has(97);
   @$pb.TagNumber(1095)
   void clearApplyDebugPopPings() => clearField(1095);
 
+  @$pb.TagNumber(1096)
+  $core.bool get applyClientTester => $_getBF(98);
+  @$pb.TagNumber(1096)
+  set applyClientTester($core.bool v) { $_setBool(98, v); }
+  @$pb.TagNumber(1096)
+  $core.bool hasApplyClientTester() => $_has(98);
+  @$pb.TagNumber(1096)
+  void clearApplyClientTester() => clearField(1096);
+
   @$pb.TagNumber(1100)
-  $core.List<WifiConfig_Network> get networks => $_getList(97);
+  $core.List<WifiConfig_Network> get networks => $_getList(99);
 
   @$pb.TagNumber(1101)
-  $core.bool get applyNetworks => $_getBF(98);
+  $core.bool get applyNetworks => $_getBF(100);
   @$pb.TagNumber(1101)
-  set applyNetworks($core.bool v) { $_setBool(98, v); }
+  set applyNetworks($core.bool v) { $_setBool(100, v); }
   @$pb.TagNumber(1101)
-  $core.bool hasApplyNetworks() => $_has(98);
+  $core.bool hasApplyNetworks() => $_has(100);
   @$pb.TagNumber(1101)
   void clearApplyNetworks() => clearField(1101);
 
   @$pb.TagNumber(3001)
-  BootInfo get boot => $_getN(99);
+  BootInfo get boot => $_getN(101);
   @$pb.TagNumber(3001)
   set boot(BootInfo v) { setField(3001, v); }
   @$pb.TagNumber(3001)
-  $core.bool hasBoot() => $_has(99);
+  $core.bool hasBoot() => $_has(101);
   @$pb.TagNumber(3001)
   void clearBoot() => clearField(3001);
   @$pb.TagNumber(3001)
-  BootInfo ensureBoot() => $_ensure(99);
+  BootInfo ensureBoot() => $_ensure(101);
 
   @$pb.TagNumber(3033)
-  $core.Map<$core.String, MeshConfig> get meshConfigsUpdates => $_getMap(100);
+  $core.Map<$core.String, MeshConfig> get meshConfigsUpdates => $_getMap(102);
 
   @$pb.TagNumber(4001)
-  NoTrafficControl get wanNoTrafficControl => $_getN(101);
+  NoTrafficControl get wanNoTrafficControl => $_getN(103);
   @$pb.TagNumber(4001)
   set wanNoTrafficControl(NoTrafficControl v) { setField(4001, v); }
   @$pb.TagNumber(4001)
-  $core.bool hasWanNoTrafficControl() => $_has(101);
+  $core.bool hasWanNoTrafficControl() => $_has(103);
   @$pb.TagNumber(4001)
   void clearWanNoTrafficControl() => clearField(4001);
   @$pb.TagNumber(4001)
-  NoTrafficControl ensureWanNoTrafficControl() => $_ensure(101);
+  NoTrafficControl ensureWanNoTrafficControl() => $_ensure(103);
 
   @$pb.TagNumber(4002)
-  AckSuppression get wanAckSuppression => $_getN(102);
+  AckSuppression get wanAckSuppression => $_getN(104);
   @$pb.TagNumber(4002)
   set wanAckSuppression(AckSuppression v) { setField(4002, v); }
   @$pb.TagNumber(4002)
-  $core.bool hasWanAckSuppression() => $_has(102);
+  $core.bool hasWanAckSuppression() => $_has(104);
   @$pb.TagNumber(4002)
   void clearWanAckSuppression() => clearField(4002);
   @$pb.TagNumber(4002)
-  AckSuppression ensureWanAckSuppression() => $_ensure(102);
+  AckSuppression ensureWanAckSuppression() => $_ensure(104);
 
   @$pb.TagNumber(4003)
-  CakeRateLimit get wanCakeRateLimit => $_getN(103);
+  CakeRateLimit get wanCakeRateLimit => $_getN(105);
   @$pb.TagNumber(4003)
   set wanCakeRateLimit(CakeRateLimit v) { setField(4003, v); }
   @$pb.TagNumber(4003)
-  $core.bool hasWanCakeRateLimit() => $_has(103);
+  $core.bool hasWanCakeRateLimit() => $_has(105);
   @$pb.TagNumber(4003)
   void clearWanCakeRateLimit() => clearField(4003);
   @$pb.TagNumber(4003)
-  CakeRateLimit ensureWanCakeRateLimit() => $_ensure(103);
+  CakeRateLimit ensureWanCakeRateLimit() => $_ensure(105);
 }
 
 /// SpaceX.API.Device.MeshConfig is a message:
@@ -9547,6 +9824,7 @@ enum Response_Response {
   dishActivateRssiScan, 
   dishGetRssiScanResult, 
   dishFactoryReset, 
+  resetButton, 
   wifiSetConfig, 
   wifiGetClients, 
   wifiSetup, 
@@ -9625,6 +9903,7 @@ class Response extends $pb.GeneratedMessage {
     DishActivateRssiScanResponse? dishActivateRssiScan,
     DishGetRssiScanResultResponse? dishGetRssiScanResult,
     DishFactoryResetResponse? dishFactoryReset,
+    ResetButtonResponse? resetButton,
     WifiSetConfigResponse? wifiSetConfig,
     WifiGetClientsResponse? wifiGetClients,
     WifiSetupResponse? wifiSetup,
@@ -9796,6 +10075,9 @@ class Response extends $pb.GeneratedMessage {
     if (dishFactoryReset != null) {
       $result.dishFactoryReset = dishFactoryReset;
     }
+    if (resetButton != null) {
+      $result.resetButton = resetButton;
+    }
     if (wifiSetConfig != null) {
       $result.wifiSetConfig = wifiSetConfig;
     }
@@ -9918,6 +10200,7 @@ class Response extends $pb.GeneratedMessage {
     2019 : Response_Response.dishActivateRssiScan,
     2020 : Response_Response.dishGetRssiScanResult,
     2021 : Response_Response.dishFactoryReset,
+    2022 : Response_Response.resetButton,
     3001 : Response_Response.wifiSetConfig,
     3002 : Response_Response.wifiGetClients,
     3003 : Response_Response.wifiSetup,
@@ -9944,7 +10227,7 @@ class Response extends $pb.GeneratedMessage {
     0 : Response_Response.notSet
   };
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'Response', package: const $pb.PackageName(_omitMessageNames ? '' : 'SpaceX.API.Device'), createEmptyInstance: create)
-    ..oo(0, [1001, 1003, 1004, 1006, 1009, 1010, 1011, 1012, 1013, 1014, 1015, 1016, 1017, 1019, 1020, 1021, 1023, 1027, 1028, 1029, 1030, 1031, 1032, 1033, 1034, 1035, 1037, 1038, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2018, 2019, 2020, 2021, 3001, 3002, 3003, 3004, 3005, 3006, 3007, 3009, 3012, 3013, 3015, 3016, 3020, 3021, 3022, 3024, 3025, 3026, 4001, 4003, 4004, 6000, 6001])
+    ..oo(0, [1001, 1003, 1004, 1006, 1009, 1010, 1011, 1012, 1013, 1014, 1015, 1016, 1017, 1019, 1020, 1021, 1023, 1027, 1028, 1029, 1030, 1031, 1032, 1033, 1034, 1035, 1037, 1038, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2018, 2019, 2020, 2021, 2022, 3001, 3002, 3003, 3004, 3005, 3006, 3007, 3009, 3012, 3013, 3015, 3016, 3020, 3021, 3022, 3024, 3025, 3026, 4001, 4003, 4004, 6000, 6001])
     ..a<$fixnum.Int64>(1, _omitFieldNames ? '' : 'id', $pb.PbFieldType.OU6, defaultOrMaker: $fixnum.Int64.ZERO)
     ..aOM<$1.Status>(2, _omitFieldNames ? '' : 'status', subBuilder: $1.Status.create)
     ..a<$fixnum.Int64>(3, _omitFieldNames ? '' : 'apiVersion', $pb.PbFieldType.OU6, defaultOrMaker: $fixnum.Int64.ZERO)
@@ -9993,6 +10276,7 @@ class Response extends $pb.GeneratedMessage {
     ..aOM<DishActivateRssiScanResponse>(2019, _omitFieldNames ? '' : 'dishActivateRssiScan', subBuilder: DishActivateRssiScanResponse.create)
     ..aOM<DishGetRssiScanResultResponse>(2020, _omitFieldNames ? '' : 'dishGetRssiScanResult', subBuilder: DishGetRssiScanResultResponse.create)
     ..aOM<DishFactoryResetResponse>(2021, _omitFieldNames ? '' : 'dishFactoryReset', subBuilder: DishFactoryResetResponse.create)
+    ..aOM<ResetButtonResponse>(2022, _omitFieldNames ? '' : 'resetButton', subBuilder: ResetButtonResponse.create)
     ..aOM<WifiSetConfigResponse>(3001, _omitFieldNames ? '' : 'wifiSetConfig', subBuilder: WifiSetConfigResponse.create)
     ..aOM<WifiGetClientsResponse>(3002, _omitFieldNames ? '' : 'wifiGetClients', subBuilder: WifiGetClientsResponse.create)
     ..aOM<WifiSetupResponse>(3003, _omitFieldNames ? '' : 'wifiSetup', subBuilder: WifiSetupResponse.create)
@@ -10572,265 +10856,276 @@ class Response extends $pb.GeneratedMessage {
   @$pb.TagNumber(2021)
   DishFactoryResetResponse ensureDishFactoryReset() => $_ensure(47);
 
+  @$pb.TagNumber(2022)
+  ResetButtonResponse get resetButton => $_getN(48);
+  @$pb.TagNumber(2022)
+  set resetButton(ResetButtonResponse v) { setField(2022, v); }
+  @$pb.TagNumber(2022)
+  $core.bool hasResetButton() => $_has(48);
+  @$pb.TagNumber(2022)
+  void clearResetButton() => clearField(2022);
+  @$pb.TagNumber(2022)
+  ResetButtonResponse ensureResetButton() => $_ensure(48);
+
   @$pb.TagNumber(3001)
-  WifiSetConfigResponse get wifiSetConfig => $_getN(48);
+  WifiSetConfigResponse get wifiSetConfig => $_getN(49);
   @$pb.TagNumber(3001)
   set wifiSetConfig(WifiSetConfigResponse v) { setField(3001, v); }
   @$pb.TagNumber(3001)
-  $core.bool hasWifiSetConfig() => $_has(48);
+  $core.bool hasWifiSetConfig() => $_has(49);
   @$pb.TagNumber(3001)
   void clearWifiSetConfig() => clearField(3001);
   @$pb.TagNumber(3001)
-  WifiSetConfigResponse ensureWifiSetConfig() => $_ensure(48);
+  WifiSetConfigResponse ensureWifiSetConfig() => $_ensure(49);
 
   @$pb.TagNumber(3002)
-  WifiGetClientsResponse get wifiGetClients => $_getN(49);
+  WifiGetClientsResponse get wifiGetClients => $_getN(50);
   @$pb.TagNumber(3002)
   set wifiGetClients(WifiGetClientsResponse v) { setField(3002, v); }
   @$pb.TagNumber(3002)
-  $core.bool hasWifiGetClients() => $_has(49);
+  $core.bool hasWifiGetClients() => $_has(50);
   @$pb.TagNumber(3002)
   void clearWifiGetClients() => clearField(3002);
   @$pb.TagNumber(3002)
-  WifiGetClientsResponse ensureWifiGetClients() => $_ensure(49);
+  WifiGetClientsResponse ensureWifiGetClients() => $_ensure(50);
 
   @$pb.TagNumber(3003)
-  WifiSetupResponse get wifiSetup => $_getN(50);
+  WifiSetupResponse get wifiSetup => $_getN(51);
   @$pb.TagNumber(3003)
   set wifiSetup(WifiSetupResponse v) { setField(3003, v); }
   @$pb.TagNumber(3003)
-  $core.bool hasWifiSetup() => $_has(50);
+  $core.bool hasWifiSetup() => $_has(51);
   @$pb.TagNumber(3003)
   void clearWifiSetup() => clearField(3003);
   @$pb.TagNumber(3003)
-  WifiSetupResponse ensureWifiSetup() => $_ensure(50);
+  WifiSetupResponse ensureWifiSetup() => $_ensure(51);
 
   @$pb.TagNumber(3004)
-  WifiGetStatusResponse get wifiGetStatus => $_getN(51);
+  WifiGetStatusResponse get wifiGetStatus => $_getN(52);
   @$pb.TagNumber(3004)
   set wifiGetStatus(WifiGetStatusResponse v) { setField(3004, v); }
   @$pb.TagNumber(3004)
-  $core.bool hasWifiGetStatus() => $_has(51);
+  $core.bool hasWifiGetStatus() => $_has(52);
   @$pb.TagNumber(3004)
   void clearWifiGetStatus() => clearField(3004);
   @$pb.TagNumber(3004)
-  WifiGetStatusResponse ensureWifiGetStatus() => $_ensure(51);
+  WifiGetStatusResponse ensureWifiGetStatus() => $_ensure(52);
 
   @$pb.TagNumber(3005)
-  WifiAuthenticateResponse get wifiAuthenticate => $_getN(52);
+  WifiAuthenticateResponse get wifiAuthenticate => $_getN(53);
   @$pb.TagNumber(3005)
   set wifiAuthenticate(WifiAuthenticateResponse v) { setField(3005, v); }
   @$pb.TagNumber(3005)
-  $core.bool hasWifiAuthenticate() => $_has(52);
+  $core.bool hasWifiAuthenticate() => $_has(53);
   @$pb.TagNumber(3005)
   void clearWifiAuthenticate() => clearField(3005);
   @$pb.TagNumber(3005)
-  WifiAuthenticateResponse ensureWifiAuthenticate() => $_ensure(52);
+  WifiAuthenticateResponse ensureWifiAuthenticate() => $_ensure(53);
 
   @$pb.TagNumber(3006)
-  WifiGetHistoryResponse get wifiGetHistory => $_getN(53);
+  WifiGetHistoryResponse get wifiGetHistory => $_getN(54);
   @$pb.TagNumber(3006)
   set wifiGetHistory(WifiGetHistoryResponse v) { setField(3006, v); }
   @$pb.TagNumber(3006)
-  $core.bool hasWifiGetHistory() => $_has(53);
+  $core.bool hasWifiGetHistory() => $_has(54);
   @$pb.TagNumber(3006)
   void clearWifiGetHistory() => clearField(3006);
   @$pb.TagNumber(3006)
-  WifiGetHistoryResponse ensureWifiGetHistory() => $_ensure(53);
+  WifiGetHistoryResponse ensureWifiGetHistory() => $_ensure(54);
 
   @$pb.TagNumber(3007)
-  WifiGetPingMetricsResponse get wifiGetPingMetrics => $_getN(54);
+  WifiGetPingMetricsResponse get wifiGetPingMetrics => $_getN(55);
   @$pb.TagNumber(3007)
   set wifiGetPingMetrics(WifiGetPingMetricsResponse v) { setField(3007, v); }
   @$pb.TagNumber(3007)
-  $core.bool hasWifiGetPingMetrics() => $_has(54);
+  $core.bool hasWifiGetPingMetrics() => $_has(55);
   @$pb.TagNumber(3007)
   void clearWifiGetPingMetrics() => clearField(3007);
   @$pb.TagNumber(3007)
-  WifiGetPingMetricsResponse ensureWifiGetPingMetrics() => $_ensure(54);
+  WifiGetPingMetricsResponse ensureWifiGetPingMetrics() => $_ensure(55);
 
   @$pb.TagNumber(3009)
-  WifiGetConfigResponse get wifiGetConfig => $_getN(55);
+  WifiGetConfigResponse get wifiGetConfig => $_getN(56);
   @$pb.TagNumber(3009)
   set wifiGetConfig(WifiGetConfigResponse v) { setField(3009, v); }
   @$pb.TagNumber(3009)
-  $core.bool hasWifiGetConfig() => $_has(55);
+  $core.bool hasWifiGetConfig() => $_has(56);
   @$pb.TagNumber(3009)
   void clearWifiGetConfig() => clearField(3009);
   @$pb.TagNumber(3009)
-  WifiGetConfigResponse ensureWifiGetConfig() => $_ensure(55);
+  WifiGetConfigResponse ensureWifiGetConfig() => $_ensure(56);
 
   @$pb.TagNumber(3012)
-  WifiSetMeshDeviceTrustResponse get wifiSetMeshDeviceTrust => $_getN(56);
+  WifiSetMeshDeviceTrustResponse get wifiSetMeshDeviceTrust => $_getN(57);
   @$pb.TagNumber(3012)
   set wifiSetMeshDeviceTrust(WifiSetMeshDeviceTrustResponse v) { setField(3012, v); }
   @$pb.TagNumber(3012)
-  $core.bool hasWifiSetMeshDeviceTrust() => $_has(56);
+  $core.bool hasWifiSetMeshDeviceTrust() => $_has(57);
   @$pb.TagNumber(3012)
   void clearWifiSetMeshDeviceTrust() => clearField(3012);
   @$pb.TagNumber(3012)
-  WifiSetMeshDeviceTrustResponse ensureWifiSetMeshDeviceTrust() => $_ensure(56);
+  WifiSetMeshDeviceTrustResponse ensureWifiSetMeshDeviceTrust() => $_ensure(57);
 
   @$core.Deprecated('This field is deprecated.')
   @$pb.TagNumber(3013)
-  WifiSetMeshConfigResponse get wifiSetMeshConfig => $_getN(57);
+  WifiSetMeshConfigResponse get wifiSetMeshConfig => $_getN(58);
   @$core.Deprecated('This field is deprecated.')
   @$pb.TagNumber(3013)
   set wifiSetMeshConfig(WifiSetMeshConfigResponse v) { setField(3013, v); }
   @$core.Deprecated('This field is deprecated.')
   @$pb.TagNumber(3013)
-  $core.bool hasWifiSetMeshConfig() => $_has(57);
+  $core.bool hasWifiSetMeshConfig() => $_has(58);
   @$core.Deprecated('This field is deprecated.')
   @$pb.TagNumber(3013)
   void clearWifiSetMeshConfig() => clearField(3013);
   @$core.Deprecated('This field is deprecated.')
   @$pb.TagNumber(3013)
-  WifiSetMeshConfigResponse ensureWifiSetMeshConfig() => $_ensure(57);
+  WifiSetMeshConfigResponse ensureWifiSetMeshConfig() => $_ensure(58);
 
   @$pb.TagNumber(3015)
-  WifiGetClientHistoryResponse get wifiGetClientHistory => $_getN(58);
+  WifiGetClientHistoryResponse get wifiGetClientHistory => $_getN(59);
   @$pb.TagNumber(3015)
   set wifiGetClientHistory(WifiGetClientHistoryResponse v) { setField(3015, v); }
   @$pb.TagNumber(3015)
-  $core.bool hasWifiGetClientHistory() => $_has(58);
+  $core.bool hasWifiGetClientHistory() => $_has(59);
   @$pb.TagNumber(3015)
   void clearWifiGetClientHistory() => clearField(3015);
   @$pb.TagNumber(3015)
-  WifiGetClientHistoryResponse ensureWifiGetClientHistory() => $_ensure(58);
+  WifiGetClientHistoryResponse ensureWifiGetClientHistory() => $_ensure(59);
 
   @$pb.TagNumber(3016)
-  WifiSelfTestResponse get wifiSelfTest => $_getN(59);
+  WifiSelfTestResponse get wifiSelfTest => $_getN(60);
   @$pb.TagNumber(3016)
   set wifiSelfTest(WifiSelfTestResponse v) { setField(3016, v); }
   @$pb.TagNumber(3016)
-  $core.bool hasWifiSelfTest() => $_has(59);
+  $core.bool hasWifiSelfTest() => $_has(60);
   @$pb.TagNumber(3016)
   void clearWifiSelfTest() => clearField(3016);
   @$pb.TagNumber(3016)
-  WifiSelfTestResponse ensureWifiSelfTest() => $_ensure(59);
+  WifiSelfTestResponse ensureWifiSelfTest() => $_ensure(60);
 
   @$pb.TagNumber(3020)
-  WifiGuestInfoResponse get wifiGuestInfo => $_getN(60);
+  WifiGuestInfoResponse get wifiGuestInfo => $_getN(61);
   @$pb.TagNumber(3020)
   set wifiGuestInfo(WifiGuestInfoResponse v) { setField(3020, v); }
   @$pb.TagNumber(3020)
-  $core.bool hasWifiGuestInfo() => $_has(60);
+  $core.bool hasWifiGuestInfo() => $_has(61);
   @$pb.TagNumber(3020)
   void clearWifiGuestInfo() => clearField(3020);
   @$pb.TagNumber(3020)
-  WifiGuestInfoResponse ensureWifiGuestInfo() => $_ensure(60);
+  WifiGuestInfoResponse ensureWifiGuestInfo() => $_ensure(61);
 
   @$pb.TagNumber(3021)
-  WifiRfTestResponse get wifiRfTest => $_getN(61);
+  WifiRfTestResponse get wifiRfTest => $_getN(62);
   @$pb.TagNumber(3021)
   set wifiRfTest(WifiRfTestResponse v) { setField(3021, v); }
   @$pb.TagNumber(3021)
-  $core.bool hasWifiRfTest() => $_has(61);
+  $core.bool hasWifiRfTest() => $_has(62);
   @$pb.TagNumber(3021)
   void clearWifiRfTest() => clearField(3021);
   @$pb.TagNumber(3021)
-  WifiRfTestResponse ensureWifiRfTest() => $_ensure(61);
+  WifiRfTestResponse ensureWifiRfTest() => $_ensure(62);
 
   @$pb.TagNumber(3022)
-  WifiGetPersistentStatsResponse get wifiGetPersistentStats => $_getN(62);
+  WifiGetPersistentStatsResponse get wifiGetPersistentStats => $_getN(63);
   @$pb.TagNumber(3022)
   set wifiGetPersistentStats(WifiGetPersistentStatsResponse v) { setField(3022, v); }
   @$pb.TagNumber(3022)
-  $core.bool hasWifiGetPersistentStats() => $_has(62);
+  $core.bool hasWifiGetPersistentStats() => $_has(63);
   @$pb.TagNumber(3022)
   void clearWifiGetPersistentStats() => clearField(3022);
   @$pb.TagNumber(3022)
-  WifiGetPersistentStatsResponse ensureWifiGetPersistentStats() => $_ensure(62);
+  WifiGetPersistentStatsResponse ensureWifiGetPersistentStats() => $_ensure(63);
 
   @$pb.TagNumber(3024)
-  WifiGetFirewallResponse get wifiGetFirewall => $_getN(63);
+  WifiGetFirewallResponse get wifiGetFirewall => $_getN(64);
   @$pb.TagNumber(3024)
   set wifiGetFirewall(WifiGetFirewallResponse v) { setField(3024, v); }
   @$pb.TagNumber(3024)
-  $core.bool hasWifiGetFirewall() => $_has(63);
+  $core.bool hasWifiGetFirewall() => $_has(64);
   @$pb.TagNumber(3024)
   void clearWifiGetFirewall() => clearField(3024);
   @$pb.TagNumber(3024)
-  WifiGetFirewallResponse ensureWifiGetFirewall() => $_ensure(63);
+  WifiGetFirewallResponse ensureWifiGetFirewall() => $_ensure(64);
 
   @$pb.TagNumber(3025)
-  WifiFactoryTestCommandResponse get wifiFactoryTestCommand => $_getN(64);
+  WifiFactoryTestCommandResponse get wifiFactoryTestCommand => $_getN(65);
   @$pb.TagNumber(3025)
   set wifiFactoryTestCommand(WifiFactoryTestCommandResponse v) { setField(3025, v); }
   @$pb.TagNumber(3025)
-  $core.bool hasWifiFactoryTestCommand() => $_has(64);
+  $core.bool hasWifiFactoryTestCommand() => $_has(65);
   @$pb.TagNumber(3025)
   void clearWifiFactoryTestCommand() => clearField(3025);
   @$pb.TagNumber(3025)
-  WifiFactoryTestCommandResponse ensureWifiFactoryTestCommand() => $_ensure(64);
+  WifiFactoryTestCommandResponse ensureWifiFactoryTestCommand() => $_ensure(65);
 
   @$pb.TagNumber(3026)
-  WifiBackhaulStatsResponse get wifiBackhaulStats => $_getN(65);
+  WifiBackhaulStatsResponse get wifiBackhaulStats => $_getN(66);
   @$pb.TagNumber(3026)
   set wifiBackhaulStats(WifiBackhaulStatsResponse v) { setField(3026, v); }
   @$pb.TagNumber(3026)
-  $core.bool hasWifiBackhaulStats() => $_has(65);
+  $core.bool hasWifiBackhaulStats() => $_has(66);
   @$pb.TagNumber(3026)
   void clearWifiBackhaulStats() => clearField(3026);
   @$pb.TagNumber(3026)
-  WifiBackhaulStatsResponse ensureWifiBackhaulStats() => $_ensure(65);
+  WifiBackhaulStatsResponse ensureWifiBackhaulStats() => $_ensure(66);
 
   @$pb.TagNumber(4001)
-  TransceiverIFLoopbackTestResponse get transceiverIfLoopbackTest => $_getN(66);
+  TransceiverIFLoopbackTestResponse get transceiverIfLoopbackTest => $_getN(67);
   @$pb.TagNumber(4001)
   set transceiverIfLoopbackTest(TransceiverIFLoopbackTestResponse v) { setField(4001, v); }
   @$pb.TagNumber(4001)
-  $core.bool hasTransceiverIfLoopbackTest() => $_has(66);
+  $core.bool hasTransceiverIfLoopbackTest() => $_has(67);
   @$pb.TagNumber(4001)
   void clearTransceiverIfLoopbackTest() => clearField(4001);
   @$pb.TagNumber(4001)
-  TransceiverIFLoopbackTestResponse ensureTransceiverIfLoopbackTest() => $_ensure(66);
+  TransceiverIFLoopbackTestResponse ensureTransceiverIfLoopbackTest() => $_ensure(67);
 
   @$pb.TagNumber(4003)
-  TransceiverGetStatusResponse get transceiverGetStatus => $_getN(67);
+  TransceiverGetStatusResponse get transceiverGetStatus => $_getN(68);
   @$pb.TagNumber(4003)
   set transceiverGetStatus(TransceiverGetStatusResponse v) { setField(4003, v); }
   @$pb.TagNumber(4003)
-  $core.bool hasTransceiverGetStatus() => $_has(67);
+  $core.bool hasTransceiverGetStatus() => $_has(68);
   @$pb.TagNumber(4003)
   void clearTransceiverGetStatus() => clearField(4003);
   @$pb.TagNumber(4003)
-  TransceiverGetStatusResponse ensureTransceiverGetStatus() => $_ensure(67);
+  TransceiverGetStatusResponse ensureTransceiverGetStatus() => $_ensure(68);
 
   @$pb.TagNumber(4004)
-  TransceiverGetTelemetryResponse get transceiverGetTelemetry => $_getN(68);
+  TransceiverGetTelemetryResponse get transceiverGetTelemetry => $_getN(69);
   @$pb.TagNumber(4004)
   set transceiverGetTelemetry(TransceiverGetTelemetryResponse v) { setField(4004, v); }
   @$pb.TagNumber(4004)
-  $core.bool hasTransceiverGetTelemetry() => $_has(68);
+  $core.bool hasTransceiverGetTelemetry() => $_has(69);
   @$pb.TagNumber(4004)
   void clearTransceiverGetTelemetry() => clearField(4004);
   @$pb.TagNumber(4004)
-  TransceiverGetTelemetryResponse ensureTransceiverGetTelemetry() => $_ensure(68);
+  TransceiverGetTelemetryResponse ensureTransceiverGetTelemetry() => $_ensure(69);
 
   /// .SpaceX.API.Device.Services.Unlock.StartUnlockResponse start_unlock = 5000;
   /// .SpaceX.API.Device.Services.Unlock.FinishUnlockResponse finish_unlock = 5001;
   @$pb.TagNumber(6000)
-  WifiGetDiagnosticsResponse get wifiGetDiagnostics => $_getN(69);
+  WifiGetDiagnosticsResponse get wifiGetDiagnostics => $_getN(70);
   @$pb.TagNumber(6000)
   set wifiGetDiagnostics(WifiGetDiagnosticsResponse v) { setField(6000, v); }
   @$pb.TagNumber(6000)
-  $core.bool hasWifiGetDiagnostics() => $_has(69);
+  $core.bool hasWifiGetDiagnostics() => $_has(70);
   @$pb.TagNumber(6000)
   void clearWifiGetDiagnostics() => clearField(6000);
   @$pb.TagNumber(6000)
-  WifiGetDiagnosticsResponse ensureWifiGetDiagnostics() => $_ensure(69);
+  WifiGetDiagnosticsResponse ensureWifiGetDiagnostics() => $_ensure(70);
 
   @$pb.TagNumber(6001)
-  DishGetDiagnosticsResponse get dishGetDiagnostics => $_getN(70);
+  DishGetDiagnosticsResponse get dishGetDiagnostics => $_getN(71);
   @$pb.TagNumber(6001)
   set dishGetDiagnostics(DishGetDiagnosticsResponse v) { setField(6001, v); }
   @$pb.TagNumber(6001)
-  $core.bool hasDishGetDiagnostics() => $_has(70);
+  $core.bool hasDishGetDiagnostics() => $_has(71);
   @$pb.TagNumber(6001)
   void clearDishGetDiagnostics() => clearField(6001);
   @$pb.TagNumber(6001)
-  DishGetDiagnosticsResponse ensureDishGetDiagnostics() => $_ensure(70);
+  DishGetDiagnosticsResponse ensureDishGetDiagnostics() => $_ensure(71);
 }
 
 /// SpaceX.API.Status.Status is a message:
@@ -14775,6 +15070,7 @@ class DishGetStatusResponse extends $pb.GeneratedMessage {
     $core.bool? isCellDisabled,
     $core.bool? swupdateRebootReady,
     $core.int? secondsUntilSwupdateRebootPossible,
+    $core.Iterable<$core.String>? connectedRouters,
     DishConfig? config,
   }) {
     final $result = create();
@@ -14868,6 +15164,9 @@ class DishGetStatusResponse extends $pb.GeneratedMessage {
     if (secondsUntilSwupdateRebootPossible != null) {
       $result.secondsUntilSwupdateRebootPossible = secondsUntilSwupdateRebootPossible;
     }
+    if (connectedRouters != null) {
+      $result.connectedRouters.addAll(connectedRouters);
+    }
     if (config != null) {
       $result.config = config;
     }
@@ -14908,6 +15207,7 @@ class DishGetStatusResponse extends $pb.GeneratedMessage {
     ..aOB(1029, _omitFieldNames ? '' : 'isCellDisabled')
     ..aOB(1030, _omitFieldNames ? '' : 'swupdateRebootReady')
     ..a<$core.int>(1031, _omitFieldNames ? '' : 'secondsUntilSwupdateRebootPossible', $pb.PbFieldType.O3)
+    ..pPS(1040, _omitFieldNames ? '' : 'connectedRouters')
     ..aOM<DishConfig>(2000, _omitFieldNames ? '' : 'config', subBuilder: DishConfig.create)
     ..hasRequiredFields = false
   ;
@@ -15223,16 +15523,19 @@ class DishGetStatusResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(1031)
   void clearSecondsUntilSwupdateRebootPossible() => clearField(1031);
 
+  @$pb.TagNumber(1040)
+  $core.List<$core.String> get connectedRouters => $_getList(30);
+
   @$pb.TagNumber(2000)
-  DishConfig get config => $_getN(30);
+  DishConfig get config => $_getN(31);
   @$pb.TagNumber(2000)
   set config(DishConfig v) { setField(2000, v); }
   @$pb.TagNumber(2000)
-  $core.bool hasConfig() => $_has(30);
+  $core.bool hasConfig() => $_has(31);
   @$pb.TagNumber(2000)
   void clearConfig() => clearField(2000);
   @$pb.TagNumber(2000)
-  DishConfig ensureConfig() => $_ensure(30);
+  DishConfig ensureConfig() => $_ensure(31);
 }
 
 /// SpaceX.API.Device.DishObstructionStats is a message:
@@ -18118,6 +18421,39 @@ class DishFactoryResetResponse extends $pb.GeneratedMessage {
   static DishFactoryResetResponse? _defaultInstance;
 }
 
+/// SpaceX.API.Device.ResetButtonResponse is a message:
+class ResetButtonResponse extends $pb.GeneratedMessage {
+  factory ResetButtonResponse() => create();
+  ResetButtonResponse._() : super();
+  factory ResetButtonResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ResetButtonResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'ResetButtonResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'SpaceX.API.Device'), createEmptyInstance: create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  ResetButtonResponse clone() => ResetButtonResponse()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  ResetButtonResponse copyWith(void Function(ResetButtonResponse) updates) => super.copyWith((message) => updates(message as ResetButtonResponse)) as ResetButtonResponse;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static ResetButtonResponse create() => ResetButtonResponse._();
+  ResetButtonResponse createEmptyInstance() => create();
+  static $pb.PbList<ResetButtonResponse> createRepeated() => $pb.PbList<ResetButtonResponse>();
+  @$core.pragma('dart2js:noInline')
+  static ResetButtonResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ResetButtonResponse>(create);
+  static ResetButtonResponse? _defaultInstance;
+}
+
 /// SpaceX.API.Device.WifiSetConfigResponse is a message:
 class WifiSetConfigResponse extends $pb.GeneratedMessage {
   factory WifiSetConfigResponse({
@@ -18992,6 +19328,8 @@ class WifiClient extends $pb.GeneratedMessage {
     $core.int? clientId,
     WifiClient_FqcodelInfo? fqcodelInfo,
     $core.int? noDataIdleS,
+    $core.bool? dhcpLeaseActive,
+    $core.bool? dhcpLeaseRenewed,
   }) {
     final $result = create();
     if (name != null) {
@@ -19117,6 +19455,12 @@ class WifiClient extends $pb.GeneratedMessage {
     if (noDataIdleS != null) {
       $result.noDataIdleS = noDataIdleS;
     }
+    if (dhcpLeaseActive != null) {
+      $result.dhcpLeaseActive = dhcpLeaseActive;
+    }
+    if (dhcpLeaseRenewed != null) {
+      $result.dhcpLeaseRenewed = dhcpLeaseRenewed;
+    }
     return $result;
   }
   WifiClient._() : super();
@@ -19165,6 +19509,8 @@ class WifiClient extends $pb.GeneratedMessage {
     ..a<$core.int>(43, _omitFieldNames ? '' : 'clientId', $pb.PbFieldType.OU3)
     ..aOM<WifiClient_FqcodelInfo>(44, _omitFieldNames ? '' : 'fqcodelInfo', subBuilder: WifiClient_FqcodelInfo.create)
     ..a<$core.int>(45, _omitFieldNames ? '' : 'noDataIdleS', $pb.PbFieldType.OU3)
+    ..aOB(46, _omitFieldNames ? '' : 'dhcpLeaseActive')
+    ..aOB(47, _omitFieldNames ? '' : 'dhcpLeaseRenewed')
     ..hasRequiredFields = false
   ;
 
@@ -19559,6 +19905,24 @@ class WifiClient extends $pb.GeneratedMessage {
   $core.bool hasNoDataIdleS() => $_has(40);
   @$pb.TagNumber(45)
   void clearNoDataIdleS() => clearField(45);
+
+  @$pb.TagNumber(46)
+  $core.bool get dhcpLeaseActive => $_getBF(41);
+  @$pb.TagNumber(46)
+  set dhcpLeaseActive($core.bool v) { $_setBool(41, v); }
+  @$pb.TagNumber(46)
+  $core.bool hasDhcpLeaseActive() => $_has(41);
+  @$pb.TagNumber(46)
+  void clearDhcpLeaseActive() => clearField(46);
+
+  @$pb.TagNumber(47)
+  $core.bool get dhcpLeaseRenewed => $_getBF(42);
+  @$pb.TagNumber(47)
+  set dhcpLeaseRenewed($core.bool v) { $_setBool(42, v); }
+  @$pb.TagNumber(47)
+  $core.bool hasDhcpLeaseRenewed() => $_has(42);
+  @$pb.TagNumber(47)
+  void clearDhcpLeaseRenewed() => clearField(47);
 }
 
 /// SpaceX.API.Device.WifiSetupResponse is a message:
@@ -19622,6 +19986,8 @@ class WifiGetStatusResponse extends $pb.GeneratedMessage {
     PoeStats? poeStats,
     $core.String? dishId,
     $fixnum.Int64? utcNs,
+    WifiSoftwareUpdateStats? softwareUpdateStats,
+    WifiSetupRequirement? setupRequirement,
     WifiConfig? config,
     $core.Iterable<WifiClient>? clients,
     $core.bool? hasClientIndex,
@@ -19700,6 +20066,12 @@ class WifiGetStatusResponse extends $pb.GeneratedMessage {
     if (utcNs != null) {
       $result.utcNs = utcNs;
     }
+    if (softwareUpdateStats != null) {
+      $result.softwareUpdateStats = softwareUpdateStats;
+    }
+    if (setupRequirement != null) {
+      $result.setupRequirement = setupRequirement;
+    }
     if (config != null) {
       $result.config = config;
     }
@@ -19745,6 +20117,8 @@ class WifiGetStatusResponse extends $pb.GeneratedMessage {
     ..aOM<PoeStats>(1022, _omitFieldNames ? '' : 'poeStats', subBuilder: PoeStats.create)
     ..aOS(1023, _omitFieldNames ? '' : 'dishId')
     ..aInt64(1024, _omitFieldNames ? '' : 'utcNs')
+    ..aOM<WifiSoftwareUpdateStats>(1025, _omitFieldNames ? '' : 'softwareUpdateStats', subBuilder: WifiSoftwareUpdateStats.create)
+    ..aOM<WifiSetupRequirement>(1026, _omitFieldNames ? '' : 'setupRequirement', subBuilder: WifiSetupRequirement.create)
     ..aOM<WifiConfig>(2000, _omitFieldNames ? '' : 'config', subBuilder: WifiConfig.create)
     ..pc<WifiClient>(3000, _omitFieldNames ? '' : 'clients', $pb.PbFieldType.PM, subBuilder: WifiClient.create)
     ..aOB(3001, _omitFieldNames ? '' : 'hasClientIndex')
@@ -19991,48 +20365,70 @@ class WifiGetStatusResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(1024)
   void clearUtcNs() => clearField(1024);
 
+  @$pb.TagNumber(1025)
+  WifiSoftwareUpdateStats get softwareUpdateStats => $_getN(23);
+  @$pb.TagNumber(1025)
+  set softwareUpdateStats(WifiSoftwareUpdateStats v) { setField(1025, v); }
+  @$pb.TagNumber(1025)
+  $core.bool hasSoftwareUpdateStats() => $_has(23);
+  @$pb.TagNumber(1025)
+  void clearSoftwareUpdateStats() => clearField(1025);
+  @$pb.TagNumber(1025)
+  WifiSoftwareUpdateStats ensureSoftwareUpdateStats() => $_ensure(23);
+
+  @$pb.TagNumber(1026)
+  WifiSetupRequirement get setupRequirement => $_getN(24);
+  @$pb.TagNumber(1026)
+  set setupRequirement(WifiSetupRequirement v) { setField(1026, v); }
+  @$pb.TagNumber(1026)
+  $core.bool hasSetupRequirement() => $_has(24);
+  @$pb.TagNumber(1026)
+  void clearSetupRequirement() => clearField(1026);
+  @$pb.TagNumber(1026)
+  WifiSetupRequirement ensureSetupRequirement() => $_ensure(24);
+
   @$pb.TagNumber(2000)
-  WifiConfig get config => $_getN(23);
+  WifiConfig get config => $_getN(25);
   @$pb.TagNumber(2000)
   set config(WifiConfig v) { setField(2000, v); }
   @$pb.TagNumber(2000)
-  $core.bool hasConfig() => $_has(23);
+  $core.bool hasConfig() => $_has(25);
   @$pb.TagNumber(2000)
   void clearConfig() => clearField(2000);
   @$pb.TagNumber(2000)
-  WifiConfig ensureConfig() => $_ensure(23);
+  WifiConfig ensureConfig() => $_ensure(25);
 
   @$pb.TagNumber(3000)
-  $core.List<WifiClient> get clients => $_getList(24);
+  $core.List<WifiClient> get clients => $_getList(26);
 
   @$pb.TagNumber(3001)
-  $core.bool get hasClientIndex => $_getBF(25);
+  $core.bool get hasClientIndex => $_getBF(27);
   @$pb.TagNumber(3001)
-  set hasClientIndex($core.bool v) { $_setBool(25, v); }
+  set hasClientIndex($core.bool v) { $_setBool(27, v); }
   @$pb.TagNumber(3001)
-  $core.bool hasHasClientIndex() => $_has(25);
+  $core.bool hasHasClientIndex() => $_has(27);
   @$pb.TagNumber(3001)
   void clearHasClientIndex() => clearField(3001);
 
   @$pb.TagNumber(3002)
-  $core.int get clientIndex_3002 => $_getIZ(26);
+  $core.int get clientIndex_3002 => $_getIZ(28);
   @$pb.TagNumber(3002)
-  set clientIndex_3002($core.int v) { $_setSignedInt32(26, v); }
+  set clientIndex_3002($core.int v) { $_setSignedInt32(28, v); }
   @$pb.TagNumber(3002)
-  $core.bool hasClientIndex_3002() => $_has(26);
+  $core.bool hasClientIndex_3002() => $_has(28);
   @$pb.TagNumber(3002)
   void clearClientIndex_3002() => clearField(3002);
 
   @$pb.TagNumber(3003)
-  RadiusStatsMap get radiusStats => $_getN(27);
+  RadiusStatsMap get radiusStats => $_getN(29);
   @$pb.TagNumber(3003)
   set radiusStats(RadiusStatsMap v) { setField(3003, v); }
   @$pb.TagNumber(3003)
-  $core.bool hasRadiusStats() => $_has(27);
+  $core.bool hasRadiusStats() => $_has(29);
   @$pb.TagNumber(3003)
   void clearRadiusStats() => clearField(3003);
   @$pb.TagNumber(3003)
-  RadiusStatsMap ensureRadiusStats() => $_ensure(27);
+  RadiusStatsMap ensureRadiusStats() => $_ensure(29);
 }
 
 /// SpaceX.API.Device.WifiBandStatus is a message:
@@ -20716,6 +21112,150 @@ class PoeStats extends $pb.GeneratedMessage {
   $core.bool hasPoeFaultsUndervoltage() => $_has(5);
   @$pb.TagNumber(6)
   void clearPoeFaultsUndervoltage() => clearField(6);
+}
+
+/// SpaceX.API.Device.WifiSoftwareUpdateStats is a message:
+class WifiSoftwareUpdateStats extends $pb.GeneratedMessage {
+  factory WifiSoftwareUpdateStats({
+    WifiSoftwareUpdateState? state,
+    $core.double? softwareDownloadProgress,
+    $core.double? secondsSinceGetTargetVersions,
+  }) {
+    final $result = create();
+    if (state != null) {
+      $result.state = state;
+    }
+    if (softwareDownloadProgress != null) {
+      $result.softwareDownloadProgress = softwareDownloadProgress;
+    }
+    if (secondsSinceGetTargetVersions != null) {
+      $result.secondsSinceGetTargetVersions = secondsSinceGetTargetVersions;
+    }
+    return $result;
+  }
+  WifiSoftwareUpdateStats._() : super();
+  factory WifiSoftwareUpdateStats.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory WifiSoftwareUpdateStats.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'WifiSoftwareUpdateStats', package: const $pb.PackageName(_omitMessageNames ? '' : 'SpaceX.API.Device'), createEmptyInstance: create)
+    ..e<WifiSoftwareUpdateState>(1, _omitFieldNames ? '' : 'state', $pb.PbFieldType.OE, defaultOrMaker: WifiSoftwareUpdateState.NOT_RUN, valueOf: WifiSoftwareUpdateState.valueOf, enumValues: WifiSoftwareUpdateState.values)
+    ..a<$core.double>(2, _omitFieldNames ? '' : 'softwareDownloadProgress', $pb.PbFieldType.OF)
+    ..a<$core.double>(3, _omitFieldNames ? '' : 'secondsSinceGetTargetVersions', $pb.PbFieldType.OF)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  WifiSoftwareUpdateStats clone() => WifiSoftwareUpdateStats()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  WifiSoftwareUpdateStats copyWith(void Function(WifiSoftwareUpdateStats) updates) => super.copyWith((message) => updates(message as WifiSoftwareUpdateStats)) as WifiSoftwareUpdateStats;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static WifiSoftwareUpdateStats create() => WifiSoftwareUpdateStats._();
+  WifiSoftwareUpdateStats createEmptyInstance() => create();
+  static $pb.PbList<WifiSoftwareUpdateStats> createRepeated() => $pb.PbList<WifiSoftwareUpdateStats>();
+  @$core.pragma('dart2js:noInline')
+  static WifiSoftwareUpdateStats getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<WifiSoftwareUpdateStats>(create);
+  static WifiSoftwareUpdateStats? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  WifiSoftwareUpdateState get state => $_getN(0);
+  @$pb.TagNumber(1)
+  set state(WifiSoftwareUpdateState v) { setField(1, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasState() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearState() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.double get softwareDownloadProgress => $_getN(1);
+  @$pb.TagNumber(2)
+  set softwareDownloadProgress($core.double v) { $_setFloat(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasSoftwareDownloadProgress() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearSoftwareDownloadProgress() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.double get secondsSinceGetTargetVersions => $_getN(2);
+  @$pb.TagNumber(3)
+  set secondsSinceGetTargetVersions($core.double v) { $_setFloat(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasSecondsSinceGetTargetVersions() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearSecondsSinceGetTargetVersions() => clearField(3);
+}
+
+/// SpaceX.API.Device.WifiSetupRequirement is a message:
+class WifiSetupRequirement extends $pb.GeneratedMessage {
+  factory WifiSetupRequirement({
+    WifiSetupRequirementState? state,
+    $fixnum.Int64? pauseCountdownSeconds,
+  }) {
+    final $result = create();
+    if (state != null) {
+      $result.state = state;
+    }
+    if (pauseCountdownSeconds != null) {
+      $result.pauseCountdownSeconds = pauseCountdownSeconds;
+    }
+    return $result;
+  }
+  WifiSetupRequirement._() : super();
+  factory WifiSetupRequirement.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory WifiSetupRequirement.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'WifiSetupRequirement', package: const $pb.PackageName(_omitMessageNames ? '' : 'SpaceX.API.Device'), createEmptyInstance: create)
+    ..e<WifiSetupRequirementState>(1, _omitFieldNames ? '' : 'state', $pb.PbFieldType.OE, defaultOrMaker: WifiSetupRequirementState.NOT_REQUIRED, valueOf: WifiSetupRequirementState.valueOf, enumValues: WifiSetupRequirementState.values)
+    ..a<$fixnum.Int64>(2, _omitFieldNames ? '' : 'pauseCountdownSeconds', $pb.PbFieldType.OU6, defaultOrMaker: $fixnum.Int64.ZERO)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  WifiSetupRequirement clone() => WifiSetupRequirement()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  WifiSetupRequirement copyWith(void Function(WifiSetupRequirement) updates) => super.copyWith((message) => updates(message as WifiSetupRequirement)) as WifiSetupRequirement;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static WifiSetupRequirement create() => WifiSetupRequirement._();
+  WifiSetupRequirement createEmptyInstance() => create();
+  static $pb.PbList<WifiSetupRequirement> createRepeated() => $pb.PbList<WifiSetupRequirement>();
+  @$core.pragma('dart2js:noInline')
+  static WifiSetupRequirement getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<WifiSetupRequirement>(create);
+  static WifiSetupRequirement? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  WifiSetupRequirementState get state => $_getN(0);
+  @$pb.TagNumber(1)
+  set state(WifiSetupRequirementState v) { setField(1, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasState() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearState() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $fixnum.Int64 get pauseCountdownSeconds => $_getI64(1);
+  @$pb.TagNumber(2)
+  set pauseCountdownSeconds($fixnum.Int64 v) { $_setInt64(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasPauseCountdownSeconds() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearPauseCountdownSeconds() => clearField(2);
 }
 
 class RadiusStatsMap_RadiusStats extends $pb.GeneratedMessage {

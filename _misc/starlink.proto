@@ -56,6 +56,8 @@ message Request {
     .SpaceX.API.Device.GetRadioStatsRequest get_radio_stats = 1036;
     .SpaceX.API.Device.GetTimeRequest time = 1037;
     .SpaceX.API.Device.RunIperfServerRequest run_iperf_server = 1038;
+    .SpaceX.API.Device.TcpConnectivityTestRequest tcp_connectivity_test = 1039;
+    .SpaceX.API.Device.UdpConnectivityTestRequest udp_connectivity_test = 1040;
     .SpaceX.API.Device.SignedData sensitive_request = 1078;
     .SpaceX.API.Device.DishStowRequest dish_stow = 2002;
     .SpaceX.API.Device.DishGetContextRequest dish_get_context = 2003;
@@ -73,6 +75,7 @@ message Request {
     .SpaceX.API.Device.DishActivateRssiScanRequest dish_activate_rssi_scan = 2019;
     .SpaceX.API.Device.DishGetRssiScanResultRequest dish_get_rssi_scan_result = 2020;
     .SpaceX.API.Device.DishFactoryResetRequest dish_factory_reset = 2021;
+    .SpaceX.API.Device.ResetButtonRequest reset_button = 2022;
     .SpaceX.API.Device.WifiSetConfigRequest wifi_set_config = 3001;
     .SpaceX.API.Device.WifiGetClientsRequest wifi_get_clients = 3002;
     .SpaceX.API.Device.WifiSetupRequest wifi_setup = 3003;
@@ -219,6 +222,7 @@ enum User {
   ROUTER = 5;
   GUEST_LAN = 6;
   SENSITIVE_COMMANDING = 7;
+  LAN_TLS = 8;
 }
 
 //SpaceX.API.Device.FactoryResetRequest is a message:
@@ -365,6 +369,43 @@ message RunIperfServerRequest {
   uint32 duration_s = 1;
 }
 
+//SpaceX.API.Device.TcpConnectivityTestRequest is a message:
+message TcpConnectivityTestRequest {
+  string target = 1;
+  uint32 port = 2;
+}
+
+//SpaceX.API.Device.UdpConnectivityTestRequest is a message:
+message UdpConnectivityTestRequest {
+  string target = 1;
+  uint32 port = 2;
+  .SpaceX.API.Device.UdpConnectivityTestRequest.UDPProbeDataType probe_data = 3;
+  enum UDPProbeDataType {
+    EMPTY = 0;
+    DNS_STATUS_REQUEST = 1;
+    DTLS_CLIENT_HELLO = 2;
+    DNS_VERSION_BIND_REQ = 3;
+    RPC_CHECK = 4;
+    DNS_SD = 5;
+    SNMP_V1_PUBLIC = 6;
+    SNMP_V3_GET_REQUEST = 7;
+    NTP_MESSAGE = 8;
+    XDMCP = 9;
+    KERBEROS = 10;
+    SIP_OPTIONS = 11;
+    LDAP_SEARCH_REQ = 12;
+    MEMCACHED_STATS = 13;
+    OPENVPN = 14;
+    CIFS_NS_UC = 15;
+    TFTP_GET = 16;
+    DHCP_INFORM = 17;
+    QUIC = 18;
+    RIPV1 = 19;
+    NFS_PROC_NULL = 20;
+    COAP_REQUEST = 21;
+  }
+}
+
 //SpaceX.API.Device.DishStowRequest is a message:
 message DishStowRequest {
   bool unstow = 1;
@@ -500,6 +541,11 @@ message DishGetRssiScanResultRequest {
 message DishFactoryResetRequest {
 }
 
+//SpaceX.API.Device.ResetButtonRequest is a message:
+message ResetButtonRequest {
+  bool pressed = 1;
+}
+
 //SpaceX.API.Device.WifiSetConfigRequest is a message:
 message WifiSetConfigRequest {
   .SpaceX.API.Device.WifiConfig wifi_config = 1;
@@ -559,6 +605,7 @@ message WifiConfig {
   int32 wan_host_dscp_mark = 77;
   uint32 tag = 78;
   bool debug_pop_pings = 79;
+  bool client_tester = 80;
   bool apply_setup_complete = 1010;
   bool apply_channel_2ghz = 1013;
   bool apply_channel_5ghz = 1014;
@@ -604,6 +651,7 @@ message WifiConfig {
   bool apply_wan_traffic_control = 1092;
   bool apply_wan_host_dscp_mark = 1093;
   bool apply_debug_pop_pings = 1095;
+  bool apply_client_tester = 1096;
   repeated .SpaceX.API.Device.WifiConfig.Network networks = 1100;
   bool apply_networks = 1101;
   .SpaceX.API.Device.BootInfo boot = 3001;
@@ -1072,6 +1120,7 @@ message Response {
     .SpaceX.API.Device.DishActivateRssiScanResponse dish_activate_rssi_scan = 2019;
     .SpaceX.API.Device.DishGetRssiScanResultResponse dish_get_rssi_scan_result = 2020;
     .SpaceX.API.Device.DishFactoryResetResponse dish_factory_reset = 2021;
+    .SpaceX.API.Device.ResetButtonResponse reset_button = 2022;
     .SpaceX.API.Device.WifiSetConfigResponse wifi_set_config = 3001;
     .SpaceX.API.Device.WifiGetClientsResponse wifi_get_clients = 3002;
     .SpaceX.API.Device.WifiSetupResponse wifi_setup = 3003;
@@ -1485,6 +1534,7 @@ message DishGetStatusResponse {
   bool is_cell_disabled = 1029;
   bool swupdate_reboot_ready = 1030;
   int32 seconds_until_swupdate_reboot_possible = 1031;
+  repeated string connected_routers = 1040;
   .SpaceX.API.Device.DishConfig config = 2000;
   reserved 1001, 1006, 1013;
 }
@@ -1814,6 +1864,10 @@ message RssiEntry {
 message DishFactoryResetResponse {
 }
 
+//SpaceX.API.Device.ResetButtonResponse is a message:
+message ResetButtonResponse {
+}
+
 //SpaceX.API.Device.WifiSetConfigResponse is a message:
 message WifiSetConfigResponse {
   .SpaceX.API.Device.WifiConfig updated_wifi_config = 1;
@@ -1869,6 +1923,8 @@ message WifiClient {
   uint32 client_id = 43;
   .SpaceX.API.Device.WifiClient.FqcodelInfo fqcodel_info = 44;
   uint32 no_data_idle_s = 45;
+  bool dhcp_lease_active = 46;
+  bool dhcp_lease_renewed = 47;
   message FqcodelInfo {
     uint64 enqs_hi_prio = 1;
     uint64 enqs_fqcodel = 2;
@@ -1963,6 +2019,8 @@ message WifiGetStatusResponse {
   .SpaceX.API.Device.PoeStats poe_stats = 1022;
   string dish_id = 1023;
   int64 utc_ns = 1024;
+  .SpaceX.API.Device.WifiSoftwareUpdateStats software_update_stats = 1025;
+  .SpaceX.API.Device.WifiSetupRequirement setup_requirement = 1026;
   .SpaceX.API.Device.WifiConfig config = 2000;
   repeated .SpaceX.API.Device.WifiClient clients = 3000;
   bool has_client_index = 3001;
@@ -2037,6 +2095,44 @@ enum PoeState {
   POE_STATE_ON = 3;
   POE_STATE_WATER_DETECT_RAMPUP = 4;
   POE_STATE_WATER_DETECT = 5;
+}
+
+//SpaceX.API.Device.WifiSoftwareUpdateStats is a message:
+message WifiSoftwareUpdateStats {
+  .SpaceX.API.Device.WifiSoftwareUpdateState state = 1;
+  float software_download_progress = 2;
+  float seconds_since_get_target_versions = 3;
+}
+
+//SpaceX.API.Device.WifiSoftwareUpdateState is an enum:
+enum WifiSoftwareUpdateState {
+  NOT_RUN = 0;
+  GETTING_TARGET_VERSION = 1;
+  DOWNLOADING_UPDATE_IMAGE = 2;
+  FLASHING = 3;
+  NO_UPDATE_REQUIRED = 4;
+  REBOOT_PENDING = 5;
+  GETTING_TARGET_VERSION_FAILED = 6;
+  GETTING_TARGET_VERSION_EXHAUSTED = 7;
+  NO_VALID_ARTIFACT = 8;
+  ILLEGAL_ARTIFACT = 9;
+  DOWNLOADING_UPDATE_IMAGE_FAILED = 10;
+  DOWNLOADING_UPDATE_IMAGE_EXHAUSTED = 11;
+  FLASHING_FAILED = 12;
+}
+
+//SpaceX.API.Device.WifiSetupRequirement is a message:
+message WifiSetupRequirement {
+  .SpaceX.API.Device.WifiSetupRequirementState state = 1;
+  uint64 pause_countdown_seconds = 2;
+}
+
+//SpaceX.API.Device.WifiSetupRequirementState is an enum:
+enum WifiSetupRequirementState {
+  NOT_REQUIRED = 0;
+  REQUIRED_COUNTDOWN = 1;
+  REQUIRED_PAUSED = 2;
+  REQUIRED_COMPLETE = 3;
 }
 
 //SpaceX.API.Device.RadiusStatsMap is a message:
@@ -2392,6 +2488,8 @@ message DishGetDiagnosticsResponse {
     INVALID_COUNTRY = 5;
     BLOCKED_COUNTRY = 6;
     DATA_OVERAGE_SANDBOX_POLICY = 7;
+    CELL_IS_DISABLED = 8;
+    UNLICENSED_COUNTRY = 9;
   }
   enum TestResult {
     NO_RESULT = 0;
