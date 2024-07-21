@@ -1,4 +1,9 @@
-## 1.2b66
+## 1.2b69
+
+### Enhancements:
+- Minor changes to support Mini dishes.
+
+## 1.2b68
 
 ### New Features:
 
