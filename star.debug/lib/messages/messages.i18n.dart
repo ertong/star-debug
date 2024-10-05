@@ -1428,6 +1428,23 @@ class DishGetStatusGrpcMessages {
 
 - OTHER_OPTIONS
 """;
+
+  /// ```dart
+  /// "Reboot reason"
+  /// ```
+  String get reboot_reason => """Reboot reason""";
+
+  /// ```dart
+  /// """
+  /// The possible options are:
+  ///
+  /// - OTHER_OPTIONS
+  /// """
+  /// ```
+  String get reboot_reason__hint => """The possible options are:
+
+- OTHER_OPTIONS
+""";
 }
 
 class AlignmentStatsGrpcMessages {
@@ -2452,6 +2469,11 @@ with internet access and dish access. You can find this setting in
       """grpc.DishGetStatus.disablement_code""": """Service state""",
       """grpc.DishGetStatus.disablement_code__hint""":
           """The possible options are:
+
+- OTHER_OPTIONS
+""",
+      """grpc.DishGetStatus.reboot_reason""": """Reboot reason""",
+      """grpc.DishGetStatus.reboot_reason__hint""": """The possible options are:
 
 - OTHER_OPTIONS
 """,

@@ -112,6 +112,12 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
           );
         }
 
+        if (status.hasRebootReason()) {
+          b.kv(M.grpc.DishGetStatus.reboot_reason, status.rebootReason,
+              hint: Format.formatEnumHint(M.grpc.DishGetStatus.reboot_reason__hint, RebootReason.values)
+          );
+        }
+
         if (status.hasSoftwareUpdateState()) {
           var s = "${status.softwareUpdateState}";
           if (![
