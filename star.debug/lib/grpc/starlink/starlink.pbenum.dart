@@ -201,6 +201,7 @@ class BootReason extends $pb.ProtobufEnum {
   static const BootReason AVIATION_OUTAGE_FDIR = BootReason._(12, _omitEnumNames ? '' : 'AVIATION_OUTAGE_FDIR');
   static const BootReason SOFTWARE_WATCHDOG = BootReason._(13, _omitEnumNames ? '' : 'SOFTWARE_WATCHDOG');
   static const BootReason INTENTIONAL_KERNEL_PANIC = BootReason._(14, _omitEnumNames ? '' : 'INTENTIONAL_KERNEL_PANIC');
+  static const BootReason HARDWARE_WATCHDOG = BootReason._(15, _omitEnumNames ? '' : 'HARDWARE_WATCHDOG');
 
   static const $core.List<BootReason> values = <BootReason> [
     BOOT_REASON_UNKNOWN,
@@ -217,6 +218,7 @@ class BootReason extends $pb.ProtobufEnum {
     AVIATION_OUTAGE_FDIR,
     SOFTWARE_WATCHDOG,
     INTENTIONAL_KERNEL_PANIC,
+    HARDWARE_WATCHDOG,
   ];
 
   static final $core.Map<$core.int, BootReason> _byValue = $pb.ProtobufEnum.initByValue(values);
@@ -281,6 +283,24 @@ class Protocol extends $pb.ProtobufEnum {
   static Protocol? valueOf($core.int value) => _byValue[value];
 
   const Protocol._($core.int v, $core.String n) : super(v, n);
+}
+
+/// SpaceX.API.Device.WifiClientSandboxAlert is an enum:
+class WifiClientSandboxAlert extends $pb.ProtobufEnum {
+  static const WifiClientSandboxAlert LANDING_PAGE_DOWN = WifiClientSandboxAlert._(0, _omitEnumNames ? '' : 'LANDING_PAGE_DOWN');
+  static const WifiClientSandboxAlert SANDBOX_API_DOWN_GROUND = WifiClientSandboxAlert._(1, _omitEnumNames ? '' : 'SANDBOX_API_DOWN_GROUND');
+  static const WifiClientSandboxAlert SANDBOX_API_DOWN_STARLINK = WifiClientSandboxAlert._(2, _omitEnumNames ? '' : 'SANDBOX_API_DOWN_STARLINK');
+
+  static const $core.List<WifiClientSandboxAlert> values = <WifiClientSandboxAlert> [
+    LANDING_PAGE_DOWN,
+    SANDBOX_API_DOWN_GROUND,
+    SANDBOX_API_DOWN_STARLINK,
+  ];
+
+  static final $core.Map<$core.int, WifiClientSandboxAlert> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static WifiClientSandboxAlert? valueOf($core.int value) => _byValue[value];
+
+  const WifiClientSandboxAlert._($core.int v, $core.String n) : super(v, n);
 }
 
 /// SpaceX.API.Device.SpeedtestError is an enum:
@@ -449,6 +469,70 @@ class AttitudeEstimationState extends $pb.ProtobufEnum {
   static AttitudeEstimationState? valueOf($core.int value) => _byValue[value];
 
   const AttitudeEstimationState._($core.int v, $core.String n) : super(v, n);
+}
+
+/// SpaceX.API.Device.RebootReason is an enum:
+class RebootReason extends $pb.ProtobufEnum {
+  static const RebootReason REBOOT_REASON_NONE = RebootReason._(0, _omitEnumNames ? '' : 'REBOOT_REASON_NONE');
+  static const RebootReason REBOOT_REASON_MANUAL = RebootReason._(1, _omitEnumNames ? '' : 'REBOOT_REASON_MANUAL');
+  static const RebootReason REBOOT_REASON_LOSS_OF_COMM = RebootReason._(2, _omitEnumNames ? '' : 'REBOOT_REASON_LOSS_OF_COMM');
+  static const RebootReason REBOOT_REASON_SWUPDATE_NOW = RebootReason._(3, _omitEnumNames ? '' : 'REBOOT_REASON_SWUPDATE_NOW');
+  static const RebootReason REBOOT_REASON_SWUPDATE_SCHEDULED = RebootReason._(4, _omitEnumNames ? '' : 'REBOOT_REASON_SWUPDATE_SCHEDULED');
+  static const RebootReason REBOOT_REASON_APP = RebootReason._(5, _omitEnumNames ? '' : 'REBOOT_REASON_APP');
+  static const RebootReason REBOOT_REASON_EMC = RebootReason._(6, _omitEnumNames ? '' : 'REBOOT_REASON_EMC');
+  static const RebootReason REBOOT_REASON_FACTORY_RESET = RebootReason._(7, _omitEnumNames ? '' : 'REBOOT_REASON_FACTORY_RESET');
+  static const RebootReason REBOOT_REASON_TEST_CASE = RebootReason._(8, _omitEnumNames ? '' : 'REBOOT_REASON_TEST_CASE');
+  static const RebootReason REBOOT_REASON_THERMAL_POWER_CUT = RebootReason._(9, _omitEnumNames ? '' : 'REBOOT_REASON_THERMAL_POWER_CUT');
+  static const RebootReason REBOOT_REASON_CRITICAL_PROCESS_DIED = RebootReason._(10, _omitEnumNames ? '' : 'REBOOT_REASON_CRITICAL_PROCESS_DIED');
+  static const RebootReason REBOOT_REASON_NO_RF_READY = RebootReason._(11, _omitEnumNames ? '' : 'REBOOT_REASON_NO_RF_READY');
+  static const RebootReason REBOOT_REASON_POSTPONED_LOSS_OF_COMM = RebootReason._(12, _omitEnumNames ? '' : 'REBOOT_REASON_POSTPONED_LOSS_OF_COMM');
+  static const RebootReason REBOOT_REASON_SWUPDATE_STATIONARY = RebootReason._(13, _omitEnumNames ? '' : 'REBOOT_REASON_SWUPDATE_STATIONARY');
+  static const RebootReason REBOOT_REASON_AAP_CRASH = RebootReason._(14, _omitEnumNames ? '' : 'REBOOT_REASON_AAP_CRASH');
+  static const RebootReason REBOOT_REASON_XP70_SACS = RebootReason._(15, _omitEnumNames ? '' : 'REBOOT_REASON_XP70_SACS');
+  static const RebootReason REBOOT_REASON_INE_FAILED = RebootReason._(16, _omitEnumNames ? '' : 'REBOOT_REASON_INE_FAILED');
+
+  static const $core.List<RebootReason> values = <RebootReason> [
+    REBOOT_REASON_NONE,
+    REBOOT_REASON_MANUAL,
+    REBOOT_REASON_LOSS_OF_COMM,
+    REBOOT_REASON_SWUPDATE_NOW,
+    REBOOT_REASON_SWUPDATE_SCHEDULED,
+    REBOOT_REASON_APP,
+    REBOOT_REASON_EMC,
+    REBOOT_REASON_FACTORY_RESET,
+    REBOOT_REASON_TEST_CASE,
+    REBOOT_REASON_THERMAL_POWER_CUT,
+    REBOOT_REASON_CRITICAL_PROCESS_DIED,
+    REBOOT_REASON_NO_RF_READY,
+    REBOOT_REASON_POSTPONED_LOSS_OF_COMM,
+    REBOOT_REASON_SWUPDATE_STATIONARY,
+    REBOOT_REASON_AAP_CRASH,
+    REBOOT_REASON_XP70_SACS,
+    REBOOT_REASON_INE_FAILED,
+  ];
+
+  static final $core.Map<$core.int, RebootReason> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static RebootReason? valueOf($core.int value) => _byValue[value];
+
+  const RebootReason._($core.int v, $core.String n) : super(v, n);
+}
+
+/// SpaceX.API.Device.ObstructionMapReferenceFrame is an enum:
+class ObstructionMapReferenceFrame extends $pb.ProtobufEnum {
+  static const ObstructionMapReferenceFrame FRAME_UNKNOWN = ObstructionMapReferenceFrame._(0, _omitEnumNames ? '' : 'FRAME_UNKNOWN');
+  static const ObstructionMapReferenceFrame FRAME_EARTH = ObstructionMapReferenceFrame._(1, _omitEnumNames ? '' : 'FRAME_EARTH');
+  static const ObstructionMapReferenceFrame FRAME_UT = ObstructionMapReferenceFrame._(2, _omitEnumNames ? '' : 'FRAME_UT');
+
+  static const $core.List<ObstructionMapReferenceFrame> values = <ObstructionMapReferenceFrame> [
+    FRAME_UNKNOWN,
+    FRAME_EARTH,
+    FRAME_UT,
+  ];
+
+  static final $core.Map<$core.int, ObstructionMapReferenceFrame> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static ObstructionMapReferenceFrame? valueOf($core.int value) => _byValue[value];
+
+  const ObstructionMapReferenceFrame._($core.int v, $core.String n) : super(v, n);
 }
 
 /// SpaceX.API.Device.PoeState is an enum:
@@ -1087,7 +1171,7 @@ class DishGetDiagnosticsResponse_DisablementCode extends $pb.ProtobufEnum {
   static const DishGetDiagnosticsResponse_DisablementCode BLOCKED_COUNTRY = DishGetDiagnosticsResponse_DisablementCode._(6, _omitEnumNames ? '' : 'BLOCKED_COUNTRY');
   static const DishGetDiagnosticsResponse_DisablementCode DATA_OVERAGE_SANDBOX_POLICY = DishGetDiagnosticsResponse_DisablementCode._(7, _omitEnumNames ? '' : 'DATA_OVERAGE_SANDBOX_POLICY');
   static const DishGetDiagnosticsResponse_DisablementCode CELL_IS_DISABLED = DishGetDiagnosticsResponse_DisablementCode._(8, _omitEnumNames ? '' : 'CELL_IS_DISABLED');
-  static const DishGetDiagnosticsResponse_DisablementCode UNLICENSED_COUNTRY = DishGetDiagnosticsResponse_DisablementCode._(9, _omitEnumNames ? '' : 'UNLICENSED_COUNTRY');
+  static const DishGetDiagnosticsResponse_DisablementCode ROAM_RESTRICTED = DishGetDiagnosticsResponse_DisablementCode._(10, _omitEnumNames ? '' : 'ROAM_RESTRICTED');
 
   static const $core.List<DishGetDiagnosticsResponse_DisablementCode> values = <DishGetDiagnosticsResponse_DisablementCode> [
     UNKNOWN,
@@ -1099,7 +1183,7 @@ class DishGetDiagnosticsResponse_DisablementCode extends $pb.ProtobufEnum {
     BLOCKED_COUNTRY,
     DATA_OVERAGE_SANDBOX_POLICY,
     CELL_IS_DISABLED,
-    UNLICENSED_COUNTRY,
+    ROAM_RESTRICTED,
   ];
 
   static final $core.Map<$core.int, DishGetDiagnosticsResponse_DisablementCode> _byValue = $pb.ProtobufEnum.initByValue(values);
