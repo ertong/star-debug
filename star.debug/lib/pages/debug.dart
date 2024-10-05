@@ -172,6 +172,8 @@ class _DebugPageState extends State<DebugPage> with TickerProviderStateMixin {
     //     reqButton("TcpConnectivityTestRequest", () => Request(tcpConnectivityTest: TcpConnectivityTestRequest()), router: true),
     //     reqButton("UdpConnectivityTestRequest", () => Request(udpConnectivityTest: UdpConnectivityTestRequest()), router: true),
     //     reqButton("DishSetConfigRequest", () => Request(dishSetConfig: DishSetConfigRequest(
+    //     reqButton("GetLog", () => Request(getLog: GetLogRequest()), router: false),
+    //     reqButton("GetContext", () => Request(dishGetContext: DishGetContextRequest()), router: false),
     //         dishConfig: DishConfig(
     //           applyPowerSaveMode: false,
     //         )
@@ -182,6 +184,7 @@ class _DebugPageState extends State<DebugPage> with TickerProviderStateMixin {
     res.add(Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
+
         reqButton("UpdateRequestRouter", () => Request(update: UpdateRequest()), router: true),
       ],
     ));
