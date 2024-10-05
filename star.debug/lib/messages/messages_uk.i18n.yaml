@@ -305,6 +305,11 @@ grpc:
       Можливі варіанти:
       
       - OTHER_OPTIONS
+    reboot_reason: Причина перезавантаження
+    reboot_reason__hint: |
+      Можливі варіанти:
+      
+      - OTHER_OPTIONS
   AlignmentStats:
     has_actuators: has_actuators
     actuator_state: actuator_state

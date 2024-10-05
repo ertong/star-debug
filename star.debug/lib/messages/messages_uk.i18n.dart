@@ -1430,6 +1430,23 @@ class DishGetStatusGrpcMessagesUk extends DishGetStatusGrpcMessages {
 
 - OTHER_OPTIONS
 """;
+
+  /// ```dart
+  /// "Причина перезавантаження"
+  /// ```
+  String get reboot_reason => """Причина перезавантаження""";
+
+  /// ```dart
+  /// """
+  /// Можливі варіанти:
+  ///
+  /// - OTHER_OPTIONS
+  /// """
+  /// ```
+  String get reboot_reason__hint => """Можливі варіанти:
+
+- OTHER_OPTIONS
+""";
 }
 
 class AlignmentStatsGrpcMessagesUk extends AlignmentStatsGrpcMessages {
@@ -2451,6 +2468,11 @@ Map<String, String> get messagesUkMap => {
       """grpc.DishGetStatus.actuator_state""": """Стан приводів""",
       """grpc.DishGetStatus.disablement_code""": """Стан сервісу""",
       """grpc.DishGetStatus.disablement_code__hint""": """Можливі варіанти:
+
+- OTHER_OPTIONS
+""",
+      """grpc.DishGetStatus.reboot_reason""": """Причина перезавантаження""",
+      """grpc.DishGetStatus.reboot_reason__hint""": """Можливі варіанти:
 
 - OTHER_OPTIONS
 """,
