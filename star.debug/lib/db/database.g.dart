@@ -304,6 +304,30 @@ class DishLog extends DataClass implements Insertable<DishLog> {
             wifiStatusJson.present ? wifiStatusJson.value : this.wifiStatusJson,
         onlineJson: onlineJson.present ? onlineJson.value : this.onlineJson,
       );
+  DishLog copyWithCompanion(DishLogsCompanion data) {
+    return DishLog(
+      id: data.id.present ? data.id.value : this.id,
+      timestamp: data.timestamp.present ? data.timestamp.value : this.timestamp,
+      dishId: data.dishId.present ? data.dishId.value : this.dishId,
+      forceStore:
+          data.forceStore.present ? data.forceStore.value : this.forceStore,
+      debugDataJson: data.debugDataJson.present
+          ? data.debugDataJson.value
+          : this.debugDataJson,
+      dishStatusJson: data.dishStatusJson.present
+          ? data.dishStatusJson.value
+          : this.dishStatusJson,
+      dishHistoryJson: data.dishHistoryJson.present
+          ? data.dishHistoryJson.value
+          : this.dishHistoryJson,
+      wifiStatusJson: data.wifiStatusJson.present
+          ? data.wifiStatusJson.value
+          : this.wifiStatusJson,
+      onlineJson:
+          data.onlineJson.present ? data.onlineJson.value : this.onlineJson,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('DishLog(')
@@ -639,6 +663,18 @@ class Dish extends DataClass implements Insertable<Dish> {
         latestLogId: latestLogId.present ? latestLogId.value : this.latestLogId,
         latestLogTimestamp: latestLogTimestamp ?? this.latestLogTimestamp,
       );
+  Dish copyWithCompanion(DishesCompanion data) {
+    return Dish(
+      dishId: data.dishId.present ? data.dishId.value : this.dishId,
+      name: data.name.present ? data.name.value : this.name,
+      latestLogId:
+          data.latestLogId.present ? data.latestLogId.value : this.latestLogId,
+      latestLogTimestamp: data.latestLogTimestamp.present
+          ? data.latestLogTimestamp.value
+          : this.latestLogTimestamp,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('Dish(')
@@ -921,6 +957,16 @@ class RecentInput extends DataClass implements Insertable<RecentInput> {
         data: data ?? this.data,
         search: search ?? this.search,
       );
+  RecentInput copyWithCompanion(RecentInputsCompanion data) {
+    return RecentInput(
+      id: data.id.present ? data.id.value : this.id,
+      type: data.type.present ? data.type.value : this.type,
+      timestamp: data.timestamp.present ? data.timestamp.value : this.timestamp,
+      data: data.data.present ? data.data.value : this.data,
+      search: data.search.present ? data.search.value : this.search,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('RecentInput(')
@@ -1035,7 +1081,7 @@ class RecentInputsCompanion extends UpdateCompanion<RecentInput> {
 
 abstract class _$Database extends GeneratedDatabase {
   _$Database(QueryExecutor e) : super(e);
-  _$DatabaseManager get managers => _$DatabaseManager(this);
+  $DatabaseManager get managers => $DatabaseManager(this);
   late final $DishLogsTable dishLogs = $DishLogsTable(this);
   late final Index dishLogsTs = Index('dish_logs_ts',
       'CREATE INDEX IF NOT EXISTS dish_logs_ts ON dish_logs (dish_id, timestamp)');
@@ -1065,7 +1111,7 @@ abstract class _$Database extends GeneratedDatabase {
       ];
 }
 
-typedef $$DishLogsTableInsertCompanionBuilder = DishLogsCompanion Function({
+typedef $$DishLogsTableCreateCompanionBuilder = DishLogsCompanion Function({
   Value<int> id,
   required int timestamp,
   required String dishId,
@@ -1094,8 +1140,7 @@ class $$DishLogsTableTableManager extends RootTableManager<
     DishLog,
     $$DishLogsTableFilterComposer,
     $$DishLogsTableOrderingComposer,
-    $$DishLogsTableProcessedTableManager,
-    $$DishLogsTableInsertCompanionBuilder,
+    $$DishLogsTableCreateCompanionBuilder,
     $$DishLogsTableUpdateCompanionBuilder> {
   $$DishLogsTableTableManager(_$Database db, $DishLogsTable table)
       : super(TableManagerState(
@@ -1105,9 +1150,7 @@ class $$DishLogsTableTableManager extends RootTableManager<
               $$DishLogsTableFilterComposer(ComposerState(db, table)),
           orderingComposer:
               $$DishLogsTableOrderingComposer(ComposerState(db, table)),
-          getChildManagerBuilder: (p) =>
-              $$DishLogsTableProcessedTableManager(p),
-          getUpdateCompanionBuilder: ({
+          updateCompanionCallback: ({
             Value<int> id = const Value.absent(),
             Value<int> timestamp = const Value.absent(),
             Value<String> dishId = const Value.absent(),
@@ -1129,7 +1172,7 @@ class $$DishLogsTableTableManager extends RootTableManager<
             wifiStatusJson: wifiStatusJson,
             onlineJson: onlineJson,
           ),
-          getInsertCompanionBuilder: ({
+          createCompanionCallback: ({
             Value<int> id = const Value.absent(),
             required int timestamp,
             required String dishId,
@@ -1152,18 +1195,6 @@ class $$DishLogsTableTableManager extends RootTableManager<
             onlineJson: onlineJson,
           ),
         ));
-}
-
-class $$DishLogsTableProcessedTableManager extends ProcessedTableManager<
-    _$Database,
-    $DishLogsTable,
-    DishLog,
-    $$DishLogsTableFilterComposer,
-    $$DishLogsTableOrderingComposer,
-    $$DishLogsTableProcessedTableManager,
-    $$DishLogsTableInsertCompanionBuilder,
-    $$DishLogsTableUpdateCompanionBuilder> {
-  $$DishLogsTableProcessedTableManager(super.$state);
 }
 
 class $$DishLogsTableFilterComposer
@@ -1264,7 +1295,7 @@ class $$DishLogsTableOrderingComposer
           ColumnOrderings(column, joinBuilders: joinBuilders));
 }
 
-typedef $$DishesTableInsertCompanionBuilder = DishesCompanion Function({
+typedef $$DishesTableCreateCompanionBuilder = DishesCompanion Function({
   required String dishId,
   Value<String?> name,
   Value<int?> latestLogId,
@@ -1285,8 +1316,7 @@ class $$DishesTableTableManager extends RootTableManager<
     Dish,
     $$DishesTableFilterComposer,
     $$DishesTableOrderingComposer,
-    $$DishesTableProcessedTableManager,
-    $$DishesTableInsertCompanionBuilder,
+    $$DishesTableCreateCompanionBuilder,
     $$DishesTableUpdateCompanionBuilder> {
   $$DishesTableTableManager(_$Database db, $DishesTable table)
       : super(TableManagerState(
@@ -1296,8 +1326,7 @@ class $$DishesTableTableManager extends RootTableManager<
               $$DishesTableFilterComposer(ComposerState(db, table)),
           orderingComposer:
               $$DishesTableOrderingComposer(ComposerState(db, table)),
-          getChildManagerBuilder: (p) => $$DishesTableProcessedTableManager(p),
-          getUpdateCompanionBuilder: ({
+          updateCompanionCallback: ({
             Value<String> dishId = const Value.absent(),
             Value<String?> name = const Value.absent(),
             Value<int?> latestLogId = const Value.absent(),
@@ -1311,7 +1340,7 @@ class $$DishesTableTableManager extends RootTableManager<
             latestLogTimestamp: latestLogTimestamp,
             rowid: rowid,
           ),
-          getInsertCompanionBuilder: ({
+          createCompanionCallback: ({
             required String dishId,
             Value<String?> name = const Value.absent(),
             Value<int?> latestLogId = const Value.absent(),
@@ -1326,18 +1355,6 @@ class $$DishesTableTableManager extends RootTableManager<
             rowid: rowid,
           ),
         ));
-}
-
-class $$DishesTableProcessedTableManager extends ProcessedTableManager<
-    _$Database,
-    $DishesTable,
-    Dish,
-    $$DishesTableFilterComposer,
-    $$DishesTableOrderingComposer,
-    $$DishesTableProcessedTableManager,
-    $$DishesTableInsertCompanionBuilder,
-    $$DishesTableUpdateCompanionBuilder> {
-  $$DishesTableProcessedTableManager(super.$state);
 }
 
 class $$DishesTableFilterComposer
@@ -1388,7 +1405,7 @@ class $$DishesTableOrderingComposer
           ColumnOrderings(column, joinBuilders: joinBuilders));
 }
 
-typedef $$RecentInputsTableInsertCompanionBuilder = RecentInputsCompanion
+typedef $$RecentInputsTableCreateCompanionBuilder = RecentInputsCompanion
     Function({
   Value<int> id,
   required String type,
@@ -1411,8 +1428,7 @@ class $$RecentInputsTableTableManager extends RootTableManager<
     RecentInput,
     $$RecentInputsTableFilterComposer,
     $$RecentInputsTableOrderingComposer,
-    $$RecentInputsTableProcessedTableManager,
-    $$RecentInputsTableInsertCompanionBuilder,
+    $$RecentInputsTableCreateCompanionBuilder,
     $$RecentInputsTableUpdateCompanionBuilder> {
   $$RecentInputsTableTableManager(_$Database db, $RecentInputsTable table)
       : super(TableManagerState(
@@ -1422,9 +1438,7 @@ class $$RecentInputsTableTableManager extends RootTableManager<
               $$RecentInputsTableFilterComposer(ComposerState(db, table)),
           orderingComposer:
               $$RecentInputsTableOrderingComposer(ComposerState(db, table)),
-          getChildManagerBuilder: (p) =>
-              $$RecentInputsTableProcessedTableManager(p),
-          getUpdateCompanionBuilder: ({
+          updateCompanionCallback: ({
             Value<int> id = const Value.absent(),
             Value<String> type = const Value.absent(),
             Value<int> timestamp = const Value.absent(),
@@ -1438,7 +1452,7 @@ class $$RecentInputsTableTableManager extends RootTableManager<
             data: data,
             search: search,
           ),
-          getInsertCompanionBuilder: ({
+          createCompanionCallback: ({
             Value<int> id = const Value.absent(),
             required String type,
             Value<int> timestamp = const Value.absent(),
@@ -1453,18 +1467,6 @@ class $$RecentInputsTableTableManager extends RootTableManager<
             search: search,
           ),
         ));
-}
-
-class $$RecentInputsTableProcessedTableManager extends ProcessedTableManager<
-    _$Database,
-    $RecentInputsTable,
-    RecentInput,
-    $$RecentInputsTableFilterComposer,
-    $$RecentInputsTableOrderingComposer,
-    $$RecentInputsTableProcessedTableManager,
-    $$RecentInputsTableInsertCompanionBuilder,
-    $$RecentInputsTableUpdateCompanionBuilder> {
-  $$RecentInputsTableProcessedTableManager(super.$state);
 }
 
 class $$RecentInputsTableFilterComposer
@@ -1525,9 +1527,9 @@ class $$RecentInputsTableOrderingComposer
           ColumnOrderings(column, joinBuilders: joinBuilders));
 }
 
-class _$DatabaseManager {
+class $DatabaseManager {
   final _$Database _db;
-  _$DatabaseManager(this._db);
+  $DatabaseManager(this._db);
   $$DishLogsTableTableManager get dishLogs =>
       $$DishLogsTableTableManager(_db, _db.dishLogs);
   $$DishesTableTableManager get dishes =>

@@ -36,14 +36,26 @@ class SpaceParser{
 
     p.json = json;
 
-    p.jsonDish = json["dish"] as Map<String, dynamic>?;
-    p.jsonRouter = json['router'] as Map<String, dynamic>?;
-    p.jsonApp = json['device'] as Map<String, dynamic>?;
+    if (json["dish"]!=null)
+      p.jsonDish = Map<String, dynamic>.from(json["dish"]);
+    if (json["router"]!=null)
+      p.jsonRouter = Map<String, dynamic>.from(json['router']);
+    if (json["device"]!=null)
+      p.jsonApp = Map<String, dynamic>.from(json['device']);
 
     { // new debug data
-      if (p.jsonRouter?.containsKey("status") ?? false) p.jsonRouter = p.jsonRouter?["status"];
-      if (p.jsonApp?.containsKey("status") ?? false) p.jsonApp = p.jsonApp?["status"];
-      if (p.jsonDish?.containsKey("status") ?? false) p.jsonDish = p.jsonDish?["status"];
+      if (p.jsonRouter?.containsKey("status") ?? false) p.jsonRouter = Map<String, dynamic>.from(p.jsonRouter?["status"]);
+      if (p.jsonApp?.containsKey("status") ?? false) p.jsonApp = Map<String, dynamic>.from(p.jsonApp?["status"]);
+      if (p.jsonDish?.containsKey("status") ?? false) p.jsonDish = Map<String, dynamic>.from(p.jsonDish?["status"]);
+    }
+
+    { // new debug data from 2024.33.0
+      if (json.containsKey("app")) {
+        p.jsonApp = json['app'] as Map<String, dynamic>?;
+        if (p.jsonApp?.containsKey("device") ?? false) p.jsonApp = Map<String, dynamic>.from(p.jsonApp?["device"]);
+      }
+      if (p.jsonDish?.containsKey("rawStatus") ?? false) p.jsonDish = Map<String, dynamic>.from(p.jsonDish?["rawStatus"]);
+      if (p.jsonRouter?.containsKey("rawStatus") ?? false) p.jsonRouter = Map<String, dynamic>.from(p.jsonRouter?["rawStatus"]);
     }
 
     if (json.containsKey("wifiConfig"))
@@ -51,7 +63,7 @@ class SpaceParser{
 
     p.deviceApp = DeviceApp.of(p.jsonApp);
 
-    if (p.jsonDish!=null && p.jsonDish!.containsKey("deviceInfo")) {
+    if (p.jsonDish?["deviceInfo"]!=null) {
       if (p.jsonDish!.containsKey("_proto")) {
         p.dishGetStatus = DishGetStatusResponse.fromBuffer(base64Decode(p.jsonDish!["_proto"]));
       } else {
@@ -72,8 +84,15 @@ class SpaceParser{
       // v2
       if (p.jsonDish?["apiVersion"]!=null)
         p.dishApi = (p.jsonDish?["apiVersion"] ?? 0).toInt();
+
+      //2024.33.0
+      if (json["dish"]?["apiVersion"] != null )
+        p.dishApi = (json["dish"]?["apiVersion"] ?? 0).toInt();
+      if (json["dish"]?["timestamp"] != null )
+        p.dishTs = (json["dish"]?["timestamp"] ?? 0).toInt();
     }
-    if (p.jsonRouter!=null && p.jsonRouter!.containsKey("deviceInfo")) {
+
+    if (p.jsonRouter?["deviceInfo"]!=null) {
 
       if (p.jsonRouter!.containsKey("_proto")) {
         p.routerGetStatus = WifiGetStatusResponse.fromBuffer(base64Decode(p.jsonRouter!["_proto"]));
@@ -92,8 +111,15 @@ class SpaceParser{
       if (p.jsonRouter?["timestamp"]!=null)
         p.routerTs = (p.jsonRouter?["timestamp"] ?? 0).toInt();
 
+      // v2
       if (p.jsonRouter?["apiVersion"]!=null)
         p.routerApi = (p.jsonRouter?["apiVersion"] ?? 0).toInt();
+
+      //2024.33.0
+      if (json["router"]?["apiVersion"] != null )
+        p.routerApi = (json["router"]?["apiVersion"] ?? 0).toInt();
+      if (json["router"]?["timestamp"] != null )
+        p.routerTs = (json["router"]?["timestamp"] ?? 0).toInt();
     }
 
     return p;

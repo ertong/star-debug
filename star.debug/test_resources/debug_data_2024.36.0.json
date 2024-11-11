@@ -1,0 +1,188 @@
+{
+  "app": {
+    "app": {
+      "version": "2024.36.0",
+      "nodeEnv": "production",
+      "build": "2000009619",
+      "hash": "",
+      "timestamp": 1731118095
+    },
+    "settings": {
+      "isDark": true
+    },
+    "isAuthenticated": false,
+    "baseDomain": "starlink.com",
+    "device": {
+      "os": "ios",
+      "osVersion": "18.0.1",
+      "name": "iPhone",
+      "model": "iPhone 13",
+      "memory": 3843620864,
+      "deviceId": "iPhone14,5",
+      "sensors": {}
+    },
+    "network": {
+      "gatewayIp": "192.168.1.1",
+      "vpnActive": false
+    },
+    "permissions": {
+      "localNetwork": true
+    }
+  },
+  "dish": {
+    "service": {
+      "isCloud": false,
+      "apiVersion": 28
+    },
+    "rawStatus": {
+      "secondsToFirstNonemptySlot": 0,
+      "popPingDropRate": 0,
+      "downlinkThroughputBps": 9160.3603515625,
+      "uplinkThroughputBps": 17968.3984375,
+      "popPingLatencyMs": 42.83935546875,
+      "stowRequested": false,
+      "boresightAzimuthDeg": -18.43422508239746,
+      "boresightElevationDeg": 69.63072204589844,
+      "ethSpeedMbps": 1000,
+      "mobilityClass": 2,
+      "isSnrAboveNoiseFloor": true,
+      "classOfService": 0,
+      "softwareUpdateState": 1,
+      "swupdateRebootReady": false,
+      "rebootReason": 0,
+      "isSnrPersistentlyLow": false,
+      "hasActuators": 0,
+      "disablementCode": 2,
+      "hasSignedCals": true,
+      "isCellDisabled": false,
+      "secondsUntilSwupdateRebootPossible": -1,
+      "highPowerTestMode": false,
+      "connectedRouters": [
+        "Router-010000000000000000332CAD"
+      ],
+      "deviceInfo": {
+        "id": "ut01000000-00000000-00000007",
+        "hardwareVersion": "rev3_proto2",
+        "boardRev": 0,
+        "softwareVersion": "2024.11.02.cr45353.2",
+        "manufacturedVersion": "",
+        "generationNumber": "1730873744",
+        "countryCode": "UA",
+        "utcOffsetS": 3601,
+        "softwarePartitionsEqual": false,
+        "isDev": false,
+        "bootcount": 20602,
+        "antiRollbackVersion": 0,
+        "isHitl": false,
+        "dishCohoused": false,
+        "buildId": "53b7dc41-6838-491c-be16-9ce46c808a20.uterm_manifest.release"
+      },
+      "deviceState": {
+        "uptimeS": "32147"
+      },
+      "obstructionStats": {
+        "currentlyObstructed": false,
+        "fractionObstructed": 0.05324849113821983,
+        "timeObstructed": 0.005473409313708544,
+        "validS": 31128,
+        "patchesValid": 2986,
+        "avgProlongedObstructionDurationS": 6.855485916137695,
+        "avgProlongedObstructionIntervalS": 440.8163146972656,
+        "avgProlongedObstructionValid": false
+      },
+      "alerts": {
+        "motorsStuck": false,
+        "thermalThrottle": false,
+        "thermalShutdown": false,
+        "mastNotNearVertical": false,
+        "unexpectedLocation": false,
+        "slowEthernetSpeeds": false,
+        "slowEthernetSpeeds100": false,
+        "roaming": true,
+        "installPending": false,
+        "isHeating": false,
+        "powerSupplyThermalThrottle": false,
+        "isPowerSaveIdle": false,
+        "movingWhileNotMobile": false,
+        "movingTooFastForPolicy": false,
+        "dbfTelemStale": false,
+        "lowMotorCurrent": false,
+        "lowerSignalThanPredicted": false,
+        "obstructionMapReset": false
+      },
+      "gpsStats": {
+        "gpsValid": true,
+        "gpsSats": 11,
+        "noSatsAfterTtff": false,
+        "inhibitGps": false
+      },
+      "readyStates": {
+        "cady": true,
+        "scp": true,
+        "l1L2": true,
+        "xphy": true,
+        "aap": true,
+        "rf": true
+      },
+      "softwareUpdateStats": {
+        "softwareUpdateState": 1,
+        "softwareUpdateProgress": 1,
+        "updateRequiresReboot": false
+      },
+      "alignmentStats": {
+        "hasActuators": 0,
+        "actuatorState": 0,
+        "tiltAngleDeg": 19.75686264038086,
+        "boresightAzimuthDeg": -18.43422508239746,
+        "boresightElevationDeg": 69.63072204589844,
+        "desiredBoresightAzimuthDeg": -20.04389762878418,
+        "desiredBoresightElevationDeg": 70.00262451171875,
+        "attitudeEstimationState": 2,
+        "attitudeUncertaintyDeg": 0.34763669967651367
+      },
+      "initializationDurationSeconds": {
+        "attitudeInitialization": 189,
+        "burstDetected": 43,
+        "ekfConverged": 338,
+        "firstCplane": 52,
+        "firstPopPing": 134,
+        "gpsValid": 42,
+        "initialNetworkEntry": 51,
+        "networkSchedule": 94,
+        "rfReady": 37,
+        "stableConnection": 458
+      },
+      "config": {
+        "snowMeltMode": 2,
+        "applySnowMeltMode": true,
+        "locationRequestMode": 1,
+        "applyLocationRequestMode": true,
+        "levelDishMode": 0,
+        "applyLevelDishMode": true,
+        "powerSaveStartMinutes": 1365,
+        "applyPowerSaveStartMinutes": true,
+        "powerSaveDurationMinutes": 255,
+        "applyPowerSaveDurationMinutes": true,
+        "powerSaveMode": false,
+        "applyPowerSaveMode": true,
+        "swupdateThreeDayDeferralEnabled": false,
+        "applySwupdateThreeDayDeferralEnabled": true,
+        "assetClass": 0,
+        "applyAssetClass": true
+      }
+    },
+    "timestamp": 1731322432074,
+    "reachable": true,
+    "apiVersion": 28,
+    "hardwareVersion": "v3"
+  },
+  "router": {
+    "service": {
+      "isCloud": false
+    },
+    "reachable": false,
+    "hardwareVersion": "v3"
+  },
+  "lastConnectedDishes": {},
+  "lastConnectedRouters": {}
+}

@@ -106,7 +106,8 @@ class DebugDataHelper {
                 var pv = map_info.valueCreator!();
                 jsonToProto(v, pv);
 
-                msg2.putIfAbsent(k, () => pv);
+                if (!msg2.containsKey(k))
+                  msg2[k] = pv;
               }
               else {
                 int type = map_info.valueFieldType & 0xFFFFF8;
@@ -223,12 +224,12 @@ class DebugDataHelper {
     Map<String, dynamic> res = {};
     int nowS = DateTime.now().millisecondsSinceEpoch ~/ 1000;
 
-    res["device"] = {
+    res["app"] = {
       "app": {
         "version": "star-debug-${R.versionName}",
         "timestamp": nowS,
       },
-      "platform":{
+      "device":{
         "os": Platform.operatingSystem
       }
     };
@@ -236,25 +237,36 @@ class DebugDataHelper {
     {
       var dish = snap.dishGetStatus;
       if (dish == null) {
-        res["dish"] = {"reachable": false, "service": "dish", "cloud":false, "features": {}, "timestamp": nowS};
+        res["dish"] = {"reachable": false, "service": {"isCloud":false}, "timestamp": nowS};
       } else {
         Map<String, dynamic> features = {};
 
         var dishApiVersion = snap.dishApiVersion;
-        if (dishApiVersion!=null) {
-          features["stowRequested"] = dishApiVersion >= 1;
-          features["unstow"] = dishApiVersion >= 3;
-        }
+        // if (dishApiVersion!=null) {
+        //   features["stowRequested"] = dishApiVersion >= 1;
+        //   features["unstow"] = dishApiVersion >= 3;
+        // }
         res["dish"] = {
           "_proto": base64Encode(dish.writeToBuffer()),
           "reachable": true,
-          "service": "dish",
-          "features": features,
+          "service": Map<String, dynamic>.from({
+            "isCloud": false,
+          }),
+          "rawStatus": Map<String, dynamic>.from({}),
+          // "features": features,
           "timestamp": nowS
         };
 
-        for (var e in (protoToJson(dish) as Map<String, dynamic>).entries)
-          res["dish"][e.key] = e.value;
+        if (dishApiVersion!=null) {
+          // res["dish"]["service"]["apiVersion"] = dishApiVersion;
+          res["dish"]["apiVersion"] = dishApiVersion;
+        }
+
+        for (var e in (protoToJson(dish) as Map<String, dynamic>).entries) {
+          if (e.value == null)
+            continue;
+          res["dish"]["rawStatus"][e.key] = e.value;
+        }
       }
     }
 
@@ -268,31 +280,33 @@ class DebugDataHelper {
         var swVer = router.deviceInfo.softwareVersion;
 
         var routerApiVersion = snap.routerApiVersion;
-        if (routerApiVersion!=null) {
-          features["speedTest"] = routerApiVersion >= 1;
-          features["speedTestLive"] = routerApiVersion >= 2;
-          features["wifiSpeedTest"] = routerApiVersion >= 4 || swVer.contains("2021.52") || swVer.contains("2022");
-          features["clientHistory"] = routerApiVersion >= 4;
-        }
+        // if (routerApiVersion!=null) {
+        //   features["speedTest"] = routerApiVersion >= 1;
+        //   features["speedTestLive"] = routerApiVersion >= 2;
+        //   features["wifiSpeedTest"] = routerApiVersion >= 4 || swVer.contains("2021.52") || swVer.contains("2022");
+        //   features["clientHistory"] = routerApiVersion >= 4;
+        // }
 
         res["router"] = {
           "_proto": base64Encode(router.writeToBuffer()),
           "reachable": true,
-          "service": "router",
-          "features": features,
+          "service": {
+            "isCloud":false,
+          },
+          "rawStatus": {},
+          // "features": features,
           "timestamp": nowS
         };
+
+        if (routerApiVersion!=null) {
+          // res["dish"]["service"]["apiVersion"] = routerApiVersion;
+          res["dish"]["apiVersion"] = routerApiVersion;
+        }
 
         for (var e in (protoToJson(router) as Map<String, dynamic>).entries) {
           if (e.value==null)
             continue;
-          res["router"][e.key] = e.value;
-
-          ///// Look like this logic is deprecated
-          // if (e.key == "config") {
-          //   res["wifiConfig"] = e.value;
-          // } else
-          //   res["router"][e.key] = e.value;
+          res["router"]["rawStatus"][e.key] = e.value;
         }
       }
     }
