@@ -3,7 +3,7 @@
     MATCH_KEYCHAIN_NAME: ${APP_BASENAME}.${CI_JOB_ID}.keychain
   before_script:
     - !reference [before_script]
-    - source ~/.bashrc
+    - source ~/.zshrc
     - export $(echo "$APPLE" | xargs)
     - flutter doctor -v
     - security lock-keychain $MATCH_KEYCHAIN_NAME || echo No $MATCH_KEYCHAIN_NAME. Skip locking
