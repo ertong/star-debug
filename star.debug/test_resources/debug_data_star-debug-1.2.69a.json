@@ -1,0 +1,417 @@
+{
+  "device": {
+    "app": {
+      "version": "star-debug-1.2.69a",
+      "timestamp": 1731339421
+    },
+    "platform": {
+      "os": "android"
+    }
+  },
+  "dish": {
+    "_proto": "Co8BChx1dDAxMDAwMDAwLTAwMDAwMDAwLTAwMmEyODI3EgtyZXYzX3Byb3RvMhoUMjAyNC4xMS4wMi5jcjQ1MzUzLjIiAlVBKJEcQPqgAWCQk6y5Bno7NTNiN2RjNDEtNjgzOC00OTFjLWJlMTYtOWNlNDZjODA4YTIwLnV0ZXJtX21hbmlmZXN0LnJlbGVhc2USBAjz/wLdPiVJkj3iPhwNxU6EPSUA2TpHNXLf60A909KeQ03nQrI7UIAa6j4COAH9PlPPAkaFP/sHkUaNP7r/FUKdP7Knk8GlP5IYi0K6PwQIARAFwD/oB8g/AtA/Ado/DAgBEAEYASABKAEwAeg/AYBAAohAAZJABwgBFQAAgD+aQCAd0WSeQSWyp5PBLZIYi0IwAj1CTho/RUdaoMFNMQGMQqJAGAi9ARArGNICIDQohgEwKjgzQF5IJVDKA7hA////////////AYJBH1JvdXRlci0wMTAwMDAwMDAwMDAwMDAwMDAzMzJDQUSCfSgIAhABINUKKP8ByD4BiH0ByLsBAYj6AQHIuAIBiPcCAci1AwGI9AMB",
+    "reachable": true,
+    "service": "dish",
+    "features": {
+      "stowRequested": true,
+      "unstow": true
+    },
+    "timestamp": 1731339421,
+    "deviceInfo": {
+      "id": "ut01000000-00000000-00000000",
+      "hardwareVersion": "rev3_proto2",
+      "softwareVersion": "2024.11.02.cr45353.2",
+      "countryCode": "UA",
+      "utcOffsetS": 3601,
+      "softwarePartitionsEqual": false,
+      "isDev": false,
+      "bootcount": 20602,
+      "isHitl": false,
+      "generationNumber": 1730873744,
+      "dishCohoused": false
+    },
+    "deviceState": {
+      "uptimeS": 49139
+    },
+    "popPingDropRate": 0.0714285746216774,
+    "obstructionStats": {
+      "fractionObstructed": 0.06460336595773697,
+      "validS": 47833.0,
+      "currentlyObstructed": false,
+      "avgProlongedObstructionDurationS": 7.371026039123535,
+      "avgProlongedObstructionIntervalS": 317.6470642089844,
+      "avgProlongedObstructionValid": false,
+      "timeObstructed": 0.00544010428711772,
+      "patchesValid": 3328
+    },
+    "alerts": {
+      "motorsStuck": false,
+      "thermalShutdown": false,
+      "thermalThrottle": false,
+      "unexpectedLocation": false,
+      "mastNotNearVertical": false,
+      "slowEthernetSpeeds": false,
+      "roaming": true,
+      "installPending": false,
+      "isHeating": false,
+      "powerSupplyThermalThrottle": false,
+      "isPowerSaveIdle": false,
+      "movingWhileNotMobile": false,
+      "dbfTelemStale": false,
+      "movingTooFastForPolicy": false,
+      "lowMotorCurrent": false,
+      "lowerSignalThanPredicted": false,
+      "slowEthernetSpeeds100": false
+    },
+    "downlinkThroughputBps": 8371.8310546875,
+    "uplinkThroughputBps": 18563.990234375,
+    "popPingLatencyMs": 37.499732971191406,
+    "stowRequested": false,
+    "boresightAzimuthDeg": -18.45688247680664,
+    "boresightElevationDeg": 69.54798889160156,
+    "gpsStats": {
+      "gpsValid": true,
+      "gpsSats": 5,
+      "noSatsAfterTtff": false,
+      "inhibitGps": false
+    },
+    "ethSpeedMbps": 1000,
+    "mobilityClass": 2,
+    "isSnrAboveNoiseFloor": true,
+    "readyStates": {
+      "cady": true,
+      "scp": true,
+      "l1l2": true,
+      "xphy": true,
+      "aap": true,
+      "rf": true
+    },
+    "softwareUpdateState": 1,
+    "isSnrPersistentlyLow": false,
+    "disablementCode": 2,
+    "hasSignedCals": true,
+    "softwareUpdateStats": {
+      "softwareUpdateState": 1,
+      "softwareUpdateProgress": 1.0
+    },
+    "alignmentStats": {
+      "tiltAngleDeg": 19.799226760864258,
+      "boresightAzimuthDeg": -18.45688247680664,
+      "boresightElevationDeg": 69.54798889160156,
+      "attitudeEstimationState": 2,
+      "attitudeUncertaintyDeg": 0.6027566194534302,
+      "desiredBoresightAzimuthDeg": -20.04408073425293,
+      "desiredBoresightElevationDeg": 70.00232696533203
+    },
+    "initializationDurationSeconds": {
+      "attitudeInitialization": 189,
+      "burstDetected": 43,
+      "ekfConverged": 338,
+      "firstCplane": 52,
+      "firstPopPing": 134,
+      "gpsValid": 42,
+      "initialNetworkEntry": 51,
+      "networkSchedule": 94,
+      "rfReady": 37,
+      "stableConnection": 458
+    },
+    "isCellDisabled": false,
+    "swupdateRebootReady": false,
+    "secondsUntilSwupdateRebootPossible": -1,
+    "connectedRoutersList": [
+      "Router-010000000000000000332CAD"
+    ],
+    "config": {
+      "snowMeltMode": 2,
+      "locationRequestMode": 1,
+      "powerSaveStartMinutes": 1365,
+      "powerSaveDurationMinutes": 255,
+      "powerSaveMode": false,
+      "swupdateThreeDayDeferralEnabled": false,
+      "applySnowMeltMode": true,
+      "applyLocationRequestMode": true,
+      "applyLevelDishMode": true,
+      "applyPowerSaveStartMinutes": true,
+      "applyPowerSaveDurationMinutes": true,
+      "applyPowerSaveMode": true,
+      "applySwupdateThreeDayDeferralEnabled": true
+    }
+  },
+  "router": {
+    "_proto": "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",
+    "reachable": true,
+    "service": "router",
+    "features": {
+      "speedTest": true,
+      "speedTestLive": true,
+      "wifiSpeedTest": true,
+      "clientHistory": true
+    },
+    "timestamp": 1731339421,
+    "captivePortalEnabled": false,
+    "deviceInfo": {
+      "id": "Router-010000000000000000332CAD",
+      "hardwareVersion": "v2",
+      "softwareVersion": "2023.20.0.mr24307",
+      "countryCode": "UA",
+      "softwarePartitionsEqual": true,
+      "isDev": false,
+      "bootcount": 255,
+      "antiRollbackVersion": 1,
+      "isHitl": false,
+      "manufacturedVersion": "2022.25.0.mr15341",
+      "dishCohoused": false,
+      "boot": {
+        "countByReasonMap": [
+          [
+            6,
+            2
+          ],
+          [
+            0,
+            5
+          ],
+          [
+            2,
+            122
+          ],
+          [
+            1,
+            126
+          ]
+        ],
+        "lastReason": 2,
+        "lastCount": 255,
+        "countByReasonDeltaMap": [
+          [
+            1,
+            1
+          ],
+          [
+            0,
+            5
+          ],
+          [
+            6,
+            2
+          ],
+          [
+            2,
+            122
+          ]
+        ],
+        "crashBoot": false
+      }
+    },
+    "deviceState": {
+      "uptimeS": 76050
+    },
+    "ipv4WanAddress": "100.68.195.0/10",
+    "pingDropRate": 1.0,
+    "alerts": {
+      "thermalThrottle": false,
+      "installPending": false,
+      "freshlyFused": false,
+      "lanEthSlowLink10": false,
+      "lanEthSlowLink100": false,
+      "wanEthPoorConnection": false,
+      "meshTopologyChangingOften": false,
+      "meshUnreliableBackhaul": false,
+      "radiusMissingProcess": false,
+      "ethSwitchError": false,
+      "poeOnDishUnreachable": false,
+      "poeFuseBlown": false,
+      "poeRouterOvercurrent": false,
+      "poeOffCurrentNominal": false,
+      "poeVinOvervoltage": false,
+      "poeVinUndervoltage": false
+    },
+    "isAviation": false,
+    "dishPingLatencyMs": 1.0,
+    "popPingDropRate": 1.0,
+    "isAviationConformed": false,
+    "ipv6WanAddressesList": [
+      "2a0d:3344:1b40:2f29:7624:9fff:feb3:2cad/64",
+      "fe80::7624:9fff:feb3:2cad/64"
+    ],
+    "dhcpServersList": [
+      {
+        "domain": "lan",
+        "subnet": "192.168.1.0/24",
+        "leasesList": [
+          {
+            "ipAddress": "192.168.1.227",
+            "expiresTime": "2024-11-11 16:35:34.960816182 +0000 UTC m=+79542.086107033",
+            "active": true
+          },
+          {
+            "ipAddress": "192.168.1.228",
+            "expiresTime": "2024-11-11 15:50:29.654075353 +0000 UTC m=+76836.779366404",
+            "active": true
+          }
+        ]
+      },
+      {
+        "domain": "hiddenlan",
+        "subnet": "192.168.254.0/24"
+      }
+    ],
+    "config": {
+      "countryCode": "UA",
+      "setupComplete": true,
+      "isRepeater": false,
+      "bootCount": 255,
+      "bypassMode": false,
+      "meshConfigsMap": [
+        [
+          "Router-0100000000000000009C701A",
+          {
+            "displayName": "Mesh 1",
+            "applyDisplayName": false,
+            "auth": 3,
+            "applyAuth": false,
+            "supports5ghzHigh": false
+          }
+        ]
+      ],
+      "applyDynamicKeys": false,
+      "dfsEnabled": false,
+      "incarnation": -1801365765972209027,
+      "isAviation": false,
+      "secureDns": false,
+      "apMode": false,
+      "disableMeshOnboarding": false,
+      "pinCountryCode": false,
+      "customPowerTable": false,
+      "usePublicServices": false,
+      "disableAutomatedSpeedtests": false,
+      "enableUmbilicalVlan": false,
+      "outdoorMode": false,
+      "disable2ghz": false,
+      "disable5ghz": false,
+      "disable5ghzHigh": false,
+      "disableXMeshBackhaul": false,
+      "disablePendingUpdateReboot": false,
+      "disableSetWifiConfigFromController": false,
+      "debugPopPings": false,
+      "clientTester": false,
+      "applySetupComplete": false,
+      "applyChannel2ghz": false,
+      "applyChannel5ghz": false,
+      "applyChannel5ghzHigh": false,
+      "applyIsRepeater": false,
+      "applyMeshConfigs": false,
+      "applyNameservers": false,
+      "applyBypassMode": false,
+      "applyDfsEnabled": false,
+      "applyWirelessMode2ghz": false,
+      "applyWirelessMode5ghz": false,
+      "applyHtBandwidth2ghz": false,
+      "applyHtBandwidth5ghz": false,
+      "applyVhtBandwidth": false,
+      "applyIsAviation": false,
+      "applySecureDns": false,
+      "applyApMode": false,
+      "applyDisableMeshOnboarding": false,
+      "applyUsePublicServices": false,
+      "applyDisableAutomatedSpeedtests": false,
+      "applyWirelessMode5ghzHigh": false,
+      "applyHtBandwidth5ghzHigh": false,
+      "applyVhtBandwidth5ghzHigh": false,
+      "applyEnableUmbilicalVlan": false,
+      "applyClientNames": false,
+      "applyOutdoorMode": false,
+      "applyDisable2ghz": false,
+      "applyDisable5ghz": false,
+      "applyDisable5ghzHigh": false,
+      "applyDisableXMeshBackhaul": false,
+      "applyGoldenBssid": false,
+      "applyGoldenIfaceType": false,
+      "applyTxPowerLevel2ghz": false,
+      "applyTxPowerLevel5ghz": false,
+      "applyTxPowerLevel5ghzHigh": false,
+      "applyCountryCode": false,
+      "applyPinCountryCode": false,
+      "applyCustomPowerTable": false,
+      "applyDisablePendingUpdateReboot": false,
+      "applyClientConfigs": false,
+      "applyDisableSetWifiConfigFromController": false,
+      "applyClientKey": false,
+      "applyWanTrafficControl": false,
+      "applyWanHostDscpMark": false,
+      "applyDebugPopPings": false,
+      "applyClientTester": false,
+      "networksList": [
+        {
+          "ipv4": "192.168.1.1/24",
+          "basicServiceSetsList": [
+            
+          ],
+          "clientIsolation": false,
+          "guest": false,
+          "domain": "lan",
+          "dhcpv4Start": 20,
+          "internal": false,
+          "dhcpDisabled": false,
+          "landingPageV2": false
+        }
+      ],
+      "applyNetworks": false,
+      "boot": {
+        "countByReasonMap": [
+          [
+            1,
+            126
+          ],
+          [
+            6,
+            2
+          ],
+          [
+            0,
+            5
+          ],
+          [
+            2,
+            122
+          ]
+        ],
+        "lastReason": 2,
+        "lastCount": 255,
+        "countByReasonDeltaMap": [
+          [
+            0,
+            5
+          ],
+          [
+            6,
+            2
+          ],
+          [
+            2,
+            122
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        "crashBoot": false
+      }
+    },
+    "clientsList": [
+      {
+        "name": "Controller",
+        "iface": 1,
+        "role": 3,
+        "deviceId": "Router-010000000000000000332CAD",
+        "dot11vSupport": false,
+        "blocked": false,
+        "dhcpLeaseActive": false,
+        "dhcpLeaseRenewed": false
+      }
+    ],
+    "hasClientIndex": true,
+    "clientIndex": 1
+  }
+}
