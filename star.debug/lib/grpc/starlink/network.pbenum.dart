@@ -22,6 +22,9 @@ class UtDisablementCode extends $pb.ProtobufEnum {
   static const UtDisablementCode INVALID_COUNTRY = UtDisablementCode._(5, _omitEnumNames ? '' : 'INVALID_COUNTRY');
   static const UtDisablementCode BLOCKED_COUNTRY = UtDisablementCode._(6, _omitEnumNames ? '' : 'BLOCKED_COUNTRY');
   static const UtDisablementCode DATA_OVERAGE_SANDBOX_POLICY = UtDisablementCode._(7, _omitEnumNames ? '' : 'DATA_OVERAGE_SANDBOX_POLICY');
+  static const UtDisablementCode CELL_IS_DISABLED = UtDisablementCode._(8, _omitEnumNames ? '' : 'CELL_IS_DISABLED');
+  static const UtDisablementCode ROAM_RESTRICTED = UtDisablementCode._(10, _omitEnumNames ? '' : 'ROAM_RESTRICTED');
+  static const UtDisablementCode UNKNOWN_LOCATION = UtDisablementCode._(11, _omitEnumNames ? '' : 'UNKNOWN_LOCATION');
 
   static const $core.List<UtDisablementCode> values = <UtDisablementCode> [
     UNKNOWN_STATE,
@@ -32,6 +35,9 @@ class UtDisablementCode extends $pb.ProtobufEnum {
     INVALID_COUNTRY,
     BLOCKED_COUNTRY,
     DATA_OVERAGE_SANDBOX_POLICY,
+    CELL_IS_DISABLED,
+    ROAM_RESTRICTED,
+    UNKNOWN_LOCATION,
   ];
 
   static final $core.Map<$core.int, UtDisablementCode> _byValue = $pb.ProtobufEnum.initByValue(values);

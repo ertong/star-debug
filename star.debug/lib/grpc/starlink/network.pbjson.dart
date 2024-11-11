@@ -25,7 +25,14 @@ const UtDisablementCode$json = {
     {'1': 'INVALID_COUNTRY', '2': 5},
     {'1': 'BLOCKED_COUNTRY', '2': 6},
     {'1': 'DATA_OVERAGE_SANDBOX_POLICY', '2': 7},
+    {'1': 'CELL_IS_DISABLED', '2': 8},
+    {'1': 'ROAM_RESTRICTED', '2': 10},
+    {'1': 'UNKNOWN_LOCATION', '2': 11},
   ],
+  '4': [
+    {'1': 9, '2': 9},
+  ],
+  '5': ['UNLICENSED_COUNTRY'],
 };
 
 /// Descriptor for `UtDisablementCode`. Decode as a `google.protobuf.EnumDescriptorProto`.
@@ -33,5 +40,7 @@ final $typed_data.Uint8List utDisablementCodeDescriptor = $convert.base64Decode(
     'ChFVdERpc2FibGVtZW50Q29kZRIRCg1VTktOT1dOX1NUQVRFEAASCAoET0tBWRABEhUKEU5PX0'
     'FDVElWRV9BQ0NPVU5UEAISIAocVE9PX0ZBUl9GUk9NX1NFUlZJQ0VfQUREUkVTUxADEgwKCElO'
     'X09DRUFOEAQSEwoPSU5WQUxJRF9DT1VOVFJZEAUSEwoPQkxPQ0tFRF9DT1VOVFJZEAYSHwobRE'
-    'FUQV9PVkVSQUdFX1NBTkRCT1hfUE9MSUNZEAc=');
+    'FUQV9PVkVSQUdFX1NBTkRCT1hfUE9MSUNZEAcSFAoQQ0VMTF9JU19ESVNBQkxFRBAIEhMKD1JP'
+    'QU1fUkVTVFJJQ1RFRBAKEhQKEFVOS05PV05fTE9DQVRJT04QCyIECAkQCSoSVU5MSUNFTlNFRF'
+    '9DT1VOVFJZ');
 
