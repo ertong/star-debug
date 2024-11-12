@@ -1,3 +1,10 @@
+## 1.2b70
+
+### Enhancements:
+- Show dish reboot reason if available.
+- Support Debug Data format from 2024.33.0 app version (https://github.com/ertong/star-debug/issues/4).
+
+
 ## 1.2b69
 
 ### Enhancements:
