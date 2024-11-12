@@ -1,5 +1,6 @@
 # Uncomment this line to define a global platform for your project
- platform :ios, '12.0'
+ platform :ios, '13.0'
+ use_frameworks!
 
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
@@ -48,5 +49,10 @@ post_install do |installer|
 
   installer.pods_project.targets.each do |target|
     flutter_additional_ios_build_settings(target)
+  end
+
+  #https://stackoverflow.com/questions/66148505/flutter-include-of-non-modular-header-inside-framework-module-firebase-core-fl
+  installer.pods_project.build_configuration_list.build_configurations.each do |configuration|
+    configuration.build_settings['CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES'] = 'YES'
   end
 end
