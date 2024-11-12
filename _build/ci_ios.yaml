@@ -5,6 +5,8 @@
     - !reference [before_script]
     - source ~/.zshrc
     - export $(echo "$APPLE" | xargs)
+    - cd $CI_PROJECT_DIR/star.debug
+    - asdf install
     - flutter doctor -v
     - security lock-keychain $MATCH_KEYCHAIN_NAME || echo No $MATCH_KEYCHAIN_NAME. Skip locking
     - rm -rf ~/Library/Keychains/${MATCH_KEYCHAIN_NAME}-db || echo Nothing to delete
