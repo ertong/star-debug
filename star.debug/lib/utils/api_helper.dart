@@ -19,7 +19,7 @@ extension DishGetStatusExt on DishGetStatusResponse {
         var key = e.key;
         var val = readyStates.getField(e.value.tagNumber) ?? false;
 
-        if (key=="cady" && (hw.startsWith("rev4") || hw=="rev_mini_prod1"))
+        if (key=="cady" && (hw.startsWith("rev4") || hw=="rev_mini_prod1" || hw.startsWith("mini1_prod")))
           continue;
 
         if (!val)

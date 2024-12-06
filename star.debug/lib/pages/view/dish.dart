@@ -298,7 +298,7 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
         for (var e in (states.info_.byName).entries) {
           var key = e.key;
           var val = states.getField(e.value.tagNumber) ?? false;
-          if (key=="cady" && (hw.startsWith("rev4") || hw=="rev_mini_prod1" || hw=="mini1_prod1"))
+          if (key=="cady" && (hw.startsWith("rev4") || hw=="rev_mini_prod1"  || hw.startsWith("mini1_prod")))
             continue;
           b.kv("$key (${R.i18n.map["grpc.DishReadyStates.$key"] ?? key})", "$val", ok: val);
         }
