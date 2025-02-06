@@ -11,17 +11,16 @@ String _plural(
   String? few,
   String? many,
   String? other,
-}) =>
-    i18n.plural(
-      count,
-      _languageCode,
-      zero: zero,
-      one: one,
-      two: two,
-      few: few,
-      many: many,
-      other: other,
-    );
+}) => i18n.plural(
+  count,
+  _languageCode,
+  zero: zero,
+  one: one,
+  two: two,
+  few: few,
+  many: many,
+  other: other,
+);
 String _ordinal(
   int count, {
   String? zero,
@@ -30,17 +29,16 @@ String _ordinal(
   String? few,
   String? many,
   String? other,
-}) =>
-    i18n.ordinal(
-      count,
-      _languageCode,
-      zero: zero,
-      one: one,
-      two: two,
-      few: few,
-      many: many,
-      other: other,
-    );
+}) => i18n.ordinal(
+  count,
+  _languageCode,
+  zero: zero,
+  one: one,
+  two: two,
+  few: few,
+  many: many,
+  other: other,
+);
 String _cardinal(
   int count, {
   String? zero,
@@ -49,17 +47,16 @@ String _cardinal(
   String? few,
   String? many,
   String? other,
-}) =>
-    i18n.cardinal(
-      count,
-      _languageCode,
-      zero: zero,
-      one: one,
-      two: two,
-      few: few,
-      many: many,
-      other: other,
-    );
+}) => i18n.cardinal(
+  count,
+  _languageCode,
+  zero: zero,
+  one: one,
+  two: two,
+  few: few,
+  many: many,
+  other: other,
+);
 
 class Messages {
   const Messages();
@@ -2175,84 +2172,83 @@ class WifiGetStatusGrpcMessages {
 }
 
 Map<String, String> get messagesMap => {
-      """general.lang""": """English""",
-      """general.app_name""": """Star Debug""",
-      """general.language""": """Language""",
-      """general.close""": """Close""",
-      """general.cancel""": """Cancel""",
-      """general.next""": """Next""",
-      """general.back""": """Back""",
-      """general.save""": """Save""",
-      """general.no_changes""": """No changes""",
-      """general.try_again""": """Try again""",
-      """general.loading""": """Loading ...""",
-      """general.loading_error""": """Loading error occurred""",
-      """general.error_occured""": """Error occurred""",
-      """general.refresh""": """Refresh""",
-      """general.copied_to_clipboard""": """Copied to clipboard""",
-      """general.confirm""": """Confirm""",
-      """general.reject""": """Reject""",
-      """general.no_items""": """No items""",
-      """general.got_it""": """Got it""",
-      """general.ok""": """OK""",
-      """general.select_lang""": """Select language""",
-      """general.change_language""": """Change language""",
-      """general.dish""": """Dish""",
-      """general.router""": """Router""",
-      """general.security""": """Security""",
-      """general.device_app""": """Device App""",
-      """general.open_json_file""": """Open JSON file""",
-      """general.open_clipboard""": """Open JSON from the clipboard""",
-      """general.debug_data_viewer""": """Debug Data Viewer""",
-      """general.no_data_found""": """No data found""",
-      """general.dark_mode""": """Dark mode""",
-      """general.online""": """Online""",
-      """general.version""": """Version""",
-      """general.charts""": """Charts""",
-      """general.save_debug_data""": """Save Debug Data""",
-      """general.to_clipboard""": """To Clipboard""",
-      """general.to_file""": """To File""",
-      """general.save_as""": """Save As""",
-      """general.share""": """Share""",
-      """general.view_in_app""": """View in the app""",
-      """general.reboot""": """Reboot""",
-      """general.stow""": """Stow""",
-      """general.unstow""": """Unstow""",
-      """general.inhibit_gps""": """Inhibit GPS""",
-      """general.uninhibit_gps""": """Uninhibit GPS""",
-      """general.dump_created_time""": """Dump created time""",
-      """general.no_alerts""": """No alerts""",
-      """general.confirmation""": """Confirmation""",
-      """general.just_now""": """Just now""",
-      """general.should_not_be_empty""": """Should not be empty""",
-      """recent.search""": """Search""",
-      """recent.no_options""": """No options to show""",
-      """my.my_starlinks""": """My Starlinks""",
-      """my.snapshots""": """Snapshots""",
-      """my.delete_all_dished_prompt""":
-          """Do you want to delete data for ALL dishes?""",
-      """about.about""": """About""",
-      """about.about_starlink_for_ukraine""": """About Narodnyi Starlink""",
-      """about.starlink_for_ukraine""": """Narodnyi Starlink""",
-      """about.starlink_for_ukraine_in_fb""":
-          """Narodnyi Starlink on Facebook""",
-      """about.about_text""":
-          """This application was created as part of the volunteer initiative "**Narodnyi Starlink**" for the needs 
+  """general.lang""": """English""",
+  """general.app_name""": """Star Debug""",
+  """general.language""": """Language""",
+  """general.close""": """Close""",
+  """general.cancel""": """Cancel""",
+  """general.next""": """Next""",
+  """general.back""": """Back""",
+  """general.save""": """Save""",
+  """general.no_changes""": """No changes""",
+  """general.try_again""": """Try again""",
+  """general.loading""": """Loading ...""",
+  """general.loading_error""": """Loading error occurred""",
+  """general.error_occured""": """Error occurred""",
+  """general.refresh""": """Refresh""",
+  """general.copied_to_clipboard""": """Copied to clipboard""",
+  """general.confirm""": """Confirm""",
+  """general.reject""": """Reject""",
+  """general.no_items""": """No items""",
+  """general.got_it""": """Got it""",
+  """general.ok""": """OK""",
+  """general.select_lang""": """Select language""",
+  """general.change_language""": """Change language""",
+  """general.dish""": """Dish""",
+  """general.router""": """Router""",
+  """general.security""": """Security""",
+  """general.device_app""": """Device App""",
+  """general.open_json_file""": """Open JSON file""",
+  """general.open_clipboard""": """Open JSON from the clipboard""",
+  """general.debug_data_viewer""": """Debug Data Viewer""",
+  """general.no_data_found""": """No data found""",
+  """general.dark_mode""": """Dark mode""",
+  """general.online""": """Online""",
+  """general.version""": """Version""",
+  """general.charts""": """Charts""",
+  """general.save_debug_data""": """Save Debug Data""",
+  """general.to_clipboard""": """To Clipboard""",
+  """general.to_file""": """To File""",
+  """general.save_as""": """Save As""",
+  """general.share""": """Share""",
+  """general.view_in_app""": """View in the app""",
+  """general.reboot""": """Reboot""",
+  """general.stow""": """Stow""",
+  """general.unstow""": """Unstow""",
+  """general.inhibit_gps""": """Inhibit GPS""",
+  """general.uninhibit_gps""": """Uninhibit GPS""",
+  """general.dump_created_time""": """Dump created time""",
+  """general.no_alerts""": """No alerts""",
+  """general.confirmation""": """Confirmation""",
+  """general.just_now""": """Just now""",
+  """general.should_not_be_empty""": """Should not be empty""",
+  """recent.search""": """Search""",
+  """recent.no_options""": """No options to show""",
+  """my.my_starlinks""": """My Starlinks""",
+  """my.snapshots""": """Snapshots""",
+  """my.delete_all_dished_prompt""":
+      """Do you want to delete data for ALL dishes?""",
+  """about.about""": """About""",
+  """about.about_starlink_for_ukraine""": """About Narodnyi Starlink""",
+  """about.starlink_for_ukraine""": """Narodnyi Starlink""",
+  """about.starlink_for_ukraine_in_fb""": """Narodnyi Starlink on Facebook""",
+  """about.about_text""":
+      """This application was created as part of the volunteer initiative "**Narodnyi Starlink**" for the needs 
 of people who care about the availability of communications even in the places where 
 the russian aggressor is trying to turn cities into ashes.
 """,
-      """about.project_on_github""": """Project on GitHub""",
-      """settings.settings""": """Settings""",
-      """settings.auto_store_dish_log""": """Autostore snapshots""",
-      """settings.auto_store_dish_log_sub""":
-          """Store snapshots automatically from Starlink Live in My Starlinks""",
-      """valkyrie.valkyrie_check""": """Valkyrie Check""",
-      """valkyrie.valkyrie_check_sub""":
-          """Checks whether router BSSID (wireless MAC address) is found in databases from Valkyrie.""",
-      """valkyrie.found""": """Found""",
-      """valkyrie.not_found""": """Not found""",
-      """valkyrie.hint""":
-          """Checks whether router BSSID (wireless MAC address) is found in databases from Valkyrie.
+  """about.project_on_github""": """Project on GitHub""",
+  """settings.settings""": """Settings""",
+  """settings.auto_store_dish_log""": """Autostore snapshots""",
+  """settings.auto_store_dish_log_sub""":
+      """Store snapshots automatically from Starlink Live in My Starlinks""",
+  """valkyrie.valkyrie_check""": """Valkyrie Check""",
+  """valkyrie.valkyrie_check_sub""":
+      """Checks whether router BSSID (wireless MAC address) is found in databases from Valkyrie.""",
+  """valkyrie.found""": """Found""",
+  """valkyrie.not_found""": """Not found""",
+  """valkyrie.hint""":
+      """Checks whether router BSSID (wireless MAC address) is found in databases from Valkyrie.
 
 The possible options are:
 
@@ -2263,97 +2259,96 @@ In any case, it is recommended to change BSSID regularly for security-critical u
 If not, it may help to expose the location of connected devices. 
 Moreover, in the case of a moving router, its route can be followed.
 """,
-      """wifi.setup""": """Setup""",
-      """wifi.setup_wifi""": """Setup Wifi""",
-      """wifi.network_name""": """Network name""",
-      """wifi.password""": """Network password""",
-      """wifi.skip""": """Skip""",
-      """wifi.apply""": """Apply""",
-      """wifi.bypass""": """Bypass""",
-      """wifi.setup_ssid_and_password""": """Setup SSID and password""",
-      """wifi.keep_default_wifi_settings""": """STARLINK/no password""",
-      """wifi.enable_bypass_mode""": """Enable bypass mode""",
-      """wifi.setup_default""":
-          """You have selected to leave the default network name "STARLINK" and no password. Confirm?""",
-      """wifi.setup_bypass""":
-          """You have selected to enable bypass mode. The router will be not accessible in this mode until the next hardware reset. Confirm?""",
-      """wifi.more_8_chars""": """8 chars or more""",
-      """live.starlink_live""": """Starlink Live""",
-      """live.check_update""": """Check Update""",
-      """live.outages""": """Outages""",
-      """header.general""": """General""",
-      """header.signal""": """Signal""",
-      """header.network""": """Network""",
-      """header.alerts""": """Alerts""",
-      """header.device_info""": """Device Info""",
-      """header.config""": """Config""",
-      """header.gps_stats""": """GPS Stats""",
-      """header.antenna""": """Antenna""",
-      """header.ready_states""": """Ready States""",
-      """header.networks""": """Networks""",
-      """header.boot""": """Boot""",
-      """header.client""": """Client""",
-      """header.features""": """Features""",
-      """header.connected_routers""": """Connected routers""",
-      """tabs.app.unknown""": """Unknown""",
-      """tabs.app.app_version""": """App version""",
-      """tabs.app.app_environment""": """App environment""",
-      """tabs.app.app_build""": """App build""",
-      """tabs.app.app_hash""": """App hash""",
-      """tabs.app.app_timestamp""": """App timestamp""",
-      """tabs.app.platform_os""": """Platform OS""",
-      """tabs.app.platform_os_version""": """Platform OS version""",
-      """tabs.app.device""": """Device""",
-      """tabs.app.device_model""": """Device model""",
-      """tabs.app.device_id""": """Device id""",
-      """tabs.app.device_timestamp""": """Device timestamp""",
-      """tabs.app.device_uptime""": """Device uptime""",
-      """tabs.app.wifi_ip_address""": """WiFi IP address""",
-      """tabs.app.local_connection_type""": """Local connection type""",
-      """tabs.app.local_connection_speed""": """Local connection speed""",
-      """tabs.app.is_vpn""": """Is VPN""",
-      """tabs.app.is_connected""": """Is connected""",
-      """tabs.app.internet_available""": """Internet available""",
-      """tabs.app.connected_via_starlink""": """Connected via Starlink""",
-      """tabs.app.starlink_router_bypass_mode""":
-          """Starlink router bypass mode""",
-      """tabs.app.local_ip_address""": """Local IP address""",
-      """tabs.app.gateway_ip_address""": """Gateway IP address""",
-      """tabs.app.public_ip_address""": """Public IP address""",
-      """tabs.app.wifi_ssid""": """WiFi SSID""",
-      """tabs.app.wifi_bssid""": """WiFi BSSID""",
-      """tabs.app.wifi_frequency""": """WiFi frequency""",
-      """tabs.app.wifi_signal_strength""": """WiFi signal strength""",
-      """tabs.app.sensors""": """Sensors""",
-      """tabs.app.available""": """Available""",
-      """tabs.app.active""": """Active""",
-      """online.internet""": """Internet""",
-      """online.starlink_internet""": """Starlink Internet""",
-      """grpc.possible_options__hint""": """The possible options are:
+  """wifi.setup""": """Setup""",
+  """wifi.setup_wifi""": """Setup Wifi""",
+  """wifi.network_name""": """Network name""",
+  """wifi.password""": """Network password""",
+  """wifi.skip""": """Skip""",
+  """wifi.apply""": """Apply""",
+  """wifi.bypass""": """Bypass""",
+  """wifi.setup_ssid_and_password""": """Setup SSID and password""",
+  """wifi.keep_default_wifi_settings""": """STARLINK/no password""",
+  """wifi.enable_bypass_mode""": """Enable bypass mode""",
+  """wifi.setup_default""":
+      """You have selected to leave the default network name "STARLINK" and no password. Confirm?""",
+  """wifi.setup_bypass""":
+      """You have selected to enable bypass mode. The router will be not accessible in this mode until the next hardware reset. Confirm?""",
+  """wifi.more_8_chars""": """8 chars or more""",
+  """live.starlink_live""": """Starlink Live""",
+  """live.check_update""": """Check Update""",
+  """live.outages""": """Outages""",
+  """header.general""": """General""",
+  """header.signal""": """Signal""",
+  """header.network""": """Network""",
+  """header.alerts""": """Alerts""",
+  """header.device_info""": """Device Info""",
+  """header.config""": """Config""",
+  """header.gps_stats""": """GPS Stats""",
+  """header.antenna""": """Antenna""",
+  """header.ready_states""": """Ready States""",
+  """header.networks""": """Networks""",
+  """header.boot""": """Boot""",
+  """header.client""": """Client""",
+  """header.features""": """Features""",
+  """header.connected_routers""": """Connected routers""",
+  """tabs.app.unknown""": """Unknown""",
+  """tabs.app.app_version""": """App version""",
+  """tabs.app.app_environment""": """App environment""",
+  """tabs.app.app_build""": """App build""",
+  """tabs.app.app_hash""": """App hash""",
+  """tabs.app.app_timestamp""": """App timestamp""",
+  """tabs.app.platform_os""": """Platform OS""",
+  """tabs.app.platform_os_version""": """Platform OS version""",
+  """tabs.app.device""": """Device""",
+  """tabs.app.device_model""": """Device model""",
+  """tabs.app.device_id""": """Device id""",
+  """tabs.app.device_timestamp""": """Device timestamp""",
+  """tabs.app.device_uptime""": """Device uptime""",
+  """tabs.app.wifi_ip_address""": """WiFi IP address""",
+  """tabs.app.local_connection_type""": """Local connection type""",
+  """tabs.app.local_connection_speed""": """Local connection speed""",
+  """tabs.app.is_vpn""": """Is VPN""",
+  """tabs.app.is_connected""": """Is connected""",
+  """tabs.app.internet_available""": """Internet available""",
+  """tabs.app.connected_via_starlink""": """Connected via Starlink""",
+  """tabs.app.starlink_router_bypass_mode""": """Starlink router bypass mode""",
+  """tabs.app.local_ip_address""": """Local IP address""",
+  """tabs.app.gateway_ip_address""": """Gateway IP address""",
+  """tabs.app.public_ip_address""": """Public IP address""",
+  """tabs.app.wifi_ssid""": """WiFi SSID""",
+  """tabs.app.wifi_bssid""": """WiFi BSSID""",
+  """tabs.app.wifi_frequency""": """WiFi frequency""",
+  """tabs.app.wifi_signal_strength""": """WiFi signal strength""",
+  """tabs.app.sensors""": """Sensors""",
+  """tabs.app.available""": """Available""",
+  """tabs.app.active""": """Active""",
+  """online.internet""": """Internet""",
+  """online.starlink_internet""": """Starlink Internet""",
+  """grpc.possible_options__hint""": """The possible options are:
 
 - OTHER_OPTIONS
 """,
-      """grpc.DeviceInfo.id""": """Id""",
-      """grpc.DeviceInfo.hardware_version""": """Hardware revision""",
-      """grpc.DeviceInfo.software_version""": """Software version""",
-      """grpc.DeviceInfo.country_code""": """Country code""",
-      """grpc.DeviceInfo.utc_offset_s""": """UTC offset, s""",
-      """grpc.DeviceInfo.software_partitions_equal""":
-          """Software partitions equal""",
-      """grpc.DeviceInfo.is_dev""": """Development hardware""",
-      """grpc.DeviceInfo.bootcount""": """Boot count""",
-      """grpc.DeviceInfo.anti_rollback_version""": """Anti-Rollback version""",
-      """grpc.DeviceInfo.is_hitl""": """is_hitl""",
-      """grpc.DeviceInfo.manufactured_version""":
-          """Software version (manufactured)""",
-      """grpc.DeviceInfo.generation_number""": """Generation number""",
-      """grpc.DeviceInfo.dish_cohoused""": """Starlink cohoused""",
-      """grpc.DeviceInfo.x_build_date""": """Build date""",
-      """grpc.DeviceInfo.x_timezone""": """Timezone""",
-      """grpc.BootInfo.last_reason""": """Last reason""",
-      """grpc.DishOutage.cause""": """Cause""",
-      """grpc.DishOutage.cause__hint""":
-          """The reason why the dish is offline. The possible options are:
+  """grpc.DeviceInfo.id""": """Id""",
+  """grpc.DeviceInfo.hardware_version""": """Hardware revision""",
+  """grpc.DeviceInfo.software_version""": """Software version""",
+  """grpc.DeviceInfo.country_code""": """Country code""",
+  """grpc.DeviceInfo.utc_offset_s""": """UTC offset, s""",
+  """grpc.DeviceInfo.software_partitions_equal""":
+      """Software partitions equal""",
+  """grpc.DeviceInfo.is_dev""": """Development hardware""",
+  """grpc.DeviceInfo.bootcount""": """Boot count""",
+  """grpc.DeviceInfo.anti_rollback_version""": """Anti-Rollback version""",
+  """grpc.DeviceInfo.is_hitl""": """is_hitl""",
+  """grpc.DeviceInfo.manufactured_version""":
+      """Software version (manufactured)""",
+  """grpc.DeviceInfo.generation_number""": """Generation number""",
+  """grpc.DeviceInfo.dish_cohoused""": """Starlink cohoused""",
+  """grpc.DeviceInfo.x_build_date""": """Build date""",
+  """grpc.DeviceInfo.x_timezone""": """Timezone""",
+  """grpc.BootInfo.last_reason""": """Last reason""",
+  """grpc.DishOutage.cause""": """Cause""",
+  """grpc.DishOutage.cause__hint""":
+      """The reason why the dish is offline. The possible options are:
 
 - **UNKNOWN**
 - **BOOTING** - Dish is trying to initialize a satellite connection. 
@@ -2367,24 +2362,24 @@ Moreover, in the case of a moving router, its route can be followed.
 - **NO_DOWNLINK** - No downlink from satellites is established.
 - OTHER_OPTIONS
 """,
-      """grpc.DishOutage.start_timestamp_ns""": """Start timestamp, ns""",
-      """grpc.DishOutage.duration_ns""": """Duration, ns""",
-      """grpc.DishOutage.did_switch""": """Did switch""",
-      """grpc.DishGpsStats.gps_valid""": """GPS valid""",
-      """grpc.DishGpsStats.gps_sats""": """GPS satellites""",
-      """grpc.DishGpsStats.no_sats_after_ttff""":
-          """No GPS satellites after a first fix""",
-      """grpc.DishGpsStats.inhibit_gps""": """Don't trust Dishy's GPS""",
-      """grpc.DishReadyStates.cady""": """Clock generator""",
-      """grpc.DishReadyStates.scp""": """RFFE bus interface""",
-      """grpc.DishReadyStates.l1l2""": """Modem L1L2""",
-      """grpc.DishReadyStates.xphy""": """Xilinx XPHY interface""",
-      """grpc.DishReadyStates.aap""": """Digital beamformers""",
-      """grpc.DishReadyStates.rf""": """RF front end""",
-      """grpc.DishConfig.snow_melt_mode""": """Snow melt mode""",
-      """grpc.DishConfig.location_request_mode""": """Location request mode""",
-      """grpc.DishConfig.location_request_mode__hint""":
-          """The possible options are:
+  """grpc.DishOutage.start_timestamp_ns""": """Start timestamp, ns""",
+  """grpc.DishOutage.duration_ns""": """Duration, ns""",
+  """grpc.DishOutage.did_switch""": """Did switch""",
+  """grpc.DishGpsStats.gps_valid""": """GPS valid""",
+  """grpc.DishGpsStats.gps_sats""": """GPS satellites""",
+  """grpc.DishGpsStats.no_sats_after_ttff""":
+      """No GPS satellites after a first fix""",
+  """grpc.DishGpsStats.inhibit_gps""": """Don't trust Dishy's GPS""",
+  """grpc.DishReadyStates.cady""": """Clock generator""",
+  """grpc.DishReadyStates.scp""": """RFFE bus interface""",
+  """grpc.DishReadyStates.l1l2""": """Modem L1L2""",
+  """grpc.DishReadyStates.xphy""": """Xilinx XPHY interface""",
+  """grpc.DishReadyStates.aap""": """Digital beamformers""",
+  """grpc.DishReadyStates.rf""": """RF front end""",
+  """grpc.DishConfig.snow_melt_mode""": """Snow melt mode""",
+  """grpc.DishConfig.location_request_mode""": """Location request mode""",
+  """grpc.DishConfig.location_request_mode__hint""":
+      """The possible options are:
 - **NONE** - Starlink does not expose its location to the local network.
 - **LOCAL** - Starlink exposes its location to the local network via DHCP and dish API.
 
@@ -2392,50 +2387,49 @@ In order to change this setting, you need the original Starlink app with a logge
 with internet access and dish access. You can find this setting in 
 *Advanced* -> *Debug Data* -> *Allow access on local network*.
 """,
-      """grpc.DishConfig.level_dish_mode""": """Level dish mode""",
-      """grpc.DishConfig.power_save_start_minutes""":
-          """Power save start minutes""",
-      """grpc.DishConfig.power_save_duration_minutes""":
-          """Power save duration minutes""",
-      """grpc.DishConfig.power_save_mode""": """Power save mode""",
-      """grpc.DishConfig.power_save_mode__hint""":
-          """You can set a sleep mode for your Starlink. Starlink won't provide Internet or melt snow while sleeping.""",
-      """grpc.DishObstructionStats.fraction_obstructed""":
-          """Fraction obstructed""",
-      """grpc.DishObstructionStats.valid_s""": """Time valid""",
-      """grpc.DishObstructionStats.currently_obstructed""":
-          """Currently obstructed""",
-      """grpc.DishObstructionStats.avg_prolonged_obstruction_duration_s""":
-          """Average prolonged obstruction duration""",
-      """grpc.DishObstructionStats.avg_prolonged_obstruction_interval_s""":
-          """Average prolonged obstruction interval""",
-      """grpc.DishObstructionStats.avg_prolonged_obstruction_valid""":
-          """Average prolonged obstruction valid""",
-      """grpc.DishObstructionStats.time_obstructed""": """Time obstructed""",
-      """grpc.DishObstructionStats.patches_valid""": """Patches valid""",
-      """grpc.DishGetStatus.uptime_s""": """Uptime""",
-      """grpc.DishGetStatus.uptime_s__hint""":
-          """Time the dish has been running since the last reboot.""",
-      """grpc.DishGetStatus.seconds_to_first_nonempty_slot""":
-          """Seconds to first non-empty slot""",
-      """grpc.DishGetStatus.fraction_obstructed""": """fraction_obstructed""",
-      """grpc.DishGetStatus.valid_s""": """valid_s""",
-      """grpc.DishGetStatus.currently_obstructed""": """currently_obstructed""",
-      """grpc.DishGetStatus.avg_prolonged_obstruction_duration_s""":
-          """avg_prolonged_obstruction_duration_s""",
-      """grpc.DishGetStatus.avg_prolonged_obstruction_interval_s""":
-          """avg_prolonged_obstruction_interval_s""",
-      """grpc.DishGetStatus.avg_prolonged_obstruction_valid""":
-          """avg_prolonged_obstruction_valid""",
-      """grpc.DishGetStatus.time_obstructed""": """time_obstructed""",
-      """grpc.DishGetStatus.patches_valid""": """patches_valid""",
-      """grpc.DishGetStatus.downlink_throughput_bps""":
-          """Downlink Throughput""",
-      """grpc.DishGetStatus.uplink_throughput_bps""": """Uplink Throughput""",
-      """grpc.DishGetStatus.pop_ping_drop_rate""": """PoP ping drop rate""",
-      """grpc.DishGetStatus.pop_ping_latency_ms""": """PoP ping latency, ms""",
-      """grpc.DishGetStatus.pop_ping__hint""":
-          """The Starlink network comprises the following components:
+  """grpc.DishConfig.level_dish_mode""": """Level dish mode""",
+  """grpc.DishConfig.power_save_start_minutes""":
+      """Power save start minutes""",
+  """grpc.DishConfig.power_save_duration_minutes""":
+      """Power save duration minutes""",
+  """grpc.DishConfig.power_save_mode""": """Power save mode""",
+  """grpc.DishConfig.power_save_mode__hint""":
+      """You can set a sleep mode for your Starlink. Starlink won't provide Internet or melt snow while sleeping.""",
+  """grpc.DishObstructionStats.fraction_obstructed""":
+      """Fraction obstructed""",
+  """grpc.DishObstructionStats.valid_s""": """Time valid""",
+  """grpc.DishObstructionStats.currently_obstructed""":
+      """Currently obstructed""",
+  """grpc.DishObstructionStats.avg_prolonged_obstruction_duration_s""":
+      """Average prolonged obstruction duration""",
+  """grpc.DishObstructionStats.avg_prolonged_obstruction_interval_s""":
+      """Average prolonged obstruction interval""",
+  """grpc.DishObstructionStats.avg_prolonged_obstruction_valid""":
+      """Average prolonged obstruction valid""",
+  """grpc.DishObstructionStats.time_obstructed""": """Time obstructed""",
+  """grpc.DishObstructionStats.patches_valid""": """Patches valid""",
+  """grpc.DishGetStatus.uptime_s""": """Uptime""",
+  """grpc.DishGetStatus.uptime_s__hint""":
+      """Time the dish has been running since the last reboot.""",
+  """grpc.DishGetStatus.seconds_to_first_nonempty_slot""":
+      """Seconds to first non-empty slot""",
+  """grpc.DishGetStatus.fraction_obstructed""": """fraction_obstructed""",
+  """grpc.DishGetStatus.valid_s""": """valid_s""",
+  """grpc.DishGetStatus.currently_obstructed""": """currently_obstructed""",
+  """grpc.DishGetStatus.avg_prolonged_obstruction_duration_s""":
+      """avg_prolonged_obstruction_duration_s""",
+  """grpc.DishGetStatus.avg_prolonged_obstruction_interval_s""":
+      """avg_prolonged_obstruction_interval_s""",
+  """grpc.DishGetStatus.avg_prolonged_obstruction_valid""":
+      """avg_prolonged_obstruction_valid""",
+  """grpc.DishGetStatus.time_obstructed""": """time_obstructed""",
+  """grpc.DishGetStatus.patches_valid""": """patches_valid""",
+  """grpc.DishGetStatus.downlink_throughput_bps""": """Downlink Throughput""",
+  """grpc.DishGetStatus.uplink_throughput_bps""": """Uplink Throughput""",
+  """grpc.DishGetStatus.pop_ping_drop_rate""": """PoP ping drop rate""",
+  """grpc.DishGetStatus.pop_ping_latency_ms""": """PoP ping latency, ms""",
+  """grpc.DishGetStatus.pop_ping__hint""":
+      """The Starlink network comprises the following components:
 - User Terminals (UT)
 - Satellites (SAT)
 - Ground Stations (which physically connect with satellites)
@@ -2445,197 +2439,182 @@ with internet access and dish access. You can find this setting in
 
 **PoP Ping Drop Rate** indicates the fraction of packets lost during transmission between the User Terminal and a Point of Presence.
 """,
-      """grpc.DishGetStatus.stow_requested""": """Stow requested""",
-      """grpc.DishGetStatus.boresight_azimuth_deg""":
-          """Panel boresight Azimuth angle, deg""",
-      """grpc.DishGetStatus.boresight_elevation_deg""":
-          """Panel boresight Elevation angle, deg""",
-      """grpc.DishGetStatus.eth_speed_mbps""": """Ethernet speed, Mbps""",
-      """grpc.DishGetStatus.mobility_class""": """Mobility class""",
-      """grpc.DishGetStatus.mobility_class__hint""":
-          """The possible options are:
+  """grpc.DishGetStatus.stow_requested""": """Stow requested""",
+  """grpc.DishGetStatus.boresight_azimuth_deg""":
+      """Panel boresight Azimuth angle, deg""",
+  """grpc.DishGetStatus.boresight_elevation_deg""":
+      """Panel boresight Elevation angle, deg""",
+  """grpc.DishGetStatus.eth_speed_mbps""": """Ethernet speed, Mbps""",
+  """grpc.DishGetStatus.mobility_class""": """Mobility class""",
+  """grpc.DishGetStatus.mobility_class__hint""": """The possible options are:
 
 - OTHER_OPTIONS
 """,
-      """grpc.DishGetStatus.is_snr_above_noise_floor""":
-          """SNR above the noise floor""",
-      """grpc.DishGetStatus.class_of_service""": """Class of service""",
-      """grpc.DishGetStatus.software_update_state""":
-          """Software update state""",
-      """grpc.DishGetStatus.is_snr_persistently_low""":
-          """SNR persistently low""",
-      """grpc.DishGetStatus.has_actuators""": """Actuators""",
-      """grpc.DishGetStatus.actuator_state""": """Actuators state""",
-      """grpc.DishGetStatus.disablement_code""": """Service state""",
-      """grpc.DishGetStatus.disablement_code__hint""":
-          """The possible options are:
+  """grpc.DishGetStatus.is_snr_above_noise_floor""":
+      """SNR above the noise floor""",
+  """grpc.DishGetStatus.class_of_service""": """Class of service""",
+  """grpc.DishGetStatus.software_update_state""": """Software update state""",
+  """grpc.DishGetStatus.is_snr_persistently_low""": """SNR persistently low""",
+  """grpc.DishGetStatus.has_actuators""": """Actuators""",
+  """grpc.DishGetStatus.actuator_state""": """Actuators state""",
+  """grpc.DishGetStatus.disablement_code""": """Service state""",
+  """grpc.DishGetStatus.disablement_code__hint""": """The possible options are:
 
 - OTHER_OPTIONS
 """,
-      """grpc.DishGetStatus.reboot_reason""": """Reboot reason""",
-      """grpc.DishGetStatus.reboot_reason__hint""": """The possible options are:
+  """grpc.DishGetStatus.reboot_reason""": """Reboot reason""",
+  """grpc.DishGetStatus.reboot_reason__hint""": """The possible options are:
 
 - OTHER_OPTIONS
 """,
-      """grpc.AlignmentStats.has_actuators""": """has_actuators""",
-      """grpc.AlignmentStats.actuator_state""": """actuator_state""",
-      """grpc.AlignmentStats.tilt_angle_deg""": """tilt_angle_deg""",
-      """grpc.AlignmentStats.boresight_azimuth_deg""":
-          """Panel boresight Azimuth angle, deg""",
-      """grpc.AlignmentStats.boresight_elevation_deg""":
-          """Panel boresight Elevation angle, deg""",
-      """grpc.AlignmentStats.attitude_estimation_state""":
-          """Attitude estimation state""",
-      """grpc.AlignmentStats.attitude_uncertainty_deg""":
-          """Attitude uncertainty, deg""",
-      """grpc.AlignmentStats.desired_boresight_azimuth_deg""":
-          """Desired boresight Azimuth angle, deg""",
-      """grpc.AlignmentStats.desired_boresight_elevation_deg""":
-          """Desired boresight Elevation angle, deg""",
-      """grpc.ClientName.mac_address""": """mac_address""",
-      """grpc.ClientName.given_name""": """given_name""",
-      """grpc.Network.ipv4""": """ipv4""",
-      """grpc.Network.client_isolation""": """client_isolation""",
-      """grpc.Network.guest""": """guest""",
-      """grpc.Network.landing""": """landing""",
-      """grpc.Network.domain""": """domain""",
-      """grpc.Network.dhcpv4_start""": """dhcpv4_start""",
-      """grpc.BasicServiceSet.bssid""": """bssid""",
-      """grpc.BasicServiceSet.bssid__hint""":
-          """Starlink BSSID originally starts with **74:24:9f**, but due to security concerns, 
+  """grpc.AlignmentStats.has_actuators""": """has_actuators""",
+  """grpc.AlignmentStats.actuator_state""": """actuator_state""",
+  """grpc.AlignmentStats.tilt_angle_deg""": """tilt_angle_deg""",
+  """grpc.AlignmentStats.boresight_azimuth_deg""":
+      """Panel boresight Azimuth angle, deg""",
+  """grpc.AlignmentStats.boresight_elevation_deg""":
+      """Panel boresight Elevation angle, deg""",
+  """grpc.AlignmentStats.attitude_estimation_state""":
+      """Attitude estimation state""",
+  """grpc.AlignmentStats.attitude_uncertainty_deg""":
+      """Attitude uncertainty, deg""",
+  """grpc.AlignmentStats.desired_boresight_azimuth_deg""":
+      """Desired boresight Azimuth angle, deg""",
+  """grpc.AlignmentStats.desired_boresight_elevation_deg""":
+      """Desired boresight Elevation angle, deg""",
+  """grpc.ClientName.mac_address""": """mac_address""",
+  """grpc.ClientName.given_name""": """given_name""",
+  """grpc.Network.ipv4""": """ipv4""",
+  """grpc.Network.client_isolation""": """client_isolation""",
+  """grpc.Network.guest""": """guest""",
+  """grpc.Network.landing""": """landing""",
+  """grpc.Network.domain""": """domain""",
+  """grpc.Network.dhcpv4_start""": """dhcpv4_start""",
+  """grpc.BasicServiceSet.bssid""": """bssid""",
+  """grpc.BasicServiceSet.bssid__hint""":
+      """Starlink BSSID originally starts with **74:24:9f**, but due to security concerns, 
 starting from approximately January 2023, Starlink routers are able to pick random BSSID on factory reset.
 """,
-      """grpc.BasicServiceSet.ssid""": """ssid""",
-      """grpc.BasicServiceSet.band""": """band""",
-      """grpc.BasicServiceSet.disable""": """disable""",
-      """grpc.BasicServiceSet.hidden""": """hidden""",
-      """grpc.BasicServiceSet.iface_name""": """iface_name""",
-      """grpc.BasicServiceSet.auth""": """auth""",
-      """grpc.WifiConfig.country_code""": """Country code""",
-      """grpc.WifiConfig.setup_complete""": """Setup complete""",
-      """grpc.WifiConfig.version""": """Version""",
-      """grpc.WifiConfig.channel_2ghz""": """channel_2ghz""",
-      """grpc.WifiConfig.channel_5ghz""": """channel_5ghz""",
-      """grpc.WifiConfig.is_repeater""": """is_repeater""",
-      """grpc.WifiConfig.boot_count""": """Boot count""",
-      """grpc.WifiConfig.string""": """string""",
-      """grpc.WifiConfig.bypass_mode""": """bypass_mode""",
-      """grpc.WifiConfig.apply_dynamic_keys""": """apply_dynamic_keys""",
-      """grpc.WifiConfig.dfs_enabled""": """dfs_enabled""",
-      """grpc.WifiConfig.incarnation""": """incarnation""",
-      """grpc.WifiConfig.wireless_mode_2ghz""": """wireless_mode_2ghz""",
-      """grpc.WifiConfig.wireless_mode_5ghz""": """wireless_mode_5ghz""",
-      """grpc.WifiConfig.ht_bandwidth_2ghz""": """ht_bandwidth_2ghz""",
-      """grpc.WifiConfig.ht_bandwidth_5ghz""": """ht_bandwidth_5ghz""",
-      """grpc.WifiConfig.vht_bandwidth""": """vht_bandwidth""",
-      """grpc.WifiConfig.is_aviation""": """is_aviation""",
-      """grpc.WifiConfig.secure_dns""": """secure_dns""",
-      """grpc.WifiConfig.ap_mode""": """ap_mode""",
-      """grpc.WifiConfig.disable_mesh_onboarding""":
-          """disable_mesh_onboarding""",
-      """grpc.WifiConfig.pin_country_code""": """pin_country_code""",
-      """grpc.WifiConfig.custom_power_table""": """custom_power_table""",
-      """grpc.WifiConfig.use_public_services""": """use_public_services""",
-      """grpc.WifiConfig.disable_automated_speedtests""":
-          """disable_automated_speedtests""",
-      """grpc.WifiConfig.channel_5ghz_high""": """channel_5ghz_high""",
-      """grpc.WifiConfig.wireless_mode_5ghz_high""":
-          """wireless_mode_5ghz_high""",
-      """grpc.WifiConfig.ht_bandwidth_5ghz_high""":
-          """ht_bandwidth_5ghz_high""",
-      """grpc.WifiConfig.vht_bandwidth_5ghz_high""":
-          """vht_bandwidth_5ghz_high""",
-      """grpc.WifiConfig.enable_umbilical_vlan""": """enable_umbilical_vlan""",
-      """grpc.WifiConfig.outdoor_mode""": """outdoor_mode""",
-      """grpc.WifiConfig.disable_2ghz""": """disable_2ghz""",
-      """grpc.WifiConfig.disable_5ghz""": """disable_5ghz""",
-      """grpc.WifiConfig.disable_5ghz_high""": """disable_5ghz_high""",
-      """grpc.WifiConfig.disable_x_mesh_backhaul""":
-          """disable_x_mesh_backhaul""",
-      """grpc.WifiConfig.tx_power_level_2ghz""": """tx_power_level_2ghz""",
-      """grpc.WifiConfig.tx_power_level_5ghz""": """tx_power_level_5ghz""",
-      """grpc.WifiConfig.tx_power_level_5ghz_high""":
-          """tx_power_level_5ghz_high""",
-      """grpc.PingMetrics.in_unhappy_hour_2s""": """in_unhappy_hour_2s""",
-      """grpc.PingMetrics.in_unhappy_hour_5s""": """in_unhappy_hour_5s""",
-      """grpc.PingMetrics.drop_rate_5m""": """drop_rate_5m""",
-      """grpc.PingMetrics.latency_5m""": """latency_5m""",
-      """grpc.RxTxStats.bytes""": """bytes""",
-      """grpc.RxTxStats.count_errors""": """count_errors""",
-      """grpc.RxTxStats.nss""": """nss""",
-      """grpc.RxTxStats.mcs""": """mcs""",
-      """grpc.RxTxStats.bandwidth""": """bandwidth""",
-      """grpc.RxTxStats.guard_ns""": """guard_ns""",
-      """grpc.RxTxStats.rate_mbps""": """rate_mbps""",
-      """grpc.RxTxStats.airtime_fraction_last_1s""":
-          """airtime_fraction_last_1s""",
-      """grpc.RxTxStats.sampled_packets""": """sampled_packets""",
-      """grpc.RxTxStats.sampled_packets_retried""":
-          """sampled_packets_retried""",
-      """grpc.RxTxStats.sampled_packets_dropped""":
-          """sampled_packets_dropped""",
-      """grpc.RxTxStats.phy_mode""": """phy_mode""",
-      """grpc.RxTxStats.success_bytes""": """success_bytes""",
-      """grpc.WifiClient.name""": """name""",
-      """grpc.WifiClient.mac_address""": """MAC address""",
-      """grpc.WifiClient.ip_address""": """IP address""",
-      """grpc.WifiClient.signal_strength""": """Signal strength""",
-      """grpc.WifiClient.rx_stats""": """rx_stats""",
-      """grpc.WifiClient.tx_stats""": """tx_stats""",
-      """grpc.WifiClient.associated_time_s""": """Associated time, s""",
-      """grpc.WifiClient.mode_str""": """mode_str""",
-      """grpc.WifiClient.iface""": """Interface""",
-      """grpc.WifiClient.snr""": """Signal to noise""",
-      """grpc.WifiClient.psmode""": """psmode""",
-      """grpc.WifiClient.channel_width""": """channel_width""",
-      """grpc.WifiClient.upstream_mac_address""": """upstream_mac_address""",
-      """grpc.WifiClient.role""": """Role""",
-      """grpc.WifiClient.device_id""": """device_id""",
-      """grpc.WifiClient.swq_checks""": """swq_checks""",
-      """grpc.WifiClient.swq_checks_non_empty""": """swq_checks_non_empty""",
-      """grpc.WifiClient.mib_steer_state""": """mib_steer_state""",
-      """grpc.WifiClient.mib_steer_method""": """mib_steer_method""",
-      """grpc.WifiClient.btm_requests""": """btm_requests""",
-      """grpc.WifiClient.btm_requests_success""": """btm_requests_success""",
-      """grpc.WifiClient.domain""": """domain""",
-      """grpc.WifiClient.dot11v_support""": """dot11v_support""",
-      """grpc.WifiClient.iface_name""": """iface_name""",
-      """grpc.WifiClient.steer_req_success_last_1h""":
-          """steer_req_success_last_1h""",
-      """grpc.WifiClient.steer_req_fail_last_1h""":
-          """steer_req_fail_last_1h""",
-      """grpc.WifiClient.steer_req_fail_and_dissoc_last_1h""":
-          """steer_req_fail_and_dissoc_last_1h""",
-      """grpc.WifiClient.steer_state""": """steer_state""",
-      """grpc.WifiClient.given_name""": """given_name""",
-      """grpc.WifiClient.hops_from_controller""": """hops_from_controller""",
-      """grpc.WifiClient.est_tx_rate_mbps_from_controller""":
-          """est_tx_rate_mbps_from_controller""",
-      """grpc.WifiClient.est_rx_rate_mbps_from_controller""":
-          """est_rx_rate_mbps_from_controller""",
-      """grpc.WifiClient.hardware_version""": """hardware_version""",
-      """grpc.WifiClient.software_version""": """software_version""",
-      """grpc.WifiClient.api_version""": """api_version""",
-      """grpc.WifiClient.ping_metrics""": """ping_metrics""",
-      """grpc.WifiClient.ipv6_addresses""": """IPv6 addresses""",
-      """grpc.WifiClient.x_rx_bytes""": """Received""",
-      """grpc.WifiClient.x_tx_bytes""": """Transmitted""",
-      """grpc.WifiGetStatus.captive_portal_enabled""":
-          """Captive portal enabled""",
-      """grpc.WifiGetStatus.uptime_s""": """Uptime""",
-      """grpc.WifiGetStatus.ipv4_wan_address""": """WAN IPv4""",
-      """grpc.WifiGetStatus.ping_drop_rate""": """Ping drop rate""",
-      """grpc.WifiGetStatus.ping_latency_ms""": """Ping latency, ms""",
-      """grpc.WifiGetStatus.is_aviation""": """Aviation""",
-      """grpc.WifiGetStatus.dish_ping_drop_rate""": """Dish ping drop rate""",
-      """grpc.WifiGetStatus.dish_ping_latency_ms""":
-          """Dish ping latency, ms""",
-      """grpc.WifiGetStatus.pop_ping_drop_rate""": """PoP ping drop rate""",
-      """grpc.WifiGetStatus.pop_ping_latency_ms""": """PoP ping latency, ms""",
-      """grpc.WifiGetStatus.is_aviation_conformed""": """Aviation conformed""",
-      """grpc.WifiGetStatus.ipv6_wan_addresses""": """WAN IPv6""",
-      """grpc.WifiGetStatus.dish_ping_drop_rate_5m""":
-          """Dish ping drop rate, 5m""",
-      """grpc.WifiGetStatus.has_client_index""": """has_client_index""",
-      """grpc.WifiGetStatus.client_index""": """client_index""",
-    };
+  """grpc.BasicServiceSet.ssid""": """ssid""",
+  """grpc.BasicServiceSet.band""": """band""",
+  """grpc.BasicServiceSet.disable""": """disable""",
+  """grpc.BasicServiceSet.hidden""": """hidden""",
+  """grpc.BasicServiceSet.iface_name""": """iface_name""",
+  """grpc.BasicServiceSet.auth""": """auth""",
+  """grpc.WifiConfig.country_code""": """Country code""",
+  """grpc.WifiConfig.setup_complete""": """Setup complete""",
+  """grpc.WifiConfig.version""": """Version""",
+  """grpc.WifiConfig.channel_2ghz""": """channel_2ghz""",
+  """grpc.WifiConfig.channel_5ghz""": """channel_5ghz""",
+  """grpc.WifiConfig.is_repeater""": """is_repeater""",
+  """grpc.WifiConfig.boot_count""": """Boot count""",
+  """grpc.WifiConfig.string""": """string""",
+  """grpc.WifiConfig.bypass_mode""": """bypass_mode""",
+  """grpc.WifiConfig.apply_dynamic_keys""": """apply_dynamic_keys""",
+  """grpc.WifiConfig.dfs_enabled""": """dfs_enabled""",
+  """grpc.WifiConfig.incarnation""": """incarnation""",
+  """grpc.WifiConfig.wireless_mode_2ghz""": """wireless_mode_2ghz""",
+  """grpc.WifiConfig.wireless_mode_5ghz""": """wireless_mode_5ghz""",
+  """grpc.WifiConfig.ht_bandwidth_2ghz""": """ht_bandwidth_2ghz""",
+  """grpc.WifiConfig.ht_bandwidth_5ghz""": """ht_bandwidth_5ghz""",
+  """grpc.WifiConfig.vht_bandwidth""": """vht_bandwidth""",
+  """grpc.WifiConfig.is_aviation""": """is_aviation""",
+  """grpc.WifiConfig.secure_dns""": """secure_dns""",
+  """grpc.WifiConfig.ap_mode""": """ap_mode""",
+  """grpc.WifiConfig.disable_mesh_onboarding""": """disable_mesh_onboarding""",
+  """grpc.WifiConfig.pin_country_code""": """pin_country_code""",
+  """grpc.WifiConfig.custom_power_table""": """custom_power_table""",
+  """grpc.WifiConfig.use_public_services""": """use_public_services""",
+  """grpc.WifiConfig.disable_automated_speedtests""":
+      """disable_automated_speedtests""",
+  """grpc.WifiConfig.channel_5ghz_high""": """channel_5ghz_high""",
+  """grpc.WifiConfig.wireless_mode_5ghz_high""": """wireless_mode_5ghz_high""",
+  """grpc.WifiConfig.ht_bandwidth_5ghz_high""": """ht_bandwidth_5ghz_high""",
+  """grpc.WifiConfig.vht_bandwidth_5ghz_high""": """vht_bandwidth_5ghz_high""",
+  """grpc.WifiConfig.enable_umbilical_vlan""": """enable_umbilical_vlan""",
+  """grpc.WifiConfig.outdoor_mode""": """outdoor_mode""",
+  """grpc.WifiConfig.disable_2ghz""": """disable_2ghz""",
+  """grpc.WifiConfig.disable_5ghz""": """disable_5ghz""",
+  """grpc.WifiConfig.disable_5ghz_high""": """disable_5ghz_high""",
+  """grpc.WifiConfig.disable_x_mesh_backhaul""": """disable_x_mesh_backhaul""",
+  """grpc.WifiConfig.tx_power_level_2ghz""": """tx_power_level_2ghz""",
+  """grpc.WifiConfig.tx_power_level_5ghz""": """tx_power_level_5ghz""",
+  """grpc.WifiConfig.tx_power_level_5ghz_high""":
+      """tx_power_level_5ghz_high""",
+  """grpc.PingMetrics.in_unhappy_hour_2s""": """in_unhappy_hour_2s""",
+  """grpc.PingMetrics.in_unhappy_hour_5s""": """in_unhappy_hour_5s""",
+  """grpc.PingMetrics.drop_rate_5m""": """drop_rate_5m""",
+  """grpc.PingMetrics.latency_5m""": """latency_5m""",
+  """grpc.RxTxStats.bytes""": """bytes""",
+  """grpc.RxTxStats.count_errors""": """count_errors""",
+  """grpc.RxTxStats.nss""": """nss""",
+  """grpc.RxTxStats.mcs""": """mcs""",
+  """grpc.RxTxStats.bandwidth""": """bandwidth""",
+  """grpc.RxTxStats.guard_ns""": """guard_ns""",
+  """grpc.RxTxStats.rate_mbps""": """rate_mbps""",
+  """grpc.RxTxStats.airtime_fraction_last_1s""": """airtime_fraction_last_1s""",
+  """grpc.RxTxStats.sampled_packets""": """sampled_packets""",
+  """grpc.RxTxStats.sampled_packets_retried""": """sampled_packets_retried""",
+  """grpc.RxTxStats.sampled_packets_dropped""": """sampled_packets_dropped""",
+  """grpc.RxTxStats.phy_mode""": """phy_mode""",
+  """grpc.RxTxStats.success_bytes""": """success_bytes""",
+  """grpc.WifiClient.name""": """name""",
+  """grpc.WifiClient.mac_address""": """MAC address""",
+  """grpc.WifiClient.ip_address""": """IP address""",
+  """grpc.WifiClient.signal_strength""": """Signal strength""",
+  """grpc.WifiClient.rx_stats""": """rx_stats""",
+  """grpc.WifiClient.tx_stats""": """tx_stats""",
+  """grpc.WifiClient.associated_time_s""": """Associated time, s""",
+  """grpc.WifiClient.mode_str""": """mode_str""",
+  """grpc.WifiClient.iface""": """Interface""",
+  """grpc.WifiClient.snr""": """Signal to noise""",
+  """grpc.WifiClient.psmode""": """psmode""",
+  """grpc.WifiClient.channel_width""": """channel_width""",
+  """grpc.WifiClient.upstream_mac_address""": """upstream_mac_address""",
+  """grpc.WifiClient.role""": """Role""",
+  """grpc.WifiClient.device_id""": """device_id""",
+  """grpc.WifiClient.swq_checks""": """swq_checks""",
+  """grpc.WifiClient.swq_checks_non_empty""": """swq_checks_non_empty""",
+  """grpc.WifiClient.mib_steer_state""": """mib_steer_state""",
+  """grpc.WifiClient.mib_steer_method""": """mib_steer_method""",
+  """grpc.WifiClient.btm_requests""": """btm_requests""",
+  """grpc.WifiClient.btm_requests_success""": """btm_requests_success""",
+  """grpc.WifiClient.domain""": """domain""",
+  """grpc.WifiClient.dot11v_support""": """dot11v_support""",
+  """grpc.WifiClient.iface_name""": """iface_name""",
+  """grpc.WifiClient.steer_req_success_last_1h""":
+      """steer_req_success_last_1h""",
+  """grpc.WifiClient.steer_req_fail_last_1h""": """steer_req_fail_last_1h""",
+  """grpc.WifiClient.steer_req_fail_and_dissoc_last_1h""":
+      """steer_req_fail_and_dissoc_last_1h""",
+  """grpc.WifiClient.steer_state""": """steer_state""",
+  """grpc.WifiClient.given_name""": """given_name""",
+  """grpc.WifiClient.hops_from_controller""": """hops_from_controller""",
+  """grpc.WifiClient.est_tx_rate_mbps_from_controller""":
+      """est_tx_rate_mbps_from_controller""",
+  """grpc.WifiClient.est_rx_rate_mbps_from_controller""":
+      """est_rx_rate_mbps_from_controller""",
+  """grpc.WifiClient.hardware_version""": """hardware_version""",
+  """grpc.WifiClient.software_version""": """software_version""",
+  """grpc.WifiClient.api_version""": """api_version""",
+  """grpc.WifiClient.ping_metrics""": """ping_metrics""",
+  """grpc.WifiClient.ipv6_addresses""": """IPv6 addresses""",
+  """grpc.WifiClient.x_rx_bytes""": """Received""",
+  """grpc.WifiClient.x_tx_bytes""": """Transmitted""",
+  """grpc.WifiGetStatus.captive_portal_enabled""": """Captive portal enabled""",
+  """grpc.WifiGetStatus.uptime_s""": """Uptime""",
+  """grpc.WifiGetStatus.ipv4_wan_address""": """WAN IPv4""",
+  """grpc.WifiGetStatus.ping_drop_rate""": """Ping drop rate""",
+  """grpc.WifiGetStatus.ping_latency_ms""": """Ping latency, ms""",
+  """grpc.WifiGetStatus.is_aviation""": """Aviation""",
+  """grpc.WifiGetStatus.dish_ping_drop_rate""": """Dish ping drop rate""",
+  """grpc.WifiGetStatus.dish_ping_latency_ms""": """Dish ping latency, ms""",
+  """grpc.WifiGetStatus.pop_ping_drop_rate""": """PoP ping drop rate""",
+  """grpc.WifiGetStatus.pop_ping_latency_ms""": """PoP ping latency, ms""",
+  """grpc.WifiGetStatus.is_aviation_conformed""": """Aviation conformed""",
+  """grpc.WifiGetStatus.ipv6_wan_addresses""": """WAN IPv6""",
+  """grpc.WifiGetStatus.dish_ping_drop_rate_5m""":
+      """Dish ping drop rate, 5m""",
+  """grpc.WifiGetStatus.has_client_index""": """has_client_index""",
+  """grpc.WifiGetStatus.client_index""": """client_index""",
+};
