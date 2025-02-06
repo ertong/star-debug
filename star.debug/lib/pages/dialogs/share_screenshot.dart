@@ -1,26 +1,19 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
-import 'dart:ui' as ui;
 import 'package:flutter/gestures.dart';
 import 'package:image/image.dart' as img;
 
-import 'package:clipboard/clipboard.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:star_debug/grpc/starlink/starlink.pb.dart';
 import 'package:star_debug/messages/i18n.dart';
-import 'package:star_debug/pages/debug_data.dart';
-import 'package:star_debug/pages/live/dish.dart';
 import 'package:star_debug/pages/view/dish.dart';
 import 'package:star_debug/pages/view/router.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
-import 'package:star_debug/space/space_parser.dart';
 import 'package:star_debug/utils/format.dart';
 import 'package:star_debug/utils/kv_widget.dart';
 import 'package:star_debug/utils/log_utils.dart';
@@ -395,7 +388,7 @@ class _ShareScreenshotState<TItem> extends State<ShareScreenshot<TItem>>
   }
 
   Widget _buildButton(String txt,Function()? onPressed,
-      {Color? btnColor, double width=75})
+      {double width=75})
   {
     return OutlinedButton(
       onPressed: onPressed,

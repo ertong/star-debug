@@ -24,10 +24,6 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
     super.initState();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
 

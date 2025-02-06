@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class Loading extends StatefulWidget {
   final Future<void> Function(BuildContext)? onInit;
   final Widget Function(BuildContext)? onLoaded;
-  const Loading({Key? key, this.onInit, this.onLoaded}) : super(key: key);
+  const Loading({super.key, this.onInit, this.onLoaded});
 
   @override
   State createState() => _LoadingState();

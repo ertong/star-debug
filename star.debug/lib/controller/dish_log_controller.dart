@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:drift/drift.dart';
 import 'package:mutex/mutex.dart';
 import 'package:star_debug/db/database.dart';
-import 'package:star_debug/grpc/starlink/starlink.pb.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/utils/log_utils.dart';
 import 'package:star_debug/utils/snapshot.dart';

@@ -2,7 +2,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:star_debug/db/database.dart';
 import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/preloaded.dart';
@@ -68,7 +67,7 @@ class _RecentInputDialogState extends State<RecentInputDialog>
           setState(() {});
         }
         else
-          print("CHANGED ${_searchingWithQuery} ${tecInput.text}");
+          print("CHANGED $_searchingWithQuery ${tecInput.text}");
   }
 
   @override
@@ -159,7 +158,7 @@ class _RecentInputDialogState extends State<RecentInputDialog>
         ],
       ),
 
-      actions: <Widget>[
+      actions: const <Widget>[
       ],
     );
   }

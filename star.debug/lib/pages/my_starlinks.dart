@@ -45,10 +45,6 @@ class _MyStarlinksPageState extends State<MyStarlinksPage> with TickerProviderSt
     );
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
   ThemeData theme = ThemeData.fallback();

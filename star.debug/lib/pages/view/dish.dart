@@ -30,10 +30,6 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
     super.initState();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
 
   ThemeData theme = ThemeData.fallback();
   late ViewOptions opts;

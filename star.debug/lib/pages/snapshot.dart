@@ -1,8 +1,5 @@
 import 'dart:async';
-import 'dart:io';
 
-import 'package:clipboard/clipboard.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart' hide Notification, Card;
 import 'package:star_debug/drawer.dart';
 import 'package:star_debug/messages/i18n.dart';
@@ -13,10 +10,7 @@ import 'package:star_debug/pages/view/router.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/routes.dart';
 import 'package:star_debug/space/entity.dart';
-import 'package:star_debug/space/obstructions.dart';
-import 'package:star_debug/space/space_parser.dart';
 import 'package:star_debug/utils/api_helper.dart';
-import 'package:star_debug/utils/log_utils.dart';
 import 'package:star_debug/utils/snapshot.dart';
 import 'package:star_debug/utils/view_options.dart';
 
@@ -44,7 +38,7 @@ class _Page {
   Widget Function() builder;
   bool Function()? visible;
 
-  _Page(this.id, this.icon, this.label, this.builder, {this.entity, this.alertsCount=0, this.visible});
+  _Page(this.id, this.icon, this.label, this.builder, {this.entity, this.alertsCount=0});
 }
 
 class _SnapshotPageState extends State<SnapshotPage> with TickerProviderStateMixin {
@@ -62,10 +56,6 @@ class _SnapshotPageState extends State<SnapshotPage> with TickerProviderStateMix
     newData(widget.snap);
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
   ThemeData theme = ThemeData.fallback();

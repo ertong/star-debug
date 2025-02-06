@@ -8,7 +8,7 @@ class RecentInputsDao extends DatabaseAccessor<Database> with _$RecentInputsDaoM
   RecentInputsDao(super.db);
 
   Future<int> addInputChecked(String type, String? data) async {
-    print("================== ADD ========= ${type} ${data}");
+    print("================== ADD ========= $type $data");
     if (data==null || data.trim().isEmpty)
       return 0;
 

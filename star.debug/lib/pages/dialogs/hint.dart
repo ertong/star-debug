@@ -11,7 +11,7 @@ class HintDialog extends StatefulWidget
   final String k;
   final String v;
   final String hint;
-  const HintDialog({Key? key, required this.k, required this.v, required this.hint,}) : super(key: key);
+  const HintDialog({super.key, required this.k, required this.v, required this.hint,});
 
   @override
   State createState() => _HintDialogState();
