@@ -35,8 +35,8 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    compileSdkVersion 34 //flutter.compileSdkVersion
-    buildToolsVersion "33.0.2"
+    compileSdkVersion 35 //flutter.compileSdkVersion
+    buildToolsVersion "34.0.0"
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -47,7 +47,7 @@ android {
     defaultConfig {
         applicationId "com.stardebug"
         minSdkVersion 21 //flutter.minSdkVersion
-        targetSdkVersion 34 //flutter.targetSdkVersion
+        targetSdkVersion 35 //flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         ndk {
