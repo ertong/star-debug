@@ -30,10 +30,6 @@ class _AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
     super.initState();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
 

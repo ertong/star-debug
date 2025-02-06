@@ -5,14 +5,8 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:star_debug/preloaded.dart';
-import 'package:star_debug/space/space_parser.dart';
-import 'package:star_debug/utils/debug_data.dart';
-import 'package:fixnum/fixnum.dart' as fixnum;
 import 'package:star_debug/utils/geoip.dart';
 
 void main() {

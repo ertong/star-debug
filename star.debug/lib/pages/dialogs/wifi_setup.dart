@@ -2,7 +2,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:star_debug/db/database.dart';
 import 'package:star_debug/db/models/recent_inputs.dart';
 import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/pages/dialogs/confirm.dart';
@@ -227,7 +226,7 @@ class _WifiSetupDialogState extends State<WifiSetupDialog>
         ),
       ),
 
-      actions: <Widget>[
+      actions: const <Widget>[
       ],
     );
   }

@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:io';
 
 import 'package:clipboard/clipboard.dart';
@@ -6,21 +5,13 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart' hide Notification, Card;
 import 'package:star_debug/drawer.dart';
 import 'package:star_debug/messages/i18n.dart';
-import 'package:star_debug/pages/dialogs/save_debug_data.dart';
 import 'package:star_debug/pages/snapshot.dart';
-import 'package:star_debug/pages/view/dish.dart';
-import 'package:star_debug/pages/view/router.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/routes.dart';
-import 'package:star_debug/space/entity.dart';
-import 'package:star_debug/space/obstructions.dart';
 import 'package:star_debug/space/space_parser.dart';
-import 'package:star_debug/utils/api_helper.dart';
 import 'package:star_debug/utils/log_utils.dart';
 import 'package:star_debug/utils/snapshot.dart';
-import 'package:star_debug/utils/view_options.dart';
 
-import '../utils/kv_widget.dart';
 
 const String _TAG = "MainPage";
 
@@ -46,10 +37,6 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
     }
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
 

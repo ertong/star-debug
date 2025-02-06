@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:star_debug/messages/i18n.dart';
 
 class SelectLangDialog<TItem> extends StatefulWidget {
-  const SelectLangDialog({Key? key}) : super(key: key);
+  const SelectLangDialog({super.key});
 
   @override
   State createState() => _SelectLangDialogState<TItem>();

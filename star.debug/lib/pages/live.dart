@@ -1,16 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
-import 'dart:typed_data';
-import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart' hide Notification, Card, ConnectionState;
-import 'package:grpc/grpc.dart';
-import 'package:screenshot/screenshot.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:star_debug/controller/conn/connection.dart';
 import 'package:star_debug/controller/conn/grpc_connection.dart';
-import 'package:star_debug/controller/conn/router_connection.dart';
 import 'package:star_debug/drawer.dart';
 import 'package:star_debug/grpc/starlink/starlink.pb.dart';
 import 'package:star_debug/messages/i18n.dart';
@@ -19,8 +12,6 @@ import 'package:star_debug/pages/dialogs/share_screenshot.dart';
 import 'package:star_debug/pages/live/dish.dart';
 import 'package:star_debug/pages/live/general.dart';
 import 'package:star_debug/pages/live/online.dart';
-import 'package:star_debug/pages/view/dish.dart';
-import 'package:star_debug/pages/view/router.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/routes.dart';
 import 'package:star_debug/utils/api_helper.dart';

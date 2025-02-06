@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
-import 'package:drift/drift.dart' hide Column;
 import 'package:flutter/material.dart' hide Notification, Card, ConnectionState;
 import 'package:grpc/grpc.dart';
 import 'package:star_debug/db/models/recent_inputs.dart';
@@ -11,7 +10,6 @@ import 'package:star_debug/grpc/starlink/network.pbenum.dart';
 import 'package:star_debug/grpc/starlink/starlink.pbgrpc.dart';
 import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/pages/dialogs/wifi_setup.dart';
-import 'package:star_debug/pages/live/dish.dart' show buildGraph;
 import 'package:star_debug/pages/view/dish.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/utils/kv_widget.dart';

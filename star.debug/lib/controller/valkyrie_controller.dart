@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/utils/kv_widget.dart';
@@ -96,9 +95,9 @@ class ValkyrieRecord {
         device_is_found = data["device_is_found"];
         timeReceived = DateTime.now().millisecondsSinceEpoch;
         notifyStream.add(this);
-        LogUtils.d(_TAG, "GET valkyrie $bssid: ${resp.statusCode}: device_is_found=${device_is_found} data=${data}");
+        LogUtils.d(_TAG, "GET valkyrie $bssid: ${resp.statusCode}: device_is_found=$device_is_found data=$data");
         break;
-      } catch (e, s) {
+      } catch (e) {
         LogUtils.e(_TAG, "Checking $bssid: $e");
         await Future.delayed(Duration(seconds: 5));
       }

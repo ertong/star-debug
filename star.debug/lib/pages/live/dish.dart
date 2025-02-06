@@ -1,18 +1,14 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:flutter/material.dart' hide Notification, Card, ConnectionState;
-import 'package:star_debug/grpc/starlink/starlink.pbgrpc.dart';
 import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/pages/live.dart';
 import 'package:star_debug/pages/view/dish.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:grpc/grpc.dart';
-import 'package:star_debug/utils/debug_data.dart';
 import 'package:star_debug/utils/kv_widget.dart';
 import 'package:star_debug/utils/view_options.dart';
 import 'package:time_machine/time_machine.dart';
-import 'package:time_machine/time_machine.dart' as time_machine;
 
 import '../../utils/format.dart';
 

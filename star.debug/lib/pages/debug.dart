@@ -34,10 +34,6 @@ class _DebugPageState extends State<DebugPage> with TickerProviderStateMixin {
     super.initState();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
 

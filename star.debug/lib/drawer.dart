@@ -9,7 +9,7 @@ const String _TAG = "AppDrawer";
 class AppDrawer extends StatefulWidget {
   final String selectedRoute;
 
-  const AppDrawer({Key? key, this.selectedRoute = ""}) : super(key: key);
+  const AppDrawer({super.key, this.selectedRoute = ""});
 
   static int countBackClick=0;
 

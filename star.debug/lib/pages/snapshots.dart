@@ -1,19 +1,13 @@
-import 'dart:convert';
 
 import 'package:drift/drift.dart' show TableStatements;
 import 'package:flutter/material.dart' hide Notification, Card;
 import 'package:star_debug/db/database.dart';
-import 'package:star_debug/db/models/dish_logs.dart';
 import 'package:star_debug/drawer.dart';
 import 'package:star_debug/grpc/starlink/network.pbenum.dart';
-import 'package:star_debug/grpc/starlink/starlink.pb.dart';
 import 'package:star_debug/messages/i18n.dart';
-import 'package:star_debug/pages/debug_data.dart';
 import 'package:star_debug/pages/dialogs/confirm.dart';
 import 'package:star_debug/pages/snapshot.dart';
 import 'package:star_debug/preloaded.dart';
-import 'package:star_debug/space/space_parser.dart';
-import 'package:star_debug/utils/debug_data.dart';
 import 'package:star_debug/utils/format.dart';
 import 'package:star_debug/utils/snapshot.dart';
 import 'package:star_debug/widgets/load_more.dart';
@@ -48,10 +42,6 @@ class _SnapshotsPageState extends State<SnapshotsPage> with TickerProviderStateM
     );
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
   ThemeData theme = ThemeData.fallback();

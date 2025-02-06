@@ -6,7 +6,6 @@ import 'package:protobuf/protobuf.dart' as pb;
 import 'package:fixnum/fixnum.dart' as fixnum;
 import 'package:protobuf/protobuf.dart';
 import 'package:recase/recase.dart';
-import 'package:star_debug/grpc/starlink/starlink.pb.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/utils/log_utils.dart';
 import 'package:star_debug/utils/snapshot.dart';

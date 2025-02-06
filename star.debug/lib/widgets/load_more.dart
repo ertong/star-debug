@@ -10,7 +10,7 @@ class LoadMore<TItem> extends StatefulWidget {
 
   final LoadMoreData<TItem>? Function()? dataBuilder;
 
-  const LoadMore({Key? key, this.builder, this.dataBuilder}) : super(key: key);
+  const LoadMore({super.key, this.builder, this.dataBuilder});
 
   @override
   LoadMoreState createState() => LoadMoreState<TItem>();

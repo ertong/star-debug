@@ -18,7 +18,7 @@ const String _TAG = "Database";
 )
 class Database extends _$Database {
 
-  Database.connect(DatabaseConnection connection) : super(connection);
+  Database.connect(DatabaseConnection super.connection);
 
   @override
   int get schemaVersion => 5;

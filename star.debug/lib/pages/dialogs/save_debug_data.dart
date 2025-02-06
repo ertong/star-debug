@@ -21,7 +21,7 @@ class SaveDebugDataDialog<TItem> extends StatefulWidget
   final String? uid;
   final String data;
   final bool showInApp;
-  const SaveDebugDataDialog({Key? key, required this.data, this.uid, this.showInApp = true}) : super(key: key);
+  const SaveDebugDataDialog({super.key, required this.data, this.uid, this.showInApp = true});
 
   @override
   State createState() => _SaveDebugDataDialogState<TItem>();
