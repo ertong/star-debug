@@ -138,10 +138,11 @@ class _SnapshotPageState extends State<SnapshotPage> with TickerProviderStateMix
       var history = snap.dishGetHistory;
       var historyTs = snap.historyTs;
       if (history!=null && historyTs!=null) {
-        charts.add(buildGraph(M.grpc.DishGetStatus.pop_ping_latency_ms, history.current.toInt(), historyTs, history.popPingLatencyMs));
-        charts.add(buildGraph(M.grpc.DishGetStatus.pop_ping_drop_rate, history.current.toInt(), historyTs, history.popPingDropRate));
-        charts.add(buildGraph("Uplink, Mb/s", history.current.toInt(), historyTs, [for (var v in history.uplinkThroughputBps) v / 1024 / 1024]));
-        charts.add(buildGraph("Downlink, Mb/s", history.current.toInt(), historyTs, [for (var v in history.downlinkThroughputBps) v / 1024 / 1024]));
+        charts.add(buildGraph(M.grpc.DishGetStatus.pop_ping_latency_ms, "ms", history.current.toInt(), historyTs, history.popPingLatencyMs));
+        charts.add(buildGraph(M.grpc.DishGetStatus.pop_ping_drop_rate, "", history.current.toInt(), historyTs, history.popPingDropRate));
+        charts.add(buildGraph("Uplink", "Mb/s", history.current.toInt(), historyTs, [for (var v in history.uplinkThroughputBps) v / 1024 / 1024]));
+        charts.add(buildGraph("Downlink", "Mb/s", history.current.toInt(), historyTs, [for (var v in history.downlinkThroughputBps) v / 1024 / 1024]));
+        charts.add(buildGraph("PowerIn", "V", history.current.toInt(), historyTs, [for (var v in history.powerIn) v]));
       }
 
       pages.add(_Page("dishy", Icons.settings_input_antenna, M.general.dish,

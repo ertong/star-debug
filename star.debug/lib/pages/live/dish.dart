@@ -55,10 +55,12 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
     lastGraphTime = time;
 
     charts.clear();
-    charts.add(buildGraph(M.grpc.DishGetStatus.pop_ping_latency_ms, history.current.toInt(), time, history.popPingLatencyMs));
-    charts.add(buildGraph(M.grpc.DishGetStatus.pop_ping_drop_rate, history.current.toInt(), time, history.popPingDropRate));
-    charts.add(buildGraph("Uplink, Mb/s", history.current.toInt(), time, [for (var v in history.uplinkThroughputBps) v/1024/1024]));
-    charts.add(buildGraph("Downlink, Mb/s", history.current.toInt(), time, [for (var v in history.downlinkThroughputBps) v/1024/1024]));
+    charts.add(buildGraph(M.grpc.DishGetStatus.pop_ping_latency_ms, "ms", history.current.toInt(), time, history.popPingLatencyMs));
+    charts.add(buildGraph(M.grpc.DishGetStatus.pop_ping_drop_rate, "", history.current.toInt(), time, history.popPingDropRate));
+    charts.add(buildGraph("Uplink", "Mb/s", history.current.toInt(), time, [for (var v in history.uplinkThroughputBps) v/1024/1024]));
+    charts.add(buildGraph("Downlink", "Mb/s", history.current.toInt(), time, [for (var v in history.downlinkThroughputBps) v/1024/1024]));
+    charts.add(buildGraph("PowerIn", "V", history.current.toInt(), time, [for (var v in history.powerIn) v]));
+
   }
 
   @override
