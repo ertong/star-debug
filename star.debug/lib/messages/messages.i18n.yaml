@@ -132,6 +132,7 @@ header:
   gps_stats: GPS Stats
   antenna: Antenna
   ready_states: Ready States
+  init_duration: Initialization duration (sec)
   networks: Networks
   boot: Boot
   client: Client

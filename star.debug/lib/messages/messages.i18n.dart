@@ -679,6 +679,11 @@ class HeaderMessages {
   String get ready_states => """Ready States""";
 
   /// ```dart
+  /// "Initialization duration (sec)"
+  /// ```
+  String get init_duration => """Initialization duration (sec)""";
+
+  /// ```dart
   /// "Networks"
   /// ```
   String get networks => """Networks""";
@@ -2298,6 +2303,7 @@ Moreover, in the case of a moving router, its route can be followed.
   """header.gps_stats""": """GPS Stats""",
   """header.antenna""": """Antenna""",
   """header.ready_states""": """Ready States""",
+  """header.init_duration""": """Initialization duration (sec)""",
   """header.networks""": """Networks""",
   """header.boot""": """Boot""",
   """header.client""": """Client""",

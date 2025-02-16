@@ -675,9 +675,14 @@ class HeaderMessagesUk extends HeaderMessages {
   String get antenna => """Антена""";
 
   /// ```dart
-  /// "Готовність модулей"
+  /// "Готовність модулів"
   /// ```
-  String get ready_states => """Готовність модулей""";
+  String get ready_states => """Готовність модулів""";
+
+  /// ```dart
+  /// "Час ініціалізації (сек)"
+  /// ```
+  String get init_duration => """Час ініціалізації (сек)""";
 
   /// ```dart
   /// "Мережі"
@@ -2298,7 +2303,8 @@ Map<String, String> get messagesUkMap => {
   """header.config""": """Налаштування""",
   """header.gps_stats""": """GPS""",
   """header.antenna""": """Антена""",
-  """header.ready_states""": """Готовність модулей""",
+  """header.ready_states""": """Готовність модулів""",
+  """header.init_duration""": """Час ініціалізації (сек)""",
   """header.networks""": """Мережі""",
   """header.boot""": """Завантаження""",
   """header.client""": """Клієнт""",
