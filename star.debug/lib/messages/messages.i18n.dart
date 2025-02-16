@@ -344,6 +344,16 @@ class GeneralMessages {
   /// "Should not be empty"
   /// ```
   String get should_not_be_empty => """Should not be empty""";
+
+  /// ```dart
+  /// "yes"
+  /// ```
+  String get yes => """yes""";
+
+  /// ```dart
+  /// "no"
+  /// ```
+  String get no => """no""";
 }
 
 class RecentMessages {
@@ -2222,6 +2232,8 @@ Map<String, String> get messagesMap => {
   """general.confirmation""": """Confirmation""",
   """general.just_now""": """Just now""",
   """general.should_not_be_empty""": """Should not be empty""",
+  """general.yes""": """yes""",
+  """general.no""": """no""",
   """recent.search""": """Search""",
   """recent.no_options""": """No options to show""",
   """my.my_starlinks""": """My Starlinks""",

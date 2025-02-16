@@ -1,5 +1,6 @@
 
 import 'package:flutter/widgets.dart';
+import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/utils/log_utils.dart';
 import 'package:time_machine/time_machine.dart';
 
@@ -20,6 +21,9 @@ abstract class KVConsumer {
     }
     if (v is List<String>)
       v = v.join("\n");
+
+    if (v is bool)
+      v = v ? M.general.yes : M.general.no;
     kvs(k, "$v", ok: ok, hint: hint);
   }
 
