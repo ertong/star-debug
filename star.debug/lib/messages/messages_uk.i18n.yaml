@@ -276,7 +276,7 @@ grpc:
     downlink_throughput_bps: Downlink Throughput
     uplink_throughput_bps: Uplink Throughput
     pop_ping_drop_rate: PoP ping drop rate
-    pop_ping_latency_ms: PoP ping затримка, мс
+    pop_ping_latency_ms: PoP ping затримка
     pop_ping__hint: |
       Мережа Starlink, грубо кажучи, складається з таких компонентів:
       - Користувацькі термінали (UT)
@@ -451,7 +451,7 @@ grpc:
     dish_ping_drop_rate: Dish ping drop rate
     dish_ping_latency_ms: Dish ping latency, ms
     pop_ping_drop_rate: PoP ping drop rate
-    pop_ping_latency_ms: PoP ping latency, ms
+    pop_ping_latency_ms: PoP ping latency
     is_aviation_conformed: Aviation conformed
     ipv6_wan_addresses: WAN IPv6
     dish_ping_drop_rate_5m: Dish ping drop rate, 5m

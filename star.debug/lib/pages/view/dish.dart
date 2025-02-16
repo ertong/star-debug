@@ -336,7 +336,7 @@ class _GraphPoint {
   _GraphPoint(this.t, this.value);
 }
 
-Widget buildGraph(String name, int current, int ts, List<double> data){
+Widget buildGraph(String name, String unit, int current, int ts, List<double> data){
   if (data.length<=current%900)
     return SizedBox(
       height: 120,
@@ -356,10 +356,21 @@ Widget buildGraph(String name, int current, int ts, List<double> data){
   return SizedBox(
     height: 120,
     child: SfCartesianChart(
-        title: ChartTitle(text: name, textStyle: TextStyle(fontSize: 10)),
+        title: ChartTitle(text: "$name, ${data[900-1].toStringAsFixed(2)} $unit", textStyle: TextStyle(fontSize: 10)),
         primaryXAxis: CategoryAxis(),
         primaryYAxis: NumericAxis(minimum: 0, maximum: max),
         enableAxisAnimation: false,
+        // crosshairBehavior: CrosshairBehavior(
+        //   enable: true,
+        //   activationMode: ActivationMode.singleTap,
+        //   shouldAlwaysShow: true,
+        //
+        // ),
+        trackballBehavior: TrackballBehavior(
+          enable: true,
+          shouldAlwaysShow: true,
+          activationMode: ActivationMode.singleTap
+        ),
         series: <CartesianSeries>[
           LineSeries<_GraphPoint, String>(
               dataSource:  <_GraphPoint>[

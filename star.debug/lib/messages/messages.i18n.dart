@@ -1322,9 +1322,9 @@ class DishGetStatusGrpcMessages {
   String get pop_ping_drop_rate => """PoP ping drop rate""";
 
   /// ```dart
-  /// "PoP ping latency, ms"
+  /// "PoP ping latency"
   /// ```
-  String get pop_ping_latency_ms => """PoP ping latency, ms""";
+  String get pop_ping_latency_ms => """PoP ping latency""";
 
   /// ```dart
   /// """
@@ -2151,9 +2151,9 @@ class WifiGetStatusGrpcMessages {
   String get pop_ping_drop_rate => """PoP ping drop rate""";
 
   /// ```dart
-  /// "PoP ping latency, ms"
+  /// "PoP ping latency"
   /// ```
-  String get pop_ping_latency_ms => """PoP ping latency, ms""";
+  String get pop_ping_latency_ms => """PoP ping latency""";
 
   /// ```dart
   /// "Aviation conformed"
@@ -2439,7 +2439,7 @@ with internet access and dish access. You can find this setting in
   """grpc.DishGetStatus.downlink_throughput_bps""": """Downlink Throughput""",
   """grpc.DishGetStatus.uplink_throughput_bps""": """Uplink Throughput""",
   """grpc.DishGetStatus.pop_ping_drop_rate""": """PoP ping drop rate""",
-  """grpc.DishGetStatus.pop_ping_latency_ms""": """PoP ping latency, ms""",
+  """grpc.DishGetStatus.pop_ping_latency_ms""": """PoP ping latency""",
   """grpc.DishGetStatus.pop_ping__hint""":
       """The Starlink network comprises the following components:
 - User Terminals (UT)
@@ -2622,7 +2622,7 @@ starting from approximately January 2023, Starlink routers are able to pick rand
   """grpc.WifiGetStatus.dish_ping_drop_rate""": """Dish ping drop rate""",
   """grpc.WifiGetStatus.dish_ping_latency_ms""": """Dish ping latency, ms""",
   """grpc.WifiGetStatus.pop_ping_drop_rate""": """PoP ping drop rate""",
-  """grpc.WifiGetStatus.pop_ping_latency_ms""": """PoP ping latency, ms""",
+  """grpc.WifiGetStatus.pop_ping_latency_ms""": """PoP ping latency""",
   """grpc.WifiGetStatus.is_aviation_conformed""": """Aviation conformed""",
   """grpc.WifiGetStatus.ipv6_wan_addresses""": """WAN IPv6""",
   """grpc.WifiGetStatus.dish_ping_drop_rate_5m""":

@@ -1325,9 +1325,9 @@ class DishGetStatusGrpcMessagesUk extends DishGetStatusGrpcMessages {
   String get pop_ping_drop_rate => """PoP ping drop rate""";
 
   /// ```dart
-  /// "PoP ping затримка, мс"
+  /// "PoP ping затримка"
   /// ```
-  String get pop_ping_latency_ms => """PoP ping затримка, мс""";
+  String get pop_ping_latency_ms => """PoP ping затримка""";
 
   /// ```dart
   /// """
@@ -2153,9 +2153,9 @@ class WifiGetStatusGrpcMessagesUk extends WifiGetStatusGrpcMessages {
   String get pop_ping_drop_rate => """PoP ping drop rate""";
 
   /// ```dart
-  /// "PoP ping latency, ms"
+  /// "PoP ping latency"
   /// ```
-  String get pop_ping_latency_ms => """PoP ping latency, ms""";
+  String get pop_ping_latency_ms => """PoP ping latency""";
 
   /// ```dart
   /// "Aviation conformed"
@@ -2437,7 +2437,7 @@ Map<String, String> get messagesUkMap => {
   """grpc.DishGetStatus.downlink_throughput_bps""": """Downlink Throughput""",
   """grpc.DishGetStatus.uplink_throughput_bps""": """Uplink Throughput""",
   """grpc.DishGetStatus.pop_ping_drop_rate""": """PoP ping drop rate""",
-  """grpc.DishGetStatus.pop_ping_latency_ms""": """PoP ping затримка, мс""",
+  """grpc.DishGetStatus.pop_ping_latency_ms""": """PoP ping затримка""",
   """grpc.DishGetStatus.pop_ping__hint""":
       """Мережа Starlink, грубо кажучи, складається з таких компонентів:
 - Користувацькі термінали (UT)
@@ -2619,7 +2619,7 @@ Map<String, String> get messagesUkMap => {
   """grpc.WifiGetStatus.dish_ping_drop_rate""": """Dish ping drop rate""",
   """grpc.WifiGetStatus.dish_ping_latency_ms""": """Dish ping latency, ms""",
   """grpc.WifiGetStatus.pop_ping_drop_rate""": """PoP ping drop rate""",
-  """grpc.WifiGetStatus.pop_ping_latency_ms""": """PoP ping latency, ms""",
+  """grpc.WifiGetStatus.pop_ping_latency_ms""": """PoP ping latency""",
   """grpc.WifiGetStatus.is_aviation_conformed""": """Aviation conformed""",
   """grpc.WifiGetStatus.ipv6_wan_addresses""": """WAN IPv6""",
   """grpc.WifiGetStatus.dish_ping_drop_rate_5m""":
