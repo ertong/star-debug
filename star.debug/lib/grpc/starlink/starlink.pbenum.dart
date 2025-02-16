@@ -287,14 +287,16 @@ class Protocol extends $pb.ProtobufEnum {
 
 /// SpaceX.API.Device.WifiClientSandboxAlert is an enum:
 class WifiClientSandboxAlert extends $pb.ProtobufEnum {
-  static const WifiClientSandboxAlert LANDING_PAGE_DOWN = WifiClientSandboxAlert._(0, _omitEnumNames ? '' : 'LANDING_PAGE_DOWN');
-  static const WifiClientSandboxAlert SANDBOX_API_DOWN_GROUND = WifiClientSandboxAlert._(1, _omitEnumNames ? '' : 'SANDBOX_API_DOWN_GROUND');
-  static const WifiClientSandboxAlert SANDBOX_API_DOWN_STARLINK = WifiClientSandboxAlert._(2, _omitEnumNames ? '' : 'SANDBOX_API_DOWN_STARLINK');
+  static const WifiClientSandboxAlert SANDBOX_ALERT_UNKNOWN = WifiClientSandboxAlert._(0, _omitEnumNames ? '' : 'SANDBOX_ALERT_UNKNOWN');
+  static const WifiClientSandboxAlert SANDBOX_ALERT_PORTAL = WifiClientSandboxAlert._(1, _omitEnumNames ? '' : 'SANDBOX_ALERT_PORTAL');
+  static const WifiClientSandboxAlert SANDBOX_ALERT_GROUND_API = WifiClientSandboxAlert._(2, _omitEnumNames ? '' : 'SANDBOX_ALERT_GROUND_API');
+  static const WifiClientSandboxAlert SANDBOX_ALERT_STARLINK_API = WifiClientSandboxAlert._(3, _omitEnumNames ? '' : 'SANDBOX_ALERT_STARLINK_API');
 
   static const $core.List<WifiClientSandboxAlert> values = <WifiClientSandboxAlert> [
-    LANDING_PAGE_DOWN,
-    SANDBOX_API_DOWN_GROUND,
-    SANDBOX_API_DOWN_STARLINK,
+    SANDBOX_ALERT_UNKNOWN,
+    SANDBOX_ALERT_PORTAL,
+    SANDBOX_ALERT_GROUND_API,
+    SANDBOX_ALERT_STARLINK_API,
   ];
 
   static final $core.Map<$core.int, WifiClientSandboxAlert> _byValue = $pb.ProtobufEnum.initByValue(values);
@@ -1102,6 +1104,38 @@ class DishOutage_Cause extends $pb.ProtobufEnum {
   const DishOutage_Cause._($core.int v, $core.String n) : super(v, n);
 }
 
+class PLCStats_ProtocolRevision extends $pb.ProtobufEnum {
+  static const PLCStats_ProtocolRevision REV_D = PLCStats_ProtocolRevision._(0, _omitEnumNames ? '' : 'REV_D');
+
+  static const $core.List<PLCStats_ProtocolRevision> values = <PLCStats_ProtocolRevision> [
+    REV_D,
+  ];
+
+  static final $core.Map<$core.int, PLCStats_ProtocolRevision> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static PLCStats_ProtocolRevision? valueOf($core.int value) => _byValue[value];
+
+  const PLCStats_ProtocolRevision._($core.int v, $core.String n) : super(v, n);
+}
+
+class PLCPortStats_PortStatus extends $pb.ProtobufEnum {
+  static const PLCPortStats_PortStatus INACTIVE = PLCPortStats_PortStatus._(0, _omitEnumNames ? '' : 'INACTIVE');
+  static const PLCPortStats_PortStatus CHARGING = PLCPortStats_PortStatus._(1, _omitEnumNames ? '' : 'CHARGING');
+  static const PLCPortStats_PortStatus DISCHARGING = PLCPortStats_PortStatus._(2, _omitEnumNames ? '' : 'DISCHARGING');
+  static const PLCPortStats_PortStatus MOISTURE_DETECTED = PLCPortStats_PortStatus._(3, _omitEnumNames ? '' : 'MOISTURE_DETECTED');
+
+  static const $core.List<PLCPortStats_PortStatus> values = <PLCPortStats_PortStatus> [
+    INACTIVE,
+    CHARGING,
+    DISCHARGING,
+    MOISTURE_DETECTED,
+  ];
+
+  static final $core.Map<$core.int, PLCPortStats_PortStatus> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static PLCPortStats_PortStatus? valueOf($core.int value) => _byValue[value];
+
+  const PLCPortStats_PortStatus._($core.int v, $core.String n) : super(v, n);
+}
+
 class WifiClient_Interface extends $pb.ProtobufEnum {
   static const WifiClient_Interface UNKNOWN = WifiClient_Interface._(0, _omitEnumNames ? '' : 'UNKNOWN');
   static const WifiClient_Interface ETH = WifiClient_Interface._(1, _omitEnumNames ? '' : 'ETH');
@@ -1167,11 +1201,13 @@ class DishGetDiagnosticsResponse_DisablementCode extends $pb.ProtobufEnum {
   static const DishGetDiagnosticsResponse_DisablementCode NO_ACTIVE_ACCOUNT = DishGetDiagnosticsResponse_DisablementCode._(2, _omitEnumNames ? '' : 'NO_ACTIVE_ACCOUNT');
   static const DishGetDiagnosticsResponse_DisablementCode TOO_FAR_FROM_SERVICE_ADDRESS = DishGetDiagnosticsResponse_DisablementCode._(3, _omitEnumNames ? '' : 'TOO_FAR_FROM_SERVICE_ADDRESS');
   static const DishGetDiagnosticsResponse_DisablementCode IN_OCEAN = DishGetDiagnosticsResponse_DisablementCode._(4, _omitEnumNames ? '' : 'IN_OCEAN');
-  static const DishGetDiagnosticsResponse_DisablementCode INVALID_COUNTRY = DishGetDiagnosticsResponse_DisablementCode._(5, _omitEnumNames ? '' : 'INVALID_COUNTRY');
   static const DishGetDiagnosticsResponse_DisablementCode BLOCKED_COUNTRY = DishGetDiagnosticsResponse_DisablementCode._(6, _omitEnumNames ? '' : 'BLOCKED_COUNTRY');
   static const DishGetDiagnosticsResponse_DisablementCode DATA_OVERAGE_SANDBOX_POLICY = DishGetDiagnosticsResponse_DisablementCode._(7, _omitEnumNames ? '' : 'DATA_OVERAGE_SANDBOX_POLICY');
   static const DishGetDiagnosticsResponse_DisablementCode CELL_IS_DISABLED = DishGetDiagnosticsResponse_DisablementCode._(8, _omitEnumNames ? '' : 'CELL_IS_DISABLED');
   static const DishGetDiagnosticsResponse_DisablementCode ROAM_RESTRICTED = DishGetDiagnosticsResponse_DisablementCode._(10, _omitEnumNames ? '' : 'ROAM_RESTRICTED');
+  static const DishGetDiagnosticsResponse_DisablementCode UNKNOWN_LOCATION = DishGetDiagnosticsResponse_DisablementCode._(11, _omitEnumNames ? '' : 'UNKNOWN_LOCATION');
+  static const DishGetDiagnosticsResponse_DisablementCode ACCOUNT_DISABLED = DishGetDiagnosticsResponse_DisablementCode._(12, _omitEnumNames ? '' : 'ACCOUNT_DISABLED');
+  static const DishGetDiagnosticsResponse_DisablementCode UNSUPPORTED_VERSION = DishGetDiagnosticsResponse_DisablementCode._(13, _omitEnumNames ? '' : 'UNSUPPORTED_VERSION');
 
   static const $core.List<DishGetDiagnosticsResponse_DisablementCode> values = <DishGetDiagnosticsResponse_DisablementCode> [
     UNKNOWN,
@@ -1179,11 +1215,13 @@ class DishGetDiagnosticsResponse_DisablementCode extends $pb.ProtobufEnum {
     NO_ACTIVE_ACCOUNT,
     TOO_FAR_FROM_SERVICE_ADDRESS,
     IN_OCEAN,
-    INVALID_COUNTRY,
     BLOCKED_COUNTRY,
     DATA_OVERAGE_SANDBOX_POLICY,
     CELL_IS_DISABLED,
     ROAM_RESTRICTED,
+    UNKNOWN_LOCATION,
+    ACCOUNT_DISABLED,
+    UNSUPPORTED_VERSION,
   ];
 
   static final $core.Map<$core.int, DishGetDiagnosticsResponse_DisablementCode> _byValue = $pb.ProtobufEnum.initByValue(values);

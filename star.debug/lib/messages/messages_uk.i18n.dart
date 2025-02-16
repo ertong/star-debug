@@ -345,6 +345,16 @@ class GeneralMessagesUk extends GeneralMessages {
   /// "Має бути заповненим"
   /// ```
   String get should_not_be_empty => """Має бути заповненим""";
+
+  /// ```dart
+  /// "так"
+  /// ```
+  String get yes => """так""";
+
+  /// ```dart
+  /// "ні"
+  /// ```
+  String get no => """ні""";
 }
 
 class RecentMessagesUk extends RecentMessages {
@@ -2224,6 +2234,8 @@ Map<String, String> get messagesUkMap => {
   """general.confirmation""": """Підтвердження""",
   """general.just_now""": """Щойно""",
   """general.should_not_be_empty""": """Має бути заповненим""",
+  """general.yes""": """так""",
+  """general.no""": """ні""",
   """recent.search""": """Пошук""",
   """recent.no_options""": """Пустий список""",
   """my.my_starlinks""": """Мої Старлінки""",

@@ -52,6 +52,8 @@ general:
   x_hours_ago(t): ${t}г тому
   x_days_ago(t): ${t}д тому
   should_not_be_empty: Має бути заповненим
+  yes: так
+  no: ні
 
 
 recent:

@@ -470,6 +470,7 @@ message DishConfig {
   bool power_save_mode = 6;
   bool swupdate_three_day_deferral_enabled = 7;
   uint32 asset_class = 8;
+  uint32 swupdate_reboot_hour = 9;
   bool apply_snow_melt_mode = 1001;
   bool apply_location_request_mode = 2001;
   bool apply_level_dish_mode = 3001;
@@ -478,6 +479,7 @@ message DishConfig {
   bool apply_power_save_mode = 6001;
   bool apply_swupdate_three_day_deferral_enabled = 7001;
   bool apply_asset_class = 8001;
+  bool apply_swupdate_reboot_hour = 9001;
   enum LevelDishMode {
     TILT_LIKE_NORMAL = 0;
     FORCE_LEVEL = 1;
@@ -564,7 +566,7 @@ message WifiConfig {
   repeated .SpaceX.API.Device.PublicKey dynamic_keys = 22;
   bool is_repeater = 23;
   int32 boot_count = 26;
-  repeated string nameservers = 30;
+  repeated string nameservers = 30 [deprecated = true];
   bool bypass_mode = 31;
   map<string, .SpaceX.API.Device.MeshConfig> mesh_configs = 33;
   bool apply_dynamic_keys = 39;
@@ -616,7 +618,7 @@ message WifiConfig {
   bool apply_channel_5ghz_high = 1016;
   bool apply_is_repeater = 1031;
   bool apply_mesh_configs = 1033;
-  bool apply_nameservers = 1054;
+  bool apply_nameservers = 1054 [deprecated = true];
   bool apply_bypass_mode = 1055;
   bool apply_dfs_enabled = 1058;
   bool apply_wireless_mode_2ghz = 1059;
@@ -665,6 +667,10 @@ message WifiConfig {
   bool apply_http_server = 1107;
   .SpaceX.API.Device.HttpServer http_server = 1108;
   bool apply_disable_band_steering = 1109;
+  repeated string only_overflight_countries = 1110;
+  bool apply_only_overflight_countries = 1111;
+  repeated .SpaceX.API.Device.WifiConfig.UnbridgedEthPort unbridged_eth_ports = 1112;
+  bool apply_unbridged_eth_ports = 1113;
   .SpaceX.API.Device.BootInfo boot = 3001;
   map<string, .SpaceX.API.Device.MeshConfig> mesh_configs_updates = 3033;
   oneof wan_traffic_control {
@@ -689,6 +695,14 @@ message WifiConfig {
     }
     reserved 1000, 1001, 1002, 1004, 1006, 1012, 1014, 1016, 2000;
   }
+  message DnsForwardRule {
+    repeated string domains = 1000;
+    repeated string server_addresses = 1001;
+  }
+  message DnsStaticEntry {
+    repeated string domains = 1000;
+    repeated string addresses = 1001;
+  }
   message Network {
     string ipv4 = 1003;
     repeated .SpaceX.API.Device.WifiConfig.BasicServiceSet basic_service_sets = 1007;
@@ -707,8 +721,21 @@ message WifiConfig {
     uint32 sandbox_id = 1023;
     .SpaceX.API.Device.CaptivePortal captive_portal = 1024;
     uint32 dhcpv4_end = 1025;
+    uint32 network_groups = 1026;
+    repeated .SpaceX.API.Device.WifiConfig.DnsStaticEntry dns_static_entries = 1027;
+    repeated .SpaceX.API.Device.WifiConfig.DnsForwardRule dns_forward_rules = 1028;
     reserved 1000, 1001, 1002, 1004, 1005, 1006, 1018, 1019;
     reserved "client_authorization_required", "unauthorized_client_domain_allow_list";
+  }
+  message UnbridgedEthPort {
+    uint32 lan_port_index = 1;
+    string ip = 2;
+    string gateway = 3;
+    repeated .SpaceX.API.Device.WifiConfig.UnbridgedEthPort.StaticRoute static_routes = 4;
+    message StaticRoute {
+      string subnet = 1;
+      uint32 network_groups = 2;
+    }
   }
   enum Band {
     RF_UNKNOWN = 0;
@@ -823,9 +850,12 @@ message WeeklyBlockSchedule {
 //SpaceX.API.Device.HttpServer is a message:
 message HttpServer {
   string domain_name = 1;
-  optional .SpaceX.API.Device.TlsConfig tls = 2;
-  optional string file_content_id = 3;
-  string pages_bundle_url = 101;
+  .SpaceX.API.Device.TlsConfig tls = 2;
+  string file_content_id = 3;
+  string file_content_hash = 4;
+  repeated string access_control_allow_origins = 5;
+  reserved 101;
+  reserved "pages_bundle_url";
 }
 
 //SpaceX.API.Device.TlsConfig is a message:
@@ -951,6 +981,12 @@ message AuthOpenEncrypted {
 message CaptivePortal {
   string url = 1;
   bool display_in_captive_browser = 2;
+}
+
+//SpaceX.API.Device.WifiConfig.UnbridgedEthPort.StaticRoute is a message:
+message StaticRoute {
+  string subnet = 1;
+  uint32 network_groups = 2;
 }
 
 //SpaceX.API.Device.WifiGetClientsRequest is a message:
@@ -1093,6 +1129,7 @@ message WifiToggleUmbilicalModeRequest {
 message WifiClientSandboxRequest {
   repeated .SpaceX.API.Device.WifiClientSandboxStatus client_sandbox_status = 1;
   repeated .SpaceX.API.Device.WifiClientSandboxAlert alerts = 2;
+  uint64 unix_timestamp_ns = 3;
 }
 
 //SpaceX.API.Device.WifiClientSandboxStatus is a message:
@@ -1104,9 +1141,10 @@ message WifiClientSandboxStatus {
 
 //SpaceX.API.Device.WifiClientSandboxAlert is an enum:
 enum WifiClientSandboxAlert {
-  LANDING_PAGE_DOWN = 0;
-  SANDBOX_API_DOWN_GROUND = 1;
-  SANDBOX_API_DOWN_STARLINK = 2;
+  SANDBOX_ALERT_UNKNOWN = 0;
+  SANDBOX_ALERT_PORTAL = 1;
+  SANDBOX_ALERT_GROUND_API = 2;
+  SANDBOX_ALERT_STARLINK_API = 3;
 }
 
 //SpaceX.API.Device.TransceiverIFLoopbackTestRequest is a message:
@@ -1613,6 +1651,9 @@ message DishGetStatusResponse {
   .SpaceX.API.Device.RebootReason reboot_reason = 1032;
   bool high_power_test_mode = 1033;
   repeated string connected_routers = 1040;
+  .SpaceX.API.Device.PLCStats plc_stats = 1041;
+  bool is_moving_fast_persisted = 1042;
+  .SpaceX.API.Device.DishUpsuStats upsu_stats = 1043;
   .SpaceX.API.Device.DishConfig config = 2000;
   reserved 1001, 1006, 1013;
 }
@@ -1809,6 +1850,48 @@ enum RebootReason {
   REBOOT_REASON_AAP_CRASH = 14;
   REBOOT_REASON_XP70_SACS = 15;
   REBOOT_REASON_INE_FAILED = 16;
+}
+
+//SpaceX.API.Device.PLCStats is a message:
+message PLCStats {
+  bool receiving_plc = 1;
+  uint32 average_time_to_empty = 2;
+  uint32 average_time_to_full = 3;
+  uint32 battery_health = 4;
+  uint32 hardware_revision_id = 5;
+  bool permanent_failure = 6;
+  .SpaceX.API.Device.PLCPortStats port_1_stats = 7;
+  .SpaceX.API.Device.PLCPortStats port_2_stats = 8;
+  .SpaceX.API.Device.PLCPortStats port_3_stats = 9;
+  .SpaceX.API.Device.PLCStats.ProtocolRevision plc_revision = 10;
+  bool safety_mode_active = 11;
+  uint32 state_of_charge = 12;
+  uint32 thermal_throttle_level = 13;
+  enum ProtocolRevision {
+    REV_D = 0;
+  }
+}
+
+//SpaceX.API.Device.PLCPortStats is a message:
+message PLCPortStats {
+  uint32 power = 1;
+  .SpaceX.API.Device.PLCPortStats.PortStatus status = 2;
+  enum PortStatus {
+    INACTIVE = 0;
+    CHARGING = 1;
+    DISCHARGING = 2;
+    MOISTURE_DETECTED = 3;
+  }
+}
+
+//SpaceX.API.Device.DishUpsuStats is a message:
+message DishUpsuStats {
+  uint64 app_version = 2;
+  uint64 boot_version = 3;
+  uint64 rom_version = 4;
+  int64 uptime = 5;
+  float dish_power = 6;
+  float router_power = 7;
 }
 
 //SpaceX.API.Device.DishAuthenticateResponse is a message:
@@ -2031,8 +2114,10 @@ message WifiClient {
   bool dhcp_lease_renewed = 47;
   float seconds_until_dhcp_lease_expires = 48;
   bool dhcp_lease_found = 49;
-  string sandbox_client_id = 51;
   .SpaceX.API.Device.WifiClient.Alerts alerts = 52;
+  string captive_client_id = 53;
+  bool rx_stats_valid = 60;
+  bool tx_stats_valid = 61;
   message Alerts {
     bool throughput_limited = 1;
   }
@@ -2101,8 +2186,8 @@ message WifiClient {
     REPEATER = 2;
     CONTROLLER = 3;
   }
-  reserved 50;
-  reserved "authorized";
+  reserved 50, 51;
+  reserved "authorized", "sandbox_client_id";
 }
 
 //SpaceX.API.Device.WifiSetupResponse is a message:
@@ -2136,6 +2221,11 @@ message WifiGetStatusResponse {
   int64 utc_ns = 1024;
   .SpaceX.API.Device.WifiSoftwareUpdateStats software_update_stats = 1025;
   .SpaceX.API.Device.WifiSetupRequirement setup_requirement = 1026;
+  float pop_ipv6_ping_drop_rate = 1027;
+  float pop_ipv6_ping_drop_rate_5m = 1028;
+  float pop_ipv6_ping_latency_ms = 1029;
+  float secs_since_last_public_ipv4_change = 1030;
+  .SpaceX.API.Satellites.Network.UtDisablementCode dish_disablement_code = 1031;
   .SpaceX.API.Device.WifiConfig config = 2000;
   repeated .SpaceX.API.Device.WifiClient clients = 3000;
   bool has_client_index = 3001;
@@ -2172,6 +2262,7 @@ message WifiAlerts {
   bool poe_vin_overvoltage = 19;
   bool poe_vin_undervoltage = 20;
   bool high_cable_ping_drop_rate = 21;
+  bool sandbox_disabled = 22;
   reserved 6, 7, 8, 9;
   reserved "inconsistent_2ghz_antennae_performance_15db", "inconsistent_5ghz_antennae_performance_15db", "poor_2ghz_antennae_performance_80db", "poor_5ghz_antennae_performance_80db";
 }
@@ -2279,8 +2370,19 @@ message WifiAuthenticateResponse {
 //SpaceX.API.Device.WifiGetHistoryResponse is a message:
 message WifiGetHistoryResponse {
   uint64 current = 1;
+  uint64 current_index_15s = 2;
   repeated float ping_drop_rate = 1001;
   repeated float ping_latency_ms = 1002;
+  repeated float pop_ipv4_ping_drop_rate_last_15s = 1003;
+  repeated float pop_ipv6_ping_drop_rate_last_15s = 1004;
+  repeated float google_ipv4_ping_drop_rate_last_15s = 1005;
+  repeated float google_ipv6_ping_drop_rate_last_15s = 1006;
+  repeated float cloudflare_ipv4_ping_drop_rate_last_15s = 1007;
+  repeated float cloudflare_ipv6_ping_drop_rate_last_15s = 1008;
+  map<string, .SpaceX.API.Device.WifiGetHistoryResponse.DnsResolverHistory> dns_resolver_drop_rate = 1009;
+  message DnsResolverHistory {
+    repeated float drop_rate_last_15s = 2;
+  }
 }
 
 //SpaceX.API.Device.WifiGetPingMetricsResponse is a message:
@@ -2590,6 +2692,8 @@ message DishGetDiagnosticsResponse {
   .SpaceX.API.Device.DishGetDiagnosticsResponse.DisablementCode disablement_code = 6;
   .SpaceX.API.Device.DishGetDiagnosticsResponse.TestResult hardware_self_test = 7;
   .SpaceX.API.Device.DishGetDiagnosticsResponse.Location location = 8;
+  .SpaceX.API.Device.DishGetDiagnosticsResponse.AlignmentStats alignment_stats = 9;
+  bool stowed = 10;
   message Alerts {
     bool dish_is_heating = 1;
     bool dish_thermal_throttle = 2;
@@ -2602,6 +2706,12 @@ message DishGetDiagnosticsResponse {
     bool moving_too_fast_for_policy = 9;
     bool obstructed = 10;
   }
+  message AlignmentStats {
+    float boresight_azimuth_deg = 1;
+    float boresight_elevation_deg = 2;
+    float desired_boresight_azimuth_deg = 3;
+    float desired_boresight_elevation_deg = 4;
+  }
   message Location {
     bool enabled = 1;
     double latitude = 2;
@@ -2609,6 +2719,7 @@ message DishGetDiagnosticsResponse {
     double altitude_meters = 4;
     bool uncertainty_meters_valid = 5;
     double uncertainty_meters = 6;
+    double gps_time_s = 7;
   }
   enum DisablementCode {
     UNKNOWN = 0;
@@ -2616,13 +2727,15 @@ message DishGetDiagnosticsResponse {
     NO_ACTIVE_ACCOUNT = 2;
     TOO_FAR_FROM_SERVICE_ADDRESS = 3;
     IN_OCEAN = 4;
-    INVALID_COUNTRY = 5;
     BLOCKED_COUNTRY = 6;
     DATA_OVERAGE_SANDBOX_POLICY = 7;
     CELL_IS_DISABLED = 8;
     ROAM_RESTRICTED = 10;
-    reserved 9;
-    reserved "UNLICENSED_COUNTRY";
+    UNKNOWN_LOCATION = 11;
+    ACCOUNT_DISABLED = 12;
+    UNSUPPORTED_VERSION = 13;
+    reserved 5, 9;
+    reserved "INVALID_COUNTRY", "UNLICENSED_COUNTRY";
   }
   enum TestResult {
     NO_RESULT = 0;
