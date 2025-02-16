@@ -136,7 +136,8 @@ header:
   config: Налаштування
   gps_stats: GPS
   antenna: Антена
-  ready_states: Готовність модулей
+  ready_states: Готовність модулів
+  init_duration: Час ініціалізації (сек)
   networks: Мережі
   boot: Завантаження
   client: Клієнт

@@ -2,18 +2,20 @@ syntax = "proto3";
 
 package SpaceX.API.Satellites.Network;
 
+//SpaceX.API.Satellites.Network.UtDisablementCode is an enum:
 enum UtDisablementCode {
   UNKNOWN_STATE = 0;
   OKAY = 1;
   NO_ACTIVE_ACCOUNT = 2;
   TOO_FAR_FROM_SERVICE_ADDRESS = 3;
   IN_OCEAN = 4;
-  INVALID_COUNTRY = 5;
   BLOCKED_COUNTRY = 6;
   DATA_OVERAGE_SANDBOX_POLICY = 7;
   CELL_IS_DISABLED = 8;
   ROAM_RESTRICTED = 10;
   UNKNOWN_LOCATION = 11;
-  reserved 9;
-  reserved "UNLICENSED_COUNTRY";
+  ACCOUNT_DISABLED = 12;
+  UNSUPPORTED_VERSION = 13;
+  reserved 5, 9;
+  reserved "INVALID_COUNTRY", "UNLICENSED_COUNTRY";
 }

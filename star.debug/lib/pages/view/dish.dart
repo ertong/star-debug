@@ -296,13 +296,39 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
           var val = states.getField(e.value.tagNumber) ?? false;
           if (key=="cady" && (hw.startsWith("rev4") || hw=="rev_mini_prod1"  || hw.startsWith("mini1_prod")))
             continue;
-          b.kv("$key (${R.i18n.map["grpc.DishReadyStates.$key"] ?? key})", val, ok: val);
+          var desc = R.i18n.map["grpc.DishReadyStates.$key"];
+          if (desc!=null)
+            desc = " ($desc)";
+          b.kv("$key$desc", val, ok: val);
         }
 
         if (b.widgets.length > 1) {
           rows.addAll(b.widgets);
         }
       }
+
+      if (status.hasInitializationDurationSeconds()) {
+        var b = KVWidgetBuilder(context, theme);
+        b.header(M.header.init_duration);
+
+        var states = status.initializationDurationSeconds;
+        Map<String, int> A = {};
+        for (var e in (states.info_.byName).entries) {
+          var val = states.getField(e.value.tagNumber);
+          A["${e.key}"] = val ?? 0;
+        }
+
+        var sortedKeys = A.keys.toList();
+        sortedKeys.sort((a, b) => Comparable.compare(A[a] ?? 0, A[b] ?? 0));
+
+        for (var k in sortedKeys)
+          b.kv("$k", A[k]);
+
+        if (b.widgets.length > 1) {
+          rows.addAll(b.widgets);
+        }
+      }
+
       if (status.connectedRouters.isNotEmpty) {
         var b = KVWidgetBuilder(context, theme);
         b.header(M.header.connected_routers);
