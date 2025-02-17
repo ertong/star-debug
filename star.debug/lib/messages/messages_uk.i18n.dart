@@ -913,6 +913,8 @@ class GrpcMessagesUk extends GrpcMessages {
       DishGpsStatsGrpcMessagesUk(this);
   DishReadyStatesGrpcMessagesUk get DishReadyStates =>
       DishReadyStatesGrpcMessagesUk(this);
+  DishInitDurationGrpcMessagesUk get DishInitDuration =>
+      DishInitDurationGrpcMessagesUk(this);
   DishConfigGrpcMessagesUk get DishConfig => DishConfigGrpcMessagesUk(this);
   DishObstructionStatsGrpcMessagesUk get DishObstructionStats =>
       DishObstructionStatsGrpcMessagesUk(this);
@@ -1138,6 +1140,120 @@ class DishReadyStatesGrpcMessagesUk extends DishReadyStatesGrpcMessages {
   /// "RF front end"
   /// ```
   String get rf => """RF front end""";
+}
+
+class DishInitDurationGrpcMessagesUk extends DishInitDurationGrpcMessages {
+  final GrpcMessagesUk _parent;
+  const DishInitDurationGrpcMessagesUk(this._parent) : super(_parent);
+
+  /// ```dart
+  /// "Attitude initialization"
+  /// ```
+  String get attitudeInitialization => """Attitude initialization""";
+
+  /// ```dart
+  /// "Термінал зміг зрозуміти своє початкове положення (де верх, де низ, як він нахилений)."
+  /// ```
+  String get attitudeInitialization_hint =>
+      """Термінал зміг зрозуміти своє початкове положення (де верх, де низ, як він нахилений).""";
+
+  /// ```dart
+  /// "Burst  detected"
+  /// ```
+  String get burstDetected => """Burst  detected""";
+
+  /// ```dart
+  /// "Термінл почув сигнал супутника Starlink."
+  /// ```
+  String get burstDetected_hint =>
+      """Термінл почув сигнал супутника Starlink.""";
+
+  /// ```dart
+  /// "EKF converged"
+  /// ```
+  String get ekfConverged => """EKF converged""";
+
+  /// ```dart
+  /// "Термінал зміг зрозуміти своє початкове положення (схоже на Attitude initialization), але вже стабільне, все зійшлось і термінал вже точно впевнений як він повернутий."
+  /// ```
+  String get ekfConverged_hint =>
+      """Термінал зміг зрозуміти своє початкове положення (схоже на Attitude initialization), але вже стабільне, все зійшлось і термінал вже точно впевнений як він повернутий.""";
+
+  /// ```dart
+  /// "First CPlane"
+  /// ```
+  String get firstCplane => """First CPlane""";
+
+  /// ```dart
+  /// "Термінал отримав перший контрольний пакет даних від супутника."
+  /// ```
+  String get firstCplane_hint =>
+      """Термінал отримав перший контрольний пакет даних від супутника.""";
+
+  /// ```dart
+  /// "First PoP ping"
+  /// ```
+  String get firstPopPing => """First PoP ping""";
+
+  /// ```dart
+  /// "Термінал вперше пропінгував Point of Presence на землі."
+  /// ```
+  String get firstPopPing_hint =>
+      """Термінал вперше пропінгував Point of Presence на землі.""";
+
+  /// ```dart
+  /// "GPS valid"
+  /// ```
+  String get gpsValid => """GPS valid""";
+
+  /// ```dart
+  /// "GPS став валідним та видав точну позицію."
+  /// ```
+  String get gpsValid_hint => """GPS став валідним та видав точну позицію.""";
+
+  /// ```dart
+  /// "Initial network entry"
+  /// ```
+  String get initialNetworkEntry => """Initial network entry""";
+
+  /// ```dart
+  /// "Термінал вперше під'єднався до мережі Starlink та почав комунікацію."
+  /// ```
+  String get initialNetworkEntry_hint =>
+      """Термінал вперше під'єднався до мережі Starlink та почав комунікацію.""";
+
+  /// ```dart
+  /// "Network schedule"
+  /// ```
+  String get networkSchedule => """Network schedule""";
+
+  /// ```dart
+  /// "Термінал отримав перший пакет даних з розкладом роботи соти."
+  /// ```
+  String get networkSchedule_hint =>
+      """Термінал отримав перший пакет даних з розкладом роботи соти.""";
+
+  /// ```dart
+  /// "RF ready"
+  /// ```
+  String get rfReady => """RF ready""";
+
+  /// ```dart
+  /// "Термінал виконав ініціалізацію антени без помилок по XPHY, RF, SCP, тощо."
+  /// ```
+  String get rfReady_hint =>
+      """Термінал виконав ініціалізацію антени без помилок по XPHY, RF, SCP, тощо.""";
+
+  /// ```dart
+  /// "Stable connection"
+  /// ```
+  String get stableConnection => """Stable connection""";
+
+  /// ```dart
+  /// "Термінал отримав стабільне з'єднання за мережею."
+  /// ```
+  String get stableConnection_hint =>
+      """Термінал отримав стабільне з'єднання за мережею.""";
 }
 
 class DishConfigGrpcMessagesUk extends DishConfigGrpcMessages {
@@ -2394,6 +2510,37 @@ Map<String, String> get messagesUkMap => {
   """grpc.DishReadyStates.xphy""": """Інтерфейс Xilinx XPHY""",
   """grpc.DishReadyStates.aap""": """Цифрові формувачі променя""",
   """grpc.DishReadyStates.rf""": """RF front end""",
+  """grpc.DishInitDuration.attitudeInitialization""":
+      """Attitude initialization""",
+  """grpc.DishInitDuration.attitudeInitialization_hint""":
+      """Термінал зміг зрозуміти своє початкове положення (де верх, де низ, як він нахилений).""",
+  """grpc.DishInitDuration.burstDetected""": """Burst  detected""",
+  """grpc.DishInitDuration.burstDetected_hint""":
+      """Термінл почув сигнал супутника Starlink.""",
+  """grpc.DishInitDuration.ekfConverged""": """EKF converged""",
+  """grpc.DishInitDuration.ekfConverged_hint""":
+      """Термінал зміг зрозуміти своє початкове положення (схоже на Attitude initialization), але вже стабільне, все зійшлось і термінал вже точно впевнений як він повернутий.""",
+  """grpc.DishInitDuration.firstCplane""": """First CPlane""",
+  """grpc.DishInitDuration.firstCplane_hint""":
+      """Термінал отримав перший контрольний пакет даних від супутника.""",
+  """grpc.DishInitDuration.firstPopPing""": """First PoP ping""",
+  """grpc.DishInitDuration.firstPopPing_hint""":
+      """Термінал вперше пропінгував Point of Presence на землі.""",
+  """grpc.DishInitDuration.gpsValid""": """GPS valid""",
+  """grpc.DishInitDuration.gpsValid_hint""":
+      """GPS став валідним та видав точну позицію.""",
+  """grpc.DishInitDuration.initialNetworkEntry""": """Initial network entry""",
+  """grpc.DishInitDuration.initialNetworkEntry_hint""":
+      """Термінал вперше під'єднався до мережі Starlink та почав комунікацію.""",
+  """grpc.DishInitDuration.networkSchedule""": """Network schedule""",
+  """grpc.DishInitDuration.networkSchedule_hint""":
+      """Термінал отримав перший пакет даних з розкладом роботи соти.""",
+  """grpc.DishInitDuration.rfReady""": """RF ready""",
+  """grpc.DishInitDuration.rfReady_hint""":
+      """Термінал виконав ініціалізацію антени без помилок по XPHY, RF, SCP, тощо.""",
+  """grpc.DishInitDuration.stableConnection""": """Stable connection""",
+  """grpc.DishInitDuration.stableConnection_hint""":
+      """Термінал отримав стабільне з'єднання за мережею.""",
   """grpc.DishConfig.snow_melt_mode""": """Snow melt mode""",
   """grpc.DishConfig.location_request_mode""": """Location request mode""",
   """grpc.DishConfig.location_request_mode__hint""": """Можливі варіанти:
