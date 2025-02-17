@@ -256,6 +256,28 @@ grpc:
     aap: Digital beamformers
     rf: RF front end
 
+  DishInitDuration:
+    attitudeInitialization: Attitude initialization
+    attitudeInitialization_hint: The terminal was able to understand its initial position (where is the top, where is the bottom, how it is tilted).
+    burstDetected: Burst detected
+    burstDetected_hint: The terminal heard the signal of the Starlink satellite.
+    ekfConverged: EKF converged
+    ekfConverged_hint: The terminal was able to understand its initial position (similar to Attitude initialization), but it is already stable, everything has converged and the terminal is already sure how it is turned.
+    firstCplane: First CPlane
+    firstCplane_hint: The terminal received the first control data packet from the satellite.
+    firstPopPing: First PoP ping
+    firstPopPing_hint: The terminal pinged the Point of Presence on the ground for the first time.
+    gpsValid: GPS valid
+    gpsValid_hint: GPS became a valid GPS and gave an accurate position.
+    initialNetworkEntry: Initial network entry
+    initialNetworkEntry_hint: The terminal has connected to the Starlink network for the first time and started communication.
+    networkSchedule: Network schedule
+    networkSchedule_hint: The terminal has received the first data packet with the cell schedule.
+    rfReady: RF ready
+    rfReady_hint: The terminal has completed antenna initialization without errors in XPHY, RF, SCP, etc.
+    stableConnection: Stable connection
+    stableConnection_hint: The terminal has received a stable connection to the network.
+
   DishConfig:
     snow_melt_mode: Snow melt mode
     location_request_mode: Location request mode

@@ -911,6 +911,8 @@ class GrpcMessages {
   DishGpsStatsGrpcMessages get DishGpsStats => DishGpsStatsGrpcMessages(this);
   DishReadyStatesGrpcMessages get DishReadyStates =>
       DishReadyStatesGrpcMessages(this);
+  DishInitDurationGrpcMessages get DishInitDuration =>
+      DishInitDurationGrpcMessages(this);
   DishConfigGrpcMessages get DishConfig => DishConfigGrpcMessages(this);
   DishObstructionStatsGrpcMessages get DishObstructionStats =>
       DishObstructionStatsGrpcMessages(this);
@@ -1136,6 +1138,121 @@ class DishReadyStatesGrpcMessages {
   /// "RF front end"
   /// ```
   String get rf => """RF front end""";
+}
+
+class DishInitDurationGrpcMessages {
+  final GrpcMessages _parent;
+  const DishInitDurationGrpcMessages(this._parent);
+
+  /// ```dart
+  /// "Attitude initialization"
+  /// ```
+  String get attitudeInitialization => """Attitude initialization""";
+
+  /// ```dart
+  /// "The terminal was able to understand its initial position (where is the top, where is the bottom, how it is tilted)."
+  /// ```
+  String get attitudeInitialization_hint =>
+      """The terminal was able to understand its initial position (where is the top, where is the bottom, how it is tilted).""";
+
+  /// ```dart
+  /// "Burst detected"
+  /// ```
+  String get burstDetected => """Burst detected""";
+
+  /// ```dart
+  /// "The terminal heard the signal of the Starlink satellite."
+  /// ```
+  String get burstDetected_hint =>
+      """The terminal heard the signal of the Starlink satellite.""";
+
+  /// ```dart
+  /// "EKF converged"
+  /// ```
+  String get ekfConverged => """EKF converged""";
+
+  /// ```dart
+  /// "The terminal was able to understand its initial position (similar to Attitude initialization), but it is already stable, everything has converged and the terminal is already sure how it is turned."
+  /// ```
+  String get ekfConverged_hint =>
+      """The terminal was able to understand its initial position (similar to Attitude initialization), but it is already stable, everything has converged and the terminal is already sure how it is turned.""";
+
+  /// ```dart
+  /// "First CPlane"
+  /// ```
+  String get firstCplane => """First CPlane""";
+
+  /// ```dart
+  /// "The terminal received the first control data packet from the satellite."
+  /// ```
+  String get firstCplane_hint =>
+      """The terminal received the first control data packet from the satellite.""";
+
+  /// ```dart
+  /// "First PoP ping"
+  /// ```
+  String get firstPopPing => """First PoP ping""";
+
+  /// ```dart
+  /// "The terminal pinged the Point of Presence on the ground for the first time."
+  /// ```
+  String get firstPopPing_hint =>
+      """The terminal pinged the Point of Presence on the ground for the first time.""";
+
+  /// ```dart
+  /// "GPS valid"
+  /// ```
+  String get gpsValid => """GPS valid""";
+
+  /// ```dart
+  /// "GPS became a valid GPS and gave an accurate position."
+  /// ```
+  String get gpsValid_hint =>
+      """GPS became a valid GPS and gave an accurate position.""";
+
+  /// ```dart
+  /// "Initial network entry"
+  /// ```
+  String get initialNetworkEntry => """Initial network entry""";
+
+  /// ```dart
+  /// "The terminal has connected to the Starlink network for the first time and started communication."
+  /// ```
+  String get initialNetworkEntry_hint =>
+      """The terminal has connected to the Starlink network for the first time and started communication.""";
+
+  /// ```dart
+  /// "Network schedule"
+  /// ```
+  String get networkSchedule => """Network schedule""";
+
+  /// ```dart
+  /// "The terminal has received the first data packet with the cell schedule."
+  /// ```
+  String get networkSchedule_hint =>
+      """The terminal has received the first data packet with the cell schedule.""";
+
+  /// ```dart
+  /// "RF ready"
+  /// ```
+  String get rfReady => """RF ready""";
+
+  /// ```dart
+  /// "The terminal has completed antenna initialization without errors in XPHY, RF, SCP, etc."
+  /// ```
+  String get rfReady_hint =>
+      """The terminal has completed antenna initialization without errors in XPHY, RF, SCP, etc.""";
+
+  /// ```dart
+  /// "Stable connection"
+  /// ```
+  String get stableConnection => """Stable connection""";
+
+  /// ```dart
+  /// "The terminal has received a stable connection to the network."
+  /// ```
+  String get stableConnection_hint =>
+      """The terminal has received a stable connection to the network.""";
 }
 
 class DishConfigGrpcMessages {
@@ -2394,6 +2511,37 @@ Moreover, in the case of a moving router, its route can be followed.
   """grpc.DishReadyStates.xphy""": """Xilinx XPHY interface""",
   """grpc.DishReadyStates.aap""": """Digital beamformers""",
   """grpc.DishReadyStates.rf""": """RF front end""",
+  """grpc.DishInitDuration.attitudeInitialization""":
+      """Attitude initialization""",
+  """grpc.DishInitDuration.attitudeInitialization_hint""":
+      """The terminal was able to understand its initial position (where is the top, where is the bottom, how it is tilted).""",
+  """grpc.DishInitDuration.burstDetected""": """Burst detected""",
+  """grpc.DishInitDuration.burstDetected_hint""":
+      """The terminal heard the signal of the Starlink satellite.""",
+  """grpc.DishInitDuration.ekfConverged""": """EKF converged""",
+  """grpc.DishInitDuration.ekfConverged_hint""":
+      """The terminal was able to understand its initial position (similar to Attitude initialization), but it is already stable, everything has converged and the terminal is already sure how it is turned.""",
+  """grpc.DishInitDuration.firstCplane""": """First CPlane""",
+  """grpc.DishInitDuration.firstCplane_hint""":
+      """The terminal received the first control data packet from the satellite.""",
+  """grpc.DishInitDuration.firstPopPing""": """First PoP ping""",
+  """grpc.DishInitDuration.firstPopPing_hint""":
+      """The terminal pinged the Point of Presence on the ground for the first time.""",
+  """grpc.DishInitDuration.gpsValid""": """GPS valid""",
+  """grpc.DishInitDuration.gpsValid_hint""":
+      """GPS became a valid GPS and gave an accurate position.""",
+  """grpc.DishInitDuration.initialNetworkEntry""": """Initial network entry""",
+  """grpc.DishInitDuration.initialNetworkEntry_hint""":
+      """The terminal has connected to the Starlink network for the first time and started communication.""",
+  """grpc.DishInitDuration.networkSchedule""": """Network schedule""",
+  """grpc.DishInitDuration.networkSchedule_hint""":
+      """The terminal has received the first data packet with the cell schedule.""",
+  """grpc.DishInitDuration.rfReady""": """RF ready""",
+  """grpc.DishInitDuration.rfReady_hint""":
+      """The terminal has completed antenna initialization without errors in XPHY, RF, SCP, etc.""",
+  """grpc.DishInitDuration.stableConnection""": """Stable connection""",
+  """grpc.DishInitDuration.stableConnection_hint""":
+      """The terminal has received a stable connection to the network.""",
   """grpc.DishConfig.snow_melt_mode""": """Snow melt mode""",
   """grpc.DishConfig.location_request_mode""": """Location request mode""",
   """grpc.DishConfig.location_request_mode__hint""":

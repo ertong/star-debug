@@ -321,9 +321,12 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
         var sortedKeys = A.keys.toList();
         sortedKeys.sort((a, b) => Comparable.compare(A[a] ?? 0, A[b] ?? 0));
 
-        for (var k in sortedKeys)
-          b.kv("$k", A[k]);
+        for (var k in sortedKeys) {
+          var title = R.i18n.map["grpc.DishInitDuration.$k"];
+          var hint = R.i18n.map["grpc.DishInitDuration.${k}_hint"];
 
+          b.kv("${title ?? k}", A[k], hint: hint);
+        }
         if (b.widgets.length > 1) {
           rows.addAll(b.widgets);
         }

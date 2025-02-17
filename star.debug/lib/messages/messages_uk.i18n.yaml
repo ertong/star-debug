@@ -234,6 +234,29 @@ grpc:
     xphy: Інтерфейс Xilinx XPHY
     aap: Цифрові формувачі променя
     rf: RF front end
+
+  DishInitDuration:
+    attitudeInitialization: Attitude initialization
+    attitudeInitialization_hint: Термінал зміг зрозуміти своє початкове положення (де верх, де низ, як він нахилений).
+    burstDetected: Burst  detected
+    burstDetected_hint: Термінл почув сигнал супутника Starlink.
+    ekfConverged: EKF converged
+    ekfConverged_hint: Термінал зміг зрозуміти своє початкове положення (схоже на Attitude initialization), але вже стабільне, все зійшлось і термінал вже точно впевнений як він повернутий.
+    firstCplane: First CPlane
+    firstCplane_hint:  Термінал отримав перший контрольний пакет даних від супутника.
+    firstPopPing: First PoP ping
+    firstPopPing_hint: Термінал вперше пропінгував Point of Presence на землі.
+    gpsValid: GPS valid
+    gpsValid_hint: GPS став валідним та видав точну позицію.
+    initialNetworkEntry: Initial network entry
+    initialNetworkEntry_hint: Термінал вперше під'єднався до мережі Starlink та почав комунікацію.
+    networkSchedule: Network schedule
+    networkSchedule_hint: Термінал отримав перший пакет даних з розкладом роботи соти.
+    rfReady: RF ready
+    rfReady_hint: Термінал виконав ініціалізацію антени без помилок по XPHY, RF, SCP, тощо.
+    stableConnection: Stable connection
+    stableConnection_hint: Термінал отримав стабільне з'єднання за мережею.
+
   DishConfig:
     snow_melt_mode: Snow melt mode
     location_request_mode: Location request mode
