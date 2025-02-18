@@ -3,8 +3,9 @@
     MATCH_KEYCHAIN_NAME: ${APP_BASENAME}.${CI_JOB_ID}.keychain
   before_script:
     - !reference [before_script]
+    - source ~/.zprofile
     - source ~/.zshrc
-    - export $(echo "$APPLE" | xargs)
+    - '[ -n "$APPLE" ] && export $(echo "$APPLE" | xargs)'
     - cd $CI_PROJECT_DIR/star.debug
     - asdf plugin update --all && asdf install
     - flutter doctor -v
@@ -25,9 +26,9 @@ build_ios:
     - branches
   script:
     - cd $CI_PROJECT_DIR/star.debug
+    - flutter clean
     - flutter packages get
     - cd ios && pod install --repo-update && cd ..
-    - flutter clean
     - flutter build ios --release --no-codesign $BUILD_OPTS
 #    - pwd
 #    - cd ios
@@ -45,9 +46,9 @@ publish_testflight:
   stage: publish
   script:
     - cd $CI_PROJECT_DIR/star.debug
+    - flutter clean
     - flutter packages get
     - cd ios && pod install --repo-update && cd ..
-    - flutter clean
     - flutter build ios --release --no-codesign $BUILD_OPTS
     - cd ios
     - bundle install
