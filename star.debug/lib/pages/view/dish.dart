@@ -367,12 +367,7 @@ class _GraphPoint {
 
 Widget buildGraph(String name, String unit, int current, int ts, List<double> data){
   if (data.length<=current%900)
-    return SizedBox(
-      height: 120,
-      child: Center(
-        child: Text("No data"),
-      ),
-    );
+    return Container();
   
   data = data.sublist(current%900)+data.sublist(0, current%900);
   var A = [];
