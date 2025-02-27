@@ -1,4 +1,4 @@
-## 1.2b71
+## 1.2b74
 
 ### New Features:
 - Show PowerIn history graph.

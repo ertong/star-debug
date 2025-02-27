@@ -30,4 +30,4 @@ We will try to maintain build configurations for major releases [here](#build-in
 - [1.1.60](1.1.60a.md)
 - [1.1.65](1.1.65a.md)
 - [1.1.68](1.1.68a.md)
-- [1.1.70](1.1.70a.md)
+- [1.1.74](1.1.74a.md)
