@@ -32,7 +32,8 @@ class LivePage extends StatefulWidget {
 }
 
 class _Page {
-  IconData icon;
+  IconData? icon;
+  Widget? iconWidget;
   String Function() label;
   Widget Function() builder;
   Color Function() color;
@@ -40,7 +41,7 @@ class _Page {
   bool Function()? visible;
   late ValueKey<_Page> key;
 
-  _Page(this.icon, this.label, this.color, this.builder, {this.alert, this.visible}) {
+  _Page(this.label, this.color, this.builder, {this.icon, this.iconWidget, this.alert, this.visible}) {
     key = ValueKey(this);
   }
 }
@@ -63,18 +64,18 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
     subOnline = R.onlineHolder.stream.listen((event) { notify(); });
 
     pages.add(_Page(
-        Icons.settings_input_antenna,
         () => M.header.general,
         () => R.prefs.data.darkMode ? Colors.white : Colors.black,
         () => scrolledPage(GeneralTab()),
+        icon: Icons.settings_input_antenna,
         // alert: () { return 0; }
     ));
 
     pages.add(_Page(
-        Icons.settings_input_antenna,
         () => M.general.dish,
         () => colorOf(R.dishHolder),
         () => scrolledPage(DishTab()),
+        icon: Icons.settings_input_antenna,
         alert: () {
           DishGetStatusResponse? data = R.dish?.dishGetStatus.data;
           if (data==null) return 0;
@@ -82,10 +83,10 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
         }
     ));
     pages.add(_Page(
-        Icons.router,
         () => M.general.router,
         () => colorOf(R.routerHolder),
         () => scrolledPage(RouterTab()),
+        icon: Icons.router,
         alert: () {
           var data = R.router?.wifiGetStatus.data;
           if (data==null) return 0;
@@ -96,7 +97,6 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
         }
     ));
     pages.add(_Page(
-        Icons.public,
         () => M.general.online,
         () {
           var online = R.online;
@@ -106,6 +106,7 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
           return online.isOk ? Colors.green : Colors.red;
         },
         () => scrolledPage(OnlineTab()),
+        icon: Icons.public,
         alert: () {
           return R.online?.cntNotOk ?? 0;
         }
@@ -150,7 +151,7 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
         if (p.alert!=null)
           alerts = p.alert!();
 
-        var icon = Icon(p.icon, color: p.color().withAlpha(_selectedIndex==i?255:100),);
+        var icon = p.iconWidget ?? Icon(p.icon, color: p.color().withAlpha(_selectedIndex==i?255:100),);
         items.add(BottomNavigationBarItem(
           label: p.label(),
           key: p.key,
