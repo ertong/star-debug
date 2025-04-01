@@ -143,7 +143,7 @@ class _SnapshotPageState extends State<SnapshotPage> with TickerProviderStateMix
         charts.add(buildGraph(M.grpc.DishGetStatus.pop_ping_drop_rate, "", history.current.toInt(), historyTs, history.popPingDropRate));
         charts.add(buildGraph("Uplink", "Mb/s", history.current.toInt(), historyTs, [for (var v in history.uplinkThroughputBps) v / 1024 / 1024]));
         charts.add(buildGraph("Downlink", "Mb/s", history.current.toInt(), historyTs, [for (var v in history.downlinkThroughputBps) v / 1024 / 1024]));
-        charts.add(buildGraph("PowerIn", "V", history.current.toInt(), historyTs, [for (var v in history.powerIn) v]));
+        charts.add(buildGraph("PowerIn", "W", history.current.toInt(), historyTs, [for (var v in history.powerIn) v]));
       }
 
       pages.add(_Page("dishy", M.general.dish,
