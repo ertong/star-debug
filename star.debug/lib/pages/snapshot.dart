@@ -30,7 +30,8 @@ class SnapshotPage extends StatefulWidget {
 
 class _Page {
   String id;
-  IconData icon;
+  IconData? icon;
+  Widget? iconWidget;
   String label;
   int alertsCount;
   Entity? entity;
@@ -38,7 +39,7 @@ class _Page {
   Widget Function() builder;
   bool Function()? visible;
 
-  _Page(this.id, this.icon, this.label, this.builder, {this.entity, this.alertsCount=0});
+  _Page(this.id, this.label, this.builder, {this.icon, this.iconWidget, this.entity, this.alertsCount=0});
 }
 
 class _SnapshotPageState extends State<SnapshotPage> with TickerProviderStateMixin {
@@ -71,10 +72,10 @@ class _SnapshotPageState extends State<SnapshotPage> with TickerProviderStateMix
           BottomNavigationBarItem(
             label: p.label,
             icon: p.alertsCount==0
-                ? Icon(p.icon)
+                ? p.iconWidget ?? Icon(p.icon)
                 : Badge(
                   label: Text("${p.alertsCount}"),
-                  child: Icon(p.icon),
+                  child: p.iconWidget ?? Icon(p.icon),
                 ),
           ),
     ];
@@ -89,10 +90,10 @@ class _SnapshotPageState extends State<SnapshotPage> with TickerProviderStateMix
               BottomNavigationBarItem(
                 label: p.label,
                 icon: p.alertsCount==0
-                    ? Icon(p.icon)
+                    ? (p.iconWidget ?? Icon(p.icon))
                     : Badge(
                       label: Text("${p.alertsCount}"),
-                      child: Icon(p.icon),
+                      child: p.iconWidget ?? Icon(p.icon),
                     ),
               ),
         ],
@@ -142,10 +143,10 @@ class _SnapshotPageState extends State<SnapshotPage> with TickerProviderStateMix
         charts.add(buildGraph(M.grpc.DishGetStatus.pop_ping_drop_rate, "", history.current.toInt(), historyTs, history.popPingDropRate));
         charts.add(buildGraph("Uplink", "Mb/s", history.current.toInt(), historyTs, [for (var v in history.uplinkThroughputBps) v / 1024 / 1024]));
         charts.add(buildGraph("Downlink", "Mb/s", history.current.toInt(), historyTs, [for (var v in history.downlinkThroughputBps) v / 1024 / 1024]));
-        charts.add(buildGraph("PowerIn", "V", history.current.toInt(), historyTs, [for (var v in history.powerIn) v]));
+        charts.add(buildGraph("PowerIn", "W", history.current.toInt(), historyTs, [for (var v in history.powerIn) v]));
       }
 
-      pages.add(_Page("dishy", Icons.settings_input_antenna, M.general.dish,
+      pages.add(_Page("dishy", M.general.dish,
           () {
             List<Widget> rows = [];
             if (snap.dishTs!=null) {
@@ -168,6 +169,7 @@ class _SnapshotPageState extends State<SnapshotPage> with TickerProviderStateMix
             }
             return scrolledPage(Column(children: rows,));
           },
+          icon: Icons.settings_input_antenna,
           alertsCount: snap.dishGetStatus!.countAlerts())
       );
 
@@ -193,7 +195,7 @@ class _SnapshotPageState extends State<SnapshotPage> with TickerProviderStateMix
 
     if (snap.routerGetStatus!=null)
       pages.add(_Page(
-        "router", Icons.router, M.general.router,
+        "router", M.general.router,
         () {
           List<Widget> rows = [];
           if (snap.routerTs != null) {
@@ -207,12 +209,14 @@ class _SnapshotPageState extends State<SnapshotPage> with TickerProviderStateMix
           ));
           return scrolledPage(Column(children: rows,));
         },
+        icon: Icons.router,
         alertsCount: snap.routerGetStatus!.countAlerts())
       );
 
     if (snap.deviceApp!=null)
-      pages.add(_Page("app", Icons.ad_units, M.general.device_app,
+      pages.add(_Page("app", M.general.device_app,
         () => scrolledPage(Column(children: _buildPage(snap.deviceApp!),)),
+        icon: Icons.ad_units,
         entity: snap.deviceApp!)
       );
   }
