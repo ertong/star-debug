@@ -1,3 +1,8 @@
+## 1.2b75
+
+### Enhancements:
+- Small changes
+
 ## 1.2b74
 
 ### New Features:
