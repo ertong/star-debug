@@ -1020,6 +1020,48 @@ class BootInfoGrpcMessages {
   /// "Last reason"
   /// ```
   String get last_reason => """Last reason""";
+
+  /// ```dart
+  /// """
+  /// The possible options are:
+  ///
+  /// - **UNKNOWN**
+  /// - **FORGOTTEN** - Boot reason was not recorded.
+  /// - **POWER_CYCLE** - Device was power cycled.
+  /// - **COMMAND** - Reboot was commanded.
+  /// - **SOFTWARE_UPDATE** - Reboot after a software update.
+  /// - **CONFIG_UPDATE** - Reboot after a configuration update.
+  /// - **UPTIME_FDIR** - Reboot triggered by uptime fault detection.
+  /// - **REPEATER_FDIR** - Reboot triggered by repeater fault detection.
+  /// - **AVIATION_ETH_WAN_FDIR** - Reboot triggered by aviation Ethernet WAN fault detection.
+  /// - **KERNEL_PANIC** - Reboot due to a kernel panic.
+  /// - **MCU_BRINGUP_FAILED_FDIR** - Reboot because MCU bringup failed.
+  /// - **AVIATION_OUTAGE_FDIR** - Reboot triggered by aviation outage fault detection.
+  /// - **SOFTWARE_WATCHDOG** - Reboot triggered by software watchdog.
+  /// - **INTENTIONAL_KERNEL_PANIC** - Intentional kernel panic for diagnostics.
+  /// - **HARDWARE_WATCHDOG** - Reboot triggered by hardware watchdog.
+  /// - **REPEATER_UNTRUSTED_FDIR** - Reboot triggered by untrusted repeater fault detection.
+  /// """
+  /// ```
+  String get last_reason__hint => """The possible options are:
+
+- **UNKNOWN**
+- **FORGOTTEN** - Boot reason was not recorded.
+- **POWER_CYCLE** - Device was power cycled.
+- **COMMAND** - Reboot was commanded.
+- **SOFTWARE_UPDATE** - Reboot after a software update.
+- **CONFIG_UPDATE** - Reboot after a configuration update.
+- **UPTIME_FDIR** - Reboot triggered by uptime fault detection.
+- **REPEATER_FDIR** - Reboot triggered by repeater fault detection.
+- **AVIATION_ETH_WAN_FDIR** - Reboot triggered by aviation Ethernet WAN fault detection.
+- **KERNEL_PANIC** - Reboot due to a kernel panic.
+- **MCU_BRINGUP_FAILED_FDIR** - Reboot because MCU bringup failed.
+- **AVIATION_OUTAGE_FDIR** - Reboot triggered by aviation outage fault detection.
+- **SOFTWARE_WATCHDOG** - Reboot triggered by software watchdog.
+- **INTENTIONAL_KERNEL_PANIC** - Intentional kernel panic for diagnostics.
+- **HARDWARE_WATCHDOG** - Reboot triggered by hardware watchdog.
+- **REPEATER_UNTRUSTED_FDIR** - Reboot triggered by untrusted repeater fault detection.
+""";
 }
 
 class DishOutageGrpcMessages {
@@ -1045,14 +1087,18 @@ class DishOutageGrpcMessages {
   /// - **OBSTRUCTED** - Too many signal obstructions. Ensure the dish has a 140° view of the sky
   ///   (at least in the part, where it is usually oriented).
   /// - **NO_DOWNLINK** - No downlink from satellites is established.
-  /// - OTHER_OPTIONS
+  /// - **NO_PINGS** - The dish is not receiving any pings from the network.
+  /// - **ACTUATOR_ACTIVITY** - The dish actuators are moving (tilting or rotating).
+  /// - **CABLE_TEST** - The dish is performing a cable diagnostics test.
+  /// - **SLEEPING** - The dish is in power save (sleep) mode.
+  /// - **SKY_SEARCH** - The dish is searching the sky for satellites.
   /// """
   /// ```
   String get cause__hint =>
       """The reason why the dish is offline. The possible options are:
 
 - **UNKNOWN**
-- **BOOTING** - Dish is trying to initialize a satellite connection. 
+- **BOOTING** - Dish is trying to initialize a satellite connection.
   Should not hang in this state for too long. Most of the time, it is waiting for GPS.
 - **STOWED** - The dish is stowed to be packaged for storage.
 - **THERMAL_SHUTDOWN** - Dish is overheated. Waiting to cool down.
@@ -1061,7 +1107,11 @@ class DishOutageGrpcMessages {
 - **OBSTRUCTED** - Too many signal obstructions. Ensure the dish has a 140° view of the sky
   (at least in the part, where it is usually oriented).
 - **NO_DOWNLINK** - No downlink from satellites is established.
-- OTHER_OPTIONS
+- **NO_PINGS** - The dish is not receiving any pings from the network.
+- **ACTUATOR_ACTIVITY** - The dish actuators are moving (tilting or rotating).
+- **CABLE_TEST** - The dish is performing a cable diagnostics test.
+- **SLEEPING** - The dish is in power save (sleep) mode.
+- **SKY_SEARCH** - The dish is searching the sky for satellites.
 """;
 
   /// ```dart
@@ -1265,6 +1315,22 @@ class DishConfigGrpcMessages {
   String get snow_melt_mode => """Snow melt mode""";
 
   /// ```dart
+  /// """
+  /// The possible options are:
+  ///
+  /// - **AUTO** - The dish automatically melts snow when detected.
+  /// - **ALWAYS_ON** - Snow melting heater is always on.
+  /// - **ALWAYS_OFF** - Snow melting heater is always off.
+  /// """
+  /// ```
+  String get snow_melt_mode__hint => """The possible options are:
+
+- **AUTO** - The dish automatically melts snow when detected.
+- **ALWAYS_ON** - Snow melting heater is always on.
+- **ALWAYS_OFF** - Snow melting heater is always off.
+""";
+
+  /// ```dart
   /// "Location request mode"
   /// ```
   String get location_request_mode => """Location request mode""";
@@ -1293,6 +1359,20 @@ with internet access and dish access. You can find this setting in
   /// "Level dish mode"
   /// ```
   String get level_dish_mode => """Level dish mode""";
+
+  /// ```dart
+  /// """
+  /// The possible options are:
+  ///
+  /// - **TILT_LIKE_NORMAL** - The dish tilts normally to track satellites.
+  /// - **FORCE_LEVEL** - The dish is forced to stay level (horizontal).
+  /// """
+  /// ```
+  String get level_dish_mode__hint => """The possible options are:
+
+- **TILT_LIKE_NORMAL** - The dish tilts normally to track satellites.
+- **FORCE_LEVEL** - The dish is forced to stay level (horizontal).
+""";
 
   /// ```dart
   /// "Power save start minutes"
@@ -1503,12 +1583,16 @@ class DishGetStatusGrpcMessages {
   /// """
   /// The possible options are:
   ///
-  /// - OTHER_OPTIONS
+  /// - **STATIONARY** - The dish is installed at a fixed location (residential use).
+  /// - **NOMADIC** - The dish can be moved between locations but is not used while in motion.
+  /// - **MOBILE** - The dish is used while in motion (boats, RVs, etc.).
   /// """
   /// ```
   String get mobility_class__hint => """The possible options are:
 
-- OTHER_OPTIONS
+- **STATIONARY** - The dish is installed at a fixed location (residential use).
+- **NOMADIC** - The dish can be moved between locations but is not used while in motion.
+- **MOBILE** - The dish is used while in motion (boats, RVs, etc.).
 """;
 
   /// ```dart
@@ -1522,9 +1606,57 @@ class DishGetStatusGrpcMessages {
   String get class_of_service => """Class of service""";
 
   /// ```dart
+  /// """
+  /// The possible options are:
+  ///
+  /// - **UNKNOWN**
+  /// - **CONSUMER** - Residential Starlink plan.
+  /// - **BUSINESS** - Starlink Business plan.
+  /// - **BUSINESS_PLUS** - Starlink Business Plus plan with higher priority.
+  /// - **COMMERCIAL_AVIATION** - Starlink Aviation plan for commercial aircraft.
+  /// """
+  /// ```
+  String get class_of_service__hint => """The possible options are:
+
+- **UNKNOWN**
+- **CONSUMER** - Residential Starlink plan.
+- **BUSINESS** - Starlink Business plan.
+- **BUSINESS_PLUS** - Starlink Business Plus plan with higher priority.
+- **COMMERCIAL_AVIATION** - Starlink Aviation plan for commercial aircraft.
+""";
+
+  /// ```dart
   /// "Software update state"
   /// ```
   String get software_update_state => """Software update state""";
+
+  /// ```dart
+  /// """
+  /// The possible options are:
+  ///
+  /// - **UNKNOWN**
+  /// - **IDLE** - No software update is in progress.
+  /// - **FETCHING** - Downloading a new software update.
+  /// - **PRE_CHECK** - Running pre-update checks.
+  /// - **WRITING** - Writing the update to the partition.
+  /// - **POST_CHECK** - Running post-update verification.
+  /// - **REBOOT_REQUIRED** - Update is ready, reboot is needed to apply.
+  /// - **DISABLED** - Software updates are disabled.
+  /// - **FAULTED** - Software update process has faulted.
+  /// """
+  /// ```
+  String get software_update_state__hint => """The possible options are:
+
+- **UNKNOWN**
+- **IDLE** - No software update is in progress.
+- **FETCHING** - Downloading a new software update.
+- **PRE_CHECK** - Running pre-update checks.
+- **WRITING** - Writing the update to the partition.
+- **POST_CHECK** - Running post-update verification.
+- **REBOOT_REQUIRED** - Update is ready, reboot is needed to apply.
+- **DISABLED** - Software updates are disabled.
+- **FAULTED** - Software update process has faulted.
+""";
 
   /// ```dart
   /// "SNR persistently low"
@@ -1542,6 +1674,38 @@ class DishGetStatusGrpcMessages {
   String get actuator_state => """Actuators state""";
 
   /// ```dart
+  /// """
+  /// The possible options are:
+  ///
+  /// - **IDLE** - Actuators are idle, dish is in normal operating position.
+  /// - **FULL_TILT** - Dish is fully tilted.
+  /// - **ROTATE** - Dish is rotating.
+  /// - **TILT** - Dish is tilting.
+  /// - **UNWRAP_POSITIVE** - Dish is unwrapping cables in positive direction.
+  /// - **UNWRAP_NEGATIVE** - Dish is unwrapping cables in negative direction.
+  /// - **TILT_TO_STOWED** - Dish is tilting to stowed (flat) position.
+  /// - **FAULTED** - Actuator has faulted and needs attention.
+  /// - **WAIT_TIL_STATIC** - Waiting until the dish is static before moving.
+  /// - **DRIVE_TO_MOBILE_POSITION** - Driving to mobile operating position.
+  /// - **MOBILE_WAIT** - Waiting in mobile mode.
+  /// """
+  /// ```
+  String get actuator_state__hint => """The possible options are:
+
+- **IDLE** - Actuators are idle, dish is in normal operating position.
+- **FULL_TILT** - Dish is fully tilted.
+- **ROTATE** - Dish is rotating.
+- **TILT** - Dish is tilting.
+- **UNWRAP_POSITIVE** - Dish is unwrapping cables in positive direction.
+- **UNWRAP_NEGATIVE** - Dish is unwrapping cables in negative direction.
+- **TILT_TO_STOWED** - Dish is tilting to stowed (flat) position.
+- **FAULTED** - Actuator has faulted and needs attention.
+- **WAIT_TIL_STATIC** - Waiting until the dish is static before moving.
+- **DRIVE_TO_MOBILE_POSITION** - Driving to mobile operating position.
+- **MOBILE_WAIT** - Waiting in mobile mode.
+""";
+
+  /// ```dart
   /// "Service state"
   /// ```
   String get disablement_code => """Service state""";
@@ -1550,12 +1714,40 @@ class DishGetStatusGrpcMessages {
   /// """
   /// The possible options are:
   ///
-  /// - OTHER_OPTIONS
+  /// - **UNKNOWN_STATE**
+  /// - **OKAY** - Service is operating normally.
+  /// - **NO_ACTIVE_ACCOUNT** - No active Starlink account is associated with this dish.
+  /// - **TOO_FAR_FROM_SERVICE_ADDRESS** - The dish is too far from the registered service address.
+  /// - **IN_OCEAN** - The dish location is detected as being in the ocean.
+  /// - **BLOCKED_COUNTRY** - Starlink service is not available in this country.
+  /// - **DATA_OVERAGE_SANDBOX_POLICY** - Data cap exceeded under sandbox policy.
+  /// - **CELL_IS_DISABLED** - The Starlink cell serving this area is disabled.
+  /// - **ROAM_RESTRICTED** - Roaming is restricted for this plan or location.
+  /// - **UNKNOWN_LOCATION** - The dish cannot determine its location.
+  /// - **ACCOUNT_DISABLED** - The Starlink account has been disabled.
+  /// - **UNSUPPORTED_VERSION** - The dish software version is no longer supported.
+  /// - **MOVING_TOO_FAST_FOR_POLICY** - The dish is moving faster than allowed by the service plan.
+  /// - **UNDER_AVIATION_FLYOVER_LIMITS** - Under aviation flyover altitude limits.
+  /// - **BLOCKED_AREA** - The dish is in a restricted or blocked area.
   /// """
   /// ```
   String get disablement_code__hint => """The possible options are:
 
-- OTHER_OPTIONS
+- **UNKNOWN_STATE**
+- **OKAY** - Service is operating normally.
+- **NO_ACTIVE_ACCOUNT** - No active Starlink account is associated with this dish.
+- **TOO_FAR_FROM_SERVICE_ADDRESS** - The dish is too far from the registered service address.
+- **IN_OCEAN** - The dish location is detected as being in the ocean.
+- **BLOCKED_COUNTRY** - Starlink service is not available in this country.
+- **DATA_OVERAGE_SANDBOX_POLICY** - Data cap exceeded under sandbox policy.
+- **CELL_IS_DISABLED** - The Starlink cell serving this area is disabled.
+- **ROAM_RESTRICTED** - Roaming is restricted for this plan or location.
+- **UNKNOWN_LOCATION** - The dish cannot determine its location.
+- **ACCOUNT_DISABLED** - The Starlink account has been disabled.
+- **UNSUPPORTED_VERSION** - The dish software version is no longer supported.
+- **MOVING_TOO_FAST_FOR_POLICY** - The dish is moving faster than allowed by the service plan.
+- **UNDER_AVIATION_FLYOVER_LIMITS** - Under aviation flyover altitude limits.
+- **BLOCKED_AREA** - The dish is in a restricted or blocked area.
 """;
 
   /// ```dart
@@ -1567,12 +1759,46 @@ class DishGetStatusGrpcMessages {
   /// """
   /// The possible options are:
   ///
-  /// - OTHER_OPTIONS
+  /// - **NONE**
+  /// - **MANUAL** - Reboot was triggered manually by the user.
+  /// - **LOSS_OF_COMM** - Reboot due to loss of communication with the network.
+  /// - **SWUPDATE_NOW** - Immediate software update reboot.
+  /// - **SWUPDATE_SCHEDULED** - Scheduled software update reboot.
+  /// - **APP** - Reboot requested by the Starlink app.
+  /// - **EMC** - Reboot triggered by EMC (electromagnetic compatibility) subsystem.
+  /// - **FACTORY_RESET** - Reboot after factory reset.
+  /// - **TEST_CASE** - Reboot triggered by a test case.
+  /// - **THERMAL_POWER_CUT** - Reboot due to thermal power cut protection.
+  /// - **CRITICAL_PROCESS_DIED** - A critical process crashed, forcing a reboot.
+  /// - **NO_RF_READY** - RF front end failed to initialize.
+  /// - **POSTPONED_LOSS_OF_COMM** - Postponed reboot after loss of communication.
+  /// - **SWUPDATE_STATIONARY** - Software update reboot while stationary.
+  /// - **AAP_CRASH** - Digital beamformer (AAP) crash.
+  /// - **XP70_SACS** - XP70 SACS subsystem failure.
+  /// - **INE_FAILED** - Initial network entry failed.
+  /// - **KERNEL_TAINTED** - The kernel was tainted (e.g. by a module error).
   /// """
   /// ```
   String get reboot_reason__hint => """The possible options are:
 
-- OTHER_OPTIONS
+- **NONE**
+- **MANUAL** - Reboot was triggered manually by the user.
+- **LOSS_OF_COMM** - Reboot due to loss of communication with the network.
+- **SWUPDATE_NOW** - Immediate software update reboot.
+- **SWUPDATE_SCHEDULED** - Scheduled software update reboot.
+- **APP** - Reboot requested by the Starlink app.
+- **EMC** - Reboot triggered by EMC (electromagnetic compatibility) subsystem.
+- **FACTORY_RESET** - Reboot after factory reset.
+- **TEST_CASE** - Reboot triggered by a test case.
+- **THERMAL_POWER_CUT** - Reboot due to thermal power cut protection.
+- **CRITICAL_PROCESS_DIED** - A critical process crashed, forcing a reboot.
+- **NO_RF_READY** - RF front end failed to initialize.
+- **POSTPONED_LOSS_OF_COMM** - Postponed reboot after loss of communication.
+- **SWUPDATE_STATIONARY** - Software update reboot while stationary.
+- **AAP_CRASH** - Digital beamformer (AAP) crash.
+- **XP70_SACS** - XP70 SACS subsystem failure.
+- **INE_FAILED** - Initial network entry failed.
+- **KERNEL_TAINTED** - The kernel was tainted (e.g. by a module error).
 """;
 }
 
@@ -1610,6 +1836,26 @@ class AlignmentStatsGrpcMessages {
   /// "Attitude estimation state"
   /// ```
   String get attitude_estimation_state => """Attitude estimation state""";
+
+  /// ```dart
+  /// """
+  /// The possible options are:
+  ///
+  /// - **FILTER_RESET** - Attitude filter has been reset, not yet estimating.
+  /// - **FILTER_UNCONVERGED** - Attitude filter is running but has not yet converged.
+  /// - **FILTER_CONVERGED** - Attitude filter has converged, position estimation is stable.
+  /// - **FILTER_FAULTED** - Attitude filter has faulted.
+  /// - **FILTER_INVALID** - Attitude filter state is invalid.
+  /// """
+  /// ```
+  String get attitude_estimation_state__hint => """The possible options are:
+
+- **FILTER_RESET** - Attitude filter has been reset, not yet estimating.
+- **FILTER_UNCONVERGED** - Attitude filter is running but has not yet converged.
+- **FILTER_CONVERGED** - Attitude filter has converged, position estimation is stable.
+- **FILTER_FAULTED** - Attitude filter has faulted.
+- **FILTER_INVALID** - Attitude filter state is invalid.
+""";
 
   /// ```dart
   /// "Attitude uncertainty, deg"
@@ -2481,12 +2727,32 @@ Moreover, in the case of a moving router, its route can be followed.
   """grpc.DeviceInfo.x_build_date""": """Build date""",
   """grpc.DeviceInfo.x_timezone""": """Timezone""",
   """grpc.BootInfo.last_reason""": """Last reason""",
+  """grpc.BootInfo.last_reason__hint""":
+      """The possible options are:
+
+- **UNKNOWN**
+- **FORGOTTEN** - Boot reason was not recorded.
+- **POWER_CYCLE** - Device was power cycled.
+- **COMMAND** - Reboot was commanded.
+- **SOFTWARE_UPDATE** - Reboot after a software update.
+- **CONFIG_UPDATE** - Reboot after a configuration update.
+- **UPTIME_FDIR** - Reboot triggered by uptime fault detection.
+- **REPEATER_FDIR** - Reboot triggered by repeater fault detection.
+- **AVIATION_ETH_WAN_FDIR** - Reboot triggered by aviation Ethernet WAN fault detection.
+- **KERNEL_PANIC** - Reboot due to a kernel panic.
+- **MCU_BRINGUP_FAILED_FDIR** - Reboot because MCU bringup failed.
+- **AVIATION_OUTAGE_FDIR** - Reboot triggered by aviation outage fault detection.
+- **SOFTWARE_WATCHDOG** - Reboot triggered by software watchdog.
+- **INTENTIONAL_KERNEL_PANIC** - Intentional kernel panic for diagnostics.
+- **HARDWARE_WATCHDOG** - Reboot triggered by hardware watchdog.
+- **REPEATER_UNTRUSTED_FDIR** - Reboot triggered by untrusted repeater fault detection.
+""",
   """grpc.DishOutage.cause""": """Cause""",
   """grpc.DishOutage.cause__hint""":
       """The reason why the dish is offline. The possible options are:
 
 - **UNKNOWN**
-- **BOOTING** - Dish is trying to initialize a satellite connection. 
+- **BOOTING** - Dish is trying to initialize a satellite connection.
   Should not hang in this state for too long. Most of the time, it is waiting for GPS.
 - **STOWED** - The dish is stowed to be packaged for storage.
 - **THERMAL_SHUTDOWN** - Dish is overheated. Waiting to cool down.
@@ -2495,7 +2761,11 @@ Moreover, in the case of a moving router, its route can be followed.
 - **OBSTRUCTED** - Too many signal obstructions. Ensure the dish has a 140° view of the sky
   (at least in the part, where it is usually oriented).
 - **NO_DOWNLINK** - No downlink from satellites is established.
-- OTHER_OPTIONS
+- **NO_PINGS** - The dish is not receiving any pings from the network.
+- **ACTUATOR_ACTIVITY** - The dish actuators are moving (tilting or rotating).
+- **CABLE_TEST** - The dish is performing a cable diagnostics test.
+- **SLEEPING** - The dish is in power save (sleep) mode.
+- **SKY_SEARCH** - The dish is searching the sky for satellites.
 """,
   """grpc.DishOutage.start_timestamp_ns""": """Start timestamp, ns""",
   """grpc.DishOutage.duration_ns""": """Duration, ns""",
@@ -2543,6 +2813,13 @@ Moreover, in the case of a moving router, its route can be followed.
   """grpc.DishInitDuration.stableConnection_hint""":
       """The terminal has received a stable connection to the network.""",
   """grpc.DishConfig.snow_melt_mode""": """Snow melt mode""",
+  """grpc.DishConfig.snow_melt_mode__hint""":
+      """The possible options are:
+
+- **AUTO** - The dish automatically melts snow when detected.
+- **ALWAYS_ON** - Snow melting heater is always on.
+- **ALWAYS_OFF** - Snow melting heater is always off.
+""",
   """grpc.DishConfig.location_request_mode""": """Location request mode""",
   """grpc.DishConfig.location_request_mode__hint""":
       """The possible options are:
@@ -2554,6 +2831,12 @@ with internet access and dish access. You can find this setting in
 *Advanced* -> *Debug Data* -> *Allow access on local network*.
 """,
   """grpc.DishConfig.level_dish_mode""": """Level dish mode""",
+  """grpc.DishConfig.level_dish_mode__hint""":
+      """The possible options are:
+
+- **TILT_LIKE_NORMAL** - The dish tilts normally to track satellites.
+- **FORCE_LEVEL** - The dish is forced to stay level (horizontal).
+""",
   """grpc.DishConfig.power_save_start_minutes""":
       """Power save start minutes""",
   """grpc.DishConfig.power_save_duration_minutes""":
@@ -2614,24 +2897,94 @@ with internet access and dish access. You can find this setting in
   """grpc.DishGetStatus.mobility_class""": """Mobility class""",
   """grpc.DishGetStatus.mobility_class__hint""": """The possible options are:
 
-- OTHER_OPTIONS
+- **STATIONARY** - The dish is installed at a fixed location (residential use).
+- **NOMADIC** - The dish can be moved between locations but is not used while in motion.
+- **MOBILE** - The dish is used while in motion (boats, RVs, etc.).
 """,
   """grpc.DishGetStatus.is_snr_above_noise_floor""":
       """SNR above the noise floor""",
   """grpc.DishGetStatus.class_of_service""": """Class of service""",
+  """grpc.DishGetStatus.class_of_service__hint""":
+      """The possible options are:
+
+- **UNKNOWN**
+- **CONSUMER** - Residential Starlink plan.
+- **BUSINESS** - Starlink Business plan.
+- **BUSINESS_PLUS** - Starlink Business Plus plan with higher priority.
+- **COMMERCIAL_AVIATION** - Starlink Aviation plan for commercial aircraft.
+""",
   """grpc.DishGetStatus.software_update_state""": """Software update state""",
+  """grpc.DishGetStatus.software_update_state__hint""":
+      """The possible options are:
+
+- **UNKNOWN**
+- **IDLE** - No software update is in progress.
+- **FETCHING** - Downloading a new software update.
+- **PRE_CHECK** - Running pre-update checks.
+- **WRITING** - Writing the update to the partition.
+- **POST_CHECK** - Running post-update verification.
+- **REBOOT_REQUIRED** - Update is ready, reboot is needed to apply.
+- **DISABLED** - Software updates are disabled.
+- **FAULTED** - Software update process has faulted.
+""",
   """grpc.DishGetStatus.is_snr_persistently_low""": """SNR persistently low""",
   """grpc.DishGetStatus.has_actuators""": """Actuators""",
   """grpc.DishGetStatus.actuator_state""": """Actuators state""",
+  """grpc.DishGetStatus.actuator_state__hint""":
+      """The possible options are:
+
+- **IDLE** - Actuators are idle, dish is in normal operating position.
+- **FULL_TILT** - Dish is fully tilted.
+- **ROTATE** - Dish is rotating.
+- **TILT** - Dish is tilting.
+- **UNWRAP_POSITIVE** - Dish is unwrapping cables in positive direction.
+- **UNWRAP_NEGATIVE** - Dish is unwrapping cables in negative direction.
+- **TILT_TO_STOWED** - Dish is tilting to stowed (flat) position.
+- **FAULTED** - Actuator has faulted and needs attention.
+- **WAIT_TIL_STATIC** - Waiting until the dish is static before moving.
+- **DRIVE_TO_MOBILE_POSITION** - Driving to mobile operating position.
+- **MOBILE_WAIT** - Waiting in mobile mode.
+""",
   """grpc.DishGetStatus.disablement_code""": """Service state""",
   """grpc.DishGetStatus.disablement_code__hint""": """The possible options are:
 
-- OTHER_OPTIONS
+- **UNKNOWN_STATE**
+- **OKAY** - Service is operating normally.
+- **NO_ACTIVE_ACCOUNT** - No active Starlink account is associated with this dish.
+- **TOO_FAR_FROM_SERVICE_ADDRESS** - The dish is too far from the registered service address.
+- **IN_OCEAN** - The dish location is detected as being in the ocean.
+- **BLOCKED_COUNTRY** - Starlink service is not available in this country.
+- **DATA_OVERAGE_SANDBOX_POLICY** - Data cap exceeded under sandbox policy.
+- **CELL_IS_DISABLED** - The Starlink cell serving this area is disabled.
+- **ROAM_RESTRICTED** - Roaming is restricted for this plan or location.
+- **UNKNOWN_LOCATION** - The dish cannot determine its location.
+- **ACCOUNT_DISABLED** - The Starlink account has been disabled.
+- **UNSUPPORTED_VERSION** - The dish software version is no longer supported.
+- **MOVING_TOO_FAST_FOR_POLICY** - The dish is moving faster than allowed by the service plan.
+- **UNDER_AVIATION_FLYOVER_LIMITS** - Under aviation flyover altitude limits.
+- **BLOCKED_AREA** - The dish is in a restricted or blocked area.
 """,
   """grpc.DishGetStatus.reboot_reason""": """Reboot reason""",
   """grpc.DishGetStatus.reboot_reason__hint""": """The possible options are:
 
-- OTHER_OPTIONS
+- **NONE**
+- **MANUAL** - Reboot was triggered manually by the user.
+- **LOSS_OF_COMM** - Reboot due to loss of communication with the network.
+- **SWUPDATE_NOW** - Immediate software update reboot.
+- **SWUPDATE_SCHEDULED** - Scheduled software update reboot.
+- **APP** - Reboot requested by the Starlink app.
+- **EMC** - Reboot triggered by EMC (electromagnetic compatibility) subsystem.
+- **FACTORY_RESET** - Reboot after factory reset.
+- **TEST_CASE** - Reboot triggered by a test case.
+- **THERMAL_POWER_CUT** - Reboot due to thermal power cut protection.
+- **CRITICAL_PROCESS_DIED** - A critical process crashed, forcing a reboot.
+- **NO_RF_READY** - RF front end failed to initialize.
+- **POSTPONED_LOSS_OF_COMM** - Postponed reboot after loss of communication.
+- **SWUPDATE_STATIONARY** - Software update reboot while stationary.
+- **AAP_CRASH** - Digital beamformer (AAP) crash.
+- **XP70_SACS** - XP70 SACS subsystem failure.
+- **INE_FAILED** - Initial network entry failed.
+- **KERNEL_TAINTED** - The kernel was tainted (e.g. by a module error).
 """,
   """grpc.AlignmentStats.has_actuators""": """has_actuators""",
   """grpc.AlignmentStats.actuator_state""": """actuator_state""",
@@ -2642,6 +2995,15 @@ with internet access and dish access. You can find this setting in
       """Panel boresight Elevation angle, deg""",
   """grpc.AlignmentStats.attitude_estimation_state""":
       """Attitude estimation state""",
+  """grpc.AlignmentStats.attitude_estimation_state__hint""":
+      """The possible options are:
+
+- **FILTER_RESET** - Attitude filter has been reset, not yet estimating.
+- **FILTER_UNCONVERGED** - Attitude filter is running but has not yet converged.
+- **FILTER_CONVERGED** - Attitude filter has converged, position estimation is stable.
+- **FILTER_FAULTED** - Attitude filter has faulted.
+- **FILTER_INVALID** - Attitude filter state is invalid.
+""",
   """grpc.AlignmentStats.attitude_uncertainty_deg""":
       """Attitude uncertainty, deg""",
   """grpc.AlignmentStats.desired_boresight_azimuth_deg""":
