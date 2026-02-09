@@ -77,7 +77,7 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
 
         if (status.hasClassOfService()) {
           b.kv(M.grpc.DishGetStatus.class_of_service, status.classOfService,
-              hint: Format.formatEnumHint(M.grpc.possible_options__hint, UserClassOfService.values)
+              hint: Format.formatEnumHint(M.grpc.DishGetStatus.class_of_service__hint, UserClassOfService.values)
           );
         }
 
@@ -87,7 +87,7 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
         if (status.hasAlignmentStats()) {
           if (status.alignmentStats.hasActuatorState()){
             b.kv(M.grpc.DishGetStatus.actuator_state, status.alignmentStats.actuatorState,
-                hint: Format.formatEnumHint(M.grpc.possible_options__hint, ActuatorState.values)
+                hint: Format.formatEnumHint(M.grpc.DishGetStatus.actuator_state__hint, ActuatorState.values)
             );
           }
         }
@@ -126,7 +126,7 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
               s = "$s (${(status.softwareUpdateStats.softwareUpdateProgress*100).toStringAsFixed(0)}%)";
             }
           b.kv(M.grpc.DishGetStatus.software_update_state, s,
-              hint: Format.formatEnumHint(M.grpc.possible_options__hint, SoftwareUpdateState.values)
+              hint: Format.formatEnumHint(M.grpc.DishGetStatus.software_update_state__hint, SoftwareUpdateState.values)
           );
         }
 
@@ -180,14 +180,14 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
         var config = status.config;
         b.header(M.header.config);
         b.kv(M.grpc.DishConfig.snow_melt_mode, config.snowMeltMode,
-          hint: Format.formatEnumHint(M.grpc.possible_options__hint, DishConfig_SnowMeltMode.values)
+          hint: Format.formatEnumHint(M.grpc.DishConfig.snow_melt_mode__hint, DishConfig_SnowMeltMode.values)
         );
         b.kv(M.grpc.DishConfig.location_request_mode,
             config.locationRequestMode,
             hint: M.grpc.DishConfig.location_request_mode__hint
         );
         b.kv(M.grpc.DishConfig.level_dish_mode, config.levelDishMode,
-            hint: Format.formatEnumHint(M.grpc.possible_options__hint, DishConfig_LevelDishMode.values)
+            hint: Format.formatEnumHint(M.grpc.DishConfig.level_dish_mode__hint, DishConfig_LevelDishMode.values)
         );
 
         if (!config.powerSaveMode)
