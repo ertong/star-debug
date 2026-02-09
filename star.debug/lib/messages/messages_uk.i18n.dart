@@ -1142,9 +1142,21 @@ class DishGpsStatsGrpcMessagesUk extends DishGpsStatsGrpcMessages {
   String get gps_valid => """GPS дійсний""";
 
   /// ```dart
+  /// "Чи отримала тарілка дійсний GPS-фікс."
+  /// ```
+  String get gps_valid__hint =>
+      """Чи отримала тарілка дійсний GPS-фікс.""";
+
+  /// ```dart
   /// "GPS супутники"
   /// ```
   String get gps_sats => """GPS супутники""";
+
+  /// ```dart
+  /// "Кількість GPS-супутників, які наразі бачить тарілка."
+  /// ```
+  String get gps_sats__hint =>
+      """Кількість GPS-супутників, які наразі бачить тарілка.""";
 
   /// ```dart
   /// "Немає супутників після першого фіксу"
@@ -1152,9 +1164,21 @@ class DishGpsStatsGrpcMessagesUk extends DishGpsStatsGrpcMessages {
   String get no_sats_after_ttff => """Немає супутників після першого фіксу""";
 
   /// ```dart
+  /// "Чи було втрачено видимість GPS-супутників після першого фіксу (TTFF). Може вказувати на проблеми з GPS-антеною."
+  /// ```
+  String get no_sats_after_ttff__hint =>
+      """Чи було втрачено видимість GPS-супутників після першого фіксу (TTFF). Може вказувати на проблеми з GPS-антеною.""";
+
+  /// ```dart
   /// "Не довіряти GPS"
   /// ```
   String get inhibit_gps => """Не довіряти GPS""";
+
+  /// ```dart
+  /// "Чи ігнорується внутрішній GPS тарілки на користь альтернативного джерела місцезнаходження."
+  /// ```
+  String get inhibit_gps__hint =>
+      """Чи ігнорується внутрішній GPS тарілки на користь альтернативного джерела місцезнаходження.""";
 }
 
 class DishReadyStatesGrpcMessagesUk extends DishReadyStatesGrpcMessages {
@@ -1408,14 +1432,32 @@ class DishObstructionStatsGrpcMessagesUk
   String get fraction_obstructed => """Частка часу с перешкодами""";
 
   /// ```dart
+  /// "Відсоток неба, закритого перешкодами від огляду тарілки. Чим менше, тим краще."
+  /// ```
+  String get fraction_obstructed__hint =>
+      """Відсоток неба, закритого перешкодами від огляду тарілки. Чим менше, тим краще.""";
+
+  /// ```dart
   /// "Time valid"
   /// ```
   String get valid_s => """Time valid""";
 
   /// ```dart
+  /// "Тривалість, протягом якої дані про перешкоди збирались і вважаються дійсними."
+  /// ```
+  String get valid_s__hint =>
+      """Тривалість, протягом якої дані про перешкоди збирались і вважаються дійсними.""";
+
+  /// ```dart
   /// "Є перешкода"
   /// ```
   String get currently_obstructed => """Є перешкода""";
+
+  /// ```dart
+  /// "Чи заблокований наразі сигнал тарілки перешкодою."
+  /// ```
+  String get currently_obstructed__hint =>
+      """Чи заблокований наразі сигнал тарілки перешкодою.""";
 
   /// ```dart
   /// "Середній час тривалих перешкод"
@@ -1424,10 +1466,22 @@ class DishObstructionStatsGrpcMessagesUk
       """Середній час тривалих перешкод""";
 
   /// ```dart
+  /// "Середня тривалість тривалих перешкод сигналу."
+  /// ```
+  String get avg_prolonged_obstruction_duration_s__hint =>
+      """Середня тривалість тривалих перешкод сигналу.""";
+
+  /// ```dart
   /// "Середній час між тривалими перешкодами"
   /// ```
   String get avg_prolonged_obstruction_interval_s =>
       """Середній час між тривалими перешкодами""";
+
+  /// ```dart
+  /// "Середній час між тривалими перешкодами."
+  /// ```
+  String get avg_prolonged_obstruction_interval_s__hint =>
+      """Середній час між тривалими перешкодами.""";
 
   /// ```dart
   /// "Average prolonged obstruction valid"
@@ -1436,14 +1490,32 @@ class DishObstructionStatsGrpcMessagesUk
       """Average prolonged obstruction valid""";
 
   /// ```dart
+  /// "Чи зібрано достатньо даних для надійної статистики тривалих перешкод."
+  /// ```
+  String get avg_prolonged_obstruction_valid__hint =>
+      """Чи зібрано достатньо даних для надійної статистики тривалих перешкод.""";
+
+  /// ```dart
   /// "Тривалість перешкоди"
   /// ```
   String get time_obstructed => """Тривалість перешкоди""";
 
   /// ```dart
+  /// "Загальна частка часу, протягом якого сигнал тарілки був заблокований перешкодами."
+  /// ```
+  String get time_obstructed__hint =>
+      """Загальна частка часу, протягом якого сигнал тарілки був заблокований перешкодами.""";
+
+  /// ```dart
   /// "Patches valid"
   /// ```
   String get patches_valid => """Patches valid""";
+
+  /// ```dart
+  /// "Чи містять патчі карти перешкод дійсні дані."
+  /// ```
+  String get patches_valid__hint =>
+      """Чи містять патчі карти перешкод дійсні дані.""";
 }
 
 class DishGetStatusGrpcMessagesUk extends DishGetStatusGrpcMessages {
@@ -1466,6 +1538,12 @@ class DishGetStatusGrpcMessagesUk extends DishGetStatusGrpcMessages {
   /// ```
   String get seconds_to_first_nonempty_slot =>
       """Час до першого непорожнього слота""";
+
+  /// ```dart
+  /// "Час до наступного запланованого слота зв'язку тарілки з супутником."
+  /// ```
+  String get seconds_to_first_nonempty_slot__hint =>
+      """Час до наступного запланованого слота зв'язку тарілки з супутником.""";
 
   /// ```dart
   /// "Частка часу с перешкодами"
@@ -1561,14 +1639,32 @@ class DishGetStatusGrpcMessagesUk extends DishGetStatusGrpcMessages {
   String get stow_requested => """Складання в процесі""";
 
   /// ```dart
+  /// "Чи було надіслано команду складання. У складеному стані тарілка згортається для зберігання або транспортування."
+  /// ```
+  String get stow_requested__hint =>
+      """Чи було надіслано команду складання. У складеному стані тарілка згортається для зберігання або транспортування.""";
+
+  /// ```dart
   /// "Азимут осі панелі, град"
   /// ```
   String get boresight_azimuth_deg => """Азимут осі панелі, град""";
 
   /// ```dart
+  /// "Горизонтальний кут компасу, в якому наразі спрямована антенна панель тарілки, в градусах."
+  /// ```
+  String get boresight_azimuth_deg__hint =>
+      """Горизонтальний кут компасу, в якому наразі спрямована антенна панель тарілки, в градусах.""";
+
+  /// ```dart
   /// "Кут підйому панелі, град"
   /// ```
   String get boresight_elevation_deg => """Кут підйому панелі, град""";
+
+  /// ```dart
+  /// "Вертикальний кут, під яким наразі спрямована антенна панель тарілки відносно горизонту, в градусах."
+  /// ```
+  String get boresight_elevation_deg__hint =>
+      """Вертикальний кут, під яким наразі спрямована антенна панель тарілки відносно горизонту, в градусах.""";
 
   /// ```dart
   /// "Швидкість Ethernet, Mbps"
@@ -1600,6 +1696,12 @@ class DishGetStatusGrpcMessagesUk extends DishGetStatusGrpcMessages {
   /// "SNR вище за рівень шуму"
   /// ```
   String get is_snr_above_noise_floor => """SNR вище за рівень шуму""";
+
+  /// ```dart
+  /// "Чи перевищує відношення сигнал/шум мінімальний поріг, необхідний для надійного зв'язку."
+  /// ```
+  String get is_snr_above_noise_floor__hint =>
+      """Чи перевищує відношення сигнал/шум мінімальний поріг, необхідний для надійного зв'язку.""";
 
   /// ```dart
   /// "Клас сервісу"
@@ -1665,9 +1767,21 @@ class DishGetStatusGrpcMessagesUk extends DishGetStatusGrpcMessages {
   String get is_snr_persistently_low => """SNR стабільно низький""";
 
   /// ```dart
+  /// "Чи було відношення сигнал/шум стабільно нижче допустимого рівня. Може вказувати на перешкоди або проблеми з обладнанням."
+  /// ```
+  String get is_snr_persistently_low__hint =>
+      """Чи було відношення сигнал/шум стабільно нижче допустимого рівня. Може вказувати на перешкоди або проблеми з обладнанням.""";
+
+  /// ```dart
   /// "Наявність приводу"
   /// ```
   String get has_actuators => """Наявність приводу""";
+
+  /// ```dart
+  /// "Чи має тарілка моторизовані приводи для нахилу та обертання."
+  /// ```
+  String get has_actuators__hint =>
+      """Чи має тарілка моторизовані приводи для нахилу та обертання.""";
 
   /// ```dart
   /// "Стан приводів"
@@ -1870,10 +1984,22 @@ class AlignmentStatsGrpcMessagesUk extends AlignmentStatsGrpcMessages {
       """Desired boresight Azimuth angle, deg""";
 
   /// ```dart
+  /// "Цільовий горизонтальний напрямок, в якому тарілка повинна бути спрямована для оптимального зв'язку з супутниками, в градусах."
+  /// ```
+  String get desired_boresight_azimuth_deg__hint =>
+      """Цільовий горизонтальний напрямок, в якому тарілка повинна бути спрямована для оптимального зв'язку з супутниками, в градусах.""";
+
+  /// ```dart
   /// "Desired boresight Elevation angle, deg"
   /// ```
   String get desired_boresight_elevation_deg =>
       """Desired boresight Elevation angle, deg""";
+
+  /// ```dart
+  /// "Цільовий вертикальний кут, під яким тарілка повинна бути спрямована для оптимального зв'язку з супутниками, в градусах."
+  /// ```
+  String get desired_boresight_elevation_deg__hint =>
+      """Цільовий вертикальний кут, під яким тарілка повинна бути спрямована для оптимального зв'язку з супутниками, в градусах.""";
 }
 
 class ClientNameGrpcMessagesUk extends ClientNameGrpcMessages {
@@ -2769,10 +2895,18 @@ Map<String, String> get messagesUkMap => {
   """grpc.DishOutage.duration_ns""": """Duration, ns""",
   """grpc.DishOutage.did_switch""": """Did switch""",
   """grpc.DishGpsStats.gps_valid""": """GPS дійсний""",
+  """grpc.DishGpsStats.gps_valid__hint""":
+      """Чи отримала тарілка дійсний GPS-фікс.""",
   """grpc.DishGpsStats.gps_sats""": """GPS супутники""",
+  """grpc.DishGpsStats.gps_sats__hint""":
+      """Кількість GPS-супутників, які наразі бачить тарілка.""",
   """grpc.DishGpsStats.no_sats_after_ttff""":
       """Немає супутників після першого фіксу""",
+  """grpc.DishGpsStats.no_sats_after_ttff__hint""":
+      """Чи було втрачено видимість GPS-супутників після першого фіксу (TTFF). Може вказувати на проблеми з GPS-антеною.""",
   """grpc.DishGpsStats.inhibit_gps""": """Не довіряти GPS""",
+  """grpc.DishGpsStats.inhibit_gps__hint""":
+      """Чи ігнорується внутрішній GPS тарілки на користь альтернативного джерела місцезнаходження.""",
   """grpc.DishReadyStates.cady""": """Тактовий генератор""",
   """grpc.DishReadyStates.scp""": """Інтерфейс шини RFFE""",
   """grpc.DishReadyStates.l1l2""": """Модем L1L2""",
@@ -2841,21 +2975,39 @@ Map<String, String> get messagesUkMap => {
       """Для Starlink можна налаштувати режим сну. Starlink не надає Інтернет і не топить сніг під час сну.""",
   """grpc.DishObstructionStats.fraction_obstructed""":
       """Частка часу с перешкодами""",
+  """grpc.DishObstructionStats.fraction_obstructed__hint""":
+      """Відсоток неба, закритого перешкодами від огляду тарілки. Чим менше, тим краще.""",
   """grpc.DishObstructionStats.valid_s""": """Time valid""",
+  """grpc.DishObstructionStats.valid_s__hint""":
+      """Тривалість, протягом якої дані про перешкоди збирались і вважаються дійсними.""",
   """grpc.DishObstructionStats.currently_obstructed""": """Є перешкода""",
+  """grpc.DishObstructionStats.currently_obstructed__hint""":
+      """Чи заблокований наразі сигнал тарілки перешкодою.""",
   """grpc.DishObstructionStats.avg_prolonged_obstruction_duration_s""":
       """Середній час тривалих перешкод""",
+  """grpc.DishObstructionStats.avg_prolonged_obstruction_duration_s__hint""":
+      """Середня тривалість тривалих перешкод сигналу.""",
   """grpc.DishObstructionStats.avg_prolonged_obstruction_interval_s""":
       """Середній час між тривалими перешкодами""",
+  """grpc.DishObstructionStats.avg_prolonged_obstruction_interval_s__hint""":
+      """Середній час між тривалими перешкодами.""",
   """grpc.DishObstructionStats.avg_prolonged_obstruction_valid""":
       """Average prolonged obstruction valid""",
+  """grpc.DishObstructionStats.avg_prolonged_obstruction_valid__hint""":
+      """Чи зібрано достатньо даних для надійної статистики тривалих перешкод.""",
   """grpc.DishObstructionStats.time_obstructed""": """Тривалість перешкоди""",
+  """grpc.DishObstructionStats.time_obstructed__hint""":
+      """Загальна частка часу, протягом якого сигнал тарілки був заблокований перешкодами.""",
   """grpc.DishObstructionStats.patches_valid""": """Patches valid""",
+  """grpc.DishObstructionStats.patches_valid__hint""":
+      """Чи містять патчі карти перешкод дійсні дані.""",
   """grpc.DishGetStatus.uptime_s""": """Час після завантаження""",
   """grpc.DishGetStatus.uptime_s__hint""":
       """Час роботи тарілки від останнього перезавантаження.""",
   """grpc.DishGetStatus.seconds_to_first_nonempty_slot""":
       """Час до першого непорожнього слота""",
+  """grpc.DishGetStatus.seconds_to_first_nonempty_slot__hint""":
+      """Час до наступного запланованого слота зв'язку тарілки з супутником.""",
   """grpc.DishGetStatus.fraction_obstructed""": """Частка часу с перешкодами""",
   """grpc.DishGetStatus.valid_s""": """valid_s""",
   """grpc.DishGetStatus.currently_obstructed""": """currently_obstructed""",
@@ -2883,9 +3035,15 @@ Map<String, String> get messagesUkMap => {
 **PoP Ping Drop Rate** вказує на частку пакетів, які втрачаються під час передачі між користувацьким терміналом та точкою присутності.
 """,
   """grpc.DishGetStatus.stow_requested""": """Складання в процесі""",
+  """grpc.DishGetStatus.stow_requested__hint""":
+      """Чи було надіслано команду складання. У складеному стані тарілка згортається для зберігання або транспортування.""",
   """grpc.DishGetStatus.boresight_azimuth_deg""": """Азимут осі панелі, град""",
+  """grpc.DishGetStatus.boresight_azimuth_deg__hint""":
+      """Горизонтальний кут компасу, в якому наразі спрямована антенна панель тарілки, в градусах.""",
   """grpc.DishGetStatus.boresight_elevation_deg""":
       """Кут підйому панелі, град""",
+  """grpc.DishGetStatus.boresight_elevation_deg__hint""":
+      """Вертикальний кут, під яким наразі спрямована антенна панель тарілки відносно горизонту, в градусах.""",
   """grpc.DishGetStatus.eth_speed_mbps""": """Швидкість Ethernet, Mbps""",
   """grpc.DishGetStatus.mobility_class""": """Клас мобільності""",
   """grpc.DishGetStatus.mobility_class__hint""": """Можливі варіанти:
@@ -2896,6 +3054,8 @@ Map<String, String> get messagesUkMap => {
 """,
   """grpc.DishGetStatus.is_snr_above_noise_floor""":
       """SNR вище за рівень шуму""",
+  """grpc.DishGetStatus.is_snr_above_noise_floor__hint""":
+      """Чи перевищує відношення сигнал/шум мінімальний поріг, необхідний для надійного зв'язку.""",
   """grpc.DishGetStatus.class_of_service""": """Клас сервісу""",
   """grpc.DishGetStatus.class_of_service__hint""": """Можливі варіанти:
 
@@ -2919,7 +3079,11 @@ Map<String, String> get messagesUkMap => {
 - **FAULTED** - Помилка процесу оновлення.
 """,
   """grpc.DishGetStatus.is_snr_persistently_low""": """SNR стабільно низький""",
+  """grpc.DishGetStatus.is_snr_persistently_low__hint""":
+      """Чи було відношення сигнал/шум стабільно нижче допустимого рівня. Може вказувати на перешкоди або проблеми з обладнанням.""",
   """grpc.DishGetStatus.has_actuators""": """Наявність приводу""",
+  """grpc.DishGetStatus.has_actuators__hint""":
+      """Чи має тарілка моторизовані приводи для нахилу та обертання.""",
   """grpc.DishGetStatus.actuator_state""": """Стан приводів""",
   """grpc.DishGetStatus.actuator_state__hint""": """Можливі варіанти:
 
@@ -2997,8 +3161,12 @@ Map<String, String> get messagesUkMap => {
       """Attitude uncertainty, deg""",
   """grpc.AlignmentStats.desired_boresight_azimuth_deg""":
       """Desired boresight Azimuth angle, deg""",
+  """grpc.AlignmentStats.desired_boresight_azimuth_deg__hint""":
+      """Цільовий горизонтальний напрямок, в якому тарілка повинна бути спрямована для оптимального зв'язку з супутниками, в градусах.""",
   """grpc.AlignmentStats.desired_boresight_elevation_deg""":
       """Desired boresight Elevation angle, deg""",
+  """grpc.AlignmentStats.desired_boresight_elevation_deg__hint""":
+      """Цільовий вертикальний кут, під яким тарілка повинна бути спрямована для оптимального зв'язку з супутниками, в градусах.""",
   """grpc.ClientName.mac_address""": """mac_address""",
   """grpc.ClientName.given_name""": """given_name""",
   """grpc.Network.ipv4""": """ipv4""",

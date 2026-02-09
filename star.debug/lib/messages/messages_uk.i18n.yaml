@@ -247,9 +247,13 @@ grpc:
     did_switch: Did switch
   DishGpsStats:
     gps_valid: GPS дійсний
+    gps_valid__hint: Чи отримала тарілка дійсний GPS-фікс.
     gps_sats: GPS супутники
+    gps_sats__hint: Кількість GPS-супутників, які наразі бачить тарілка.
     no_sats_after_ttff: Немає супутників після першого фіксу
+    no_sats_after_ttff__hint: Чи було втрачено видимість GPS-супутників після першого фіксу (TTFF). Може вказувати на проблеми з GPS-антеною.
     inhibit_gps: Не довіряти GPS
+    inhibit_gps__hint: Чи ігнорується внутрішній GPS тарілки на користь альтернативного джерела місцезнаходження.
   DishReadyStates:
     cady: Тактовий генератор
     scp: Інтерфейс шини RFFE
@@ -312,17 +316,26 @@ grpc:
 
   DishObstructionStats:
     fraction_obstructed: Частка часу с перешкодами
+    fraction_obstructed__hint: Відсоток неба, закритого перешкодами від огляду тарілки. Чим менше, тим краще.
     valid_s: Time valid
+    valid_s__hint: Тривалість, протягом якої дані про перешкоди збирались і вважаються дійсними.
     currently_obstructed: Є перешкода
+    currently_obstructed__hint: Чи заблокований наразі сигнал тарілки перешкодою.
     avg_prolonged_obstruction_duration_s: Середній час тривалих перешкод
+    avg_prolonged_obstruction_duration_s__hint: Середня тривалість тривалих перешкод сигналу.
     avg_prolonged_obstruction_interval_s: Середній час між тривалими перешкодами
+    avg_prolonged_obstruction_interval_s__hint: Середній час між тривалими перешкодами.
     avg_prolonged_obstruction_valid: Average prolonged obstruction valid
+    avg_prolonged_obstruction_valid__hint: Чи зібрано достатньо даних для надійної статистики тривалих перешкод.
     time_obstructed: Тривалість перешкоди
+    time_obstructed__hint: Загальна частка часу, протягом якого сигнал тарілки був заблокований перешкодами.
     patches_valid: Patches valid
+    patches_valid__hint: Чи містять патчі карти перешкод дійсні дані.
   DishGetStatus:
     uptime_s: Час після завантаження
     uptime_s__hint: 'Час роботи тарілки від останнього перезавантаження.'
     seconds_to_first_nonempty_slot: Час до першого непорожнього слота
+    seconds_to_first_nonempty_slot__hint: Час до наступного запланованого слота зв'язку тарілки з супутником.
     fraction_obstructed: Частка часу с перешкодами
     valid_s: valid_s
     currently_obstructed: currently_obstructed
@@ -346,8 +359,11 @@ grpc:
       
       **PoP Ping Drop Rate** вказує на частку пакетів, які втрачаються під час передачі між користувацьким терміналом та точкою присутності.
     stow_requested: Складання в процесі
+    stow_requested__hint: Чи було надіслано команду складання. У складеному стані тарілка згортається для зберігання або транспортування.
     boresight_azimuth_deg: Азимут осі панелі, град
+    boresight_azimuth_deg__hint: Горизонтальний кут компасу, в якому наразі спрямована антенна панель тарілки, в градусах.
     boresight_elevation_deg: Кут підйому панелі, град
+    boresight_elevation_deg__hint: Вертикальний кут, під яким наразі спрямована антенна панель тарілки відносно горизонту, в градусах.
     eth_speed_mbps: Швидкість Ethernet, Mbps
     mobility_class: Клас мобільності
     mobility_class__hint: |
@@ -357,6 +373,7 @@ grpc:
       - **NOMADIC** - Тарілку можна переміщувати між локаціями, але не використовувати під час руху.
       - **MOBILE** - Тарілка використовується під час руху (човни, будинки на колесах тощо).
     is_snr_above_noise_floor: SNR вище за рівень шуму
+    is_snr_above_noise_floor__hint: Чи перевищує відношення сигнал/шум мінімальний поріг, необхідний для надійного зв'язку.
     class_of_service: Клас сервісу
     class_of_service__hint: |
       Можливі варіанти:
@@ -380,7 +397,9 @@ grpc:
       - **DISABLED** - Оновлення вимкнено.
       - **FAULTED** - Помилка процесу оновлення.
     is_snr_persistently_low: SNR стабільно низький
+    is_snr_persistently_low__hint: Чи було відношення сигнал/шум стабільно нижче допустимого рівня. Може вказувати на перешкоди або проблеми з обладнанням.
     has_actuators: Наявність приводу
+    has_actuators__hint: Чи має тарілка моторизовані приводи для нахилу та обертання.
     actuator_state: Стан приводів
     actuator_state__hint: |
       Можливі варіанти:
@@ -454,7 +473,9 @@ grpc:
       - **FILTER_INVALID** - Стан фільтра орієнтації недійсний.
     attitude_uncertainty_deg: Attitude uncertainty, deg
     desired_boresight_azimuth_deg: Desired boresight Azimuth angle, deg
+    desired_boresight_azimuth_deg__hint: Цільовий горизонтальний напрямок, в якому тарілка повинна бути спрямована для оптимального зв'язку з супутниками, в градусах.
     desired_boresight_elevation_deg: Desired boresight Elevation angle, deg
+    desired_boresight_elevation_deg__hint: Цільовий вертикальний кут, під яким тарілка повинна бути спрямована для оптимального зв'язку з супутниками, в градусах.
   ClientName:
     mac_address: mac_address
     given_name: given_name

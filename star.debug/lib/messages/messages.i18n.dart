@@ -1140,9 +1140,21 @@ class DishGpsStatsGrpcMessages {
   String get gps_valid => """GPS valid""";
 
   /// ```dart
+  /// "Whether the dish has acquired a valid GPS fix."
+  /// ```
+  String get gps_valid__hint =>
+      """Whether the dish has acquired a valid GPS fix.""";
+
+  /// ```dart
   /// "GPS satellites"
   /// ```
   String get gps_sats => """GPS satellites""";
+
+  /// ```dart
+  /// "Number of GPS satellites currently visible to the dish."
+  /// ```
+  String get gps_sats__hint =>
+      """Number of GPS satellites currently visible to the dish.""";
 
   /// ```dart
   /// "No GPS satellites after a first fix"
@@ -1150,9 +1162,21 @@ class DishGpsStatsGrpcMessages {
   String get no_sats_after_ttff => """No GPS satellites after a first fix""";
 
   /// ```dart
+  /// "Whether GPS satellite visibility was lost after Time To First Fix (TTFF). May indicate GPS antenna issues."
+  /// ```
+  String get no_sats_after_ttff__hint =>
+      """Whether GPS satellite visibility was lost after Time To First Fix (TTFF). May indicate GPS antenna issues.""";
+
+  /// ```dart
   /// "Don't trust Dishy's GPS"
   /// ```
   String get inhibit_gps => """Don't trust Dishy's GPS""";
+
+  /// ```dart
+  /// "Whether the dish's internal GPS is being ignored in favor of an alternative location source."
+  /// ```
+  String get inhibit_gps__hint =>
+      """Whether the dish's internal GPS is being ignored in favor of an alternative location source.""";
 }
 
 class DishReadyStatesGrpcMessages {
@@ -1406,14 +1430,32 @@ class DishObstructionStatsGrpcMessages {
   String get fraction_obstructed => """Fraction obstructed""";
 
   /// ```dart
+  /// "Percentage of the sky obstructed from the dish's view. Lower is better."
+  /// ```
+  String get fraction_obstructed__hint =>
+      """Percentage of the sky obstructed from the dish's view. Lower is better.""";
+
+  /// ```dart
   /// "Time valid"
   /// ```
   String get valid_s => """Time valid""";
 
   /// ```dart
+  /// "Duration for which obstruction data has been collected and is considered valid."
+  /// ```
+  String get valid_s__hint =>
+      """Duration for which obstruction data has been collected and is considered valid.""";
+
+  /// ```dart
   /// "Currently obstructed"
   /// ```
   String get currently_obstructed => """Currently obstructed""";
+
+  /// ```dart
+  /// "Whether the dish signal is currently blocked by an obstruction."
+  /// ```
+  String get currently_obstructed__hint =>
+      """Whether the dish signal is currently blocked by an obstruction.""";
 
   /// ```dart
   /// "Average prolonged obstruction duration"
@@ -1422,10 +1464,22 @@ class DishObstructionStatsGrpcMessages {
       """Average prolonged obstruction duration""";
 
   /// ```dart
+  /// "Average duration of prolonged signal obstructions."
+  /// ```
+  String get avg_prolonged_obstruction_duration_s__hint =>
+      """Average duration of prolonged signal obstructions.""";
+
+  /// ```dart
   /// "Average prolonged obstruction interval"
   /// ```
   String get avg_prolonged_obstruction_interval_s =>
       """Average prolonged obstruction interval""";
+
+  /// ```dart
+  /// "Average time between prolonged obstructions."
+  /// ```
+  String get avg_prolonged_obstruction_interval_s__hint =>
+      """Average time between prolonged obstructions.""";
 
   /// ```dart
   /// "Average prolonged obstruction valid"
@@ -1434,14 +1488,32 @@ class DishObstructionStatsGrpcMessages {
       """Average prolonged obstruction valid""";
 
   /// ```dart
+  /// "Whether enough data has been collected for prolonged obstruction statistics to be reliable."
+  /// ```
+  String get avg_prolonged_obstruction_valid__hint =>
+      """Whether enough data has been collected for prolonged obstruction statistics to be reliable.""";
+
+  /// ```dart
   /// "Time obstructed"
   /// ```
   String get time_obstructed => """Time obstructed""";
 
   /// ```dart
+  /// "Total fraction of time the dish signal has been obstructed."
+  /// ```
+  String get time_obstructed__hint =>
+      """Total fraction of time the dish signal has been obstructed.""";
+
+  /// ```dart
   /// "Patches valid"
   /// ```
   String get patches_valid => """Patches valid""";
+
+  /// ```dart
+  /// "Whether the obstruction map patches contain valid data."
+  /// ```
+  String get patches_valid__hint =>
+      """Whether the obstruction map patches contain valid data.""";
 }
 
 class DishGetStatusGrpcMessages {
@@ -1464,6 +1536,12 @@ class DishGetStatusGrpcMessages {
   /// ```
   String get seconds_to_first_nonempty_slot =>
       """Seconds to first non-empty slot""";
+
+  /// ```dart
+  /// "Time until the dish has its next scheduled communication slot with a satellite."
+  /// ```
+  String get seconds_to_first_nonempty_slot__hint =>
+      """Time until the dish has its next scheduled communication slot with a satellite.""";
 
   /// ```dart
   /// "fraction_obstructed"
@@ -1559,15 +1637,33 @@ class DishGetStatusGrpcMessages {
   String get stow_requested => """Stow requested""";
 
   /// ```dart
+  /// "Whether a stow command has been sent. When stowed, the dish folds flat for storage or transport."
+  /// ```
+  String get stow_requested__hint =>
+      """Whether a stow command has been sent. When stowed, the dish folds flat for storage or transport.""";
+
+  /// ```dart
   /// "Panel boresight Azimuth angle, deg"
   /// ```
   String get boresight_azimuth_deg => """Panel boresight Azimuth angle, deg""";
+
+  /// ```dart
+  /// "The horizontal compass direction the dish antenna panel is currently pointing, in degrees."
+  /// ```
+  String get boresight_azimuth_deg__hint =>
+      """The horizontal compass direction the dish antenna panel is currently pointing, in degrees.""";
 
   /// ```dart
   /// "Panel boresight Elevation angle, deg"
   /// ```
   String get boresight_elevation_deg =>
       """Panel boresight Elevation angle, deg""";
+
+  /// ```dart
+  /// "The vertical angle the dish antenna panel is currently pointing above the horizon, in degrees."
+  /// ```
+  String get boresight_elevation_deg__hint =>
+      """The vertical angle the dish antenna panel is currently pointing above the horizon, in degrees.""";
 
   /// ```dart
   /// "Ethernet speed, Mbps"
@@ -1599,6 +1695,12 @@ class DishGetStatusGrpcMessages {
   /// "SNR above the noise floor"
   /// ```
   String get is_snr_above_noise_floor => """SNR above the noise floor""";
+
+  /// ```dart
+  /// "Whether the Signal-to-Noise Ratio is above the minimum threshold required for reliable communication."
+  /// ```
+  String get is_snr_above_noise_floor__hint =>
+      """Whether the Signal-to-Noise Ratio is above the minimum threshold required for reliable communication.""";
 
   /// ```dart
   /// "Class of service"
@@ -1664,9 +1766,21 @@ class DishGetStatusGrpcMessages {
   String get is_snr_persistently_low => """SNR persistently low""";
 
   /// ```dart
+  /// "Whether the Signal-to-Noise Ratio has been consistently below acceptable levels. May indicate obstructions or hardware issues."
+  /// ```
+  String get is_snr_persistently_low__hint =>
+      """Whether the Signal-to-Noise Ratio has been consistently below acceptable levels. May indicate obstructions or hardware issues.""";
+
+  /// ```dart
   /// "Actuators"
   /// ```
   String get has_actuators => """Actuators""";
+
+  /// ```dart
+  /// "Whether the dish has motorized actuators for tilting and rotating."
+  /// ```
+  String get has_actuators__hint =>
+      """Whether the dish has motorized actuators for tilting and rotating.""";
 
   /// ```dart
   /// "Actuators state"
@@ -1869,10 +1983,22 @@ class AlignmentStatsGrpcMessages {
       """Desired boresight Azimuth angle, deg""";
 
   /// ```dart
+  /// "The target horizontal direction the dish should point to for optimal satellite communication, in degrees."
+  /// ```
+  String get desired_boresight_azimuth_deg__hint =>
+      """The target horizontal direction the dish should point to for optimal satellite communication, in degrees.""";
+
+  /// ```dart
   /// "Desired boresight Elevation angle, deg"
   /// ```
   String get desired_boresight_elevation_deg =>
       """Desired boresight Elevation angle, deg""";
+
+  /// ```dart
+  /// "The target vertical angle the dish should point to for optimal satellite communication, in degrees."
+  /// ```
+  String get desired_boresight_elevation_deg__hint =>
+      """The target vertical angle the dish should point to for optimal satellite communication, in degrees.""";
 }
 
 class ClientNameGrpcMessages {
@@ -2771,10 +2897,18 @@ Moreover, in the case of a moving router, its route can be followed.
   """grpc.DishOutage.duration_ns""": """Duration, ns""",
   """grpc.DishOutage.did_switch""": """Did switch""",
   """grpc.DishGpsStats.gps_valid""": """GPS valid""",
+  """grpc.DishGpsStats.gps_valid__hint""":
+      """Whether the dish has acquired a valid GPS fix.""",
   """grpc.DishGpsStats.gps_sats""": """GPS satellites""",
+  """grpc.DishGpsStats.gps_sats__hint""":
+      """Number of GPS satellites currently visible to the dish.""",
   """grpc.DishGpsStats.no_sats_after_ttff""":
       """No GPS satellites after a first fix""",
+  """grpc.DishGpsStats.no_sats_after_ttff__hint""":
+      """Whether GPS satellite visibility was lost after Time To First Fix (TTFF). May indicate GPS antenna issues.""",
   """grpc.DishGpsStats.inhibit_gps""": """Don't trust Dishy's GPS""",
+  """grpc.DishGpsStats.inhibit_gps__hint""":
+      """Whether the dish's internal GPS is being ignored in favor of an alternative location source.""",
   """grpc.DishReadyStates.cady""": """Clock generator""",
   """grpc.DishReadyStates.scp""": """RFFE bus interface""",
   """grpc.DishReadyStates.l1l2""": """Modem L1L2""",
@@ -2846,22 +2980,40 @@ with internet access and dish access. You can find this setting in
       """You can set a sleep mode for your Starlink. Starlink won't provide Internet or melt snow while sleeping.""",
   """grpc.DishObstructionStats.fraction_obstructed""":
       """Fraction obstructed""",
+  """grpc.DishObstructionStats.fraction_obstructed__hint""":
+      """Percentage of the sky obstructed from the dish's view. Lower is better.""",
   """grpc.DishObstructionStats.valid_s""": """Time valid""",
+  """grpc.DishObstructionStats.valid_s__hint""":
+      """Duration for which obstruction data has been collected and is considered valid.""",
   """grpc.DishObstructionStats.currently_obstructed""":
       """Currently obstructed""",
+  """grpc.DishObstructionStats.currently_obstructed__hint""":
+      """Whether the dish signal is currently blocked by an obstruction.""",
   """grpc.DishObstructionStats.avg_prolonged_obstruction_duration_s""":
       """Average prolonged obstruction duration""",
+  """grpc.DishObstructionStats.avg_prolonged_obstruction_duration_s__hint""":
+      """Average duration of prolonged signal obstructions.""",
   """grpc.DishObstructionStats.avg_prolonged_obstruction_interval_s""":
       """Average prolonged obstruction interval""",
+  """grpc.DishObstructionStats.avg_prolonged_obstruction_interval_s__hint""":
+      """Average time between prolonged obstructions.""",
   """grpc.DishObstructionStats.avg_prolonged_obstruction_valid""":
       """Average prolonged obstruction valid""",
+  """grpc.DishObstructionStats.avg_prolonged_obstruction_valid__hint""":
+      """Whether enough data has been collected for prolonged obstruction statistics to be reliable.""",
   """grpc.DishObstructionStats.time_obstructed""": """Time obstructed""",
+  """grpc.DishObstructionStats.time_obstructed__hint""":
+      """Total fraction of time the dish signal has been obstructed.""",
   """grpc.DishObstructionStats.patches_valid""": """Patches valid""",
+  """grpc.DishObstructionStats.patches_valid__hint""":
+      """Whether the obstruction map patches contain valid data.""",
   """grpc.DishGetStatus.uptime_s""": """Uptime""",
   """grpc.DishGetStatus.uptime_s__hint""":
       """Time the dish has been running since the last reboot.""",
   """grpc.DishGetStatus.seconds_to_first_nonempty_slot""":
       """Seconds to first non-empty slot""",
+  """grpc.DishGetStatus.seconds_to_first_nonempty_slot__hint""":
+      """Time until the dish has its next scheduled communication slot with a satellite.""",
   """grpc.DishGetStatus.fraction_obstructed""": """fraction_obstructed""",
   """grpc.DishGetStatus.valid_s""": """valid_s""",
   """grpc.DishGetStatus.currently_obstructed""": """currently_obstructed""",
@@ -2889,10 +3041,16 @@ with internet access and dish access. You can find this setting in
 **PoP Ping Drop Rate** indicates the fraction of packets lost during transmission between the User Terminal and a Point of Presence.
 """,
   """grpc.DishGetStatus.stow_requested""": """Stow requested""",
+  """grpc.DishGetStatus.stow_requested__hint""":
+      """Whether a stow command has been sent. When stowed, the dish folds flat for storage or transport.""",
   """grpc.DishGetStatus.boresight_azimuth_deg""":
       """Panel boresight Azimuth angle, deg""",
+  """grpc.DishGetStatus.boresight_azimuth_deg__hint""":
+      """The horizontal compass direction the dish antenna panel is currently pointing, in degrees.""",
   """grpc.DishGetStatus.boresight_elevation_deg""":
       """Panel boresight Elevation angle, deg""",
+  """grpc.DishGetStatus.boresight_elevation_deg__hint""":
+      """The vertical angle the dish antenna panel is currently pointing above the horizon, in degrees.""",
   """grpc.DishGetStatus.eth_speed_mbps""": """Ethernet speed, Mbps""",
   """grpc.DishGetStatus.mobility_class""": """Mobility class""",
   """grpc.DishGetStatus.mobility_class__hint""": """The possible options are:
@@ -2903,6 +3061,8 @@ with internet access and dish access. You can find this setting in
 """,
   """grpc.DishGetStatus.is_snr_above_noise_floor""":
       """SNR above the noise floor""",
+  """grpc.DishGetStatus.is_snr_above_noise_floor__hint""":
+      """Whether the Signal-to-Noise Ratio is above the minimum threshold required for reliable communication.""",
   """grpc.DishGetStatus.class_of_service""": """Class of service""",
   """grpc.DishGetStatus.class_of_service__hint""":
       """The possible options are:
@@ -2928,7 +3088,11 @@ with internet access and dish access. You can find this setting in
 - **FAULTED** - Software update process has faulted.
 """,
   """grpc.DishGetStatus.is_snr_persistently_low""": """SNR persistently low""",
+  """grpc.DishGetStatus.is_snr_persistently_low__hint""":
+      """Whether the Signal-to-Noise Ratio has been consistently below acceptable levels. May indicate obstructions or hardware issues.""",
   """grpc.DishGetStatus.has_actuators""": """Actuators""",
+  """grpc.DishGetStatus.has_actuators__hint""":
+      """Whether the dish has motorized actuators for tilting and rotating.""",
   """grpc.DishGetStatus.actuator_state""": """Actuators state""",
   """grpc.DishGetStatus.actuator_state__hint""":
       """The possible options are:
@@ -3008,8 +3172,12 @@ with internet access and dish access. You can find this setting in
       """Attitude uncertainty, deg""",
   """grpc.AlignmentStats.desired_boresight_azimuth_deg""":
       """Desired boresight Azimuth angle, deg""",
+  """grpc.AlignmentStats.desired_boresight_azimuth_deg__hint""":
+      """The target horizontal direction the dish should point to for optimal satellite communication, in degrees.""",
   """grpc.AlignmentStats.desired_boresight_elevation_deg""":
       """Desired boresight Elevation angle, deg""",
+  """grpc.AlignmentStats.desired_boresight_elevation_deg__hint""":
+      """The target vertical angle the dish should point to for optimal satellite communication, in degrees.""",
   """grpc.ClientName.mac_address""": """mac_address""",
   """grpc.ClientName.given_name""": """given_name""",
   """grpc.Network.ipv4""": """ipv4""",

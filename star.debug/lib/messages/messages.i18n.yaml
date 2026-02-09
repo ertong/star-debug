@@ -267,9 +267,13 @@ grpc:
 
   DishGpsStats:
     gps_valid: GPS valid
+    gps_valid__hint: Whether the dish has acquired a valid GPS fix.
     gps_sats: GPS satellites
+    gps_sats__hint: Number of GPS satellites currently visible to the dish.
     no_sats_after_ttff: No GPS satellites after a first fix
+    no_sats_after_ttff__hint: Whether GPS satellite visibility was lost after Time To First Fix (TTFF). May indicate GPS antenna issues.
     inhibit_gps: Don't trust Dishy's GPS
+    inhibit_gps__hint: Whether the dish's internal GPS is being ignored in favor of an alternative location source.
 
   DishReadyStates:
     cady: Clock generator
@@ -333,18 +337,27 @@ grpc:
 
   DishObstructionStats:
     fraction_obstructed: Fraction obstructed
+    fraction_obstructed__hint: Percentage of the sky obstructed from the dish's view. Lower is better.
     valid_s: Time valid
+    valid_s__hint: Duration for which obstruction data has been collected and is considered valid.
     currently_obstructed: Currently obstructed
+    currently_obstructed__hint: Whether the dish signal is currently blocked by an obstruction.
     avg_prolonged_obstruction_duration_s: "Average prolonged obstruction duration"
+    avg_prolonged_obstruction_duration_s__hint: Average duration of prolonged signal obstructions.
     avg_prolonged_obstruction_interval_s: "Average prolonged obstruction interval"
+    avg_prolonged_obstruction_interval_s__hint: Average time between prolonged obstructions.
     avg_prolonged_obstruction_valid: Average prolonged obstruction valid
+    avg_prolonged_obstruction_valid__hint: Whether enough data has been collected for prolonged obstruction statistics to be reliable.
     time_obstructed: Time obstructed
+    time_obstructed__hint: Total fraction of time the dish signal has been obstructed.
     patches_valid: Patches valid
+    patches_valid__hint: Whether the obstruction map patches contain valid data.
 
   DishGetStatus:
     uptime_s: Uptime
     uptime_s__hint: Time the dish has been running since the last reboot.
     seconds_to_first_nonempty_slot: Seconds to first non-empty slot
+    seconds_to_first_nonempty_slot__hint: Time until the dish has its next scheduled communication slot with a satellite.
     fraction_obstructed: fraction_obstructed
     valid_s: valid_s
     currently_obstructed: currently_obstructed
@@ -370,8 +383,11 @@ grpc:
       **PoP Ping Drop Rate** indicates the fraction of packets lost during transmission between the User Terminal and a Point of Presence.
 
     stow_requested: Stow requested
+    stow_requested__hint: Whether a stow command has been sent. When stowed, the dish folds flat for storage or transport.
     boresight_azimuth_deg: Panel boresight Azimuth angle, deg
+    boresight_azimuth_deg__hint: The horizontal compass direction the dish antenna panel is currently pointing, in degrees.
     boresight_elevation_deg: Panel boresight Elevation angle, deg
+    boresight_elevation_deg__hint: The vertical angle the dish antenna panel is currently pointing above the horizon, in degrees.
 
     eth_speed_mbps: Ethernet speed, Mbps
     mobility_class: Mobility class
@@ -382,6 +398,7 @@ grpc:
       - **NOMADIC** - The dish can be moved between locations but is not used while in motion.
       - **MOBILE** - The dish is used while in motion (boats, RVs, etc.).
     is_snr_above_noise_floor: SNR above the noise floor
+    is_snr_above_noise_floor__hint: Whether the Signal-to-Noise Ratio is above the minimum threshold required for reliable communication.
 
     class_of_service: Class of service
     class_of_service__hint: |
@@ -406,7 +423,9 @@ grpc:
       - **DISABLED** - Software updates are disabled.
       - **FAULTED** - Software update process has faulted.
     is_snr_persistently_low: SNR persistently low
+    is_snr_persistently_low__hint: Whether the Signal-to-Noise Ratio has been consistently below acceptable levels. May indicate obstructions or hardware issues.
     has_actuators: Actuators
+    has_actuators__hint: Whether the dish has motorized actuators for tilting and rotating.
     actuator_state: Actuators state
     actuator_state__hint: |
       The possible options are:
@@ -480,7 +499,9 @@ grpc:
       - **FILTER_INVALID** - Attitude filter state is invalid.
     attitude_uncertainty_deg: Attitude uncertainty, deg
     desired_boresight_azimuth_deg: Desired boresight Azimuth angle, deg
+    desired_boresight_azimuth_deg__hint: The target horizontal direction the dish should point to for optimal satellite communication, in degrees.
     desired_boresight_elevation_deg: Desired boresight Elevation angle, deg
+    desired_boresight_elevation_deg__hint: The target vertical angle the dish should point to for optimal satellite communication, in degrees.
 
   ClientName:
     mac_address: mac_address
