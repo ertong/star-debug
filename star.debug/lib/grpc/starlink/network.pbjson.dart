@@ -1,13 +1,15 @@
+// This is a generated file - do not edit.
 //
-//  Generated code. Do not modify.
-//  source: network.proto
-//
-// @dart = 2.12
+// Generated from network.proto.
+
+// @dart = 3.3
 
 // ignore_for_file: annotate_overrides, camel_case_types, comment_references
-// ignore_for_file: constant_identifier_names, library_prefixes
-// ignore_for_file: non_constant_identifier_names, prefer_final_fields
-// ignore_for_file: unnecessary_import, unnecessary_this, unused_import
+// ignore_for_file: constant_identifier_names
+// ignore_for_file: curly_braces_in_flow_control_structures
+// ignore_for_file: deprecated_member_use_from_same_package, library_prefixes
+// ignore_for_file: non_constant_identifier_names, prefer_relative_imports
+// ignore_for_file: unused_import
 
 import 'dart:convert' as $convert;
 import 'dart:core' as $core;
@@ -29,6 +31,9 @@ const UtDisablementCode$json = {
     {'1': 'UNKNOWN_LOCATION', '2': 11},
     {'1': 'ACCOUNT_DISABLED', '2': 12},
     {'1': 'UNSUPPORTED_VERSION', '2': 13},
+    {'1': 'MOVING_TOO_FAST_FOR_POLICY', '2': 14},
+    {'1': 'UNDER_AVIATION_FLYOVER_LIMITS', '2': 15},
+    {'1': 'BLOCKED_AREA', '2': 16},
   ],
   '4': [
     {'1': 5, '2': 5},
@@ -44,6 +49,6 @@ final $typed_data.Uint8List utDisablementCodeDescriptor = $convert.base64Decode(
     'X09DRUFOEAQSEwoPQkxPQ0tFRF9DT1VOVFJZEAYSHwobREFUQV9PVkVSQUdFX1NBTkRCT1hfUE'
     '9MSUNZEAcSFAoQQ0VMTF9JU19ESVNBQkxFRBAIEhMKD1JPQU1fUkVTVFJJQ1RFRBAKEhQKEFVO'
     'S05PV05fTE9DQVRJT04QCxIUChBBQ0NPVU5UX0RJU0FCTEVEEAwSFwoTVU5TVVBQT1JURURfVk'
-    'VSU0lPThANIgQIBRAFIgQICRAJKg9JTlZBTElEX0NPVU5UUlkqElVOTElDRU5TRURfQ09VTlRS'
-    'WQ==');
-
+    'VSU0lPThANEh4KGk1PVklOR19UT09fRkFTVF9GT1JfUE9MSUNZEA4SIQodVU5ERVJfQVZJQVRJ'
+    'T05fRkxZT1ZFUl9MSU1JVFMQDxIQCgxCTE9DS0VEX0FSRUEQECIECAUQBSIECAkQCSoPSU5WQU'
+    'xJRF9DT1VOVFJZKhJVTkxJQ0VOU0VEX0NPVU5UUlk=');

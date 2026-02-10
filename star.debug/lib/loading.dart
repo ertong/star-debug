@@ -36,18 +36,18 @@ class _LoadingState extends State<Loading> {
               builder: (BuildContext context, BoxConstraints constraints) {
                 return Stack(
                   children: [
-                    Container(color: Colors.black,
+                    Container(color: Color(0xff111830),
                       height: constraints.maxHeight,
                       padding: EdgeInsets.fromLTRB(0,0,0, constraints.maxHeight/6),
                       child: Center(
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Image.asset("assets/images/logo_transparent.png", width: min(constraints.maxWidth*3/4, constraints.maxHeight/2),),
+                            Image.asset("assets/images/logo_transparent.png", width: min(constraints.maxWidth*3/5, constraints.maxHeight/3),),
                             SizedBox(height: 40,),
                             Image(
                               image: AssetImage('assets/images/starlinkforukraine.png'),
-                              width: 130,
+                              width: min(constraints.maxWidth*3/5, constraints.maxHeight/3),
                             )
                           ],
                         ),

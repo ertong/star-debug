@@ -8,6 +8,6 @@ rem flutter pub global activate protoc_plugin
 protoc.exe ^
   -I %~dp0 ^
   --dart_out="grpc:%TARGET%" ^
-  status.proto network.proto starlink.proto 
+  status.proto network.proto starlink.proto telemetron.proto
   
   

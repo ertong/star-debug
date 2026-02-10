@@ -7,6 +7,11 @@
     <item>
         <bitmap
             android:gravity="center"
-            android:src="@mipmap/logo_transparent" />
+            android:src="@drawable/ic_launcher_background" />
+    </item>
+    <item>
+        <bitmap
+            android:gravity="center"
+            android:src="@drawable/ic_launcher_foreground" />
     </item>
 </layer-list>

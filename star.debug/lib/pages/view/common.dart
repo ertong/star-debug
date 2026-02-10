@@ -3,7 +3,7 @@ import 'package:star_debug/grpc/starlink/starlink.pb.dart';
 import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/utils/kv_widget.dart';
 import 'package:star_debug/utils/view_options.dart';
-import 'package:time_machine/time_machine.dart';
+import 'package:time_machine2/time_machine2.dart';
 
 List<Widget> buildDeviceInfoWidget(BuildContext context, ThemeData theme, DeviceInfo deviceInfo, {int? apiVersion, required ViewOptions opts}) {
     var b = KVWidgetBuilder(context, theme);

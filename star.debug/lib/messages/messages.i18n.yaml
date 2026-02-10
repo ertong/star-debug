@@ -55,6 +55,7 @@ general:
   should_not_be_empty: Should not be empty
   yes: yes
   no: no
+  not_specified: not specified
 
 recent:
   search: Search
@@ -366,6 +367,8 @@ grpc:
     avg_prolonged_obstruction_valid: avg_prolonged_obstruction_valid
     time_obstructed: time_obstructed
     patches_valid: patches_valid
+    dlBandwidthRestrictedReason: Bandwidth restriction (download)
+    ulBandwidthRestrictedReason: Bandwidth restriction (upload)
 
     downlink_throughput_bps: Downlink Throughput
     uplink_throughput_bps: Uplink Throughput

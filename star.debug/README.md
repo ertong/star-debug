@@ -21,6 +21,7 @@ bundler exec fastlane spaceauth
 
 
 bundle update
+pod update FirebaseAnalytics Firebase/CoreOnly sqlite3
 pod update
 
 bundle exec fastlane match nuke distribution

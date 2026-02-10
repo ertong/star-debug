@@ -23,7 +23,7 @@ import 'package:star_debug/firebase_options.dart';
 import 'package:star_debug/stardebug_app.dart';
 import 'package:star_debug/utils/features.dart';
 import 'package:star_debug/utils/log_utils.dart';
-import 'package:time_machine/time_machine.dart';
+import 'package:time_machine2/time_machine2.dart';
 
 import 'controller/valkyrie_controller.dart';
 import 'messages/i18n.dart';
@@ -87,7 +87,7 @@ class Preloaded{
         if (Platform.isAndroid || Platform.isIOS) {
           await TimeMachine.initialize({
             "rootBundle": rootBundle,
-            'timeZone': await FlutterTimezone.getLocalTimezone(),
+            'timeZone': (await FlutterTimezone.getLocalTimezone()).identifier,
           });
         } else {
           var offset = DateTime.now().timeZoneOffset;

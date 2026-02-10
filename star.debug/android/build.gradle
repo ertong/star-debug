@@ -10,9 +10,23 @@ rootProject.buildDir = '../build'
 subprojects {
     project.buildDir = "${rootProject.buildDir}/${project.name}"
 }
+
+// Not sure it is required, try to remove after migrating to AGP 9. But maybe it reduces number of SDKs needed to build.
+subprojects { subproject ->
+    afterEvaluate{
+        if((subproject.plugins.hasPlugin('android') || subproject.plugins.hasPlugin('android-library'))) {
+            android {
+                compileSdkVersion 36
+                buildToolsVersion "36.0.0"
+            }
+        }
+    }
+}
+
 subprojects {
     project.evaluationDependsOn(':app')
 }
+
 
 tasks.register("clean", Delete) {
     delete rootProject.buildDir

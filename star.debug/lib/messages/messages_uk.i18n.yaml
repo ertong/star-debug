@@ -54,7 +54,7 @@ general:
   should_not_be_empty: Має бути заповненим
   yes: так
   no: ні
-
+  not_specified: не вказано
 
 recent:
   search: Пошук
@@ -344,6 +344,8 @@ grpc:
     avg_prolonged_obstruction_valid: avg_prolonged_obstruction_valid
     time_obstructed: time_obstructed
     patches_valid: patches_valid
+    dlBandwidthRestrictedReason: Обмеження швидкості (download)
+    ulBandwidthRestrictedReason: Обмеження швидкості (upload)
     downlink_throughput_bps: Downlink Throughput
     uplink_throughput_bps: Uplink Throughput
     pop_ping_drop_rate: PoP ping drop rate

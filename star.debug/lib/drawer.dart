@@ -76,17 +76,19 @@ class _AppDrawerState extends State<AppDrawer> {
               ],
             ),
           ),
-          ListTile(
-            leading: Padding(
-                padding: EdgeInsets.fromLTRB(4, 0, 0, 0),
-                child: Transform.scale(scale: 1, child:_buildLogo())
+          SafeArea(
+            child: ListTile(
+              leading: Padding(
+                  padding: EdgeInsets.fromLTRB(4, 0, 0, 0),
+                  child: Transform.scale(scale: 1, child:_buildLogo())
+              ),
+              title: Text(M.about.about_starlink_for_ukraine,),
+              contentPadding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+              dense: true,
+              onTap: (){
+                Navigator.of(context).pushNamedAndRemoveUntil(Routes.ABOUT, (r) => false);
+              },
             ),
-            title: Text(M.about.about_starlink_for_ukraine,),
-            contentPadding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-            dense: true,
-            onTap: (){
-              Navigator.of(context).pushNamedAndRemoveUntil(Routes.ABOUT, (r) => false);
-            },
           ),
           SizedBox(height: 8,)
         ],
@@ -161,7 +163,7 @@ class _AppDrawerState extends State<AppDrawer> {
                           SizedBox(
                             width: constraints.maxWidth - 50-20-10,
                             child: Padding(
-                                padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                                padding: EdgeInsets.fromLTRB(15, 5, 0, 0),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[

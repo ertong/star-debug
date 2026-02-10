@@ -14,7 +14,7 @@ mixin _$RecentInputsDaoMixin on DatabaseAccessor<Database> {
         Variable<String>(type),
         Variable<int>(timestamp),
         Variable<String>(data),
-        Variable<String>(search)
+        Variable<String>(search),
       ],
       updates: {recentInputs},
     );
@@ -31,13 +31,22 @@ mixin _$RecentInputsDaoMixin on DatabaseAccessor<Database> {
 
   Selectable<RecentInput> find(String type, String search) {
     return customSelect(
-        'SELECT * FROM recent_inputs WHERE type = ?1 AND search LIKE \'%\' || ?2 || \'%\' ORDER BY timestamp DESC',
-        variables: [
-          Variable<String>(type),
-          Variable<String>(search)
-        ],
-        readsFrom: {
-          recentInputs,
-        }).asyncMap(recentInputs.mapFromRow);
+      'SELECT * FROM recent_inputs WHERE type = ?1 AND search LIKE \'%\' || ?2 || \'%\' ORDER BY timestamp DESC',
+      variables: [Variable<String>(type), Variable<String>(search)],
+      readsFrom: {recentInputs},
+    ).asyncMap(recentInputs.mapFromRow);
   }
+
+  RecentInputsDaoManager get managers => RecentInputsDaoManager(this);
+}
+
+class RecentInputsDaoManager {
+  final _$RecentInputsDaoMixin _db;
+  RecentInputsDaoManager(this._db);
+  $$RecentInputsTableTableManager get recentInputs =>
+      $$RecentInputsTableTableManager(_db.attachedDatabase, _db.recentInputs);
+  $$DishLogsTableTableManager get dishLogs =>
+      $$DishLogsTableTableManager(_db.attachedDatabase, _db.dishLogs);
+  $$DishesTableTableManager get dishes =>
+      $$DishesTableTableManager(_db.attachedDatabase, _db.dishes);
 }

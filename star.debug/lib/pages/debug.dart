@@ -152,7 +152,15 @@ class _DebugPageState extends State<DebugPage> with TickerProviderStateMixin {
     res.add(Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        reqButton("WifiSetup", () => Request(wifiSetup: WifiSetupRequest(skip: true, networkName: "ErtStar", networkPassword: "monolit71")), router: true),
+        reqButton("WifiSetup", () => Request(wifiSetup: WifiSetupRequest(skip: true, networkName: "ErtStar", networkPassword: "")), router: true),
+
+      ],
+    ));
+
+    res.add(Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        reqButton("GetGoroutineStackTracesRequest", () => Request(getGoroutineStackTraces: GetGoroutineStackTracesRequest()), router: true),
 
       ],
     ));
@@ -161,6 +169,8 @@ class _DebugPageState extends State<DebugPage> with TickerProviderStateMixin {
     // res.add(Row(
     //   mainAxisAlignment: MainAxisAlignment.spaceAround,
     //   children: [
+    //     reqButton("GetGoroutineStackTracesRequest", () => Request(getGoroutineStackTraces: GetGoroutineStackTracesRequest()), router: true),
+
     //     reqButton("GetPersistentStats", () => Request(getPersistentStats: GetPersistentStatsRequest()), router: true),
     //     reqButton("DishClearObstructionMap", () => Request(dishClearObstructionMap: DishClearObstructionMapRequest()), router: true),
     //     reqButton("GetDiagnosticsRequest", () => Request(getDiagnostics: GetDiagnosticsRequest()), router: true),

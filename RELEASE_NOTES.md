@@ -1,3 +1,11 @@
+## 1.2b76
+
+### Enhancements:
+- Update protocol version.
+- Show bandwidth restrictions.
+- Other small changes
+
+
 ## 1.2b75
 
 ### Enhancements:

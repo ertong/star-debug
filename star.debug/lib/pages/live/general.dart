@@ -14,7 +14,7 @@ import 'package:star_debug/pages/view/dish.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/utils/kv_widget.dart';
 import 'package:star_debug/utils/log_utils.dart';
-import 'package:time_machine/time_machine.dart';
+import 'package:time_machine2/time_machine2.dart';
 
 const String _TAG="GeneralTab";
 
@@ -99,7 +99,10 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
       else {
         var b1 = KVWidgetBuilder(context, theme);
         b1.kv(M.grpc.DeviceInfo.id, status.deviceInfo.id);
-        b1.kv(M.general.version, Instant.fromEpochSeconds(status.deviceInfo.generationNumber.toInt()).inUtc().toString("yyyy-MM-dd"));
+        if (status.deviceInfo.generationNumber.isZero)
+          b1.kv(M.general.version, M.general.not_specified);
+        else
+          b1.kv(M.general.version, Instant.fromEpochSeconds(status.deviceInfo.generationNumber.toInt()).inUtc().toString("yyyy-MM-dd"));
 
         {
           String code = "${status.disablementCode}";

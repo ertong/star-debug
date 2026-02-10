@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package SpaceX.API.Telemetron.Public.Integrations;
+
+//SpaceX.API.Telemetron.Public.Integrations.RateLimitReason is an enum:
+enum RateLimitReason {
+  UNKNOWN = 0;
+  NO_LIMIT = 1;
+  POLICY_LIMIT = 2;
+  USER_CUSTOM_LIMIT = 3;
+  OVERAGE_LIMIT = 5;
+  reserved 4;
+  reserved "HIGH_HOURLY_AVG_LIMIT";
+}

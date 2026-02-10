@@ -12,7 +12,7 @@ import 'package:star_debug/utils/format.dart';
 import 'package:star_debug/utils/snapshot.dart';
 import 'package:star_debug/widgets/load_more.dart';
 import 'package:star_debug/widgets/load_more_styled.dart';
-import 'package:time_machine/time_machine.dart';
+import 'package:time_machine2/time_machine2.dart';
 
 
 const String _TAG="SnapshotsPage";

@@ -2,7 +2,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/utils/log_utils.dart';
-import 'package:time_machine/time_machine.dart';
+import 'package:time_machine2/time_machine2.dart';
 
 abstract class KVConsumer {
   void header(String name, {bool isAlert = false, List<Widget> more=const []}) {}

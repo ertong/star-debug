@@ -1,17 +1,35 @@
+// This is a generated file - do not edit.
 //
-//  Generated code. Do not modify.
-//  source: starlink.proto
-//
-// @dart = 2.12
+// Generated from starlink.proto.
+
+// @dart = 3.3
 
 // ignore_for_file: annotate_overrides, camel_case_types, comment_references
-// ignore_for_file: constant_identifier_names, library_prefixes
-// ignore_for_file: non_constant_identifier_names, prefer_final_fields
-// ignore_for_file: unnecessary_import, unnecessary_this, unused_import
+// ignore_for_file: constant_identifier_names
+// ignore_for_file: curly_braces_in_flow_control_structures
+// ignore_for_file: deprecated_member_use_from_same_package, library_prefixes
+// ignore_for_file: non_constant_identifier_names, prefer_relative_imports
+// ignore_for_file: unused_import
 
 import 'dart:convert' as $convert;
 import 'dart:core' as $core;
 import 'dart:typed_data' as $typed_data;
+
+@$core.Deprecated('Use routerRoleDescriptor instead')
+const RouterRole$json = {
+  '1': 'RouterRole',
+  '2': [
+    {'1': 'UNSPECIFIED', '2': 0},
+    {'1': 'CONTROLLER', '2': 1},
+    {'1': 'REPEATER', '2': 2},
+    {'1': 'BYPASSED', '2': 3},
+  ],
+};
+
+/// Descriptor for `RouterRole`. Decode as a `google.protobuf.EnumDescriptorProto`.
+final $typed_data.Uint8List routerRoleDescriptor = $convert.base64Decode(
+    'CgpSb3V0ZXJSb2xlEg8KC1VOU1BFQ0lGSUVEEAASDgoKQ09OVFJPTExFUhABEgwKCFJFUEVBVE'
+    'VSEAISDAoIQllQQVNTRUQQAw==');
 
 @$core.Deprecated('Use capabilityDescriptor instead')
 const Capability$json = {
@@ -56,6 +74,7 @@ const User$json = {
     {'1': 'GUEST_LAN', '2': 6},
     {'1': 'SENSITIVE_COMMANDING', '2': 7},
     {'1': 'LAN_TLS', '2': 8},
+    {'1': 'CLOUD_INDIA', '2': 9},
   ],
 };
 
@@ -63,7 +82,7 @@ const User$json = {
 final $typed_data.Uint8List userDescriptor = $convert.base64Decode(
     'CgRVc2VyEgsKB05PX1VTRVIQABIHCgNHT0QQARIHCgNMQU4QAhIJCgVDTE9VRBADEgsKB0ZBQ1'
     'RPUlkQBBIKCgZST1VURVIQBRINCglHVUVTVF9MQU4QBhIYChRTRU5TSVRJVkVfQ09NTUFORElO'
-    'RxAHEgsKB0xBTl9UTFMQCA==');
+    'RxAHEgsKB0xBTl9UTFMQCBIPCgtDTE9VRF9JTkRJQRAJ');
 
 @$core.Deprecated('Use positionSourceDescriptor instead')
 const PositionSource$json = {
@@ -75,18 +94,19 @@ const PositionSource$json = {
     {'1': 'EXTERNAL', '2': 3},
     {'1': 'GPS', '2': 4},
     {'1': 'STARLINK', '2': 5},
-    {'1': 'GNC_GPS', '2': 6},
-    {'1': 'GNC_PNT', '2': 7},
-    {'1': 'GNC_FUSED', '2': 8},
-    {'1': 'GNC_RAW', '2': 9},
+    {'1': 'GNC_FUSED', '2': 6},
+    {'1': 'GNC_BAD_SAT', '2': 7},
+    {'1': 'GNC_NO_ACCEL', '2': 8},
+    {'1': 'GNC_PNT', '2': 9},
+    {'1': 'GNC_STATIC', '2': 10},
   ],
 };
 
 /// Descriptor for `PositionSource`. Decode as a `google.protobuf.EnumDescriptorProto`.
 final $typed_data.Uint8List positionSourceDescriptor = $convert.base64Decode(
     'Cg5Qb3NpdGlvblNvdXJjZRIICgRBVVRPEAASCAoETk9ORRABEgsKB1VUX0lORk8QAhIMCghFWF'
-    'RFUk5BTBADEgcKA0dQUxAEEgwKCFNUQVJMSU5LEAUSCwoHR05DX0dQUxAGEgsKB0dOQ19QTlQQ'
-    'BxINCglHTkNfRlVTRUQQCBILCgdHTkNfUkFXEAk=');
+    'RFUk5BTBADEgcKA0dQUxAEEgwKCFNUQVJMSU5LEAUSDQoJR05DX0ZVU0VEEAYSDwoLR05DX0JB'
+    'RF9TQVQQBxIQCgxHTkNfTk9fQUNDRUwQCBILCgdHTkNfUE5UEAkSDgoKR05DX1NUQVRJQxAK');
 
 @$core.Deprecated('Use meshAuthDescriptor instead')
 const MeshAuth$json = {
@@ -160,6 +180,7 @@ const BootReason$json = {
     {'1': 'SOFTWARE_WATCHDOG', '2': 13},
     {'1': 'INTENTIONAL_KERNEL_PANIC', '2': 14},
     {'1': 'HARDWARE_WATCHDOG', '2': 15},
+    {'1': 'REPEATER_UNTRUSTED_FDIR', '2': 16},
   ],
   '4': [
     {'1': 10, '2': 10},
@@ -175,7 +196,8 @@ final $typed_data.Uint8List bootReasonDescriptor = $convert.base64Decode(
     'RJT05fRVRIX1dBTl9GRElSEAgSEAoMS0VSTkVMX1BBTklDEAkSGwoXTUNVX0JSSU5HVVBfRkFJ'
     'TEVEX0ZESVIQCxIYChRBVklBVElPTl9PVVRBR0VfRkRJUhAMEhUKEVNPRlRXQVJFX1dBVENIRE'
     '9HEA0SHAoYSU5URU5USU9OQUxfS0VSTkVMX1BBTklDEA4SFQoRSEFSRFdBUkVfV0FUQ0hET0cQ'
-    'DyIECAoQCioXQVZJQVRJT05fNU1fT1VUQUdFX0ZESVI=');
+    'DxIbChdSRVBFQVRFUl9VTlRSVVNURURfRkRJUhAQIgQIChAKKhdBVklBVElPTl81TV9PVVRBR0'
+    'VfRkRJUg==');
 
 @$core.Deprecated('Use cakePriorityQueueParameterDescriptor instead')
 const CakePriorityQueueParameter$json = {
@@ -189,9 +211,10 @@ const CakePriorityQueueParameter$json = {
 };
 
 /// Descriptor for `CakePriorityQueueParameter`. Decode as a `google.protobuf.EnumDescriptorProto`.
-final $typed_data.Uint8List cakePriorityQueueParameterDescriptor = $convert.base64Decode(
-    'ChpDYWtlUHJpb3JpdHlRdWV1ZVBhcmFtZXRlchINCglESUZGU0VSVjMQABINCglESUZGU0VSVj'
-    'QQARIOCgpQUkVDRURFTkNFEAISDwoLQkVTVF9FRkZPUlQQAw==');
+final $typed_data.Uint8List cakePriorityQueueParameterDescriptor =
+    $convert.base64Decode(
+        'ChpDYWtlUHJpb3JpdHlRdWV1ZVBhcmFtZXRlchINCglESUZGU0VSVjMQABINCglESUZGU0VSVj'
+        'QQARIOCgpQUkVDRURFTkNFEAISDwoLQkVTVF9FRkZPUlQQAw==');
 
 @$core.Deprecated('Use cakeAckFilterDescriptor instead')
 const CakeAckFilter$json = {
@@ -398,6 +421,7 @@ const RebootReason$json = {
     {'1': 'REBOOT_REASON_AAP_CRASH', '2': 14},
     {'1': 'REBOOT_REASON_XP70_SACS', '2': 15},
     {'1': 'REBOOT_REASON_INE_FAILED', '2': 16},
+    {'1': 'REBOOT_REASON_KERNEL_TAINTED', '2': 17},
   ],
 };
 
@@ -412,7 +436,121 @@ final $typed_data.Uint8List rebootReasonDescriptor = $convert.base64Decode(
     'SUNBTF9QUk9DRVNTX0RJRUQQChIdChlSRUJPT1RfUkVBU09OX05PX1JGX1JFQURZEAsSKAokUk'
     'VCT09UX1JFQVNPTl9QT1NUUE9ORURfTE9TU19PRl9DT01NEAwSJQohUkVCT09UX1JFQVNPTl9T'
     'V1VQREFURV9TVEFUSU9OQVJZEA0SGwoXUkVCT09UX1JFQVNPTl9BQVBfQ1JBU0gQDhIbChdSRU'
-    'JPT1RfUkVBU09OX1hQNzBfU0FDUxAPEhwKGFJFQk9PVF9SRUFTT05fSU5FX0ZBSUxFRBAQ');
+    'JPT1RfUkVBU09OX1hQNzBfU0FDUxAPEhwKGFJFQk9PVF9SRUFTT05fSU5FX0ZBSUxFRBAQEiAK'
+    'HFJFQk9PVF9SRUFTT05fS0VSTkVMX1RBSU5URUQQEQ==');
+
+@$core.Deprecated('Use accountShardDescriptor instead')
+const AccountShard$json = {
+  '1': 'AccountShard',
+  '2': [
+    {'1': 'ACCOUNT_SHARD_UNKNOWN', '2': 0},
+    {'1': 'ACCOUNT_SHARD_DEFAULT', '2': 1},
+    {'1': 'ACCOUNT_SHARD_INDIA', '2': 2},
+  ],
+};
+
+/// Descriptor for `AccountShard`. Decode as a `google.protobuf.EnumDescriptorProto`.
+final $typed_data.Uint8List accountShardDescriptor = $convert.base64Decode(
+    'CgxBY2NvdW50U2hhcmQSGQoVQUNDT1VOVF9TSEFSRF9VTktOT1dOEAASGQoVQUNDT1VOVF9TSE'
+    'FSRF9ERUZBVUxUEAESFwoTQUNDT1VOVF9TSEFSRF9JTkRJQRAC');
+
+@$core.Deprecated('Use eventSeverityDescriptor instead')
+const EventSeverity$json = {
+  '1': 'EventSeverity',
+  '2': [
+    {'1': 'EVENT_SEVERITY_UNKNOWN', '2': 0},
+    {'1': 'EVENT_SEVERITY_WARNING', '2': 1},
+    {'1': 'EVENT_SEVERITY_CAUTION', '2': 2},
+    {'1': 'EVENT_SEVERITY_ADVISORY', '2': 3},
+  ],
+};
+
+/// Descriptor for `EventSeverity`. Decode as a `google.protobuf.EnumDescriptorProto`.
+final $typed_data.Uint8List eventSeverityDescriptor = $convert.base64Decode(
+    'Cg1FdmVudFNldmVyaXR5EhoKFkVWRU5UX1NFVkVSSVRZX1VOS05PV04QABIaChZFVkVOVF9TRV'
+    'ZFUklUWV9XQVJOSU5HEAESGgoWRVZFTlRfU0VWRVJJVFlfQ0FVVElPThACEhsKF0VWRU5UX1NF'
+    'VkVSSVRZX0FEVklTT1JZEAM=');
+
+@$core.Deprecated('Use eventReasonDescriptor instead')
+const EventReason$json = {
+  '1': 'EventReason',
+  '2': [
+    {'1': 'EVENT_REASON_UNKNOWN', '2': 0},
+    {'1': 'EVENT_REASON_OUTAGE_UNKNOWN', '2': 1},
+    {'1': 'EVENT_REASON_OUTAGE_BOOTING', '2': 2},
+    {'1': 'EVENT_REASON_OUTAGE_STOWED', '2': 3},
+    {'1': 'EVENT_REASON_OUTAGE_THERMAL_SHUTDOWN', '2': 4},
+    {'1': 'EVENT_REASON_OUTAGE_NO_SCHEDULE', '2': 5},
+    {'1': 'EVENT_REASON_OUTAGE_NO_SATS', '2': 6},
+    {'1': 'EVENT_REASON_OUTAGE_OBSTRUCTED', '2': 7},
+    {'1': 'EVENT_REASON_OUTAGE_NO_DOWNLINK', '2': 8},
+    {'1': 'EVENT_REASON_OUTAGE_NO_PINGS', '2': 9},
+    {'1': 'EVENT_REASON_OUTAGE_SLEEPING', '2': 10},
+    {'1': 'EVENT_REASON_OUTAGE_MOVING_WHILE_NOT_ALLOWED', '2': 11},
+    {'1': 'EVENT_REASON_HIGH_DOWNLINK_PACKET_LOSS', '2': 12},
+    {'1': 'EVENT_REASON_ROUTER_FACTORY_RESET', '2': 13},
+    {'1': 'EVENT_REASON_ROUTER_REBOOT', '2': 14},
+    {'1': 'EVENT_REASON_ROUTER_POWER_CYCLE', '2': 15},
+    {'1': 'EVENT_REASON_ROUTER_CONFIG_UPDATE', '2': 16},
+    {'1': 'EVENT_REASON_ROUTER_SOFTWARE_UPDATE', '2': 17},
+    {'1': 'EVENT_REASON_ROUTER_THERMAL_THROTTLED', '2': 18},
+    {'1': 'EVENT_REASON_OUTAGE_SKY_SEARCH', '2': 19},
+    {'1': 'EVENT_REASON_ROUTER_REBOOT_CONFIG_UPDATE', '2': 20},
+    {'1': 'EVENT_REASON_ROUTER_PUBLIC_IPV4_CHANGE', '2': 21},
+    {'1': 'EVENT_REASON_UT_ALERT_RAIN_SNR_PERSISTENTLY_LOW', '2': 22},
+    {'1': 'EVENT_REASON_UT_ALERT_ETH_NO_LINK', '2': 23},
+    {'1': 'EVENT_REASON_UT_ALERT_ETH_SLOW_LINK', '2': 24},
+    {'1': 'EVENT_REASON_UT_ALERT_ETH_SLOW_LINK_100', '2': 25},
+    {'1': 'EVENT_REASON_ROUTER_POP_IPV4_PING_DROP', '2': 26},
+    {'1': 'EVENT_REASON_ROUTER_POP_IPV6_PING_DROP', '2': 27},
+    {'1': 'EVENT_REASON_ROUTER_LAN_ETH_HIGH_PACKET_LOSS', '2': 28},
+    {'1': 'EVENT_REASON_ROUTER_WAN_ETH_HIGH_PACKET_LOSS', '2': 29},
+    {'1': 'EVENT_REASON_ROUTER_DHCP_SERVER_FAIL_TO_START', '2': 30},
+    {'1': 'EVENT_REASON_ROUTER_DHCP_SERVER_EXHAUSTED', '2': 31},
+    {'1': 'EVENT_REASON_ROUTER_DNS_IPV4_SERVER_FAIL_TO_START', '2': 32},
+    {'1': 'EVENT_REASON_ROUTER_DNS_IPV6_SERVER_FAIL_TO_START', '2': 33},
+    {'1': 'EVENT_REASON_ROUTER_SET_CUSTOM_DNS_DISALLOWED', '2': 34},
+    {'1': 'EVENT_REASON_ROUTER_SET_CUSTOM_DNS_ALLOWED', '2': 35},
+    {'1': 'EVENT_REASON_ROUTER_MAX_WIRELESS_CLIENTS', '2': 36},
+    {'1': 'EVENT_REASON_ROUTER_MAX_5GHIGH_WIRELESS_CLIENTS', '2': 37},
+    {'1': 'EVENT_REASON_ROUTER_MESH_TOPOLOGY_CHANGING_OFTEN', '2': 38},
+    {'1': 'EVENT_REASON_ROUTER_CONNTRACK_FULL', '2': 39},
+  ],
+};
+
+/// Descriptor for `EventReason`. Decode as a `google.protobuf.EnumDescriptorProto`.
+final $typed_data.Uint8List eventReasonDescriptor = $convert.base64Decode(
+    'CgtFdmVudFJlYXNvbhIYChRFVkVOVF9SRUFTT05fVU5LTk9XThAAEh8KG0VWRU5UX1JFQVNPTl'
+    '9PVVRBR0VfVU5LTk9XThABEh8KG0VWRU5UX1JFQVNPTl9PVVRBR0VfQk9PVElORxACEh4KGkVW'
+    'RU5UX1JFQVNPTl9PVVRBR0VfU1RPV0VEEAMSKAokRVZFTlRfUkVBU09OX09VVEFHRV9USEVSTU'
+    'FMX1NIVVRET1dOEAQSIwofRVZFTlRfUkVBU09OX09VVEFHRV9OT19TQ0hFRFVMRRAFEh8KG0VW'
+    'RU5UX1JFQVNPTl9PVVRBR0VfTk9fU0FUUxAGEiIKHkVWRU5UX1JFQVNPTl9PVVRBR0VfT0JTVF'
+    'JVQ1RFRBAHEiMKH0VWRU5UX1JFQVNPTl9PVVRBR0VfTk9fRE9XTkxJTksQCBIgChxFVkVOVF9S'
+    'RUFTT05fT1VUQUdFX05PX1BJTkdTEAkSIAocRVZFTlRfUkVBU09OX09VVEFHRV9TTEVFUElORx'
+    'AKEjAKLEVWRU5UX1JFQVNPTl9PVVRBR0VfTU9WSU5HX1dISUxFX05PVF9BTExPV0VEEAsSKgom'
+    'RVZFTlRfUkVBU09OX0hJR0hfRE9XTkxJTktfUEFDS0VUX0xPU1MQDBIlCiFFVkVOVF9SRUFTT0'
+    '5fUk9VVEVSX0ZBQ1RPUllfUkVTRVQQDRIeChpFVkVOVF9SRUFTT05fUk9VVEVSX1JFQk9PVBAO'
+    'EiMKH0VWRU5UX1JFQVNPTl9ST1VURVJfUE9XRVJfQ1lDTEUQDxIlCiFFVkVOVF9SRUFTT05fUk'
+    '9VVEVSX0NPTkZJR19VUERBVEUQEBInCiNFVkVOVF9SRUFTT05fUk9VVEVSX1NPRlRXQVJFX1VQ'
+    'REFURRAREikKJUVWRU5UX1JFQVNPTl9ST1VURVJfVEhFUk1BTF9USFJPVFRMRUQQEhIiCh5FVk'
+    'VOVF9SRUFTT05fT1VUQUdFX1NLWV9TRUFSQ0gQExIsCihFVkVOVF9SRUFTT05fUk9VVEVSX1JF'
+    'Qk9PVF9DT05GSUdfVVBEQVRFEBQSKgomRVZFTlRfUkVBU09OX1JPVVRFUl9QVUJMSUNfSVBWNF'
+    '9DSEFOR0UQFRIzCi9FVkVOVF9SRUFTT05fVVRfQUxFUlRfUkFJTl9TTlJfUEVSU0lTVEVOVExZ'
+    'X0xPVxAWEiUKIUVWRU5UX1JFQVNPTl9VVF9BTEVSVF9FVEhfTk9fTElOSxAXEicKI0VWRU5UX1'
+    'JFQVNPTl9VVF9BTEVSVF9FVEhfU0xPV19MSU5LEBgSKwonRVZFTlRfUkVBU09OX1VUX0FMRVJU'
+    'X0VUSF9TTE9XX0xJTktfMTAwEBkSKgomRVZFTlRfUkVBU09OX1JPVVRFUl9QT1BfSVBWNF9QSU'
+    '5HX0RST1AQGhIqCiZFVkVOVF9SRUFTT05fUk9VVEVSX1BPUF9JUFY2X1BJTkdfRFJPUBAbEjAK'
+    'LEVWRU5UX1JFQVNPTl9ST1VURVJfTEFOX0VUSF9ISUdIX1BBQ0tFVF9MT1NTEBwSMAosRVZFTl'
+    'RfUkVBU09OX1JPVVRFUl9XQU5fRVRIX0hJR0hfUEFDS0VUX0xPU1MQHRIxCi1FVkVOVF9SRUFT'
+    'T05fUk9VVEVSX0RIQ1BfU0VSVkVSX0ZBSUxfVE9fU1RBUlQQHhItCilFVkVOVF9SRUFTT05fUk'
+    '9VVEVSX0RIQ1BfU0VSVkVSX0VYSEFVU1RFRBAfEjUKMUVWRU5UX1JFQVNPTl9ST1VURVJfRE5T'
+    'X0lQVjRfU0VSVkVSX0ZBSUxfVE9fU1RBUlQQIBI1CjFFVkVOVF9SRUFTT05fUk9VVEVSX0ROU1'
+    '9JUFY2X1NFUlZFUl9GQUlMX1RPX1NUQVJUECESMQotRVZFTlRfUkVBU09OX1JPVVRFUl9TRVRf'
+    'Q1VTVE9NX0ROU19ESVNBTExPV0VEECISLgoqRVZFTlRfUkVBU09OX1JPVVRFUl9TRVRfQ1VTVE'
+    '9NX0ROU19BTExPV0VEECMSLAooRVZFTlRfUkVBU09OX1JPVVRFUl9NQVhfV0lSRUxFU1NfQ0xJ'
+    'RU5UUxAkEjMKL0VWRU5UX1JFQVNPTl9ST1VURVJfTUFYXzVHSElHSF9XSVJFTEVTU19DTElFTl'
+    'RTECUSNAowRVZFTlRfUkVBU09OX1JPVVRFUl9NRVNIX1RPUE9MT0dZX0NIQU5HSU5HX09GVEVO'
+    'ECYSJgoiRVZFTlRfUkVBU09OX1JPVVRFUl9DT05OVFJBQ0tfRlVMTBAn');
 
 @$core.Deprecated('Use obstructionMapReferenceFrameDescriptor instead')
 const ObstructionMapReferenceFrame$json = {
@@ -425,9 +563,10 @@ const ObstructionMapReferenceFrame$json = {
 };
 
 /// Descriptor for `ObstructionMapReferenceFrame`. Decode as a `google.protobuf.EnumDescriptorProto`.
-final $typed_data.Uint8List obstructionMapReferenceFrameDescriptor = $convert.base64Decode(
-    'ChxPYnN0cnVjdGlvbk1hcFJlZmVyZW5jZUZyYW1lEhEKDUZSQU1FX1VOS05PV04QABIPCgtGUk'
-    'FNRV9FQVJUSBABEgwKCEZSQU1FX1VUEAI=');
+final $typed_data.Uint8List obstructionMapReferenceFrameDescriptor =
+    $convert.base64Decode(
+        'ChxPYnN0cnVjdGlvbk1hcFJlZmVyZW5jZUZyYW1lEhEKDUZSQU1FX1VOS05PV04QABIPCgtGUk'
+        'FNRV9FQVJUSBABEgwKCEZSQU1FX1VUEAI=');
 
 @$core.Deprecated('Use poeStateDescriptor instead')
 const PoeState$json = {
@@ -496,6 +635,27 @@ final $typed_data.Uint8List wifiSetupRequirementStateDescriptor = $convert.base6
     'VEX0NPVU5URE9XThABEhMKD1JFUVVJUkVEX1BBVVNFRBACEhUKEVJFUVVJUkVEX0NPTVBMRVRF'
     'EAM=');
 
+@$core.Deprecated('Use calibrationPartitionsStateDescriptor instead')
+const CalibrationPartitionsState$json = {
+  '1': 'CalibrationPartitionsState',
+  '2': [
+    {'1': 'CALIBRATION_PARTITIONS_STATE_UNSPECIFIED', '2': 0},
+    {'1': 'CALIBRATION_PARTITIONS_STATE_ABSENT_BOTH_SIDES', '2': 1},
+    {'1': 'CALIBRATION_PARTITIONS_STATE_CONTENTS_EQUAL', '2': 2},
+    {'1': 'CALIBRATION_PARTITIONS_STATE_CONTENTS_NOT_EQUAL', '2': 3},
+    {'1': 'CALIBRATION_PARTITIONS_STATE_COMPARISON_FAILED', '2': 4},
+  ],
+};
+
+/// Descriptor for `CalibrationPartitionsState`. Decode as a `google.protobuf.EnumDescriptorProto`.
+final $typed_data.Uint8List calibrationPartitionsStateDescriptor = $convert.base64Decode(
+    'ChpDYWxpYnJhdGlvblBhcnRpdGlvbnNTdGF0ZRIsCihDQUxJQlJBVElPTl9QQVJUSVRJT05TX1'
+    'NUQVRFX1VOU1BFQ0lGSUVEEAASMgouQ0FMSUJSQVRJT05fUEFSVElUSU9OU19TVEFURV9BQlNF'
+    'TlRfQk9USF9TSURFUxABEi8KK0NBTElCUkFUSU9OX1BBUlRJVElPTlNfU1RBVEVfQ09OVEVOVF'
+    'NfRVFVQUwQAhIzCi9DQUxJQlJBVElPTl9QQVJUSVRJT05TX1NUQVRFX0NPTlRFTlRTX05PVF9F'
+    'UVVBTBADEjIKLkNBTElCUkFUSU9OX1BBUlRJVElPTlNfU1RBVEVfQ09NUEFSSVNPTl9GQUlMRU'
+    'QQBA==');
+
 @$core.Deprecated('Use wifiSecurityDescriptor instead')
 const WifiSecurity$json = {
   '1': 'WifiSecurity',
@@ -554,9 +714,10 @@ const TransceiverModulatorState$json = {
 };
 
 /// Descriptor for `TransceiverModulatorState`. Decode as a `google.protobuf.EnumDescriptorProto`.
-final $typed_data.Uint8List transceiverModulatorStateDescriptor = $convert.base64Decode(
-    'ChlUcmFuc2NlaXZlck1vZHVsYXRvclN0YXRlEhQKEE1PRFNUQVRFX1VOS05PV04QABIUChBNT0'
-    'RTVEFURV9FTkFCTEVEEAESFQoRTU9EU1RBVEVfRElTQUJMRUQQAg==');
+final $typed_data.Uint8List transceiverModulatorStateDescriptor =
+    $convert.base64Decode(
+        'ChlUcmFuc2NlaXZlck1vZHVsYXRvclN0YXRlEhQKEE1PRFNUQVRFX1VOS05PV04QABIUChBNT0'
+        'RTVEFURV9FTkFCTEVEEAESFQoRTU9EU1RBVEVfRElTQUJMRUQQAg==');
 
 @$core.Deprecated('Use transceiverTxRxStateDescriptor instead')
 const TransceiverTxRxState$json = {
@@ -600,9 +761,10 @@ const TransceiverTransmitBlankingState$json = {
 };
 
 /// Descriptor for `TransceiverTransmitBlankingState`. Decode as a `google.protobuf.EnumDescriptorProto`.
-final $typed_data.Uint8List transceiverTransmitBlankingStateDescriptor = $convert.base64Decode(
-    'CiBUcmFuc2NlaXZlclRyYW5zbWl0QmxhbmtpbmdTdGF0ZRIOCgpUQl9VTktOT1dOEAASDgoKVE'
-    'JfRU5BQkxFRBABEg8KC1RCX0RJU0FCTEVEEAI=');
+final $typed_data.Uint8List transceiverTransmitBlankingStateDescriptor =
+    $convert.base64Decode(
+        'CiBUcmFuc2NlaXZlclRyYW5zbWl0QmxhbmtpbmdTdGF0ZRIOCgpUQl9VTktOT1dOEAASDgoKVE'
+        'JfRU5BQkxFRBABEg8KC1RCX0RJU0FCTEVEEAI=');
 
 @$core.Deprecated('Use requestDescriptor instead')
 const Request$json = {
@@ -611,31 +773,231 @@ const Request$json = {
     {'1': 'id', '3': 1, '4': 1, '5': 4, '10': 'id'},
     {'1': 'target_id', '3': 13, '4': 1, '5': 9, '10': 'targetId'},
     {'1': 'epoch_id', '3': 14, '4': 1, '5': 4, '10': 'epochId'},
-    {'1': 'signed_request', '3': 15, '4': 1, '5': 11, '6': '.SpaceX.API.Device.SignedData', '9': 0, '10': 'signedRequest'},
-    {'1': 'reboot', '3': 1001, '4': 1, '5': 11, '6': '.SpaceX.API.Device.RebootRequest', '9': 0, '10': 'reboot'},
-    {'1': 'speed_test', '3': 1003, '4': 1, '5': 11, '6': '.SpaceX.API.Device.SpeedTestRequest', '9': 0, '10': 'speedTest'},
-    {'1': 'get_status', '3': 1004, '4': 1, '5': 11, '6': '.SpaceX.API.Device.GetStatusRequest', '9': 0, '10': 'getStatus'},
-    {'1': 'authenticate', '3': 1005, '4': 1, '5': 11, '6': '.SpaceX.API.Device.AuthenticateRequest', '9': 0, '10': 'authenticate'},
-    {'1': 'get_next_id', '3': 1006, '4': 1, '5': 11, '6': '.SpaceX.API.Device.GetNextIdRequest', '9': 0, '10': 'getNextId'},
-    {'1': 'get_history', '3': 1007, '4': 1, '5': 11, '6': '.SpaceX.API.Device.GetHistoryRequest', '9': 0, '10': 'getHistory'},
-    {'1': 'get_device_info', '3': 1008, '4': 1, '5': 11, '6': '.SpaceX.API.Device.GetDeviceInfoRequest', '9': 0, '10': 'getDeviceInfo'},
-    {'1': 'get_ping', '3': 1009, '4': 1, '5': 11, '6': '.SpaceX.API.Device.GetPingRequest', '9': 0, '10': 'getPing'},
-    {'1': 'set_trusted_keys', '3': 1010, '4': 1, '5': 11, '6': '.SpaceX.API.Device.SetTrustedKeysRequest', '9': 0, '10': 'setTrustedKeys'},
-    {'1': 'factory_reset', '3': 1011, '4': 1, '5': 11, '6': '.SpaceX.API.Device.FactoryResetRequest', '9': 0, '10': 'factoryReset'},
-    {'1': 'get_log', '3': 1012, '4': 1, '5': 11, '6': '.SpaceX.API.Device.GetLogRequest', '9': 0, '10': 'getLog'},
-    {'1': 'set_sku', '3': 1013, '4': 1, '5': 11, '6': '.SpaceX.API.Device.SetSkuRequest', '9': 0, '10': 'setSku'},
-    {'1': 'update', '3': 1014, '4': 1, '5': 11, '6': '.SpaceX.API.Device.UpdateRequest', '9': 0, '10': 'update'},
-    {'1': 'get_network_interfaces', '3': 1015, '4': 1, '5': 11, '6': '.SpaceX.API.Device.GetNetworkInterfacesRequest', '9': 0, '10': 'getNetworkInterfaces'},
-    {'1': 'ping_host', '3': 1016, '4': 1, '5': 11, '6': '.SpaceX.API.Device.PingHostRequest', '9': 0, '10': 'pingHost'},
-    {'1': 'get_location', '3': 1017, '4': 1, '5': 11, '6': '.SpaceX.API.Device.GetLocationRequest', '9': 0, '10': 'getLocation'},
-    {'1': 'get_heap_dump', '3': 1019, '4': 1, '5': 11, '6': '.SpaceX.API.Device.GetHeapDumpRequest', '9': 0, '10': 'getHeapDump'},
-    {'1': 'restart_control', '3': 1020, '4': 1, '5': 11, '6': '.SpaceX.API.Device.RestartControlRequest', '9': 0, '10': 'restartControl'},
-    {'1': 'fuse', '3': 1021, '4': 1, '5': 11, '6': '.SpaceX.API.Device.FuseRequest', '9': 0, '10': 'fuse'},
-    {'1': 'get_persistent_stats', '3': 1022, '4': 1, '5': 11, '6': '.SpaceX.API.Device.GetPersistentStatsRequest', '9': 0, '10': 'getPersistentStats'},
-    {'1': 'get_connections', '3': 1023, '4': 1, '5': 11, '6': '.SpaceX.API.Device.GetConnectionsRequest', '9': 0, '10': 'getConnections'},
-    {'1': 'start_speedtest', '3': 1027, '4': 1, '5': 11, '6': '.SpaceX.API.Device.StartSpeedtestRequest', '9': 0, '10': 'startSpeedtest'},
-    {'1': 'get_speedtest_status', '3': 1028, '4': 1, '5': 11, '6': '.SpaceX.API.Device.GetSpeedtestStatusRequest', '9': 0, '10': 'getSpeedtestStatus'},
-    {'1': 'report_client_speedtest', '3': 1029, '4': 1, '5': 11, '6': '.SpaceX.API.Device.ReportClientSpeedtestRequest', '9': 0, '10': 'reportClientSpeedtest'},
+    {
+      '1': 'signed_request',
+      '3': 15,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.SignedData',
+      '9': 0,
+      '10': 'signedRequest'
+    },
+    {
+      '1': 'reboot',
+      '3': 1001,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.RebootRequest',
+      '9': 0,
+      '10': 'reboot'
+    },
+    {
+      '1': 'speed_test',
+      '3': 1003,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.SpeedTestRequest',
+      '9': 0,
+      '10': 'speedTest'
+    },
+    {
+      '1': 'get_status',
+      '3': 1004,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.GetStatusRequest',
+      '9': 0,
+      '10': 'getStatus'
+    },
+    {
+      '1': 'authenticate',
+      '3': 1005,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.AuthenticateRequest',
+      '9': 0,
+      '10': 'authenticate'
+    },
+    {
+      '1': 'get_next_id',
+      '3': 1006,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.GetNextIdRequest',
+      '9': 0,
+      '10': 'getNextId'
+    },
+    {
+      '1': 'get_history',
+      '3': 1007,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.GetHistoryRequest',
+      '9': 0,
+      '10': 'getHistory'
+    },
+    {
+      '1': 'get_device_info',
+      '3': 1008,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.GetDeviceInfoRequest',
+      '9': 0,
+      '10': 'getDeviceInfo'
+    },
+    {
+      '1': 'get_ping',
+      '3': 1009,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.GetPingRequest',
+      '9': 0,
+      '10': 'getPing'
+    },
+    {
+      '1': 'set_trusted_keys',
+      '3': 1010,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.SetTrustedKeysRequest',
+      '9': 0,
+      '10': 'setTrustedKeys'
+    },
+    {
+      '1': 'factory_reset',
+      '3': 1011,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.FactoryResetRequest',
+      '9': 0,
+      '10': 'factoryReset'
+    },
+    {
+      '1': 'get_log',
+      '3': 1012,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.GetLogRequest',
+      '9': 0,
+      '10': 'getLog'
+    },
+    {
+      '1': 'set_sku',
+      '3': 1013,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.SetSkuRequest',
+      '9': 0,
+      '10': 'setSku'
+    },
+    {
+      '1': 'update',
+      '3': 1014,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.UpdateRequest',
+      '9': 0,
+      '10': 'update'
+    },
+    {
+      '1': 'get_network_interfaces',
+      '3': 1015,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.GetNetworkInterfacesRequest',
+      '9': 0,
+      '10': 'getNetworkInterfaces'
+    },
+    {
+      '1': 'ping_host',
+      '3': 1016,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.PingHostRequest',
+      '9': 0,
+      '10': 'pingHost'
+    },
+    {
+      '1': 'get_location',
+      '3': 1017,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.GetLocationRequest',
+      '9': 0,
+      '10': 'getLocation'
+    },
+    {
+      '1': 'get_heap_dump',
+      '3': 1019,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.GetHeapDumpRequest',
+      '9': 0,
+      '10': 'getHeapDump'
+    },
+    {
+      '1': 'restart_control',
+      '3': 1020,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.RestartControlRequest',
+      '9': 0,
+      '10': 'restartControl'
+    },
+    {
+      '1': 'fuse',
+      '3': 1021,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.FuseRequest',
+      '9': 0,
+      '10': 'fuse'
+    },
+    {
+      '1': 'get_persistent_stats',
+      '3': 1022,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.GetPersistentStatsRequest',
+      '9': 0,
+      '10': 'getPersistentStats'
+    },
+    {
+      '1': 'get_connections',
+      '3': 1023,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.GetConnectionsRequest',
+      '9': 0,
+      '10': 'getConnections'
+    },
+    {
+      '1': 'start_speedtest',
+      '3': 1027,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.StartSpeedtestRequest',
+      '9': 0,
+      '10': 'startSpeedtest'
+    },
+    {
+      '1': 'get_speedtest_status',
+      '3': 1028,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.GetSpeedtestStatusRequest',
+      '9': 0,
+      '10': 'getSpeedtestStatus'
+    },
+    {
+      '1': 'report_client_speedtest',
+      '3': 1029,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.ReportClientSpeedtestRequest',
+      '9': 0,
+      '10': 'reportClientSpeedtest'
+    },
     {
       '1': 'initiate_remote_ssh',
       '3': 1030,
@@ -646,39 +1008,339 @@ const Request$json = {
       '9': 0,
       '10': 'initiateRemoteSsh',
     },
-    {'1': 'self_test', '3': 1031, '4': 1, '5': 11, '6': '.SpaceX.API.Device.SelfTestRequest', '9': 0, '10': 'selfTest'},
-    {'1': 'set_test_mode', '3': 1032, '4': 1, '5': 11, '6': '.SpaceX.API.Device.SetTestModeRequest', '9': 0, '10': 'setTestMode'},
-    {'1': 'software_update', '3': 1033, '4': 1, '5': 11, '6': '.SpaceX.API.Device.SoftwareUpdateRequest', '9': 0, '10': 'softwareUpdate'},
-    {'1': 'enable_debug_telem', '3': 1034, '4': 1, '5': 11, '6': '.SpaceX.API.Device.EnableDebugTelemRequest', '9': 0, '10': 'enableDebugTelem'},
-    {'1': 'iq_capture', '3': 1035, '4': 1, '5': 11, '6': '.SpaceX.API.Device.IQCaptureRequest', '9': 0, '10': 'iqCapture'},
-    {'1': 'get_radio_stats', '3': 1036, '4': 1, '5': 11, '6': '.SpaceX.API.Device.GetRadioStatsRequest', '9': 0, '10': 'getRadioStats'},
-    {'1': 'time', '3': 1037, '4': 1, '5': 11, '6': '.SpaceX.API.Device.GetTimeRequest', '9': 0, '10': 'time'},
-    {'1': 'run_iperf_server', '3': 1038, '4': 1, '5': 11, '6': '.SpaceX.API.Device.RunIperfServerRequest', '9': 0, '10': 'runIperfServer'},
-    {'1': 'tcp_connectivity_test', '3': 1039, '4': 1, '5': 11, '6': '.SpaceX.API.Device.TcpConnectivityTestRequest', '9': 0, '10': 'tcpConnectivityTest'},
-    {'1': 'udp_connectivity_test', '3': 1040, '4': 1, '5': 11, '6': '.SpaceX.API.Device.UdpConnectivityTestRequest', '9': 0, '10': 'udpConnectivityTest'},
-    {'1': 'sensitive_request', '3': 1078, '4': 1, '5': 11, '6': '.SpaceX.API.Device.SignedData', '9': 0, '10': 'sensitiveRequest'},
-    {'1': 'dish_stow', '3': 2002, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishStowRequest', '9': 0, '10': 'dishStow'},
-    {'1': 'dish_get_context', '3': 2003, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishGetContextRequest', '9': 0, '10': 'dishGetContext'},
-    {'1': 'dish_set_emc', '3': 2007, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishSetEmcRequest', '9': 0, '10': 'dishSetEmc'},
-    {'1': 'dish_get_obstruction_map', '3': 2008, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishGetObstructionMapRequest', '9': 0, '10': 'dishGetObstructionMap'},
-    {'1': 'dish_get_emc', '3': 2009, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishGetEmcRequest', '9': 0, '10': 'dishGetEmc'},
-    {'1': 'dish_set_config', '3': 2010, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishSetConfigRequest', '9': 0, '10': 'dishSetConfig'},
-    {'1': 'dish_get_config', '3': 2011, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishGetConfigRequest', '9': 0, '10': 'dishGetConfig'},
-    {'1': 'dish_power_save', '3': 2013, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishPowerSaveRequest', '9': 0, '10': 'dishPowerSave'},
-    {'1': 'dish_inhibit_gps', '3': 2014, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishInhibitGpsRequest', '9': 0, '10': 'dishInhibitGps'},
-    {'1': 'dish_get_data', '3': 2015, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishGetDataRequest', '9': 0, '10': 'dishGetData'},
-    {'1': 'dish_clear_obstruction_map', '3': 2017, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishClearObstructionMapRequest', '9': 0, '10': 'dishClearObstructionMap'},
-    {'1': 'dish_set_max_power_test_mode', '3': 2018, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishSetMaxPowerTestModeRequest', '9': 0, '10': 'dishSetMaxPowerTestMode'},
-    {'1': 'dish_activate_rssi_scan', '3': 2019, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishActivateRssiScanRequest', '9': 0, '10': 'dishActivateRssiScan'},
-    {'1': 'dish_get_rssi_scan_result', '3': 2020, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishGetRssiScanResultRequest', '9': 0, '10': 'dishGetRssiScanResult'},
-    {'1': 'dish_factory_reset', '3': 2021, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishFactoryResetRequest', '9': 0, '10': 'dishFactoryReset'},
-    {'1': 'reset_button', '3': 2022, '4': 1, '5': 11, '6': '.SpaceX.API.Device.ResetButtonRequest', '9': 0, '10': 'resetButton'},
-    {'1': 'wifi_set_config', '3': 3001, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiSetConfigRequest', '9': 0, '10': 'wifiSetConfig'},
-    {'1': 'wifi_get_clients', '3': 3002, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiGetClientsRequest', '9': 0, '10': 'wifiGetClients'},
-    {'1': 'wifi_setup', '3': 3003, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiSetupRequest', '9': 0, '10': 'wifiSetup'},
-    {'1': 'wifi_get_ping_metrics', '3': 3007, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiGetPingMetricsRequest', '9': 0, '10': 'wifiGetPingMetrics'},
-    {'1': 'wifi_get_config', '3': 3009, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiGetConfigRequest', '9': 0, '10': 'wifiGetConfig'},
-    {'1': 'wifi_set_mesh_device_trust', '3': 3012, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiSetMeshDeviceTrustRequest', '9': 0, '10': 'wifiSetMeshDeviceTrust'},
+    {
+      '1': 'self_test',
+      '3': 1031,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.SelfTestRequest',
+      '9': 0,
+      '10': 'selfTest'
+    },
+    {
+      '1': 'set_test_mode',
+      '3': 1032,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.SetTestModeRequest',
+      '9': 0,
+      '10': 'setTestMode'
+    },
+    {
+      '1': 'software_update',
+      '3': 1033,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.SoftwareUpdateRequest',
+      '9': 0,
+      '10': 'softwareUpdate'
+    },
+    {
+      '1': 'enable_debug_telem',
+      '3': 1034,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.EnableDebugTelemRequest',
+      '9': 0,
+      '10': 'enableDebugTelem'
+    },
+    {
+      '1': 'iq_capture',
+      '3': 1035,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.IQCaptureRequest',
+      '9': 0,
+      '10': 'iqCapture'
+    },
+    {
+      '1': 'get_radio_stats',
+      '3': 1036,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.GetRadioStatsRequest',
+      '9': 0,
+      '10': 'getRadioStats'
+    },
+    {
+      '1': 'time',
+      '3': 1037,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.GetTimeRequest',
+      '9': 0,
+      '10': 'time'
+    },
+    {
+      '1': 'run_iperf_server',
+      '3': 1038,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.RunIperfServerRequest',
+      '9': 0,
+      '10': 'runIperfServer'
+    },
+    {
+      '1': 'tcp_connectivity_test',
+      '3': 1039,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.TcpConnectivityTestRequest',
+      '9': 0,
+      '10': 'tcpConnectivityTest'
+    },
+    {
+      '1': 'udp_connectivity_test',
+      '3': 1040,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.UdpConnectivityTestRequest',
+      '9': 0,
+      '10': 'udpConnectivityTest'
+    },
+    {
+      '1': 'get_goroutine_stack_traces',
+      '3': 1041,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.GetGoroutineStackTracesRequest',
+      '9': 0,
+      '10': 'getGoroutineStackTraces'
+    },
+    {
+      '1': 'sensitive_request',
+      '3': 1078,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.SignedData',
+      '9': 0,
+      '10': 'sensitiveRequest'
+    },
+    {
+      '1': 'dish_stow',
+      '3': 2002,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishStowRequest',
+      '9': 0,
+      '10': 'dishStow'
+    },
+    {
+      '1': 'dish_get_context',
+      '3': 2003,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishGetContextRequest',
+      '9': 0,
+      '10': 'dishGetContext'
+    },
+    {
+      '1': 'dish_set_emc',
+      '3': 2007,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishSetEmcRequest',
+      '9': 0,
+      '10': 'dishSetEmc'
+    },
+    {
+      '1': 'dish_get_obstruction_map',
+      '3': 2008,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishGetObstructionMapRequest',
+      '9': 0,
+      '10': 'dishGetObstructionMap'
+    },
+    {
+      '1': 'dish_get_emc',
+      '3': 2009,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishGetEmcRequest',
+      '9': 0,
+      '10': 'dishGetEmc'
+    },
+    {
+      '1': 'dish_set_config',
+      '3': 2010,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishSetConfigRequest',
+      '9': 0,
+      '10': 'dishSetConfig'
+    },
+    {
+      '1': 'dish_get_config',
+      '3': 2011,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishGetConfigRequest',
+      '9': 0,
+      '10': 'dishGetConfig'
+    },
+    {
+      '1': 'dish_power_save',
+      '3': 2013,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishPowerSaveRequest',
+      '9': 0,
+      '10': 'dishPowerSave'
+    },
+    {
+      '1': 'dish_inhibit_gps',
+      '3': 2014,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishInhibitGpsRequest',
+      '9': 0,
+      '10': 'dishInhibitGps'
+    },
+    {
+      '1': 'dish_get_data',
+      '3': 2015,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishGetDataRequest',
+      '9': 0,
+      '10': 'dishGetData'
+    },
+    {
+      '1': 'dish_clear_obstruction_map',
+      '3': 2017,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishClearObstructionMapRequest',
+      '9': 0,
+      '10': 'dishClearObstructionMap'
+    },
+    {
+      '1': 'dish_set_max_power_test_mode',
+      '3': 2018,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishSetMaxPowerTestModeRequest',
+      '9': 0,
+      '10': 'dishSetMaxPowerTestMode'
+    },
+    {
+      '1': 'dish_activate_rssi_scan',
+      '3': 2019,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishActivateRssiScanRequest',
+      '9': 0,
+      '10': 'dishActivateRssiScan'
+    },
+    {
+      '1': 'dish_get_rssi_scan_result',
+      '3': 2020,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishGetRssiScanResultRequest',
+      '9': 0,
+      '10': 'dishGetRssiScanResult'
+    },
+    {
+      '1': 'dish_factory_reset',
+      '3': 2021,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishFactoryResetRequest',
+      '9': 0,
+      '10': 'dishFactoryReset'
+    },
+    {
+      '1': 'reset_button',
+      '3': 2022,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.ResetButtonRequest',
+      '9': 0,
+      '10': 'resetButton'
+    },
+    {
+      '1': 'set_per_vehicle_config',
+      '3': 2023,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.SoftwareUpdateRequest',
+      '9': 0,
+      '10': 'setPerVehicleConfig'
+    },
+    {
+      '1': 'dish_aviation_test',
+      '3': 2024,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishAviationTestRequest',
+      '9': 0,
+      '10': 'dishAviationTest'
+    },
+    {
+      '1': 'dish_inhibit_rf',
+      '3': 2026,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishInhibitRfRequest',
+      '9': 0,
+      '10': 'dishInhibitRf'
+    },
+    {
+      '1': 'wifi_set_config',
+      '3': 3001,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiSetConfigRequest',
+      '9': 0,
+      '10': 'wifiSetConfig'
+    },
+    {
+      '1': 'wifi_get_clients',
+      '3': 3002,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiGetClientsRequest',
+      '9': 0,
+      '10': 'wifiGetClients'
+    },
+    {
+      '1': 'wifi_setup',
+      '3': 3003,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiSetupRequest',
+      '9': 0,
+      '10': 'wifiSetup'
+    },
+    {
+      '1': 'wifi_get_ping_metrics',
+      '3': 3007,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiGetPingMetricsRequest',
+      '9': 0,
+      '10': 'wifiGetPingMetrics'
+    },
+    {
+      '1': 'wifi_get_config',
+      '3': 3009,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiGetConfigRequest',
+      '9': 0,
+      '10': 'wifiGetConfig'
+    },
+    {
+      '1': 'wifi_set_mesh_device_trust',
+      '3': 3012,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiSetMeshDeviceTrustRequest',
+      '9': 0,
+      '10': 'wifiSetMeshDeviceTrust'
+    },
     {
       '1': 'wifi_set_mesh_config',
       '3': 3013,
@@ -689,25 +1351,213 @@ const Request$json = {
       '9': 0,
       '10': 'wifiSetMeshConfig',
     },
-    {'1': 'wifi_get_client_history', '3': 3015, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiGetClientHistoryRequest', '9': 0, '10': 'wifiGetClientHistory'},
-    {'1': 'wifi_set_aviation_conformed', '3': 3016, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiSetAviationConformedRequest', '9': 0, '10': 'wifiSetAviationConformed'},
-    {'1': 'wifi_set_client_given_name', '3': 3017, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiSetClientGivenNameRequest', '9': 0, '10': 'wifiSetClientGivenName'},
-    {'1': 'wifi_self_test', '3': 3018, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiSelfTestRequest', '9': 0, '10': 'wifiSelfTest'},
-    {'1': 'wifi_calibration_mode', '3': 3019, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiCalibrationModeRequest', '9': 0, '10': 'wifiCalibrationMode'},
-    {'1': 'wifi_guest_info', '3': 3020, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiGuestInfoRequest', '9': 0, '10': 'wifiGuestInfo'},
-    {'1': 'wifi_rf_test', '3': 3021, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiRfTestRequest', '9': 0, '10': 'wifiRfTest'},
-    {'1': 'wifi_get_firewall', '3': 3024, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiGetFirewallRequest', '9': 0, '10': 'wifiGetFirewall'},
-    {'1': 'wifi_toggle_poe_negotiation', '3': 3025, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiTogglePoeNegotiationRequest', '9': 0, '10': 'wifiTogglePoeNegotiation'},
-    {'1': 'wifi_factory_test_command', '3': 3026, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiFactoryTestCommandRequest', '9': 0, '10': 'wifiFactoryTestCommand'},
-    {'1': 'wifi_start_local_telem_proxy', '3': 3027, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiStartLocalTelemProxyRequest', '9': 0, '10': 'wifiStartLocalTelemProxy'},
-    {'1': 'wifi_run_self_test', '3': 3028, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiRunSelfTestRequest', '9': 0, '10': 'wifiRunSelfTest'},
-    {'1': 'wifi_backhaul_stats', '3': 3029, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiBackhaulStatsRequest', '9': 0, '10': 'wifiBackhaulStats'},
-    {'1': 'wifi_toggle_umbilical_mode', '3': 3030, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiToggleUmbilicalModeRequest', '9': 0, '10': 'wifiToggleUmbilicalMode'},
-    {'1': 'wifi_client_sandbox', '3': 3031, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiClientSandboxRequest', '9': 0, '10': 'wifiClientSandbox'},
-    {'1': 'transceiver_if_loopback_test', '3': 4001, '4': 1, '5': 11, '6': '.SpaceX.API.Device.TransceiverIFLoopbackTestRequest', '9': 0, '10': 'transceiverIfLoopbackTest'},
-    {'1': 'transceiver_get_status', '3': 4003, '4': 1, '5': 11, '6': '.SpaceX.API.Device.TransceiverGetStatusRequest', '9': 0, '10': 'transceiverGetStatus'},
-    {'1': 'transceiver_get_telemetry', '3': 4004, '4': 1, '5': 11, '6': '.SpaceX.API.Device.TransceiverGetTelemetryRequest', '9': 0, '10': 'transceiverGetTelemetry'},
-    {'1': 'get_diagnostics', '3': 6000, '4': 1, '5': 11, '6': '.SpaceX.API.Device.GetDiagnosticsRequest', '9': 0, '10': 'getDiagnostics'},
+    {
+      '1': 'wifi_get_client_history',
+      '3': 3015,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiGetClientHistoryRequest',
+      '9': 0,
+      '10': 'wifiGetClientHistory'
+    },
+    {
+      '1': 'wifi_set_aviation_conformed',
+      '3': 3016,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiSetAviationConformedRequest',
+      '9': 0,
+      '10': 'wifiSetAviationConformed'
+    },
+    {
+      '1': 'wifi_set_client_given_name',
+      '3': 3017,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiSetClientGivenNameRequest',
+      '9': 0,
+      '10': 'wifiSetClientGivenName'
+    },
+    {
+      '1': 'wifi_self_test',
+      '3': 3018,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiSelfTestRequest',
+      '9': 0,
+      '10': 'wifiSelfTest'
+    },
+    {
+      '1': 'wifi_calibration_mode',
+      '3': 3019,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiCalibrationModeRequest',
+      '9': 0,
+      '10': 'wifiCalibrationMode'
+    },
+    {
+      '1': 'wifi_guest_info',
+      '3': 3020,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiGuestInfoRequest',
+      '9': 0,
+      '10': 'wifiGuestInfo'
+    },
+    {
+      '1': 'wifi_rf_test',
+      '3': 3021,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiRfTestRequest',
+      '9': 0,
+      '10': 'wifiRfTest'
+    },
+    {
+      '1': 'wifi_get_firewall',
+      '3': 3024,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiGetFirewallRequest',
+      '9': 0,
+      '10': 'wifiGetFirewall'
+    },
+    {
+      '1': 'wifi_toggle_poe_negotiation',
+      '3': 3025,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiTogglePoeNegotiationRequest',
+      '9': 0,
+      '10': 'wifiTogglePoeNegotiation'
+    },
+    {
+      '1': 'wifi_factory_test_command',
+      '3': 3026,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiFactoryTestCommandRequest',
+      '9': 0,
+      '10': 'wifiFactoryTestCommand'
+    },
+    {
+      '1': 'wifi_start_local_telem_proxy',
+      '3': 3027,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiStartLocalTelemProxyRequest',
+      '9': 0,
+      '10': 'wifiStartLocalTelemProxy'
+    },
+    {
+      '1': 'wifi_run_self_test',
+      '3': 3028,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiRunSelfTestRequest',
+      '9': 0,
+      '10': 'wifiRunSelfTest'
+    },
+    {
+      '1': 'wifi_backhaul_stats',
+      '3': 3029,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiBackhaulStatsRequest',
+      '9': 0,
+      '10': 'wifiBackhaulStats'
+    },
+    {
+      '1': 'wifi_toggle_umbilical_mode',
+      '3': 3030,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiToggleUmbilicalModeRequest',
+      '9': 0,
+      '10': 'wifiToggleUmbilicalMode'
+    },
+    {
+      '1': 'wifi_client_sandbox',
+      '3': 3031,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiClientSandboxRequest',
+      '9': 0,
+      '10': 'wifiClientSandbox'
+    },
+    {
+      '1': 'wifi_run_debug_netsys',
+      '3': 3032,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiRunDebugNetsysRequest',
+      '9': 0,
+      '10': 'wifiRunDebugNetsys'
+    },
+    {
+      '1': 'wifi_reset_eth_phy',
+      '3': 3033,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiResetEthPhyRequest',
+      '9': 0,
+      '10': 'wifiResetEthPhy'
+    },
+    {
+      '1': 'wifi_flush_hardware_nat',
+      '3': 3034,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiFlushHardwareNatRequest',
+      '9': 0,
+      '10': 'wifiFlushHardwareNat'
+    },
+    {
+      '1': 'wifi_write_calibration',
+      '3': 3035,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiWriteCalibrationRequest',
+      '9': 0,
+      '10': 'wifiWriteCalibration'
+    },
+    {
+      '1': 'transceiver_if_loopback_test',
+      '3': 4001,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.TransceiverIFLoopbackTestRequest',
+      '9': 0,
+      '10': 'transceiverIfLoopbackTest'
+    },
+    {
+      '1': 'transceiver_get_status',
+      '3': 4003,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.TransceiverGetStatusRequest',
+      '9': 0,
+      '10': 'transceiverGetStatus'
+    },
+    {
+      '1': 'transceiver_get_telemetry',
+      '3': 4004,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.TransceiverGetTelemetryRequest',
+      '9': 0,
+      '10': 'transceiverGetTelemetry'
+    },
+    {
+      '1': 'get_diagnostics',
+      '3': 6000,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.GetDiagnosticsRequest',
+      '9': 0,
+      '10': 'getDiagnostics'
+    },
   ],
   '8': [
     {'1': 'request'},
@@ -780,83 +1630,97 @@ final $typed_data.Uint8List requestDescriptor = $convert.base64Decode(
     'dGVzdBiPCCABKAsyLS5TcGFjZVguQVBJLkRldmljZS5UY3BDb25uZWN0aXZpdHlUZXN0UmVxdW'
     'VzdEgAUhN0Y3BDb25uZWN0aXZpdHlUZXN0EmQKFXVkcF9jb25uZWN0aXZpdHlfdGVzdBiQCCAB'
     'KAsyLS5TcGFjZVguQVBJLkRldmljZS5VZHBDb25uZWN0aXZpdHlUZXN0UmVxdWVzdEgAUhN1ZH'
-    'BDb25uZWN0aXZpdHlUZXN0Ek0KEXNlbnNpdGl2ZV9yZXF1ZXN0GLYIIAEoCzIdLlNwYWNlWC5B'
-    'UEkuRGV2aWNlLlNpZ25lZERhdGFIAFIQc2Vuc2l0aXZlUmVxdWVzdBJCCglkaXNoX3N0b3cY0g'
-    '8gASgLMiIuU3BhY2VYLkFQSS5EZXZpY2UuRGlzaFN0b3dSZXF1ZXN0SABSCGRpc2hTdG93ElUK'
-    'EGRpc2hfZ2V0X2NvbnRleHQY0w8gASgLMiguU3BhY2VYLkFQSS5EZXZpY2UuRGlzaEdldENvbn'
-    'RleHRSZXF1ZXN0SABSDmRpc2hHZXRDb250ZXh0EkkKDGRpc2hfc2V0X2VtYxjXDyABKAsyJC5T'
-    'cGFjZVguQVBJLkRldmljZS5EaXNoU2V0RW1jUmVxdWVzdEgAUgpkaXNoU2V0RW1jEmsKGGRpc2'
-    'hfZ2V0X29ic3RydWN0aW9uX21hcBjYDyABKAsyLy5TcGFjZVguQVBJLkRldmljZS5EaXNoR2V0'
-    'T2JzdHJ1Y3Rpb25NYXBSZXF1ZXN0SABSFWRpc2hHZXRPYnN0cnVjdGlvbk1hcBJJCgxkaXNoX2'
-    'dldF9lbWMY2Q8gASgLMiQuU3BhY2VYLkFQSS5EZXZpY2UuRGlzaEdldEVtY1JlcXVlc3RIAFIK'
-    'ZGlzaEdldEVtYxJSCg9kaXNoX3NldF9jb25maWcY2g8gASgLMicuU3BhY2VYLkFQSS5EZXZpY2'
-    'UuRGlzaFNldENvbmZpZ1JlcXVlc3RIAFINZGlzaFNldENvbmZpZxJSCg9kaXNoX2dldF9jb25m'
-    'aWcY2w8gASgLMicuU3BhY2VYLkFQSS5EZXZpY2UuRGlzaEdldENvbmZpZ1JlcXVlc3RIAFINZG'
-    'lzaEdldENvbmZpZxJSCg9kaXNoX3Bvd2VyX3NhdmUY3Q8gASgLMicuU3BhY2VYLkFQSS5EZXZp'
-    'Y2UuRGlzaFBvd2VyU2F2ZVJlcXVlc3RIAFINZGlzaFBvd2VyU2F2ZRJVChBkaXNoX2luaGliaX'
-    'RfZ3BzGN4PIAEoCzIoLlNwYWNlWC5BUEkuRGV2aWNlLkRpc2hJbmhpYml0R3BzUmVxdWVzdEgA'
-    'Ug5kaXNoSW5oaWJpdEdwcxJMCg1kaXNoX2dldF9kYXRhGN8PIAEoCzIlLlNwYWNlWC5BUEkuRG'
-    'V2aWNlLkRpc2hHZXREYXRhUmVxdWVzdEgAUgtkaXNoR2V0RGF0YRJxChpkaXNoX2NsZWFyX29i'
-    'c3RydWN0aW9uX21hcBjhDyABKAsyMS5TcGFjZVguQVBJLkRldmljZS5EaXNoQ2xlYXJPYnN0cn'
-    'VjdGlvbk1hcFJlcXVlc3RIAFIXZGlzaENsZWFyT2JzdHJ1Y3Rpb25NYXAScwocZGlzaF9zZXRf'
-    'bWF4X3Bvd2VyX3Rlc3RfbW9kZRjiDyABKAsyMS5TcGFjZVguQVBJLkRldmljZS5EaXNoU2V0TW'
-    'F4UG93ZXJUZXN0TW9kZVJlcXVlc3RIAFIXZGlzaFNldE1heFBvd2VyVGVzdE1vZGUSaAoXZGlz'
-    'aF9hY3RpdmF0ZV9yc3NpX3NjYW4Y4w8gASgLMi4uU3BhY2VYLkFQSS5EZXZpY2UuRGlzaEFjdG'
-    'l2YXRlUnNzaVNjYW5SZXF1ZXN0SABSFGRpc2hBY3RpdmF0ZVJzc2lTY2FuEmwKGWRpc2hfZ2V0'
-    'X3Jzc2lfc2Nhbl9yZXN1bHQY5A8gASgLMi8uU3BhY2VYLkFQSS5EZXZpY2UuRGlzaEdldFJzc2'
-    'lTY2FuUmVzdWx0UmVxdWVzdEgAUhVkaXNoR2V0UnNzaVNjYW5SZXN1bHQSWwoSZGlzaF9mYWN0'
-    'b3J5X3Jlc2V0GOUPIAEoCzIqLlNwYWNlWC5BUEkuRGV2aWNlLkRpc2hGYWN0b3J5UmVzZXRSZX'
-    'F1ZXN0SABSEGRpc2hGYWN0b3J5UmVzZXQSSwoMcmVzZXRfYnV0dG9uGOYPIAEoCzIlLlNwYWNl'
-    'WC5BUEkuRGV2aWNlLlJlc2V0QnV0dG9uUmVxdWVzdEgAUgtyZXNldEJ1dHRvbhJSCg93aWZpX3'
-    'NldF9jb25maWcYuRcgASgLMicuU3BhY2VYLkFQSS5EZXZpY2UuV2lmaVNldENvbmZpZ1JlcXVl'
-    'c3RIAFINd2lmaVNldENvbmZpZxJVChB3aWZpX2dldF9jbGllbnRzGLoXIAEoCzIoLlNwYWNlWC'
-    '5BUEkuRGV2aWNlLldpZmlHZXRDbGllbnRzUmVxdWVzdEgAUg53aWZpR2V0Q2xpZW50cxJFCgp3'
-    'aWZpX3NldHVwGLsXIAEoCzIjLlNwYWNlWC5BUEkuRGV2aWNlLldpZmlTZXR1cFJlcXVlc3RIAF'
-    'IJd2lmaVNldHVwEmIKFXdpZmlfZ2V0X3BpbmdfbWV0cmljcxi/FyABKAsyLC5TcGFjZVguQVBJ'
-    'LkRldmljZS5XaWZpR2V0UGluZ01ldHJpY3NSZXF1ZXN0SABSEndpZmlHZXRQaW5nTWV0cmljcx'
-    'JSCg93aWZpX2dldF9jb25maWcYwRcgASgLMicuU3BhY2VYLkFQSS5EZXZpY2UuV2lmaUdldENv'
-    'bmZpZ1JlcXVlc3RIAFINd2lmaUdldENvbmZpZxJvChp3aWZpX3NldF9tZXNoX2RldmljZV90cn'
-    'VzdBjEFyABKAsyMC5TcGFjZVguQVBJLkRldmljZS5XaWZpU2V0TWVzaERldmljZVRydXN0UmVx'
-    'dWVzdEgAUhZ3aWZpU2V0TWVzaERldmljZVRydXN0EmMKFHdpZmlfc2V0X21lc2hfY29uZmlnGM'
-    'UXIAEoCzIrLlNwYWNlWC5BUEkuRGV2aWNlLldpZmlTZXRNZXNoQ29uZmlnUmVxdWVzdEICGAFI'
-    'AFIRd2lmaVNldE1lc2hDb25maWcSaAoXd2lmaV9nZXRfY2xpZW50X2hpc3RvcnkYxxcgASgLMi'
-    '4uU3BhY2VYLkFQSS5EZXZpY2UuV2lmaUdldENsaWVudEhpc3RvcnlSZXF1ZXN0SABSFHdpZmlH'
-    'ZXRDbGllbnRIaXN0b3J5EnQKG3dpZmlfc2V0X2F2aWF0aW9uX2NvbmZvcm1lZBjIFyABKAsyMi'
-    '5TcGFjZVguQVBJLkRldmljZS5XaWZpU2V0QXZpYXRpb25Db25mb3JtZWRSZXF1ZXN0SABSGHdp'
-    'ZmlTZXRBdmlhdGlvbkNvbmZvcm1lZBJvChp3aWZpX3NldF9jbGllbnRfZ2l2ZW5fbmFtZRjJFy'
-    'ABKAsyMC5TcGFjZVguQVBJLkRldmljZS5XaWZpU2V0Q2xpZW50R2l2ZW5OYW1lUmVxdWVzdEgA'
-    'UhZ3aWZpU2V0Q2xpZW50R2l2ZW5OYW1lEk8KDndpZmlfc2VsZl90ZXN0GMoXIAEoCzImLlNwYW'
-    'NlWC5BUEkuRGV2aWNlLldpZmlTZWxmVGVzdFJlcXVlc3RIAFIMd2lmaVNlbGZUZXN0EmQKFXdp'
-    'ZmlfY2FsaWJyYXRpb25fbW9kZRjLFyABKAsyLS5TcGFjZVguQVBJLkRldmljZS5XaWZpQ2FsaW'
-    'JyYXRpb25Nb2RlUmVxdWVzdEgAUhN3aWZpQ2FsaWJyYXRpb25Nb2RlElIKD3dpZmlfZ3Vlc3Rf'
-    'aW5mbxjMFyABKAsyJy5TcGFjZVguQVBJLkRldmljZS5XaWZpR3Vlc3RJbmZvUmVxdWVzdEgAUg'
-    '13aWZpR3Vlc3RJbmZvEkkKDHdpZmlfcmZfdGVzdBjNFyABKAsyJC5TcGFjZVguQVBJLkRldmlj'
-    'ZS5XaWZpUmZUZXN0UmVxdWVzdEgAUgp3aWZpUmZUZXN0ElgKEXdpZmlfZ2V0X2ZpcmV3YWxsGN'
-    'AXIAEoCzIpLlNwYWNlWC5BUEkuRGV2aWNlLldpZmlHZXRGaXJld2FsbFJlcXVlc3RIAFIPd2lm'
-    'aUdldEZpcmV3YWxsEnQKG3dpZmlfdG9nZ2xlX3BvZV9uZWdvdGlhdGlvbhjRFyABKAsyMi5TcG'
-    'FjZVguQVBJLkRldmljZS5XaWZpVG9nZ2xlUG9lTmVnb3RpYXRpb25SZXF1ZXN0SABSGHdpZmlU'
-    'b2dnbGVQb2VOZWdvdGlhdGlvbhJuChl3aWZpX2ZhY3RvcnlfdGVzdF9jb21tYW5kGNIXIAEoCz'
-    'IwLlNwYWNlWC5BUEkuRGV2aWNlLldpZmlGYWN0b3J5VGVzdENvbW1hbmRSZXF1ZXN0SABSFndp'
-    'ZmlGYWN0b3J5VGVzdENvbW1hbmQSdQocd2lmaV9zdGFydF9sb2NhbF90ZWxlbV9wcm94eRjTFy'
-    'ABKAsyMi5TcGFjZVguQVBJLkRldmljZS5XaWZpU3RhcnRMb2NhbFRlbGVtUHJveHlSZXF1ZXN0'
-    'SABSGHdpZmlTdGFydExvY2FsVGVsZW1Qcm94eRJZChJ3aWZpX3J1bl9zZWxmX3Rlc3QY1BcgAS'
-    'gLMikuU3BhY2VYLkFQSS5EZXZpY2UuV2lmaVJ1blNlbGZUZXN0UmVxdWVzdEgAUg93aWZpUnVu'
-    'U2VsZlRlc3QSXgoTd2lmaV9iYWNraGF1bF9zdGF0cxjVFyABKAsyKy5TcGFjZVguQVBJLkRldm'
-    'ljZS5XaWZpQmFja2hhdWxTdGF0c1JlcXVlc3RIAFIRd2lmaUJhY2toYXVsU3RhdHMScQoad2lm'
-    'aV90b2dnbGVfdW1iaWxpY2FsX21vZGUY1hcgASgLMjEuU3BhY2VYLkFQSS5EZXZpY2UuV2lmaV'
-    'RvZ2dsZVVtYmlsaWNhbE1vZGVSZXF1ZXN0SABSF3dpZmlUb2dnbGVVbWJpbGljYWxNb2RlEl4K'
-    'E3dpZmlfY2xpZW50X3NhbmRib3gY1xcgASgLMisuU3BhY2VYLkFQSS5EZXZpY2UuV2lmaUNsaW'
-    'VudFNhbmRib3hSZXF1ZXN0SABSEXdpZmlDbGllbnRTYW5kYm94EncKHHRyYW5zY2VpdmVyX2lm'
-    'X2xvb3BiYWNrX3Rlc3QYoR8gASgLMjMuU3BhY2VYLkFQSS5EZXZpY2UuVHJhbnNjZWl2ZXJJRk'
-    'xvb3BiYWNrVGVzdFJlcXVlc3RIAFIZdHJhbnNjZWl2ZXJJZkxvb3BiYWNrVGVzdBJnChZ0cmFu'
-    'c2NlaXZlcl9nZXRfc3RhdHVzGKMfIAEoCzIuLlNwYWNlWC5BUEkuRGV2aWNlLlRyYW5zY2Vpdm'
-    'VyR2V0U3RhdHVzUmVxdWVzdEgAUhR0cmFuc2NlaXZlckdldFN0YXR1cxJwChl0cmFuc2NlaXZl'
-    'cl9nZXRfdGVsZW1ldHJ5GKQfIAEoCzIxLlNwYWNlWC5BUEkuRGV2aWNlLlRyYW5zY2VpdmVyR2'
-    'V0VGVsZW1ldHJ5UmVxdWVzdEgAUhd0cmFuc2NlaXZlckdldFRlbGVtZXRyeRJUCg9nZXRfZGlh'
-    'Z25vc3RpY3MY8C4gASgLMiguU3BhY2VYLkFQSS5EZXZpY2UuR2V0RGlhZ25vc3RpY3NSZXF1ZX'
-    'N0SABSDmdldERpYWdub3N0aWNzQgkKB3JlcXVlc3RKBgj6BxD7B0oGCIEIEIIISgYIgggQgwhK'
-    'BgjcDxDdD0oGCOAPEOEPSgYIwxcQxBdKBgjGFxDHF0oGCIIZEIMZUhRzdGFydF9kaXNoX3NlbG'
-    'ZfdGVzdA==');
+    'BDb25uZWN0aXZpdHlUZXN0EnEKGmdldF9nb3JvdXRpbmVfc3RhY2tfdHJhY2VzGJEIIAEoCzIx'
+    'LlNwYWNlWC5BUEkuRGV2aWNlLkdldEdvcm91dGluZVN0YWNrVHJhY2VzUmVxdWVzdEgAUhdnZX'
+    'RHb3JvdXRpbmVTdGFja1RyYWNlcxJNChFzZW5zaXRpdmVfcmVxdWVzdBi2CCABKAsyHS5TcGFj'
+    'ZVguQVBJLkRldmljZS5TaWduZWREYXRhSABSEHNlbnNpdGl2ZVJlcXVlc3QSQgoJZGlzaF9zdG'
+    '93GNIPIAEoCzIiLlNwYWNlWC5BUEkuRGV2aWNlLkRpc2hTdG93UmVxdWVzdEgAUghkaXNoU3Rv'
+    'dxJVChBkaXNoX2dldF9jb250ZXh0GNMPIAEoCzIoLlNwYWNlWC5BUEkuRGV2aWNlLkRpc2hHZX'
+    'RDb250ZXh0UmVxdWVzdEgAUg5kaXNoR2V0Q29udGV4dBJJCgxkaXNoX3NldF9lbWMY1w8gASgL'
+    'MiQuU3BhY2VYLkFQSS5EZXZpY2UuRGlzaFNldEVtY1JlcXVlc3RIAFIKZGlzaFNldEVtYxJrCh'
+    'hkaXNoX2dldF9vYnN0cnVjdGlvbl9tYXAY2A8gASgLMi8uU3BhY2VYLkFQSS5EZXZpY2UuRGlz'
+    'aEdldE9ic3RydWN0aW9uTWFwUmVxdWVzdEgAUhVkaXNoR2V0T2JzdHJ1Y3Rpb25NYXASSQoMZG'
+    'lzaF9nZXRfZW1jGNkPIAEoCzIkLlNwYWNlWC5BUEkuRGV2aWNlLkRpc2hHZXRFbWNSZXF1ZXN0'
+    'SABSCmRpc2hHZXRFbWMSUgoPZGlzaF9zZXRfY29uZmlnGNoPIAEoCzInLlNwYWNlWC5BUEkuRG'
+    'V2aWNlLkRpc2hTZXRDb25maWdSZXF1ZXN0SABSDWRpc2hTZXRDb25maWcSUgoPZGlzaF9nZXRf'
+    'Y29uZmlnGNsPIAEoCzInLlNwYWNlWC5BUEkuRGV2aWNlLkRpc2hHZXRDb25maWdSZXF1ZXN0SA'
+    'BSDWRpc2hHZXRDb25maWcSUgoPZGlzaF9wb3dlcl9zYXZlGN0PIAEoCzInLlNwYWNlWC5BUEku'
+    'RGV2aWNlLkRpc2hQb3dlclNhdmVSZXF1ZXN0SABSDWRpc2hQb3dlclNhdmUSVQoQZGlzaF9pbm'
+    'hpYml0X2dwcxjeDyABKAsyKC5TcGFjZVguQVBJLkRldmljZS5EaXNoSW5oaWJpdEdwc1JlcXVl'
+    'c3RIAFIOZGlzaEluaGliaXRHcHMSTAoNZGlzaF9nZXRfZGF0YRjfDyABKAsyJS5TcGFjZVguQV'
+    'BJLkRldmljZS5EaXNoR2V0RGF0YVJlcXVlc3RIAFILZGlzaEdldERhdGEScQoaZGlzaF9jbGVh'
+    'cl9vYnN0cnVjdGlvbl9tYXAY4Q8gASgLMjEuU3BhY2VYLkFQSS5EZXZpY2UuRGlzaENsZWFyT2'
+    'JzdHJ1Y3Rpb25NYXBSZXF1ZXN0SABSF2Rpc2hDbGVhck9ic3RydWN0aW9uTWFwEnMKHGRpc2hf'
+    'c2V0X21heF9wb3dlcl90ZXN0X21vZGUY4g8gASgLMjEuU3BhY2VYLkFQSS5EZXZpY2UuRGlzaF'
+    'NldE1heFBvd2VyVGVzdE1vZGVSZXF1ZXN0SABSF2Rpc2hTZXRNYXhQb3dlclRlc3RNb2RlEmgK'
+    'F2Rpc2hfYWN0aXZhdGVfcnNzaV9zY2FuGOMPIAEoCzIuLlNwYWNlWC5BUEkuRGV2aWNlLkRpc2'
+    'hBY3RpdmF0ZVJzc2lTY2FuUmVxdWVzdEgAUhRkaXNoQWN0aXZhdGVSc3NpU2NhbhJsChlkaXNo'
+    'X2dldF9yc3NpX3NjYW5fcmVzdWx0GOQPIAEoCzIvLlNwYWNlWC5BUEkuRGV2aWNlLkRpc2hHZX'
+    'RSc3NpU2NhblJlc3VsdFJlcXVlc3RIAFIVZGlzaEdldFJzc2lTY2FuUmVzdWx0ElsKEmRpc2hf'
+    'ZmFjdG9yeV9yZXNldBjlDyABKAsyKi5TcGFjZVguQVBJLkRldmljZS5EaXNoRmFjdG9yeVJlc2'
+    'V0UmVxdWVzdEgAUhBkaXNoRmFjdG9yeVJlc2V0EksKDHJlc2V0X2J1dHRvbhjmDyABKAsyJS5T'
+    'cGFjZVguQVBJLkRldmljZS5SZXNldEJ1dHRvblJlcXVlc3RIAFILcmVzZXRCdXR0b24SYAoWc2'
+    'V0X3Blcl92ZWhpY2xlX2NvbmZpZxjnDyABKAsyKC5TcGFjZVguQVBJLkRldmljZS5Tb2Z0d2Fy'
+    'ZVVwZGF0ZVJlcXVlc3RIAFITc2V0UGVyVmVoaWNsZUNvbmZpZxJbChJkaXNoX2F2aWF0aW9uX3'
+    'Rlc3QY6A8gASgLMiouU3BhY2VYLkFQSS5EZXZpY2UuRGlzaEF2aWF0aW9uVGVzdFJlcXVlc3RI'
+    'AFIQZGlzaEF2aWF0aW9uVGVzdBJSCg9kaXNoX2luaGliaXRfcmYY6g8gASgLMicuU3BhY2VYLk'
+    'FQSS5EZXZpY2UuRGlzaEluaGliaXRSZlJlcXVlc3RIAFINZGlzaEluaGliaXRSZhJSCg93aWZp'
+    'X3NldF9jb25maWcYuRcgASgLMicuU3BhY2VYLkFQSS5EZXZpY2UuV2lmaVNldENvbmZpZ1JlcX'
+    'Vlc3RIAFINd2lmaVNldENvbmZpZxJVChB3aWZpX2dldF9jbGllbnRzGLoXIAEoCzIoLlNwYWNl'
+    'WC5BUEkuRGV2aWNlLldpZmlHZXRDbGllbnRzUmVxdWVzdEgAUg53aWZpR2V0Q2xpZW50cxJFCg'
+    'p3aWZpX3NldHVwGLsXIAEoCzIjLlNwYWNlWC5BUEkuRGV2aWNlLldpZmlTZXR1cFJlcXVlc3RI'
+    'AFIJd2lmaVNldHVwEmIKFXdpZmlfZ2V0X3BpbmdfbWV0cmljcxi/FyABKAsyLC5TcGFjZVguQV'
+    'BJLkRldmljZS5XaWZpR2V0UGluZ01ldHJpY3NSZXF1ZXN0SABSEndpZmlHZXRQaW5nTWV0cmlj'
+    'cxJSCg93aWZpX2dldF9jb25maWcYwRcgASgLMicuU3BhY2VYLkFQSS5EZXZpY2UuV2lmaUdldE'
+    'NvbmZpZ1JlcXVlc3RIAFINd2lmaUdldENvbmZpZxJvChp3aWZpX3NldF9tZXNoX2RldmljZV90'
+    'cnVzdBjEFyABKAsyMC5TcGFjZVguQVBJLkRldmljZS5XaWZpU2V0TWVzaERldmljZVRydXN0Um'
+    'VxdWVzdEgAUhZ3aWZpU2V0TWVzaERldmljZVRydXN0EmMKFHdpZmlfc2V0X21lc2hfY29uZmln'
+    'GMUXIAEoCzIrLlNwYWNlWC5BUEkuRGV2aWNlLldpZmlTZXRNZXNoQ29uZmlnUmVxdWVzdEICGA'
+    'FIAFIRd2lmaVNldE1lc2hDb25maWcSaAoXd2lmaV9nZXRfY2xpZW50X2hpc3RvcnkYxxcgASgL'
+    'Mi4uU3BhY2VYLkFQSS5EZXZpY2UuV2lmaUdldENsaWVudEhpc3RvcnlSZXF1ZXN0SABSFHdpZm'
+    'lHZXRDbGllbnRIaXN0b3J5EnQKG3dpZmlfc2V0X2F2aWF0aW9uX2NvbmZvcm1lZBjIFyABKAsy'
+    'Mi5TcGFjZVguQVBJLkRldmljZS5XaWZpU2V0QXZpYXRpb25Db25mb3JtZWRSZXF1ZXN0SABSGH'
+    'dpZmlTZXRBdmlhdGlvbkNvbmZvcm1lZBJvChp3aWZpX3NldF9jbGllbnRfZ2l2ZW5fbmFtZRjJ'
+    'FyABKAsyMC5TcGFjZVguQVBJLkRldmljZS5XaWZpU2V0Q2xpZW50R2l2ZW5OYW1lUmVxdWVzdE'
+    'gAUhZ3aWZpU2V0Q2xpZW50R2l2ZW5OYW1lEk8KDndpZmlfc2VsZl90ZXN0GMoXIAEoCzImLlNw'
+    'YWNlWC5BUEkuRGV2aWNlLldpZmlTZWxmVGVzdFJlcXVlc3RIAFIMd2lmaVNlbGZUZXN0EmQKFX'
+    'dpZmlfY2FsaWJyYXRpb25fbW9kZRjLFyABKAsyLS5TcGFjZVguQVBJLkRldmljZS5XaWZpQ2Fs'
+    'aWJyYXRpb25Nb2RlUmVxdWVzdEgAUhN3aWZpQ2FsaWJyYXRpb25Nb2RlElIKD3dpZmlfZ3Vlc3'
+    'RfaW5mbxjMFyABKAsyJy5TcGFjZVguQVBJLkRldmljZS5XaWZpR3Vlc3RJbmZvUmVxdWVzdEgA'
+    'Ug13aWZpR3Vlc3RJbmZvEkkKDHdpZmlfcmZfdGVzdBjNFyABKAsyJC5TcGFjZVguQVBJLkRldm'
+    'ljZS5XaWZpUmZUZXN0UmVxdWVzdEgAUgp3aWZpUmZUZXN0ElgKEXdpZmlfZ2V0X2ZpcmV3YWxs'
+    'GNAXIAEoCzIpLlNwYWNlWC5BUEkuRGV2aWNlLldpZmlHZXRGaXJld2FsbFJlcXVlc3RIAFIPd2'
+    'lmaUdldEZpcmV3YWxsEnQKG3dpZmlfdG9nZ2xlX3BvZV9uZWdvdGlhdGlvbhjRFyABKAsyMi5T'
+    'cGFjZVguQVBJLkRldmljZS5XaWZpVG9nZ2xlUG9lTmVnb3RpYXRpb25SZXF1ZXN0SABSGHdpZm'
+    'lUb2dnbGVQb2VOZWdvdGlhdGlvbhJuChl3aWZpX2ZhY3RvcnlfdGVzdF9jb21tYW5kGNIXIAEo'
+    'CzIwLlNwYWNlWC5BUEkuRGV2aWNlLldpZmlGYWN0b3J5VGVzdENvbW1hbmRSZXF1ZXN0SABSFn'
+    'dpZmlGYWN0b3J5VGVzdENvbW1hbmQSdQocd2lmaV9zdGFydF9sb2NhbF90ZWxlbV9wcm94eRjT'
+    'FyABKAsyMi5TcGFjZVguQVBJLkRldmljZS5XaWZpU3RhcnRMb2NhbFRlbGVtUHJveHlSZXF1ZX'
+    'N0SABSGHdpZmlTdGFydExvY2FsVGVsZW1Qcm94eRJZChJ3aWZpX3J1bl9zZWxmX3Rlc3QY1Bcg'
+    'ASgLMikuU3BhY2VYLkFQSS5EZXZpY2UuV2lmaVJ1blNlbGZUZXN0UmVxdWVzdEgAUg93aWZpUn'
+    'VuU2VsZlRlc3QSXgoTd2lmaV9iYWNraGF1bF9zdGF0cxjVFyABKAsyKy5TcGFjZVguQVBJLkRl'
+    'dmljZS5XaWZpQmFja2hhdWxTdGF0c1JlcXVlc3RIAFIRd2lmaUJhY2toYXVsU3RhdHMScQoad2'
+    'lmaV90b2dnbGVfdW1iaWxpY2FsX21vZGUY1hcgASgLMjEuU3BhY2VYLkFQSS5EZXZpY2UuV2lm'
+    'aVRvZ2dsZVVtYmlsaWNhbE1vZGVSZXF1ZXN0SABSF3dpZmlUb2dnbGVVbWJpbGljYWxNb2RlEl'
+    '4KE3dpZmlfY2xpZW50X3NhbmRib3gY1xcgASgLMisuU3BhY2VYLkFQSS5EZXZpY2UuV2lmaUNs'
+    'aWVudFNhbmRib3hSZXF1ZXN0SABSEXdpZmlDbGllbnRTYW5kYm94EmIKFXdpZmlfcnVuX2RlYn'
+    'VnX25ldHN5cxjYFyABKAsyLC5TcGFjZVguQVBJLkRldmljZS5XaWZpUnVuRGVidWdOZXRzeXNS'
+    'ZXF1ZXN0SABSEndpZmlSdW5EZWJ1Z05ldHN5cxJZChJ3aWZpX3Jlc2V0X2V0aF9waHkY2RcgAS'
+    'gLMikuU3BhY2VYLkFQSS5EZXZpY2UuV2lmaVJlc2V0RXRoUGh5UmVxdWVzdEgAUg93aWZpUmVz'
+    'ZXRFdGhQaHkSaAoXd2lmaV9mbHVzaF9oYXJkd2FyZV9uYXQY2hcgASgLMi4uU3BhY2VYLkFQSS'
+    '5EZXZpY2UuV2lmaUZsdXNoSGFyZHdhcmVOYXRSZXF1ZXN0SABSFHdpZmlGbHVzaEhhcmR3YXJl'
+    'TmF0EmcKFndpZmlfd3JpdGVfY2FsaWJyYXRpb24Y2xcgASgLMi4uU3BhY2VYLkFQSS5EZXZpY2'
+    'UuV2lmaVdyaXRlQ2FsaWJyYXRpb25SZXF1ZXN0SABSFHdpZmlXcml0ZUNhbGlicmF0aW9uEncK'
+    'HHRyYW5zY2VpdmVyX2lmX2xvb3BiYWNrX3Rlc3QYoR8gASgLMjMuU3BhY2VYLkFQSS5EZXZpY2'
+    'UuVHJhbnNjZWl2ZXJJRkxvb3BiYWNrVGVzdFJlcXVlc3RIAFIZdHJhbnNjZWl2ZXJJZkxvb3Bi'
+    'YWNrVGVzdBJnChZ0cmFuc2NlaXZlcl9nZXRfc3RhdHVzGKMfIAEoCzIuLlNwYWNlWC5BUEkuRG'
+    'V2aWNlLlRyYW5zY2VpdmVyR2V0U3RhdHVzUmVxdWVzdEgAUhR0cmFuc2NlaXZlckdldFN0YXR1'
+    'cxJwChl0cmFuc2NlaXZlcl9nZXRfdGVsZW1ldHJ5GKQfIAEoCzIxLlNwYWNlWC5BUEkuRGV2aW'
+    'NlLlRyYW5zY2VpdmVyR2V0VGVsZW1ldHJ5UmVxdWVzdEgAUhd0cmFuc2NlaXZlckdldFRlbGVt'
+    'ZXRyeRJUCg9nZXRfZGlhZ25vc3RpY3MY8C4gASgLMiguU3BhY2VYLkFQSS5EZXZpY2UuR2V0RG'
+    'lhZ25vc3RpY3NSZXF1ZXN0SABSDmdldERpYWdub3N0aWNzQgkKB3JlcXVlc3RKBgj6BxD7B0oG'
+    'CIEIEIIISgYIgggQgwhKBgjcDxDdD0oGCOAPEOEPSgYIwxcQxBdKBgjGFxDHF0oGCIIZEIMZUh'
+    'RzdGFydF9kaXNoX3NlbGZfdGVzdA==');
 
 @$core.Deprecated('Use signedDataDescriptor instead')
 const SignedData$json = {
@@ -878,16 +1742,30 @@ const RebootRequest$json = {
 };
 
 /// Descriptor for `RebootRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List rebootRequestDescriptor = $convert.base64Decode(
-    'Cg1SZWJvb3RSZXF1ZXN0');
+final $typed_data.Uint8List rebootRequestDescriptor =
+    $convert.base64Decode('Cg1SZWJvb3RSZXF1ZXN0');
 
 @$core.Deprecated('Use speedTestRequestDescriptor instead')
 const SpeedTestRequest$json = {
   '1': 'SpeedTestRequest',
   '2': [
-    {'1': 'client_speedtest', '3': 1, '4': 1, '5': 11, '6': '.SpaceX.API.Device.SpeedTestStats', '10': 'clientSpeedtest'},
+    {
+      '1': 'client_speedtest',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.SpeedTestStats',
+      '10': 'clientSpeedtest'
+    },
     {'1': 'client_rssi', '3': 2, '4': 1, '5': 2, '10': 'clientRssi'},
-    {'1': 'client_platform', '3': 3, '4': 1, '5': 11, '6': '.SpaceX.API.Device.ClientPlatform', '10': 'clientPlatform'},
+    {
+      '1': 'client_platform',
+      '3': 3,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.ClientPlatform',
+      '10': 'clientPlatform'
+    },
     {'1': 'id', '3': 4, '4': 1, '5': 13, '10': 'id'},
   ],
 };
@@ -922,8 +1800,21 @@ const SpeedTestStats$json = {
       '10': 'startTime',
     },
     {'1': 'upload_start_time', '3': 5, '4': 1, '5': 3, '10': 'uploadStartTime'},
-    {'1': 'download_start_time', '3': 6, '4': 1, '5': 3, '10': 'downloadStartTime'},
-    {'1': 'target', '3': 7, '4': 1, '5': 14, '6': '.SpaceX.API.Device.SpeedTestStats.Target', '10': 'target'},
+    {
+      '1': 'download_start_time',
+      '3': 6,
+      '4': 1,
+      '5': 3,
+      '10': 'downloadStartTime'
+    },
+    {
+      '1': 'target',
+      '3': 7,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.SpeedTestStats.Target',
+      '10': 'target'
+    },
     {'1': 'tcp_streams', '3': 8, '4': 1, '5': 13, '10': 'tcpStreams'},
   ],
   '4': [SpeedTestStats_Target$json],
@@ -954,7 +1845,14 @@ final $typed_data.Uint8List speedTestStatsDescriptor = $convert.base64Decode(
 const ClientPlatform$json = {
   '1': 'ClientPlatform',
   '2': [
-    {'1': 'platform', '3': 1, '4': 1, '5': 14, '6': '.SpaceX.API.Device.ClientPlatform.Platform', '10': 'platform'},
+    {
+      '1': 'platform',
+      '3': 1,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.ClientPlatform.Platform',
+      '10': 'platform'
+    },
     {'1': 'major_version', '3': 2, '4': 1, '5': 2, '10': 'majorVersion'},
     {'1': 'minor_version', '3': 3, '4': 1, '5': 2, '10': 'minorVersion'},
   ],
@@ -982,17 +1880,35 @@ final $typed_data.Uint8List clientPlatformDescriptor = $convert.base64Decode(
 @$core.Deprecated('Use getStatusRequestDescriptor instead')
 const GetStatusRequest$json = {
   '1': 'GetStatusRequest',
+  '2': [
+    {
+      '1': 'router_role',
+      '3': 1,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.RouterRole',
+      '10': 'routerRole'
+    },
+  ],
 };
 
 /// Descriptor for `GetStatusRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List getStatusRequestDescriptor = $convert.base64Decode(
-    'ChBHZXRTdGF0dXNSZXF1ZXN0');
+    'ChBHZXRTdGF0dXNSZXF1ZXN0Ej4KC3JvdXRlcl9yb2xlGAEgASgOMh0uU3BhY2VYLkFQSS5EZX'
+    'ZpY2UuUm91dGVyUm9sZVIKcm91dGVyUm9sZQ==');
 
 @$core.Deprecated('Use authenticateRequestDescriptor instead')
 const AuthenticateRequest$json = {
   '1': 'AuthenticateRequest',
   '2': [
-    {'1': 'challenge', '3': 1, '4': 1, '5': 11, '6': '.SpaceX.API.Device.SignedData', '10': 'challenge'},
+    {
+      '1': 'challenge',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.SignedData',
+      '10': 'challenge'
+    },
   ],
 };
 
@@ -1007,8 +1923,8 @@ const GetNextIdRequest$json = {
 };
 
 /// Descriptor for `GetNextIdRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List getNextIdRequestDescriptor = $convert.base64Decode(
-    'ChBHZXROZXh0SWRSZXF1ZXN0');
+final $typed_data.Uint8List getNextIdRequestDescriptor =
+    $convert.base64Decode('ChBHZXROZXh0SWRSZXF1ZXN0');
 
 @$core.Deprecated('Use getHistoryRequestDescriptor instead')
 const GetHistoryRequest$json = {
@@ -1016,8 +1932,8 @@ const GetHistoryRequest$json = {
 };
 
 /// Descriptor for `GetHistoryRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List getHistoryRequestDescriptor = $convert.base64Decode(
-    'ChFHZXRIaXN0b3J5UmVxdWVzdA==');
+final $typed_data.Uint8List getHistoryRequestDescriptor =
+    $convert.base64Decode('ChFHZXRIaXN0b3J5UmVxdWVzdA==');
 
 @$core.Deprecated('Use getDeviceInfoRequestDescriptor instead')
 const GetDeviceInfoRequest$json = {
@@ -1025,8 +1941,8 @@ const GetDeviceInfoRequest$json = {
 };
 
 /// Descriptor for `GetDeviceInfoRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List getDeviceInfoRequestDescriptor = $convert.base64Decode(
-    'ChRHZXREZXZpY2VJbmZvUmVxdWVzdA==');
+final $typed_data.Uint8List getDeviceInfoRequestDescriptor =
+    $convert.base64Decode('ChRHZXREZXZpY2VJbmZvUmVxdWVzdA==');
 
 @$core.Deprecated('Use getPingRequestDescriptor instead')
 const GetPingRequest$json = {
@@ -1034,14 +1950,21 @@ const GetPingRequest$json = {
 };
 
 /// Descriptor for `GetPingRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List getPingRequestDescriptor = $convert.base64Decode(
-    'Cg5HZXRQaW5nUmVxdWVzdA==');
+final $typed_data.Uint8List getPingRequestDescriptor =
+    $convert.base64Decode('Cg5HZXRQaW5nUmVxdWVzdA==');
 
 @$core.Deprecated('Use setTrustedKeysRequestDescriptor instead')
 const SetTrustedKeysRequest$json = {
   '1': 'SetTrustedKeysRequest',
   '2': [
-    {'1': 'keys', '3': 1, '4': 3, '5': 11, '6': '.SpaceX.API.Device.PublicKey', '10': 'keys'},
+    {
+      '1': 'keys',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.SpaceX.API.Device.PublicKey',
+      '10': 'keys'
+    },
   ],
 };
 
@@ -1064,7 +1987,14 @@ const PublicKey$json = {
       '8': {'3': true},
       '10': 'capabilities',
     },
-    {'1': 'user', '3': 3, '4': 1, '5': 14, '6': '.SpaceX.API.Device.User', '10': 'user'},
+    {
+      '1': 'user',
+      '3': 3,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.User',
+      '10': 'user'
+    },
   ],
 };
 
@@ -1080,8 +2010,8 @@ const FactoryResetRequest$json = {
 };
 
 /// Descriptor for `FactoryResetRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List factoryResetRequestDescriptor = $convert.base64Decode(
-    'ChNGYWN0b3J5UmVzZXRSZXF1ZXN0');
+final $typed_data.Uint8List factoryResetRequestDescriptor =
+    $convert.base64Decode('ChNGYWN0b3J5UmVzZXRSZXF1ZXN0');
 
 @$core.Deprecated('Use getLogRequestDescriptor instead')
 const GetLogRequest$json = {
@@ -1089,8 +2019,8 @@ const GetLogRequest$json = {
 };
 
 /// Descriptor for `GetLogRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List getLogRequestDescriptor = $convert.base64Decode(
-    'Cg1HZXRMb2dSZXF1ZXN0');
+final $typed_data.Uint8List getLogRequestDescriptor =
+    $convert.base64Decode('Cg1HZXRMb2dSZXF1ZXN0');
 
 @$core.Deprecated('Use setSkuRequestDescriptor instead')
 const SetSkuRequest$json = {
@@ -1098,9 +2028,21 @@ const SetSkuRequest$json = {
   '2': [
     {'1': 'sku', '3': 1, '4': 1, '5': 9, '10': 'sku'},
     {'1': 'country_code', '3': 2, '4': 1, '5': 9, '10': 'countryCode'},
-    {'1': 'apply_country_code', '3': 4, '4': 1, '5': 8, '10': 'applyCountryCode'},
+    {
+      '1': 'apply_country_code',
+      '3': 4,
+      '4': 1,
+      '5': 8,
+      '10': 'applyCountryCode'
+    },
     {'1': 'pin_country_code', '3': 5, '4': 1, '5': 8, '10': 'pinCountryCode'},
-    {'1': 'custom_power_table', '3': 6, '4': 1, '5': 8, '10': 'customPowerTable'},
+    {
+      '1': 'custom_power_table',
+      '3': 6,
+      '4': 1,
+      '5': 8,
+      '10': 'customPowerTable'
+    },
   ],
 };
 
@@ -1114,11 +2056,26 @@ final $typed_data.Uint8List setSkuRequestDescriptor = $convert.base64Decode(
 @$core.Deprecated('Use updateRequestDescriptor instead')
 const UpdateRequest$json = {
   '1': 'UpdateRequest',
+  '2': [
+    {
+      '1': 'schedule_reboot',
+      '3': 1,
+      '4': 1,
+      '5': 8,
+      '9': 0,
+      '10': 'scheduleReboot',
+      '17': true
+    },
+  ],
+  '8': [
+    {'1': '_schedule_reboot'},
+  ],
 };
 
 /// Descriptor for `UpdateRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List updateRequestDescriptor = $convert.base64Decode(
-    'Cg1VcGRhdGVSZXF1ZXN0');
+    'Cg1VcGRhdGVSZXF1ZXN0EiwKD3NjaGVkdWxlX3JlYm9vdBgBIAEoCEgAUg5zY2hlZHVsZVJlYm'
+    '9vdIgBAUISChBfc2NoZWR1bGVfcmVib290');
 
 @$core.Deprecated('Use getNetworkInterfacesRequestDescriptor instead')
 const GetNetworkInterfacesRequest$json = {
@@ -1126,8 +2083,8 @@ const GetNetworkInterfacesRequest$json = {
 };
 
 /// Descriptor for `GetNetworkInterfacesRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List getNetworkInterfacesRequestDescriptor = $convert.base64Decode(
-    'ChtHZXROZXR3b3JrSW50ZXJmYWNlc1JlcXVlc3Q=');
+final $typed_data.Uint8List getNetworkInterfacesRequestDescriptor =
+    $convert.base64Decode('ChtHZXROZXR3b3JrSW50ZXJmYWNlc1JlcXVlc3Q=');
 
 @$core.Deprecated('Use pingHostRequestDescriptor instead')
 const PingHostRequest$json = {
@@ -1147,7 +2104,14 @@ final $typed_data.Uint8List pingHostRequestDescriptor = $convert.base64Decode(
 const GetLocationRequest$json = {
   '1': 'GetLocationRequest',
   '2': [
-    {'1': 'source', '3': 1, '4': 1, '5': 14, '6': '.SpaceX.API.Device.PositionSource', '10': 'source'},
+    {
+      '1': 'source',
+      '3': 1,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.PositionSource',
+      '10': 'source'
+    },
   ],
 };
 
@@ -1162,8 +2126,8 @@ const GetHeapDumpRequest$json = {
 };
 
 /// Descriptor for `GetHeapDumpRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List getHeapDumpRequestDescriptor = $convert.base64Decode(
-    'ChJHZXRIZWFwRHVtcFJlcXVlc3Q=');
+final $typed_data.Uint8List getHeapDumpRequestDescriptor =
+    $convert.base64Decode('ChJHZXRIZWFwRHVtcFJlcXVlc3Q=');
 
 @$core.Deprecated('Use restartControlRequestDescriptor instead')
 const RestartControlRequest$json = {
@@ -1171,8 +2135,8 @@ const RestartControlRequest$json = {
 };
 
 /// Descriptor for `RestartControlRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List restartControlRequestDescriptor = $convert.base64Decode(
-    'ChVSZXN0YXJ0Q29udHJvbFJlcXVlc3Q=');
+final $typed_data.Uint8List restartControlRequestDescriptor =
+    $convert.base64Decode('ChVSZXN0YXJ0Q29udHJvbFJlcXVlc3Q=');
 
 @$core.Deprecated('Use fuseRequestDescriptor instead')
 const FuseRequest$json = {
@@ -1192,8 +2156,8 @@ const GetPersistentStatsRequest$json = {
 };
 
 /// Descriptor for `GetPersistentStatsRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List getPersistentStatsRequestDescriptor = $convert.base64Decode(
-    'ChlHZXRQZXJzaXN0ZW50U3RhdHNSZXF1ZXN0');
+final $typed_data.Uint8List getPersistentStatsRequestDescriptor =
+    $convert.base64Decode('ChlHZXRQZXJzaXN0ZW50U3RhdHNSZXF1ZXN0');
 
 @$core.Deprecated('Use getConnectionsRequestDescriptor instead')
 const GetConnectionsRequest$json = {
@@ -1201,8 +2165,8 @@ const GetConnectionsRequest$json = {
 };
 
 /// Descriptor for `GetConnectionsRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List getConnectionsRequestDescriptor = $convert.base64Decode(
-    'ChVHZXRDb25uZWN0aW9uc1JlcXVlc3Q=');
+final $typed_data.Uint8List getConnectionsRequestDescriptor =
+    $convert.base64Decode('ChVHZXRDb25uZWN0aW9uc1JlcXVlc3Q=');
 
 @$core.Deprecated('Use startSpeedtestRequestDescriptor instead')
 const StartSpeedtestRequest$json = {
@@ -1210,8 +2174,8 @@ const StartSpeedtestRequest$json = {
 };
 
 /// Descriptor for `StartSpeedtestRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List startSpeedtestRequestDescriptor = $convert.base64Decode(
-    'ChVTdGFydFNwZWVkdGVzdFJlcXVlc3Q=');
+final $typed_data.Uint8List startSpeedtestRequestDescriptor =
+    $convert.base64Decode('ChVTdGFydFNwZWVkdGVzdFJlcXVlc3Q=');
 
 @$core.Deprecated('Use getSpeedtestStatusRequestDescriptor instead')
 const GetSpeedtestStatusRequest$json = {
@@ -1219,18 +2183,39 @@ const GetSpeedtestStatusRequest$json = {
 };
 
 /// Descriptor for `GetSpeedtestStatusRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List getSpeedtestStatusRequestDescriptor = $convert.base64Decode(
-    'ChlHZXRTcGVlZHRlc3RTdGF0dXNSZXF1ZXN0');
+final $typed_data.Uint8List getSpeedtestStatusRequestDescriptor =
+    $convert.base64Decode('ChlHZXRTcGVlZHRlc3RTdGF0dXNSZXF1ZXN0');
 
 @$core.Deprecated('Use reportClientSpeedtestRequestDescriptor instead')
 const ReportClientSpeedtestRequest$json = {
   '1': 'ReportClientSpeedtestRequest',
   '2': [
     {'1': 'id', '3': 1, '4': 1, '5': 13, '10': 'id'},
-    {'1': 'client_speedtest', '3': 2, '4': 1, '5': 11, '6': '.SpaceX.API.Device.SpeedTestStats', '10': 'clientSpeedtest'},
+    {
+      '1': 'client_speedtest',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.SpeedTestStats',
+      '10': 'clientSpeedtest'
+    },
     {'1': 'client_rssi', '3': 3, '4': 1, '5': 2, '10': 'clientRssi'},
-    {'1': 'client_platform', '3': 4, '4': 1, '5': 11, '6': '.SpaceX.API.Device.ClientPlatform', '10': 'clientPlatform'},
-    {'1': 'wifi_speedtest', '3': 5, '4': 1, '5': 11, '6': '.SpaceX.API.Device.SpeedTestStats', '10': 'wifiSpeedtest'},
+    {
+      '1': 'client_platform',
+      '3': 4,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.ClientPlatform',
+      '10': 'clientPlatform'
+    },
+    {
+      '1': 'wifi_speedtest',
+      '3': 5,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.SpeedTestStats',
+      '10': 'wifiSpeedtest'
+    },
     {'1': 'app_version', '3': 6, '4': 1, '5': 9, '10': 'appVersion'},
     {'1': 'app_build', '3': 7, '4': 1, '5': 13, '10': 'appBuild'},
   ],
@@ -1252,8 +2237,8 @@ const InitiateRemoteSshRequest$json = {
 };
 
 /// Descriptor for `InitiateRemoteSshRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List initiateRemoteSshRequestDescriptor = $convert.base64Decode(
-    'ChhJbml0aWF0ZVJlbW90ZVNzaFJlcXVlc3Q=');
+final $typed_data.Uint8List initiateRemoteSshRequestDescriptor =
+    $convert.base64Decode('ChhJbml0aWF0ZVJlbW90ZVNzaFJlcXVlc3Q=');
 
 @$core.Deprecated('Use selfTestRequestDescriptor instead')
 const SelfTestRequest$json = {
@@ -1271,9 +2256,28 @@ final $typed_data.Uint8List selfTestRequestDescriptor = $convert.base64Decode(
 const SetTestModeRequest$json = {
   '1': 'SetTestModeRequest',
   '2': [
-    {'1': 'rf_mode', '3': 1, '4': 1, '5': 14, '6': '.SpaceX.API.Device.SetTestModeRequest.RfMode', '10': 'rfMode'},
-    {'1': 'disable_loss_of_comm_fdir', '3': 1001, '4': 1, '5': 8, '10': 'disableLossOfCommFdir'},
-    {'1': 'enable_rules_override', '3': 1002, '4': 1, '5': 8, '10': 'enableRulesOverride'},
+    {
+      '1': 'rf_mode',
+      '3': 1,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.SetTestModeRequest.RfMode',
+      '10': 'rfMode'
+    },
+    {
+      '1': 'disable_loss_of_comm_fdir',
+      '3': 1001,
+      '4': 1,
+      '5': 8,
+      '10': 'disableLossOfCommFdir'
+    },
+    {
+      '1': 'enable_rules_override',
+      '3': 1002,
+      '4': 1,
+      '5': 8,
+      '10': 'enableRulesOverride'
+    },
   ],
   '4': [SetTestModeRequest_RfMode$json],
 };
@@ -1325,9 +2329,10 @@ const EnableDebugTelemRequest$json = {
 };
 
 /// Descriptor for `EnableDebugTelemRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List enableDebugTelemRequestDescriptor = $convert.base64Decode(
-    'ChdFbmFibGVEZWJ1Z1RlbGVtUmVxdWVzdBIdCgpkdXJhdGlvbl9tGAEgASgNUglkdXJhdGlvbk'
-    '0=');
+final $typed_data.Uint8List enableDebugTelemRequestDescriptor =
+    $convert.base64Decode(
+        'ChdFbmFibGVEZWJ1Z1RlbGVtUmVxdWVzdBIdCgpkdXJhdGlvbl9tGAEgASgNUglkdXJhdGlvbk'
+        '0=');
 
 @$core.Deprecated('Use iQCaptureRequestDescriptor instead')
 const IQCaptureRequest$json = {
@@ -1335,8 +2340,8 @@ const IQCaptureRequest$json = {
 };
 
 /// Descriptor for `IQCaptureRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List iQCaptureRequestDescriptor = $convert.base64Decode(
-    'ChBJUUNhcHR1cmVSZXF1ZXN0');
+final $typed_data.Uint8List iQCaptureRequestDescriptor =
+    $convert.base64Decode('ChBJUUNhcHR1cmVSZXF1ZXN0');
 
 @$core.Deprecated('Use getRadioStatsRequestDescriptor instead')
 const GetRadioStatsRequest$json = {
@@ -1344,8 +2349,8 @@ const GetRadioStatsRequest$json = {
 };
 
 /// Descriptor for `GetRadioStatsRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List getRadioStatsRequestDescriptor = $convert.base64Decode(
-    'ChRHZXRSYWRpb1N0YXRzUmVxdWVzdA==');
+final $typed_data.Uint8List getRadioStatsRequestDescriptor =
+    $convert.base64Decode('ChRHZXRSYWRpb1N0YXRzUmVxdWVzdA==');
 
 @$core.Deprecated('Use getTimeRequestDescriptor instead')
 const GetTimeRequest$json = {
@@ -1353,8 +2358,8 @@ const GetTimeRequest$json = {
 };
 
 /// Descriptor for `GetTimeRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List getTimeRequestDescriptor = $convert.base64Decode(
-    'Cg5HZXRUaW1lUmVxdWVzdA==');
+final $typed_data.Uint8List getTimeRequestDescriptor =
+    $convert.base64Decode('Cg5HZXRUaW1lUmVxdWVzdA==');
 
 @$core.Deprecated('Use runIperfServerRequestDescriptor instead')
 const RunIperfServerRequest$json = {
@@ -1378,9 +2383,10 @@ const TcpConnectivityTestRequest$json = {
 };
 
 /// Descriptor for `TcpConnectivityTestRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List tcpConnectivityTestRequestDescriptor = $convert.base64Decode(
-    'ChpUY3BDb25uZWN0aXZpdHlUZXN0UmVxdWVzdBIWCgZ0YXJnZXQYASABKAlSBnRhcmdldBISCg'
-    'Rwb3J0GAIgASgNUgRwb3J0');
+final $typed_data.Uint8List tcpConnectivityTestRequestDescriptor =
+    $convert.base64Decode(
+        'ChpUY3BDb25uZWN0aXZpdHlUZXN0UmVxdWVzdBIWCgZ0YXJnZXQYASABKAlSBnRhcmdldBISCg'
+        'Rwb3J0GAIgASgNUgRwb3J0');
 
 @$core.Deprecated('Use udpConnectivityTestRequestDescriptor instead')
 const UdpConnectivityTestRequest$json = {
@@ -1388,7 +2394,14 @@ const UdpConnectivityTestRequest$json = {
   '2': [
     {'1': 'target', '3': 1, '4': 1, '5': 9, '10': 'target'},
     {'1': 'port', '3': 2, '4': 1, '5': 13, '10': 'port'},
-    {'1': 'probe_data', '3': 3, '4': 1, '5': 14, '6': '.SpaceX.API.Device.UdpConnectivityTestRequest.UDPProbeDataType', '10': 'probeData'},
+    {
+      '1': 'probe_data',
+      '3': 3,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.UdpConnectivityTestRequest.UDPProbeDataType',
+      '10': 'probeData'
+    },
   ],
   '4': [UdpConnectivityTestRequest_UDPProbeDataType$json],
 };
@@ -1436,6 +2449,15 @@ final $typed_data.Uint8List udpConnectivityTestRequestDescriptor = $convert.base
     'ZPUk0QERIICgRRVUlDEBISCQoFUklQVjEQExIRCg1ORlNfUFJPQ19OVUxMEBQSEAoMQ09BUF9S'
     'RVFVRVNUEBU=');
 
+@$core.Deprecated('Use getGoroutineStackTracesRequestDescriptor instead')
+const GetGoroutineStackTracesRequest$json = {
+  '1': 'GetGoroutineStackTracesRequest',
+};
+
+/// Descriptor for `GetGoroutineStackTracesRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getGoroutineStackTracesRequestDescriptor =
+    $convert.base64Decode('Ch5HZXRHb3JvdXRpbmVTdGFja1RyYWNlc1JlcXVlc3Q=');
+
 @$core.Deprecated('Use dishStowRequestDescriptor instead')
 const DishStowRequest$json = {
   '1': 'DishStowRequest',
@@ -1445,8 +2467,8 @@ const DishStowRequest$json = {
 };
 
 /// Descriptor for `DishStowRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List dishStowRequestDescriptor = $convert.base64Decode(
-    'Cg9EaXNoU3Rvd1JlcXVlc3QSFgoGdW5zdG93GAEgASgIUgZ1bnN0b3c=');
+final $typed_data.Uint8List dishStowRequestDescriptor = $convert
+    .base64Decode('Cg9EaXNoU3Rvd1JlcXVlc3QSFgoGdW5zdG93GAEgASgIUgZ1bnN0b3c=');
 
 @$core.Deprecated('Use dishGetContextRequestDescriptor instead')
 const DishGetContextRequest$json = {
@@ -1454,8 +2476,8 @@ const DishGetContextRequest$json = {
 };
 
 /// Descriptor for `DishGetContextRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List dishGetContextRequestDescriptor = $convert.base64Decode(
-    'ChVEaXNoR2V0Q29udGV4dFJlcXVlc3Q=');
+final $typed_data.Uint8List dishGetContextRequestDescriptor =
+    $convert.base64Decode('ChVEaXNoR2V0Q29udGV4dFJlcXVlc3Q=');
 
 @$core.Deprecated('Use dishSetEmcRequestDescriptor instead')
 const DishSetEmcRequest$json = {
@@ -1466,7 +2488,13 @@ const DishSetEmcRequest$json = {
     {'1': 'rx_chan', '3': 3, '4': 1, '5': 13, '10': 'rxChan'},
     {'1': 'tx_chan', '3': 4, '4': 1, '5': 13, '10': 'txChan'},
     {'1': 'modulation', '3': 5, '4': 1, '5': 13, '10': 'modulation'},
-    {'1': 'desired_tilt_angle', '3': 7, '4': 1, '5': 1, '10': 'desiredTiltAngle'},
+    {
+      '1': 'desired_tilt_angle',
+      '3': 7,
+      '4': 1,
+      '5': 1,
+      '10': 'desiredTiltAngle'
+    },
     {'1': 'chan_override', '3': 8, '4': 1, '5': 8, '10': 'chanOverride'},
     {'1': 'theta_enabled', '3': 9, '4': 1, '5': 8, '10': 'thetaEnabled'},
     {'1': 'phi_enabled', '3': 10, '4': 1, '5': 8, '10': 'phiEnabled'},
@@ -1474,18 +2502,72 @@ const DishSetEmcRequest$json = {
     {'1': 'fast_switching', '3': 12, '4': 1, '5': 8, '10': 'fastSwitching'},
     {'1': 'sky_search', '3': 13, '4': 1, '5': 8, '10': 'skySearch'},
     {'1': 'force_pll_unlock', '3': 14, '4': 1, '5': 8, '10': 'forcePllUnlock'},
-    {'1': 'force_eirp_failure', '3': 15, '4': 1, '5': 8, '10': 'forceEirpFailure'},
-    {'1': 'snow_active_override', '3': 16, '4': 1, '5': 8, '10': 'snowActiveOverride'},
+    {
+      '1': 'force_eirp_failure',
+      '3': 15,
+      '4': 1,
+      '5': 8,
+      '10': 'forceEirpFailure'
+    },
+    {
+      '1': 'snow_active_override',
+      '3': 16,
+      '4': 1,
+      '5': 8,
+      '10': 'snowActiveOverride'
+    },
     {'1': 'manual_tilting', '3': 18, '4': 1, '5': 8, '10': 'manualTilting'},
     {'1': 'tilt_to_stowed', '3': 19, '4': 1, '5': 8, '10': 'tiltToStowed'},
     {'1': 'reboot', '3': 20, '4': 1, '5': 8, '10': 'reboot'},
-    {'1': 'continuous_motor_test', '3': 21, '4': 1, '5': 8, '10': 'continuousMotorTest'},
-    {'1': 'distance_override_meters', '3': 22, '4': 1, '5': 1, '10': 'distanceOverrideMeters'},
-    {'1': 'country_code_override', '3': 24, '4': 1, '5': 13, '10': 'countryCodeOverride'},
-    {'1': 'tx_duty_cycle_override', '3': 25, '4': 1, '5': 5, '10': 'txDutyCycleOverride'},
-    {'1': 'rx_duty_cycle_override', '3': 26, '4': 1, '5': 5, '10': 'rxDutyCycleOverride'},
-    {'1': 'eirp_legal_limit_dbw_override', '3': 27, '4': 1, '5': 1, '10': 'eirpLegalLimitDbwOverride'},
-    {'1': 'eirp_adjustment_db', '3': 28, '4': 1, '5': 1, '10': 'eirpAdjustmentDb'},
+    {
+      '1': 'continuous_motor_test',
+      '3': 21,
+      '4': 1,
+      '5': 8,
+      '10': 'continuousMotorTest'
+    },
+    {
+      '1': 'distance_override_meters',
+      '3': 22,
+      '4': 1,
+      '5': 1,
+      '10': 'distanceOverrideMeters'
+    },
+    {
+      '1': 'country_code_override',
+      '3': 24,
+      '4': 1,
+      '5': 13,
+      '10': 'countryCodeOverride'
+    },
+    {
+      '1': 'tx_duty_cycle_override',
+      '3': 25,
+      '4': 1,
+      '5': 5,
+      '10': 'txDutyCycleOverride'
+    },
+    {
+      '1': 'rx_duty_cycle_override',
+      '3': 26,
+      '4': 1,
+      '5': 5,
+      '10': 'rxDutyCycleOverride'
+    },
+    {
+      '1': 'eirp_legal_limit_dbw_override',
+      '3': 27,
+      '4': 1,
+      '5': 1,
+      '10': 'eirpLegalLimitDbwOverride'
+    },
+    {
+      '1': 'eirp_adjustment_db',
+      '3': 28,
+      '4': 1,
+      '5': 1,
+      '10': 'eirpAdjustmentDb'
+    },
   ],
   '9': [
     {'1': 23, '2': 24},
@@ -1521,8 +2603,8 @@ const DishGetObstructionMapRequest$json = {
 };
 
 /// Descriptor for `DishGetObstructionMapRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List dishGetObstructionMapRequestDescriptor = $convert.base64Decode(
-    'ChxEaXNoR2V0T2JzdHJ1Y3Rpb25NYXBSZXF1ZXN0');
+final $typed_data.Uint8List dishGetObstructionMapRequestDescriptor =
+    $convert.base64Decode('ChxEaXNoR2V0T2JzdHJ1Y3Rpb25NYXBSZXF1ZXN0');
 
 @$core.Deprecated('Use dishGetEmcRequestDescriptor instead')
 const DishGetEmcRequest$json = {
@@ -1530,14 +2612,21 @@ const DishGetEmcRequest$json = {
 };
 
 /// Descriptor for `DishGetEmcRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List dishGetEmcRequestDescriptor = $convert.base64Decode(
-    'ChFEaXNoR2V0RW1jUmVxdWVzdA==');
+final $typed_data.Uint8List dishGetEmcRequestDescriptor =
+    $convert.base64Decode('ChFEaXNoR2V0RW1jUmVxdWVzdA==');
 
 @$core.Deprecated('Use dishSetConfigRequestDescriptor instead')
 const DishSetConfigRequest$json = {
   '1': 'DishSetConfigRequest',
   '2': [
-    {'1': 'dish_config', '3': 1, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishConfig', '10': 'dishConfig'},
+    {
+      '1': 'dish_config',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishConfig',
+      '10': 'dishConfig'
+    },
   ],
 };
 
@@ -1550,26 +2639,129 @@ final $typed_data.Uint8List dishSetConfigRequestDescriptor = $convert.base64Deco
 const DishConfig$json = {
   '1': 'DishConfig',
   '2': [
-    {'1': 'snow_melt_mode', '3': 1, '4': 1, '5': 14, '6': '.SpaceX.API.Device.DishConfig.SnowMeltMode', '10': 'snowMeltMode'},
-    {'1': 'location_request_mode', '3': 2, '4': 1, '5': 14, '6': '.SpaceX.API.Device.DishConfig.LocationRequestMode', '10': 'locationRequestMode'},
-    {'1': 'level_dish_mode', '3': 3, '4': 1, '5': 14, '6': '.SpaceX.API.Device.DishConfig.LevelDishMode', '10': 'levelDishMode'},
-    {'1': 'power_save_start_minutes', '3': 4, '4': 1, '5': 13, '10': 'powerSaveStartMinutes'},
-    {'1': 'power_save_duration_minutes', '3': 5, '4': 1, '5': 13, '10': 'powerSaveDurationMinutes'},
+    {
+      '1': 'snow_melt_mode',
+      '3': 1,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.DishConfig.SnowMeltMode',
+      '10': 'snowMeltMode'
+    },
+    {
+      '1': 'location_request_mode',
+      '3': 2,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.DishConfig.LocationRequestMode',
+      '10': 'locationRequestMode'
+    },
+    {
+      '1': 'level_dish_mode',
+      '3': 3,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.DishConfig.LevelDishMode',
+      '10': 'levelDishMode'
+    },
+    {
+      '1': 'power_save_start_minutes',
+      '3': 4,
+      '4': 1,
+      '5': 13,
+      '10': 'powerSaveStartMinutes'
+    },
+    {
+      '1': 'power_save_duration_minutes',
+      '3': 5,
+      '4': 1,
+      '5': 13,
+      '10': 'powerSaveDurationMinutes'
+    },
     {'1': 'power_save_mode', '3': 6, '4': 1, '5': 8, '10': 'powerSaveMode'},
-    {'1': 'swupdate_three_day_deferral_enabled', '3': 7, '4': 1, '5': 8, '10': 'swupdateThreeDayDeferralEnabled'},
+    {
+      '1': 'swupdate_three_day_deferral_enabled',
+      '3': 7,
+      '4': 1,
+      '5': 8,
+      '10': 'swupdateThreeDayDeferralEnabled'
+    },
     {'1': 'asset_class', '3': 8, '4': 1, '5': 13, '10': 'assetClass'},
-    {'1': 'swupdate_reboot_hour', '3': 9, '4': 1, '5': 13, '10': 'swupdateRebootHour'},
-    {'1': 'apply_snow_melt_mode', '3': 1001, '4': 1, '5': 8, '10': 'applySnowMeltMode'},
-    {'1': 'apply_location_request_mode', '3': 2001, '4': 1, '5': 8, '10': 'applyLocationRequestMode'},
-    {'1': 'apply_level_dish_mode', '3': 3001, '4': 1, '5': 8, '10': 'applyLevelDishMode'},
-    {'1': 'apply_power_save_start_minutes', '3': 4001, '4': 1, '5': 8, '10': 'applyPowerSaveStartMinutes'},
-    {'1': 'apply_power_save_duration_minutes', '3': 5001, '4': 1, '5': 8, '10': 'applyPowerSaveDurationMinutes'},
-    {'1': 'apply_power_save_mode', '3': 6001, '4': 1, '5': 8, '10': 'applyPowerSaveMode'},
-    {'1': 'apply_swupdate_three_day_deferral_enabled', '3': 7001, '4': 1, '5': 8, '10': 'applySwupdateThreeDayDeferralEnabled'},
-    {'1': 'apply_asset_class', '3': 8001, '4': 1, '5': 8, '10': 'applyAssetClass'},
-    {'1': 'apply_swupdate_reboot_hour', '3': 9001, '4': 1, '5': 8, '10': 'applySwupdateRebootHour'},
+    {
+      '1': 'swupdate_reboot_hour',
+      '3': 9,
+      '4': 1,
+      '5': 13,
+      '10': 'swupdateRebootHour'
+    },
+    {
+      '1': 'apply_snow_melt_mode',
+      '3': 1001,
+      '4': 1,
+      '5': 8,
+      '10': 'applySnowMeltMode'
+    },
+    {
+      '1': 'apply_location_request_mode',
+      '3': 2001,
+      '4': 1,
+      '5': 8,
+      '10': 'applyLocationRequestMode'
+    },
+    {
+      '1': 'apply_level_dish_mode',
+      '3': 3001,
+      '4': 1,
+      '5': 8,
+      '10': 'applyLevelDishMode'
+    },
+    {
+      '1': 'apply_power_save_start_minutes',
+      '3': 4001,
+      '4': 1,
+      '5': 8,
+      '10': 'applyPowerSaveStartMinutes'
+    },
+    {
+      '1': 'apply_power_save_duration_minutes',
+      '3': 5001,
+      '4': 1,
+      '5': 8,
+      '10': 'applyPowerSaveDurationMinutes'
+    },
+    {
+      '1': 'apply_power_save_mode',
+      '3': 6001,
+      '4': 1,
+      '5': 8,
+      '10': 'applyPowerSaveMode'
+    },
+    {
+      '1': 'apply_swupdate_three_day_deferral_enabled',
+      '3': 7001,
+      '4': 1,
+      '5': 8,
+      '10': 'applySwupdateThreeDayDeferralEnabled'
+    },
+    {
+      '1': 'apply_asset_class',
+      '3': 8001,
+      '4': 1,
+      '5': 8,
+      '10': 'applyAssetClass'
+    },
+    {
+      '1': 'apply_swupdate_reboot_hour',
+      '3': 9001,
+      '4': 1,
+      '5': 8,
+      '10': 'applySwupdateRebootHour'
+    },
   ],
-  '4': [DishConfig_LevelDishMode$json, DishConfig_LocationRequestMode$json, DishConfig_SnowMeltMode$json],
+  '4': [
+    DishConfig_LevelDishMode$json,
+    DishConfig_LocationRequestMode$json,
+    DishConfig_SnowMeltMode$json
+  ],
 };
 
 @$core.Deprecated('Use dishConfigDescriptor instead')
@@ -1633,15 +2825,27 @@ const DishGetConfigRequest$json = {
 };
 
 /// Descriptor for `DishGetConfigRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List dishGetConfigRequestDescriptor = $convert.base64Decode(
-    'ChREaXNoR2V0Q29uZmlnUmVxdWVzdA==');
+final $typed_data.Uint8List dishGetConfigRequestDescriptor =
+    $convert.base64Decode('ChREaXNoR2V0Q29uZmlnUmVxdWVzdA==');
 
 @$core.Deprecated('Use dishPowerSaveRequestDescriptor instead')
 const DishPowerSaveRequest$json = {
   '1': 'DishPowerSaveRequest',
   '2': [
-    {'1': 'power_save_start_minutes', '3': 1, '4': 1, '5': 13, '10': 'powerSaveStartMinutes'},
-    {'1': 'power_save_duration_minutes', '3': 2, '4': 1, '5': 13, '10': 'powerSaveDurationMinutes'},
+    {
+      '1': 'power_save_start_minutes',
+      '3': 1,
+      '4': 1,
+      '5': 13,
+      '10': 'powerSaveStartMinutes'
+    },
+    {
+      '1': 'power_save_duration_minutes',
+      '3': 2,
+      '4': 1,
+      '5': 13,
+      '10': 'powerSaveDurationMinutes'
+    },
     {'1': 'enable_power_save', '3': 3, '4': 1, '5': 8, '10': 'enablePowerSave'},
   ],
 };
@@ -1675,8 +2879,8 @@ const DishGetDataRequest$json = {
 };
 
 /// Descriptor for `DishGetDataRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List dishGetDataRequestDescriptor = $convert.base64Decode(
-    'ChJEaXNoR2V0RGF0YVJlcXVlc3QSDgoCaWQYASABKA1SAmlk');
+final $typed_data.Uint8List dishGetDataRequestDescriptor =
+    $convert.base64Decode('ChJEaXNoR2V0RGF0YVJlcXVlc3QSDgoCaWQYASABKA1SAmlk');
 
 @$core.Deprecated('Use dishClearObstructionMapRequestDescriptor instead')
 const DishClearObstructionMapRequest$json = {
@@ -1684,8 +2888,8 @@ const DishClearObstructionMapRequest$json = {
 };
 
 /// Descriptor for `DishClearObstructionMapRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List dishClearObstructionMapRequestDescriptor = $convert.base64Decode(
-    'Ch5EaXNoQ2xlYXJPYnN0cnVjdGlvbk1hcFJlcXVlc3Q=');
+final $typed_data.Uint8List dishClearObstructionMapRequestDescriptor =
+    $convert.base64Decode('Ch5EaXNoQ2xlYXJPYnN0cnVjdGlvbk1hcFJlcXVlc3Q=');
 
 @$core.Deprecated('Use dishSetMaxPowerTestModeRequestDescriptor instead')
 const DishSetMaxPowerTestModeRequest$json = {
@@ -1696,22 +2900,31 @@ const DishSetMaxPowerTestModeRequest$json = {
 };
 
 /// Descriptor for `DishSetMaxPowerTestModeRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List dishSetMaxPowerTestModeRequestDescriptor = $convert.base64Decode(
-    'Ch5EaXNoU2V0TWF4UG93ZXJUZXN0TW9kZVJlcXVlc3QSGAoHZW5hYmxlZBgBIAEoCFIHZW5hYm'
-    'xlZA==');
+final $typed_data.Uint8List dishSetMaxPowerTestModeRequestDescriptor =
+    $convert.base64Decode(
+        'Ch5EaXNoU2V0TWF4UG93ZXJUZXN0TW9kZVJlcXVlc3QSGAoHZW5hYmxlZBgBIAEoCFIHZW5hYm'
+        'xlZA==');
 
 @$core.Deprecated('Use dishActivateRssiScanRequestDescriptor instead')
 const DishActivateRssiScanRequest$json = {
   '1': 'DishActivateRssiScanRequest',
   '2': [
-    {'1': 'scan_query', '3': 1, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishActivateRssiScan', '10': 'scanQuery'},
+    {
+      '1': 'scan_query',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishActivateRssiScan',
+      '10': 'scanQuery'
+    },
   ],
 };
 
 /// Descriptor for `DishActivateRssiScanRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List dishActivateRssiScanRequestDescriptor = $convert.base64Decode(
-    'ChtEaXNoQWN0aXZhdGVSc3NpU2NhblJlcXVlc3QSRgoKc2Nhbl9xdWVyeRgBIAEoCzInLlNwYW'
-    'NlWC5BUEkuRGV2aWNlLkRpc2hBY3RpdmF0ZVJzc2lTY2FuUglzY2FuUXVlcnk=');
+final $typed_data.Uint8List dishActivateRssiScanRequestDescriptor =
+    $convert.base64Decode(
+        'ChtEaXNoQWN0aXZhdGVSc3NpU2NhblJlcXVlc3QSRgoKc2Nhbl9xdWVyeRgBIAEoCzInLlNwYW'
+        'NlWC5BUEkuRGV2aWNlLkRpc2hBY3RpdmF0ZVJzc2lTY2FuUglzY2FuUXVlcnk=');
 
 @$core.Deprecated('Use dishActivateRssiScanDescriptor instead')
 const DishActivateRssiScan$json = {
@@ -1722,8 +2935,9 @@ const DishActivateRssiScan$json = {
 };
 
 /// Descriptor for `DishActivateRssiScan`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List dishActivateRssiScanDescriptor = $convert.base64Decode(
-    'ChREaXNoQWN0aXZhdGVSc3NpU2NhbhIYCgdjaGFubmVsGAEgASgNUgdjaGFubmVs');
+final $typed_data.Uint8List dishActivateRssiScanDescriptor =
+    $convert.base64Decode(
+        'ChREaXNoQWN0aXZhdGVSc3NpU2NhbhIYCgdjaGFubmVsGAEgASgNUgdjaGFubmVs');
 
 @$core.Deprecated('Use dishGetRssiScanResultRequestDescriptor instead')
 const DishGetRssiScanResultRequest$json = {
@@ -1731,8 +2945,8 @@ const DishGetRssiScanResultRequest$json = {
 };
 
 /// Descriptor for `DishGetRssiScanResultRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List dishGetRssiScanResultRequestDescriptor = $convert.base64Decode(
-    'ChxEaXNoR2V0UnNzaVNjYW5SZXN1bHRSZXF1ZXN0');
+final $typed_data.Uint8List dishGetRssiScanResultRequestDescriptor =
+    $convert.base64Decode('ChxEaXNoR2V0UnNzaVNjYW5SZXN1bHRSZXF1ZXN0');
 
 @$core.Deprecated('Use dishFactoryResetRequestDescriptor instead')
 const DishFactoryResetRequest$json = {
@@ -1743,8 +2957,9 @@ const DishFactoryResetRequest$json = {
 };
 
 /// Descriptor for `DishFactoryResetRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List dishFactoryResetRequestDescriptor = $convert.base64Decode(
-    'ChdEaXNoRmFjdG9yeVJlc2V0UmVxdWVzdBIbCglhcHBfcmVzZXQYASABKAhSCGFwcFJlc2V0');
+final $typed_data.Uint8List dishFactoryResetRequestDescriptor =
+    $convert.base64Decode(
+        'ChdEaXNoRmFjdG9yeVJlc2V0UmVxdWVzdBIbCglhcHBfcmVzZXQYASABKAhSCGFwcFJlc2V0');
 
 @$core.Deprecated('Use resetButtonRequestDescriptor instead')
 const ResetButtonRequest$json = {
@@ -1755,14 +2970,100 @@ const ResetButtonRequest$json = {
 };
 
 /// Descriptor for `ResetButtonRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List resetButtonRequestDescriptor = $convert.base64Decode(
-    'ChJSZXNldEJ1dHRvblJlcXVlc3QSGAoHcHJlc3NlZBgBIAEoCFIHcHJlc3NlZA==');
+final $typed_data.Uint8List resetButtonRequestDescriptor =
+    $convert.base64Decode(
+        'ChJSZXNldEJ1dHRvblJlcXVlc3QSGAoHcHJlc3NlZBgBIAEoCFIHcHJlc3NlZA==');
+
+@$core.Deprecated('Use dishAviationTestRequestDescriptor instead')
+const DishAviationTestRequest$json = {
+  '1': 'DishAviationTestRequest',
+  '2': [
+    {
+      '1': 'thermal_demand_fraction',
+      '3': 1,
+      '4': 1,
+      '5': 2,
+      '10': 'thermalDemandFraction'
+    },
+    {
+      '1': 'apply_thermal_demand_fraction',
+      '3': 2,
+      '4': 1,
+      '5': 8,
+      '10': 'applyThermalDemandFraction'
+    },
+    {
+      '1': 'eth_speed',
+      '3': 3,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.DishAviationTestRequest.EthSpeed',
+      '10': 'ethSpeed'
+    },
+    {'1': 'apply_eth_speed', '3': 4, '4': 1, '5': 8, '10': 'applyEthSpeed'},
+    {
+      '1': 'eth_amplitude_registers',
+      '3': 5,
+      '4': 1,
+      '5': 13,
+      '10': 'ethAmplitudeRegisters'
+    },
+    {
+      '1': 'apply_eth_amplitude_registers',
+      '3': 6,
+      '4': 1,
+      '5': 8,
+      '10': 'applyEthAmplitudeRegisters'
+    },
+  ],
+  '4': [DishAviationTestRequest_EthSpeed$json],
+};
+
+@$core.Deprecated('Use dishAviationTestRequestDescriptor instead')
+const DishAviationTestRequest_EthSpeed$json = {
+  '1': 'EthSpeed',
+  '2': [
+    {'1': 'ETH_SPEED_100_MBPS', '2': 0},
+    {'1': 'ETH_SPEED_1000_MBPS', '2': 1},
+  ],
+};
+
+/// Descriptor for `DishAviationTestRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List dishAviationTestRequestDescriptor = $convert.base64Decode(
+    'ChdEaXNoQXZpYXRpb25UZXN0UmVxdWVzdBI2Chd0aGVybWFsX2RlbWFuZF9mcmFjdGlvbhgBIA'
+    'EoAlIVdGhlcm1hbERlbWFuZEZyYWN0aW9uEkEKHWFwcGx5X3RoZXJtYWxfZGVtYW5kX2ZyYWN0'
+    'aW9uGAIgASgIUhphcHBseVRoZXJtYWxEZW1hbmRGcmFjdGlvbhJQCglldGhfc3BlZWQYAyABKA'
+    '4yMy5TcGFjZVguQVBJLkRldmljZS5EaXNoQXZpYXRpb25UZXN0UmVxdWVzdC5FdGhTcGVlZFII'
+    'ZXRoU3BlZWQSJgoPYXBwbHlfZXRoX3NwZWVkGAQgASgIUg1hcHBseUV0aFNwZWVkEjYKF2V0aF'
+    '9hbXBsaXR1ZGVfcmVnaXN0ZXJzGAUgASgNUhVldGhBbXBsaXR1ZGVSZWdpc3RlcnMSQQodYXBw'
+    'bHlfZXRoX2FtcGxpdHVkZV9yZWdpc3RlcnMYBiABKAhSGmFwcGx5RXRoQW1wbGl0dWRlUmVnaX'
+    'N0ZXJzIjsKCEV0aFNwZWVkEhYKEkVUSF9TUEVFRF8xMDBfTUJQUxAAEhcKE0VUSF9TUEVFRF8x'
+    'MDAwX01CUFMQAQ==');
+
+@$core.Deprecated('Use dishInhibitRfRequestDescriptor instead')
+const DishInhibitRfRequest$json = {
+  '1': 'DishInhibitRfRequest',
+  '2': [
+    {'1': 'inhibit_rf', '3': 1, '4': 1, '5': 8, '10': 'inhibitRf'},
+  ],
+};
+
+/// Descriptor for `DishInhibitRfRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List dishInhibitRfRequestDescriptor = $convert.base64Decode(
+    'ChREaXNoSW5oaWJpdFJmUmVxdWVzdBIdCgppbmhpYml0X3JmGAEgASgIUglpbmhpYml0UmY=');
 
 @$core.Deprecated('Use wifiSetConfigRequestDescriptor instead')
 const WifiSetConfigRequest$json = {
   '1': 'WifiSetConfigRequest',
   '2': [
-    {'1': 'wifi_config', '3': 1, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiConfig', '10': 'wifiConfig'},
+    {
+      '1': 'wifi_config',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiConfig',
+      '10': 'wifiConfig'
+    },
   ],
 };
 
@@ -1782,40 +3083,145 @@ const WifiConfig$json = {
     {'1': 'mac_lan', '3': 13, '4': 1, '5': 9, '10': 'macLan'},
     {'1': 'channel_2ghz', '3': 19, '4': 1, '5': 13, '10': 'channel2ghz'},
     {'1': 'channel_5ghz', '3': 20, '4': 1, '5': 13, '10': 'channel5ghz'},
-    {'1': 'dynamic_keys', '3': 22, '4': 3, '5': 11, '6': '.SpaceX.API.Device.PublicKey', '10': 'dynamicKeys'},
+    {
+      '1': 'dynamic_keys',
+      '3': 22,
+      '4': 3,
+      '5': 11,
+      '6': '.SpaceX.API.Device.PublicKey',
+      '10': 'dynamicKeys'
+    },
     {'1': 'is_repeater', '3': 23, '4': 1, '5': 8, '10': 'isRepeater'},
     {'1': 'boot_count', '3': 26, '4': 1, '5': 5, '10': 'bootCount'},
-    {
-      '1': 'nameservers',
-      '3': 30,
-      '4': 3,
-      '5': 9,
-      '8': {'3': true},
-      '10': 'nameservers',
-    },
+    {'1': 'nameservers', '3': 30, '4': 3, '5': 9, '10': 'nameservers'},
     {'1': 'bypass_mode', '3': 31, '4': 1, '5': 8, '10': 'bypassMode'},
-    {'1': 'mesh_configs', '3': 33, '4': 3, '5': 11, '6': '.SpaceX.API.Device.WifiConfig.MeshConfigsEntry', '10': 'meshConfigs'},
-    {'1': 'apply_dynamic_keys', '3': 39, '4': 1, '5': 8, '10': 'applyDynamicKeys'},
+    {
+      '1': 'mesh_configs',
+      '3': 33,
+      '4': 3,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiConfig.MeshConfigsEntry',
+      '10': 'meshConfigs'
+    },
+    {
+      '1': 'apply_dynamic_keys',
+      '3': 39,
+      '4': 1,
+      '5': 8,
+      '10': 'applyDynamicKeys'
+    },
     {'1': 'dfs_enabled', '3': 42, '4': 1, '5': 8, '10': 'dfsEnabled'},
     {'1': 'incarnation', '3': 43, '4': 1, '5': 4, '10': 'incarnation'},
-    {'1': 'wireless_mode_2ghz', '3': 44, '4': 1, '5': 14, '6': '.SpaceX.API.Device.WifiConfig.WirelessMode', '10': 'wirelessMode2ghz'},
-    {'1': 'wireless_mode_5ghz', '3': 45, '4': 1, '5': 14, '6': '.SpaceX.API.Device.WifiConfig.WirelessMode', '10': 'wirelessMode5ghz'},
-    {'1': 'ht_bandwidth_2ghz', '3': 46, '4': 1, '5': 14, '6': '.SpaceX.API.Device.WifiConfig.HTBandwidth', '10': 'htBandwidth2ghz'},
-    {'1': 'ht_bandwidth_5ghz', '3': 47, '4': 1, '5': 14, '6': '.SpaceX.API.Device.WifiConfig.HTBandwidth', '10': 'htBandwidth5ghz'},
-    {'1': 'vht_bandwidth', '3': 48, '4': 1, '5': 14, '6': '.SpaceX.API.Device.WifiConfig.VHTBandwidth', '10': 'vhtBandwidth'},
+    {
+      '1': 'wireless_mode_2ghz',
+      '3': 44,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.WifiConfig.WirelessMode',
+      '10': 'wirelessMode2ghz'
+    },
+    {
+      '1': 'wireless_mode_5ghz',
+      '3': 45,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.WifiConfig.WirelessMode',
+      '10': 'wirelessMode5ghz'
+    },
+    {
+      '1': 'ht_bandwidth_2ghz',
+      '3': 46,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.WifiConfig.HTBandwidth',
+      '10': 'htBandwidth2ghz'
+    },
+    {
+      '1': 'ht_bandwidth_5ghz',
+      '3': 47,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.WifiConfig.HTBandwidth',
+      '10': 'htBandwidth5ghz'
+    },
+    {
+      '1': 'vht_bandwidth',
+      '3': 48,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.WifiConfig.VHTBandwidth',
+      '10': 'vhtBandwidth'
+    },
     {'1': 'is_aviation', '3': 49, '4': 1, '5': 8, '10': 'isAviation'},
     {'1': 'secure_dns', '3': 50, '4': 1, '5': 8, '10': 'secureDns'},
     {'1': 'ap_mode', '3': 51, '4': 1, '5': 8, '10': 'apMode'},
-    {'1': 'disable_mesh_onboarding', '3': 52, '4': 1, '5': 8, '10': 'disableMeshOnboarding'},
+    {
+      '1': 'disable_mesh_onboarding',
+      '3': 52,
+      '4': 1,
+      '5': 8,
+      '10': 'disableMeshOnboarding'
+    },
     {'1': 'pin_country_code', '3': 53, '4': 1, '5': 8, '10': 'pinCountryCode'},
-    {'1': 'custom_power_table', '3': 54, '4': 1, '5': 8, '10': 'customPowerTable'},
-    {'1': 'use_public_services', '3': 55, '4': 1, '5': 8, '10': 'usePublicServices'},
-    {'1': 'disable_automated_speedtests', '3': 56, '4': 1, '5': 8, '10': 'disableAutomatedSpeedtests'},
-    {'1': 'channel_5ghz_high', '3': 57, '4': 1, '5': 13, '10': 'channel5ghzHigh'},
-    {'1': 'wireless_mode_5ghz_high', '3': 58, '4': 1, '5': 14, '6': '.SpaceX.API.Device.WifiConfig.WirelessMode', '10': 'wirelessMode5ghzHigh'},
-    {'1': 'ht_bandwidth_5ghz_high', '3': 59, '4': 1, '5': 14, '6': '.SpaceX.API.Device.WifiConfig.HTBandwidth', '10': 'htBandwidth5ghzHigh'},
-    {'1': 'vht_bandwidth_5ghz_high', '3': 60, '4': 1, '5': 14, '6': '.SpaceX.API.Device.WifiConfig.VHTBandwidth', '10': 'vhtBandwidth5ghzHigh'},
-    {'1': 'enable_umbilical_vlan', '3': 61, '4': 1, '5': 8, '10': 'enableUmbilicalVlan'},
+    {
+      '1': 'custom_power_table',
+      '3': 54,
+      '4': 1,
+      '5': 8,
+      '10': 'customPowerTable'
+    },
+    {
+      '1': 'use_public_services',
+      '3': 55,
+      '4': 1,
+      '5': 8,
+      '10': 'usePublicServices'
+    },
+    {
+      '1': 'disable_automated_speedtests',
+      '3': 56,
+      '4': 1,
+      '5': 8,
+      '10': 'disableAutomatedSpeedtests'
+    },
+    {
+      '1': 'channel_5ghz_high',
+      '3': 57,
+      '4': 1,
+      '5': 13,
+      '10': 'channel5ghzHigh'
+    },
+    {
+      '1': 'wireless_mode_5ghz_high',
+      '3': 58,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.WifiConfig.WirelessMode',
+      '10': 'wirelessMode5ghzHigh'
+    },
+    {
+      '1': 'ht_bandwidth_5ghz_high',
+      '3': 59,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.WifiConfig.HTBandwidth',
+      '10': 'htBandwidth5ghzHigh'
+    },
+    {
+      '1': 'vht_bandwidth_5ghz_high',
+      '3': 60,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.WifiConfig.VHTBandwidth',
+      '10': 'vhtBandwidth5ghzHigh'
+    },
+    {
+      '1': 'enable_umbilical_vlan',
+      '3': 61,
+      '4': 1,
+      '5': 8,
+      '10': 'enableUmbilicalVlan'
+    },
     {
       '1': 'client_names',
       '3': 62,
@@ -1828,8 +3234,20 @@ const WifiConfig$json = {
     {'1': 'outdoor_mode', '3': 63, '4': 1, '5': 8, '10': 'outdoorMode'},
     {'1': 'disable_2ghz', '3': 64, '4': 1, '5': 8, '10': 'disable2ghz'},
     {'1': 'disable_5ghz', '3': 65, '4': 1, '5': 8, '10': 'disable5ghz'},
-    {'1': 'disable_5ghz_high', '3': 66, '4': 1, '5': 8, '10': 'disable5ghzHigh'},
-    {'1': 'disable_x_mesh_backhaul', '3': 67, '4': 1, '5': 8, '10': 'disableXMeshBackhaul'},
+    {
+      '1': 'disable_5ghz_high',
+      '3': 66,
+      '4': 1,
+      '5': 8,
+      '10': 'disable5ghzHigh'
+    },
+    {
+      '1': 'disable_x_mesh_backhaul',
+      '3': 67,
+      '4': 1,
+      '5': 8,
+      '10': 'disableXMeshBackhaul'
+    },
     {
       '1': 'golden_bssid',
       '3': 68,
@@ -1847,51 +3265,234 @@ const WifiConfig$json = {
       '8': {'3': true},
       '10': 'goldenIfaceType',
     },
-    {'1': 'tx_power_level_2ghz', '3': 70, '4': 1, '5': 14, '6': '.SpaceX.API.Device.TxPowerLevel', '10': 'txPowerLevel2ghz'},
-    {'1': 'tx_power_level_5ghz', '3': 71, '4': 1, '5': 14, '6': '.SpaceX.API.Device.TxPowerLevel', '10': 'txPowerLevel5ghz'},
-    {'1': 'tx_power_level_5ghz_high', '3': 72, '4': 1, '5': 14, '6': '.SpaceX.API.Device.TxPowerLevel', '10': 'txPowerLevel5ghzHigh'},
-    {'1': 'disable_pending_update_reboot', '3': 73, '4': 1, '5': 8, '10': 'disablePendingUpdateReboot'},
-    {'1': 'client_configs', '3': 74, '4': 3, '5': 11, '6': '.SpaceX.API.Device.ClientConfig', '10': 'clientConfigs'},
-    {'1': 'disable_set_wifi_config_from_controller', '3': 75, '4': 1, '5': 8, '10': 'disableSetWifiConfigFromController'},
+    {
+      '1': 'tx_power_level_2ghz',
+      '3': 70,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.TxPowerLevel',
+      '10': 'txPowerLevel2ghz'
+    },
+    {
+      '1': 'tx_power_level_5ghz',
+      '3': 71,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.TxPowerLevel',
+      '10': 'txPowerLevel5ghz'
+    },
+    {
+      '1': 'tx_power_level_5ghz_high',
+      '3': 72,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.TxPowerLevel',
+      '10': 'txPowerLevel5ghzHigh'
+    },
+    {
+      '1': 'disable_pending_update_reboot',
+      '3': 73,
+      '4': 1,
+      '5': 8,
+      '10': 'disablePendingUpdateReboot'
+    },
+    {
+      '1': 'client_configs',
+      '3': 74,
+      '4': 3,
+      '5': 11,
+      '6': '.SpaceX.API.Device.ClientConfig',
+      '10': 'clientConfigs'
+    },
+    {
+      '1': 'disable_set_wifi_config_from_controller',
+      '3': 75,
+      '4': 1,
+      '5': 8,
+      '10': 'disableSetWifiConfigFromController'
+    },
     {'1': 'client_key', '3': 76, '4': 1, '5': 12, '10': 'clientKey'},
-    {'1': 'wan_host_dscp_mark', '3': 77, '4': 1, '5': 5, '10': 'wanHostDscpMark'},
+    {
+      '1': 'wan_host_dscp_mark',
+      '3': 77,
+      '4': 1,
+      '5': 5,
+      '10': 'wanHostDscpMark'
+    },
     {'1': 'tag', '3': 78, '4': 1, '5': 13, '10': 'tag'},
     {'1': 'debug_pop_pings', '3': 79, '4': 1, '5': 8, '10': 'debugPopPings'},
     {'1': 'client_tester', '3': 80, '4': 1, '5': 8, '10': 'clientTester'},
     {'1': 'asset_class', '3': 81, '4': 1, '5': 13, '10': 'assetClass'},
     {'1': 'debug_pings', '3': 94, '4': 1, '5': 8, '10': 'debugPings'},
-    {'1': 'disable_band_steering', '3': 95, '4': 1, '5': 8, '10': 'disableBandSteering'},
-    {'1': 'apply_setup_complete', '3': 1010, '4': 1, '5': 8, '10': 'applySetupComplete'},
-    {'1': 'apply_channel_2ghz', '3': 1013, '4': 1, '5': 8, '10': 'applyChannel2ghz'},
-    {'1': 'apply_channel_5ghz', '3': 1014, '4': 1, '5': 8, '10': 'applyChannel5ghz'},
-    {'1': 'apply_channel_5ghz_high', '3': 1016, '4': 1, '5': 8, '10': 'applyChannel5ghzHigh'},
-    {'1': 'apply_is_repeater', '3': 1031, '4': 1, '5': 8, '10': 'applyIsRepeater'},
-    {'1': 'apply_mesh_configs', '3': 1033, '4': 1, '5': 8, '10': 'applyMeshConfigs'},
+    {
+      '1': 'disable_band_steering',
+      '3': 95,
+      '4': 1,
+      '5': 8,
+      '10': 'disableBandSteering'
+    },
+    {
+      '1': 'apply_setup_complete',
+      '3': 1010,
+      '4': 1,
+      '5': 8,
+      '10': 'applySetupComplete'
+    },
+    {
+      '1': 'apply_channel_2ghz',
+      '3': 1013,
+      '4': 1,
+      '5': 8,
+      '10': 'applyChannel2ghz'
+    },
+    {
+      '1': 'apply_channel_5ghz',
+      '3': 1014,
+      '4': 1,
+      '5': 8,
+      '10': 'applyChannel5ghz'
+    },
+    {
+      '1': 'apply_channel_5ghz_high',
+      '3': 1016,
+      '4': 1,
+      '5': 8,
+      '10': 'applyChannel5ghzHigh'
+    },
+    {
+      '1': 'apply_is_repeater',
+      '3': 1031,
+      '4': 1,
+      '5': 8,
+      '10': 'applyIsRepeater'
+    },
+    {
+      '1': 'apply_mesh_configs',
+      '3': 1033,
+      '4': 1,
+      '5': 8,
+      '10': 'applyMeshConfigs'
+    },
     {
       '1': 'apply_nameservers',
       '3': 1054,
       '4': 1,
       '5': 8,
-      '8': {'3': true},
-      '10': 'applyNameservers',
+      '10': 'applyNameservers'
     },
-    {'1': 'apply_bypass_mode', '3': 1055, '4': 1, '5': 8, '10': 'applyBypassMode'},
-    {'1': 'apply_dfs_enabled', '3': 1058, '4': 1, '5': 8, '10': 'applyDfsEnabled'},
-    {'1': 'apply_wireless_mode_2ghz', '3': 1059, '4': 1, '5': 8, '10': 'applyWirelessMode2ghz'},
-    {'1': 'apply_wireless_mode_5ghz', '3': 1060, '4': 1, '5': 8, '10': 'applyWirelessMode5ghz'},
-    {'1': 'apply_ht_bandwidth_2ghz', '3': 1061, '4': 1, '5': 8, '10': 'applyHtBandwidth2ghz'},
-    {'1': 'apply_ht_bandwidth_5ghz', '3': 1062, '4': 1, '5': 8, '10': 'applyHtBandwidth5ghz'},
-    {'1': 'apply_vht_bandwidth', '3': 1063, '4': 1, '5': 8, '10': 'applyVhtBandwidth'},
-    {'1': 'apply_is_aviation', '3': 1064, '4': 1, '5': 8, '10': 'applyIsAviation'},
-    {'1': 'apply_secure_dns', '3': 1065, '4': 1, '5': 8, '10': 'applySecureDns'},
+    {
+      '1': 'apply_bypass_mode',
+      '3': 1055,
+      '4': 1,
+      '5': 8,
+      '10': 'applyBypassMode'
+    },
+    {
+      '1': 'apply_dfs_enabled',
+      '3': 1058,
+      '4': 1,
+      '5': 8,
+      '10': 'applyDfsEnabled'
+    },
+    {
+      '1': 'apply_wireless_mode_2ghz',
+      '3': 1059,
+      '4': 1,
+      '5': 8,
+      '10': 'applyWirelessMode2ghz'
+    },
+    {
+      '1': 'apply_wireless_mode_5ghz',
+      '3': 1060,
+      '4': 1,
+      '5': 8,
+      '10': 'applyWirelessMode5ghz'
+    },
+    {
+      '1': 'apply_ht_bandwidth_2ghz',
+      '3': 1061,
+      '4': 1,
+      '5': 8,
+      '10': 'applyHtBandwidth2ghz'
+    },
+    {
+      '1': 'apply_ht_bandwidth_5ghz',
+      '3': 1062,
+      '4': 1,
+      '5': 8,
+      '10': 'applyHtBandwidth5ghz'
+    },
+    {
+      '1': 'apply_vht_bandwidth',
+      '3': 1063,
+      '4': 1,
+      '5': 8,
+      '10': 'applyVhtBandwidth'
+    },
+    {
+      '1': 'apply_is_aviation',
+      '3': 1064,
+      '4': 1,
+      '5': 8,
+      '10': 'applyIsAviation'
+    },
+    {
+      '1': 'apply_secure_dns',
+      '3': 1065,
+      '4': 1,
+      '5': 8,
+      '10': 'applySecureDns'
+    },
     {'1': 'apply_ap_mode', '3': 1066, '4': 1, '5': 8, '10': 'applyApMode'},
-    {'1': 'apply_disable_mesh_onboarding', '3': 1067, '4': 1, '5': 8, '10': 'applyDisableMeshOnboarding'},
-    {'1': 'apply_use_public_services', '3': 1068, '4': 1, '5': 8, '10': 'applyUsePublicServices'},
-    {'1': 'apply_disable_automated_speedtests', '3': 1069, '4': 1, '5': 8, '10': 'applyDisableAutomatedSpeedtests'},
-    {'1': 'apply_wireless_mode_5ghz_high', '3': 1070, '4': 1, '5': 8, '10': 'applyWirelessMode5ghzHigh'},
-    {'1': 'apply_ht_bandwidth_5ghz_high', '3': 1071, '4': 1, '5': 8, '10': 'applyHtBandwidth5ghzHigh'},
-    {'1': 'apply_vht_bandwidth_5ghz_high', '3': 1072, '4': 1, '5': 8, '10': 'applyVhtBandwidth5ghzHigh'},
-    {'1': 'apply_enable_umbilical_vlan', '3': 1073, '4': 1, '5': 8, '10': 'applyEnableUmbilicalVlan'},
+    {
+      '1': 'apply_disable_mesh_onboarding',
+      '3': 1067,
+      '4': 1,
+      '5': 8,
+      '10': 'applyDisableMeshOnboarding'
+    },
+    {
+      '1': 'apply_use_public_services',
+      '3': 1068,
+      '4': 1,
+      '5': 8,
+      '10': 'applyUsePublicServices'
+    },
+    {
+      '1': 'apply_disable_automated_speedtests',
+      '3': 1069,
+      '4': 1,
+      '5': 8,
+      '10': 'applyDisableAutomatedSpeedtests'
+    },
+    {
+      '1': 'apply_wireless_mode_5ghz_high',
+      '3': 1070,
+      '4': 1,
+      '5': 8,
+      '10': 'applyWirelessMode5ghzHigh'
+    },
+    {
+      '1': 'apply_ht_bandwidth_5ghz_high',
+      '3': 1071,
+      '4': 1,
+      '5': 8,
+      '10': 'applyHtBandwidth5ghzHigh'
+    },
+    {
+      '1': 'apply_vht_bandwidth_5ghz_high',
+      '3': 1072,
+      '4': 1,
+      '5': 8,
+      '10': 'applyVhtBandwidth5ghzHigh'
+    },
+    {
+      '1': 'apply_enable_umbilical_vlan',
+      '3': 1073,
+      '4': 1,
+      '5': 8,
+      '10': 'applyEnableUmbilicalVlan'
+    },
     {
       '1': 'apply_client_names',
       '3': 1074,
@@ -1900,11 +3501,41 @@ const WifiConfig$json = {
       '8': {'3': true},
       '10': 'applyClientNames',
     },
-    {'1': 'apply_outdoor_mode', '3': 1075, '4': 1, '5': 8, '10': 'applyOutdoorMode'},
-    {'1': 'apply_disable_2ghz', '3': 1076, '4': 1, '5': 8, '10': 'applyDisable2ghz'},
-    {'1': 'apply_disable_5ghz', '3': 1077, '4': 1, '5': 8, '10': 'applyDisable5ghz'},
-    {'1': 'apply_disable_5ghz_high', '3': 1078, '4': 1, '5': 8, '10': 'applyDisable5ghzHigh'},
-    {'1': 'apply_disable_x_mesh_backhaul', '3': 1079, '4': 1, '5': 8, '10': 'applyDisableXMeshBackhaul'},
+    {
+      '1': 'apply_outdoor_mode',
+      '3': 1075,
+      '4': 1,
+      '5': 8,
+      '10': 'applyOutdoorMode'
+    },
+    {
+      '1': 'apply_disable_2ghz',
+      '3': 1076,
+      '4': 1,
+      '5': 8,
+      '10': 'applyDisable2ghz'
+    },
+    {
+      '1': 'apply_disable_5ghz',
+      '3': 1077,
+      '4': 1,
+      '5': 8,
+      '10': 'applyDisable5ghz'
+    },
+    {
+      '1': 'apply_disable_5ghz_high',
+      '3': 1078,
+      '4': 1,
+      '5': 8,
+      '10': 'applyDisable5ghzHigh'
+    },
+    {
+      '1': 'apply_disable_x_mesh_backhaul',
+      '3': 1079,
+      '4': 1,
+      '5': 8,
+      '10': 'applyDisableXMeshBackhaul'
+    },
     {
       '1': 'apply_golden_bssid',
       '3': 1080,
@@ -1921,41 +3552,289 @@ const WifiConfig$json = {
       '8': {'3': true},
       '10': 'applyGoldenIfaceType',
     },
-    {'1': 'apply_tx_power_level_2ghz', '3': 1082, '4': 1, '5': 8, '10': 'applyTxPowerLevel2ghz'},
-    {'1': 'apply_tx_power_level_5ghz', '3': 1083, '4': 1, '5': 8, '10': 'applyTxPowerLevel5ghz'},
-    {'1': 'apply_tx_power_level_5ghz_high', '3': 1084, '4': 1, '5': 8, '10': 'applyTxPowerLevel5ghzHigh'},
-    {'1': 'apply_country_code', '3': 1085, '4': 1, '5': 8, '10': 'applyCountryCode'},
-    {'1': 'apply_pin_country_code', '3': 1086, '4': 1, '5': 8, '10': 'applyPinCountryCode'},
-    {'1': 'apply_custom_power_table', '3': 1087, '4': 1, '5': 8, '10': 'applyCustomPowerTable'},
-    {'1': 'apply_disable_pending_update_reboot', '3': 1088, '4': 1, '5': 8, '10': 'applyDisablePendingUpdateReboot'},
-    {'1': 'apply_client_configs', '3': 1089, '4': 1, '5': 8, '10': 'applyClientConfigs'},
-    {'1': 'apply_disable_set_wifi_config_from_controller', '3': 1090, '4': 1, '5': 8, '10': 'applyDisableSetWifiConfigFromController'},
-    {'1': 'apply_client_key', '3': 1091, '4': 1, '5': 8, '10': 'applyClientKey'},
-    {'1': 'apply_wan_traffic_control', '3': 1092, '4': 1, '5': 8, '10': 'applyWanTrafficControl'},
-    {'1': 'apply_wan_host_dscp_mark', '3': 1093, '4': 1, '5': 8, '10': 'applyWanHostDscpMark'},
-    {'1': 'apply_debug_pop_pings', '3': 1095, '4': 1, '5': 8, '10': 'applyDebugPopPings'},
-    {'1': 'apply_client_tester', '3': 1096, '4': 1, '5': 8, '10': 'applyClientTester'},
-    {'1': 'disable_wireless_mesh_onboarding', '3': 1097, '4': 1, '5': 8, '10': 'disableWirelessMeshOnboarding'},
-    {'1': 'apply_disable_wireless_mesh_onboarding', '3': 1098, '4': 1, '5': 8, '10': 'applyDisableWirelessMeshOnboarding'},
-    {'1': 'apply_asset_class', '3': 1099, '4': 1, '5': 8, '10': 'applyAssetClass'},
-    {'1': 'networks', '3': 1100, '4': 3, '5': 11, '6': '.SpaceX.API.Device.WifiConfig.Network', '10': 'networks'},
+    {
+      '1': 'apply_tx_power_level_2ghz',
+      '3': 1082,
+      '4': 1,
+      '5': 8,
+      '10': 'applyTxPowerLevel2ghz'
+    },
+    {
+      '1': 'apply_tx_power_level_5ghz',
+      '3': 1083,
+      '4': 1,
+      '5': 8,
+      '10': 'applyTxPowerLevel5ghz'
+    },
+    {
+      '1': 'apply_tx_power_level_5ghz_high',
+      '3': 1084,
+      '4': 1,
+      '5': 8,
+      '10': 'applyTxPowerLevel5ghzHigh'
+    },
+    {
+      '1': 'apply_country_code',
+      '3': 1085,
+      '4': 1,
+      '5': 8,
+      '10': 'applyCountryCode'
+    },
+    {
+      '1': 'apply_pin_country_code',
+      '3': 1086,
+      '4': 1,
+      '5': 8,
+      '10': 'applyPinCountryCode'
+    },
+    {
+      '1': 'apply_custom_power_table',
+      '3': 1087,
+      '4': 1,
+      '5': 8,
+      '10': 'applyCustomPowerTable'
+    },
+    {
+      '1': 'apply_disable_pending_update_reboot',
+      '3': 1088,
+      '4': 1,
+      '5': 8,
+      '10': 'applyDisablePendingUpdateReboot'
+    },
+    {
+      '1': 'apply_client_configs',
+      '3': 1089,
+      '4': 1,
+      '5': 8,
+      '10': 'applyClientConfigs'
+    },
+    {
+      '1': 'apply_disable_set_wifi_config_from_controller',
+      '3': 1090,
+      '4': 1,
+      '5': 8,
+      '10': 'applyDisableSetWifiConfigFromController'
+    },
+    {
+      '1': 'apply_client_key',
+      '3': 1091,
+      '4': 1,
+      '5': 8,
+      '10': 'applyClientKey'
+    },
+    {
+      '1': 'apply_wan_traffic_control',
+      '3': 1092,
+      '4': 1,
+      '5': 8,
+      '10': 'applyWanTrafficControl'
+    },
+    {
+      '1': 'apply_wan_host_dscp_mark',
+      '3': 1093,
+      '4': 1,
+      '5': 8,
+      '10': 'applyWanHostDscpMark'
+    },
+    {
+      '1': 'apply_debug_pop_pings',
+      '3': 1095,
+      '4': 1,
+      '5': 8,
+      '10': 'applyDebugPopPings'
+    },
+    {
+      '1': 'apply_client_tester',
+      '3': 1096,
+      '4': 1,
+      '5': 8,
+      '10': 'applyClientTester'
+    },
+    {
+      '1': 'disable_wireless_mesh_onboarding',
+      '3': 1097,
+      '4': 1,
+      '5': 8,
+      '10': 'disableWirelessMeshOnboarding'
+    },
+    {
+      '1': 'apply_disable_wireless_mesh_onboarding',
+      '3': 1098,
+      '4': 1,
+      '5': 8,
+      '10': 'applyDisableWirelessMeshOnboarding'
+    },
+    {
+      '1': 'apply_asset_class',
+      '3': 1099,
+      '4': 1,
+      '5': 8,
+      '10': 'applyAssetClass'
+    },
+    {
+      '1': 'networks',
+      '3': 1100,
+      '4': 3,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiConfig.Network',
+      '10': 'networks'
+    },
     {'1': 'apply_networks', '3': 1101, '4': 1, '5': 8, '10': 'applyNetworks'},
-    {'1': 'apply_debug_pings', '3': 1106, '4': 1, '5': 8, '10': 'applyDebugPings'},
-    {'1': 'apply_http_server', '3': 1107, '4': 1, '5': 8, '10': 'applyHttpServer'},
-    {'1': 'http_server', '3': 1108, '4': 1, '5': 11, '6': '.SpaceX.API.Device.HttpServer', '10': 'httpServer'},
-    {'1': 'apply_disable_band_steering', '3': 1109, '4': 1, '5': 8, '10': 'applyDisableBandSteering'},
-    {'1': 'only_overflight_countries', '3': 1110, '4': 3, '5': 9, '10': 'onlyOverflightCountries'},
-    {'1': 'apply_only_overflight_countries', '3': 1111, '4': 1, '5': 8, '10': 'applyOnlyOverflightCountries'},
-    {'1': 'unbridged_eth_ports', '3': 1112, '4': 3, '5': 11, '6': '.SpaceX.API.Device.WifiConfig.UnbridgedEthPort', '10': 'unbridgedEthPorts'},
-    {'1': 'apply_unbridged_eth_ports', '3': 1113, '4': 1, '5': 8, '10': 'applyUnbridgedEthPorts'},
-    {'1': 'boot', '3': 3001, '4': 1, '5': 11, '6': '.SpaceX.API.Device.BootInfo', '10': 'boot'},
-    {'1': 'mesh_configs_updates', '3': 3033, '4': 3, '5': 11, '6': '.SpaceX.API.Device.WifiConfig.MeshConfigsUpdatesEntry', '10': 'meshConfigsUpdates'},
-    {'1': 'wan_no_traffic_control', '3': 4001, '4': 1, '5': 11, '6': '.SpaceX.API.Device.NoTrafficControl', '9': 0, '10': 'wanNoTrafficControl'},
-    {'1': 'wan_ack_suppression', '3': 4002, '4': 1, '5': 11, '6': '.SpaceX.API.Device.AckSuppression', '9': 0, '10': 'wanAckSuppression'},
-    {'1': 'wan_cake_rate_limit', '3': 4003, '4': 1, '5': 11, '6': '.SpaceX.API.Device.CakeRateLimit', '9': 0, '10': 'wanCakeRateLimit'},
+    {
+      '1': 'apply_debug_pings',
+      '3': 1106,
+      '4': 1,
+      '5': 8,
+      '10': 'applyDebugPings'
+    },
+    {
+      '1': 'apply_http_server',
+      '3': 1107,
+      '4': 1,
+      '5': 8,
+      '10': 'applyHttpServer'
+    },
+    {
+      '1': 'http_server',
+      '3': 1108,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.HttpServer',
+      '10': 'httpServer'
+    },
+    {
+      '1': 'apply_disable_band_steering',
+      '3': 1109,
+      '4': 1,
+      '5': 8,
+      '10': 'applyDisableBandSteering'
+    },
+    {
+      '1': 'only_overflight_countries',
+      '3': 1110,
+      '4': 3,
+      '5': 9,
+      '10': 'onlyOverflightCountries'
+    },
+    {
+      '1': 'apply_only_overflight_countries',
+      '3': 1111,
+      '4': 1,
+      '5': 8,
+      '10': 'applyOnlyOverflightCountries'
+    },
+    {
+      '1': 'unbridged_eth_ports',
+      '3': 1112,
+      '4': 3,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiConfig.UnbridgedEthPort',
+      '10': 'unbridgedEthPorts'
+    },
+    {
+      '1': 'apply_unbridged_eth_ports',
+      '3': 1113,
+      '4': 1,
+      '5': 8,
+      '10': 'applyUnbridgedEthPorts'
+    },
+    {
+      '1': 'only_overflight_countries_using_default',
+      '3': 1114,
+      '4': 1,
+      '5': 8,
+      '10': 'onlyOverflightCountriesUsingDefault'
+    },
+    {
+      '1': 'disable_sandbox_fail_open',
+      '3': 1115,
+      '4': 1,
+      '5': 8,
+      '10': 'disableSandboxFailOpen'
+    },
+    {
+      '1': 'apply_disable_sandbox_fail_open',
+      '3': 1116,
+      '4': 1,
+      '5': 8,
+      '10': 'applyDisableSandboxFailOpen'
+    },
+    {
+      '1': 'custom_dns_disabled',
+      '3': 1117,
+      '4': 1,
+      '5': 8,
+      '10': 'customDnsDisabled'
+    },
+    {
+      '1': 'apply_custom_dns_disabled',
+      '3': 1118,
+      '4': 1,
+      '5': 8,
+      '8': {'3': true},
+      '10': 'applyCustomDnsDisabled',
+    },
+    {
+      '1': 'boot',
+      '3': 3001,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.BootInfo',
+      '10': 'boot'
+    },
+    {
+      '1': 'mesh_configs_updates',
+      '3': 3033,
+      '4': 3,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiConfig.MeshConfigsUpdatesEntry',
+      '10': 'meshConfigsUpdates'
+    },
+    {
+      '1': 'wan_no_traffic_control',
+      '3': 4001,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.NoTrafficControl',
+      '9': 0,
+      '10': 'wanNoTrafficControl'
+    },
+    {
+      '1': 'wan_ack_suppression',
+      '3': 4002,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.AckSuppression',
+      '9': 0,
+      '10': 'wanAckSuppression'
+    },
+    {
+      '1': 'wan_cake_rate_limit',
+      '3': 4003,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.CakeRateLimit',
+      '9': 0,
+      '10': 'wanCakeRateLimit'
+    },
   ],
-  '3': [WifiConfig_MeshConfigsEntry$json, WifiConfig_MeshConfigsUpdatesEntry$json, WifiConfig_BasicServiceSet$json, WifiConfig_DnsForwardRule$json, WifiConfig_DnsStaticEntry$json, WifiConfig_Network$json, WifiConfig_UnbridgedEthPort$json],
-  '4': [WifiConfig_Band$json, WifiConfig_HTBandwidth$json, WifiConfig_Security$json, WifiConfig_VHTBandwidth$json, WifiConfig_WirelessMode$json],
+  '3': [
+    WifiConfig_MeshConfigsEntry$json,
+    WifiConfig_MeshConfigsUpdatesEntry$json,
+    WifiConfig_BasicServiceSet$json,
+    WifiConfig_DnsForwardRule$json,
+    WifiConfig_DnsStaticEntry$json,
+    WifiConfig_Network$json,
+    WifiConfig_StaticRoute$json,
+    WifiConfig_UnbridgedEthPort$json
+  ],
+  '4': [
+    WifiConfig_Band$json,
+    WifiConfig_HTBandwidth$json,
+    WifiConfig_Security$json,
+    WifiConfig_VHTBandwidth$json,
+    WifiConfig_WirelessMode$json
+  ],
   '8': [
     {'1': 'wan_traffic_control'},
   ],
@@ -2019,7 +3898,25 @@ const WifiConfig$json = {
     {'1': 2007, '2': 2008},
     {'1': 2008, '2': 2009},
   ],
-  '10': ['apply_enable_remote_ssh', 'apply_lan_ipv4', 'apply_local_landing', 'apply_local_landing_domain', 'apply_network_name', 'apply_network_name_5ghz', 'apply_network_password', 'apply_wifi_security', 'enable_remote_ssh', 'lan_ipv4', 'last_remote_ssh_access', 'local_landing', 'local_landing_domain', 'network_name', 'network_name_5ghz', 'network_password', 'wifi_security'],
+  '10': [
+    'apply_enable_remote_ssh',
+    'apply_lan_ipv4',
+    'apply_local_landing',
+    'apply_local_landing_domain',
+    'apply_network_name',
+    'apply_network_name_5ghz',
+    'apply_network_password',
+    'apply_wifi_security',
+    'enable_remote_ssh',
+    'lan_ipv4',
+    'last_remote_ssh_access',
+    'local_landing',
+    'local_landing_domain',
+    'network_name',
+    'network_name_5ghz',
+    'network_password',
+    'wifi_security'
+  ],
 };
 
 @$core.Deprecated('Use wifiConfigDescriptor instead')
@@ -2027,7 +3924,14 @@ const WifiConfig_MeshConfigsEntry$json = {
   '1': 'MeshConfigsEntry',
   '2': [
     {'1': 'key', '3': 1, '4': 1, '5': 9, '10': 'key'},
-    {'1': 'value', '3': 2, '4': 1, '5': 11, '6': '.SpaceX.API.Device.MeshConfig', '10': 'value'},
+    {
+      '1': 'value',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.MeshConfig',
+      '10': 'value'
+    },
   ],
   '7': {'7': true},
 };
@@ -2037,7 +3941,14 @@ const WifiConfig_MeshConfigsUpdatesEntry$json = {
   '1': 'MeshConfigsUpdatesEntry',
   '2': [
     {'1': 'key', '3': 1, '4': 1, '5': 9, '10': 'key'},
-    {'1': 'value', '3': 2, '4': 1, '5': 11, '6': '.SpaceX.API.Device.MeshConfig', '10': 'value'},
+    {
+      '1': 'value',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.MeshConfig',
+      '10': 'value'
+    },
   ],
   '7': {'7': true},
 };
@@ -2048,16 +3959,80 @@ const WifiConfig_BasicServiceSet$json = {
   '2': [
     {'1': 'bssid', '3': 1003, '4': 1, '5': 9, '10': 'bssid'},
     {'1': 'ssid', '3': 1005, '4': 1, '5': 9, '10': 'ssid'},
-    {'1': 'band', '3': 1011, '4': 1, '5': 14, '6': '.SpaceX.API.Device.WifiConfig.Band', '10': 'band'},
+    {
+      '1': 'band',
+      '3': 1011,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.WifiConfig.Band',
+      '10': 'band'
+    },
     {'1': 'disable', '3': 1013, '4': 1, '5': 8, '10': 'disable'},
     {'1': 'hidden', '3': 1015, '4': 1, '5': 8, '10': 'hidden'},
     {'1': 'iface_name', '3': 1017, '4': 1, '5': 9, '10': 'ifaceName'},
-    {'1': 'auth_open', '3': 2001, '4': 1, '5': 11, '6': '.SpaceX.API.Device.AuthOpen', '9': 0, '10': 'authOpen'},
-    {'1': 'auth_wpa2', '3': 2002, '4': 1, '5': 11, '6': '.SpaceX.API.Device.AuthWpa2', '9': 0, '10': 'authWpa2'},
-    {'1': 'auth_wpa3', '3': 2003, '4': 1, '5': 11, '6': '.SpaceX.API.Device.AuthWpa3', '9': 0, '10': 'authWpa3'},
-    {'1': 'auth_wpa2_wpa3', '3': 2004, '4': 1, '5': 11, '6': '.SpaceX.API.Device.AuthWpa2Wpa3', '9': 0, '10': 'authWpa2Wpa3'},
-    {'1': 'auth_radius', '3': 2005, '4': 1, '5': 11, '6': '.SpaceX.API.Device.AuthRadius', '9': 0, '10': 'authRadius'},
-    {'1': 'auth_open_encrypted', '3': 2006, '4': 1, '5': 11, '6': '.SpaceX.API.Device.AuthOpenEncrypted', '9': 0, '10': 'authOpenEncrypted'},
+    {
+      '1': 'auth_open',
+      '3': 2001,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.AuthOpen',
+      '9': 0,
+      '10': 'authOpen'
+    },
+    {
+      '1': 'auth_wpa2',
+      '3': 2002,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.AuthWpa2',
+      '9': 0,
+      '10': 'authWpa2'
+    },
+    {
+      '1': 'auth_wpa3',
+      '3': 2003,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.AuthWpa3',
+      '9': 0,
+      '10': 'authWpa3'
+    },
+    {
+      '1': 'auth_wpa2_wpa3',
+      '3': 2004,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.AuthWpa2Wpa3',
+      '9': 0,
+      '10': 'authWpa2Wpa3'
+    },
+    {
+      '1': 'auth_radius',
+      '3': 2005,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.AuthRadius',
+      '9': 0,
+      '10': 'authRadius'
+    },
+    {
+      '1': 'auth_open_encrypted',
+      '3': 2006,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.AuthOpenEncrypted',
+      '9': 0,
+      '10': 'authOpenEncrypted'
+    },
+    {
+      '1': 'auth_onboard_radius',
+      '3': 2007,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.AuthOnboardRadius',
+      '9': 0,
+      '10': 'authOnboardRadius'
+    },
   ],
   '8': [
     {'1': 'auth'},
@@ -2080,7 +4055,13 @@ const WifiConfig_DnsForwardRule$json = {
   '1': 'DnsForwardRule',
   '2': [
     {'1': 'domains', '3': 1000, '4': 3, '5': 9, '10': 'domains'},
-    {'1': 'server_addresses', '3': 1001, '4': 3, '5': 9, '10': 'serverAddresses'},
+    {
+      '1': 'server_addresses',
+      '3': 1001,
+      '4': 3,
+      '5': 9,
+      '10': 'serverAddresses'
+    },
   ],
 };
 
@@ -2098,8 +4079,21 @@ const WifiConfig_Network$json = {
   '1': 'Network',
   '2': [
     {'1': 'ipv4', '3': 1003, '4': 1, '5': 9, '10': 'ipv4'},
-    {'1': 'basic_service_sets', '3': 1007, '4': 3, '5': 11, '6': '.SpaceX.API.Device.WifiConfig.BasicServiceSet', '10': 'basicServiceSets'},
-    {'1': 'client_isolation', '3': 1008, '4': 1, '5': 8, '10': 'clientIsolation'},
+    {
+      '1': 'basic_service_sets',
+      '3': 1007,
+      '4': 3,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiConfig.BasicServiceSet',
+      '10': 'basicServiceSets'
+    },
+    {
+      '1': 'client_isolation',
+      '3': 1008,
+      '4': 1,
+      '5': 8,
+      '10': 'clientIsolation'
+    },
     {'1': 'guest', '3': 1009, '4': 1, '5': 8, '10': 'guest'},
     {'1': 'landing', '3': 1010, '4': 1, '5': 9, '10': 'landing'},
     {'1': 'domain', '3': 1011, '4': 1, '5': 9, '10': 'domain'},
@@ -2107,16 +4101,80 @@ const WifiConfig_Network$json = {
     {'1': 'internal', '3': 1013, '4': 1, '5': 8, '10': 'internal'},
     {'1': 'vlan', '3': 1014, '4': 1, '5': 13, '10': 'vlan'},
     {'1': 'dhcp_disabled', '3': 1015, '4': 1, '5': 8, '10': 'dhcpDisabled'},
-    {'1': 'dhcpv4_lease_duration_s', '3': 1016, '4': 1, '5': 13, '10': 'dhcpv4LeaseDurationS'},
+    {
+      '1': 'dhcpv4_lease_duration_s',
+      '3': 1016,
+      '4': 1,
+      '5': 13,
+      '10': 'dhcpv4LeaseDurationS'
+    },
     {'1': 'landing_page_v2', '3': 1017, '4': 1, '5': 8, '10': 'landingPageV2'},
     {'1': 'sandbox_enabled', '3': 1020, '4': 1, '5': 8, '10': 'sandboxEnabled'},
-    {'1': 'sandbox_domain_allow_list', '3': 1022, '4': 3, '5': 9, '10': 'sandboxDomainAllowList'},
+    {
+      '1': 'sandbox_domain_allow_list',
+      '3': 1022,
+      '4': 3,
+      '5': 9,
+      '10': 'sandboxDomainAllowList'
+    },
     {'1': 'sandbox_id', '3': 1023, '4': 1, '5': 13, '10': 'sandboxId'},
-    {'1': 'captive_portal', '3': 1024, '4': 1, '5': 11, '6': '.SpaceX.API.Device.CaptivePortal', '10': 'captivePortal'},
+    {
+      '1': 'captive_portal',
+      '3': 1024,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.CaptivePortal',
+      '10': 'captivePortal'
+    },
     {'1': 'dhcpv4_end', '3': 1025, '4': 1, '5': 13, '10': 'dhcpv4End'},
     {'1': 'network_groups', '3': 1026, '4': 1, '5': 13, '10': 'networkGroups'},
-    {'1': 'dns_static_entries', '3': 1027, '4': 3, '5': 11, '6': '.SpaceX.API.Device.WifiConfig.DnsStaticEntry', '10': 'dnsStaticEntries'},
-    {'1': 'dns_forward_rules', '3': 1028, '4': 3, '5': 11, '6': '.SpaceX.API.Device.WifiConfig.DnsForwardRule', '10': 'dnsForwardRules'},
+    {
+      '1': 'dns_static_entries',
+      '3': 1027,
+      '4': 3,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiConfig.DnsStaticEntry',
+      '10': 'dnsStaticEntries'
+    },
+    {
+      '1': 'dns_forward_rules',
+      '3': 1028,
+      '4': 3,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiConfig.DnsForwardRule',
+      '10': 'dnsForwardRules'
+    },
+    {
+      '1': 'disable_when_offline_old',
+      '3': 1029,
+      '4': 1,
+      '5': 8,
+      '8': {'3': true},
+      '10': 'disableWhenOfflineOld',
+    },
+    {
+      '1': 'static_routes',
+      '3': 1030,
+      '4': 3,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiConfig.StaticRoute',
+      '10': 'staticRoutes'
+    },
+    {
+      '1': 'disable_when_offline',
+      '3': 1031,
+      '4': 1,
+      '5': 8,
+      '10': 'disableWhenOffline'
+    },
+    {
+      '1': 'onboard_radius_tls_config',
+      '3': 1032,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.TlsConfig',
+      '10': 'onboardRadiusTlsConfig'
+    },
   ],
   '9': [
     {'1': 1000, '2': 1001},
@@ -2128,7 +4186,19 @@ const WifiConfig_Network$json = {
     {'1': 1018, '2': 1019},
     {'1': 1019, '2': 1020},
   ],
-  '10': ['client_authorization_required', 'unauthorized_client_domain_allow_list'],
+  '10': [
+    'client_authorization_required',
+    'unauthorized_client_domain_allow_list'
+  ],
+};
+
+@$core.Deprecated('Use wifiConfigDescriptor instead')
+const WifiConfig_StaticRoute$json = {
+  '1': 'StaticRoute',
+  '2': [
+    {'1': 'subnet', '3': 1, '4': 1, '5': 9, '10': 'subnet'},
+    {'1': 'gateway', '3': 2, '4': 1, '5': 9, '10': 'gateway'},
+  ],
 };
 
 @$core.Deprecated('Use wifiConfigDescriptor instead')
@@ -2138,9 +4208,37 @@ const WifiConfig_UnbridgedEthPort$json = {
     {'1': 'lan_port_index', '3': 1, '4': 1, '5': 13, '10': 'lanPortIndex'},
     {'1': 'ip', '3': 2, '4': 1, '5': 9, '10': 'ip'},
     {'1': 'gateway', '3': 3, '4': 1, '5': 9, '10': 'gateway'},
-    {'1': 'static_routes', '3': 4, '4': 3, '5': 11, '6': '.SpaceX.API.Device.WifiConfig.UnbridgedEthPort.StaticRoute', '10': 'staticRoutes'},
+    {
+      '1': 'static_routes',
+      '3': 4,
+      '4': 3,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiConfig.UnbridgedEthPort.StaticRoute',
+      '10': 'staticRoutes'
+    },
+    {
+      '1': 'wan_none',
+      '3': 5,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WanNone',
+      '9': 0,
+      '10': 'wanNone'
+    },
+    {
+      '1': 'wan_starlink_router_pair',
+      '3': 6,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WanStarlinkRouterPair',
+      '9': 0,
+      '10': 'wanStarlinkRouterPair'
+    },
   ],
   '3': [WifiConfig_UnbridgedEthPort_StaticRoute$json],
+  '8': [
+    {'1': 'wan'},
+  ],
 };
 
 @$core.Deprecated('Use wifiConfigDescriptor instead')
@@ -2224,203 +4322,239 @@ final $typed_data.Uint8List wifiConfigDescriptor = $convert.base64Decode(
     'NoYW5uZWxfMmdoehgTIAEoDVILY2hhbm5lbDJnaHoSIQoMY2hhbm5lbF81Z2h6GBQgASgNUgtj'
     'aGFubmVsNWdoehI/CgxkeW5hbWljX2tleXMYFiADKAsyHC5TcGFjZVguQVBJLkRldmljZS5QdW'
     'JsaWNLZXlSC2R5bmFtaWNLZXlzEh8KC2lzX3JlcGVhdGVyGBcgASgIUgppc1JlcGVhdGVyEh0K'
-    'CmJvb3RfY291bnQYGiABKAVSCWJvb3RDb3VudBIkCgtuYW1lc2VydmVycxgeIAMoCUICGAFSC2'
-    '5hbWVzZXJ2ZXJzEh8KC2J5cGFzc19tb2RlGB8gASgIUgpieXBhc3NNb2RlElEKDG1lc2hfY29u'
-    'ZmlncxghIAMoCzIuLlNwYWNlWC5BUEkuRGV2aWNlLldpZmlDb25maWcuTWVzaENvbmZpZ3NFbn'
-    'RyeVILbWVzaENvbmZpZ3MSLAoSYXBwbHlfZHluYW1pY19rZXlzGCcgASgIUhBhcHBseUR5bmFt'
-    'aWNLZXlzEh8KC2Rmc19lbmFibGVkGCogASgIUgpkZnNFbmFibGVkEiAKC2luY2FybmF0aW9uGC'
-    'sgASgEUgtpbmNhcm5hdGlvbhJYChJ3aXJlbGVzc19tb2RlXzJnaHoYLCABKA4yKi5TcGFjZVgu'
-    'QVBJLkRldmljZS5XaWZpQ29uZmlnLldpcmVsZXNzTW9kZVIQd2lyZWxlc3NNb2RlMmdoehJYCh'
-    'J3aXJlbGVzc19tb2RlXzVnaHoYLSABKA4yKi5TcGFjZVguQVBJLkRldmljZS5XaWZpQ29uZmln'
-    'LldpcmVsZXNzTW9kZVIQd2lyZWxlc3NNb2RlNWdoehJVChFodF9iYW5kd2lkdGhfMmdoehguIA'
-    'EoDjIpLlNwYWNlWC5BUEkuRGV2aWNlLldpZmlDb25maWcuSFRCYW5kd2lkdGhSD2h0QmFuZHdp'
-    'ZHRoMmdoehJVChFodF9iYW5kd2lkdGhfNWdoehgvIAEoDjIpLlNwYWNlWC5BUEkuRGV2aWNlLl'
-    'dpZmlDb25maWcuSFRCYW5kd2lkdGhSD2h0QmFuZHdpZHRoNWdoehJPCg12aHRfYmFuZHdpZHRo'
-    'GDAgASgOMiouU3BhY2VYLkFQSS5EZXZpY2UuV2lmaUNvbmZpZy5WSFRCYW5kd2lkdGhSDHZodE'
-    'JhbmR3aWR0aBIfCgtpc19hdmlhdGlvbhgxIAEoCFIKaXNBdmlhdGlvbhIdCgpzZWN1cmVfZG5z'
-    'GDIgASgIUglzZWN1cmVEbnMSFwoHYXBfbW9kZRgzIAEoCFIGYXBNb2RlEjYKF2Rpc2FibGVfbW'
-    'VzaF9vbmJvYXJkaW5nGDQgASgIUhVkaXNhYmxlTWVzaE9uYm9hcmRpbmcSKAoQcGluX2NvdW50'
-    'cnlfY29kZRg1IAEoCFIOcGluQ291bnRyeUNvZGUSLAoSY3VzdG9tX3Bvd2VyX3RhYmxlGDYgAS'
-    'gIUhBjdXN0b21Qb3dlclRhYmxlEi4KE3VzZV9wdWJsaWNfc2VydmljZXMYNyABKAhSEXVzZVB1'
-    'YmxpY1NlcnZpY2VzEkAKHGRpc2FibGVfYXV0b21hdGVkX3NwZWVkdGVzdHMYOCABKAhSGmRpc2'
-    'FibGVBdXRvbWF0ZWRTcGVlZHRlc3RzEioKEWNoYW5uZWxfNWdoel9oaWdoGDkgASgNUg9jaGFu'
-    'bmVsNWdoekhpZ2gSYQoXd2lyZWxlc3NfbW9kZV81Z2h6X2hpZ2gYOiABKA4yKi5TcGFjZVguQV'
-    'BJLkRldmljZS5XaWZpQ29uZmlnLldpcmVsZXNzTW9kZVIUd2lyZWxlc3NNb2RlNWdoekhpZ2gS'
-    'XgoWaHRfYmFuZHdpZHRoXzVnaHpfaGlnaBg7IAEoDjIpLlNwYWNlWC5BUEkuRGV2aWNlLldpZm'
-    'lDb25maWcuSFRCYW5kd2lkdGhSE2h0QmFuZHdpZHRoNWdoekhpZ2gSYQoXdmh0X2JhbmR3aWR0'
-    'aF81Z2h6X2hpZ2gYPCABKA4yKi5TcGFjZVguQVBJLkRldmljZS5XaWZpQ29uZmlnLlZIVEJhbm'
-    'R3aWR0aFIUdmh0QmFuZHdpZHRoNWdoekhpZ2gSMgoVZW5hYmxlX3VtYmlsaWNhbF92bGFuGD0g'
-    'ASgIUhNlbmFibGVVbWJpbGljYWxWbGFuEkQKDGNsaWVudF9uYW1lcxg+IAMoCzIdLlNwYWNlWC'
-    '5BUEkuRGV2aWNlLkNsaWVudE5hbWVCAhgBUgtjbGllbnROYW1lcxIhCgxvdXRkb29yX21vZGUY'
-    'PyABKAhSC291dGRvb3JNb2RlEiEKDGRpc2FibGVfMmdoehhAIAEoCFILZGlzYWJsZTJnaHoSIQ'
-    'oMZGlzYWJsZV81Z2h6GEEgASgIUgtkaXNhYmxlNWdoehIqChFkaXNhYmxlXzVnaHpfaGlnaBhC'
-    'IAEoCFIPZGlzYWJsZTVnaHpIaWdoEjUKF2Rpc2FibGVfeF9tZXNoX2JhY2toYXVsGEMgASgIUh'
-    'RkaXNhYmxlWE1lc2hCYWNraGF1bBIlCgxnb2xkZW5fYnNzaWQYRCABKAlCAhgBUgtnb2xkZW5C'
-    'c3NpZBJMChFnb2xkZW5faWZhY2VfdHlwZRhFIAEoDjIcLlNwYWNlWC5BUEkuRGV2aWNlLklmYW'
-    'NlVHlwZUICGAFSD2dvbGRlbklmYWNlVHlwZRJOChN0eF9wb3dlcl9sZXZlbF8yZ2h6GEYgASgO'
-    'Mh8uU3BhY2VYLkFQSS5EZXZpY2UuVHhQb3dlckxldmVsUhB0eFBvd2VyTGV2ZWwyZ2h6Ek4KE3'
-    'R4X3Bvd2VyX2xldmVsXzVnaHoYRyABKA4yHy5TcGFjZVguQVBJLkRldmljZS5UeFBvd2VyTGV2'
-    'ZWxSEHR4UG93ZXJMZXZlbDVnaHoSVwoYdHhfcG93ZXJfbGV2ZWxfNWdoel9oaWdoGEggASgOMh'
-    '8uU3BhY2VYLkFQSS5EZXZpY2UuVHhQb3dlckxldmVsUhR0eFBvd2VyTGV2ZWw1Z2h6SGlnaBJB'
-    'Ch1kaXNhYmxlX3BlbmRpbmdfdXBkYXRlX3JlYm9vdBhJIAEoCFIaZGlzYWJsZVBlbmRpbmdVcG'
-    'RhdGVSZWJvb3QSRgoOY2xpZW50X2NvbmZpZ3MYSiADKAsyHy5TcGFjZVguQVBJLkRldmljZS5D'
-    'bGllbnRDb25maWdSDWNsaWVudENvbmZpZ3MSUwonZGlzYWJsZV9zZXRfd2lmaV9jb25maWdfZn'
-    'JvbV9jb250cm9sbGVyGEsgASgIUiJkaXNhYmxlU2V0V2lmaUNvbmZpZ0Zyb21Db250cm9sbGVy'
-    'Eh0KCmNsaWVudF9rZXkYTCABKAxSCWNsaWVudEtleRIrChJ3YW5faG9zdF9kc2NwX21hcmsYTS'
-    'ABKAVSD3dhbkhvc3REc2NwTWFyaxIQCgN0YWcYTiABKA1SA3RhZxImCg9kZWJ1Z19wb3BfcGlu'
-    'Z3MYTyABKAhSDWRlYnVnUG9wUGluZ3MSIwoNY2xpZW50X3Rlc3RlchhQIAEoCFIMY2xpZW50VG'
-    'VzdGVyEh8KC2Fzc2V0X2NsYXNzGFEgASgNUgphc3NldENsYXNzEh8KC2RlYnVnX3BpbmdzGF4g'
-    'ASgIUgpkZWJ1Z1BpbmdzEjIKFWRpc2FibGVfYmFuZF9zdGVlcmluZxhfIAEoCFITZGlzYWJsZU'
-    'JhbmRTdGVlcmluZxIxChRhcHBseV9zZXR1cF9jb21wbGV0ZRjyByABKAhSEmFwcGx5U2V0dXBD'
-    'b21wbGV0ZRItChJhcHBseV9jaGFubmVsXzJnaHoY9QcgASgIUhBhcHBseUNoYW5uZWwyZ2h6Ei'
-    '0KEmFwcGx5X2NoYW5uZWxfNWdoehj2ByABKAhSEGFwcGx5Q2hhbm5lbDVnaHoSNgoXYXBwbHlf'
-    'Y2hhbm5lbF81Z2h6X2hpZ2gY+AcgASgIUhRhcHBseUNoYW5uZWw1Z2h6SGlnaBIrChFhcHBseV'
-    '9pc19yZXBlYXRlchiHCCABKAhSD2FwcGx5SXNSZXBlYXRlchItChJhcHBseV9tZXNoX2NvbmZp'
-    'Z3MYiQggASgIUhBhcHBseU1lc2hDb25maWdzEjAKEWFwcGx5X25hbWVzZXJ2ZXJzGJ4IIAEoCE'
-    'ICGAFSEGFwcGx5TmFtZXNlcnZlcnMSKwoRYXBwbHlfYnlwYXNzX21vZGUYnwggASgIUg9hcHBs'
-    'eUJ5cGFzc01vZGUSKwoRYXBwbHlfZGZzX2VuYWJsZWQYogggASgIUg9hcHBseURmc0VuYWJsZW'
-    'QSOAoYYXBwbHlfd2lyZWxlc3NfbW9kZV8yZ2h6GKMIIAEoCFIVYXBwbHlXaXJlbGVzc01vZGUy'
-    'Z2h6EjgKGGFwcGx5X3dpcmVsZXNzX21vZGVfNWdoehikCCABKAhSFWFwcGx5V2lyZWxlc3NNb2'
-    'RlNWdoehI2ChdhcHBseV9odF9iYW5kd2lkdGhfMmdoehilCCABKAhSFGFwcGx5SHRCYW5kd2lk'
-    'dGgyZ2h6EjYKF2FwcGx5X2h0X2JhbmR3aWR0aF81Z2h6GKYIIAEoCFIUYXBwbHlIdEJhbmR3aW'
-    'R0aDVnaHoSLwoTYXBwbHlfdmh0X2JhbmR3aWR0aBinCCABKAhSEWFwcGx5Vmh0QmFuZHdpZHRo'
-    'EisKEWFwcGx5X2lzX2F2aWF0aW9uGKgIIAEoCFIPYXBwbHlJc0F2aWF0aW9uEikKEGFwcGx5X3'
-    'NlY3VyZV9kbnMYqQggASgIUg5hcHBseVNlY3VyZURucxIjCg1hcHBseV9hcF9tb2RlGKoIIAEo'
-    'CFILYXBwbHlBcE1vZGUSQgodYXBwbHlfZGlzYWJsZV9tZXNoX29uYm9hcmRpbmcYqwggASgIUh'
-    'phcHBseURpc2FibGVNZXNoT25ib2FyZGluZxI6ChlhcHBseV91c2VfcHVibGljX3NlcnZpY2Vz'
-    'GKwIIAEoCFIWYXBwbHlVc2VQdWJsaWNTZXJ2aWNlcxJMCiJhcHBseV9kaXNhYmxlX2F1dG9tYX'
-    'RlZF9zcGVlZHRlc3RzGK0IIAEoCFIfYXBwbHlEaXNhYmxlQXV0b21hdGVkU3BlZWR0ZXN0cxJB'
-    'Ch1hcHBseV93aXJlbGVzc19tb2RlXzVnaHpfaGlnaBiuCCABKAhSGWFwcGx5V2lyZWxlc3NNb2'
-    'RlNWdoekhpZ2gSPwocYXBwbHlfaHRfYmFuZHdpZHRoXzVnaHpfaGlnaBivCCABKAhSGGFwcGx5'
-    'SHRCYW5kd2lkdGg1Z2h6SGlnaBJBCh1hcHBseV92aHRfYmFuZHdpZHRoXzVnaHpfaGlnaBiwCC'
-    'ABKAhSGWFwcGx5Vmh0QmFuZHdpZHRoNWdoekhpZ2gSPgobYXBwbHlfZW5hYmxlX3VtYmlsaWNh'
-    'bF92bGFuGLEIIAEoCFIYYXBwbHlFbmFibGVVbWJpbGljYWxWbGFuEjEKEmFwcGx5X2NsaWVudF'
-    '9uYW1lcxiyCCABKAhCAhgBUhBhcHBseUNsaWVudE5hbWVzEi0KEmFwcGx5X291dGRvb3JfbW9k'
-    'ZRizCCABKAhSEGFwcGx5T3V0ZG9vck1vZGUSLQoSYXBwbHlfZGlzYWJsZV8yZ2h6GLQIIAEoCF'
-    'IQYXBwbHlEaXNhYmxlMmdoehItChJhcHBseV9kaXNhYmxlXzVnaHoYtQggASgIUhBhcHBseURp'
-    'c2FibGU1Z2h6EjYKF2FwcGx5X2Rpc2FibGVfNWdoel9oaWdoGLYIIAEoCFIUYXBwbHlEaXNhYm'
-    'xlNWdoekhpZ2gSQQodYXBwbHlfZGlzYWJsZV94X21lc2hfYmFja2hhdWwYtwggASgIUhlhcHBs'
-    'eURpc2FibGVYTWVzaEJhY2toYXVsEjEKEmFwcGx5X2dvbGRlbl9ic3NpZBi4CCABKAhCAhgBUh'
-    'BhcHBseUdvbGRlbkJzc2lkEjoKF2FwcGx5X2dvbGRlbl9pZmFjZV90eXBlGLkIIAEoCEICGAFS'
-    'FGFwcGx5R29sZGVuSWZhY2VUeXBlEjkKGWFwcGx5X3R4X3Bvd2VyX2xldmVsXzJnaHoYugggAS'
-    'gIUhVhcHBseVR4UG93ZXJMZXZlbDJnaHoSOQoZYXBwbHlfdHhfcG93ZXJfbGV2ZWxfNWdoehi7'
-    'CCABKAhSFWFwcGx5VHhQb3dlckxldmVsNWdoehJCCh5hcHBseV90eF9wb3dlcl9sZXZlbF81Z2'
-    'h6X2hpZ2gYvAggASgIUhlhcHBseVR4UG93ZXJMZXZlbDVnaHpIaWdoEi0KEmFwcGx5X2NvdW50'
-    'cnlfY29kZRi9CCABKAhSEGFwcGx5Q291bnRyeUNvZGUSNAoWYXBwbHlfcGluX2NvdW50cnlfY2'
-    '9kZRi+CCABKAhSE2FwcGx5UGluQ291bnRyeUNvZGUSOAoYYXBwbHlfY3VzdG9tX3Bvd2VyX3Rh'
-    'YmxlGL8IIAEoCFIVYXBwbHlDdXN0b21Qb3dlclRhYmxlEk0KI2FwcGx5X2Rpc2FibGVfcGVuZG'
-    'luZ191cGRhdGVfcmVib290GMAIIAEoCFIfYXBwbHlEaXNhYmxlUGVuZGluZ1VwZGF0ZVJlYm9v'
-    'dBIxChRhcHBseV9jbGllbnRfY29uZmlncxjBCCABKAhSEmFwcGx5Q2xpZW50Q29uZmlncxJfCi'
-    '1hcHBseV9kaXNhYmxlX3NldF93aWZpX2NvbmZpZ19mcm9tX2NvbnRyb2xsZXIYwgggASgIUidh'
-    'cHBseURpc2FibGVTZXRXaWZpQ29uZmlnRnJvbUNvbnRyb2xsZXISKQoQYXBwbHlfY2xpZW50X2'
-    'tleRjDCCABKAhSDmFwcGx5Q2xpZW50S2V5EjoKGWFwcGx5X3dhbl90cmFmZmljX2NvbnRyb2wY'
-    'xAggASgIUhZhcHBseVdhblRyYWZmaWNDb250cm9sEjcKGGFwcGx5X3dhbl9ob3N0X2RzY3BfbW'
-    'FyaxjFCCABKAhSFGFwcGx5V2FuSG9zdERzY3BNYXJrEjIKFWFwcGx5X2RlYnVnX3BvcF9waW5n'
-    'cxjHCCABKAhSEmFwcGx5RGVidWdQb3BQaW5ncxIvChNhcHBseV9jbGllbnRfdGVzdGVyGMgIIA'
-    'EoCFIRYXBwbHlDbGllbnRUZXN0ZXISSAogZGlzYWJsZV93aXJlbGVzc19tZXNoX29uYm9hcmRp'
-    'bmcYyQggASgIUh1kaXNhYmxlV2lyZWxlc3NNZXNoT25ib2FyZGluZxJTCiZhcHBseV9kaXNhYm'
-    'xlX3dpcmVsZXNzX21lc2hfb25ib2FyZGluZxjKCCABKAhSImFwcGx5RGlzYWJsZVdpcmVsZXNz'
-    'TWVzaE9uYm9hcmRpbmcSKwoRYXBwbHlfYXNzZXRfY2xhc3MYywggASgIUg9hcHBseUFzc2V0Q2'
-    'xhc3MSQgoIbmV0d29ya3MYzAggAygLMiUuU3BhY2VYLkFQSS5EZXZpY2UuV2lmaUNvbmZpZy5O'
-    'ZXR3b3JrUghuZXR3b3JrcxImCg5hcHBseV9uZXR3b3JrcxjNCCABKAhSDWFwcGx5TmV0d29ya3'
-    'MSKwoRYXBwbHlfZGVidWdfcGluZ3MY0gggASgIUg9hcHBseURlYnVnUGluZ3MSKwoRYXBwbHlf'
-    'aHR0cF9zZXJ2ZXIY0wggASgIUg9hcHBseUh0dHBTZXJ2ZXISPwoLaHR0cF9zZXJ2ZXIY1AggAS'
-    'gLMh0uU3BhY2VYLkFQSS5EZXZpY2UuSHR0cFNlcnZlclIKaHR0cFNlcnZlchI+ChthcHBseV9k'
-    'aXNhYmxlX2JhbmRfc3RlZXJpbmcY1QggASgIUhhhcHBseURpc2FibGVCYW5kU3RlZXJpbmcSOw'
-    'oZb25seV9vdmVyZmxpZ2h0X2NvdW50cmllcxjWCCADKAlSF29ubHlPdmVyZmxpZ2h0Q291bnRy'
-    'aWVzEkYKH2FwcGx5X29ubHlfb3ZlcmZsaWdodF9jb3VudHJpZXMY1wggASgIUhxhcHBseU9ubH'
-    'lPdmVyZmxpZ2h0Q291bnRyaWVzEl8KE3VuYnJpZGdlZF9ldGhfcG9ydHMY2AggAygLMi4uU3Bh'
-    'Y2VYLkFQSS5EZXZpY2UuV2lmaUNvbmZpZy5VbmJyaWRnZWRFdGhQb3J0UhF1bmJyaWRnZWRFdG'
-    'hQb3J0cxI6ChlhcHBseV91bmJyaWRnZWRfZXRoX3BvcnRzGNkIIAEoCFIWYXBwbHlVbmJyaWRn'
-    'ZWRFdGhQb3J0cxIwCgRib290GLkXIAEoCzIbLlNwYWNlWC5BUEkuRGV2aWNlLkJvb3RJbmZvUg'
-    'Rib290EmgKFG1lc2hfY29uZmlnc191cGRhdGVzGNkXIAMoCzI1LlNwYWNlWC5BUEkuRGV2aWNl'
-    'LldpZmlDb25maWcuTWVzaENvbmZpZ3NVcGRhdGVzRW50cnlSEm1lc2hDb25maWdzVXBkYXRlcx'
-    'JbChZ3YW5fbm9fdHJhZmZpY19jb250cm9sGKEfIAEoCzIjLlNwYWNlWC5BUEkuRGV2aWNlLk5v'
-    'VHJhZmZpY0NvbnRyb2xIAFITd2FuTm9UcmFmZmljQ29udHJvbBJUChN3YW5fYWNrX3N1cHByZX'
-    'NzaW9uGKIfIAEoCzIhLlNwYWNlWC5BUEkuRGV2aWNlLkFja1N1cHByZXNzaW9uSABSEXdhbkFj'
-    'a1N1cHByZXNzaW9uElIKE3dhbl9jYWtlX3JhdGVfbGltaXQYox8gASgLMiAuU3BhY2VYLkFQSS'
-    '5EZXZpY2UuQ2FrZVJhdGVMaW1pdEgAUhB3YW5DYWtlUmF0ZUxpbWl0Gl0KEE1lc2hDb25maWdz'
-    'RW50cnkSEAoDa2V5GAEgASgJUgNrZXkSMwoFdmFsdWUYAiABKAsyHS5TcGFjZVguQVBJLkRldm'
-    'ljZS5NZXNoQ29uZmlnUgV2YWx1ZToCOAEaZAoXTWVzaENvbmZpZ3NVcGRhdGVzRW50cnkSEAoD'
-    'a2V5GAEgASgJUgNrZXkSMwoFdmFsdWUYAiABKAsyHS5TcGFjZVguQVBJLkRldmljZS5NZXNoQ2'
-    '9uZmlnUgV2YWx1ZToCOAEatwUKD0Jhc2ljU2VydmljZVNldBIVCgVic3NpZBjrByABKAlSBWJz'
-    'c2lkEhMKBHNzaWQY7QcgASgJUgRzc2lkEjcKBGJhbmQY8wcgASgOMiIuU3BhY2VYLkFQSS5EZX'
-    'ZpY2UuV2lmaUNvbmZpZy5CYW5kUgRiYW5kEhkKB2Rpc2FibGUY9QcgASgIUgdkaXNhYmxlEhcK'
-    'BmhpZGRlbhj3ByABKAhSBmhpZGRlbhIeCgppZmFjZV9uYW1lGPkHIAEoCVIJaWZhY2VOYW1lEj'
-    'sKCWF1dGhfb3BlbhjRDyABKAsyGy5TcGFjZVguQVBJLkRldmljZS5BdXRoT3BlbkgAUghhdXRo'
-    'T3BlbhI7CglhdXRoX3dwYTIY0g8gASgLMhsuU3BhY2VYLkFQSS5EZXZpY2UuQXV0aFdwYTJIAF'
-    'IIYXV0aFdwYTISOwoJYXV0aF93cGEzGNMPIAEoCzIbLlNwYWNlWC5BUEkuRGV2aWNlLkF1dGhX'
-    'cGEzSABSCGF1dGhXcGEzEkgKDmF1dGhfd3BhMl93cGEzGNQPIAEoCzIfLlNwYWNlWC5BUEkuRG'
-    'V2aWNlLkF1dGhXcGEyV3BhM0gAUgxhdXRoV3BhMldwYTMSQQoLYXV0aF9yYWRpdXMY1Q8gASgL'
-    'Mh0uU3BhY2VYLkFQSS5EZXZpY2UuQXV0aFJhZGl1c0gAUgphdXRoUmFkaXVzElcKE2F1dGhfb3'
-    'Blbl9lbmNyeXB0ZWQY1g8gASgLMiQuU3BhY2VYLkFQSS5EZXZpY2UuQXV0aE9wZW5FbmNyeXB0'
-    'ZWRIAFIRYXV0aE9wZW5FbmNyeXB0ZWRCBgoEYXV0aEoGCOgHEOkHSgYI6QcQ6gdKBgjqBxDrB0'
-    'oGCOwHEO0HSgYI7gcQ7wdKBgj0BxD1B0oGCPYHEPcHSgYI+AcQ+QdKBgjQDxDRDxpXCg5EbnNG'
-    'b3J3YXJkUnVsZRIZCgdkb21haW5zGOgHIAMoCVIHZG9tYWlucxIqChBzZXJ2ZXJfYWRkcmVzc2'
-    'VzGOkHIAMoCVIPc2VydmVyQWRkcmVzc2VzGkoKDkRuc1N0YXRpY0VudHJ5EhkKB2RvbWFpbnMY'
-    '6AcgAygJUgdkb21haW5zEh0KCWFkZHJlc3NlcxjpByADKAlSCWFkZHJlc3NlcxqmCAoHTmV0d2'
-    '9yaxITCgRpcHY0GOsHIAEoCVIEaXB2NBJcChJiYXNpY19zZXJ2aWNlX3NldHMY7wcgAygLMi0u'
-    'U3BhY2VYLkFQSS5EZXZpY2UuV2lmaUNvbmZpZy5CYXNpY1NlcnZpY2VTZXRSEGJhc2ljU2Vydm'
-    'ljZVNldHMSKgoQY2xpZW50X2lzb2xhdGlvbhjwByABKAhSD2NsaWVudElzb2xhdGlvbhIVCgVn'
-    'dWVzdBjxByABKAhSBWd1ZXN0EhkKB2xhbmRpbmcY8gcgASgJUgdsYW5kaW5nEhcKBmRvbWFpbh'
-    'jzByABKAlSBmRvbWFpbhIiCgxkaGNwdjRfc3RhcnQY9AcgASgNUgtkaGNwdjRTdGFydBIbCghp'
-    'bnRlcm5hbBj1ByABKAhSCGludGVybmFsEhMKBHZsYW4Y9gcgASgNUgR2bGFuEiQKDWRoY3BfZG'
-    'lzYWJsZWQY9wcgASgIUgxkaGNwRGlzYWJsZWQSNgoXZGhjcHY0X2xlYXNlX2R1cmF0aW9uX3MY'
-    '+AcgASgNUhRkaGNwdjRMZWFzZUR1cmF0aW9uUxInCg9sYW5kaW5nX3BhZ2VfdjIY+QcgASgIUg'
-    '1sYW5kaW5nUGFnZVYyEigKD3NhbmRib3hfZW5hYmxlZBj8ByABKAhSDnNhbmRib3hFbmFibGVk'
-    'EjoKGXNhbmRib3hfZG9tYWluX2FsbG93X2xpc3QY/gcgAygJUhZzYW5kYm94RG9tYWluQWxsb3'
-    'dMaXN0Eh4KCnNhbmRib3hfaWQY/wcgASgNUglzYW5kYm94SWQSSAoOY2FwdGl2ZV9wb3J0YWwY'
-    'gAggASgLMiAuU3BhY2VYLkFQSS5EZXZpY2UuQ2FwdGl2ZVBvcnRhbFINY2FwdGl2ZVBvcnRhbB'
-    'IeCgpkaGNwdjRfZW5kGIEIIAEoDVIJZGhjcHY0RW5kEiYKDm5ldHdvcmtfZ3JvdXBzGIIIIAEo'
-    'DVINbmV0d29ya0dyb3VwcxJbChJkbnNfc3RhdGljX2VudHJpZXMYgwggAygLMiwuU3BhY2VYLk'
-    'FQSS5EZXZpY2UuV2lmaUNvbmZpZy5EbnNTdGF0aWNFbnRyeVIQZG5zU3RhdGljRW50cmllcxJZ'
-    'ChFkbnNfZm9yd2FyZF9ydWxlcxiECCADKAsyLC5TcGFjZVguQVBJLkRldmljZS5XaWZpQ29uZm'
-    'lnLkRuc0ZvcndhcmRSdWxlUg9kbnNGb3J3YXJkUnVsZXNKBgjoBxDpB0oGCOkHEOoHSgYI6gcQ'
-    '6wdKBgjsBxDtB0oGCO0HEO4HSgYI7gcQ7wdKBgj6BxD7B0oGCPsHEPwHUh1jbGllbnRfYXV0aG'
-    '9yaXphdGlvbl9yZXF1aXJlZFIldW5hdXRob3JpemVkX2NsaWVudF9kb21haW5fYWxsb3dfbGlz'
-    'dBqRAgoQVW5icmlkZ2VkRXRoUG9ydBIkCg5sYW5fcG9ydF9pbmRleBgBIAEoDVIMbGFuUG9ydE'
-    'luZGV4Eg4KAmlwGAIgASgJUgJpcBIYCgdnYXRld2F5GAMgASgJUgdnYXRld2F5El8KDXN0YXRp'
-    'Y19yb3V0ZXMYBCADKAsyOi5TcGFjZVguQVBJLkRldmljZS5XaWZpQ29uZmlnLlVuYnJpZGdlZE'
-    'V0aFBvcnQuU3RhdGljUm91dGVSDHN0YXRpY1JvdXRlcxpMCgtTdGF0aWNSb3V0ZRIWCgZzdWJu'
-    'ZXQYASABKAlSBnN1Ym5ldBIlCg5uZXR3b3JrX2dyb3VwcxgCIAEoDVINbmV0d29ya0dyb3Vwcy'
-    'JCCgRCYW5kEg4KClJGX1VOS05PV04QABILCgdSRl8yR0haEAISCwoHUkZfNUdIWhAFEhAKDFJG'
-    'XzVHSFpfSElHSBAGIl8KC0hUQmFuZHdpZHRoEhgKFEhUX0JBTkRXSURUSF9ERUZBVUxUEAASFw'
-    'oTSFRfQkFORFdJRFRIXzIwX01IWhABEh0KGUhUX0JBTkRXSURUSF8yMF9PUl80MF9NSFoQAiI5'
-    'CghTZWN1cml0eRILCgdVTktOT1dOEAASCAoEV1BBMhABEggKBFdQQTMQAhIMCghXUEEyV1BBMx'
-    'ADIpwBCgxWSFRCYW5kd2lkdGgSGQoVVkhUX0JBTkRXSURUSF9ERUZBVUxUEAASGgoWVkhUX0JB'
-    'TkRXSURUSF9ESVNBQkxFRBABEhgKFFZIVF9CQU5EV0lEVEhfODBfTUhaEAISGQoVVkhUX0JBTk'
-    'RXSURUSF8xNjBfTUhaEAMSIAocVkhUX0JBTkRXSURUSF84MF9QTFVTXzgwX01IWhAEIuUBCgxX'
-    'aXJlbGVzc01vZGUSGQoVV0lSRUxFU1NfTU9ERV9ERUZBVUxUEAASCgoGQV9PTkxZEAESCgoGQl'
-    '9PTkxZEAISCgoGR19PTkxZEAMSCgoGTl9PTkxZEAQSDQoJQl9HX01JWEVEEAUSDQoJQV9OX01J'
-    'WEVEEAYSDQoJR19OX01JWEVEEAcSDwoLQl9HX05fTUlYRUQQCBIRCg1BX0FOX0FDX01JWEVEEA'
-    'kSDwoLQU5fQUNfTUlYRUQQChISCg5CX0dfTl9BWF9NSVhFRBALEhQKEEFfQU5fQUNfQVhfTUlY'
-    'RUQQDEIVChN3YW5fdHJhZmZpY19jb250cm9sSgQIARACSgQIAhADSgQIBBAFSgQIBRAGSgQIBh'
-    'AHSgQICBAJSgQIChALSgQICxAMSgQIDhAPSgQIDxAQSgQIEBARSgQIERASSgQIEhATSgQIFRAW'
-    'SgQIGBAZSgQIGRAaSgQIGxAcSgQIHBAdSgQIHRAeSgQIIBAhSgQIIhAjSgQIIxAkSgQIJBAlSg'
-    'QIJRAmSgQIJhAnSgQIKBApSgQIKRAqSgYI6QcQ6gdKBgjqBxDrB0oGCOsHEOwHSgYI7AcQ7QdK'
-    'BgjtBxDuB0oGCO4HEO8HSgYI7wcQ8AdKBgjwBxDxB0oGCPEHEPIHSgYI8wcQ9AdKBgj0BxD1B0'
-    'oGCPcHEPgHSgYI/QcQ/gdKBgiRCBCSCEoGCJsIEJwISgYInAgQnQhKBgidCBCeCEoGCKAIEKEI'
-    'SgYIoQgQoghKBgjOCBDPCEoGCM8IENAISgYI0AgQ0QhKBgjRCBDSCEoGCNEPENIPSgYI0g8Q0w'
-    '9KBgjTDxDUD0oGCNQPENUPSgYI1Q8Q1g9KBgjWDxDXD0oGCNcPENgPSgYI2A8Q2Q9SF2FwcGx5'
-    'X2VuYWJsZV9yZW1vdGVfc3NoUg5hcHBseV9sYW5faXB2NFITYXBwbHlfbG9jYWxfbGFuZGluZ1'
-    'IaYXBwbHlfbG9jYWxfbGFuZGluZ19kb21haW5SEmFwcGx5X25ldHdvcmtfbmFtZVIXYXBwbHlf'
-    'bmV0d29ya19uYW1lXzVnaHpSFmFwcGx5X25ldHdvcmtfcGFzc3dvcmRSE2FwcGx5X3dpZmlfc2'
-    'VjdXJpdHlSEWVuYWJsZV9yZW1vdGVfc3NoUghsYW5faXB2NFIWbGFzdF9yZW1vdGVfc3NoX2Fj'
-    'Y2Vzc1INbG9jYWxfbGFuZGluZ1IUbG9jYWxfbGFuZGluZ19kb21haW5SDG5ldHdvcmtfbmFtZV'
-    'IRbmV0d29ya19uYW1lXzVnaHpSEG5ldHdvcmtfcGFzc3dvcmRSDXdpZmlfc2VjdXJpdHk=');
+    'CmJvb3RfY291bnQYGiABKAVSCWJvb3RDb3VudBIgCgtuYW1lc2VydmVycxgeIAMoCVILbmFtZX'
+    'NlcnZlcnMSHwoLYnlwYXNzX21vZGUYHyABKAhSCmJ5cGFzc01vZGUSUQoMbWVzaF9jb25maWdz'
+    'GCEgAygLMi4uU3BhY2VYLkFQSS5EZXZpY2UuV2lmaUNvbmZpZy5NZXNoQ29uZmlnc0VudHJ5Ug'
+    'ttZXNoQ29uZmlncxIsChJhcHBseV9keW5hbWljX2tleXMYJyABKAhSEGFwcGx5RHluYW1pY0tl'
+    'eXMSHwoLZGZzX2VuYWJsZWQYKiABKAhSCmRmc0VuYWJsZWQSIAoLaW5jYXJuYXRpb24YKyABKA'
+    'RSC2luY2FybmF0aW9uElgKEndpcmVsZXNzX21vZGVfMmdoehgsIAEoDjIqLlNwYWNlWC5BUEku'
+    'RGV2aWNlLldpZmlDb25maWcuV2lyZWxlc3NNb2RlUhB3aXJlbGVzc01vZGUyZ2h6ElgKEndpcm'
+    'VsZXNzX21vZGVfNWdoehgtIAEoDjIqLlNwYWNlWC5BUEkuRGV2aWNlLldpZmlDb25maWcuV2ly'
+    'ZWxlc3NNb2RlUhB3aXJlbGVzc01vZGU1Z2h6ElUKEWh0X2JhbmR3aWR0aF8yZ2h6GC4gASgOMi'
+    'kuU3BhY2VYLkFQSS5EZXZpY2UuV2lmaUNvbmZpZy5IVEJhbmR3aWR0aFIPaHRCYW5kd2lkdGgy'
+    'Z2h6ElUKEWh0X2JhbmR3aWR0aF81Z2h6GC8gASgOMikuU3BhY2VYLkFQSS5EZXZpY2UuV2lmaU'
+    'NvbmZpZy5IVEJhbmR3aWR0aFIPaHRCYW5kd2lkdGg1Z2h6Ek8KDXZodF9iYW5kd2lkdGgYMCAB'
+    'KA4yKi5TcGFjZVguQVBJLkRldmljZS5XaWZpQ29uZmlnLlZIVEJhbmR3aWR0aFIMdmh0QmFuZH'
+    'dpZHRoEh8KC2lzX2F2aWF0aW9uGDEgASgIUgppc0F2aWF0aW9uEh0KCnNlY3VyZV9kbnMYMiAB'
+    'KAhSCXNlY3VyZURucxIXCgdhcF9tb2RlGDMgASgIUgZhcE1vZGUSNgoXZGlzYWJsZV9tZXNoX2'
+    '9uYm9hcmRpbmcYNCABKAhSFWRpc2FibGVNZXNoT25ib2FyZGluZxIoChBwaW5fY291bnRyeV9j'
+    'b2RlGDUgASgIUg5waW5Db3VudHJ5Q29kZRIsChJjdXN0b21fcG93ZXJfdGFibGUYNiABKAhSEG'
+    'N1c3RvbVBvd2VyVGFibGUSLgoTdXNlX3B1YmxpY19zZXJ2aWNlcxg3IAEoCFIRdXNlUHVibGlj'
+    'U2VydmljZXMSQAocZGlzYWJsZV9hdXRvbWF0ZWRfc3BlZWR0ZXN0cxg4IAEoCFIaZGlzYWJsZU'
+    'F1dG9tYXRlZFNwZWVkdGVzdHMSKgoRY2hhbm5lbF81Z2h6X2hpZ2gYOSABKA1SD2NoYW5uZWw1'
+    'Z2h6SGlnaBJhChd3aXJlbGVzc19tb2RlXzVnaHpfaGlnaBg6IAEoDjIqLlNwYWNlWC5BUEkuRG'
+    'V2aWNlLldpZmlDb25maWcuV2lyZWxlc3NNb2RlUhR3aXJlbGVzc01vZGU1Z2h6SGlnaBJeChZo'
+    'dF9iYW5kd2lkdGhfNWdoel9oaWdoGDsgASgOMikuU3BhY2VYLkFQSS5EZXZpY2UuV2lmaUNvbm'
+    'ZpZy5IVEJhbmR3aWR0aFITaHRCYW5kd2lkdGg1Z2h6SGlnaBJhChd2aHRfYmFuZHdpZHRoXzVn'
+    'aHpfaGlnaBg8IAEoDjIqLlNwYWNlWC5BUEkuRGV2aWNlLldpZmlDb25maWcuVkhUQmFuZHdpZH'
+    'RoUhR2aHRCYW5kd2lkdGg1Z2h6SGlnaBIyChVlbmFibGVfdW1iaWxpY2FsX3ZsYW4YPSABKAhS'
+    'E2VuYWJsZVVtYmlsaWNhbFZsYW4SRAoMY2xpZW50X25hbWVzGD4gAygLMh0uU3BhY2VYLkFQSS'
+    '5EZXZpY2UuQ2xpZW50TmFtZUICGAFSC2NsaWVudE5hbWVzEiEKDG91dGRvb3JfbW9kZRg/IAEo'
+    'CFILb3V0ZG9vck1vZGUSIQoMZGlzYWJsZV8yZ2h6GEAgASgIUgtkaXNhYmxlMmdoehIhCgxkaX'
+    'NhYmxlXzVnaHoYQSABKAhSC2Rpc2FibGU1Z2h6EioKEWRpc2FibGVfNWdoel9oaWdoGEIgASgI'
+    'Ug9kaXNhYmxlNWdoekhpZ2gSNQoXZGlzYWJsZV94X21lc2hfYmFja2hhdWwYQyABKAhSFGRpc2'
+    'FibGVYTWVzaEJhY2toYXVsEiUKDGdvbGRlbl9ic3NpZBhEIAEoCUICGAFSC2dvbGRlbkJzc2lk'
+    'EkwKEWdvbGRlbl9pZmFjZV90eXBlGEUgASgOMhwuU3BhY2VYLkFQSS5EZXZpY2UuSWZhY2VUeX'
+    'BlQgIYAVIPZ29sZGVuSWZhY2VUeXBlEk4KE3R4X3Bvd2VyX2xldmVsXzJnaHoYRiABKA4yHy5T'
+    'cGFjZVguQVBJLkRldmljZS5UeFBvd2VyTGV2ZWxSEHR4UG93ZXJMZXZlbDJnaHoSTgoTdHhfcG'
+    '93ZXJfbGV2ZWxfNWdoehhHIAEoDjIfLlNwYWNlWC5BUEkuRGV2aWNlLlR4UG93ZXJMZXZlbFIQ'
+    'dHhQb3dlckxldmVsNWdoehJXChh0eF9wb3dlcl9sZXZlbF81Z2h6X2hpZ2gYSCABKA4yHy5TcG'
+    'FjZVguQVBJLkRldmljZS5UeFBvd2VyTGV2ZWxSFHR4UG93ZXJMZXZlbDVnaHpIaWdoEkEKHWRp'
+    'c2FibGVfcGVuZGluZ191cGRhdGVfcmVib290GEkgASgIUhpkaXNhYmxlUGVuZGluZ1VwZGF0ZV'
+    'JlYm9vdBJGCg5jbGllbnRfY29uZmlncxhKIAMoCzIfLlNwYWNlWC5BUEkuRGV2aWNlLkNsaWVu'
+    'dENvbmZpZ1INY2xpZW50Q29uZmlncxJTCidkaXNhYmxlX3NldF93aWZpX2NvbmZpZ19mcm9tX2'
+    'NvbnRyb2xsZXIYSyABKAhSImRpc2FibGVTZXRXaWZpQ29uZmlnRnJvbUNvbnRyb2xsZXISHQoK'
+    'Y2xpZW50X2tleRhMIAEoDFIJY2xpZW50S2V5EisKEndhbl9ob3N0X2RzY3BfbWFyaxhNIAEoBV'
+    'IPd2FuSG9zdERzY3BNYXJrEhAKA3RhZxhOIAEoDVIDdGFnEiYKD2RlYnVnX3BvcF9waW5ncxhP'
+    'IAEoCFINZGVidWdQb3BQaW5ncxIjCg1jbGllbnRfdGVzdGVyGFAgASgIUgxjbGllbnRUZXN0ZX'
+    'ISHwoLYXNzZXRfY2xhc3MYUSABKA1SCmFzc2V0Q2xhc3MSHwoLZGVidWdfcGluZ3MYXiABKAhS'
+    'CmRlYnVnUGluZ3MSMgoVZGlzYWJsZV9iYW5kX3N0ZWVyaW5nGF8gASgIUhNkaXNhYmxlQmFuZF'
+    'N0ZWVyaW5nEjEKFGFwcGx5X3NldHVwX2NvbXBsZXRlGPIHIAEoCFISYXBwbHlTZXR1cENvbXBs'
+    'ZXRlEi0KEmFwcGx5X2NoYW5uZWxfMmdoehj1ByABKAhSEGFwcGx5Q2hhbm5lbDJnaHoSLQoSYX'
+    'BwbHlfY2hhbm5lbF81Z2h6GPYHIAEoCFIQYXBwbHlDaGFubmVsNWdoehI2ChdhcHBseV9jaGFu'
+    'bmVsXzVnaHpfaGlnaBj4ByABKAhSFGFwcGx5Q2hhbm5lbDVnaHpIaWdoEisKEWFwcGx5X2lzX3'
+    'JlcGVhdGVyGIcIIAEoCFIPYXBwbHlJc1JlcGVhdGVyEi0KEmFwcGx5X21lc2hfY29uZmlncxiJ'
+    'CCABKAhSEGFwcGx5TWVzaENvbmZpZ3MSLAoRYXBwbHlfbmFtZXNlcnZlcnMYngggASgIUhBhcH'
+    'BseU5hbWVzZXJ2ZXJzEisKEWFwcGx5X2J5cGFzc19tb2RlGJ8IIAEoCFIPYXBwbHlCeXBhc3NN'
+    'b2RlEisKEWFwcGx5X2Rmc19lbmFibGVkGKIIIAEoCFIPYXBwbHlEZnNFbmFibGVkEjgKGGFwcG'
+    'x5X3dpcmVsZXNzX21vZGVfMmdoehijCCABKAhSFWFwcGx5V2lyZWxlc3NNb2RlMmdoehI4Chhh'
+    'cHBseV93aXJlbGVzc19tb2RlXzVnaHoYpAggASgIUhVhcHBseVdpcmVsZXNzTW9kZTVnaHoSNg'
+    'oXYXBwbHlfaHRfYmFuZHdpZHRoXzJnaHoYpQggASgIUhRhcHBseUh0QmFuZHdpZHRoMmdoehI2'
+    'ChdhcHBseV9odF9iYW5kd2lkdGhfNWdoehimCCABKAhSFGFwcGx5SHRCYW5kd2lkdGg1Z2h6Ei'
+    '8KE2FwcGx5X3ZodF9iYW5kd2lkdGgYpwggASgIUhFhcHBseVZodEJhbmR3aWR0aBIrChFhcHBs'
+    'eV9pc19hdmlhdGlvbhioCCABKAhSD2FwcGx5SXNBdmlhdGlvbhIpChBhcHBseV9zZWN1cmVfZG'
+    '5zGKkIIAEoCFIOYXBwbHlTZWN1cmVEbnMSIwoNYXBwbHlfYXBfbW9kZRiqCCABKAhSC2FwcGx5'
+    'QXBNb2RlEkIKHWFwcGx5X2Rpc2FibGVfbWVzaF9vbmJvYXJkaW5nGKsIIAEoCFIaYXBwbHlEaX'
+    'NhYmxlTWVzaE9uYm9hcmRpbmcSOgoZYXBwbHlfdXNlX3B1YmxpY19zZXJ2aWNlcxisCCABKAhS'
+    'FmFwcGx5VXNlUHVibGljU2VydmljZXMSTAoiYXBwbHlfZGlzYWJsZV9hdXRvbWF0ZWRfc3BlZW'
+    'R0ZXN0cxitCCABKAhSH2FwcGx5RGlzYWJsZUF1dG9tYXRlZFNwZWVkdGVzdHMSQQodYXBwbHlf'
+    'd2lyZWxlc3NfbW9kZV81Z2h6X2hpZ2gYrgggASgIUhlhcHBseVdpcmVsZXNzTW9kZTVnaHpIaW'
+    'doEj8KHGFwcGx5X2h0X2JhbmR3aWR0aF81Z2h6X2hpZ2gYrwggASgIUhhhcHBseUh0QmFuZHdp'
+    'ZHRoNWdoekhpZ2gSQQodYXBwbHlfdmh0X2JhbmR3aWR0aF81Z2h6X2hpZ2gYsAggASgIUhlhcH'
+    'BseVZodEJhbmR3aWR0aDVnaHpIaWdoEj4KG2FwcGx5X2VuYWJsZV91bWJpbGljYWxfdmxhbhix'
+    'CCABKAhSGGFwcGx5RW5hYmxlVW1iaWxpY2FsVmxhbhIxChJhcHBseV9jbGllbnRfbmFtZXMYsg'
+    'ggASgIQgIYAVIQYXBwbHlDbGllbnROYW1lcxItChJhcHBseV9vdXRkb29yX21vZGUYswggASgI'
+    'UhBhcHBseU91dGRvb3JNb2RlEi0KEmFwcGx5X2Rpc2FibGVfMmdoehi0CCABKAhSEGFwcGx5RG'
+    'lzYWJsZTJnaHoSLQoSYXBwbHlfZGlzYWJsZV81Z2h6GLUIIAEoCFIQYXBwbHlEaXNhYmxlNWdo'
+    'ehI2ChdhcHBseV9kaXNhYmxlXzVnaHpfaGlnaBi2CCABKAhSFGFwcGx5RGlzYWJsZTVnaHpIaW'
+    'doEkEKHWFwcGx5X2Rpc2FibGVfeF9tZXNoX2JhY2toYXVsGLcIIAEoCFIZYXBwbHlEaXNhYmxl'
+    'WE1lc2hCYWNraGF1bBIxChJhcHBseV9nb2xkZW5fYnNzaWQYuAggASgIQgIYAVIQYXBwbHlHb2'
+    'xkZW5Cc3NpZBI6ChdhcHBseV9nb2xkZW5faWZhY2VfdHlwZRi5CCABKAhCAhgBUhRhcHBseUdv'
+    'bGRlbklmYWNlVHlwZRI5ChlhcHBseV90eF9wb3dlcl9sZXZlbF8yZ2h6GLoIIAEoCFIVYXBwbH'
+    'lUeFBvd2VyTGV2ZWwyZ2h6EjkKGWFwcGx5X3R4X3Bvd2VyX2xldmVsXzVnaHoYuwggASgIUhVh'
+    'cHBseVR4UG93ZXJMZXZlbDVnaHoSQgoeYXBwbHlfdHhfcG93ZXJfbGV2ZWxfNWdoel9oaWdoGL'
+    'wIIAEoCFIZYXBwbHlUeFBvd2VyTGV2ZWw1Z2h6SGlnaBItChJhcHBseV9jb3VudHJ5X2NvZGUY'
+    'vQggASgIUhBhcHBseUNvdW50cnlDb2RlEjQKFmFwcGx5X3Bpbl9jb3VudHJ5X2NvZGUYvgggAS'
+    'gIUhNhcHBseVBpbkNvdW50cnlDb2RlEjgKGGFwcGx5X2N1c3RvbV9wb3dlcl90YWJsZRi/CCAB'
+    'KAhSFWFwcGx5Q3VzdG9tUG93ZXJUYWJsZRJNCiNhcHBseV9kaXNhYmxlX3BlbmRpbmdfdXBkYX'
+    'RlX3JlYm9vdBjACCABKAhSH2FwcGx5RGlzYWJsZVBlbmRpbmdVcGRhdGVSZWJvb3QSMQoUYXBw'
+    'bHlfY2xpZW50X2NvbmZpZ3MYwQggASgIUhJhcHBseUNsaWVudENvbmZpZ3MSXwotYXBwbHlfZG'
+    'lzYWJsZV9zZXRfd2lmaV9jb25maWdfZnJvbV9jb250cm9sbGVyGMIIIAEoCFInYXBwbHlEaXNh'
+    'YmxlU2V0V2lmaUNvbmZpZ0Zyb21Db250cm9sbGVyEikKEGFwcGx5X2NsaWVudF9rZXkYwwggAS'
+    'gIUg5hcHBseUNsaWVudEtleRI6ChlhcHBseV93YW5fdHJhZmZpY19jb250cm9sGMQIIAEoCFIW'
+    'YXBwbHlXYW5UcmFmZmljQ29udHJvbBI3ChhhcHBseV93YW5faG9zdF9kc2NwX21hcmsYxQggAS'
+    'gIUhRhcHBseVdhbkhvc3REc2NwTWFyaxIyChVhcHBseV9kZWJ1Z19wb3BfcGluZ3MYxwggASgI'
+    'UhJhcHBseURlYnVnUG9wUGluZ3MSLwoTYXBwbHlfY2xpZW50X3Rlc3RlchjICCABKAhSEWFwcG'
+    'x5Q2xpZW50VGVzdGVyEkgKIGRpc2FibGVfd2lyZWxlc3NfbWVzaF9vbmJvYXJkaW5nGMkIIAEo'
+    'CFIdZGlzYWJsZVdpcmVsZXNzTWVzaE9uYm9hcmRpbmcSUwomYXBwbHlfZGlzYWJsZV93aXJlbG'
+    'Vzc19tZXNoX29uYm9hcmRpbmcYygggASgIUiJhcHBseURpc2FibGVXaXJlbGVzc01lc2hPbmJv'
+    'YXJkaW5nEisKEWFwcGx5X2Fzc2V0X2NsYXNzGMsIIAEoCFIPYXBwbHlBc3NldENsYXNzEkIKCG'
+    '5ldHdvcmtzGMwIIAMoCzIlLlNwYWNlWC5BUEkuRGV2aWNlLldpZmlDb25maWcuTmV0d29ya1II'
+    'bmV0d29ya3MSJgoOYXBwbHlfbmV0d29ya3MYzQggASgIUg1hcHBseU5ldHdvcmtzEisKEWFwcG'
+    'x5X2RlYnVnX3BpbmdzGNIIIAEoCFIPYXBwbHlEZWJ1Z1BpbmdzEisKEWFwcGx5X2h0dHBfc2Vy'
+    'dmVyGNMIIAEoCFIPYXBwbHlIdHRwU2VydmVyEj8KC2h0dHBfc2VydmVyGNQIIAEoCzIdLlNwYW'
+    'NlWC5BUEkuRGV2aWNlLkh0dHBTZXJ2ZXJSCmh0dHBTZXJ2ZXISPgobYXBwbHlfZGlzYWJsZV9i'
+    'YW5kX3N0ZWVyaW5nGNUIIAEoCFIYYXBwbHlEaXNhYmxlQmFuZFN0ZWVyaW5nEjsKGW9ubHlfb3'
+    'ZlcmZsaWdodF9jb3VudHJpZXMY1gggAygJUhdvbmx5T3ZlcmZsaWdodENvdW50cmllcxJGCh9h'
+    'cHBseV9vbmx5X292ZXJmbGlnaHRfY291bnRyaWVzGNcIIAEoCFIcYXBwbHlPbmx5T3ZlcmZsaW'
+    'dodENvdW50cmllcxJfChN1bmJyaWRnZWRfZXRoX3BvcnRzGNgIIAMoCzIuLlNwYWNlWC5BUEku'
+    'RGV2aWNlLldpZmlDb25maWcuVW5icmlkZ2VkRXRoUG9ydFIRdW5icmlkZ2VkRXRoUG9ydHMSOg'
+    'oZYXBwbHlfdW5icmlkZ2VkX2V0aF9wb3J0cxjZCCABKAhSFmFwcGx5VW5icmlkZ2VkRXRoUG9y'
+    'dHMSVQonb25seV9vdmVyZmxpZ2h0X2NvdW50cmllc191c2luZ19kZWZhdWx0GNoIIAEoCFIjb2'
+    '5seU92ZXJmbGlnaHRDb3VudHJpZXNVc2luZ0RlZmF1bHQSOgoZZGlzYWJsZV9zYW5kYm94X2Zh'
+    'aWxfb3BlbhjbCCABKAhSFmRpc2FibGVTYW5kYm94RmFpbE9wZW4SRQofYXBwbHlfZGlzYWJsZV'
+    '9zYW5kYm94X2ZhaWxfb3BlbhjcCCABKAhSG2FwcGx5RGlzYWJsZVNhbmRib3hGYWlsT3BlbhIv'
+    'ChNjdXN0b21fZG5zX2Rpc2FibGVkGN0IIAEoCFIRY3VzdG9tRG5zRGlzYWJsZWQSPgoZYXBwbH'
+    'lfY3VzdG9tX2Ruc19kaXNhYmxlZBjeCCABKAhCAhgBUhZhcHBseUN1c3RvbURuc0Rpc2FibGVk'
+    'EjAKBGJvb3QYuRcgASgLMhsuU3BhY2VYLkFQSS5EZXZpY2UuQm9vdEluZm9SBGJvb3QSaAoUbW'
+    'VzaF9jb25maWdzX3VwZGF0ZXMY2RcgAygLMjUuU3BhY2VYLkFQSS5EZXZpY2UuV2lmaUNvbmZp'
+    'Zy5NZXNoQ29uZmlnc1VwZGF0ZXNFbnRyeVISbWVzaENvbmZpZ3NVcGRhdGVzElsKFndhbl9ub1'
+    '90cmFmZmljX2NvbnRyb2wYoR8gASgLMiMuU3BhY2VYLkFQSS5EZXZpY2UuTm9UcmFmZmljQ29u'
+    'dHJvbEgAUhN3YW5Ob1RyYWZmaWNDb250cm9sElQKE3dhbl9hY2tfc3VwcHJlc3Npb24Yoh8gAS'
+    'gLMiEuU3BhY2VYLkFQSS5EZXZpY2UuQWNrU3VwcHJlc3Npb25IAFIRd2FuQWNrU3VwcHJlc3Np'
+    'b24SUgoTd2FuX2Nha2VfcmF0ZV9saW1pdBijHyABKAsyIC5TcGFjZVguQVBJLkRldmljZS5DYW'
+    'tlUmF0ZUxpbWl0SABSEHdhbkNha2VSYXRlTGltaXQaXQoQTWVzaENvbmZpZ3NFbnRyeRIQCgNr'
+    'ZXkYASABKAlSA2tleRIzCgV2YWx1ZRgCIAEoCzIdLlNwYWNlWC5BUEkuRGV2aWNlLk1lc2hDb2'
+    '5maWdSBXZhbHVlOgI4ARpkChdNZXNoQ29uZmlnc1VwZGF0ZXNFbnRyeRIQCgNrZXkYASABKAlS'
+    'A2tleRIzCgV2YWx1ZRgCIAEoCzIdLlNwYWNlWC5BUEkuRGV2aWNlLk1lc2hDb25maWdSBXZhbH'
+    'VlOgI4ARqQBgoPQmFzaWNTZXJ2aWNlU2V0EhUKBWJzc2lkGOsHIAEoCVIFYnNzaWQSEwoEc3Np'
+    'ZBjtByABKAlSBHNzaWQSNwoEYmFuZBjzByABKA4yIi5TcGFjZVguQVBJLkRldmljZS5XaWZpQ2'
+    '9uZmlnLkJhbmRSBGJhbmQSGQoHZGlzYWJsZRj1ByABKAhSB2Rpc2FibGUSFwoGaGlkZGVuGPcH'
+    'IAEoCFIGaGlkZGVuEh4KCmlmYWNlX25hbWUY+QcgASgJUglpZmFjZU5hbWUSOwoJYXV0aF9vcG'
+    'VuGNEPIAEoCzIbLlNwYWNlWC5BUEkuRGV2aWNlLkF1dGhPcGVuSABSCGF1dGhPcGVuEjsKCWF1'
+    'dGhfd3BhMhjSDyABKAsyGy5TcGFjZVguQVBJLkRldmljZS5BdXRoV3BhMkgAUghhdXRoV3BhMh'
+    'I7CglhdXRoX3dwYTMY0w8gASgLMhsuU3BhY2VYLkFQSS5EZXZpY2UuQXV0aFdwYTNIAFIIYXV0'
+    'aFdwYTMSSAoOYXV0aF93cGEyX3dwYTMY1A8gASgLMh8uU3BhY2VYLkFQSS5EZXZpY2UuQXV0aF'
+    'dwYTJXcGEzSABSDGF1dGhXcGEyV3BhMxJBCgthdXRoX3JhZGl1cxjVDyABKAsyHS5TcGFjZVgu'
+    'QVBJLkRldmljZS5BdXRoUmFkaXVzSABSCmF1dGhSYWRpdXMSVwoTYXV0aF9vcGVuX2VuY3J5cH'
+    'RlZBjWDyABKAsyJC5TcGFjZVguQVBJLkRldmljZS5BdXRoT3BlbkVuY3J5cHRlZEgAUhFhdXRo'
+    'T3BlbkVuY3J5cHRlZBJXChNhdXRoX29uYm9hcmRfcmFkaXVzGNcPIAEoCzIkLlNwYWNlWC5BUE'
+    'kuRGV2aWNlLkF1dGhPbmJvYXJkUmFkaXVzSABSEWF1dGhPbmJvYXJkUmFkaXVzQgYKBGF1dGhK'
+    'BgjoBxDpB0oGCOkHEOoHSgYI6gcQ6wdKBgjsBxDtB0oGCO4HEO8HSgYI9AcQ9QdKBgj2BxD3B0'
+    'oGCPgHEPkHSgYI0A8Q0Q8aVwoORG5zRm9yd2FyZFJ1bGUSGQoHZG9tYWlucxjoByADKAlSB2Rv'
+    'bWFpbnMSKgoQc2VydmVyX2FkZHJlc3NlcxjpByADKAlSD3NlcnZlckFkZHJlc3NlcxpKCg5Ebn'
+    'NTdGF0aWNFbnRyeRIZCgdkb21haW5zGOgHIAMoCVIHZG9tYWlucxIdCglhZGRyZXNzZXMY6Qcg'
+    'AygJUglhZGRyZXNzZXMawgoKB05ldHdvcmsSEwoEaXB2NBjrByABKAlSBGlwdjQSXAoSYmFzaW'
+    'Nfc2VydmljZV9zZXRzGO8HIAMoCzItLlNwYWNlWC5BUEkuRGV2aWNlLldpZmlDb25maWcuQmFz'
+    'aWNTZXJ2aWNlU2V0UhBiYXNpY1NlcnZpY2VTZXRzEioKEGNsaWVudF9pc29sYXRpb24Y8AcgAS'
+    'gIUg9jbGllbnRJc29sYXRpb24SFQoFZ3Vlc3QY8QcgASgIUgVndWVzdBIZCgdsYW5kaW5nGPIH'
+    'IAEoCVIHbGFuZGluZxIXCgZkb21haW4Y8wcgASgJUgZkb21haW4SIgoMZGhjcHY0X3N0YXJ0GP'
+    'QHIAEoDVILZGhjcHY0U3RhcnQSGwoIaW50ZXJuYWwY9QcgASgIUghpbnRlcm5hbBITCgR2bGFu'
+    'GPYHIAEoDVIEdmxhbhIkCg1kaGNwX2Rpc2FibGVkGPcHIAEoCFIMZGhjcERpc2FibGVkEjYKF2'
+    'RoY3B2NF9sZWFzZV9kdXJhdGlvbl9zGPgHIAEoDVIUZGhjcHY0TGVhc2VEdXJhdGlvblMSJwoP'
+    'bGFuZGluZ19wYWdlX3YyGPkHIAEoCFINbGFuZGluZ1BhZ2VWMhIoCg9zYW5kYm94X2VuYWJsZW'
+    'QY/AcgASgIUg5zYW5kYm94RW5hYmxlZBI6ChlzYW5kYm94X2RvbWFpbl9hbGxvd19saXN0GP4H'
+    'IAMoCVIWc2FuZGJveERvbWFpbkFsbG93TGlzdBIeCgpzYW5kYm94X2lkGP8HIAEoDVIJc2FuZG'
+    'JveElkEkgKDmNhcHRpdmVfcG9ydGFsGIAIIAEoCzIgLlNwYWNlWC5BUEkuRGV2aWNlLkNhcHRp'
+    'dmVQb3J0YWxSDWNhcHRpdmVQb3J0YWwSHgoKZGhjcHY0X2VuZBiBCCABKA1SCWRoY3B2NEVuZB'
+    'ImCg5uZXR3b3JrX2dyb3VwcxiCCCABKA1SDW5ldHdvcmtHcm91cHMSWwoSZG5zX3N0YXRpY19l'
+    'bnRyaWVzGIMIIAMoCzIsLlNwYWNlWC5BUEkuRGV2aWNlLldpZmlDb25maWcuRG5zU3RhdGljRW'
+    '50cnlSEGRuc1N0YXRpY0VudHJpZXMSWQoRZG5zX2ZvcndhcmRfcnVsZXMYhAggAygLMiwuU3Bh'
+    'Y2VYLkFQSS5EZXZpY2UuV2lmaUNvbmZpZy5EbnNGb3J3YXJkUnVsZVIPZG5zRm9yd2FyZFJ1bG'
+    'VzEjwKGGRpc2FibGVfd2hlbl9vZmZsaW5lX29sZBiFCCABKAhCAhgBUhVkaXNhYmxlV2hlbk9m'
+    'ZmxpbmVPbGQSTwoNc3RhdGljX3JvdXRlcxiGCCADKAsyKS5TcGFjZVguQVBJLkRldmljZS5XaW'
+    'ZpQ29uZmlnLlN0YXRpY1JvdXRlUgxzdGF0aWNSb3V0ZXMSMQoUZGlzYWJsZV93aGVuX29mZmxp'
+    'bmUYhwggASgIUhJkaXNhYmxlV2hlbk9mZmxpbmUSWAoZb25ib2FyZF9yYWRpdXNfdGxzX2Nvbm'
+    'ZpZxiICCABKAsyHC5TcGFjZVguQVBJLkRldmljZS5UbHNDb25maWdSFm9uYm9hcmRSYWRpdXNU'
+    'bHNDb25maWdKBgjoBxDpB0oGCOkHEOoHSgYI6gcQ6wdKBgjsBxDtB0oGCO0HEO4HSgYI7gcQ7w'
+    'dKBgj6BxD7B0oGCPsHEPwHUh1jbGllbnRfYXV0aG9yaXphdGlvbl9yZXF1aXJlZFIldW5hdXRo'
+    'b3JpemVkX2NsaWVudF9kb21haW5fYWxsb3dfbGlzdBo/CgtTdGF0aWNSb3V0ZRIWCgZzdWJuZX'
+    'QYASABKAlSBnN1Ym5ldBIYCgdnYXRld2F5GAIgASgJUgdnYXRld2F5GrYDChBVbmJyaWRnZWRF'
+    'dGhQb3J0EiQKDmxhbl9wb3J0X2luZGV4GAEgASgNUgxsYW5Qb3J0SW5kZXgSDgoCaXAYAiABKA'
+    'lSAmlwEhgKB2dhdGV3YXkYAyABKAlSB2dhdGV3YXkSXwoNc3RhdGljX3JvdXRlcxgEIAMoCzI6'
+    'LlNwYWNlWC5BUEkuRGV2aWNlLldpZmlDb25maWcuVW5icmlkZ2VkRXRoUG9ydC5TdGF0aWNSb3'
+    'V0ZVIMc3RhdGljUm91dGVzEjcKCHdhbl9ub25lGAUgASgLMhouU3BhY2VYLkFQSS5EZXZpY2Uu'
+    'V2FuTm9uZUgAUgd3YW5Ob25lEmMKGHdhbl9zdGFybGlua19yb3V0ZXJfcGFpchgGIAEoCzIoLl'
+    'NwYWNlWC5BUEkuRGV2aWNlLldhblN0YXJsaW5rUm91dGVyUGFpckgAUhV3YW5TdGFybGlua1Jv'
+    'dXRlclBhaXIaTAoLU3RhdGljUm91dGUSFgoGc3VibmV0GAEgASgJUgZzdWJuZXQSJQoObmV0d2'
+    '9ya19ncm91cHMYAiABKA1SDW5ldHdvcmtHcm91cHNCBQoDd2FuIkIKBEJhbmQSDgoKUkZfVU5L'
+    'Tk9XThAAEgsKB1JGXzJHSFoQAhILCgdSRl81R0haEAUSEAoMUkZfNUdIWl9ISUdIEAYiXwoLSF'
+    'RCYW5kd2lkdGgSGAoUSFRfQkFORFdJRFRIX0RFRkFVTFQQABIXChNIVF9CQU5EV0lEVEhfMjBf'
+    'TUhaEAESHQoZSFRfQkFORFdJRFRIXzIwX09SXzQwX01IWhACIjkKCFNlY3VyaXR5EgsKB1VOS0'
+    '5PV04QABIICgRXUEEyEAESCAoEV1BBMxACEgwKCFdQQTJXUEEzEAMinAEKDFZIVEJhbmR3aWR0'
+    'aBIZChVWSFRfQkFORFdJRFRIX0RFRkFVTFQQABIaChZWSFRfQkFORFdJRFRIX0RJU0FCTEVEEA'
+    'ESGAoUVkhUX0JBTkRXSURUSF84MF9NSFoQAhIZChVWSFRfQkFORFdJRFRIXzE2MF9NSFoQAxIg'
+    'ChxWSFRfQkFORFdJRFRIXzgwX1BMVVNfODBfTUhaEAQi5QEKDFdpcmVsZXNzTW9kZRIZChVXSV'
+    'JFTEVTU19NT0RFX0RFRkFVTFQQABIKCgZBX09OTFkQARIKCgZCX09OTFkQAhIKCgZHX09OTFkQ'
+    'AxIKCgZOX09OTFkQBBINCglCX0dfTUlYRUQQBRINCglBX05fTUlYRUQQBhINCglHX05fTUlYRU'
+    'QQBxIPCgtCX0dfTl9NSVhFRBAIEhEKDUFfQU5fQUNfTUlYRUQQCRIPCgtBTl9BQ19NSVhFRBAK'
+    'EhIKDkJfR19OX0FYX01JWEVEEAsSFAoQQV9BTl9BQ19BWF9NSVhFRBAMQhUKE3dhbl90cmFmZm'
+    'ljX2NvbnRyb2xKBAgBEAJKBAgCEANKBAgEEAVKBAgFEAZKBAgGEAdKBAgIEAlKBAgKEAtKBAgL'
+    'EAxKBAgOEA9KBAgPEBBKBAgQEBFKBAgREBJKBAgSEBNKBAgVEBZKBAgYEBlKBAgZEBpKBAgbEB'
+    'xKBAgcEB1KBAgdEB5KBAggECFKBAgiECNKBAgjECRKBAgkECVKBAglECZKBAgmECdKBAgoEClK'
+    'BAgpECpKBgjpBxDqB0oGCOoHEOsHSgYI6wcQ7AdKBgjsBxDtB0oGCO0HEO4HSgYI7gcQ7wdKBg'
+    'jvBxDwB0oGCPAHEPEHSgYI8QcQ8gdKBgjzBxD0B0oGCPQHEPUHSgYI9wcQ+AdKBgj9BxD+B0oG'
+    'CJEIEJIISgYImwgQnAhKBgicCBCdCEoGCJ0IEJ4ISgYIoAgQoQhKBgihCBCiCEoGCM4IEM8ISg'
+    'YIzwgQ0AhKBgjQCBDRCEoGCNEIENIISgYI0Q8Q0g9KBgjSDxDTD0oGCNMPENQPSgYI1A8Q1Q9K'
+    'BgjVDxDWD0oGCNYPENcPSgYI1w8Q2A9KBgjYDxDZD1IXYXBwbHlfZW5hYmxlX3JlbW90ZV9zc2'
+    'hSDmFwcGx5X2xhbl9pcHY0UhNhcHBseV9sb2NhbF9sYW5kaW5nUhphcHBseV9sb2NhbF9sYW5k'
+    'aW5nX2RvbWFpblISYXBwbHlfbmV0d29ya19uYW1lUhdhcHBseV9uZXR3b3JrX25hbWVfNWdoel'
+    'IWYXBwbHlfbmV0d29ya19wYXNzd29yZFITYXBwbHlfd2lmaV9zZWN1cml0eVIRZW5hYmxlX3Jl'
+    'bW90ZV9zc2hSCGxhbl9pcHY0UhZsYXN0X3JlbW90ZV9zc2hfYWNjZXNzUg1sb2NhbF9sYW5kaW'
+    '5nUhRsb2NhbF9sYW5kaW5nX2RvbWFpblIMbmV0d29ya19uYW1lUhFuZXR3b3JrX25hbWVfNWdo'
+    'elIQbmV0d29ya19wYXNzd29yZFINd2lmaV9zZWN1cml0eQ==');
 
 @$core.Deprecated('Use meshConfigDescriptor instead')
 const MeshConfig$json = {
   '1': 'MeshConfig',
   '2': [
     {'1': 'display_name', '3': 1, '4': 1, '5': 9, '10': 'displayName'},
-    {'1': 'apply_display_name', '3': 2, '4': 1, '5': 8, '10': 'applyDisplayName'},
-    {'1': 'auth', '3': 3, '4': 1, '5': 14, '6': '.SpaceX.API.Device.MeshAuth', '10': 'auth'},
+    {
+      '1': 'apply_display_name',
+      '3': 2,
+      '4': 1,
+      '5': 8,
+      '10': 'applyDisplayName'
+    },
+    {
+      '1': 'auth',
+      '3': 3,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.MeshAuth',
+      '10': 'auth'
+    },
     {'1': 'apply_auth', '3': 4, '4': 1, '5': 8, '10': 'applyAuth'},
     {'1': 'last_connected', '3': 5, '4': 1, '5': 3, '10': 'lastConnected'},
     {'1': 'incarnation', '3': 7, '4': 1, '5': 4, '10': 'incarnation'},
     {'1': 'hardware_version', '3': 9, '4': 1, '5': 9, '10': 'hardwareVersion'},
-    {'1': 'supports_5ghz_high', '3': 10, '4': 1, '5': 8, '10': 'supports5ghzHigh'},
+    {
+      '1': 'supports_5ghz_high',
+      '3': 10,
+      '4': 1,
+      '5': 8,
+      '10': 'supports5ghzHigh'
+    },
   ],
   '9': [
     {'1': 6, '2': 7},
@@ -2459,7 +4593,14 @@ const ClientConfig$json = {
     {'1': 'client_id', '3': 1, '4': 1, '5': 13, '10': 'clientId'},
     {'1': 'mac_address', '3': 2, '4': 1, '5': 9, '10': 'macAddress'},
     {'1': 'given_name', '3': 3, '4': 1, '5': 9, '10': 'givenName'},
-    {'1': 'weekly_block_schedules', '3': 5, '4': 3, '5': 11, '6': '.SpaceX.API.Device.WeeklyBlockSchedule', '10': 'weeklyBlockSchedules'},
+    {
+      '1': 'weekly_block_schedules',
+      '3': 5,
+      '4': 3,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WeeklyBlockSchedule',
+      '10': 'weeklyBlockSchedules'
+    },
     {'1': 'group_id', '3': 6, '4': 1, '5': 9, '10': 'groupId'},
   ],
   '9': [
@@ -2480,7 +4621,14 @@ final $typed_data.Uint8List clientConfigDescriptor = $convert.base64Decode(
 const WeeklyBlockSchedule$json = {
   '1': 'WeeklyBlockSchedule',
   '2': [
-    {'1': 'block_ranges', '3': 1, '4': 3, '5': 11, '6': '.SpaceX.API.Device.WeeklyBlockSchedule.BlockRange', '10': 'blockRanges'},
+    {
+      '1': 'block_ranges',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WeeklyBlockSchedule.BlockRange',
+      '10': 'blockRanges'
+    },
     {'1': 'group_id', '3': 2, '4': 1, '5': 9, '10': 'groupId'},
   ],
   '3': [WeeklyBlockSchedule_BlockRange$json],
@@ -2507,10 +4655,23 @@ const HttpServer$json = {
   '1': 'HttpServer',
   '2': [
     {'1': 'domain_name', '3': 1, '4': 1, '5': 9, '10': 'domainName'},
-    {'1': 'tls', '3': 2, '4': 1, '5': 11, '6': '.SpaceX.API.Device.TlsConfig', '10': 'tls'},
+    {
+      '1': 'tls',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.TlsConfig',
+      '10': 'tls'
+    },
     {'1': 'file_content_id', '3': 3, '4': 1, '5': 9, '10': 'fileContentId'},
     {'1': 'file_content_hash', '3': 4, '4': 1, '5': 9, '10': 'fileContentHash'},
-    {'1': 'access_control_allow_origins', '3': 5, '4': 3, '5': 9, '10': 'accessControlAllowOrigins'},
+    {
+      '1': 'access_control_allow_origins',
+      '3': 5,
+      '4': 3,
+      '5': 9,
+      '10': 'accessControlAllowOrigins'
+    },
   ],
   '9': [
     {'1': 101, '2': 102},
@@ -2532,29 +4693,81 @@ const TlsConfig$json = {
   '2': [
     {'1': 'key', '3': 1, '4': 1, '5': 9, '10': 'key'},
     {'1': 'cert', '3': 2, '4': 1, '5': 9, '10': 'cert'},
+    {'1': 'client_ca_cert', '3': 3, '4': 1, '5': 9, '10': 'clientCaCert'},
+    {'1': 'server_ca_cert', '3': 4, '4': 1, '5': 9, '10': 'serverCaCert'},
   ],
 };
 
 /// Descriptor for `TlsConfig`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List tlsConfigDescriptor = $convert.base64Decode(
-    'CglUbHNDb25maWcSEAoDa2V5GAEgASgJUgNrZXkSEgoEY2VydBgCIAEoCVIEY2VydA==');
+    'CglUbHNDb25maWcSEAoDa2V5GAEgASgJUgNrZXkSEgoEY2VydBgCIAEoCVIEY2VydBIkCg5jbG'
+    'llbnRfY2FfY2VydBgDIAEoCVIMY2xpZW50Q2FDZXJ0EiQKDnNlcnZlcl9jYV9jZXJ0GAQgASgJ'
+    'UgxzZXJ2ZXJDYUNlcnQ=');
 
 @$core.Deprecated('Use bootInfoDescriptor instead')
 const BootInfo$json = {
   '1': 'BootInfo',
   '2': [
-    {'1': 'count_by_reason', '3': 1, '4': 3, '5': 11, '6': '.SpaceX.API.Device.BootInfo.CountByReasonEntry', '10': 'countByReason'},
-    {'1': 'last_reason', '3': 2, '4': 1, '5': 14, '6': '.SpaceX.API.Device.BootReason', '10': 'lastReason'},
+    {
+      '1': 'count_by_reason',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.SpaceX.API.Device.BootInfo.CountByReasonEntry',
+      '10': 'countByReason'
+    },
+    {
+      '1': 'last_reason',
+      '3': 2,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.BootReason',
+      '10': 'lastReason'
+    },
     {'1': 'last_count', '3': 3, '4': 1, '5': 5, '10': 'lastCount'},
-    {'1': 'count_by_reason_delta', '3': 4, '4': 3, '5': 11, '6': '.SpaceX.API.Device.BootInfo.CountByReasonDeltaEntry', '10': 'countByReasonDelta'},
+    {
+      '1': 'count_by_reason_delta',
+      '3': 4,
+      '4': 3,
+      '5': 11,
+      '6': '.SpaceX.API.Device.BootInfo.CountByReasonDeltaEntry',
+      '10': 'countByReasonDelta'
+    },
     {'1': 'crash_boot', '3': 5, '4': 1, '5': 8, '10': 'crashBoot'},
     {'1': 'crash_boot_count', '3': 6, '4': 1, '5': 5, '10': 'crashBootCount'},
-    {'1': 'even_side_software_version', '3': 7, '4': 1, '5': 9, '10': 'evenSideSoftwareVersion'},
-    {'1': 'odd_side_software_version', '3': 8, '4': 1, '5': 9, '10': 'oddSideSoftwareVersion'},
-    {'1': 'api_version_odd_side', '3': 9, '4': 1, '5': 5, '10': 'apiVersionOddSide'},
-    {'1': 'api_version_even_side', '3': 10, '4': 1, '5': 5, '10': 'apiVersionEvenSide'},
+    {
+      '1': 'even_side_software_version',
+      '3': 7,
+      '4': 1,
+      '5': 9,
+      '10': 'evenSideSoftwareVersion'
+    },
+    {
+      '1': 'odd_side_software_version',
+      '3': 8,
+      '4': 1,
+      '5': 9,
+      '10': 'oddSideSoftwareVersion'
+    },
+    {
+      '1': 'api_version_odd_side',
+      '3': 9,
+      '4': 1,
+      '5': 5,
+      '10': 'apiVersionOddSide'
+    },
+    {
+      '1': 'api_version_even_side',
+      '3': 10,
+      '4': 1,
+      '5': 5,
+      '10': 'apiVersionEvenSide'
+    },
   ],
-  '3': [BootInfo_CountByReasonEntry$json, BootInfo_CountByReasonDeltaEntry$json],
+  '3': [
+    BootInfo_CountByReasonEntry$json,
+    BootInfo_CountByReasonDeltaEntry$json
+  ],
 };
 
 @$core.Deprecated('Use bootInfoDescriptor instead')
@@ -2600,50 +4813,103 @@ const NoTrafficControl$json = {
 };
 
 /// Descriptor for `NoTrafficControl`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List noTrafficControlDescriptor = $convert.base64Decode(
-    'ChBOb1RyYWZmaWNDb250cm9s');
+final $typed_data.Uint8List noTrafficControlDescriptor =
+    $convert.base64Decode('ChBOb1RyYWZmaWNDb250cm9s');
 
 @$core.Deprecated('Use ackSuppressionDescriptor instead')
 const AckSuppression$json = {
   '1': 'AckSuppression',
   '2': [
-    {'1': 'ack_mark', '3': 1, '4': 1, '5': 13, '10': 'ackMark'},
-    {'1': 'htb_ack_queue_rate', '3': 2, '4': 1, '5': 2, '10': 'htbAckQueueRate'},
-    {'1': 'htb_ack_queue_ceil', '3': 3, '4': 1, '5': 2, '10': 'htbAckQueueCeil'},
-    {'1': 'cake_queue_bandwidth', '3': 4, '4': 1, '5': 2, '10': 'cakeQueueBandwidth'},
-    {'1': 'cake_ack_filter_aggressive', '3': 5, '4': 1, '5': 8, '10': 'cakeAckFilterAggressive'},
+    {
+      '1': 'ack_mark',
+      '3': 1,
+      '4': 1,
+      '5': 13,
+      '8': {'3': true},
+      '10': 'ackMark',
+    },
+    {
+      '1': 'htb_ack_queue_rate',
+      '3': 2,
+      '4': 1,
+      '5': 2,
+      '10': 'htbAckQueueRate'
+    },
+    {
+      '1': 'htb_ack_queue_ceil',
+      '3': 3,
+      '4': 1,
+      '5': 2,
+      '10': 'htbAckQueueCeil'
+    },
+    {
+      '1': 'cake_queue_bandwidth',
+      '3': 4,
+      '4': 1,
+      '5': 2,
+      '10': 'cakeQueueBandwidth'
+    },
+    {
+      '1': 'cake_ack_filter_aggressive',
+      '3': 5,
+      '4': 1,
+      '5': 8,
+      '10': 'cakeAckFilterAggressive'
+    },
     {'1': 'cake_manual_rtt', '3': 6, '4': 1, '5': 2, '10': 'cakeManualRtt'},
   ],
 };
 
 /// Descriptor for `AckSuppression`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List ackSuppressionDescriptor = $convert.base64Decode(
-    'Cg5BY2tTdXBwcmVzc2lvbhIZCghhY2tfbWFyaxgBIAEoDVIHYWNrTWFyaxIrChJodGJfYWNrX3'
-    'F1ZXVlX3JhdGUYAiABKAJSD2h0YkFja1F1ZXVlUmF0ZRIrChJodGJfYWNrX3F1ZXVlX2NlaWwY'
-    'AyABKAJSD2h0YkFja1F1ZXVlQ2VpbBIwChRjYWtlX3F1ZXVlX2JhbmR3aWR0aBgEIAEoAlISY2'
-    'FrZVF1ZXVlQmFuZHdpZHRoEjsKGmNha2VfYWNrX2ZpbHRlcl9hZ2dyZXNzaXZlGAUgASgIUhdj'
-    'YWtlQWNrRmlsdGVyQWdncmVzc2l2ZRImCg9jYWtlX21hbnVhbF9ydHQYBiABKAJSDWNha2VNYW'
-    '51YWxSdHQ=');
+    'Cg5BY2tTdXBwcmVzc2lvbhIdCghhY2tfbWFyaxgBIAEoDUICGAFSB2Fja01hcmsSKwoSaHRiX2'
+    'Fja19xdWV1ZV9yYXRlGAIgASgCUg9odGJBY2tRdWV1ZVJhdGUSKwoSaHRiX2Fja19xdWV1ZV9j'
+    'ZWlsGAMgASgCUg9odGJBY2tRdWV1ZUNlaWwSMAoUY2FrZV9xdWV1ZV9iYW5kd2lkdGgYBCABKA'
+    'JSEmNha2VRdWV1ZUJhbmR3aWR0aBI7ChpjYWtlX2Fja19maWx0ZXJfYWdncmVzc2l2ZRgFIAEo'
+    'CFIXY2FrZUFja0ZpbHRlckFnZ3Jlc3NpdmUSJgoPY2FrZV9tYW51YWxfcnR0GAYgASgCUg1jYW'
+    'tlTWFudWFsUnR0');
 
 @$core.Deprecated('Use cakeRateLimitDescriptor instead')
 const CakeRateLimit$json = {
   '1': 'CakeRateLimit',
   '2': [
-    {'1': 'host_mark', '3': 1, '4': 1, '5': 13, '10': 'hostMark'},
+    {
+      '1': 'host_mark',
+      '3': 1,
+      '4': 1,
+      '5': 13,
+      '8': {'3': true},
+      '10': 'hostMark',
+    },
     {'1': 'bandwidth', '3': 2, '4': 1, '5': 2, '10': 'bandwidth'},
-    {'1': 'priority_queue_parameter', '3': 3, '4': 1, '5': 14, '6': '.SpaceX.API.Device.CakePriorityQueueParameter', '10': 'priorityQueueParameter'},
-    {'1': 'ack_filter', '3': 4, '4': 1, '5': 14, '6': '.SpaceX.API.Device.CakeAckFilter', '10': 'ackFilter'},
+    {
+      '1': 'priority_queue_parameter',
+      '3': 3,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.CakePriorityQueueParameter',
+      '10': 'priorityQueueParameter'
+    },
+    {
+      '1': 'ack_filter',
+      '3': 4,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.CakeAckFilter',
+      '10': 'ackFilter'
+    },
     {'1': 'manual_rtt', '3': 6, '4': 1, '5': 2, '10': 'manualRtt'},
   ],
 };
 
 /// Descriptor for `CakeRateLimit`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List cakeRateLimitDescriptor = $convert.base64Decode(
-    'Cg1DYWtlUmF0ZUxpbWl0EhsKCWhvc3RfbWFyaxgBIAEoDVIIaG9zdE1hcmsSHAoJYmFuZHdpZH'
-    'RoGAIgASgCUgliYW5kd2lkdGgSZwoYcHJpb3JpdHlfcXVldWVfcGFyYW1ldGVyGAMgASgOMi0u'
-    'U3BhY2VYLkFQSS5EZXZpY2UuQ2FrZVByaW9yaXR5UXVldWVQYXJhbWV0ZXJSFnByaW9yaXR5UX'
-    'VldWVQYXJhbWV0ZXISPwoKYWNrX2ZpbHRlchgEIAEoDjIgLlNwYWNlWC5BUEkuRGV2aWNlLkNh'
-    'a2VBY2tGaWx0ZXJSCWFja0ZpbHRlchIdCgptYW51YWxfcnR0GAYgASgCUgltYW51YWxSdHQ=');
+    'Cg1DYWtlUmF0ZUxpbWl0Eh8KCWhvc3RfbWFyaxgBIAEoDUICGAFSCGhvc3RNYXJrEhwKCWJhbm'
+    'R3aWR0aBgCIAEoAlIJYmFuZHdpZHRoEmcKGHByaW9yaXR5X3F1ZXVlX3BhcmFtZXRlchgDIAEo'
+    'DjItLlNwYWNlWC5BUEkuRGV2aWNlLkNha2VQcmlvcml0eVF1ZXVlUGFyYW1ldGVyUhZwcmlvcm'
+    'l0eVF1ZXVlUGFyYW1ldGVyEj8KCmFja19maWx0ZXIYBCABKA4yIC5TcGFjZVguQVBJLkRldmlj'
+    'ZS5DYWtlQWNrRmlsdGVyUglhY2tGaWx0ZXISHQoKbWFudWFsX3J0dBgGIAEoAlIJbWFudWFsUn'
+    'R0');
 
 @$core.Deprecated('Use authOpenDescriptor instead')
 const AuthOpen$json = {
@@ -2651,8 +4917,8 @@ const AuthOpen$json = {
 };
 
 /// Descriptor for `AuthOpen`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List authOpenDescriptor = $convert.base64Decode(
-    'CghBdXRoT3Blbg==');
+final $typed_data.Uint8List authOpenDescriptor =
+    $convert.base64Decode('CghBdXRoT3Blbg==');
 
 @$core.Deprecated('Use authWpa2Descriptor instead')
 const AuthWpa2$json = {
@@ -2663,8 +4929,8 @@ const AuthWpa2$json = {
 };
 
 /// Descriptor for `AuthWpa2`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List authWpa2Descriptor = $convert.base64Decode(
-    'CghBdXRoV3BhMhIaCghwYXNzd29yZBgBIAEoCVIIcGFzc3dvcmQ=');
+final $typed_data.Uint8List authWpa2Descriptor = $convert
+    .base64Decode('CghBdXRoV3BhMhIaCghwYXNzd29yZBgBIAEoCVIIcGFzc3dvcmQ=');
 
 @$core.Deprecated('Use authWpa3Descriptor instead')
 const AuthWpa3$json = {
@@ -2675,8 +4941,8 @@ const AuthWpa3$json = {
 };
 
 /// Descriptor for `AuthWpa3`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List authWpa3Descriptor = $convert.base64Decode(
-    'CghBdXRoV3BhMxIaCghwYXNzd29yZBgBIAEoCVIIcGFzc3dvcmQ=');
+final $typed_data.Uint8List authWpa3Descriptor = $convert
+    .base64Decode('CghBdXRoV3BhMxIaCghwYXNzd29yZBgBIAEoCVIIcGFzc3dvcmQ=');
 
 @$core.Deprecated('Use authWpa2Wpa3Descriptor instead')
 const AuthWpa2Wpa3$json = {
@@ -2687,8 +4953,8 @@ const AuthWpa2Wpa3$json = {
 };
 
 /// Descriptor for `AuthWpa2Wpa3`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List authWpa2Wpa3Descriptor = $convert.base64Decode(
-    'CgxBdXRoV3BhMldwYTMSGgoIcGFzc3dvcmQYASABKAlSCHBhc3N3b3Jk');
+final $typed_data.Uint8List authWpa2Wpa3Descriptor = $convert
+    .base64Decode('CgxBdXRoV3BhMldwYTMSGgoIcGFzc3dvcmQYASABKAlSCHBhc3N3b3Jk');
 
 @$core.Deprecated('Use authRadiusDescriptor instead')
 const AuthRadius$json = {
@@ -2705,7 +4971,14 @@ const AuthRadius$json = {
       '10': 'serverCa',
     },
     {'1': 'server_ca_base_64', '3': 4, '4': 1, '5': 9, '10': 'serverCaBase64'},
-    {'1': 'transport', '3': 5, '4': 1, '5': 14, '6': '.SpaceX.API.Device.Protocol', '10': 'transport'},
+    {
+      '1': 'transport',
+      '3': 5,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.Protocol',
+      '10': 'transport'
+    },
   ],
 };
 
@@ -2722,15 +4995,30 @@ const AuthOpenEncrypted$json = {
 };
 
 /// Descriptor for `AuthOpenEncrypted`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List authOpenEncryptedDescriptor = $convert.base64Decode(
-    'ChFBdXRoT3BlbkVuY3J5cHRlZA==');
+final $typed_data.Uint8List authOpenEncryptedDescriptor =
+    $convert.base64Decode('ChFBdXRoT3BlbkVuY3J5cHRlZA==');
+
+@$core.Deprecated('Use authOnboardRadiusDescriptor instead')
+const AuthOnboardRadius$json = {
+  '1': 'AuthOnboardRadius',
+};
+
+/// Descriptor for `AuthOnboardRadius`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List authOnboardRadiusDescriptor =
+    $convert.base64Decode('ChFBdXRoT25ib2FyZFJhZGl1cw==');
 
 @$core.Deprecated('Use captivePortalDescriptor instead')
 const CaptivePortal$json = {
   '1': 'CaptivePortal',
   '2': [
     {'1': 'url', '3': 1, '4': 1, '5': 9, '10': 'url'},
-    {'1': 'display_in_captive_browser', '3': 2, '4': 1, '5': 8, '10': 'displayInCaptiveBrowser'},
+    {
+      '1': 'display_in_captive_browser',
+      '3': 2,
+      '4': 1,
+      '5': 8,
+      '10': 'displayInCaptiveBrowser'
+    },
   ],
 };
 
@@ -2753,14 +5041,36 @@ final $typed_data.Uint8List staticRouteDescriptor = $convert.base64Decode(
     'CgtTdGF0aWNSb3V0ZRIWCgZzdWJuZXQYASABKAlSBnN1Ym5ldBIlCg5uZXR3b3JrX2dyb3Vwcx'
     'gCIAEoDVINbmV0d29ya0dyb3Vwcw==');
 
+@$core.Deprecated('Use wanNoneDescriptor instead')
+const WanNone$json = {
+  '1': 'WanNone',
+};
+
+/// Descriptor for `WanNone`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List wanNoneDescriptor =
+    $convert.base64Decode('CgdXYW5Ob25l');
+
+@$core.Deprecated('Use wanStarlinkRouterPairDescriptor instead')
+const WanStarlinkRouterPair$json = {
+  '1': 'WanStarlinkRouterPair',
+  '2': [
+    {'1': 'client_vlan_first', '3': 1, '4': 1, '5': 8, '10': 'clientVlanFirst'},
+  ],
+};
+
+/// Descriptor for `WanStarlinkRouterPair`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List wanStarlinkRouterPairDescriptor = $convert.base64Decode(
+    'ChVXYW5TdGFybGlua1JvdXRlclBhaXISKgoRY2xpZW50X3ZsYW5fZmlyc3QYASABKAhSD2NsaW'
+    'VudFZsYW5GaXJzdA==');
+
 @$core.Deprecated('Use wifiGetClientsRequestDescriptor instead')
 const WifiGetClientsRequest$json = {
   '1': 'WifiGetClientsRequest',
 };
 
 /// Descriptor for `WifiGetClientsRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List wifiGetClientsRequestDescriptor = $convert.base64Decode(
-    'ChVXaWZpR2V0Q2xpZW50c1JlcXVlc3Q=');
+final $typed_data.Uint8List wifiGetClientsRequestDescriptor =
+    $convert.base64Decode('ChVXaWZpR2V0Q2xpZW50c1JlcXVlc3Q=');
 
 @$core.Deprecated('Use wifiSetupRequestDescriptor instead')
 const WifiSetupRequest$json = {
@@ -2785,8 +5095,8 @@ const WifiGetPingMetricsRequest$json = {
 };
 
 /// Descriptor for `WifiGetPingMetricsRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List wifiGetPingMetricsRequestDescriptor = $convert.base64Decode(
-    'ChlXaWZpR2V0UGluZ01ldHJpY3NSZXF1ZXN0');
+final $typed_data.Uint8List wifiGetPingMetricsRequestDescriptor =
+    $convert.base64Decode('ChlXaWZpR2V0UGluZ01ldHJpY3NSZXF1ZXN0');
 
 @$core.Deprecated('Use wifiGetConfigRequestDescriptor instead')
 const WifiGetConfigRequest$json = {
@@ -2794,28 +5104,43 @@ const WifiGetConfigRequest$json = {
 };
 
 /// Descriptor for `WifiGetConfigRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List wifiGetConfigRequestDescriptor = $convert.base64Decode(
-    'ChRXaWZpR2V0Q29uZmlnUmVxdWVzdA==');
+final $typed_data.Uint8List wifiGetConfigRequestDescriptor =
+    $convert.base64Decode('ChRXaWZpR2V0Q29uZmlnUmVxdWVzdA==');
 
 @$core.Deprecated('Use wifiSetMeshDeviceTrustRequestDescriptor instead')
 const WifiSetMeshDeviceTrustRequest$json = {
   '1': 'WifiSetMeshDeviceTrustRequest',
   '2': [
     {'1': 'device_id', '3': 1, '4': 1, '5': 9, '10': 'deviceId'},
-    {'1': 'auth', '3': 2, '4': 1, '5': 14, '6': '.SpaceX.API.Device.MeshAuth', '10': 'auth'},
+    {
+      '1': 'auth',
+      '3': 2,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.MeshAuth',
+      '10': 'auth'
+    },
   ],
 };
 
 /// Descriptor for `WifiSetMeshDeviceTrustRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List wifiSetMeshDeviceTrustRequestDescriptor = $convert.base64Decode(
-    'Ch1XaWZpU2V0TWVzaERldmljZVRydXN0UmVxdWVzdBIbCglkZXZpY2VfaWQYASABKAlSCGRldm'
-    'ljZUlkEi8KBGF1dGgYAiABKA4yGy5TcGFjZVguQVBJLkRldmljZS5NZXNoQXV0aFIEYXV0aA==');
+final $typed_data.Uint8List wifiSetMeshDeviceTrustRequestDescriptor =
+    $convert.base64Decode(
+        'Ch1XaWZpU2V0TWVzaERldmljZVRydXN0UmVxdWVzdBIbCglkZXZpY2VfaWQYASABKAlSCGRldm'
+        'ljZUlkEi8KBGF1dGgYAiABKA4yGy5TcGFjZVguQVBJLkRldmljZS5NZXNoQXV0aFIEYXV0aA==');
 
 @$core.Deprecated('Use wifiSetMeshConfigRequestDescriptor instead')
 const WifiSetMeshConfigRequest$json = {
   '1': 'WifiSetMeshConfigRequest',
   '2': [
-    {'1': 'mesh_config', '3': 1, '4': 1, '5': 11, '6': '.SpaceX.API.Device.MeshConfig', '10': 'meshConfig'},
+    {
+      '1': 'mesh_config',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.MeshConfig',
+      '10': 'meshConfig'
+    },
     {'1': 'device_id', '3': 2, '4': 1, '5': 9, '10': 'deviceId'},
   ],
 };
@@ -2843,9 +5168,10 @@ const WifiGetClientHistoryRequest$json = {
 };
 
 /// Descriptor for `WifiGetClientHistoryRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List wifiGetClientHistoryRequestDescriptor = $convert.base64Decode(
-    'ChtXaWZpR2V0Q2xpZW50SGlzdG9yeVJlcXVlc3QSIwoLbWFjX2FkZHJlc3MYASABKAlCAhgBUg'
-    'ptYWNBZGRyZXNzEhsKCWNsaWVudF9pZBgCIAEoDVIIY2xpZW50SWQ=');
+final $typed_data.Uint8List wifiGetClientHistoryRequestDescriptor =
+    $convert.base64Decode(
+        'ChtXaWZpR2V0Q2xpZW50SGlzdG9yeVJlcXVlc3QSIwoLbWFjX2FkZHJlc3MYASABKAlCAhgBUg'
+        'ptYWNBZGRyZXNzEhsKCWNsaWVudF9pZBgCIAEoDVIIY2xpZW50SWQ=');
 
 @$core.Deprecated('Use wifiSetAviationConformedRequestDescriptor instead')
 const WifiSetAviationConformedRequest$json = {
@@ -2853,8 +5179,8 @@ const WifiSetAviationConformedRequest$json = {
 };
 
 /// Descriptor for `WifiSetAviationConformedRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List wifiSetAviationConformedRequestDescriptor = $convert.base64Decode(
-    'Ch9XaWZpU2V0QXZpYXRpb25Db25mb3JtZWRSZXF1ZXN0');
+final $typed_data.Uint8List wifiSetAviationConformedRequestDescriptor =
+    $convert.base64Decode('Ch9XaWZpU2V0QXZpYXRpb25Db25mb3JtZWRSZXF1ZXN0');
 
 @$core.Deprecated('Use wifiSetClientGivenNameRequestDescriptor instead')
 const WifiSetClientGivenNameRequest$json = {
@@ -2869,7 +5195,14 @@ const WifiSetClientGivenNameRequest$json = {
       '8': {'3': true},
       '10': 'clientName',
     },
-    {'1': 'client_config', '3': 2, '4': 1, '5': 11, '6': '.SpaceX.API.Device.ClientConfig', '10': 'clientConfig'},
+    {
+      '1': 'client_config',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.ClientConfig',
+      '10': 'clientConfig'
+    },
   ],
 };
 
@@ -2886,8 +5219,8 @@ const WifiSelfTestRequest$json = {
 };
 
 /// Descriptor for `WifiSelfTestRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List wifiSelfTestRequestDescriptor = $convert.base64Decode(
-    'ChNXaWZpU2VsZlRlc3RSZXF1ZXN0');
+final $typed_data.Uint8List wifiSelfTestRequestDescriptor =
+    $convert.base64Decode('ChNXaWZpU2VsZlRlc3RSZXF1ZXN0');
 
 @$core.Deprecated('Use wifiCalibrationModeRequestDescriptor instead')
 const WifiCalibrationModeRequest$json = {
@@ -2895,8 +5228,8 @@ const WifiCalibrationModeRequest$json = {
 };
 
 /// Descriptor for `WifiCalibrationModeRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List wifiCalibrationModeRequestDescriptor = $convert.base64Decode(
-    'ChpXaWZpQ2FsaWJyYXRpb25Nb2RlUmVxdWVzdA==');
+final $typed_data.Uint8List wifiCalibrationModeRequestDescriptor =
+    $convert.base64Decode('ChpXaWZpQ2FsaWJyYXRpb25Nb2RlUmVxdWVzdA==');
 
 @$core.Deprecated('Use wifiGuestInfoRequestDescriptor instead')
 const WifiGuestInfoRequest$json = {
@@ -2904,8 +5237,8 @@ const WifiGuestInfoRequest$json = {
 };
 
 /// Descriptor for `WifiGuestInfoRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List wifiGuestInfoRequestDescriptor = $convert.base64Decode(
-    'ChRXaWZpR3Vlc3RJbmZvUmVxdWVzdA==');
+final $typed_data.Uint8List wifiGuestInfoRequestDescriptor =
+    $convert.base64Decode('ChRXaWZpR3Vlc3RJbmZvUmVxdWVzdA==');
 
 @$core.Deprecated('Use wifiRfTestRequestDescriptor instead')
 const WifiRfTestRequest$json = {
@@ -2914,13 +5247,25 @@ const WifiRfTestRequest$json = {
     {'1': 'num_measurements', '3': 1, '4': 1, '5': 13, '10': 'numMeasurements'},
     {'1': 'channel_2ghz', '3': 2, '4': 1, '5': 13, '10': 'channel2ghz'},
     {'1': 'channel_5ghz', '3': 3, '4': 1, '5': 13, '10': 'channel5ghz'},
-    {'1': 'channel_5ghz_high', '3': 4, '4': 1, '5': 13, '10': 'channel5ghzHigh'},
+    {
+      '1': 'channel_5ghz_high',
+      '3': 4,
+      '4': 1,
+      '5': 13,
+      '10': 'channel5ghzHigh'
+    },
     {'1': 'mcs_2ghz', '3': 5, '4': 1, '5': 13, '10': 'mcs2ghz'},
     {'1': 'mcs_5ghz', '3': 6, '4': 1, '5': 13, '10': 'mcs5ghz'},
     {'1': 'mcs_5ghz_high', '3': 7, '4': 1, '5': 13, '10': 'mcs5ghzHigh'},
     {'1': 'phy_mode_2ghz', '3': 8, '4': 1, '5': 13, '10': 'phyMode2ghz'},
     {'1': 'phy_mode_5ghz', '3': 9, '4': 1, '5': 13, '10': 'phyMode5ghz'},
-    {'1': 'phy_mode_5ghz_high', '3': 10, '4': 1, '5': 13, '10': 'phyMode5ghzHigh'},
+    {
+      '1': 'phy_mode_5ghz_high',
+      '3': 10,
+      '4': 1,
+      '5': 13,
+      '10': 'phyMode5ghzHigh'
+    },
   ],
 };
 
@@ -2940,8 +5285,8 @@ const WifiGetFirewallRequest$json = {
 };
 
 /// Descriptor for `WifiGetFirewallRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List wifiGetFirewallRequestDescriptor = $convert.base64Decode(
-    'ChZXaWZpR2V0RmlyZXdhbGxSZXF1ZXN0');
+final $typed_data.Uint8List wifiGetFirewallRequestDescriptor =
+    $convert.base64Decode('ChZXaWZpR2V0RmlyZXdhbGxSZXF1ZXN0');
 
 @$core.Deprecated('Use wifiTogglePoeNegotiationRequestDescriptor instead')
 const WifiTogglePoeNegotiationRequest$json = {
@@ -2952,17 +5297,42 @@ const WifiTogglePoeNegotiationRequest$json = {
 };
 
 /// Descriptor for `WifiTogglePoeNegotiationRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List wifiTogglePoeNegotiationRequestDescriptor = $convert.base64Decode(
-    'Ch9XaWZpVG9nZ2xlUG9lTmVnb3RpYXRpb25SZXF1ZXN0EhYKBmVuYWJsZRgBIAEoCFIGZW5hYm'
-    'xl');
+final $typed_data.Uint8List wifiTogglePoeNegotiationRequestDescriptor =
+    $convert.base64Decode(
+        'Ch9XaWZpVG9nZ2xlUG9lTmVnb3RpYXRpb25SZXF1ZXN0EhYKBmVuYWJsZRgBIAEoCFIGZW5hYm'
+        'xl');
 
 @$core.Deprecated('Use wifiFactoryTestCommandRequestDescriptor instead')
 const WifiFactoryTestCommandRequest$json = {
   '1': 'WifiFactoryTestCommandRequest',
   '2': [
-    {'1': 'iwpriv_command', '3': 1, '4': 1, '5': 11, '6': '.SpaceX.API.Device.IwprivCommand', '9': 0, '10': 'iwprivCommand'},
-    {'1': 'ip_link_set_command', '3': 2, '4': 1, '5': 11, '6': '.SpaceX.API.Device.IpLinkSetCommand', '9': 0, '10': 'ipLinkSetCommand'},
-    {'1': 'ip_addr_set_command', '3': 3, '4': 1, '5': 11, '6': '.SpaceX.API.Device.IpAddrSetCommand', '9': 0, '10': 'ipAddrSetCommand'},
+    {
+      '1': 'iwpriv_command',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.IwprivCommand',
+      '9': 0,
+      '10': 'iwprivCommand'
+    },
+    {
+      '1': 'ip_link_set_command',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.IpLinkSetCommand',
+      '9': 0,
+      '10': 'ipLinkSetCommand'
+    },
+    {
+      '1': 'ip_addr_set_command',
+      '3': 3,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.IpAddrSetCommand',
+      '9': 0,
+      '10': 'ipAddrSetCommand'
+    },
   ],
   '8': [
     {'1': 'command'},
@@ -2984,7 +5354,14 @@ const IwprivCommand$json = {
   '2': [
     {'1': 'iface', '3': 1, '4': 1, '5': 9, '10': 'iface'},
     {'1': 'arg', '3': 2, '4': 1, '5': 9, '10': 'arg'},
-    {'1': 'ioctl', '3': 3, '4': 1, '5': 14, '6': '.SpaceX.API.Device.IwprivCommand.Ioctl', '10': 'ioctl'},
+    {
+      '1': 'ioctl',
+      '3': 3,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.IwprivCommand.Ioctl',
+      '10': 'ioctl'
+    },
   ],
   '4': [IwprivCommand_Ioctl$json],
 };
@@ -3045,8 +5422,9 @@ const WifiStartLocalTelemProxyRequest$json = {
 };
 
 /// Descriptor for `WifiStartLocalTelemProxyRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List wifiStartLocalTelemProxyRequestDescriptor = $convert.base64Decode(
-    'Ch9XaWZpU3RhcnRMb2NhbFRlbGVtUHJveHlSZXF1ZXN0EhIKBHBvcnQYASABKAVSBHBvcnQ=');
+final $typed_data.Uint8List wifiStartLocalTelemProxyRequestDescriptor =
+    $convert.base64Decode(
+        'Ch9XaWZpU3RhcnRMb2NhbFRlbGVtUHJveHlSZXF1ZXN0EhIKBHBvcnQYASABKAVSBHBvcnQ=');
 
 @$core.Deprecated('Use wifiRunSelfTestRequestDescriptor instead')
 const WifiRunSelfTestRequest$json = {
@@ -3054,8 +5432,8 @@ const WifiRunSelfTestRequest$json = {
 };
 
 /// Descriptor for `WifiRunSelfTestRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List wifiRunSelfTestRequestDescriptor = $convert.base64Decode(
-    'ChZXaWZpUnVuU2VsZlRlc3RSZXF1ZXN0');
+final $typed_data.Uint8List wifiRunSelfTestRequestDescriptor =
+    $convert.base64Decode('ChZXaWZpUnVuU2VsZlRlc3RSZXF1ZXN0');
 
 @$core.Deprecated('Use wifiBackhaulStatsRequestDescriptor instead')
 const WifiBackhaulStatsRequest$json = {
@@ -3063,8 +5441,8 @@ const WifiBackhaulStatsRequest$json = {
 };
 
 /// Descriptor for `WifiBackhaulStatsRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List wifiBackhaulStatsRequestDescriptor = $convert.base64Decode(
-    'ChhXaWZpQmFja2hhdWxTdGF0c1JlcXVlc3Q=');
+final $typed_data.Uint8List wifiBackhaulStatsRequestDescriptor =
+    $convert.base64Decode('ChhXaWZpQmFja2hhdWxTdGF0c1JlcXVlc3Q=');
 
 @$core.Deprecated('Use wifiToggleUmbilicalModeRequestDescriptor instead')
 const WifiToggleUmbilicalModeRequest$json = {
@@ -3075,16 +5453,31 @@ const WifiToggleUmbilicalModeRequest$json = {
 };
 
 /// Descriptor for `WifiToggleUmbilicalModeRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List wifiToggleUmbilicalModeRequestDescriptor = $convert.base64Decode(
-    'Ch5XaWZpVG9nZ2xlVW1iaWxpY2FsTW9kZVJlcXVlc3QSFgoGZW5hYmxlGAEgASgIUgZlbmFibG'
-    'U=');
+final $typed_data.Uint8List wifiToggleUmbilicalModeRequestDescriptor =
+    $convert.base64Decode(
+        'Ch5XaWZpVG9nZ2xlVW1iaWxpY2FsTW9kZVJlcXVlc3QSFgoGZW5hYmxlGAEgASgIUgZlbmFibG'
+        'U=');
 
 @$core.Deprecated('Use wifiClientSandboxRequestDescriptor instead')
 const WifiClientSandboxRequest$json = {
   '1': 'WifiClientSandboxRequest',
   '2': [
-    {'1': 'client_sandbox_status', '3': 1, '4': 3, '5': 11, '6': '.SpaceX.API.Device.WifiClientSandboxStatus', '10': 'clientSandboxStatus'},
-    {'1': 'alerts', '3': 2, '4': 3, '5': 14, '6': '.SpaceX.API.Device.WifiClientSandboxAlert', '10': 'alerts'},
+    {
+      '1': 'client_sandbox_status',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiClientSandboxStatus',
+      '10': 'clientSandboxStatus'
+    },
+    {
+      '1': 'alerts',
+      '3': 2,
+      '4': 3,
+      '5': 14,
+      '6': '.SpaceX.API.Device.WifiClientSandboxAlert',
+      '10': 'alerts'
+    },
     {'1': 'unix_timestamp_ns', '3': 3, '4': 1, '5': 4, '10': 'unixTimestampNs'},
   ],
 };
@@ -3108,22 +5501,77 @@ const WifiClientSandboxStatus$json = {
 };
 
 /// Descriptor for `WifiClientSandboxStatus`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List wifiClientSandboxStatusDescriptor = $convert.base64Decode(
-    'ChdXaWZpQ2xpZW50U2FuZGJveFN0YXR1cxIWCgZjbGllbnQYASABKAlSBmNsaWVudBIYCgdzYW'
-    '5kYm94GAIgASgNUgdzYW5kYm94EhwKCXNhbmRib3hlZBgDIAEoCFIJc2FuZGJveGVk');
+final $typed_data.Uint8List wifiClientSandboxStatusDescriptor =
+    $convert.base64Decode(
+        'ChdXaWZpQ2xpZW50U2FuZGJveFN0YXR1cxIWCgZjbGllbnQYASABKAlSBmNsaWVudBIYCgdzYW'
+        '5kYm94GAIgASgNUgdzYW5kYm94EhwKCXNhbmRib3hlZBgDIAEoCFIJc2FuZGJveGVk');
+
+@$core.Deprecated('Use wifiRunDebugNetsysRequestDescriptor instead')
+const WifiRunDebugNetsysRequest$json = {
+  '1': 'WifiRunDebugNetsysRequest',
+};
+
+/// Descriptor for `WifiRunDebugNetsysRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List wifiRunDebugNetsysRequestDescriptor =
+    $convert.base64Decode('ChlXaWZpUnVuRGVidWdOZXRzeXNSZXF1ZXN0');
+
+@$core.Deprecated('Use wifiResetEthPhyRequestDescriptor instead')
+const WifiResetEthPhyRequest$json = {
+  '1': 'WifiResetEthPhyRequest',
+};
+
+/// Descriptor for `WifiResetEthPhyRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List wifiResetEthPhyRequestDescriptor =
+    $convert.base64Decode('ChZXaWZpUmVzZXRFdGhQaHlSZXF1ZXN0');
+
+@$core.Deprecated('Use wifiFlushHardwareNatRequestDescriptor instead')
+const WifiFlushHardwareNatRequest$json = {
+  '1': 'WifiFlushHardwareNatRequest',
+};
+
+/// Descriptor for `WifiFlushHardwareNatRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List wifiFlushHardwareNatRequestDescriptor =
+    $convert.base64Decode('ChtXaWZpRmx1c2hIYXJkd2FyZU5hdFJlcXVlc3Q=');
+
+@$core.Deprecated('Use wifiWriteCalibrationRequestDescriptor instead')
+const WifiWriteCalibrationRequest$json = {
+  '1': 'WifiWriteCalibrationRequest',
+  '2': [
+    {
+      '1': 'calibration_image',
+      '3': 1,
+      '4': 1,
+      '5': 12,
+      '10': 'calibrationImage'
+    },
+  ],
+};
+
+/// Descriptor for `WifiWriteCalibrationRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List wifiWriteCalibrationRequestDescriptor =
+    $convert.base64Decode(
+        'ChtXaWZpV3JpdGVDYWxpYnJhdGlvblJlcXVlc3QSKwoRY2FsaWJyYXRpb25faW1hZ2UYASABKA'
+        'xSEGNhbGlicmF0aW9uSW1hZ2U=');
 
 @$core.Deprecated('Use transceiverIFLoopbackTestRequestDescriptor instead')
 const TransceiverIFLoopbackTestRequest$json = {
   '1': 'TransceiverIFLoopbackTestRequest',
   '2': [
-    {'1': 'enable_if_loopback', '3': 1, '4': 1, '5': 8, '10': 'enableIfLoopback'},
+    {
+      '1': 'enable_if_loopback',
+      '3': 1,
+      '4': 1,
+      '5': 8,
+      '10': 'enableIfLoopback'
+    },
   ],
 };
 
 /// Descriptor for `TransceiverIFLoopbackTestRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List transceiverIFLoopbackTestRequestDescriptor = $convert.base64Decode(
-    'CiBUcmFuc2NlaXZlcklGTG9vcGJhY2tUZXN0UmVxdWVzdBIsChJlbmFibGVfaWZfbG9vcGJhY2'
-    'sYASABKAhSEGVuYWJsZUlmTG9vcGJhY2s=');
+final $typed_data.Uint8List transceiverIFLoopbackTestRequestDescriptor =
+    $convert.base64Decode(
+        'CiBUcmFuc2NlaXZlcklGTG9vcGJhY2tUZXN0UmVxdWVzdBIsChJlbmFibGVfaWZfbG9vcGJhY2'
+        'sYASABKAhSEGVuYWJsZUlmTG9vcGJhY2s=');
 
 @$core.Deprecated('Use transceiverGetStatusRequestDescriptor instead')
 const TransceiverGetStatusRequest$json = {
@@ -3131,8 +5579,8 @@ const TransceiverGetStatusRequest$json = {
 };
 
 /// Descriptor for `TransceiverGetStatusRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List transceiverGetStatusRequestDescriptor = $convert.base64Decode(
-    'ChtUcmFuc2NlaXZlckdldFN0YXR1c1JlcXVlc3Q=');
+final $typed_data.Uint8List transceiverGetStatusRequestDescriptor =
+    $convert.base64Decode('ChtUcmFuc2NlaXZlckdldFN0YXR1c1JlcXVlc3Q=');
 
 @$core.Deprecated('Use transceiverGetTelemetryRequestDescriptor instead')
 const TransceiverGetTelemetryRequest$json = {
@@ -3140,8 +5588,8 @@ const TransceiverGetTelemetryRequest$json = {
 };
 
 /// Descriptor for `TransceiverGetTelemetryRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List transceiverGetTelemetryRequestDescriptor = $convert.base64Decode(
-    'Ch5UcmFuc2NlaXZlckdldFRlbGVtZXRyeVJlcXVlc3Q=');
+final $typed_data.Uint8List transceiverGetTelemetryRequestDescriptor =
+    $convert.base64Decode('Ch5UcmFuc2NlaXZlckdldFRlbGVtZXRyeVJlcXVlc3Q=');
 
 @$core.Deprecated('Use startUnlockRequestDescriptor instead')
 const StartUnlockRequest$json = {
@@ -3149,8 +5597,8 @@ const StartUnlockRequest$json = {
 };
 
 /// Descriptor for `StartUnlockRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List startUnlockRequestDescriptor = $convert.base64Decode(
-    'ChJTdGFydFVubG9ja1JlcXVlc3Q=');
+final $typed_data.Uint8List startUnlockRequestDescriptor =
+    $convert.base64Decode('ChJTdGFydFVubG9ja1JlcXVlc3Q=');
 
 @$core.Deprecated('Use finishUnlockRequestDescriptor instead')
 const FinishUnlockRequest$json = {
@@ -3172,36 +5620,203 @@ const GetDiagnosticsRequest$json = {
 };
 
 /// Descriptor for `GetDiagnosticsRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List getDiagnosticsRequestDescriptor = $convert.base64Decode(
-    'ChVHZXREaWFnbm9zdGljc1JlcXVlc3Q=');
+final $typed_data.Uint8List getDiagnosticsRequestDescriptor =
+    $convert.base64Decode('ChVHZXREaWFnbm9zdGljc1JlcXVlc3Q=');
 
 @$core.Deprecated('Use responseDescriptor instead')
 const Response$json = {
   '1': 'Response',
   '2': [
     {'1': 'id', '3': 1, '4': 1, '5': 4, '10': 'id'},
-    {'1': 'status', '3': 2, '4': 1, '5': 11, '6': '.SpaceX.API.Status.Status', '10': 'status'},
+    {
+      '1': 'status',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Status.Status',
+      '10': 'status'
+    },
     {'1': 'api_version', '3': 3, '4': 1, '5': 4, '10': 'apiVersion'},
-    {'1': 'reboot', '3': 1001, '4': 1, '5': 11, '6': '.SpaceX.API.Device.RebootResponse', '9': 0, '10': 'reboot'},
-    {'1': 'speed_test', '3': 1003, '4': 1, '5': 11, '6': '.SpaceX.API.Device.SpeedTestResponse', '9': 0, '10': 'speedTest'},
-    {'1': 'get_device_info', '3': 1004, '4': 1, '5': 11, '6': '.SpaceX.API.Device.GetDeviceInfoResponse', '9': 0, '10': 'getDeviceInfo'},
-    {'1': 'get_next_id', '3': 1006, '4': 1, '5': 11, '6': '.SpaceX.API.Device.GetNextIdResponse', '9': 0, '10': 'getNextId'},
-    {'1': 'get_ping', '3': 1009, '4': 1, '5': 11, '6': '.SpaceX.API.Device.GetPingResponse', '9': 0, '10': 'getPing'},
-    {'1': 'set_trusted_keys', '3': 1010, '4': 1, '5': 11, '6': '.SpaceX.API.Device.SetTrustedKeysResponse', '9': 0, '10': 'setTrustedKeys'},
-    {'1': 'factory_reset', '3': 1011, '4': 1, '5': 11, '6': '.SpaceX.API.Device.FactoryResetResponse', '9': 0, '10': 'factoryReset'},
-    {'1': 'get_log', '3': 1012, '4': 1, '5': 11, '6': '.SpaceX.API.Device.GetLogResponse', '9': 0, '10': 'getLog'},
-    {'1': 'set_sku', '3': 1013, '4': 1, '5': 11, '6': '.SpaceX.API.Device.SetSkuResponse', '9': 0, '10': 'setSku'},
-    {'1': 'update', '3': 1014, '4': 1, '5': 11, '6': '.SpaceX.API.Device.UpdateResponse', '9': 0, '10': 'update'},
-    {'1': 'get_network_interfaces', '3': 1015, '4': 1, '5': 11, '6': '.SpaceX.API.Device.GetNetworkInterfacesResponse', '9': 0, '10': 'getNetworkInterfaces'},
-    {'1': 'ping_host', '3': 1016, '4': 1, '5': 11, '6': '.SpaceX.API.Device.PingHostResponse', '9': 0, '10': 'pingHost'},
-    {'1': 'get_location', '3': 1017, '4': 1, '5': 11, '6': '.SpaceX.API.Device.GetLocationResponse', '9': 0, '10': 'getLocation'},
-    {'1': 'get_heap_dump', '3': 1019, '4': 1, '5': 11, '6': '.SpaceX.API.Device.GetHeapDumpResponse', '9': 0, '10': 'getHeapDump'},
-    {'1': 'restart_control', '3': 1020, '4': 1, '5': 11, '6': '.SpaceX.API.Device.RestartControlResponse', '9': 0, '10': 'restartControl'},
-    {'1': 'fuse', '3': 1021, '4': 1, '5': 11, '6': '.SpaceX.API.Device.FuseResponse', '9': 0, '10': 'fuse'},
-    {'1': 'get_connections', '3': 1023, '4': 1, '5': 11, '6': '.SpaceX.API.Device.GetConnectionsResponse', '9': 0, '10': 'getConnections'},
-    {'1': 'start_speedtest', '3': 1027, '4': 1, '5': 11, '6': '.SpaceX.API.Device.StartSpeedtestResponse', '9': 0, '10': 'startSpeedtest'},
-    {'1': 'get_speedtest_status', '3': 1028, '4': 1, '5': 11, '6': '.SpaceX.API.Device.GetSpeedtestStatusResponse', '9': 0, '10': 'getSpeedtestStatus'},
-    {'1': 'report_client_speedtest', '3': 1029, '4': 1, '5': 11, '6': '.SpaceX.API.Device.ReportClientSpeedtestResponse', '9': 0, '10': 'reportClientSpeedtest'},
+    {
+      '1': 'reboot',
+      '3': 1001,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.RebootResponse',
+      '9': 0,
+      '10': 'reboot'
+    },
+    {
+      '1': 'speed_test',
+      '3': 1003,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.SpeedTestResponse',
+      '9': 0,
+      '10': 'speedTest'
+    },
+    {
+      '1': 'get_device_info',
+      '3': 1004,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.GetDeviceInfoResponse',
+      '9': 0,
+      '10': 'getDeviceInfo'
+    },
+    {
+      '1': 'get_next_id',
+      '3': 1006,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.GetNextIdResponse',
+      '9': 0,
+      '10': 'getNextId'
+    },
+    {
+      '1': 'get_ping',
+      '3': 1009,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.GetPingResponse',
+      '9': 0,
+      '10': 'getPing'
+    },
+    {
+      '1': 'set_trusted_keys',
+      '3': 1010,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.SetTrustedKeysResponse',
+      '9': 0,
+      '10': 'setTrustedKeys'
+    },
+    {
+      '1': 'factory_reset',
+      '3': 1011,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.FactoryResetResponse',
+      '9': 0,
+      '10': 'factoryReset'
+    },
+    {
+      '1': 'get_log',
+      '3': 1012,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.GetLogResponse',
+      '9': 0,
+      '10': 'getLog'
+    },
+    {
+      '1': 'set_sku',
+      '3': 1013,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.SetSkuResponse',
+      '9': 0,
+      '10': 'setSku'
+    },
+    {
+      '1': 'update',
+      '3': 1014,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.UpdateResponse',
+      '9': 0,
+      '10': 'update'
+    },
+    {
+      '1': 'get_network_interfaces',
+      '3': 1015,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.GetNetworkInterfacesResponse',
+      '9': 0,
+      '10': 'getNetworkInterfaces'
+    },
+    {
+      '1': 'ping_host',
+      '3': 1016,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.PingHostResponse',
+      '9': 0,
+      '10': 'pingHost'
+    },
+    {
+      '1': 'get_location',
+      '3': 1017,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.GetLocationResponse',
+      '9': 0,
+      '10': 'getLocation'
+    },
+    {
+      '1': 'get_heap_dump',
+      '3': 1019,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.GetHeapDumpResponse',
+      '9': 0,
+      '10': 'getHeapDump'
+    },
+    {
+      '1': 'restart_control',
+      '3': 1020,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.RestartControlResponse',
+      '9': 0,
+      '10': 'restartControl'
+    },
+    {
+      '1': 'fuse',
+      '3': 1021,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.FuseResponse',
+      '9': 0,
+      '10': 'fuse'
+    },
+    {
+      '1': 'get_connections',
+      '3': 1023,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.GetConnectionsResponse',
+      '9': 0,
+      '10': 'getConnections'
+    },
+    {
+      '1': 'start_speedtest',
+      '3': 1027,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.StartSpeedtestResponse',
+      '9': 0,
+      '10': 'startSpeedtest'
+    },
+    {
+      '1': 'get_speedtest_status',
+      '3': 1028,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.GetSpeedtestStatusResponse',
+      '9': 0,
+      '10': 'getSpeedtestStatus'
+    },
+    {
+      '1': 'report_client_speedtest',
+      '3': 1029,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.ReportClientSpeedtestResponse',
+      '9': 0,
+      '10': 'reportClientSpeedtest'
+    },
     {
       '1': 'initiate_remote_ssh',
       '3': 1030,
@@ -3212,39 +5827,339 @@ const Response$json = {
       '9': 0,
       '10': 'initiateRemoteSsh',
     },
-    {'1': 'self_test', '3': 1031, '4': 1, '5': 11, '6': '.SpaceX.API.Device.SelfTestResponse', '9': 0, '10': 'selfTest'},
-    {'1': 'set_test_mode', '3': 1032, '4': 1, '5': 11, '6': '.SpaceX.API.Device.SetTestModeResponse', '9': 0, '10': 'setTestMode'},
-    {'1': 'software_update', '3': 1033, '4': 1, '5': 11, '6': '.SpaceX.API.Device.SoftwareUpdateResponse', '9': 0, '10': 'softwareUpdate'},
-    {'1': 'enable_debug_telem', '3': 1034, '4': 1, '5': 11, '6': '.SpaceX.API.Device.EnableDebugTelemResponse', '9': 0, '10': 'enableDebugTelem'},
-    {'1': 'get_radio_stats', '3': 1035, '4': 1, '5': 11, '6': '.SpaceX.API.Device.GetRadioStatsResponse', '9': 0, '10': 'getRadioStats'},
-    {'1': 'time', '3': 1037, '4': 1, '5': 11, '6': '.SpaceX.API.Device.GetTimeResponse', '9': 0, '10': 'time'},
-    {'1': 'run_iperf_server', '3': 1038, '4': 1, '5': 11, '6': '.SpaceX.API.Device.RunIperfServerResponse', '9': 0, '10': 'runIperfServer'},
-    {'1': 'dish_stow', '3': 2002, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishStowResponse', '9': 0, '10': 'dishStow'},
-    {'1': 'dish_get_context', '3': 2003, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishGetContextResponse', '9': 0, '10': 'dishGetContext'},
-    {'1': 'dish_get_status', '3': 2004, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishGetStatusResponse', '9': 0, '10': 'dishGetStatus'},
-    {'1': 'dish_authenticate', '3': 2005, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishAuthenticateResponse', '9': 0, '10': 'dishAuthenticate'},
-    {'1': 'dish_get_history', '3': 2006, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishGetHistoryResponse', '9': 0, '10': 'dishGetHistory'},
-    {'1': 'dish_set_emc', '3': 2007, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishSetEmcResponse', '9': 0, '10': 'dishSetEmc'},
-    {'1': 'dish_get_obstruction_map', '3': 2008, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishGetObstructionMapResponse', '9': 0, '10': 'dishGetObstructionMap'},
-    {'1': 'dish_get_emc', '3': 2009, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishGetEmcResponse', '9': 0, '10': 'dishGetEmc'},
-    {'1': 'dish_set_config', '3': 2010, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishSetConfigResponse', '9': 0, '10': 'dishSetConfig'},
-    {'1': 'dish_get_config', '3': 2011, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishGetConfigResponse', '9': 0, '10': 'dishGetConfig'},
-    {'1': 'dish_inhibit_gps', '3': 2013, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishInhibitGpsResponse', '9': 0, '10': 'dishInhibitGps'},
-    {'1': 'dish_clear_obstruction_map', '3': 2015, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishClearObstructionMapResponse', '9': 0, '10': 'dishClearObstructionMap'},
-    {'1': 'dish_set_max_power_test_mode', '3': 2018, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishSetMaxPowerTestModeResponse', '9': 0, '10': 'dishSetMaxPowerTestMode'},
-    {'1': 'dish_activate_rssi_scan', '3': 2019, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishActivateRssiScanResponse', '9': 0, '10': 'dishActivateRssiScan'},
-    {'1': 'dish_get_rssi_scan_result', '3': 2020, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishGetRssiScanResultResponse', '9': 0, '10': 'dishGetRssiScanResult'},
-    {'1': 'dish_factory_reset', '3': 2021, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishFactoryResetResponse', '9': 0, '10': 'dishFactoryReset'},
-    {'1': 'reset_button', '3': 2022, '4': 1, '5': 11, '6': '.SpaceX.API.Device.ResetButtonResponse', '9': 0, '10': 'resetButton'},
-    {'1': 'wifi_set_config', '3': 3001, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiSetConfigResponse', '9': 0, '10': 'wifiSetConfig'},
-    {'1': 'wifi_get_clients', '3': 3002, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiGetClientsResponse', '9': 0, '10': 'wifiGetClients'},
-    {'1': 'wifi_setup', '3': 3003, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiSetupResponse', '9': 0, '10': 'wifiSetup'},
-    {'1': 'wifi_get_status', '3': 3004, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiGetStatusResponse', '9': 0, '10': 'wifiGetStatus'},
-    {'1': 'wifi_authenticate', '3': 3005, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiAuthenticateResponse', '9': 0, '10': 'wifiAuthenticate'},
-    {'1': 'wifi_get_history', '3': 3006, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiGetHistoryResponse', '9': 0, '10': 'wifiGetHistory'},
-    {'1': 'wifi_get_ping_metrics', '3': 3007, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiGetPingMetricsResponse', '9': 0, '10': 'wifiGetPingMetrics'},
-    {'1': 'wifi_get_config', '3': 3009, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiGetConfigResponse', '9': 0, '10': 'wifiGetConfig'},
-    {'1': 'wifi_set_mesh_device_trust', '3': 3012, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiSetMeshDeviceTrustResponse', '9': 0, '10': 'wifiSetMeshDeviceTrust'},
+    {
+      '1': 'self_test',
+      '3': 1031,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.SelfTestResponse',
+      '9': 0,
+      '10': 'selfTest'
+    },
+    {
+      '1': 'set_test_mode',
+      '3': 1032,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.SetTestModeResponse',
+      '9': 0,
+      '10': 'setTestMode'
+    },
+    {
+      '1': 'software_update',
+      '3': 1033,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.SoftwareUpdateResponse',
+      '9': 0,
+      '10': 'softwareUpdate'
+    },
+    {
+      '1': 'enable_debug_telem',
+      '3': 1034,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.EnableDebugTelemResponse',
+      '9': 0,
+      '10': 'enableDebugTelem'
+    },
+    {
+      '1': 'get_radio_stats',
+      '3': 1035,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.GetRadioStatsResponse',
+      '9': 0,
+      '10': 'getRadioStats'
+    },
+    {
+      '1': 'time',
+      '3': 1037,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.GetTimeResponse',
+      '9': 0,
+      '10': 'time'
+    },
+    {
+      '1': 'run_iperf_server',
+      '3': 1038,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.RunIperfServerResponse',
+      '9': 0,
+      '10': 'runIperfServer'
+    },
+    {
+      '1': 'get_goroutine_stack_traces',
+      '3': 1041,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.GetGoroutineStackTracesResponse',
+      '9': 0,
+      '10': 'getGoroutineStackTraces'
+    },
+    {
+      '1': 'dish_stow',
+      '3': 2002,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishStowResponse',
+      '9': 0,
+      '10': 'dishStow'
+    },
+    {
+      '1': 'dish_get_context',
+      '3': 2003,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishGetContextResponse',
+      '9': 0,
+      '10': 'dishGetContext'
+    },
+    {
+      '1': 'dish_get_status',
+      '3': 2004,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishGetStatusResponse',
+      '9': 0,
+      '10': 'dishGetStatus'
+    },
+    {
+      '1': 'dish_authenticate',
+      '3': 2005,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishAuthenticateResponse',
+      '9': 0,
+      '10': 'dishAuthenticate'
+    },
+    {
+      '1': 'dish_get_history',
+      '3': 2006,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishGetHistoryResponse',
+      '9': 0,
+      '10': 'dishGetHistory'
+    },
+    {
+      '1': 'dish_set_emc',
+      '3': 2007,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishSetEmcResponse',
+      '9': 0,
+      '10': 'dishSetEmc'
+    },
+    {
+      '1': 'dish_get_obstruction_map',
+      '3': 2008,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishGetObstructionMapResponse',
+      '9': 0,
+      '10': 'dishGetObstructionMap'
+    },
+    {
+      '1': 'dish_get_emc',
+      '3': 2009,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishGetEmcResponse',
+      '9': 0,
+      '10': 'dishGetEmc'
+    },
+    {
+      '1': 'dish_set_config',
+      '3': 2010,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishSetConfigResponse',
+      '9': 0,
+      '10': 'dishSetConfig'
+    },
+    {
+      '1': 'dish_get_config',
+      '3': 2011,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishGetConfigResponse',
+      '9': 0,
+      '10': 'dishGetConfig'
+    },
+    {
+      '1': 'dish_inhibit_gps',
+      '3': 2013,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishInhibitGpsResponse',
+      '9': 0,
+      '10': 'dishInhibitGps'
+    },
+    {
+      '1': 'dish_clear_obstruction_map',
+      '3': 2015,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishClearObstructionMapResponse',
+      '9': 0,
+      '10': 'dishClearObstructionMap'
+    },
+    {
+      '1': 'dish_set_max_power_test_mode',
+      '3': 2018,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishSetMaxPowerTestModeResponse',
+      '9': 0,
+      '10': 'dishSetMaxPowerTestMode'
+    },
+    {
+      '1': 'dish_activate_rssi_scan',
+      '3': 2019,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishActivateRssiScanResponse',
+      '9': 0,
+      '10': 'dishActivateRssiScan'
+    },
+    {
+      '1': 'dish_get_rssi_scan_result',
+      '3': 2020,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishGetRssiScanResultResponse',
+      '9': 0,
+      '10': 'dishGetRssiScanResult'
+    },
+    {
+      '1': 'dish_factory_reset',
+      '3': 2021,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishFactoryResetResponse',
+      '9': 0,
+      '10': 'dishFactoryReset'
+    },
+    {
+      '1': 'reset_button',
+      '3': 2022,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.ResetButtonResponse',
+      '9': 0,
+      '10': 'resetButton'
+    },
+    {
+      '1': 'set_per_vehicle_config',
+      '3': 2023,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.SetPerVehicleConfigResponse',
+      '9': 0,
+      '10': 'setPerVehicleConfig'
+    },
+    {
+      '1': 'dish_aviation_test',
+      '3': 2024,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishAviationTestResponse',
+      '9': 0,
+      '10': 'dishAviationTest'
+    },
+    {
+      '1': 'dish_inhibit_rf',
+      '3': 2026,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishInhibitRfResponse',
+      '9': 0,
+      '10': 'dishInhibitRf'
+    },
+    {
+      '1': 'wifi_set_config',
+      '3': 3001,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiSetConfigResponse',
+      '9': 0,
+      '10': 'wifiSetConfig'
+    },
+    {
+      '1': 'wifi_get_clients',
+      '3': 3002,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiGetClientsResponse',
+      '9': 0,
+      '10': 'wifiGetClients'
+    },
+    {
+      '1': 'wifi_setup',
+      '3': 3003,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiSetupResponse',
+      '9': 0,
+      '10': 'wifiSetup'
+    },
+    {
+      '1': 'wifi_get_status',
+      '3': 3004,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiGetStatusResponse',
+      '9': 0,
+      '10': 'wifiGetStatus'
+    },
+    {
+      '1': 'wifi_authenticate',
+      '3': 3005,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiAuthenticateResponse',
+      '9': 0,
+      '10': 'wifiAuthenticate'
+    },
+    {
+      '1': 'wifi_get_history',
+      '3': 3006,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiGetHistoryResponse',
+      '9': 0,
+      '10': 'wifiGetHistory'
+    },
+    {
+      '1': 'wifi_get_ping_metrics',
+      '3': 3007,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiGetPingMetricsResponse',
+      '9': 0,
+      '10': 'wifiGetPingMetrics'
+    },
+    {
+      '1': 'wifi_get_config',
+      '3': 3009,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiGetConfigResponse',
+      '9': 0,
+      '10': 'wifiGetConfig'
+    },
+    {
+      '1': 'wifi_set_mesh_device_trust',
+      '3': 3012,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiSetMeshDeviceTrustResponse',
+      '9': 0,
+      '10': 'wifiSetMeshDeviceTrust'
+    },
     {
       '1': 'wifi_set_mesh_config',
       '3': 3013,
@@ -3255,21 +6170,168 @@ const Response$json = {
       '9': 0,
       '10': 'wifiSetMeshConfig',
     },
-    {'1': 'wifi_get_client_history', '3': 3015, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiGetClientHistoryResponse', '9': 0, '10': 'wifiGetClientHistory'},
-    {'1': 'wifi_self_test', '3': 3016, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiSelfTestResponse', '9': 0, '10': 'wifiSelfTest'},
-    {'1': 'wifi_guest_info', '3': 3020, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiGuestInfoResponse', '9': 0, '10': 'wifiGuestInfo'},
-    {'1': 'wifi_rf_test', '3': 3021, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiRfTestResponse', '9': 0, '10': 'wifiRfTest'},
-    {'1': 'wifi_get_persistent_stats', '3': 3022, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiGetPersistentStatsResponse', '9': 0, '10': 'wifiGetPersistentStats'},
-    {'1': 'wifi_get_firewall', '3': 3024, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiGetFirewallResponse', '9': 0, '10': 'wifiGetFirewall'},
-    {'1': 'wifi_factory_test_command', '3': 3025, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiFactoryTestCommandResponse', '9': 0, '10': 'wifiFactoryTestCommand'},
-    {'1': 'wifi_backhaul_stats', '3': 3026, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiBackhaulStatsResponse', '9': 0, '10': 'wifiBackhaulStats'},
-    {'1': 'wifi_client_sandbox', '3': 3027, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiClientSandboxResponse', '9': 0, '10': 'wifiClientSandbox'},
-    {'1': 'wifi_update', '3': 3028, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiUpdateResponse', '9': 0, '10': 'wifiUpdate'},
-    {'1': 'transceiver_if_loopback_test', '3': 4001, '4': 1, '5': 11, '6': '.SpaceX.API.Device.TransceiverIFLoopbackTestResponse', '9': 0, '10': 'transceiverIfLoopbackTest'},
-    {'1': 'transceiver_get_status', '3': 4003, '4': 1, '5': 11, '6': '.SpaceX.API.Device.TransceiverGetStatusResponse', '9': 0, '10': 'transceiverGetStatus'},
-    {'1': 'transceiver_get_telemetry', '3': 4004, '4': 1, '5': 11, '6': '.SpaceX.API.Device.TransceiverGetTelemetryResponse', '9': 0, '10': 'transceiverGetTelemetry'},
-    {'1': 'wifi_get_diagnostics', '3': 6000, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiGetDiagnosticsResponse', '9': 0, '10': 'wifiGetDiagnostics'},
-    {'1': 'dish_get_diagnostics', '3': 6001, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishGetDiagnosticsResponse', '9': 0, '10': 'dishGetDiagnostics'},
+    {
+      '1': 'wifi_get_client_history',
+      '3': 3015,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiGetClientHistoryResponse',
+      '9': 0,
+      '10': 'wifiGetClientHistory'
+    },
+    {
+      '1': 'wifi_self_test',
+      '3': 3016,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiSelfTestResponse',
+      '9': 0,
+      '10': 'wifiSelfTest'
+    },
+    {
+      '1': 'wifi_guest_info',
+      '3': 3020,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiGuestInfoResponse',
+      '9': 0,
+      '10': 'wifiGuestInfo'
+    },
+    {
+      '1': 'wifi_rf_test',
+      '3': 3021,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiRfTestResponse',
+      '9': 0,
+      '10': 'wifiRfTest'
+    },
+    {
+      '1': 'wifi_get_persistent_stats',
+      '3': 3022,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiGetPersistentStatsResponse',
+      '9': 0,
+      '10': 'wifiGetPersistentStats'
+    },
+    {
+      '1': 'wifi_get_firewall',
+      '3': 3024,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiGetFirewallResponse',
+      '9': 0,
+      '10': 'wifiGetFirewall'
+    },
+    {
+      '1': 'wifi_factory_test_command',
+      '3': 3025,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiFactoryTestCommandResponse',
+      '9': 0,
+      '10': 'wifiFactoryTestCommand'
+    },
+    {
+      '1': 'wifi_backhaul_stats',
+      '3': 3026,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiBackhaulStatsResponse',
+      '9': 0,
+      '10': 'wifiBackhaulStats'
+    },
+    {
+      '1': 'wifi_client_sandbox',
+      '3': 3027,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiClientSandboxResponse',
+      '9': 0,
+      '10': 'wifiClientSandbox'
+    },
+    {
+      '1': 'wifi_update',
+      '3': 3028,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiUpdateResponse',
+      '9': 0,
+      '10': 'wifiUpdate'
+    },
+    {
+      '1': 'wifi_run_debug_netsys',
+      '3': 3029,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiRunDebugNetsysResponse',
+      '9': 0,
+      '10': 'wifiRunDebugNetsys'
+    },
+    {
+      '1': 'wifi_reset_eth_phy',
+      '3': 3030,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiResetEthPhyResponse',
+      '9': 0,
+      '10': 'wifiResetEthPhy'
+    },
+    {
+      '1': 'wifi_flush_hardware_nat',
+      '3': 3031,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiFlushHardwareNatResponse',
+      '9': 0,
+      '10': 'wifiFlushHardwareNat'
+    },
+    {
+      '1': 'transceiver_if_loopback_test',
+      '3': 4001,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.TransceiverIFLoopbackTestResponse',
+      '9': 0,
+      '10': 'transceiverIfLoopbackTest'
+    },
+    {
+      '1': 'transceiver_get_status',
+      '3': 4003,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.TransceiverGetStatusResponse',
+      '9': 0,
+      '10': 'transceiverGetStatus'
+    },
+    {
+      '1': 'transceiver_get_telemetry',
+      '3': 4004,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.TransceiverGetTelemetryResponse',
+      '9': 0,
+      '10': 'transceiverGetTelemetry'
+    },
+    {
+      '1': 'wifi_get_diagnostics',
+      '3': 6000,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiGetDiagnosticsResponse',
+      '9': 0,
+      '10': 'wifiGetDiagnostics'
+    },
+    {
+      '1': 'dish_get_diagnostics',
+      '3': 6001,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishGetDiagnosticsResponse',
+      '9': 0,
+      '10': 'dishGetDiagnostics'
+    },
   ],
   '8': [
     {'1': 'response'},
@@ -3332,80 +6394,93 @@ final $typed_data.Uint8List responseDescriptor = $convert.base64Decode(
     'FkaW9TdGF0c1Jlc3BvbnNlSABSDWdldFJhZGlvU3RhdHMSOQoEdGltZRiNCCABKAsyIi5TcGFj'
     'ZVguQVBJLkRldmljZS5HZXRUaW1lUmVzcG9uc2VIAFIEdGltZRJWChBydW5faXBlcmZfc2Vydm'
     'VyGI4IIAEoCzIpLlNwYWNlWC5BUEkuRGV2aWNlLlJ1bklwZXJmU2VydmVyUmVzcG9uc2VIAFIO'
-    'cnVuSXBlcmZTZXJ2ZXISQwoJZGlzaF9zdG93GNIPIAEoCzIjLlNwYWNlWC5BUEkuRGV2aWNlLk'
-    'Rpc2hTdG93UmVzcG9uc2VIAFIIZGlzaFN0b3cSVgoQZGlzaF9nZXRfY29udGV4dBjTDyABKAsy'
-    'KS5TcGFjZVguQVBJLkRldmljZS5EaXNoR2V0Q29udGV4dFJlc3BvbnNlSABSDmRpc2hHZXRDb2'
-    '50ZXh0ElMKD2Rpc2hfZ2V0X3N0YXR1cxjUDyABKAsyKC5TcGFjZVguQVBJLkRldmljZS5EaXNo'
-    'R2V0U3RhdHVzUmVzcG9uc2VIAFINZGlzaEdldFN0YXR1cxJbChFkaXNoX2F1dGhlbnRpY2F0ZR'
-    'jVDyABKAsyKy5TcGFjZVguQVBJLkRldmljZS5EaXNoQXV0aGVudGljYXRlUmVzcG9uc2VIAFIQ'
-    'ZGlzaEF1dGhlbnRpY2F0ZRJWChBkaXNoX2dldF9oaXN0b3J5GNYPIAEoCzIpLlNwYWNlWC5BUE'
-    'kuRGV2aWNlLkRpc2hHZXRIaXN0b3J5UmVzcG9uc2VIAFIOZGlzaEdldEhpc3RvcnkSSgoMZGlz'
-    'aF9zZXRfZW1jGNcPIAEoCzIlLlNwYWNlWC5BUEkuRGV2aWNlLkRpc2hTZXRFbWNSZXNwb25zZU'
-    'gAUgpkaXNoU2V0RW1jEmwKGGRpc2hfZ2V0X29ic3RydWN0aW9uX21hcBjYDyABKAsyMC5TcGFj'
-    'ZVguQVBJLkRldmljZS5EaXNoR2V0T2JzdHJ1Y3Rpb25NYXBSZXNwb25zZUgAUhVkaXNoR2V0T2'
-    'JzdHJ1Y3Rpb25NYXASSgoMZGlzaF9nZXRfZW1jGNkPIAEoCzIlLlNwYWNlWC5BUEkuRGV2aWNl'
-    'LkRpc2hHZXRFbWNSZXNwb25zZUgAUgpkaXNoR2V0RW1jElMKD2Rpc2hfc2V0X2NvbmZpZxjaDy'
-    'ABKAsyKC5TcGFjZVguQVBJLkRldmljZS5EaXNoU2V0Q29uZmlnUmVzcG9uc2VIAFINZGlzaFNl'
-    'dENvbmZpZxJTCg9kaXNoX2dldF9jb25maWcY2w8gASgLMiguU3BhY2VYLkFQSS5EZXZpY2UuRG'
-    'lzaEdldENvbmZpZ1Jlc3BvbnNlSABSDWRpc2hHZXRDb25maWcSVgoQZGlzaF9pbmhpYml0X2dw'
-    'cxjdDyABKAsyKS5TcGFjZVguQVBJLkRldmljZS5EaXNoSW5oaWJpdEdwc1Jlc3BvbnNlSABSDm'
-    'Rpc2hJbmhpYml0R3BzEnIKGmRpc2hfY2xlYXJfb2JzdHJ1Y3Rpb25fbWFwGN8PIAEoCzIyLlNw'
-    'YWNlWC5BUEkuRGV2aWNlLkRpc2hDbGVhck9ic3RydWN0aW9uTWFwUmVzcG9uc2VIAFIXZGlzaE'
-    'NsZWFyT2JzdHJ1Y3Rpb25NYXASdAocZGlzaF9zZXRfbWF4X3Bvd2VyX3Rlc3RfbW9kZRjiDyAB'
-    'KAsyMi5TcGFjZVguQVBJLkRldmljZS5EaXNoU2V0TWF4UG93ZXJUZXN0TW9kZVJlc3BvbnNlSA'
-    'BSF2Rpc2hTZXRNYXhQb3dlclRlc3RNb2RlEmkKF2Rpc2hfYWN0aXZhdGVfcnNzaV9zY2FuGOMP'
-    'IAEoCzIvLlNwYWNlWC5BUEkuRGV2aWNlLkRpc2hBY3RpdmF0ZVJzc2lTY2FuUmVzcG9uc2VIAF'
-    'IUZGlzaEFjdGl2YXRlUnNzaVNjYW4SbQoZZGlzaF9nZXRfcnNzaV9zY2FuX3Jlc3VsdBjkDyAB'
-    'KAsyMC5TcGFjZVguQVBJLkRldmljZS5EaXNoR2V0UnNzaVNjYW5SZXN1bHRSZXNwb25zZUgAUh'
-    'VkaXNoR2V0UnNzaVNjYW5SZXN1bHQSXAoSZGlzaF9mYWN0b3J5X3Jlc2V0GOUPIAEoCzIrLlNw'
-    'YWNlWC5BUEkuRGV2aWNlLkRpc2hGYWN0b3J5UmVzZXRSZXNwb25zZUgAUhBkaXNoRmFjdG9yeV'
-    'Jlc2V0EkwKDHJlc2V0X2J1dHRvbhjmDyABKAsyJi5TcGFjZVguQVBJLkRldmljZS5SZXNldEJ1'
-    'dHRvblJlc3BvbnNlSABSC3Jlc2V0QnV0dG9uElMKD3dpZmlfc2V0X2NvbmZpZxi5FyABKAsyKC'
-    '5TcGFjZVguQVBJLkRldmljZS5XaWZpU2V0Q29uZmlnUmVzcG9uc2VIAFINd2lmaVNldENvbmZp'
-    'ZxJWChB3aWZpX2dldF9jbGllbnRzGLoXIAEoCzIpLlNwYWNlWC5BUEkuRGV2aWNlLldpZmlHZX'
-    'RDbGllbnRzUmVzcG9uc2VIAFIOd2lmaUdldENsaWVudHMSRgoKd2lmaV9zZXR1cBi7FyABKAsy'
-    'JC5TcGFjZVguQVBJLkRldmljZS5XaWZpU2V0dXBSZXNwb25zZUgAUgl3aWZpU2V0dXASUwoPd2'
-    'lmaV9nZXRfc3RhdHVzGLwXIAEoCzIoLlNwYWNlWC5BUEkuRGV2aWNlLldpZmlHZXRTdGF0dXNS'
-    'ZXNwb25zZUgAUg13aWZpR2V0U3RhdHVzElsKEXdpZmlfYXV0aGVudGljYXRlGL0XIAEoCzIrLl'
-    'NwYWNlWC5BUEkuRGV2aWNlLldpZmlBdXRoZW50aWNhdGVSZXNwb25zZUgAUhB3aWZpQXV0aGVu'
-    'dGljYXRlElYKEHdpZmlfZ2V0X2hpc3RvcnkYvhcgASgLMikuU3BhY2VYLkFQSS5EZXZpY2UuV2'
-    'lmaUdldEhpc3RvcnlSZXNwb25zZUgAUg53aWZpR2V0SGlzdG9yeRJjChV3aWZpX2dldF9waW5n'
-    'X21ldHJpY3MYvxcgASgLMi0uU3BhY2VYLkFQSS5EZXZpY2UuV2lmaUdldFBpbmdNZXRyaWNzUm'
-    'VzcG9uc2VIAFISd2lmaUdldFBpbmdNZXRyaWNzElMKD3dpZmlfZ2V0X2NvbmZpZxjBFyABKAsy'
-    'KC5TcGFjZVguQVBJLkRldmljZS5XaWZpR2V0Q29uZmlnUmVzcG9uc2VIAFINd2lmaUdldENvbm'
-    'ZpZxJwChp3aWZpX3NldF9tZXNoX2RldmljZV90cnVzdBjEFyABKAsyMS5TcGFjZVguQVBJLkRl'
-    'dmljZS5XaWZpU2V0TWVzaERldmljZVRydXN0UmVzcG9uc2VIAFIWd2lmaVNldE1lc2hEZXZpY2'
-    'VUcnVzdBJkChR3aWZpX3NldF9tZXNoX2NvbmZpZxjFFyABKAsyLC5TcGFjZVguQVBJLkRldmlj'
-    'ZS5XaWZpU2V0TWVzaENvbmZpZ1Jlc3BvbnNlQgIYAUgAUhF3aWZpU2V0TWVzaENvbmZpZxJpCh'
-    'd3aWZpX2dldF9jbGllbnRfaGlzdG9yeRjHFyABKAsyLy5TcGFjZVguQVBJLkRldmljZS5XaWZp'
-    'R2V0Q2xpZW50SGlzdG9yeVJlc3BvbnNlSABSFHdpZmlHZXRDbGllbnRIaXN0b3J5ElAKDndpZm'
-    'lfc2VsZl90ZXN0GMgXIAEoCzInLlNwYWNlWC5BUEkuRGV2aWNlLldpZmlTZWxmVGVzdFJlc3Bv'
-    'bnNlSABSDHdpZmlTZWxmVGVzdBJTCg93aWZpX2d1ZXN0X2luZm8YzBcgASgLMiguU3BhY2VYLk'
-    'FQSS5EZXZpY2UuV2lmaUd1ZXN0SW5mb1Jlc3BvbnNlSABSDXdpZmlHdWVzdEluZm8SSgoMd2lm'
-    'aV9yZl90ZXN0GM0XIAEoCzIlLlNwYWNlWC5BUEkuRGV2aWNlLldpZmlSZlRlc3RSZXNwb25zZU'
-    'gAUgp3aWZpUmZUZXN0Em8KGXdpZmlfZ2V0X3BlcnNpc3RlbnRfc3RhdHMYzhcgASgLMjEuU3Bh'
-    'Y2VYLkFQSS5EZXZpY2UuV2lmaUdldFBlcnNpc3RlbnRTdGF0c1Jlc3BvbnNlSABSFndpZmlHZX'
-    'RQZXJzaXN0ZW50U3RhdHMSWQoRd2lmaV9nZXRfZmlyZXdhbGwY0BcgASgLMiouU3BhY2VYLkFQ'
-    'SS5EZXZpY2UuV2lmaUdldEZpcmV3YWxsUmVzcG9uc2VIAFIPd2lmaUdldEZpcmV3YWxsEm8KGX'
-    'dpZmlfZmFjdG9yeV90ZXN0X2NvbW1hbmQY0RcgASgLMjEuU3BhY2VYLkFQSS5EZXZpY2UuV2lm'
-    'aUZhY3RvcnlUZXN0Q29tbWFuZFJlc3BvbnNlSABSFndpZmlGYWN0b3J5VGVzdENvbW1hbmQSXw'
-    'oTd2lmaV9iYWNraGF1bF9zdGF0cxjSFyABKAsyLC5TcGFjZVguQVBJLkRldmljZS5XaWZpQmFj'
-    'a2hhdWxTdGF0c1Jlc3BvbnNlSABSEXdpZmlCYWNraGF1bFN0YXRzEl8KE3dpZmlfY2xpZW50X3'
-    'NhbmRib3gY0xcgASgLMiwuU3BhY2VYLkFQSS5EZXZpY2UuV2lmaUNsaWVudFNhbmRib3hSZXNw'
-    'b25zZUgAUhF3aWZpQ2xpZW50U2FuZGJveBJJCgt3aWZpX3VwZGF0ZRjUFyABKAsyJS5TcGFjZV'
-    'guQVBJLkRldmljZS5XaWZpVXBkYXRlUmVzcG9uc2VIAFIKd2lmaVVwZGF0ZRJ4Chx0cmFuc2Nl'
-    'aXZlcl9pZl9sb29wYmFja190ZXN0GKEfIAEoCzI0LlNwYWNlWC5BUEkuRGV2aWNlLlRyYW5zY2'
-    'VpdmVySUZMb29wYmFja1Rlc3RSZXNwb25zZUgAUhl0cmFuc2NlaXZlcklmTG9vcGJhY2tUZXN0'
-    'EmgKFnRyYW5zY2VpdmVyX2dldF9zdGF0dXMYox8gASgLMi8uU3BhY2VYLkFQSS5EZXZpY2UuVH'
-    'JhbnNjZWl2ZXJHZXRTdGF0dXNSZXNwb25zZUgAUhR0cmFuc2NlaXZlckdldFN0YXR1cxJxChl0'
-    'cmFuc2NlaXZlcl9nZXRfdGVsZW1ldHJ5GKQfIAEoCzIyLlNwYWNlWC5BUEkuRGV2aWNlLlRyYW'
-    '5zY2VpdmVyR2V0VGVsZW1ldHJ5UmVzcG9uc2VIAFIXdHJhbnNjZWl2ZXJHZXRUZWxlbWV0cnkS'
-    'YgoUd2lmaV9nZXRfZGlhZ25vc3RpY3MY8C4gASgLMi0uU3BhY2VYLkFQSS5EZXZpY2UuV2lmaU'
-    'dldERpYWdub3N0aWNzUmVzcG9uc2VIAFISd2lmaUdldERpYWdub3N0aWNzEmIKFGRpc2hfZ2V0'
-    'X2RpYWdub3N0aWNzGPEuIAEoCzItLlNwYWNlWC5BUEkuRGV2aWNlLkRpc2hHZXREaWFnbm9zdG'
-    'ljc1Jlc3BvbnNlSABSEmRpc2hHZXREaWFnbm9zdGljc0IKCghyZXNwb25zZUoGCPoHEPsHSgYI'
-    'gggQgwhKBgjcDxDdD0oGCN4PEN8PSgYI6Q8Q6g9KBgjAFxDBF0oGCMMXEMQXSgYIxhcQxxdKBg'
-    'iDGRCEGVIUc3RhcnRfZGlzaF9zZWxmX3Rlc3Q=');
+    'cnVuSXBlcmZTZXJ2ZXIScgoaZ2V0X2dvcm91dGluZV9zdGFja190cmFjZXMYkQggASgLMjIuU3'
+    'BhY2VYLkFQSS5EZXZpY2UuR2V0R29yb3V0aW5lU3RhY2tUcmFjZXNSZXNwb25zZUgAUhdnZXRH'
+    'b3JvdXRpbmVTdGFja1RyYWNlcxJDCglkaXNoX3N0b3cY0g8gASgLMiMuU3BhY2VYLkFQSS5EZX'
+    'ZpY2UuRGlzaFN0b3dSZXNwb25zZUgAUghkaXNoU3RvdxJWChBkaXNoX2dldF9jb250ZXh0GNMP'
+    'IAEoCzIpLlNwYWNlWC5BUEkuRGV2aWNlLkRpc2hHZXRDb250ZXh0UmVzcG9uc2VIAFIOZGlzaE'
+    'dldENvbnRleHQSUwoPZGlzaF9nZXRfc3RhdHVzGNQPIAEoCzIoLlNwYWNlWC5BUEkuRGV2aWNl'
+    'LkRpc2hHZXRTdGF0dXNSZXNwb25zZUgAUg1kaXNoR2V0U3RhdHVzElsKEWRpc2hfYXV0aGVudG'
+    'ljYXRlGNUPIAEoCzIrLlNwYWNlWC5BUEkuRGV2aWNlLkRpc2hBdXRoZW50aWNhdGVSZXNwb25z'
+    'ZUgAUhBkaXNoQXV0aGVudGljYXRlElYKEGRpc2hfZ2V0X2hpc3RvcnkY1g8gASgLMikuU3BhY2'
+    'VYLkFQSS5EZXZpY2UuRGlzaEdldEhpc3RvcnlSZXNwb25zZUgAUg5kaXNoR2V0SGlzdG9yeRJK'
+    'CgxkaXNoX3NldF9lbWMY1w8gASgLMiUuU3BhY2VYLkFQSS5EZXZpY2UuRGlzaFNldEVtY1Jlc3'
+    'BvbnNlSABSCmRpc2hTZXRFbWMSbAoYZGlzaF9nZXRfb2JzdHJ1Y3Rpb25fbWFwGNgPIAEoCzIw'
+    'LlNwYWNlWC5BUEkuRGV2aWNlLkRpc2hHZXRPYnN0cnVjdGlvbk1hcFJlc3BvbnNlSABSFWRpc2'
+    'hHZXRPYnN0cnVjdGlvbk1hcBJKCgxkaXNoX2dldF9lbWMY2Q8gASgLMiUuU3BhY2VYLkFQSS5E'
+    'ZXZpY2UuRGlzaEdldEVtY1Jlc3BvbnNlSABSCmRpc2hHZXRFbWMSUwoPZGlzaF9zZXRfY29uZm'
+    'lnGNoPIAEoCzIoLlNwYWNlWC5BUEkuRGV2aWNlLkRpc2hTZXRDb25maWdSZXNwb25zZUgAUg1k'
+    'aXNoU2V0Q29uZmlnElMKD2Rpc2hfZ2V0X2NvbmZpZxjbDyABKAsyKC5TcGFjZVguQVBJLkRldm'
+    'ljZS5EaXNoR2V0Q29uZmlnUmVzcG9uc2VIAFINZGlzaEdldENvbmZpZxJWChBkaXNoX2luaGli'
+    'aXRfZ3BzGN0PIAEoCzIpLlNwYWNlWC5BUEkuRGV2aWNlLkRpc2hJbmhpYml0R3BzUmVzcG9uc2'
+    'VIAFIOZGlzaEluaGliaXRHcHMScgoaZGlzaF9jbGVhcl9vYnN0cnVjdGlvbl9tYXAY3w8gASgL'
+    'MjIuU3BhY2VYLkFQSS5EZXZpY2UuRGlzaENsZWFyT2JzdHJ1Y3Rpb25NYXBSZXNwb25zZUgAUh'
+    'dkaXNoQ2xlYXJPYnN0cnVjdGlvbk1hcBJ0ChxkaXNoX3NldF9tYXhfcG93ZXJfdGVzdF9tb2Rl'
+    'GOIPIAEoCzIyLlNwYWNlWC5BUEkuRGV2aWNlLkRpc2hTZXRNYXhQb3dlclRlc3RNb2RlUmVzcG'
+    '9uc2VIAFIXZGlzaFNldE1heFBvd2VyVGVzdE1vZGUSaQoXZGlzaF9hY3RpdmF0ZV9yc3NpX3Nj'
+    'YW4Y4w8gASgLMi8uU3BhY2VYLkFQSS5EZXZpY2UuRGlzaEFjdGl2YXRlUnNzaVNjYW5SZXNwb2'
+    '5zZUgAUhRkaXNoQWN0aXZhdGVSc3NpU2NhbhJtChlkaXNoX2dldF9yc3NpX3NjYW5fcmVzdWx0'
+    'GOQPIAEoCzIwLlNwYWNlWC5BUEkuRGV2aWNlLkRpc2hHZXRSc3NpU2NhblJlc3VsdFJlc3Bvbn'
+    'NlSABSFWRpc2hHZXRSc3NpU2NhblJlc3VsdBJcChJkaXNoX2ZhY3RvcnlfcmVzZXQY5Q8gASgL'
+    'MisuU3BhY2VYLkFQSS5EZXZpY2UuRGlzaEZhY3RvcnlSZXNldFJlc3BvbnNlSABSEGRpc2hGYW'
+    'N0b3J5UmVzZXQSTAoMcmVzZXRfYnV0dG9uGOYPIAEoCzImLlNwYWNlWC5BUEkuRGV2aWNlLlJl'
+    'c2V0QnV0dG9uUmVzcG9uc2VIAFILcmVzZXRCdXR0b24SZgoWc2V0X3Blcl92ZWhpY2xlX2Nvbm'
+    'ZpZxjnDyABKAsyLi5TcGFjZVguQVBJLkRldmljZS5TZXRQZXJWZWhpY2xlQ29uZmlnUmVzcG9u'
+    'c2VIAFITc2V0UGVyVmVoaWNsZUNvbmZpZxJcChJkaXNoX2F2aWF0aW9uX3Rlc3QY6A8gASgLMi'
+    'suU3BhY2VYLkFQSS5EZXZpY2UuRGlzaEF2aWF0aW9uVGVzdFJlc3BvbnNlSABSEGRpc2hBdmlh'
+    'dGlvblRlc3QSUwoPZGlzaF9pbmhpYml0X3JmGOoPIAEoCzIoLlNwYWNlWC5BUEkuRGV2aWNlLk'
+    'Rpc2hJbmhpYml0UmZSZXNwb25zZUgAUg1kaXNoSW5oaWJpdFJmElMKD3dpZmlfc2V0X2NvbmZp'
+    'Zxi5FyABKAsyKC5TcGFjZVguQVBJLkRldmljZS5XaWZpU2V0Q29uZmlnUmVzcG9uc2VIAFINd2'
+    'lmaVNldENvbmZpZxJWChB3aWZpX2dldF9jbGllbnRzGLoXIAEoCzIpLlNwYWNlWC5BUEkuRGV2'
+    'aWNlLldpZmlHZXRDbGllbnRzUmVzcG9uc2VIAFIOd2lmaUdldENsaWVudHMSRgoKd2lmaV9zZX'
+    'R1cBi7FyABKAsyJC5TcGFjZVguQVBJLkRldmljZS5XaWZpU2V0dXBSZXNwb25zZUgAUgl3aWZp'
+    'U2V0dXASUwoPd2lmaV9nZXRfc3RhdHVzGLwXIAEoCzIoLlNwYWNlWC5BUEkuRGV2aWNlLldpZm'
+    'lHZXRTdGF0dXNSZXNwb25zZUgAUg13aWZpR2V0U3RhdHVzElsKEXdpZmlfYXV0aGVudGljYXRl'
+    'GL0XIAEoCzIrLlNwYWNlWC5BUEkuRGV2aWNlLldpZmlBdXRoZW50aWNhdGVSZXNwb25zZUgAUh'
+    'B3aWZpQXV0aGVudGljYXRlElYKEHdpZmlfZ2V0X2hpc3RvcnkYvhcgASgLMikuU3BhY2VYLkFQ'
+    'SS5EZXZpY2UuV2lmaUdldEhpc3RvcnlSZXNwb25zZUgAUg53aWZpR2V0SGlzdG9yeRJjChV3aW'
+    'ZpX2dldF9waW5nX21ldHJpY3MYvxcgASgLMi0uU3BhY2VYLkFQSS5EZXZpY2UuV2lmaUdldFBp'
+    'bmdNZXRyaWNzUmVzcG9uc2VIAFISd2lmaUdldFBpbmdNZXRyaWNzElMKD3dpZmlfZ2V0X2Nvbm'
+    'ZpZxjBFyABKAsyKC5TcGFjZVguQVBJLkRldmljZS5XaWZpR2V0Q29uZmlnUmVzcG9uc2VIAFIN'
+    'd2lmaUdldENvbmZpZxJwChp3aWZpX3NldF9tZXNoX2RldmljZV90cnVzdBjEFyABKAsyMS5TcG'
+    'FjZVguQVBJLkRldmljZS5XaWZpU2V0TWVzaERldmljZVRydXN0UmVzcG9uc2VIAFIWd2lmaVNl'
+    'dE1lc2hEZXZpY2VUcnVzdBJkChR3aWZpX3NldF9tZXNoX2NvbmZpZxjFFyABKAsyLC5TcGFjZV'
+    'guQVBJLkRldmljZS5XaWZpU2V0TWVzaENvbmZpZ1Jlc3BvbnNlQgIYAUgAUhF3aWZpU2V0TWVz'
+    'aENvbmZpZxJpChd3aWZpX2dldF9jbGllbnRfaGlzdG9yeRjHFyABKAsyLy5TcGFjZVguQVBJLk'
+    'RldmljZS5XaWZpR2V0Q2xpZW50SGlzdG9yeVJlc3BvbnNlSABSFHdpZmlHZXRDbGllbnRIaXN0'
+    'b3J5ElAKDndpZmlfc2VsZl90ZXN0GMgXIAEoCzInLlNwYWNlWC5BUEkuRGV2aWNlLldpZmlTZW'
+    'xmVGVzdFJlc3BvbnNlSABSDHdpZmlTZWxmVGVzdBJTCg93aWZpX2d1ZXN0X2luZm8YzBcgASgL'
+    'MiguU3BhY2VYLkFQSS5EZXZpY2UuV2lmaUd1ZXN0SW5mb1Jlc3BvbnNlSABSDXdpZmlHdWVzdE'
+    'luZm8SSgoMd2lmaV9yZl90ZXN0GM0XIAEoCzIlLlNwYWNlWC5BUEkuRGV2aWNlLldpZmlSZlRl'
+    'c3RSZXNwb25zZUgAUgp3aWZpUmZUZXN0Em8KGXdpZmlfZ2V0X3BlcnNpc3RlbnRfc3RhdHMYzh'
+    'cgASgLMjEuU3BhY2VYLkFQSS5EZXZpY2UuV2lmaUdldFBlcnNpc3RlbnRTdGF0c1Jlc3BvbnNl'
+    'SABSFndpZmlHZXRQZXJzaXN0ZW50U3RhdHMSWQoRd2lmaV9nZXRfZmlyZXdhbGwY0BcgASgLMi'
+    'ouU3BhY2VYLkFQSS5EZXZpY2UuV2lmaUdldEZpcmV3YWxsUmVzcG9uc2VIAFIPd2lmaUdldEZp'
+    'cmV3YWxsEm8KGXdpZmlfZmFjdG9yeV90ZXN0X2NvbW1hbmQY0RcgASgLMjEuU3BhY2VYLkFQSS'
+    '5EZXZpY2UuV2lmaUZhY3RvcnlUZXN0Q29tbWFuZFJlc3BvbnNlSABSFndpZmlGYWN0b3J5VGVz'
+    'dENvbW1hbmQSXwoTd2lmaV9iYWNraGF1bF9zdGF0cxjSFyABKAsyLC5TcGFjZVguQVBJLkRldm'
+    'ljZS5XaWZpQmFja2hhdWxTdGF0c1Jlc3BvbnNlSABSEXdpZmlCYWNraGF1bFN0YXRzEl8KE3dp'
+    'ZmlfY2xpZW50X3NhbmRib3gY0xcgASgLMiwuU3BhY2VYLkFQSS5EZXZpY2UuV2lmaUNsaWVudF'
+    'NhbmRib3hSZXNwb25zZUgAUhF3aWZpQ2xpZW50U2FuZGJveBJJCgt3aWZpX3VwZGF0ZRjUFyAB'
+    'KAsyJS5TcGFjZVguQVBJLkRldmljZS5XaWZpVXBkYXRlUmVzcG9uc2VIAFIKd2lmaVVwZGF0ZR'
+    'JjChV3aWZpX3J1bl9kZWJ1Z19uZXRzeXMY1RcgASgLMi0uU3BhY2VYLkFQSS5EZXZpY2UuV2lm'
+    'aVJ1bkRlYnVnTmV0c3lzUmVzcG9uc2VIAFISd2lmaVJ1bkRlYnVnTmV0c3lzEloKEndpZmlfcm'
+    'VzZXRfZXRoX3BoeRjWFyABKAsyKi5TcGFjZVguQVBJLkRldmljZS5XaWZpUmVzZXRFdGhQaHlS'
+    'ZXNwb25zZUgAUg93aWZpUmVzZXRFdGhQaHkSaQoXd2lmaV9mbHVzaF9oYXJkd2FyZV9uYXQY1x'
+    'cgASgLMi8uU3BhY2VYLkFQSS5EZXZpY2UuV2lmaUZsdXNoSGFyZHdhcmVOYXRSZXNwb25zZUgA'
+    'UhR3aWZpRmx1c2hIYXJkd2FyZU5hdBJ4Chx0cmFuc2NlaXZlcl9pZl9sb29wYmFja190ZXN0GK'
+    'EfIAEoCzI0LlNwYWNlWC5BUEkuRGV2aWNlLlRyYW5zY2VpdmVySUZMb29wYmFja1Rlc3RSZXNw'
+    'b25zZUgAUhl0cmFuc2NlaXZlcklmTG9vcGJhY2tUZXN0EmgKFnRyYW5zY2VpdmVyX2dldF9zdG'
+    'F0dXMYox8gASgLMi8uU3BhY2VYLkFQSS5EZXZpY2UuVHJhbnNjZWl2ZXJHZXRTdGF0dXNSZXNw'
+    'b25zZUgAUhR0cmFuc2NlaXZlckdldFN0YXR1cxJxChl0cmFuc2NlaXZlcl9nZXRfdGVsZW1ldH'
+    'J5GKQfIAEoCzIyLlNwYWNlWC5BUEkuRGV2aWNlLlRyYW5zY2VpdmVyR2V0VGVsZW1ldHJ5UmVz'
+    'cG9uc2VIAFIXdHJhbnNjZWl2ZXJHZXRUZWxlbWV0cnkSYgoUd2lmaV9nZXRfZGlhZ25vc3RpY3'
+    'MY8C4gASgLMi0uU3BhY2VYLkFQSS5EZXZpY2UuV2lmaUdldERpYWdub3N0aWNzUmVzcG9uc2VI'
+    'AFISd2lmaUdldERpYWdub3N0aWNzEmIKFGRpc2hfZ2V0X2RpYWdub3N0aWNzGPEuIAEoCzItLl'
+    'NwYWNlWC5BUEkuRGV2aWNlLkRpc2hHZXREaWFnbm9zdGljc1Jlc3BvbnNlSABSEmRpc2hHZXRE'
+    'aWFnbm9zdGljc0IKCghyZXNwb25zZUoGCPoHEPsHSgYIgggQgwhKBgjcDxDdD0oGCN4PEN8PSg'
+    'YI6Q8Q6g9KBgjAFxDBF0oGCMMXEMQXSgYIxhcQxxdKBgiDGRCEGVIUc3RhcnRfZGlzaF9zZWxm'
+    'X3Rlc3Q=');
 
 @$core.Deprecated('Use statusDescriptor instead')
 const Status$json = {
@@ -3426,8 +6501,8 @@ const RebootResponse$json = {
 };
 
 /// Descriptor for `RebootResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List rebootResponseDescriptor = $convert.base64Decode(
-    'Cg5SZWJvb3RSZXNwb25zZQ==');
+final $typed_data.Uint8List rebootResponseDescriptor =
+    $convert.base64Decode('Cg5SZWJvb3RSZXNwb25zZQ==');
 
 @$core.Deprecated('Use speedTestResponseDescriptor instead')
 const SpeedTestResponse$json = {
@@ -3481,15 +6556,70 @@ const SpeedTestResponse$json = {
       '8': {'3': true},
       '10': 'latencyMs',
     },
-    {'1': 'download_mbps_1_tcp_conn', '3': 7, '4': 1, '5': 2, '10': 'downloadMbps1TcpConn'},
-    {'1': 'upload_mbps_1_tcp_conn', '3': 8, '4': 1, '5': 2, '10': 'uploadMbps1TcpConn'},
-    {'1': 'download_mbps_4_tcp_conn', '3': 9, '4': 1, '5': 2, '10': 'downloadMbps4TcpConn'},
-    {'1': 'upload_mbps_4_tcp_conn', '3': 10, '4': 1, '5': 2, '10': 'uploadMbps4TcpConn'},
-    {'1': 'download_mbps_16_tcp_conn', '3': 11, '4': 1, '5': 2, '10': 'downloadMbps16TcpConn'},
-    {'1': 'upload_mbps_16_tcp_conn', '3': 12, '4': 1, '5': 2, '10': 'uploadMbps16TcpConn'},
-    {'1': 'download_mbps_64_tcp_conn', '3': 13, '4': 1, '5': 2, '10': 'downloadMbps64TcpConn'},
-    {'1': 'upload_mbps_64_tcp_conn', '3': 14, '4': 1, '5': 2, '10': 'uploadMbps64TcpConn'},
-    {'1': 'router_speedtest', '3': 15, '4': 1, '5': 11, '6': '.SpaceX.API.Device.SpeedTestStats', '10': 'routerSpeedtest'},
+    {
+      '1': 'download_mbps_1_tcp_conn',
+      '3': 7,
+      '4': 1,
+      '5': 2,
+      '10': 'downloadMbps1TcpConn'
+    },
+    {
+      '1': 'upload_mbps_1_tcp_conn',
+      '3': 8,
+      '4': 1,
+      '5': 2,
+      '10': 'uploadMbps1TcpConn'
+    },
+    {
+      '1': 'download_mbps_4_tcp_conn',
+      '3': 9,
+      '4': 1,
+      '5': 2,
+      '10': 'downloadMbps4TcpConn'
+    },
+    {
+      '1': 'upload_mbps_4_tcp_conn',
+      '3': 10,
+      '4': 1,
+      '5': 2,
+      '10': 'uploadMbps4TcpConn'
+    },
+    {
+      '1': 'download_mbps_16_tcp_conn',
+      '3': 11,
+      '4': 1,
+      '5': 2,
+      '10': 'downloadMbps16TcpConn'
+    },
+    {
+      '1': 'upload_mbps_16_tcp_conn',
+      '3': 12,
+      '4': 1,
+      '5': 2,
+      '10': 'uploadMbps16TcpConn'
+    },
+    {
+      '1': 'download_mbps_64_tcp_conn',
+      '3': 13,
+      '4': 1,
+      '5': 2,
+      '10': 'downloadMbps64TcpConn'
+    },
+    {
+      '1': 'upload_mbps_64_tcp_conn',
+      '3': 14,
+      '4': 1,
+      '5': 2,
+      '10': 'uploadMbps64TcpConn'
+    },
+    {
+      '1': 'router_speedtest',
+      '3': 15,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.SpeedTestStats',
+      '10': 'routerSpeedtest'
+    },
   ],
 };
 
@@ -3514,7 +6644,14 @@ final $typed_data.Uint8List speedTestResponseDescriptor = $convert.base64Decode(
 const GetDeviceInfoResponse$json = {
   '1': 'GetDeviceInfoResponse',
   '2': [
-    {'1': 'device_info', '3': 1, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DeviceInfo', '10': 'deviceInfo'},
+    {
+      '1': 'device_info',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DeviceInfo',
+      '10': 'deviceInfo'
+    },
   ],
 };
 
@@ -3532,17 +6669,48 @@ const DeviceInfo$json = {
     {'1': 'software_version', '3': 3, '4': 1, '5': 9, '10': 'softwareVersion'},
     {'1': 'country_code', '3': 4, '4': 1, '5': 9, '10': 'countryCode'},
     {'1': 'utc_offset_s', '3': 5, '4': 1, '5': 5, '10': 'utcOffsetS'},
-    {'1': 'software_partitions_equal', '3': 6, '4': 1, '5': 8, '10': 'softwarePartitionsEqual'},
+    {
+      '1': 'software_partitions_equal',
+      '3': 6,
+      '4': 1,
+      '5': 8,
+      '10': 'softwarePartitionsEqual'
+    },
     {'1': 'is_dev', '3': 7, '4': 1, '5': 8, '10': 'isDev'},
     {'1': 'bootcount', '3': 8, '4': 1, '5': 5, '10': 'bootcount'},
-    {'1': 'anti_rollback_version', '3': 9, '4': 1, '5': 5, '10': 'antiRollbackVersion'},
+    {
+      '1': 'anti_rollback_version',
+      '3': 9,
+      '4': 1,
+      '5': 5,
+      '10': 'antiRollbackVersion'
+    },
     {'1': 'is_hitl', '3': 10, '4': 1, '5': 8, '10': 'isHitl'},
-    {'1': 'manufactured_version', '3': 11, '4': 1, '5': 9, '10': 'manufacturedVersion'},
-    {'1': 'generation_number', '3': 12, '4': 1, '5': 3, '10': 'generationNumber'},
+    {
+      '1': 'manufactured_version',
+      '3': 11,
+      '4': 1,
+      '5': 9,
+      '10': 'manufacturedVersion'
+    },
+    {
+      '1': 'generation_number',
+      '3': 12,
+      '4': 1,
+      '5': 3,
+      '10': 'generationNumber'
+    },
     {'1': 'dish_cohoused', '3': 13, '4': 1, '5': 8, '10': 'dishCohoused'},
     {'1': 'board_rev', '3': 14, '4': 1, '5': 5, '10': 'boardRev'},
     {'1': 'build_id', '3': 15, '4': 1, '5': 9, '10': 'buildId'},
-    {'1': 'boot', '3': 1001, '4': 1, '5': 11, '6': '.SpaceX.API.Device.BootInfo', '10': 'boot'},
+    {
+      '1': 'boot',
+      '3': 1001,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.BootInfo',
+      '10': 'boot'
+    },
   ],
 };
 
@@ -3579,7 +6747,14 @@ final $typed_data.Uint8List getNextIdResponseDescriptor = $convert.base64Decode(
 const GetPingResponse$json = {
   '1': 'GetPingResponse',
   '2': [
-    {'1': 'results', '3': 1, '4': 3, '5': 11, '6': '.SpaceX.API.Device.GetPingResponse.ResultsEntry', '10': 'results'},
+    {
+      '1': 'results',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.SpaceX.API.Device.GetPingResponse.ResultsEntry',
+      '10': 'results'
+    },
   ],
   '3': [GetPingResponse_ResultsEntry$json],
 };
@@ -3589,7 +6764,14 @@ const GetPingResponse_ResultsEntry$json = {
   '1': 'ResultsEntry',
   '2': [
     {'1': 'key', '3': 1, '4': 1, '5': 9, '10': 'key'},
-    {'1': 'value', '3': 2, '4': 1, '5': 11, '6': '.SpaceX.API.Device.PingResult', '10': 'value'},
+    {
+      '1': 'value',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.PingResult',
+      '10': 'value'
+    },
   ],
   '7': {'7': true},
 };
@@ -3607,7 +6789,14 @@ const PingResult$json = {
   '2': [
     {'1': 'dropRate', '3': 1, '4': 1, '5': 2, '10': 'dropRate'},
     {'1': 'latencyMs', '3': 2, '4': 1, '5': 2, '10': 'latencyMs'},
-    {'1': 'target', '3': 3, '4': 1, '5': 11, '6': '.SpaceX.API.Device.PingTarget', '10': 'target'},
+    {
+      '1': 'target',
+      '3': 3,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.PingTarget',
+      '10': 'target'
+    },
   ],
 };
 
@@ -3638,8 +6827,8 @@ const SetTrustedKeysResponse$json = {
 };
 
 /// Descriptor for `SetTrustedKeysResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List setTrustedKeysResponseDescriptor = $convert.base64Decode(
-    'ChZTZXRUcnVzdGVkS2V5c1Jlc3BvbnNl');
+final $typed_data.Uint8List setTrustedKeysResponseDescriptor =
+    $convert.base64Decode('ChZTZXRUcnVzdGVkS2V5c1Jlc3BvbnNl');
 
 @$core.Deprecated('Use factoryResetResponseDescriptor instead')
 const FactoryResetResponse$json = {
@@ -3647,8 +6836,8 @@ const FactoryResetResponse$json = {
 };
 
 /// Descriptor for `FactoryResetResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List factoryResetResponseDescriptor = $convert.base64Decode(
-    'ChRGYWN0b3J5UmVzZXRSZXNwb25zZQ==');
+final $typed_data.Uint8List factoryResetResponseDescriptor =
+    $convert.base64Decode('ChRGYWN0b3J5UmVzZXRSZXNwb25zZQ==');
 
 @$core.Deprecated('Use getLogResponseDescriptor instead')
 const GetLogResponse$json = {
@@ -3678,8 +6867,22 @@ const GetLogResponse$json = {
       '8': {'3': true},
       '10': 'persistentLog',
     },
-    {'1': 'current', '3': 4, '4': 1, '5': 11, '6': '.SpaceX.API.Device.GetLogResponse.Logs', '10': 'current'},
-    {'1': 'saved', '3': 5, '4': 1, '5': 11, '6': '.SpaceX.API.Device.GetLogResponse.Logs', '10': 'saved'},
+    {
+      '1': 'current',
+      '3': 4,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.GetLogResponse.Logs',
+      '10': 'current'
+    },
+    {
+      '1': 'saved',
+      '3': 5,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.GetLogResponse.Logs',
+      '10': 'saved'
+    },
   ],
   '3': [GetLogResponse_Logs$json],
 };
@@ -3700,7 +6903,14 @@ const GetLogResponse_Logs$json = {
       '10': 'mtkEthProcs',
     },
     {'1': 'debug_netsys_0sec', '3': 5, '4': 1, '5': 9, '10': 'debugNetsys0sec'},
-    {'1': 'debug_netsys_2sec', '3': 6, '4': 1, '5': 9, '10': 'debugNetsys2sec'},
+    {
+      '1': 'debug_netsys_2sec',
+      '3': 6,
+      '4': 1,
+      '5': 9,
+      '8': {'3': true},
+      '10': 'debugNetsys2sec',
+    },
   ],
 };
 
@@ -3710,11 +6920,11 @@ final $typed_data.Uint8List getLogResponseDescriptor = $convert.base64Decode(
     '9sb2cYAiABKAlCAhgBUgpvZmZsaW5lTG9nEikKDnBlcnNpc3RlbnRfbG9nGAMgASgJQgIYAVIN'
     'cGVyc2lzdGVudExvZxJACgdjdXJyZW50GAQgASgLMiYuU3BhY2VYLkFQSS5EZXZpY2UuR2V0TG'
     '9nUmVzcG9uc2UuTG9nc1IHY3VycmVudBI8CgVzYXZlZBgFIAEoCzImLlNwYWNlWC5BUEkuRGV2'
-    'aWNlLkdldExvZ1Jlc3BvbnNlLkxvZ3NSBXNhdmVkGtcBCgRMb2dzEhYKBnN5c2xvZxgBIAEoCV'
+    'aWNlLkdldExvZ1Jlc3BvbnNlLkxvZ3NSBXNhdmVkGtsBCgRMb2dzEhYKBnN5c2xvZxgBIAEoCV'
     'IGc3lzbG9nEhQKBWRtZXNnGAIgASgJUgVkbWVzZxIhCgxrZXJuZWxfcGFuaWMYAyABKAlSC2tl'
     'cm5lbFBhbmljEiYKDW10a19ldGhfcHJvY3MYBCABKAlCAhgBUgttdGtFdGhQcm9jcxIqChFkZW'
-    'J1Z19uZXRzeXNfMHNlYxgFIAEoCVIPZGVidWdOZXRzeXMwc2VjEioKEWRlYnVnX25ldHN5c18y'
-    'c2VjGAYgASgJUg9kZWJ1Z05ldHN5czJzZWM=');
+    'J1Z19uZXRzeXNfMHNlYxgFIAEoCVIPZGVidWdOZXRzeXMwc2VjEi4KEWRlYnVnX25ldHN5c18y'
+    'c2VjGAYgASgJQgIYAVIPZGVidWdOZXRzeXMyc2Vj');
 
 @$core.Deprecated('Use setSkuResponseDescriptor instead')
 const SetSkuResponse$json = {
@@ -3722,8 +6932,8 @@ const SetSkuResponse$json = {
 };
 
 /// Descriptor for `SetSkuResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List setSkuResponseDescriptor = $convert.base64Decode(
-    'Cg5TZXRTa3VSZXNwb25zZQ==');
+final $typed_data.Uint8List setSkuResponseDescriptor =
+    $convert.base64Decode('Cg5TZXRTa3VSZXNwb25zZQ==');
 
 @$core.Deprecated('Use updateResponseDescriptor instead')
 const UpdateResponse$json = {
@@ -3731,37 +6941,83 @@ const UpdateResponse$json = {
 };
 
 /// Descriptor for `UpdateResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List updateResponseDescriptor = $convert.base64Decode(
-    'Cg5VcGRhdGVSZXNwb25zZQ==');
+final $typed_data.Uint8List updateResponseDescriptor =
+    $convert.base64Decode('Cg5VcGRhdGVSZXNwb25zZQ==');
 
 @$core.Deprecated('Use getNetworkInterfacesResponseDescriptor instead')
 const GetNetworkInterfacesResponse$json = {
   '1': 'GetNetworkInterfacesResponse',
   '2': [
-    {'1': 'network_interfaces', '3': 1006, '4': 3, '5': 11, '6': '.SpaceX.API.Device.NetworkInterface', '10': 'networkInterfaces'},
+    {
+      '1': 'network_interfaces',
+      '3': 1006,
+      '4': 3,
+      '5': 11,
+      '6': '.SpaceX.API.Device.NetworkInterface',
+      '10': 'networkInterfaces'
+    },
   ],
 };
 
 /// Descriptor for `GetNetworkInterfacesResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List getNetworkInterfacesResponseDescriptor = $convert.base64Decode(
-    'ChxHZXROZXR3b3JrSW50ZXJmYWNlc1Jlc3BvbnNlElMKEm5ldHdvcmtfaW50ZXJmYWNlcxjuBy'
-    'ADKAsyIy5TcGFjZVguQVBJLkRldmljZS5OZXR3b3JrSW50ZXJmYWNlUhFuZXR3b3JrSW50ZXJm'
-    'YWNlcw==');
+final $typed_data.Uint8List getNetworkInterfacesResponseDescriptor =
+    $convert.base64Decode(
+        'ChxHZXROZXR3b3JrSW50ZXJmYWNlc1Jlc3BvbnNlElMKEm5ldHdvcmtfaW50ZXJmYWNlcxjuBy'
+        'ADKAsyIy5TcGFjZVguQVBJLkRldmljZS5OZXR3b3JrSW50ZXJmYWNlUhFuZXR3b3JrSW50ZXJm'
+        'YWNlcw==');
 
 @$core.Deprecated('Use networkInterfaceDescriptor instead')
 const NetworkInterface$json = {
   '1': 'NetworkInterface',
   '2': [
     {'1': 'name', '3': 1, '4': 1, '5': 9, '10': 'name'},
-    {'1': 'rx_stats', '3': 2, '4': 1, '5': 11, '6': '.SpaceX.API.Device.NetworkInterface.RxStats', '10': 'rxStats'},
-    {'1': 'tx_stats', '3': 3, '4': 1, '5': 11, '6': '.SpaceX.API.Device.NetworkInterface.TxStats', '10': 'txStats'},
+    {
+      '1': 'rx_stats',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.NetworkInterface.RxStats',
+      '10': 'rxStats'
+    },
+    {
+      '1': 'tx_stats',
+      '3': 3,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.NetworkInterface.TxStats',
+      '10': 'txStats'
+    },
     {'1': 'up', '3': 4, '4': 1, '5': 8, '10': 'up'},
     {'1': 'mac_address', '3': 5, '4': 1, '5': 9, '10': 'macAddress'},
     {'1': 'ipv4_addresses', '3': 6, '4': 3, '5': 9, '10': 'ipv4Addresses'},
     {'1': 'ipv6_addresses', '3': 7, '4': 3, '5': 9, '10': 'ipv6Addresses'},
-    {'1': 'ethernet', '3': 1000, '4': 1, '5': 11, '6': '.SpaceX.API.Device.EthernetNetworkInterface', '9': 0, '10': 'ethernet'},
-    {'1': 'wifi', '3': 1001, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiNetworkInterface', '9': 0, '10': 'wifi'},
-    {'1': 'bridge', '3': 1002, '4': 1, '5': 11, '6': '.SpaceX.API.Device.BridgeNetworkInterface', '9': 0, '10': 'bridge'},
+    {
+      '1': 'ethernet',
+      '3': 1000,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.EthernetNetworkInterface',
+      '9': 0,
+      '10': 'ethernet'
+    },
+    {
+      '1': 'wifi',
+      '3': 1001,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiNetworkInterface',
+      '9': 0,
+      '10': 'wifi'
+    },
+    {
+      '1': 'bridge',
+      '3': 1002,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.BridgeNetworkInterface',
+      '9': 0,
+      '10': 'bridge'
+    },
   ],
   '3': [NetworkInterface_RxStats$json, NetworkInterface_TxStats$json],
   '8': [
@@ -3810,8 +7066,21 @@ const EthernetNetworkInterface$json = {
   '2': [
     {'1': 'link_detected', '3': 1, '4': 1, '5': 8, '10': 'linkDetected'},
     {'1': 'speed_mbps', '3': 2, '4': 1, '5': 13, '10': 'speedMbps'},
-    {'1': 'autonegotiation_on', '3': 3, '4': 1, '5': 8, '10': 'autonegotiationOn'},
-    {'1': 'duplex', '3': 4, '4': 1, '5': 14, '6': '.SpaceX.API.Device.EthernetNetworkInterface.Duplex', '10': 'duplex'},
+    {
+      '1': 'autonegotiation_on',
+      '3': 3,
+      '4': 1,
+      '5': 8,
+      '10': 'autonegotiationOn'
+    },
+    {
+      '1': 'duplex',
+      '3': 4,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.EthernetNetworkInterface.Duplex',
+      '10': 'duplex'
+    },
   ],
   '4': [EthernetNetworkInterface_Duplex$json],
 };
@@ -3838,7 +7107,14 @@ final $typed_data.Uint8List ethernetNetworkInterfaceDescriptor = $convert.base64
 const WifiNetworkInterface$json = {
   '1': 'WifiNetworkInterface',
   '2': [
-    {'1': 'invalid_packet_counts', '3': 2, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiNetworkInterface.InvalidPacketCounts', '10': 'invalidPacketCounts'},
+    {
+      '1': 'invalid_packet_counts',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiNetworkInterface.InvalidPacketCounts',
+      '10': 'invalidPacketCounts'
+    },
     {'1': 'channel', '3': 3, '4': 1, '5': 13, '10': 'channel'},
     {'1': 'link_quality', '3': 4, '4': 1, '5': 1, '10': 'linkQuality'},
     {'1': 'signal_level', '3': 5, '4': 1, '5': 1, '10': 'signalLevel'},
@@ -3861,7 +7137,13 @@ const WifiNetworkInterface_InvalidPacketCounts$json = {
     {'1': 'rx_invalid_nwid', '3': 1, '4': 1, '5': 13, '10': 'rxInvalidNwid'},
     {'1': 'rx_invalid_crypt', '3': 2, '4': 1, '5': 13, '10': 'rxInvalidCrypt'},
     {'1': 'rx_invalid_frag', '3': 3, '4': 1, '5': 13, '10': 'rxInvalidFrag'},
-    {'1': 'tx_excessive_retries', '3': 4, '4': 1, '5': 13, '10': 'txExcessiveRetries'},
+    {
+      '1': 'tx_excessive_retries',
+      '3': 4,
+      '4': 1,
+      '5': 13,
+      '10': 'txExcessiveRetries'
+    },
     {'1': 'invalid_misc', '3': 5, '4': 1, '5': 13, '10': 'invalidMisc'},
   ],
 };
@@ -3889,15 +7171,23 @@ const BridgeNetworkInterface$json = {
 };
 
 /// Descriptor for `BridgeNetworkInterface`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List bridgeNetworkInterfaceDescriptor = $convert.base64Decode(
-    'ChZCcmlkZ2VOZXR3b3JrSW50ZXJmYWNlEiEKDG1lbWJlcl9uYW1lcxgBIAMoCVILbWVtYmVyTm'
-    'FtZXM=');
+final $typed_data.Uint8List bridgeNetworkInterfaceDescriptor =
+    $convert.base64Decode(
+        'ChZCcmlkZ2VOZXR3b3JrSW50ZXJmYWNlEiEKDG1lbWJlcl9uYW1lcxgBIAMoCVILbWVtYmVyTm'
+        'FtZXM=');
 
 @$core.Deprecated('Use pingHostResponseDescriptor instead')
 const PingHostResponse$json = {
   '1': 'PingHostResponse',
   '2': [
-    {'1': 'result', '3': 1, '4': 1, '5': 11, '6': '.SpaceX.API.Device.PingResult', '10': 'result'},
+    {
+      '1': 'result',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.PingResult',
+      '10': 'result'
+    },
   ],
 };
 
@@ -3910,9 +7200,37 @@ final $typed_data.Uint8List pingHostResponseDescriptor = $convert.base64Decode(
 const GetLocationResponse$json = {
   '1': 'GetLocationResponse',
   '2': [
-    {'1': 'lla', '3': 1, '4': 1, '5': 11, '6': '.SpaceX.API.Device.LLAPosition', '10': 'lla'},
-    {'1': 'source', '3': 3, '4': 1, '5': 14, '6': '.SpaceX.API.Device.PositionSource', '10': 'source'},
+    {
+      '1': 'lla',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.LLAPosition',
+      '10': 'lla'
+    },
+    {
+      '1': 'source',
+      '3': 3,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.PositionSource',
+      '10': 'source'
+    },
     {'1': 'sigma_m', '3': 4, '4': 1, '5': 1, '10': 'sigmaM'},
+    {
+      '1': 'horizontal_speed_mps',
+      '3': 5,
+      '4': 1,
+      '5': 1,
+      '10': 'horizontalSpeedMps'
+    },
+    {
+      '1': 'vertical_speed_mps',
+      '3': 6,
+      '4': 1,
+      '5': 1,
+      '10': 'verticalSpeedMps'
+    },
   ],
   '9': [
     {'1': 2, '2': 3},
@@ -3924,8 +7242,9 @@ const GetLocationResponse$json = {
 final $typed_data.Uint8List getLocationResponseDescriptor = $convert.base64Decode(
     'ChNHZXRMb2NhdGlvblJlc3BvbnNlEjAKA2xsYRgBIAEoCzIeLlNwYWNlWC5BUEkuRGV2aWNlLk'
     'xMQVBvc2l0aW9uUgNsbGESOQoGc291cmNlGAMgASgOMiEuU3BhY2VYLkFQSS5EZXZpY2UuUG9z'
-    'aXRpb25Tb3VyY2VSBnNvdXJjZRIXCgdzaWdtYV9tGAQgASgBUgZzaWdtYU1KBAgCEANSBGVjZW'
-    'Y=');
+    'aXRpb25Tb3VyY2VSBnNvdXJjZRIXCgdzaWdtYV9tGAQgASgBUgZzaWdtYU0SMAoUaG9yaXpvbn'
+    'RhbF9zcGVlZF9tcHMYBSABKAFSEmhvcml6b250YWxTcGVlZE1wcxIsChJ2ZXJ0aWNhbF9zcGVl'
+    'ZF9tcHMYBiABKAFSEHZlcnRpY2FsU3BlZWRNcHNKBAgCEANSBGVjZWY=');
 
 @$core.Deprecated('Use lLAPositionDescriptor instead')
 const LLAPosition$json = {
@@ -3951,8 +7270,9 @@ const GetHeapDumpResponse$json = {
 };
 
 /// Descriptor for `GetHeapDumpResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List getHeapDumpResponseDescriptor = $convert.base64Decode(
-    'ChNHZXRIZWFwRHVtcFJlc3BvbnNlEhsKCWhlYXBfZHVtcBgBIAEoCVIIaGVhcER1bXA=');
+final $typed_data.Uint8List getHeapDumpResponseDescriptor =
+    $convert.base64Decode(
+        'ChNHZXRIZWFwRHVtcFJlc3BvbnNlEhsKCWhlYXBfZHVtcBgBIAEoCVIIaGVhcER1bXA=');
 
 @$core.Deprecated('Use restartControlResponseDescriptor instead')
 const RestartControlResponse$json = {
@@ -3960,8 +7280,8 @@ const RestartControlResponse$json = {
 };
 
 /// Descriptor for `RestartControlResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List restartControlResponseDescriptor = $convert.base64Decode(
-    'ChZSZXN0YXJ0Q29udHJvbFJlc3BvbnNl');
+final $typed_data.Uint8List restartControlResponseDescriptor =
+    $convert.base64Decode('ChZSZXN0YXJ0Q29udHJvbFJlc3BvbnNl');
 
 @$core.Deprecated('Use fuseResponseDescriptor instead')
 const FuseResponse$json = {
@@ -3969,16 +7289,26 @@ const FuseResponse$json = {
 };
 
 /// Descriptor for `FuseResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List fuseResponseDescriptor = $convert.base64Decode(
-    'CgxGdXNlUmVzcG9uc2U=');
+final $typed_data.Uint8List fuseResponseDescriptor =
+    $convert.base64Decode('CgxGdXNlUmVzcG9uc2U=');
 
 @$core.Deprecated('Use getConnectionsResponseDescriptor instead')
 const GetConnectionsResponse$json = {
   '1': 'GetConnectionsResponse',
   '2': [
-    {'1': 'services', '3': 1, '4': 3, '5': 11, '6': '.SpaceX.API.Device.GetConnectionsResponse.ServicesEntry', '10': 'services'},
+    {
+      '1': 'services',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.SpaceX.API.Device.GetConnectionsResponse.ServicesEntry',
+      '10': 'services'
+    },
   ],
-  '3': [GetConnectionsResponse_ServicesEntry$json, GetConnectionsResponse_ServiceConnection$json],
+  '3': [
+    GetConnectionsResponse_ServicesEntry$json,
+    GetConnectionsResponse_ServiceConnection$json
+  ],
 };
 
 @$core.Deprecated('Use getConnectionsResponseDescriptor instead')
@@ -3986,7 +7316,14 @@ const GetConnectionsResponse_ServicesEntry$json = {
   '1': 'ServicesEntry',
   '2': [
     {'1': 'key', '3': 1, '4': 1, '5': 9, '10': 'key'},
-    {'1': 'value', '3': 2, '4': 1, '5': 11, '6': '.SpaceX.API.Device.GetConnectionsResponse.ServiceConnection', '10': 'value'},
+    {
+      '1': 'value',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.GetConnectionsResponse.ServiceConnection',
+      '10': 'value'
+    },
   ],
   '7': {'7': true},
 };
@@ -3996,7 +7333,13 @@ const GetConnectionsResponse_ServiceConnection$json = {
   '1': 'ServiceConnection',
   '2': [
     {'1': 'address', '3': 1, '4': 1, '5': 9, '10': 'address'},
-    {'1': 'seconds_since_success', '3': 2, '4': 1, '5': 5, '10': 'secondsSinceSuccess'},
+    {
+      '1': 'seconds_since_success',
+      '3': 2,
+      '4': 1,
+      '5': 5,
+      '10': 'secondsSinceSuccess'
+    },
   ],
 };
 
@@ -4015,21 +7358,29 @@ const StartSpeedtestResponse$json = {
 };
 
 /// Descriptor for `StartSpeedtestResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List startSpeedtestResponseDescriptor = $convert.base64Decode(
-    'ChZTdGFydFNwZWVkdGVzdFJlc3BvbnNl');
+final $typed_data.Uint8List startSpeedtestResponseDescriptor =
+    $convert.base64Decode('ChZTdGFydFNwZWVkdGVzdFJlc3BvbnNl');
 
 @$core.Deprecated('Use getSpeedtestStatusResponseDescriptor instead')
 const GetSpeedtestStatusResponse$json = {
   '1': 'GetSpeedtestStatusResponse',
   '2': [
-    {'1': 'status', '3': 1, '4': 1, '5': 11, '6': '.SpaceX.API.Device.SpeedtestStatus', '10': 'status'},
+    {
+      '1': 'status',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.SpeedtestStatus',
+      '10': 'status'
+    },
   ],
 };
 
 /// Descriptor for `GetSpeedtestStatusResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List getSpeedtestStatusResponseDescriptor = $convert.base64Decode(
-    'ChpHZXRTcGVlZHRlc3RTdGF0dXNSZXNwb25zZRI6CgZzdGF0dXMYASABKAsyIi5TcGFjZVguQV'
-    'BJLkRldmljZS5TcGVlZHRlc3RTdGF0dXNSBnN0YXR1cw==');
+final $typed_data.Uint8List getSpeedtestStatusResponseDescriptor =
+    $convert.base64Decode(
+        'ChpHZXRTcGVlZHRlc3RTdGF0dXNSZXNwb25zZRI6CgZzdGF0dXMYASABKAsyIi5TcGFjZVguQV'
+        'BJLkRldmljZS5TcGVlZHRlc3RTdGF0dXNSBnN0YXR1cw==');
 
 @$core.Deprecated('Use speedtestStatusDescriptor instead')
 const SpeedtestStatus$json = {
@@ -4037,8 +7388,22 @@ const SpeedtestStatus$json = {
   '2': [
     {'1': 'running', '3': 1, '4': 1, '5': 8, '10': 'running'},
     {'1': 'id', '3': 2, '4': 1, '5': 13, '10': 'id'},
-    {'1': 'up', '3': 1000, '4': 1, '5': 11, '6': '.SpaceX.API.Device.SpeedtestStatus.Direction', '10': 'up'},
-    {'1': 'down', '3': 1001, '4': 1, '5': 11, '6': '.SpaceX.API.Device.SpeedtestStatus.Direction', '10': 'down'},
+    {
+      '1': 'up',
+      '3': 1000,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.SpeedtestStatus.Direction',
+      '10': 'up'
+    },
+    {
+      '1': 'down',
+      '3': 1001,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.SpeedtestStatus.Direction',
+      '10': 'down'
+    },
   ],
   '3': [SpeedtestStatus_Direction$json],
 };
@@ -4048,7 +7413,14 @@ const SpeedtestStatus_Direction$json = {
   '1': 'Direction',
   '2': [
     {'1': 'throughputs_mbps', '3': 1, '4': 3, '5': 2, '10': 'throughputsMbps'},
-    {'1': 'err', '3': 2, '4': 1, '5': 14, '6': '.SpaceX.API.Device.SpeedtestError', '10': 'err'},
+    {
+      '1': 'err',
+      '3': 2,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.SpeedtestError',
+      '10': 'err'
+    },
   ],
 };
 
@@ -4067,8 +7439,8 @@ const ReportClientSpeedtestResponse$json = {
 };
 
 /// Descriptor for `ReportClientSpeedtestResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List reportClientSpeedtestResponseDescriptor = $convert.base64Decode(
-    'Ch1SZXBvcnRDbGllbnRTcGVlZHRlc3RSZXNwb25zZQ==');
+final $typed_data.Uint8List reportClientSpeedtestResponseDescriptor =
+    $convert.base64Decode('Ch1SZXBvcnRDbGllbnRTcGVlZHRlc3RSZXNwb25zZQ==');
 
 @$core.Deprecated('Use initiateRemoteSshResponseDescriptor instead')
 const InitiateRemoteSshResponse$json = {
@@ -4081,9 +7453,10 @@ const InitiateRemoteSshResponse$json = {
 };
 
 /// Descriptor for `InitiateRemoteSshResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List initiateRemoteSshResponseDescriptor = $convert.base64Decode(
-    'ChlJbml0aWF0ZVJlbW90ZVNzaFJlc3BvbnNlEhIKBHBvcnQYASABKA1SBHBvcnQSGAoHYWRkcm'
-    'VzcxgCIAEoCVIHYWRkcmVzcxIWCgZzdHNhZmUYAyABKAxSBnN0c2FmZQ==');
+final $typed_data.Uint8List initiateRemoteSshResponseDescriptor =
+    $convert.base64Decode(
+        'ChlJbml0aWF0ZVJlbW90ZVNzaFJlc3BvbnNlEhIKBHBvcnQYASABKA1SBHBvcnQSGAoHYWRkcm'
+        'VzcxgCIAEoCVIHYWRkcmVzcxIWCgZzdHNhZmUYAyABKAxSBnN0c2FmZQ==');
 
 @$core.Deprecated('Use selfTestResponseDescriptor instead')
 const SelfTestResponse$json = {
@@ -4105,8 +7478,8 @@ const SetTestModeResponse$json = {
 };
 
 /// Descriptor for `SetTestModeResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List setTestModeResponseDescriptor = $convert.base64Decode(
-    'ChNTZXRUZXN0TW9kZVJlc3BvbnNl');
+final $typed_data.Uint8List setTestModeResponseDescriptor =
+    $convert.base64Decode('ChNTZXRUZXN0TW9kZVJlc3BvbnNl');
 
 @$core.Deprecated('Use softwareUpdateResponseDescriptor instead')
 const SoftwareUpdateResponse$json = {
@@ -4114,8 +7487,8 @@ const SoftwareUpdateResponse$json = {
 };
 
 /// Descriptor for `SoftwareUpdateResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List softwareUpdateResponseDescriptor = $convert.base64Decode(
-    'ChZTb2Z0d2FyZVVwZGF0ZVJlc3BvbnNl');
+final $typed_data.Uint8List softwareUpdateResponseDescriptor =
+    $convert.base64Decode('ChZTb2Z0d2FyZVVwZGF0ZVJlc3BvbnNl');
 
 @$core.Deprecated('Use enableDebugTelemResponseDescriptor instead')
 const EnableDebugTelemResponse$json = {
@@ -4123,14 +7496,21 @@ const EnableDebugTelemResponse$json = {
 };
 
 /// Descriptor for `EnableDebugTelemResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List enableDebugTelemResponseDescriptor = $convert.base64Decode(
-    'ChhFbmFibGVEZWJ1Z1RlbGVtUmVzcG9uc2U=');
+final $typed_data.Uint8List enableDebugTelemResponseDescriptor =
+    $convert.base64Decode('ChhFbmFibGVEZWJ1Z1RlbGVtUmVzcG9uc2U=');
 
 @$core.Deprecated('Use getRadioStatsResponseDescriptor instead')
 const GetRadioStatsResponse$json = {
   '1': 'GetRadioStatsResponse',
   '2': [
-    {'1': 'radio_stats', '3': 1, '4': 3, '5': 11, '6': '.SpaceX.API.Device.RadioStats', '10': 'radioStats'},
+    {
+      '1': 'radio_stats',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.SpaceX.API.Device.RadioStats',
+      '10': 'radioStats'
+    },
   ],
 };
 
@@ -4143,11 +7523,46 @@ final $typed_data.Uint8List getRadioStatsResponseDescriptor = $convert.base64Dec
 const RadioStats$json = {
   '1': 'RadioStats',
   '2': [
-    {'1': 'band', '3': 1, '4': 1, '5': 14, '6': '.SpaceX.API.Device.WifiConfig.Band', '10': 'band'},
-    {'1': 'rx_stats', '3': 2, '4': 1, '5': 11, '6': '.SpaceX.API.Device.NetworkInterface.RxStats', '10': 'rxStats'},
-    {'1': 'tx_stats', '3': 3, '4': 1, '5': 11, '6': '.SpaceX.API.Device.NetworkInterface.TxStats', '10': 'txStats'},
-    {'1': 'thermal_status', '3': 4, '4': 1, '5': 11, '6': '.SpaceX.API.Device.RadioStats.ThermalStatus', '10': 'thermalStatus'},
-    {'1': 'antenna_status', '3': 5, '4': 1, '5': 11, '6': '.SpaceX.API.Device.RadioStats.AntennaStatus', '10': 'antennaStatus'},
+    {
+      '1': 'band',
+      '3': 1,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.WifiConfig.Band',
+      '10': 'band'
+    },
+    {
+      '1': 'rx_stats',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.NetworkInterface.RxStats',
+      '10': 'rxStats'
+    },
+    {
+      '1': 'tx_stats',
+      '3': 3,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.NetworkInterface.TxStats',
+      '10': 'txStats'
+    },
+    {
+      '1': 'thermal_status',
+      '3': 4,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.RadioStats.ThermalStatus',
+      '10': 'thermalStatus'
+    },
+    {
+      '1': 'antenna_status',
+      '3': 5,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.RadioStats.AntennaStatus',
+      '10': 'antennaStatus'
+    },
   ],
   '3': [RadioStats_AntennaStatus$json, RadioStats_ThermalStatus$json],
 };
@@ -4218,8 +7633,23 @@ const RunIperfServerResponse$json = {
 };
 
 /// Descriptor for `RunIperfServerResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List runIperfServerResponseDescriptor = $convert.base64Decode(
-    'ChZSdW5JcGVyZlNlcnZlclJlc3BvbnNlEhIKBHBvcnQYASABKA1SBHBvcnQ=');
+final $typed_data.Uint8List runIperfServerResponseDescriptor =
+    $convert.base64Decode(
+        'ChZSdW5JcGVyZlNlcnZlclJlc3BvbnNlEhIKBHBvcnQYASABKA1SBHBvcnQ=');
+
+@$core.Deprecated('Use getGoroutineStackTracesResponseDescriptor instead')
+const GetGoroutineStackTracesResponse$json = {
+  '1': 'GetGoroutineStackTracesResponse',
+  '2': [
+    {'1': 'stack_traces', '3': 1, '4': 1, '5': 9, '10': 'stackTraces'},
+  ],
+};
+
+/// Descriptor for `GetGoroutineStackTracesResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getGoroutineStackTracesResponseDescriptor =
+    $convert.base64Decode(
+        'Ch9HZXRHb3JvdXRpbmVTdGFja1RyYWNlc1Jlc3BvbnNlEiEKDHN0YWNrX3RyYWNlcxgBIAEoCV'
+        'ILc3RhY2tUcmFjZXM=');
 
 @$core.Deprecated('Use dishStowResponseDescriptor instead')
 const DishStowResponse$json = {
@@ -4227,38 +7657,167 @@ const DishStowResponse$json = {
 };
 
 /// Descriptor for `DishStowResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List dishStowResponseDescriptor = $convert.base64Decode(
-    'ChBEaXNoU3Rvd1Jlc3BvbnNl');
+final $typed_data.Uint8List dishStowResponseDescriptor =
+    $convert.base64Decode('ChBEaXNoU3Rvd1Jlc3BvbnNl');
 
 @$core.Deprecated('Use dishGetContextResponseDescriptor instead')
 const DishGetContextResponse$json = {
   '1': 'DishGetContextResponse',
   '2': [
-    {'1': 'device_info', '3': 1, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DeviceInfo', '10': 'deviceInfo'},
-    {'1': 'obstruction_fraction', '3': 2, '4': 1, '5': 2, '10': 'obstructionFraction'},
-    {'1': 'obstruction_valid_s', '3': 3, '4': 1, '5': 2, '10': 'obstructionValidS'},
+    {
+      '1': 'device_info',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DeviceInfo',
+      '10': 'deviceInfo'
+    },
+    {
+      '1': 'obstruction_fraction',
+      '3': 2,
+      '4': 1,
+      '5': 2,
+      '10': 'obstructionFraction'
+    },
+    {
+      '1': 'obstruction_valid_s',
+      '3': 3,
+      '4': 1,
+      '5': 2,
+      '10': 'obstructionValidS'
+    },
     {'1': 'cell_id', '3': 4, '4': 1, '5': 13, '10': 'cellId'},
     {'1': 'pop_rack_id', '3': 5, '4': 1, '5': 13, '10': 'popRackId'},
-    {'1': 'seconds_to_slot_end', '3': 6, '4': 1, '5': 2, '10': 'secondsToSlotEnd'},
-    {'1': 'device_state', '3': 7, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DeviceState', '10': 'deviceState'},
-    {'1': 'initial_satellite_id', '3': 8, '4': 1, '5': 13, '10': 'initialSatelliteId'},
-    {'1': 'initial_gateway_id', '3': 9, '4': 1, '5': 13, '10': 'initialGatewayId'},
+    {
+      '1': 'seconds_to_slot_end',
+      '3': 6,
+      '4': 1,
+      '5': 2,
+      '10': 'secondsToSlotEnd'
+    },
+    {
+      '1': 'device_state',
+      '3': 7,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DeviceState',
+      '10': 'deviceState'
+    },
+    {
+      '1': 'initial_satellite_id',
+      '3': 8,
+      '4': 1,
+      '5': 13,
+      '10': 'initialSatelliteId'
+    },
+    {
+      '1': 'initial_gateway_id',
+      '3': 9,
+      '4': 1,
+      '5': 13,
+      '10': 'initialGatewayId'
+    },
     {'1': 'on_backup_beam', '3': 10, '4': 1, '5': 8, '10': 'onBackupBeam'},
-    {'1': 'debug_telemetry_enabled', '3': 11, '4': 1, '5': 8, '10': 'debugTelemetryEnabled'},
-    {'1': 'obstruction_current', '3': 12, '4': 1, '5': 8, '10': 'obstructionCurrent'},
-    {'1': 'pop_ping_drop_rate_15s_mean', '3': 13, '4': 1, '5': 2, '10': 'popPingDropRate15sMean'},
-    {'1': 'pop_ping_latency_ms_15s_mean', '3': 14, '4': 1, '5': 2, '10': 'popPingLatencyMs15sMean'},
-    {'1': 'seconds_since_last_1s_outage', '3': 15, '4': 1, '5': 2, '10': 'secondsSinceLast1sOutage'},
-    {'1': 'seconds_since_last_2s_outage', '3': 16, '4': 1, '5': 2, '10': 'secondsSinceLast2sOutage'},
-    {'1': 'seconds_since_last_5s_outage', '3': 17, '4': 1, '5': 2, '10': 'secondsSinceLast5sOutage'},
-    {'1': 'seconds_since_last_15s_outage', '3': 18, '4': 1, '5': 2, '10': 'secondsSinceLast15sOutage'},
-    {'1': 'seconds_since_last_60s_outage', '3': 19, '4': 1, '5': 2, '10': 'secondsSinceLast60sOutage'},
+    {
+      '1': 'debug_telemetry_enabled',
+      '3': 11,
+      '4': 1,
+      '5': 8,
+      '10': 'debugTelemetryEnabled'
+    },
+    {
+      '1': 'obstruction_current',
+      '3': 12,
+      '4': 1,
+      '5': 8,
+      '10': 'obstructionCurrent'
+    },
+    {
+      '1': 'pop_ping_drop_rate_15s_mean',
+      '3': 13,
+      '4': 1,
+      '5': 2,
+      '10': 'popPingDropRate15sMean'
+    },
+    {
+      '1': 'pop_ping_latency_ms_15s_mean',
+      '3': 14,
+      '4': 1,
+      '5': 2,
+      '10': 'popPingLatencyMs15sMean'
+    },
+    {
+      '1': 'seconds_since_last_1s_outage',
+      '3': 15,
+      '4': 1,
+      '5': 2,
+      '10': 'secondsSinceLast1sOutage'
+    },
+    {
+      '1': 'seconds_since_last_2s_outage',
+      '3': 16,
+      '4': 1,
+      '5': 2,
+      '10': 'secondsSinceLast2sOutage'
+    },
+    {
+      '1': 'seconds_since_last_5s_outage',
+      '3': 17,
+      '4': 1,
+      '5': 2,
+      '10': 'secondsSinceLast5sOutage'
+    },
+    {
+      '1': 'seconds_since_last_15s_outage',
+      '3': 18,
+      '4': 1,
+      '5': 2,
+      '10': 'secondsSinceLast15sOutage'
+    },
+    {
+      '1': 'seconds_since_last_60s_outage',
+      '3': 19,
+      '4': 1,
+      '5': 2,
+      '10': 'secondsSinceLast60sOutage'
+    },
     {'1': 'obstruction_time', '3': 20, '4': 1, '5': 2, '10': 'obstructionTime'},
-    {'1': 'disablement_code', '3': 21, '4': 1, '5': 14, '6': '.SpaceX.API.Satellites.Network.UtDisablementCode', '10': 'disablementCode'},
-    {'1': 'ku_mac_active_ratio', '3': 22, '4': 1, '5': 2, '10': 'kuMacActiveRatio'},
-    {'1': 'outage_1s_within_1h', '3': 23, '4': 1, '5': 8, '10': 'outage1sWithin1h'},
-    {'1': 'outage_2s_within_1h', '3': 24, '4': 1, '5': 8, '10': 'outage2sWithin1h'},
-    {'1': 'outage_5s_within_1h', '3': 25, '4': 1, '5': 8, '10': 'outage5sWithin1h'},
+    {
+      '1': 'disablement_code',
+      '3': 21,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Satellites.Network.UtDisablementCode',
+      '10': 'disablementCode'
+    },
+    {
+      '1': 'ku_mac_active_ratio',
+      '3': 22,
+      '4': 1,
+      '5': 2,
+      '10': 'kuMacActiveRatio'
+    },
+    {
+      '1': 'outage_1s_within_1h',
+      '3': 23,
+      '4': 1,
+      '5': 8,
+      '10': 'outage1sWithin1h'
+    },
+    {
+      '1': 'outage_2s_within_1h',
+      '3': 24,
+      '4': 1,
+      '5': 8,
+      '10': 'outage2sWithin1h'
+    },
+    {
+      '1': 'outage_5s_within_1h',
+      '3': 25,
+      '4': 1,
+      '5': 8,
+      '10': 'outage5sWithin1h'
+    },
   ],
 };
 
@@ -4299,56 +7858,348 @@ const DeviceState$json = {
 };
 
 /// Descriptor for `DeviceState`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List deviceStateDescriptor = $convert.base64Decode(
-    'CgtEZXZpY2VTdGF0ZRIZCgh1cHRpbWVfcxgBIAEoBFIHdXB0aW1lUw==');
+final $typed_data.Uint8List deviceStateDescriptor = $convert
+    .base64Decode('CgtEZXZpY2VTdGF0ZRIZCgh1cHRpbWVfcxgBIAEoBFIHdXB0aW1lUw==');
 
 @$core.Deprecated('Use dishGetStatusResponseDescriptor instead')
 const DishGetStatusResponse$json = {
   '1': 'DishGetStatusResponse',
   '2': [
-    {'1': 'device_info', '3': 1, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DeviceInfo', '10': 'deviceInfo'},
-    {'1': 'device_state', '3': 2, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DeviceState', '10': 'deviceState'},
-    {'1': 'seconds_to_first_nonempty_slot', '3': 1002, '4': 1, '5': 2, '10': 'secondsToFirstNonemptySlot'},
-    {'1': 'pop_ping_drop_rate', '3': 1003, '4': 1, '5': 2, '10': 'popPingDropRate'},
-    {'1': 'obstruction_stats', '3': 1004, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishObstructionStats', '10': 'obstructionStats'},
-    {'1': 'alerts', '3': 1005, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishAlerts', '10': 'alerts'},
-    {'1': 'downlink_throughput_bps', '3': 1007, '4': 1, '5': 2, '10': 'downlinkThroughputBps'},
-    {'1': 'uplink_throughput_bps', '3': 1008, '4': 1, '5': 2, '10': 'uplinkThroughputBps'},
-    {'1': 'pop_ping_latency_ms', '3': 1009, '4': 1, '5': 2, '10': 'popPingLatencyMs'},
+    {
+      '1': 'device_info',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DeviceInfo',
+      '10': 'deviceInfo'
+    },
+    {
+      '1': 'device_state',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DeviceState',
+      '10': 'deviceState'
+    },
+    {
+      '1': 'seconds_to_first_nonempty_slot',
+      '3': 1002,
+      '4': 1,
+      '5': 2,
+      '10': 'secondsToFirstNonemptySlot'
+    },
+    {
+      '1': 'pop_ping_drop_rate',
+      '3': 1003,
+      '4': 1,
+      '5': 2,
+      '10': 'popPingDropRate'
+    },
+    {
+      '1': 'obstruction_stats',
+      '3': 1004,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishObstructionStats',
+      '10': 'obstructionStats'
+    },
+    {
+      '1': 'alerts',
+      '3': 1005,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishAlerts',
+      '10': 'alerts'
+    },
+    {
+      '1': 'downlink_throughput_bps',
+      '3': 1007,
+      '4': 1,
+      '5': 2,
+      '10': 'downlinkThroughputBps'
+    },
+    {
+      '1': 'uplink_throughput_bps',
+      '3': 1008,
+      '4': 1,
+      '5': 2,
+      '10': 'uplinkThroughputBps'
+    },
+    {
+      '1': 'pop_ping_latency_ms',
+      '3': 1009,
+      '4': 1,
+      '5': 2,
+      '10': 'popPingLatencyMs'
+    },
     {'1': 'stow_requested', '3': 1010, '4': 1, '5': 8, '10': 'stowRequested'},
-    {'1': 'boresight_azimuth_deg', '3': 1011, '4': 1, '5': 2, '10': 'boresightAzimuthDeg'},
-    {'1': 'boresight_elevation_deg', '3': 1012, '4': 1, '5': 2, '10': 'boresightElevationDeg'},
-    {'1': 'outage', '3': 1014, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishOutage', '10': 'outage'},
-    {'1': 'gps_stats', '3': 1015, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishGpsStats', '10': 'gpsStats'},
+    {
+      '1': 'boresight_azimuth_deg',
+      '3': 1011,
+      '4': 1,
+      '5': 2,
+      '10': 'boresightAzimuthDeg'
+    },
+    {
+      '1': 'boresight_elevation_deg',
+      '3': 1012,
+      '4': 1,
+      '5': 2,
+      '10': 'boresightElevationDeg'
+    },
+    {
+      '1': 'outage',
+      '3': 1014,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishOutage',
+      '10': 'outage'
+    },
+    {
+      '1': 'gps_stats',
+      '3': 1015,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishGpsStats',
+      '10': 'gpsStats'
+    },
     {'1': 'eth_speed_mbps', '3': 1016, '4': 1, '5': 5, '10': 'ethSpeedMbps'},
-    {'1': 'mobility_class', '3': 1017, '4': 1, '5': 14, '6': '.SpaceX.API.Device.UserMobilityClass', '10': 'mobilityClass'},
-    {'1': 'is_snr_above_noise_floor', '3': 1018, '4': 1, '5': 8, '10': 'isSnrAboveNoiseFloor'},
-    {'1': 'ready_states', '3': 1019, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishReadyStates', '10': 'readyStates'},
-    {'1': 'class_of_service', '3': 1020, '4': 1, '5': 14, '6': '.SpaceX.API.Device.UserClassOfService', '10': 'classOfService'},
-    {'1': 'software_update_state', '3': 1021, '4': 1, '5': 14, '6': '.SpaceX.API.Device.SoftwareUpdateState', '10': 'softwareUpdateState'},
-    {'1': 'is_snr_persistently_low', '3': 1022, '4': 1, '5': 8, '10': 'isSnrPersistentlyLow'},
-    {'1': 'has_actuators', '3': 1023, '4': 1, '5': 14, '6': '.SpaceX.API.Device.HasActuators', '10': 'hasActuators'},
-    {'1': 'disablement_code', '3': 1024, '4': 1, '5': 14, '6': '.SpaceX.API.Satellites.Network.UtDisablementCode', '10': 'disablementCode'},
+    {
+      '1': 'mobility_class',
+      '3': 1017,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.UserMobilityClass',
+      '10': 'mobilityClass'
+    },
+    {
+      '1': 'is_snr_above_noise_floor',
+      '3': 1018,
+      '4': 1,
+      '5': 8,
+      '10': 'isSnrAboveNoiseFloor'
+    },
+    {
+      '1': 'ready_states',
+      '3': 1019,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishReadyStates',
+      '10': 'readyStates'
+    },
+    {
+      '1': 'class_of_service',
+      '3': 1020,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.UserClassOfService',
+      '10': 'classOfService'
+    },
+    {
+      '1': 'software_update_state',
+      '3': 1021,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.SoftwareUpdateState',
+      '10': 'softwareUpdateState'
+    },
+    {
+      '1': 'is_snr_persistently_low',
+      '3': 1022,
+      '4': 1,
+      '5': 8,
+      '10': 'isSnrPersistentlyLow'
+    },
+    {
+      '1': 'has_actuators',
+      '3': 1023,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.HasActuators',
+      '10': 'hasActuators'
+    },
+    {
+      '1': 'disablement_code',
+      '3': 1024,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Satellites.Network.UtDisablementCode',
+      '10': 'disablementCode'
+    },
     {'1': 'has_signed_cals', '3': 1025, '4': 1, '5': 8, '10': 'hasSignedCals'},
-    {'1': 'software_update_stats', '3': 1026, '4': 1, '5': 11, '6': '.SpaceX.API.Device.SoftwareUpdateStats', '10': 'softwareUpdateStats'},
-    {'1': 'alignment_stats', '3': 1027, '4': 1, '5': 11, '6': '.SpaceX.API.Device.AlignmentStats', '10': 'alignmentStats'},
-    {'1': 'initialization_duration_seconds', '3': 1028, '4': 1, '5': 11, '6': '.SpaceX.API.Device.InitializationDurationSeconds', '10': 'initializationDurationSeconds'},
-    {'1': 'is_cell_disabled', '3': 1029, '4': 1, '5': 8, '10': 'isCellDisabled'},
-    {'1': 'swupdate_reboot_ready', '3': 1030, '4': 1, '5': 8, '10': 'swupdateRebootReady'},
-    {'1': 'seconds_until_swupdate_reboot_possible', '3': 1031, '4': 1, '5': 5, '10': 'secondsUntilSwupdateRebootPossible'},
-    {'1': 'reboot_reason', '3': 1032, '4': 1, '5': 14, '6': '.SpaceX.API.Device.RebootReason', '10': 'rebootReason'},
-    {'1': 'high_power_test_mode', '3': 1033, '4': 1, '5': 8, '10': 'highPowerTestMode'},
-    {'1': 'connected_routers', '3': 1040, '4': 3, '5': 9, '10': 'connectedRouters'},
-    {'1': 'plc_stats', '3': 1041, '4': 1, '5': 11, '6': '.SpaceX.API.Device.PLCStats', '10': 'plcStats'},
-    {'1': 'is_moving_fast_persisted', '3': 1042, '4': 1, '5': 8, '10': 'isMovingFastPersisted'},
-    {'1': 'upsu_stats', '3': 1043, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishUpsuStats', '10': 'upsuStats'},
-    {'1': 'config', '3': 2000, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishConfig', '10': 'config'},
+    {
+      '1': 'software_update_stats',
+      '3': 1026,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.SoftwareUpdateStats',
+      '10': 'softwareUpdateStats'
+    },
+    {
+      '1': 'alignment_stats',
+      '3': 1027,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.AlignmentStats',
+      '10': 'alignmentStats'
+    },
+    {
+      '1': 'initialization_duration_seconds',
+      '3': 1028,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.InitializationDurationSeconds',
+      '10': 'initializationDurationSeconds'
+    },
+    {
+      '1': 'is_cell_disabled',
+      '3': 1029,
+      '4': 1,
+      '5': 8,
+      '10': 'isCellDisabled'
+    },
+    {
+      '1': 'swupdate_reboot_ready',
+      '3': 1030,
+      '4': 1,
+      '5': 8,
+      '10': 'swupdateRebootReady'
+    },
+    {
+      '1': 'seconds_until_swupdate_reboot_possible',
+      '3': 1031,
+      '4': 1,
+      '5': 5,
+      '10': 'secondsUntilSwupdateRebootPossible'
+    },
+    {
+      '1': 'reboot_reason',
+      '3': 1032,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.RebootReason',
+      '10': 'rebootReason'
+    },
+    {
+      '1': 'high_power_test_mode',
+      '3': 1033,
+      '4': 1,
+      '5': 8,
+      '10': 'highPowerTestMode'
+    },
+    {
+      '1': 'connected_routers',
+      '3': 1040,
+      '4': 3,
+      '5': 9,
+      '10': 'connectedRouters'
+    },
+    {
+      '1': 'plc_stats',
+      '3': 1041,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.PLCStats',
+      '10': 'plcStats'
+    },
+    {
+      '1': 'is_moving_fast_persisted',
+      '3': 1042,
+      '4': 1,
+      '5': 8,
+      '10': 'isMovingFastPersisted'
+    },
+    {
+      '1': 'upsu_stats',
+      '3': 1043,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishUpsuStats',
+      '10': 'upsuStats'
+    },
+    {
+      '1': 'dl_bandwidth_restricted_reason',
+      '3': 1044,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Telemetron.Public.Integrations.RateLimitReason',
+      '10': 'dlBandwidthRestrictedReason'
+    },
+    {
+      '1': 'ul_bandwidth_restricted_reason',
+      '3': 1045,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Telemetron.Public.Integrations.RateLimitReason',
+      '10': 'ulBandwidthRestrictedReason'
+    },
+    {
+      '1': 'aps_stats',
+      '3': 1048,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishApsStats',
+      '10': 'apsStats'
+    },
+    {
+      '1': 'ned2dish_quaternion',
+      '3': 1049,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.Quaternion',
+      '10': 'ned2dishQuaternion'
+    },
+    {
+      '1': 'downstream_routers',
+      '3': 1050,
+      '4': 3,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishGetStatusResponse.DownstreamRoutersEntry',
+      '10': 'downstreamRouters'
+    },
+    {
+      '1': 'account_shard',
+      '3': 1051,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.AccountShard',
+      '10': 'accountShard'
+    },
+    {
+      '1': 'config',
+      '3': 2000,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishConfig',
+      '10': 'config'
+    },
   ],
+  '3': [DishGetStatusResponse_DownstreamRoutersEntry$json],
   '9': [
     {'1': 1001, '2': 1002},
     {'1': 1006, '2': 1007},
     {'1': 1013, '2': 1014},
+    {'1': 1046, '2': 1047},
+    {'1': 1047, '2': 1048},
   ],
+  '10': ['phy_rx_beam_snr_avg', 't_center'],
+};
+
+@$core.Deprecated('Use dishGetStatusResponseDescriptor instead')
+const DishGetStatusResponse_DownstreamRoutersEntry$json = {
+  '1': 'DownstreamRoutersEntry',
+  '2': [
+    {'1': 'key', '3': 1, '4': 1, '5': 9, '10': 'key'},
+    {
+      '1': 'value',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.RouterInfo',
+      '10': 'value'
+    },
+  ],
+  '7': {'7': true},
 };
 
 /// Descriptor for `DishGetStatusResponse`. Decode as a `google.protobuf.DescriptorProto`.
@@ -4395,19 +8246,63 @@ final $typed_data.Uint8List dishGetStatusResponseDescriptor = $convert.base64Dec
     'kKCXBsY19zdGF0cxiRCCABKAsyGy5TcGFjZVguQVBJLkRldmljZS5QTENTdGF0c1IIcGxjU3Rh'
     'dHMSOAoYaXNfbW92aW5nX2Zhc3RfcGVyc2lzdGVkGJIIIAEoCFIVaXNNb3ZpbmdGYXN0UGVyc2'
     'lzdGVkEkAKCnVwc3Vfc3RhdHMYkwggASgLMiAuU3BhY2VYLkFQSS5EZXZpY2UuRGlzaFVwc3VT'
-    'dGF0c1IJdXBzdVN0YXRzEjYKBmNvbmZpZxjQDyABKAsyHS5TcGFjZVguQVBJLkRldmljZS5EaX'
-    'NoQ29uZmlnUgZjb25maWdKBgjpBxDqB0oGCO4HEO8HSgYI9QcQ9gc=');
+    'dGF0c1IJdXBzdVN0YXRzEoABCh5kbF9iYW5kd2lkdGhfcmVzdHJpY3RlZF9yZWFzb24YlAggAS'
+    'gOMjouU3BhY2VYLkFQSS5UZWxlbWV0cm9uLlB1YmxpYy5JbnRlZ3JhdGlvbnMuUmF0ZUxpbWl0'
+    'UmVhc29uUhtkbEJhbmR3aWR0aFJlc3RyaWN0ZWRSZWFzb24SgAEKHnVsX2JhbmR3aWR0aF9yZX'
+    'N0cmljdGVkX3JlYXNvbhiVCCABKA4yOi5TcGFjZVguQVBJLlRlbGVtZXRyb24uUHVibGljLklu'
+    'dGVncmF0aW9ucy5SYXRlTGltaXRSZWFzb25SG3VsQmFuZHdpZHRoUmVzdHJpY3RlZFJlYXNvbh'
+    'I9CglhcHNfc3RhdHMYmAggASgLMh8uU3BhY2VYLkFQSS5EZXZpY2UuRGlzaEFwc1N0YXRzUghh'
+    'cHNTdGF0cxJPChNuZWQyZGlzaF9xdWF0ZXJuaW9uGJkIIAEoCzIdLlNwYWNlWC5BUEkuRGV2aW'
+    'NlLlF1YXRlcm5pb25SEm5lZDJkaXNoUXVhdGVybmlvbhJvChJkb3duc3RyZWFtX3JvdXRlcnMY'
+    'mgggAygLMj8uU3BhY2VYLkFQSS5EZXZpY2UuRGlzaEdldFN0YXR1c1Jlc3BvbnNlLkRvd25zdH'
+    'JlYW1Sb3V0ZXJzRW50cnlSEWRvd25zdHJlYW1Sb3V0ZXJzEkUKDWFjY291bnRfc2hhcmQYmwgg'
+    'ASgOMh8uU3BhY2VYLkFQSS5EZXZpY2UuQWNjb3VudFNoYXJkUgxhY2NvdW50U2hhcmQSNgoGY2'
+    '9uZmlnGNAPIAEoCzIdLlNwYWNlWC5BUEkuRGV2aWNlLkRpc2hDb25maWdSBmNvbmZpZxpjChZE'
+    'b3duc3RyZWFtUm91dGVyc0VudHJ5EhAKA2tleRgBIAEoCVIDa2V5EjMKBXZhbHVlGAIgASgLMh'
+    '0uU3BhY2VYLkFQSS5EZXZpY2UuUm91dGVySW5mb1IFdmFsdWU6AjgBSgYI6QcQ6gdKBgjuBxDv'
+    'B0oGCPUHEPYHSgYIlggQlwhKBgiXCBCYCFITcGh5X3J4X2JlYW1fc25yX2F2Z1IIdF9jZW50ZX'
+    'I=');
 
 @$core.Deprecated('Use dishObstructionStatsDescriptor instead')
 const DishObstructionStats$json = {
   '1': 'DishObstructionStats',
   '2': [
-    {'1': 'fraction_obstructed', '3': 1, '4': 1, '5': 2, '10': 'fractionObstructed'},
+    {
+      '1': 'fraction_obstructed',
+      '3': 1,
+      '4': 1,
+      '5': 2,
+      '10': 'fractionObstructed'
+    },
     {'1': 'valid_s', '3': 4, '4': 1, '5': 2, '10': 'validS'},
-    {'1': 'currently_obstructed', '3': 5, '4': 1, '5': 8, '10': 'currentlyObstructed'},
-    {'1': 'avg_prolonged_obstruction_duration_s', '3': 6, '4': 1, '5': 2, '10': 'avgProlongedObstructionDurationS'},
-    {'1': 'avg_prolonged_obstruction_interval_s', '3': 7, '4': 1, '5': 2, '10': 'avgProlongedObstructionIntervalS'},
-    {'1': 'avg_prolonged_obstruction_valid', '3': 8, '4': 1, '5': 8, '10': 'avgProlongedObstructionValid'},
+    {
+      '1': 'currently_obstructed',
+      '3': 5,
+      '4': 1,
+      '5': 8,
+      '10': 'currentlyObstructed'
+    },
+    {
+      '1': 'avg_prolonged_obstruction_duration_s',
+      '3': 6,
+      '4': 1,
+      '5': 2,
+      '10': 'avgProlongedObstructionDurationS'
+    },
+    {
+      '1': 'avg_prolonged_obstruction_interval_s',
+      '3': 7,
+      '4': 1,
+      '5': 2,
+      '10': 'avgProlongedObstructionIntervalS'
+    },
+    {
+      '1': 'avg_prolonged_obstruction_valid',
+      '3': 8,
+      '4': 1,
+      '5': 8,
+      '10': 'avgProlongedObstructionValid'
+    },
     {'1': 'time_obstructed', '3': 9, '4': 1, '5': 2, '10': 'timeObstructed'},
     {'1': 'patches_valid', '3': 10, '4': 1, '5': 13, '10': 'patchesValid'},
   ],
@@ -4439,26 +8334,106 @@ const DishAlerts$json = {
     {'1': 'motors_stuck', '3': 1, '4': 1, '5': 8, '10': 'motorsStuck'},
     {'1': 'thermal_shutdown', '3': 2, '4': 1, '5': 8, '10': 'thermalShutdown'},
     {'1': 'thermal_throttle', '3': 3, '4': 1, '5': 8, '10': 'thermalThrottle'},
-    {'1': 'unexpected_location', '3': 4, '4': 1, '5': 8, '10': 'unexpectedLocation'},
-    {'1': 'mast_not_near_vertical', '3': 5, '4': 1, '5': 8, '10': 'mastNotNearVertical'},
-    {'1': 'slow_ethernet_speeds', '3': 6, '4': 1, '5': 8, '10': 'slowEthernetSpeeds'},
+    {
+      '1': 'unexpected_location',
+      '3': 4,
+      '4': 1,
+      '5': 8,
+      '10': 'unexpectedLocation'
+    },
+    {
+      '1': 'mast_not_near_vertical',
+      '3': 5,
+      '4': 1,
+      '5': 8,
+      '10': 'mastNotNearVertical'
+    },
+    {
+      '1': 'slow_ethernet_speeds',
+      '3': 6,
+      '4': 1,
+      '5': 8,
+      '10': 'slowEthernetSpeeds'
+    },
     {'1': 'roaming', '3': 7, '4': 1, '5': 8, '10': 'roaming'},
     {'1': 'install_pending', '3': 8, '4': 1, '5': 8, '10': 'installPending'},
     {'1': 'is_heating', '3': 9, '4': 1, '5': 8, '10': 'isHeating'},
-    {'1': 'power_supply_thermal_throttle', '3': 10, '4': 1, '5': 8, '10': 'powerSupplyThermalThrottle'},
-    {'1': 'is_power_save_idle', '3': 11, '4': 1, '5': 8, '10': 'isPowerSaveIdle'},
-    {'1': 'moving_while_not_mobile', '3': 12, '4': 1, '5': 8, '10': 'movingWhileNotMobile'},
+    {
+      '1': 'power_supply_thermal_throttle',
+      '3': 10,
+      '4': 1,
+      '5': 8,
+      '10': 'powerSupplyThermalThrottle'
+    },
+    {
+      '1': 'is_power_save_idle',
+      '3': 11,
+      '4': 1,
+      '5': 8,
+      '10': 'isPowerSaveIdle'
+    },
     {'1': 'dbf_telem_stale', '3': 14, '4': 1, '5': 8, '10': 'dbfTelemStale'},
-    {'1': 'moving_too_fast_for_policy', '3': 15, '4': 1, '5': 8, '10': 'movingTooFastForPolicy'},
-    {'1': 'low_motor_current', '3': 16, '4': 1, '5': 8, '10': 'lowMotorCurrent'},
-    {'1': 'lower_signal_than_predicted', '3': 17, '4': 1, '5': 8, '10': 'lowerSignalThanPredicted'},
-    {'1': 'slow_ethernet_speeds_100', '3': 18, '4': 1, '5': 8, '10': 'slowEthernetSpeeds100'},
-    {'1': 'obstruction_map_reset', '3': 19, '4': 1, '5': 8, '10': 'obstructionMapReset'},
+    {
+      '1': 'low_motor_current',
+      '3': 16,
+      '4': 1,
+      '5': 8,
+      '10': 'lowMotorCurrent'
+    },
+    {
+      '1': 'lower_signal_than_predicted',
+      '3': 17,
+      '4': 1,
+      '5': 8,
+      '10': 'lowerSignalThanPredicted'
+    },
+    {
+      '1': 'slow_ethernet_speeds_100',
+      '3': 18,
+      '4': 1,
+      '5': 8,
+      '10': 'slowEthernetSpeeds100'
+    },
+    {
+      '1': 'obstruction_map_reset',
+      '3': 19,
+      '4': 1,
+      '5': 8,
+      '10': 'obstructionMapReset'
+    },
+    {
+      '1': 'dish_water_detected',
+      '3': 20,
+      '4': 1,
+      '5': 8,
+      '10': 'dishWaterDetected'
+    },
+    {
+      '1': 'router_water_detected',
+      '3': 21,
+      '4': 1,
+      '5': 8,
+      '10': 'routerWaterDetected'
+    },
+    {
+      '1': 'upsu_router_port_slow',
+      '3': 22,
+      '4': 1,
+      '5': 8,
+      '10': 'upsuRouterPortSlow'
+    },
+    {'1': 'no_ethernet_link', '3': 23, '4': 1, '5': 8, '10': 'noEthernetLink'},
   ],
   '9': [
+    {'1': 12, '2': 13},
     {'1': 13, '2': 14},
+    {'1': 15, '2': 16},
   ],
-  '10': ['moving_fast_while_not_aviation'],
+  '10': [
+    'moving_fast_while_not_aviation',
+    'moving_too_fast_for_policy',
+    'moving_while_not_mobile'
+  ],
 };
 
 /// Descriptor for `DishAlerts`. Decode as a `google.protobuf.DescriptorProto`.
@@ -4471,22 +8446,37 @@ final $typed_data.Uint8List dishAlertsDescriptor = $convert.base64Decode(
     'V0U3BlZWRzEhgKB3JvYW1pbmcYByABKAhSB3JvYW1pbmcSJwoPaW5zdGFsbF9wZW5kaW5nGAgg'
     'ASgIUg5pbnN0YWxsUGVuZGluZxIdCgppc19oZWF0aW5nGAkgASgIUglpc0hlYXRpbmcSQQodcG'
     '93ZXJfc3VwcGx5X3RoZXJtYWxfdGhyb3R0bGUYCiABKAhSGnBvd2VyU3VwcGx5VGhlcm1hbFRo'
-    'cm90dGxlEisKEmlzX3Bvd2VyX3NhdmVfaWRsZRgLIAEoCFIPaXNQb3dlclNhdmVJZGxlEjUKF2'
-    '1vdmluZ193aGlsZV9ub3RfbW9iaWxlGAwgASgIUhRtb3ZpbmdXaGlsZU5vdE1vYmlsZRImCg9k'
-    'YmZfdGVsZW1fc3RhbGUYDiABKAhSDWRiZlRlbGVtU3RhbGUSOgoabW92aW5nX3Rvb19mYXN0X2'
-    'Zvcl9wb2xpY3kYDyABKAhSFm1vdmluZ1Rvb0Zhc3RGb3JQb2xpY3kSKgoRbG93X21vdG9yX2N1'
-    'cnJlbnQYECABKAhSD2xvd01vdG9yQ3VycmVudBI9Chtsb3dlcl9zaWduYWxfdGhhbl9wcmVkaW'
-    'N0ZWQYESABKAhSGGxvd2VyU2lnbmFsVGhhblByZWRpY3RlZBI3ChhzbG93X2V0aGVybmV0X3Nw'
-    'ZWVkc18xMDAYEiABKAhSFXNsb3dFdGhlcm5ldFNwZWVkczEwMBIyChVvYnN0cnVjdGlvbl9tYX'
-    'BfcmVzZXQYEyABKAhSE29ic3RydWN0aW9uTWFwUmVzZXRKBAgNEA5SHm1vdmluZ19mYXN0X3do'
-    'aWxlX25vdF9hdmlhdGlvbg==');
+    'cm90dGxlEisKEmlzX3Bvd2VyX3NhdmVfaWRsZRgLIAEoCFIPaXNQb3dlclNhdmVJZGxlEiYKD2'
+    'RiZl90ZWxlbV9zdGFsZRgOIAEoCFINZGJmVGVsZW1TdGFsZRIqChFsb3dfbW90b3JfY3VycmVu'
+    'dBgQIAEoCFIPbG93TW90b3JDdXJyZW50Ej0KG2xvd2VyX3NpZ25hbF90aGFuX3ByZWRpY3RlZB'
+    'gRIAEoCFIYbG93ZXJTaWduYWxUaGFuUHJlZGljdGVkEjcKGHNsb3dfZXRoZXJuZXRfc3BlZWRz'
+    'XzEwMBgSIAEoCFIVc2xvd0V0aGVybmV0U3BlZWRzMTAwEjIKFW9ic3RydWN0aW9uX21hcF9yZX'
+    'NldBgTIAEoCFITb2JzdHJ1Y3Rpb25NYXBSZXNldBIuChNkaXNoX3dhdGVyX2RldGVjdGVkGBQg'
+    'ASgIUhFkaXNoV2F0ZXJEZXRlY3RlZBIyChVyb3V0ZXJfd2F0ZXJfZGV0ZWN0ZWQYFSABKAhSE3'
+    'JvdXRlcldhdGVyRGV0ZWN0ZWQSMQoVdXBzdV9yb3V0ZXJfcG9ydF9zbG93GBYgASgIUhJ1cHN1'
+    'Um91dGVyUG9ydFNsb3cSKAoQbm9fZXRoZXJuZXRfbGluaxgXIAEoCFIObm9FdGhlcm5ldExpbm'
+    'tKBAgMEA1KBAgNEA5KBAgPEBBSHm1vdmluZ19mYXN0X3doaWxlX25vdF9hdmlhdGlvblIabW92'
+    'aW5nX3Rvb19mYXN0X2Zvcl9wb2xpY3lSF21vdmluZ193aGlsZV9ub3RfbW9iaWxl');
 
 @$core.Deprecated('Use dishOutageDescriptor instead')
 const DishOutage$json = {
   '1': 'DishOutage',
   '2': [
-    {'1': 'cause', '3': 1, '4': 1, '5': 14, '6': '.SpaceX.API.Device.DishOutage.Cause', '10': 'cause'},
-    {'1': 'start_timestamp_ns', '3': 2, '4': 1, '5': 3, '10': 'startTimestampNs'},
+    {
+      '1': 'cause',
+      '3': 1,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.DishOutage.Cause',
+      '10': 'cause'
+    },
+    {
+      '1': 'start_timestamp_ns',
+      '3': 2,
+      '4': 1,
+      '5': 3,
+      '10': 'startTimestampNs'
+    },
     {'1': 'duration_ns', '3': 3, '4': 1, '5': 4, '10': 'durationNs'},
     {'1': 'did_switch', '3': 4, '4': 1, '5': 8, '10': 'didSwitch'},
   ],
@@ -4509,8 +8499,12 @@ const DishOutage_Cause$json = {
     {'1': 'ACTUATOR_ACTIVITY', '2': 9},
     {'1': 'CABLE_TEST', '2': 10},
     {'1': 'SLEEPING', '2': 11},
-    {'1': 'MOVING_WHILE_NOT_ALLOWED', '2': 12},
+    {'1': 'SKY_SEARCH', '2': 13},
   ],
+  '4': [
+    {'1': 12, '2': 12},
+  ],
+  '5': ['MOVING_WHILE_NOT_ALLOWED'],
 };
 
 /// Descriptor for `DishOutage`. Decode as a `google.protobuf.DescriptorProto`.
@@ -4518,11 +8512,11 @@ final $typed_data.Uint8List dishOutageDescriptor = $convert.base64Decode(
     'CgpEaXNoT3V0YWdlEjkKBWNhdXNlGAEgASgOMiMuU3BhY2VYLkFQSS5EZXZpY2UuRGlzaE91dG'
     'FnZS5DYXVzZVIFY2F1c2USLAoSc3RhcnRfdGltZXN0YW1wX25zGAIgASgDUhBzdGFydFRpbWVz'
     'dGFtcE5zEh8KC2R1cmF0aW9uX25zGAMgASgEUgpkdXJhdGlvbk5zEh0KCmRpZF9zd2l0Y2gYBC'
-    'ABKAhSCWRpZFN3aXRjaCLjAQoFQ2F1c2USCwoHVU5LTk9XThAAEgsKB0JPT1RJTkcQARIKCgZT'
+    'ABKAhSCWRpZFN3aXRjaCL1AQoFQ2F1c2USCwoHVU5LTk9XThAAEgsKB0JPT1RJTkcQARIKCgZT'
     'VE9XRUQQAhIUChBUSEVSTUFMX1NIVVRET1dOEAMSDwoLTk9fU0NIRURVTEUQBBILCgdOT19TQV'
     'RTEAUSDgoKT0JTVFJVQ1RFRBAGEg8KC05PX0RPV05MSU5LEAcSDAoITk9fUElOR1MQCBIVChFB'
-    'Q1RVQVRPUl9BQ1RJVklUWRAJEg4KCkNBQkxFX1RFU1QQChIMCghTTEVFUElORxALEhwKGE1PVk'
-    'lOR19XSElMRV9OT1RfQUxMT1dFRBAM');
+    'Q1RVQVRPUl9BQ1RJVklUWRAJEg4KCkNBQkxFX1RFU1QQChIMCghTTEVFUElORxALEg4KClNLWV'
+    '9TRUFSQ0gQDSIECAwQDCoYTU9WSU5HX1dISUxFX05PVF9BTExPV0VE');
 
 @$core.Deprecated('Use dishGpsStatsDescriptor instead')
 const DishGpsStats$json = {
@@ -4530,7 +8524,13 @@ const DishGpsStats$json = {
   '2': [
     {'1': 'gps_valid', '3': 1, '4': 1, '5': 8, '10': 'gpsValid'},
     {'1': 'gps_sats', '3': 2, '4': 1, '5': 13, '10': 'gpsSats'},
-    {'1': 'no_sats_after_ttff', '3': 3, '4': 1, '5': 8, '10': 'noSatsAfterTtff'},
+    {
+      '1': 'no_sats_after_ttff',
+      '3': 3,
+      '4': 1,
+      '5': 8,
+      '10': 'noSatsAfterTtff'
+    },
     {'1': 'inhibit_gps', '3': 4, '4': 1, '5': 8, '10': 'inhibitGps'},
   ],
 };
@@ -4564,9 +8564,35 @@ final $typed_data.Uint8List dishReadyStatesDescriptor = $convert.base64Decode(
 const SoftwareUpdateStats$json = {
   '1': 'SoftwareUpdateStats',
   '2': [
-    {'1': 'software_update_state', '3': 1, '4': 1, '5': 14, '6': '.SpaceX.API.Device.SoftwareUpdateState', '10': 'softwareUpdateState'},
-    {'1': 'software_update_progress', '3': 2, '4': 1, '5': 2, '10': 'softwareUpdateProgress'},
-    {'1': 'update_requires_reboot', '3': 3, '4': 1, '5': 8, '10': 'updateRequiresReboot'},
+    {
+      '1': 'software_update_state',
+      '3': 1,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.SoftwareUpdateState',
+      '10': 'softwareUpdateState'
+    },
+    {
+      '1': 'software_update_progress',
+      '3': 2,
+      '4': 1,
+      '5': 2,
+      '10': 'softwareUpdateProgress'
+    },
+    {
+      '1': 'update_requires_reboot',
+      '3': 3,
+      '4': 1,
+      '5': 8,
+      '10': 'updateRequiresReboot'
+    },
+    {
+      '1': 'reboot_scheduled_utc_time',
+      '3': 4,
+      '4': 1,
+      '5': 3,
+      '10': 'rebootScheduledUtcTime'
+    },
   ],
 };
 
@@ -4576,21 +8602,73 @@ final $typed_data.Uint8List softwareUpdateStatsDescriptor = $convert.base64Decod
     'NwYWNlWC5BUEkuRGV2aWNlLlNvZnR3YXJlVXBkYXRlU3RhdGVSE3NvZnR3YXJlVXBkYXRlU3Rh'
     'dGUSOAoYc29mdHdhcmVfdXBkYXRlX3Byb2dyZXNzGAIgASgCUhZzb2Z0d2FyZVVwZGF0ZVByb2'
     'dyZXNzEjQKFnVwZGF0ZV9yZXF1aXJlc19yZWJvb3QYAyABKAhSFHVwZGF0ZVJlcXVpcmVzUmVi'
-    'b290');
+    'b290EjkKGXJlYm9vdF9zY2hlZHVsZWRfdXRjX3RpbWUYBCABKANSFnJlYm9vdFNjaGVkdWxlZF'
+    'V0Y1RpbWU=');
 
 @$core.Deprecated('Use alignmentStatsDescriptor instead')
 const AlignmentStats$json = {
   '1': 'AlignmentStats',
   '2': [
-    {'1': 'has_actuators', '3': 1, '4': 1, '5': 14, '6': '.SpaceX.API.Device.HasActuators', '10': 'hasActuators'},
-    {'1': 'actuator_state', '3': 2, '4': 1, '5': 14, '6': '.SpaceX.API.Device.ActuatorState', '10': 'actuatorState'},
+    {
+      '1': 'has_actuators',
+      '3': 1,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.HasActuators',
+      '10': 'hasActuators'
+    },
+    {
+      '1': 'actuator_state',
+      '3': 2,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.ActuatorState',
+      '10': 'actuatorState'
+    },
     {'1': 'tilt_angle_deg', '3': 3, '4': 1, '5': 2, '10': 'tiltAngleDeg'},
-    {'1': 'boresight_azimuth_deg', '3': 4, '4': 1, '5': 2, '10': 'boresightAzimuthDeg'},
-    {'1': 'boresight_elevation_deg', '3': 5, '4': 1, '5': 2, '10': 'boresightElevationDeg'},
-    {'1': 'attitude_estimation_state', '3': 6, '4': 1, '5': 14, '6': '.SpaceX.API.Device.AttitudeEstimationState', '10': 'attitudeEstimationState'},
-    {'1': 'attitude_uncertainty_deg', '3': 7, '4': 1, '5': 2, '10': 'attitudeUncertaintyDeg'},
-    {'1': 'desired_boresight_azimuth_deg', '3': 8, '4': 1, '5': 2, '10': 'desiredBoresightAzimuthDeg'},
-    {'1': 'desired_boresight_elevation_deg', '3': 9, '4': 1, '5': 2, '10': 'desiredBoresightElevationDeg'},
+    {
+      '1': 'boresight_azimuth_deg',
+      '3': 4,
+      '4': 1,
+      '5': 2,
+      '10': 'boresightAzimuthDeg'
+    },
+    {
+      '1': 'boresight_elevation_deg',
+      '3': 5,
+      '4': 1,
+      '5': 2,
+      '10': 'boresightElevationDeg'
+    },
+    {
+      '1': 'attitude_estimation_state',
+      '3': 6,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.AttitudeEstimationState',
+      '10': 'attitudeEstimationState'
+    },
+    {
+      '1': 'attitude_uncertainty_deg',
+      '3': 7,
+      '4': 1,
+      '5': 2,
+      '10': 'attitudeUncertaintyDeg'
+    },
+    {
+      '1': 'desired_boresight_azimuth_deg',
+      '3': 8,
+      '4': 1,
+      '5': 2,
+      '10': 'desiredBoresightAzimuthDeg'
+    },
+    {
+      '1': 'desired_boresight_elevation_deg',
+      '3': 9,
+      '4': 1,
+      '5': 2,
+      '10': 'desiredBoresightElevationDeg'
+    },
   ],
 };
 
@@ -4612,16 +8690,34 @@ final $typed_data.Uint8List alignmentStatsDescriptor = $convert.base64Decode(
 const InitializationDurationSeconds$json = {
   '1': 'InitializationDurationSeconds',
   '2': [
-    {'1': 'attitude_initialization', '3': 1, '4': 1, '5': 5, '10': 'attitudeInitialization'},
+    {
+      '1': 'attitude_initialization',
+      '3': 1,
+      '4': 1,
+      '5': 5,
+      '10': 'attitudeInitialization'
+    },
     {'1': 'burst_detected', '3': 2, '4': 1, '5': 5, '10': 'burstDetected'},
     {'1': 'ekf_converged', '3': 3, '4': 1, '5': 5, '10': 'ekfConverged'},
     {'1': 'first_cplane', '3': 4, '4': 1, '5': 5, '10': 'firstCplane'},
     {'1': 'first_pop_ping', '3': 5, '4': 1, '5': 5, '10': 'firstPopPing'},
     {'1': 'gps_valid', '3': 6, '4': 1, '5': 5, '10': 'gpsValid'},
-    {'1': 'initial_network_entry', '3': 7, '4': 1, '5': 5, '10': 'initialNetworkEntry'},
+    {
+      '1': 'initial_network_entry',
+      '3': 7,
+      '4': 1,
+      '5': 5,
+      '10': 'initialNetworkEntry'
+    },
     {'1': 'network_schedule', '3': 8, '4': 1, '5': 5, '10': 'networkSchedule'},
     {'1': 'rf_ready', '3': 9, '4': 1, '5': 5, '10': 'rfReady'},
-    {'1': 'stable_connection', '3': 10, '4': 1, '5': 5, '10': 'stableConnection'},
+    {
+      '1': 'stable_connection',
+      '3': 10,
+      '4': 1,
+      '5': 5,
+      '10': 'stableConnection'
+    },
   ],
 };
 
@@ -4641,18 +8737,82 @@ const PLCStats$json = {
   '1': 'PLCStats',
   '2': [
     {'1': 'receiving_plc', '3': 1, '4': 1, '5': 8, '10': 'receivingPlc'},
-    {'1': 'average_time_to_empty', '3': 2, '4': 1, '5': 13, '10': 'averageTimeToEmpty'},
-    {'1': 'average_time_to_full', '3': 3, '4': 1, '5': 13, '10': 'averageTimeToFull'},
+    {
+      '1': 'average_time_to_empty',
+      '3': 2,
+      '4': 1,
+      '5': 13,
+      '10': 'averageTimeToEmpty'
+    },
+    {
+      '1': 'average_time_to_full',
+      '3': 3,
+      '4': 1,
+      '5': 13,
+      '10': 'averageTimeToFull'
+    },
     {'1': 'battery_health', '3': 4, '4': 1, '5': 13, '10': 'batteryHealth'},
-    {'1': 'hardware_revision_id', '3': 5, '4': 1, '5': 13, '10': 'hardwareRevisionId'},
-    {'1': 'permanent_failure', '3': 6, '4': 1, '5': 8, '10': 'permanentFailure'},
-    {'1': 'port_1_stats', '3': 7, '4': 1, '5': 11, '6': '.SpaceX.API.Device.PLCPortStats', '10': 'port1Stats'},
-    {'1': 'port_2_stats', '3': 8, '4': 1, '5': 11, '6': '.SpaceX.API.Device.PLCPortStats', '10': 'port2Stats'},
-    {'1': 'port_3_stats', '3': 9, '4': 1, '5': 11, '6': '.SpaceX.API.Device.PLCPortStats', '10': 'port3Stats'},
-    {'1': 'plc_revision', '3': 10, '4': 1, '5': 14, '6': '.SpaceX.API.Device.PLCStats.ProtocolRevision', '10': 'plcRevision'},
-    {'1': 'safety_mode_active', '3': 11, '4': 1, '5': 8, '10': 'safetyModeActive'},
+    {
+      '1': 'hardware_revision_id',
+      '3': 5,
+      '4': 1,
+      '5': 13,
+      '10': 'hardwareRevisionId'
+    },
+    {
+      '1': 'permanent_failure',
+      '3': 6,
+      '4': 1,
+      '5': 8,
+      '10': 'permanentFailure'
+    },
+    {
+      '1': 'port_1_stats',
+      '3': 7,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.PLCPortStats',
+      '10': 'port1Stats'
+    },
+    {
+      '1': 'port_2_stats',
+      '3': 8,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.PLCPortStats',
+      '10': 'port2Stats'
+    },
+    {
+      '1': 'port_3_stats',
+      '3': 9,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.PLCPortStats',
+      '10': 'port3Stats'
+    },
+    {
+      '1': 'plc_revision',
+      '3': 10,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.PLCStats.ProtocolRevision',
+      '10': 'plcRevision'
+    },
+    {
+      '1': 'safety_mode_active',
+      '3': 11,
+      '4': 1,
+      '5': 8,
+      '10': 'safetyModeActive'
+    },
     {'1': 'state_of_charge', '3': 12, '4': 1, '5': 13, '10': 'stateOfCharge'},
-    {'1': 'thermal_throttle_level', '3': 13, '4': 1, '5': 13, '10': 'thermalThrottleLevel'},
+    {
+      '1': 'thermal_throttle_level',
+      '3': 13,
+      '4': 1,
+      '5': 13,
+      '10': 'thermalThrottleLevel'
+    },
   ],
   '4': [PLCStats_ProtocolRevision$json],
 };
@@ -4687,7 +8847,14 @@ const PLCPortStats$json = {
   '1': 'PLCPortStats',
   '2': [
     {'1': 'power', '3': 1, '4': 1, '5': 13, '10': 'power'},
-    {'1': 'status', '3': 2, '4': 1, '5': 14, '6': '.SpaceX.API.Device.PLCPortStats.PortStatus', '10': 'status'},
+    {
+      '1': 'status',
+      '3': 2,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.PLCPortStats.PortStatus',
+      '10': 'status'
+    },
   ],
   '4': [PLCPortStats_PortStatus$json],
 };
@@ -4720,6 +8887,38 @@ const DishUpsuStats$json = {
     {'1': 'uptime', '3': 5, '4': 1, '5': 3, '10': 'uptime'},
     {'1': 'dish_power', '3': 6, '4': 1, '5': 2, '10': 'dishPower'},
     {'1': 'router_power', '3': 7, '4': 1, '5': 2, '10': 'routerPower'},
+    {
+      '1': 'force_dev_signed_allowed',
+      '3': 8,
+      '4': 1,
+      '5': 8,
+      '10': 'forceDevSignedAllowed'
+    },
+    {'1': 'debug_port_locked', '3': 9, '4': 1, '5': 8, '10': 'debugPortLocked'},
+    {
+      '1': 'stsafe_certs_locked',
+      '3': 10,
+      '4': 1,
+      '5': 8,
+      '10': 'stsafeCertsLocked'
+    },
+    {
+      '1': 'stsafe_keys_locked',
+      '3': 11,
+      '4': 1,
+      '5': 8,
+      '10': 'stsafeKeysLocked'
+    },
+    {'1': 'g0_locked', '3': 12, '4': 1, '5': 13, '10': 'g0Locked'},
+    {
+      '1': 'g0_firmware_version',
+      '3': 13,
+      '4': 1,
+      '5': 13,
+      '10': 'g0FirmwareVersion'
+    },
+    {'1': 'board_rev', '3': 14, '4': 1, '5': 5, '10': 'boardRev'},
+    {'1': 'g0_board_id', '3': 15, '4': 1, '5': 13, '10': 'g0BoardId'},
   ],
 };
 
@@ -4728,27 +8927,114 @@ final $typed_data.Uint8List dishUpsuStatsDescriptor = $convert.base64Decode(
     'Cg1EaXNoVXBzdVN0YXRzEh8KC2FwcF92ZXJzaW9uGAIgASgEUgphcHBWZXJzaW9uEiEKDGJvb3'
     'RfdmVyc2lvbhgDIAEoBFILYm9vdFZlcnNpb24SHwoLcm9tX3ZlcnNpb24YBCABKARSCnJvbVZl'
     'cnNpb24SFgoGdXB0aW1lGAUgASgDUgZ1cHRpbWUSHQoKZGlzaF9wb3dlchgGIAEoAlIJZGlzaF'
-    'Bvd2VyEiEKDHJvdXRlcl9wb3dlchgHIAEoAlILcm91dGVyUG93ZXI=');
+    'Bvd2VyEiEKDHJvdXRlcl9wb3dlchgHIAEoAlILcm91dGVyUG93ZXISNwoYZm9yY2VfZGV2X3Np'
+    'Z25lZF9hbGxvd2VkGAggASgIUhVmb3JjZURldlNpZ25lZEFsbG93ZWQSKgoRZGVidWdfcG9ydF'
+    '9sb2NrZWQYCSABKAhSD2RlYnVnUG9ydExvY2tlZBIuChNzdHNhZmVfY2VydHNfbG9ja2VkGAog'
+    'ASgIUhFzdHNhZmVDZXJ0c0xvY2tlZBIsChJzdHNhZmVfa2V5c19sb2NrZWQYCyABKAhSEHN0c2'
+    'FmZUtleXNMb2NrZWQSGwoJZzBfbG9ja2VkGAwgASgNUghnMExvY2tlZBIuChNnMF9maXJtd2Fy'
+    'ZV92ZXJzaW9uGA0gASgNUhFnMEZpcm13YXJlVmVyc2lvbhIbCglib2FyZF9yZXYYDiABKAVSCG'
+    'JvYXJkUmV2Eh4KC2cwX2JvYXJkX2lkGA8gASgNUglnMEJvYXJkSWQ=');
+
+@$core.Deprecated('Use dishApsStatsDescriptor instead')
+const DishApsStats$json = {
+  '1': 'DishApsStats',
+  '2': [
+    {'1': 'app_version', '3': 2, '4': 1, '5': 4, '10': 'appVersion'},
+    {'1': 'boot_version', '3': 3, '4': 1, '5': 4, '10': 'bootVersion'},
+    {'1': 'rom_version', '3': 4, '4': 1, '5': 4, '10': 'romVersion'},
+    {'1': 'uptime', '3': 5, '4': 1, '5': 3, '10': 'uptime'},
+    {'1': 'dish_power', '3': 6, '4': 1, '5': 2, '10': 'dishPower'},
+    {
+      '1': 'force_dev_signed_allowed',
+      '3': 7,
+      '4': 1,
+      '5': 8,
+      '10': 'forceDevSignedAllowed'
+    },
+    {'1': 'debug_port_locked', '3': 8, '4': 1, '5': 8, '10': 'debugPortLocked'},
+    {'1': 'board_rev', '3': 9, '4': 1, '5': 5, '10': 'boardRev'},
+  ],
+};
+
+/// Descriptor for `DishApsStats`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List dishApsStatsDescriptor = $convert.base64Decode(
+    'CgxEaXNoQXBzU3RhdHMSHwoLYXBwX3ZlcnNpb24YAiABKARSCmFwcFZlcnNpb24SIQoMYm9vdF'
+    '92ZXJzaW9uGAMgASgEUgtib290VmVyc2lvbhIfCgtyb21fdmVyc2lvbhgEIAEoBFIKcm9tVmVy'
+    'c2lvbhIWCgZ1cHRpbWUYBSABKANSBnVwdGltZRIdCgpkaXNoX3Bvd2VyGAYgASgCUglkaXNoUG'
+    '93ZXISNwoYZm9yY2VfZGV2X3NpZ25lZF9hbGxvd2VkGAcgASgIUhVmb3JjZURldlNpZ25lZEFs'
+    'bG93ZWQSKgoRZGVidWdfcG9ydF9sb2NrZWQYCCABKAhSD2RlYnVnUG9ydExvY2tlZBIbCglib2'
+    'FyZF9yZXYYCSABKAVSCGJvYXJkUmV2');
+
+@$core.Deprecated('Use quaternionDescriptor instead')
+const Quaternion$json = {
+  '1': 'Quaternion',
+  '2': [
+    {'1': 'q_scalar', '3': 1, '4': 1, '5': 2, '10': 'qScalar'},
+    {'1': 'q_x', '3': 2, '4': 1, '5': 2, '10': 'qX'},
+    {'1': 'q_y', '3': 3, '4': 1, '5': 2, '10': 'qY'},
+    {'1': 'q_z', '3': 4, '4': 1, '5': 2, '10': 'qZ'},
+  ],
+};
+
+/// Descriptor for `Quaternion`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List quaternionDescriptor = $convert.base64Decode(
+    'CgpRdWF0ZXJuaW9uEhkKCHFfc2NhbGFyGAEgASgCUgdxU2NhbGFyEg8KA3FfeBgCIAEoAlICcV'
+    'gSDwoDcV95GAMgASgCUgJxWRIPCgNxX3oYBCABKAJSAnFa');
+
+@$core.Deprecated('Use routerInfoDescriptor instead')
+const RouterInfo$json = {
+  '1': 'RouterInfo',
+  '2': [
+    {
+      '1': 'role',
+      '3': 1,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.RouterRole',
+      '10': 'role'
+    },
+    {'1': 'last_seen', '3': 2, '4': 1, '5': 3, '10': 'lastSeen'},
+  ],
+};
+
+/// Descriptor for `RouterInfo`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List routerInfoDescriptor = $convert.base64Decode(
+    'CgpSb3V0ZXJJbmZvEjEKBHJvbGUYASABKA4yHS5TcGFjZVguQVBJLkRldmljZS5Sb3V0ZXJSb2'
+    'xlUgRyb2xlEhsKCWxhc3Rfc2VlbhgCIAEoA1IIbGFzdFNlZW4=');
 
 @$core.Deprecated('Use dishAuthenticateResponseDescriptor instead')
 const DishAuthenticateResponse$json = {
   '1': 'DishAuthenticateResponse',
   '2': [
-    {'1': 'dish', '3': 2, '4': 1, '5': 11, '6': '.SpaceX.API.Device.ChallengeResponse', '10': 'dish'},
+    {
+      '1': 'dish',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.ChallengeResponse',
+      '10': 'dish'
+    },
   ],
 };
 
 /// Descriptor for `DishAuthenticateResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List dishAuthenticateResponseDescriptor = $convert.base64Decode(
-    'ChhEaXNoQXV0aGVudGljYXRlUmVzcG9uc2USOAoEZGlzaBgCIAEoCzIkLlNwYWNlWC5BUEkuRG'
-    'V2aWNlLkNoYWxsZW5nZVJlc3BvbnNlUgRkaXNo');
+final $typed_data.Uint8List dishAuthenticateResponseDescriptor =
+    $convert.base64Decode(
+        'ChhEaXNoQXV0aGVudGljYXRlUmVzcG9uc2USOAoEZGlzaBgCIAEoCzIkLlNwYWNlWC5BUEkuRG'
+        'V2aWNlLkNoYWxsZW5nZVJlc3BvbnNlUgRkaXNo');
 
 @$core.Deprecated('Use challengeResponseDescriptor instead')
 const ChallengeResponse$json = {
   '1': 'ChallengeResponse',
   '2': [
     {'1': 'signature', '3': 1, '4': 1, '5': 12, '10': 'signature'},
-    {'1': 'certificate_chain', '3': 2, '4': 1, '5': 12, '10': 'certificateChain'},
+    {
+      '1': 'certificate_chain',
+      '3': 2,
+      '4': 1,
+      '5': 12,
+      '10': 'certificateChain'
+    },
   ],
 };
 
@@ -4762,12 +9048,51 @@ const DishGetHistoryResponse$json = {
   '1': 'DishGetHistoryResponse',
   '2': [
     {'1': 'current', '3': 1, '4': 1, '5': 4, '10': 'current'},
-    {'1': 'pop_ping_drop_rate', '3': 1001, '4': 3, '5': 2, '10': 'popPingDropRate'},
-    {'1': 'pop_ping_latency_ms', '3': 1002, '4': 3, '5': 2, '10': 'popPingLatencyMs'},
-    {'1': 'downlink_throughput_bps', '3': 1003, '4': 3, '5': 2, '10': 'downlinkThroughputBps'},
-    {'1': 'uplink_throughput_bps', '3': 1004, '4': 3, '5': 2, '10': 'uplinkThroughputBps'},
-    {'1': 'outages', '3': 1009, '4': 3, '5': 11, '6': '.SpaceX.API.Device.DishOutage', '10': 'outages'},
+    {
+      '1': 'pop_ping_drop_rate',
+      '3': 1001,
+      '4': 3,
+      '5': 2,
+      '10': 'popPingDropRate'
+    },
+    {
+      '1': 'pop_ping_latency_ms',
+      '3': 1002,
+      '4': 3,
+      '5': 2,
+      '10': 'popPingLatencyMs'
+    },
+    {
+      '1': 'downlink_throughput_bps',
+      '3': 1003,
+      '4': 3,
+      '5': 2,
+      '10': 'downlinkThroughputBps'
+    },
+    {
+      '1': 'uplink_throughput_bps',
+      '3': 1004,
+      '4': 3,
+      '5': 2,
+      '10': 'uplinkThroughputBps'
+    },
+    {
+      '1': 'outages',
+      '3': 1009,
+      '4': 3,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishOutage',
+      '10': 'outages'
+    },
     {'1': 'power_in', '3': 1010, '4': 3, '5': 2, '10': 'powerIn'},
+    {
+      '1': 'event_log',
+      '3': 1011,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.EventLog',
+      '10': 'eventLog'
+    },
   ],
   '9': [
     {'1': 1005, '2': 1006},
@@ -4785,7 +9110,81 @@ final $typed_data.Uint8List dishGetHistoryResponseDescriptor = $convert.base64De
     'RfYnBzGOsHIAMoAlIVZG93bmxpbmtUaHJvdWdocHV0QnBzEjMKFXVwbGlua190aHJvdWdocHV0'
     'X2JwcxjsByADKAJSE3VwbGlua1Rocm91Z2hwdXRCcHMSOAoHb3V0YWdlcxjxByADKAsyHS5TcG'
     'FjZVguQVBJLkRldmljZS5EaXNoT3V0YWdlUgdvdXRhZ2VzEhoKCHBvd2VyX2luGPIHIAMoAlIH'
-    'cG93ZXJJbkoGCO0HEO4HSgYI7gcQ7wdKBgjvBxDwB0oGCPAHEPEH');
+    'cG93ZXJJbhI5CglldmVudF9sb2cY8wcgASgLMhsuU3BhY2VYLkFQSS5EZXZpY2UuRXZlbnRMb2'
+    'dSCGV2ZW50TG9nSgYI7QcQ7gdKBgjuBxDvB0oGCO8HEPAHSgYI8AcQ8Qc=');
+
+@$core.Deprecated('Use eventLogDescriptor instead')
+const EventLog$json = {
+  '1': 'EventLog',
+  '2': [
+    {
+      '1': 'events',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.SpaceX.API.Device.UXEvent',
+      '10': 'events'
+    },
+    {
+      '1': 'start_timestamp_ns',
+      '3': 2,
+      '4': 1,
+      '5': 3,
+      '10': 'startTimestampNs'
+    },
+    {
+      '1': 'current_timestamp_ns',
+      '3': 3,
+      '4': 1,
+      '5': 3,
+      '10': 'currentTimestampNs'
+    },
+  ],
+};
+
+/// Descriptor for `EventLog`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List eventLogDescriptor = $convert.base64Decode(
+    'CghFdmVudExvZxIyCgZldmVudHMYASADKAsyGi5TcGFjZVguQVBJLkRldmljZS5VWEV2ZW50Ug'
+    'ZldmVudHMSLAoSc3RhcnRfdGltZXN0YW1wX25zGAIgASgDUhBzdGFydFRpbWVzdGFtcE5zEjAK'
+    'FGN1cnJlbnRfdGltZXN0YW1wX25zGAMgASgDUhJjdXJyZW50VGltZXN0YW1wTnM=');
+
+@$core.Deprecated('Use uXEventDescriptor instead')
+const UXEvent$json = {
+  '1': 'UXEvent',
+  '2': [
+    {
+      '1': 'severity',
+      '3': 1,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.EventSeverity',
+      '10': 'severity'
+    },
+    {
+      '1': 'reason',
+      '3': 2,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.EventReason',
+      '10': 'reason'
+    },
+    {
+      '1': 'start_timestamp_ns',
+      '3': 3,
+      '4': 1,
+      '5': 3,
+      '10': 'startTimestampNs'
+    },
+    {'1': 'duration_ns', '3': 4, '4': 1, '5': 4, '10': 'durationNs'},
+  ],
+};
+
+/// Descriptor for `UXEvent`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List uXEventDescriptor = $convert.base64Decode(
+    'CgdVWEV2ZW50EjwKCHNldmVyaXR5GAEgASgOMiAuU3BhY2VYLkFQSS5EZXZpY2UuRXZlbnRTZX'
+    'Zlcml0eVIIc2V2ZXJpdHkSNgoGcmVhc29uGAIgASgOMh4uU3BhY2VYLkFQSS5EZXZpY2UuRXZl'
+    'bnRSZWFzb25SBnJlYXNvbhIsChJzdGFydF90aW1lc3RhbXBfbnMYAyABKANSEHN0YXJ0VGltZX'
+    'N0YW1wTnMSHwoLZHVyYXRpb25fbnMYBCABKARSCmR1cmF0aW9uTnM=');
 
 @$core.Deprecated('Use dishSetEmcResponseDescriptor instead')
 const DishSetEmcResponse$json = {
@@ -4793,8 +9192,8 @@ const DishSetEmcResponse$json = {
 };
 
 /// Descriptor for `DishSetEmcResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List dishSetEmcResponseDescriptor = $convert.base64Decode(
-    'ChJEaXNoU2V0RW1jUmVzcG9uc2U=');
+final $typed_data.Uint8List dishSetEmcResponseDescriptor =
+    $convert.base64Decode('ChJEaXNoU2V0RW1jUmVzcG9uc2U=');
 
 @$core.Deprecated('Use dishGetObstructionMapResponseDescriptor instead')
 const DishGetObstructionMapResponse$json = {
@@ -4812,7 +9211,14 @@ const DishGetObstructionMapResponse$json = {
       '10': 'minElevationDeg',
     },
     {'1': 'max_theta_deg', '3': 5, '4': 1, '5': 2, '10': 'maxThetaDeg'},
-    {'1': 'map_reference_frame', '3': 6, '4': 1, '5': 14, '6': '.SpaceX.API.Device.ObstructionMapReferenceFrame', '10': 'mapReferenceFrame'},
+    {
+      '1': 'map_reference_frame',
+      '3': 6,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.ObstructionMapReferenceFrame',
+      '10': 'mapReferenceFrame'
+    },
   ],
 };
 
@@ -4842,44 +9248,206 @@ const DishGetEmcResponse$json = {
     {'1': 'tx_channel', '3': 23, '4': 1, '5': 13, '10': 'txChannel'},
     {'1': 't_dbf_max', '3': 24, '4': 1, '5': 2, '10': 'tDbfMax'},
     {'1': 't_center', '3': 25, '4': 1, '5': 1, '10': 'tCenter'},
-    {'1': 'auto_power_snow_melt_enabled', '3': 30, '4': 1, '5': 8, '10': 'autoPowerSnowMeltEnabled'},
+    {
+      '1': 'auto_power_snow_melt_enabled',
+      '3': 30,
+      '4': 1,
+      '5': 8,
+      '10': 'autoPowerSnowMeltEnabled'
+    },
     {'1': 'voltage', '3': 32, '4': 1, '5': 1, '10': 'voltage'},
     {'1': 'rx_beam_state', '3': 33, '4': 1, '5': 13, '10': 'rxBeamState'},
     {'1': 'tx_beam_state', '3': 34, '4': 1, '5': 13, '10': 'txBeamState'},
-    {'1': 'half_duplex_state', '3': 35, '4': 1, '5': 13, '10': 'halfDuplexState'},
-    {'1': 'manual_tilt_enabled', '3': 36, '4': 1, '5': 8, '10': 'manualTiltEnabled'},
+    {
+      '1': 'half_duplex_state',
+      '3': 35,
+      '4': 1,
+      '5': 13,
+      '10': 'halfDuplexState'
+    },
+    {
+      '1': 'manual_tilt_enabled',
+      '3': 36,
+      '4': 1,
+      '5': 8,
+      '10': 'manualTiltEnabled'
+    },
     {'1': 'tilt_angle', '3': 37, '4': 1, '5': 1, '10': 'tiltAngle'},
-    {'1': 'pll_tx_lock_detected', '3': 38, '4': 1, '5': 13, '10': 'pllTxLockDetected'},
-    {'1': 'eirp_exceeded_threshold', '3': 39, '4': 1, '5': 8, '10': 'eirpExceededThreshold'},
-    {'1': 'idle_override_enabled', '3': 41, '4': 1, '5': 8, '10': 'idleOverrideEnabled'},
-    {'1': 'theta_override_enabled', '3': 42, '4': 1, '5': 8, '10': 'thetaOverrideEnabled'},
-    {'1': 'theta_override_value', '3': 43, '4': 1, '5': 1, '10': 'thetaOverrideValue'},
-    {'1': 'phi_override_enabled', '3': 44, '4': 1, '5': 8, '10': 'phiOverrideEnabled'},
-    {'1': 'phi_override_value', '3': 45, '4': 1, '5': 1, '10': 'phiOverrideValue'},
-    {'1': 'rx_chan_override_value', '3': 46, '4': 1, '5': 13, '10': 'rxChanOverrideValue'},
-    {'1': 'tx_chan_override_value', '3': 47, '4': 1, '5': 13, '10': 'txChanOverrideValue'},
-    {'1': 'sky_search_override_enabled', '3': 48, '4': 1, '5': 8, '10': 'skySearchOverrideEnabled'},
-    {'1': 'fast_switching_enabled', '3': 49, '4': 1, '5': 8, '10': 'fastSwitchingEnabled'},
-    {'1': 'modulation_override_value', '3': 50, '4': 1, '5': 13, '10': 'modulationOverrideValue'},
-    {'1': 'force_eirp_failure', '3': 51, '4': 1, '5': 8, '10': 'forceEirpFailure'},
+    {
+      '1': 'pll_tx_lock_detected',
+      '3': 38,
+      '4': 1,
+      '5': 13,
+      '10': 'pllTxLockDetected'
+    },
+    {
+      '1': 'eirp_exceeded_threshold',
+      '3': 39,
+      '4': 1,
+      '5': 8,
+      '10': 'eirpExceededThreshold'
+    },
+    {
+      '1': 'idle_override_enabled',
+      '3': 41,
+      '4': 1,
+      '5': 8,
+      '10': 'idleOverrideEnabled'
+    },
+    {
+      '1': 'theta_override_enabled',
+      '3': 42,
+      '4': 1,
+      '5': 8,
+      '10': 'thetaOverrideEnabled'
+    },
+    {
+      '1': 'theta_override_value',
+      '3': 43,
+      '4': 1,
+      '5': 1,
+      '10': 'thetaOverrideValue'
+    },
+    {
+      '1': 'phi_override_enabled',
+      '3': 44,
+      '4': 1,
+      '5': 8,
+      '10': 'phiOverrideEnabled'
+    },
+    {
+      '1': 'phi_override_value',
+      '3': 45,
+      '4': 1,
+      '5': 1,
+      '10': 'phiOverrideValue'
+    },
+    {
+      '1': 'rx_chan_override_value',
+      '3': 46,
+      '4': 1,
+      '5': 13,
+      '10': 'rxChanOverrideValue'
+    },
+    {
+      '1': 'tx_chan_override_value',
+      '3': 47,
+      '4': 1,
+      '5': 13,
+      '10': 'txChanOverrideValue'
+    },
+    {
+      '1': 'sky_search_override_enabled',
+      '3': 48,
+      '4': 1,
+      '5': 8,
+      '10': 'skySearchOverrideEnabled'
+    },
+    {
+      '1': 'fast_switching_enabled',
+      '3': 49,
+      '4': 1,
+      '5': 8,
+      '10': 'fastSwitchingEnabled'
+    },
+    {
+      '1': 'modulation_override_value',
+      '3': 50,
+      '4': 1,
+      '5': 13,
+      '10': 'modulationOverrideValue'
+    },
+    {
+      '1': 'force_eirp_failure',
+      '3': 51,
+      '4': 1,
+      '5': 8,
+      '10': 'forceEirpFailure'
+    },
     {'1': 'force_pll_unlock', '3': 52, '4': 1, '5': 8, '10': 'forcePllUnlock'},
     {'1': 'ut_ine_success', '3': 53, '4': 1, '5': 13, '10': 'utIneSuccess'},
     {'1': 'rf_ready', '3': 54, '4': 1, '5': 8, '10': 'rfReady'},
     {'1': 'tilt_to_stowed', '3': 55, '4': 1, '5': 8, '10': 'tiltToStowed'},
     {'1': 'reboot', '3': 56, '4': 1, '5': 8, '10': 'reboot'},
-    {'1': 'continuous_motor_test', '3': 57, '4': 1, '5': 8, '10': 'continuousMotorTest'},
-    {'1': 'distance_override_meters', '3': 58, '4': 1, '5': 1, '10': 'distanceOverrideMeters'},
-    {'1': 'country_code_override', '3': 62, '4': 1, '5': 13, '10': 'countryCodeOverride'},
-    {'1': 'max_pointing_distance', '3': 63, '4': 1, '5': 1, '10': 'maxPointingDistance'},
-    {'1': 'distance_scaling_factor', '3': 64, '4': 1, '5': 1, '10': 'distanceScalingFactor'},
-    {'1': 'tx_duty_cycle_override', '3': 65, '4': 1, '5': 5, '10': 'txDutyCycleOverride'},
-    {'1': 'rx_duty_cycle_override', '3': 66, '4': 1, '5': 5, '10': 'rxDutyCycleOverride'},
+    {
+      '1': 'continuous_motor_test',
+      '3': 57,
+      '4': 1,
+      '5': 8,
+      '10': 'continuousMotorTest'
+    },
+    {
+      '1': 'distance_override_meters',
+      '3': 58,
+      '4': 1,
+      '5': 1,
+      '10': 'distanceOverrideMeters'
+    },
+    {
+      '1': 'country_code_override',
+      '3': 62,
+      '4': 1,
+      '5': 13,
+      '10': 'countryCodeOverride'
+    },
+    {
+      '1': 'max_pointing_distance',
+      '3': 63,
+      '4': 1,
+      '5': 1,
+      '10': 'maxPointingDistance'
+    },
+    {
+      '1': 'distance_scaling_factor',
+      '3': 64,
+      '4': 1,
+      '5': 1,
+      '10': 'distanceScalingFactor'
+    },
+    {
+      '1': 'tx_duty_cycle_override',
+      '3': 65,
+      '4': 1,
+      '5': 5,
+      '10': 'txDutyCycleOverride'
+    },
+    {
+      '1': 'rx_duty_cycle_override',
+      '3': 66,
+      '4': 1,
+      '5': 5,
+      '10': 'rxDutyCycleOverride'
+    },
     {'1': 'tx_time_ms', '3': 67, '4': 1, '5': 2, '10': 'txTimeMs'},
     {'1': 'rx_time_ms', '3': 68, '4': 1, '5': 2, '10': 'rxTimeMs'},
-    {'1': 'eirp_legal_limit_dbw', '3': 69, '4': 1, '5': 1, '10': 'eirpLegalLimitDbw'},
-    {'1': 'eirp_legal_limit_dbw_override', '3': 70, '4': 1, '5': 1, '10': 'eirpLegalLimitDbwOverride'},
-    {'1': 'eirp_adjustment_db', '3': 71, '4': 1, '5': 1, '10': 'eirpAdjustmentDb'},
-    {'1': 'eirp_predicted_dbw', '3': 72, '4': 1, '5': 1, '10': 'eirpPredictedDbw'},
+    {
+      '1': 'eirp_legal_limit_dbw',
+      '3': 69,
+      '4': 1,
+      '5': 1,
+      '10': 'eirpLegalLimitDbw'
+    },
+    {
+      '1': 'eirp_legal_limit_dbw_override',
+      '3': 70,
+      '4': 1,
+      '5': 1,
+      '10': 'eirpLegalLimitDbwOverride'
+    },
+    {
+      '1': 'eirp_adjustment_db',
+      '3': 71,
+      '4': 1,
+      '5': 1,
+      '10': 'eirpAdjustmentDb'
+    },
+    {
+      '1': 'eirp_predicted_dbw',
+      '3': 72,
+      '4': 1,
+      '5': 1,
+      '10': 'eirpPredictedDbw'
+    },
   ],
   '9': [
     {'1': 26, '2': 30},
@@ -4888,7 +9456,16 @@ const DishGetEmcResponse$json = {
     {'1': 60, '2': 61},
     {'1': 61, '2': 62},
   ],
-  '10': ['additional_heating', 'amplitude_taper_enabled', 'amplitude_taper_override', 'amplitude_taper_scale', 'baseline_heating', 'eirp_scale_override', 'target_total_heating', 'total_heating'],
+  '10': [
+    'additional_heating',
+    'amplitude_taper_enabled',
+    'amplitude_taper_override',
+    'amplitude_taper_scale',
+    'baseline_heating',
+    'eirp_scale_override',
+    'target_total_heating',
+    'total_heating'
+  ],
 };
 
 /// Descriptor for `DishGetEmcResponse`. Decode as a `google.protobuf.DescriptorProto`.
@@ -4941,7 +9518,14 @@ final $typed_data.Uint8List dishGetEmcResponseDescriptor = $convert.base64Decode
 const DishSetConfigResponse$json = {
   '1': 'DishSetConfigResponse',
   '2': [
-    {'1': 'updated_dish_config', '3': 1, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishConfig', '10': 'updatedDishConfig'},
+    {
+      '1': 'updated_dish_config',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishConfig',
+      '10': 'updatedDishConfig'
+    },
     {'1': 'error', '3': 2, '4': 1, '5': 9, '10': 'error'},
   ],
 };
@@ -4956,7 +9540,14 @@ final $typed_data.Uint8List dishSetConfigResponseDescriptor = $convert.base64Dec
 const DishGetConfigResponse$json = {
   '1': 'DishGetConfigResponse',
   '2': [
-    {'1': 'dish_config', '3': 1, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishConfig', '10': 'dishConfig'},
+    {
+      '1': 'dish_config',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishConfig',
+      '10': 'dishConfig'
+    },
   ],
 };
 
@@ -4974,9 +9565,10 @@ const DishInhibitGpsResponse$json = {
 };
 
 /// Descriptor for `DishInhibitGpsResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List dishInhibitGpsResponseDescriptor = $convert.base64Decode(
-    'ChZEaXNoSW5oaWJpdEdwc1Jlc3BvbnNlEh8KC2luaGliaXRfZ3BzGAEgASgIUgppbmhpYml0R3'
-    'Bz');
+final $typed_data.Uint8List dishInhibitGpsResponseDescriptor =
+    $convert.base64Decode(
+        'ChZEaXNoSW5oaWJpdEdwc1Jlc3BvbnNlEh8KC2luaGliaXRfZ3BzGAEgASgIUgppbmhpYml0R3'
+        'Bz');
 
 @$core.Deprecated('Use dishClearObstructionMapResponseDescriptor instead')
 const DishClearObstructionMapResponse$json = {
@@ -4984,8 +9576,8 @@ const DishClearObstructionMapResponse$json = {
 };
 
 /// Descriptor for `DishClearObstructionMapResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List dishClearObstructionMapResponseDescriptor = $convert.base64Decode(
-    'Ch9EaXNoQ2xlYXJPYnN0cnVjdGlvbk1hcFJlc3BvbnNl');
+final $typed_data.Uint8List dishClearObstructionMapResponseDescriptor =
+    $convert.base64Decode('Ch9EaXNoQ2xlYXJPYnN0cnVjdGlvbk1hcFJlc3BvbnNl');
 
 @$core.Deprecated('Use dishSetMaxPowerTestModeResponseDescriptor instead')
 const DishSetMaxPowerTestModeResponse$json = {
@@ -4996,9 +9588,10 @@ const DishSetMaxPowerTestModeResponse$json = {
 };
 
 /// Descriptor for `DishSetMaxPowerTestModeResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List dishSetMaxPowerTestModeResponseDescriptor = $convert.base64Decode(
-    'Ch9EaXNoU2V0TWF4UG93ZXJUZXN0TW9kZVJlc3BvbnNlEhgKB2VuYWJsZWQYASABKAhSB2VuYW'
-    'JsZWQ=');
+final $typed_data.Uint8List dishSetMaxPowerTestModeResponseDescriptor =
+    $convert.base64Decode(
+        'Ch9EaXNoU2V0TWF4UG93ZXJUZXN0TW9kZVJlc3BvbnNlEhgKB2VuYWJsZWQYASABKAhSB2VuYW'
+        'JsZWQ=');
 
 @$core.Deprecated('Use dishActivateRssiScanResponseDescriptor instead')
 const DishActivateRssiScanResponse$json = {
@@ -5009,22 +9602,31 @@ const DishActivateRssiScanResponse$json = {
 };
 
 /// Descriptor for `DishActivateRssiScanResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List dishActivateRssiScanResponseDescriptor = $convert.base64Decode(
-    'ChxEaXNoQWN0aXZhdGVSc3NpU2NhblJlc3BvbnNlEhgKB3N1Y2Nlc3MYASABKAhSB3N1Y2Nlc3'
-    'M=');
+final $typed_data.Uint8List dishActivateRssiScanResponseDescriptor =
+    $convert.base64Decode(
+        'ChxEaXNoQWN0aXZhdGVSc3NpU2NhblJlc3BvbnNlEhgKB3N1Y2Nlc3MYASABKAhSB3N1Y2Nlc3'
+        'M=');
 
 @$core.Deprecated('Use dishGetRssiScanResultResponseDescriptor instead')
 const DishGetRssiScanResultResponse$json = {
   '1': 'DishGetRssiScanResultResponse',
   '2': [
-    {'1': 'result', '3': 1, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishGetRssiScanResult', '10': 'result'},
+    {
+      '1': 'result',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishGetRssiScanResult',
+      '10': 'result'
+    },
   ],
 };
 
 /// Descriptor for `DishGetRssiScanResultResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List dishGetRssiScanResultResponseDescriptor = $convert.base64Decode(
-    'Ch1EaXNoR2V0UnNzaVNjYW5SZXN1bHRSZXNwb25zZRJACgZyZXN1bHQYASABKAsyKC5TcGFjZV'
-    'guQVBJLkRldmljZS5EaXNoR2V0UnNzaVNjYW5SZXN1bHRSBnJlc3VsdA==');
+final $typed_data.Uint8List dishGetRssiScanResultResponseDescriptor =
+    $convert.base64Decode(
+        'Ch1EaXNoR2V0UnNzaVNjYW5SZXN1bHRSZXNwb25zZRJACgZyZXN1bHQYASABKAsyKC5TcGFjZV'
+        'guQVBJLkRldmljZS5EaXNoR2V0UnNzaVNjYW5SZXN1bHRSBnJlc3VsdA==');
 
 @$core.Deprecated('Use dishGetRssiScanResultDescriptor instead')
 const DishGetRssiScanResult$json = {
@@ -5032,9 +9634,22 @@ const DishGetRssiScanResult$json = {
   '2': [
     {'1': 'success', '3': 1, '4': 1, '5': 8, '10': 'success'},
     {'1': 'channel', '3': 2, '4': 1, '5': 13, '10': 'channel'},
-    {'1': 'request_timestamp', '3': 3, '4': 1, '5': 4, '10': 'requestTimestamp'},
+    {
+      '1': 'request_timestamp',
+      '3': 3,
+      '4': 1,
+      '5': 4,
+      '10': 'requestTimestamp'
+    },
     {'1': 'number_samples', '3': 4, '4': 1, '5': 13, '10': 'numberSamples'},
-    {'1': 'rssi_scan_points', '3': 5, '4': 3, '5': 11, '6': '.SpaceX.API.Device.RssiEntry', '10': 'rssiScanPoints'},
+    {
+      '1': 'rssi_scan_points',
+      '3': 5,
+      '4': 3,
+      '5': 11,
+      '6': '.SpaceX.API.Device.RssiEntry',
+      '10': 'rssiScanPoints'
+    },
   ],
 };
 
@@ -5069,8 +9684,8 @@ const DishFactoryResetResponse$json = {
 };
 
 /// Descriptor for `DishFactoryResetResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List dishFactoryResetResponseDescriptor = $convert.base64Decode(
-    'ChhEaXNoRmFjdG9yeVJlc2V0UmVzcG9uc2U=');
+final $typed_data.Uint8List dishFactoryResetResponseDescriptor =
+    $convert.base64Decode('ChhEaXNoRmFjdG9yeVJlc2V0UmVzcG9uc2U=');
 
 @$core.Deprecated('Use resetButtonResponseDescriptor instead')
 const ResetButtonResponse$json = {
@@ -5078,14 +9693,51 @@ const ResetButtonResponse$json = {
 };
 
 /// Descriptor for `ResetButtonResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List resetButtonResponseDescriptor = $convert.base64Decode(
-    'ChNSZXNldEJ1dHRvblJlc3BvbnNl');
+final $typed_data.Uint8List resetButtonResponseDescriptor =
+    $convert.base64Decode('ChNSZXNldEJ1dHRvblJlc3BvbnNl');
+
+@$core.Deprecated('Use setPerVehicleConfigResponseDescriptor instead')
+const SetPerVehicleConfigResponse$json = {
+  '1': 'SetPerVehicleConfigResponse',
+};
+
+/// Descriptor for `SetPerVehicleConfigResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List setPerVehicleConfigResponseDescriptor =
+    $convert.base64Decode('ChtTZXRQZXJWZWhpY2xlQ29uZmlnUmVzcG9uc2U=');
+
+@$core.Deprecated('Use dishAviationTestResponseDescriptor instead')
+const DishAviationTestResponse$json = {
+  '1': 'DishAviationTestResponse',
+};
+
+/// Descriptor for `DishAviationTestResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List dishAviationTestResponseDescriptor =
+    $convert.base64Decode('ChhEaXNoQXZpYXRpb25UZXN0UmVzcG9uc2U=');
+
+@$core.Deprecated('Use dishInhibitRfResponseDescriptor instead')
+const DishInhibitRfResponse$json = {
+  '1': 'DishInhibitRfResponse',
+  '2': [
+    {'1': 'inhibit_rf', '3': 1, '4': 1, '5': 8, '10': 'inhibitRf'},
+  ],
+};
+
+/// Descriptor for `DishInhibitRfResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List dishInhibitRfResponseDescriptor = $convert.base64Decode(
+    'ChVEaXNoSW5oaWJpdFJmUmVzcG9uc2USHQoKaW5oaWJpdF9yZhgBIAEoCFIJaW5oaWJpdFJm');
 
 @$core.Deprecated('Use wifiSetConfigResponseDescriptor instead')
 const WifiSetConfigResponse$json = {
   '1': 'WifiSetConfigResponse',
   '2': [
-    {'1': 'updated_wifi_config', '3': 1, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiConfig', '10': 'updatedWifiConfig'},
+    {
+      '1': 'updated_wifi_config',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiConfig',
+      '10': 'updatedWifiConfig'
+    },
   ],
 };
 
@@ -5098,7 +9750,14 @@ final $typed_data.Uint8List wifiSetConfigResponseDescriptor = $convert.base64Dec
 const WifiGetClientsResponse$json = {
   '1': 'WifiGetClientsResponse',
   '2': [
-    {'1': 'clients', '3': 1, '4': 3, '5': 11, '6': '.SpaceX.API.Device.WifiClient', '10': 'clients'},
+    {
+      '1': 'clients',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiClient',
+      '10': 'clients'
+    },
     {'1': 'has_client_index', '3': 2, '4': 1, '5': 8, '10': 'hasClientIndex'},
     {'1': 'client_index', '3': 3, '4': 1, '5': 5, '10': 'clientIndex'},
   ],
@@ -5118,53 +9777,194 @@ const WifiClient$json = {
     {'1': 'mac_address', '3': 2, '4': 1, '5': 9, '10': 'macAddress'},
     {'1': 'ip_address', '3': 3, '4': 1, '5': 9, '10': 'ipAddress'},
     {'1': 'signal_strength', '3': 4, '4': 1, '5': 2, '10': 'signalStrength'},
-    {'1': 'rx_stats', '3': 5, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiClient.RxStats', '10': 'rxStats'},
-    {'1': 'tx_stats', '3': 6, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiClient.TxStats', '10': 'txStats'},
-    {'1': 'associated_time_s', '3': 7, '4': 1, '5': 13, '10': 'associatedTimeS'},
+    {
+      '1': 'rx_stats',
+      '3': 5,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiClient.RxStats',
+      '10': 'rxStats'
+    },
+    {
+      '1': 'tx_stats',
+      '3': 6,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiClient.TxStats',
+      '10': 'txStats'
+    },
+    {
+      '1': 'associated_time_s',
+      '3': 7,
+      '4': 1,
+      '5': 13,
+      '10': 'associatedTimeS'
+    },
     {'1': 'mode_str', '3': 8, '4': 1, '5': 9, '10': 'modeStr'},
-    {'1': 'iface', '3': 9, '4': 1, '5': 14, '6': '.SpaceX.API.Device.WifiClient.Interface', '10': 'iface'},
+    {
+      '1': 'iface',
+      '3': 9,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.WifiClient.Interface',
+      '10': 'iface'
+    },
     {'1': 'snr', '3': 10, '4': 1, '5': 2, '10': 'snr'},
     {'1': 'psmode', '3': 11, '4': 1, '5': 5, '10': 'psmode'},
     {'1': 'channel_width', '3': 12, '4': 1, '5': 13, '10': 'channelWidth'},
-    {'1': 'upstream_mac_address', '3': 13, '4': 1, '5': 9, '10': 'upstreamMacAddress'},
-    {'1': 'role', '3': 14, '4': 1, '5': 14, '6': '.SpaceX.API.Device.WifiClient.Role', '10': 'role'},
+    {
+      '1': 'upstream_mac_address',
+      '3': 13,
+      '4': 1,
+      '5': 9,
+      '10': 'upstreamMacAddress'
+    },
+    {
+      '1': 'role',
+      '3': 14,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.WifiClient.Role',
+      '10': 'role'
+    },
     {'1': 'device_id', '3': 15, '4': 1, '5': 9, '10': 'deviceId'},
     {'1': 'swq_checks', '3': 16, '4': 1, '5': 13, '10': 'swqChecks'},
-    {'1': 'swq_checks_non_empty', '3': 17, '4': 1, '5': 13, '10': 'swqChecksNonEmpty'},
+    {
+      '1': 'swq_checks_non_empty',
+      '3': 17,
+      '4': 1,
+      '5': 13,
+      '10': 'swqChecksNonEmpty'
+    },
     {'1': 'mib_steer_state', '3': 18, '4': 1, '5': 13, '10': 'mibSteerState'},
     {'1': 'mib_steer_method', '3': 19, '4': 1, '5': 13, '10': 'mibSteerMethod'},
     {'1': 'btm_requests', '3': 20, '4': 1, '5': 13, '10': 'btmRequests'},
-    {'1': 'btm_requests_success', '3': 21, '4': 1, '5': 13, '10': 'btmRequestsSuccess'},
+    {
+      '1': 'btm_requests_success',
+      '3': 21,
+      '4': 1,
+      '5': 13,
+      '10': 'btmRequestsSuccess'
+    },
     {'1': 'domain', '3': 22, '4': 1, '5': 9, '10': 'domain'},
     {'1': 'dot11v_support', '3': 23, '4': 1, '5': 8, '10': 'dot11vSupport'},
     {'1': 'iface_name', '3': 26, '4': 1, '5': 9, '10': 'ifaceName'},
-    {'1': 'steer_req_success_last_1h', '3': 27, '4': 1, '5': 13, '10': 'steerReqSuccessLast1h'},
-    {'1': 'steer_req_fail_last_1h', '3': 28, '4': 1, '5': 13, '10': 'steerReqFailLast1h'},
-    {'1': 'steer_req_fail_and_dissoc_last_1h', '3': 29, '4': 1, '5': 13, '10': 'steerReqFailAndDissocLast1h'},
+    {
+      '1': 'steer_req_success_last_1h',
+      '3': 27,
+      '4': 1,
+      '5': 13,
+      '10': 'steerReqSuccessLast1h'
+    },
+    {
+      '1': 'steer_req_fail_last_1h',
+      '3': 28,
+      '4': 1,
+      '5': 13,
+      '10': 'steerReqFailLast1h'
+    },
+    {
+      '1': 'steer_req_fail_and_dissoc_last_1h',
+      '3': 29,
+      '4': 1,
+      '5': 13,
+      '10': 'steerReqFailAndDissocLast1h'
+    },
     {'1': 'steer_state', '3': 30, '4': 1, '5': 13, '10': 'steerState'},
     {'1': 'given_name', '3': 31, '4': 1, '5': 9, '10': 'givenName'},
-    {'1': 'hops_from_controller', '3': 32, '4': 1, '5': 13, '10': 'hopsFromController'},
-    {'1': 'est_tx_rate_mbps_from_controller', '3': 33, '4': 1, '5': 2, '10': 'estTxRateMbpsFromController'},
-    {'1': 'est_rx_rate_mbps_from_controller', '3': 34, '4': 1, '5': 2, '10': 'estRxRateMbpsFromController'},
+    {
+      '1': 'hops_from_controller',
+      '3': 32,
+      '4': 1,
+      '5': 13,
+      '10': 'hopsFromController'
+    },
+    {
+      '1': 'est_tx_rate_mbps_from_controller',
+      '3': 33,
+      '4': 1,
+      '5': 2,
+      '10': 'estTxRateMbpsFromController'
+    },
+    {
+      '1': 'est_rx_rate_mbps_from_controller',
+      '3': 34,
+      '4': 1,
+      '5': 2,
+      '10': 'estRxRateMbpsFromController'
+    },
     {'1': 'hardware_version', '3': 37, '4': 1, '5': 9, '10': 'hardwareVersion'},
     {'1': 'software_version', '3': 38, '4': 1, '5': 9, '10': 'softwareVersion'},
     {'1': 'api_version', '3': 39, '4': 1, '5': 13, '10': 'apiVersion'},
-    {'1': 'ping_metrics', '3': 40, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiClient.PingMetrics', '10': 'pingMetrics'},
+    {
+      '1': 'ping_metrics',
+      '3': 40,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiClient.PingMetrics',
+      '10': 'pingMetrics'
+    },
     {'1': 'ipv6_addresses', '3': 41, '4': 3, '5': 9, '10': 'ipv6Addresses'},
     {'1': 'blocked', '3': 42, '4': 1, '5': 8, '10': 'blocked'},
     {'1': 'client_id', '3': 43, '4': 1, '5': 13, '10': 'clientId'},
-    {'1': 'fqcodel_info', '3': 44, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiClient.FqcodelInfo', '10': 'fqcodelInfo'},
+    {
+      '1': 'fqcodel_info',
+      '3': 44,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiClient.FqcodelInfo',
+      '10': 'fqcodelInfo'
+    },
     {'1': 'no_data_idle_s', '3': 45, '4': 1, '5': 13, '10': 'noDataIdleS'},
-    {'1': 'dhcp_lease_active', '3': 46, '4': 1, '5': 8, '10': 'dhcpLeaseActive'},
-    {'1': 'dhcp_lease_renewed', '3': 47, '4': 1, '5': 8, '10': 'dhcpLeaseRenewed'},
-    {'1': 'seconds_until_dhcp_lease_expires', '3': 48, '4': 1, '5': 2, '10': 'secondsUntilDhcpLeaseExpires'},
+    {
+      '1': 'dhcp_lease_active',
+      '3': 46,
+      '4': 1,
+      '5': 8,
+      '10': 'dhcpLeaseActive'
+    },
+    {
+      '1': 'dhcp_lease_renewed',
+      '3': 47,
+      '4': 1,
+      '5': 8,
+      '10': 'dhcpLeaseRenewed'
+    },
+    {
+      '1': 'seconds_until_dhcp_lease_expires',
+      '3': 48,
+      '4': 1,
+      '5': 2,
+      '10': 'secondsUntilDhcpLeaseExpires'
+    },
     {'1': 'dhcp_lease_found', '3': 49, '4': 1, '5': 8, '10': 'dhcpLeaseFound'},
-    {'1': 'alerts', '3': 52, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiClient.Alerts', '10': 'alerts'},
-    {'1': 'captive_client_id', '3': 53, '4': 1, '5': 9, '10': 'captiveClientId'},
+    {
+      '1': 'alerts',
+      '3': 52,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiClient.Alerts',
+      '10': 'alerts'
+    },
+    {
+      '1': 'captive_client_id',
+      '3': 53,
+      '4': 1,
+      '5': 9,
+      '10': 'captiveClientId'
+    },
+    {'1': 'upload_mb', '3': 54, '4': 1, '5': 13, '10': 'uploadMb'},
+    {'1': 'download_mb', '3': 55, '4': 1, '5': 13, '10': 'downloadMb'},
     {'1': 'rx_stats_valid', '3': 60, '4': 1, '5': 8, '10': 'rxStatsValid'},
     {'1': 'tx_stats_valid', '3': 61, '4': 1, '5': 8, '10': 'txStatsValid'},
   ],
-  '3': [WifiClient_Alerts$json, WifiClient_FqcodelInfo$json, WifiClient_PingMetrics$json, WifiClient_RxStats$json, WifiClient_TxStats$json],
+  '3': [
+    WifiClient_Alerts$json,
+    WifiClient_FqcodelInfo$json,
+    WifiClient_PingMetrics$json,
+    WifiClient_RxStats$json,
+    WifiClient_TxStats$json
+  ],
   '4': [WifiClient_Interface$json, WifiClient_Role$json],
   '9': [
     {'1': 50, '2': 51},
@@ -5177,7 +9977,13 @@ const WifiClient$json = {
 const WifiClient_Alerts$json = {
   '1': 'Alerts',
   '2': [
-    {'1': 'throughput_limited', '3': 1, '4': 1, '5': 8, '10': 'throughputLimited'},
+    {
+      '1': 'throughput_limited',
+      '3': 1,
+      '4': 1,
+      '5': 8,
+      '10': 'throughputLimited'
+    },
   ],
 };
 
@@ -5193,8 +9999,20 @@ const WifiClient_FqcodelInfo$json = {
     {'1': 'deqs_new', '3': 6, '4': 1, '5': 4, '10': 'deqsNew'},
     {'1': 'deqs_old', '3': 7, '4': 1, '5': 4, '10': 'deqsOld'},
     {'1': 'deqs_flow_new', '3': 8, '4': 1, '5': 4, '10': 'deqsFlowNew'},
-    {'1': 'deqs_flow_old_deficit', '3': 9, '4': 1, '5': 4, '10': 'deqsFlowOldDeficit'},
-    {'1': 'deqs_flow_old_starvation', '3': 10, '4': 1, '5': 4, '10': 'deqsFlowOldStarvation'},
+    {
+      '1': 'deqs_flow_old_deficit',
+      '3': 9,
+      '4': 1,
+      '5': 4,
+      '10': 'deqsFlowOldDeficit'
+    },
+    {
+      '1': 'deqs_flow_old_starvation',
+      '3': 10,
+      '4': 1,
+      '5': 4,
+      '10': 'deqsFlowOldStarvation'
+    },
     {'1': 'deqs_dropped', '3': 11, '4': 1, '5': 4, '10': 'deqsDropped'},
   ],
 };
@@ -5203,8 +10021,20 @@ const WifiClient_FqcodelInfo$json = {
 const WifiClient_PingMetrics$json = {
   '1': 'PingMetrics',
   '2': [
-    {'1': 'in_unhappy_hour_2s', '3': 1, '4': 1, '5': 8, '10': 'inUnhappyHour2s'},
-    {'1': 'in_unhappy_hour_5s', '3': 2, '4': 1, '5': 8, '10': 'inUnhappyHour5s'},
+    {
+      '1': 'in_unhappy_hour_2s',
+      '3': 1,
+      '4': 1,
+      '5': 8,
+      '10': 'inUnhappyHour2s'
+    },
+    {
+      '1': 'in_unhappy_hour_5s',
+      '3': 2,
+      '4': 1,
+      '5': 8,
+      '10': 'inUnhappyHour5s'
+    },
     {'1': 'drop_rate_5m', '3': 3, '4': 1, '5': 2, '10': 'dropRate5m'},
     {'1': 'latency_5m', '3': 4, '4': 1, '5': 2, '10': 'latency5m'},
   ],
@@ -5221,15 +10051,57 @@ const WifiClient_RxStats$json = {
     {'1': 'bandwidth', '3': 6, '4': 1, '5': 13, '10': 'bandwidth'},
     {'1': 'guard_ns', '3': 7, '4': 1, '5': 13, '10': 'guardNs'},
     {'1': 'rate_mbps', '3': 8, '4': 1, '5': 13, '10': 'rateMbps'},
-    {'1': 'airtime_fraction_last_1s', '3': 9, '4': 1, '5': 2, '10': 'airtimeFractionLast1s'},
+    {
+      '1': 'airtime_fraction_last_1s',
+      '3': 9,
+      '4': 1,
+      '5': 2,
+      '10': 'airtimeFractionLast1s'
+    },
     {'1': 'sampled_packets', '3': 10, '4': 1, '5': 13, '10': 'sampledPackets'},
-    {'1': 'sampled_packets_retried', '3': 11, '4': 1, '5': 13, '10': 'sampledPacketsRetried'},
-    {'1': 'sampled_packets_dropped', '3': 12, '4': 1, '5': 13, '10': 'sampledPacketsDropped'},
+    {
+      '1': 'sampled_packets_retried',
+      '3': 11,
+      '4': 1,
+      '5': 13,
+      '10': 'sampledPacketsRetried'
+    },
+    {
+      '1': 'sampled_packets_dropped',
+      '3': 12,
+      '4': 1,
+      '5': 13,
+      '10': 'sampledPacketsDropped'
+    },
     {'1': 'phy_mode', '3': 13, '4': 1, '5': 13, '10': 'phyMode'},
-    {'1': 'rate_mbps_last_30s', '3': 14, '4': 1, '5': 2, '10': 'rateMbpsLast30s'},
-    {'1': 'rate_mbps_last_15s', '3': 15, '4': 1, '5': 2, '10': 'rateMbpsLast15s'},
-    {'1': 'rate_mbps_last_1m_avg', '3': 16, '4': 1, '5': 2, '10': 'rateMbpsLast1mAvg'},
-    {'1': 'throughput_mbps_last_1m_avg', '3': 17, '4': 1, '5': 2, '10': 'throughputMbpsLast1mAvg'},
+    {
+      '1': 'rate_mbps_last_30s',
+      '3': 14,
+      '4': 1,
+      '5': 2,
+      '10': 'rateMbpsLast30s'
+    },
+    {
+      '1': 'rate_mbps_last_15s',
+      '3': 15,
+      '4': 1,
+      '5': 2,
+      '10': 'rateMbpsLast15s'
+    },
+    {
+      '1': 'rate_mbps_last_1m_avg',
+      '3': 16,
+      '4': 1,
+      '5': 2,
+      '10': 'rateMbpsLast1mAvg'
+    },
+    {
+      '1': 'throughput_mbps_last_1m_avg',
+      '3': 17,
+      '4': 1,
+      '5': 2,
+      '10': 'throughputMbpsLast1mAvg'
+    },
   ],
   '9': [
     {'1': 4, '2': 5},
@@ -5247,10 +10119,28 @@ const WifiClient_TxStats$json = {
     {'1': 'bandwidth', '3': 6, '4': 1, '5': 13, '10': 'bandwidth'},
     {'1': 'guard_ns', '3': 7, '4': 1, '5': 13, '10': 'guardNs'},
     {'1': 'rate_mbps', '3': 8, '4': 1, '5': 13, '10': 'rateMbps'},
-    {'1': 'airtime_fraction_last_1s', '3': 9, '4': 1, '5': 2, '10': 'airtimeFractionLast1s'},
+    {
+      '1': 'airtime_fraction_last_1s',
+      '3': 9,
+      '4': 1,
+      '5': 2,
+      '10': 'airtimeFractionLast1s'
+    },
     {'1': 'phy_mode', '3': 10, '4': 1, '5': 13, '10': 'phyMode'},
-    {'1': 'rate_mbps_last_30s', '3': 11, '4': 1, '5': 2, '10': 'rateMbpsLast30s'},
-    {'1': 'rate_mbps_last_15s', '3': 12, '4': 1, '5': 2, '10': 'rateMbpsLast15s'},
+    {
+      '1': 'rate_mbps_last_30s',
+      '3': 11,
+      '4': 1,
+      '5': 2,
+      '10': 'rateMbpsLast30s'
+    },
+    {
+      '1': 'rate_mbps_last_15s',
+      '3': 12,
+      '4': 1,
+      '5': 2,
+      '10': 'rateMbpsLast15s'
+    },
   ],
   '9': [
     {'1': 4, '2': 5},
@@ -5320,41 +10210,42 @@ final $typed_data.Uint8List wifiClientDescriptor = $convert.base64Decode(
     'NVbnRpbERoY3BMZWFzZUV4cGlyZXMSKAoQZGhjcF9sZWFzZV9mb3VuZBgxIAEoCFIOZGhjcExl'
     'YXNlRm91bmQSPAoGYWxlcnRzGDQgASgLMiQuU3BhY2VYLkFQSS5EZXZpY2UuV2lmaUNsaWVudC'
     '5BbGVydHNSBmFsZXJ0cxIqChFjYXB0aXZlX2NsaWVudF9pZBg1IAEoCVIPY2FwdGl2ZUNsaWVu'
-    'dElkEiQKDnJ4X3N0YXRzX3ZhbGlkGDwgASgIUgxyeFN0YXRzVmFsaWQSJAoOdHhfc3RhdHNfdm'
-    'FsaWQYPSABKAhSDHR4U3RhdHNWYWxpZBo3CgZBbGVydHMSLQoSdGhyb3VnaHB1dF9saW1pdGVk'
-    'GAEgASgIUhF0aHJvdWdocHV0TGltaXRlZBqUAwoLRnFjb2RlbEluZm8SIAoMZW5xc19oaV9wcm'
-    'lvGAEgASgEUgplbnFzSGlQcmlvEiEKDGVucXNfZnFjb2RlbBgCIAEoBFILZW5xc0ZxY29kZWwS'
-    'GQoIZW5xc19uZXcYAyABKARSB2VucXNOZXcSGQoIZW5xc19vbGQYBCABKARSB2VucXNPbGQSIQ'
-    'oMZW5xc19kcm9wcGVkGAUgASgEUgtlbnFzRHJvcHBlZBIZCghkZXFzX25ldxgGIAEoBFIHZGVx'
-    'c05ldxIZCghkZXFzX29sZBgHIAEoBFIHZGVxc09sZBIiCg1kZXFzX2Zsb3dfbmV3GAggASgEUg'
-    'tkZXFzRmxvd05ldxIxChVkZXFzX2Zsb3dfb2xkX2RlZmljaXQYCSABKARSEmRlcXNGbG93T2xk'
-    'RGVmaWNpdBI3ChhkZXFzX2Zsb3dfb2xkX3N0YXJ2YXRpb24YCiABKARSFWRlcXNGbG93T2xkU3'
-    'RhcnZhdGlvbhIhCgxkZXFzX2Ryb3BwZWQYCyABKARSC2RlcXNEcm9wcGVkGqgBCgtQaW5nTWV0'
-    'cmljcxIrChJpbl91bmhhcHB5X2hvdXJfMnMYASABKAhSD2luVW5oYXBweUhvdXIycxIrChJpbl'
-    '91bmhhcHB5X2hvdXJfNXMYAiABKAhSD2luVW5oYXBweUhvdXI1cxIgCgxkcm9wX3JhdGVfNW0Y'
-    'AyABKAJSCmRyb3BSYXRlNW0SHQoKbGF0ZW5jeV81bRgEIAEoAlIJbGF0ZW5jeTVtGvkECgdSeF'
-    'N0YXRzEhQKBWJ5dGVzGAEgASgEUgVieXRlcxIhCgxjb3VudF9lcnJvcnMYAiABKARSC2NvdW50'
-    'RXJyb3JzEhAKA25zcxgDIAEoBVIDbnNzEhAKA21jcxgFIAEoDVIDbWNzEhwKCWJhbmR3aWR0aB'
-    'gGIAEoDVIJYmFuZHdpZHRoEhkKCGd1YXJkX25zGAcgASgNUgdndWFyZE5zEhsKCXJhdGVfbWJw'
-    'cxgIIAEoDVIIcmF0ZU1icHMSNwoYYWlydGltZV9mcmFjdGlvbl9sYXN0XzFzGAkgASgCUhVhaX'
-    'J0aW1lRnJhY3Rpb25MYXN0MXMSJwoPc2FtcGxlZF9wYWNrZXRzGAogASgNUg5zYW1wbGVkUGFj'
-    'a2V0cxI2ChdzYW1wbGVkX3BhY2tldHNfcmV0cmllZBgLIAEoDVIVc2FtcGxlZFBhY2tldHNSZX'
-    'RyaWVkEjYKF3NhbXBsZWRfcGFja2V0c19kcm9wcGVkGAwgASgNUhVzYW1wbGVkUGFja2V0c0Ry'
-    'b3BwZWQSGQoIcGh5X21vZGUYDSABKA1SB3BoeU1vZGUSKwoScmF0ZV9tYnBzX2xhc3RfMzBzGA'
-    '4gASgCUg9yYXRlTWJwc0xhc3QzMHMSKwoScmF0ZV9tYnBzX2xhc3RfMTVzGA8gASgCUg9yYXRl'
-    'TWJwc0xhc3QxNXMSMAoVcmF0ZV9tYnBzX2xhc3RfMW1fYXZnGBAgASgCUhFyYXRlTWJwc0xhc3'
-    'QxbUF2ZxI8Cht0aHJvdWdocHV0X21icHNfbGFzdF8xbV9hdmcYESABKAJSF3Rocm91Z2hwdXRN'
-    'YnBzTGFzdDFtQXZnSgQIBBAFGvICCgdUeFN0YXRzEhQKBWJ5dGVzGAEgASgEUgVieXRlcxIjCg'
-    '1zdWNjZXNzX2J5dGVzGAIgASgEUgxzdWNjZXNzQnl0ZXMSEAoDbnNzGAMgASgFUgNuc3MSEAoD'
-    'bWNzGAUgASgNUgNtY3MSHAoJYmFuZHdpZHRoGAYgASgNUgliYW5kd2lkdGgSGQoIZ3VhcmRfbn'
-    'MYByABKA1SB2d1YXJkTnMSGwoJcmF0ZV9tYnBzGAggASgNUghyYXRlTWJwcxI3ChhhaXJ0aW1l'
-    'X2ZyYWN0aW9uX2xhc3RfMXMYCSABKAJSFWFpcnRpbWVGcmFjdGlvbkxhc3QxcxIZCghwaHlfbW'
-    '9kZRgKIAEoDVIHcGh5TW9kZRIrChJyYXRlX21icHNfbGFzdF8zMHMYCyABKAJSD3JhdGVNYnBz'
-    'TGFzdDMwcxIrChJyYXRlX21icHNfbGFzdF8xNXMYDCABKAJSD3JhdGVNYnBzTGFzdDE1c0oECA'
-    'QQBSJNCglJbnRlcmZhY2USCwoHVU5LTk9XThAAEgcKA0VUSBABEgsKB1JGXzJHSFoQAhILCgdS'
-    'Rl81R0haEAMSEAoMUkZfNUdIWl9ISUdIEAQiQgoEUm9sZRIQCgxST0xFX1VOS05PV04QABIKCg'
-    'ZDTElFTlQQARIMCghSRVBFQVRFUhACEg4KCkNPTlRST0xMRVIQA0oECDIQM0oECDMQNFIKYXV0'
-    'aG9yaXplZFIRc2FuZGJveF9jbGllbnRfaWQ=');
+    'dElkEhsKCXVwbG9hZF9tYhg2IAEoDVIIdXBsb2FkTWISHwoLZG93bmxvYWRfbWIYNyABKA1SCm'
+    'Rvd25sb2FkTWISJAoOcnhfc3RhdHNfdmFsaWQYPCABKAhSDHJ4U3RhdHNWYWxpZBIkCg50eF9z'
+    'dGF0c192YWxpZBg9IAEoCFIMdHhTdGF0c1ZhbGlkGjcKBkFsZXJ0cxItChJ0aHJvdWdocHV0X2'
+    'xpbWl0ZWQYASABKAhSEXRocm91Z2hwdXRMaW1pdGVkGpQDCgtGcWNvZGVsSW5mbxIgCgxlbnFz'
+    'X2hpX3ByaW8YASABKARSCmVucXNIaVByaW8SIQoMZW5xc19mcWNvZGVsGAIgASgEUgtlbnFzRn'
+    'Fjb2RlbBIZCghlbnFzX25ldxgDIAEoBFIHZW5xc05ldxIZCghlbnFzX29sZBgEIAEoBFIHZW5x'
+    'c09sZBIhCgxlbnFzX2Ryb3BwZWQYBSABKARSC2VucXNEcm9wcGVkEhkKCGRlcXNfbmV3GAYgAS'
+    'gEUgdkZXFzTmV3EhkKCGRlcXNfb2xkGAcgASgEUgdkZXFzT2xkEiIKDWRlcXNfZmxvd19uZXcY'
+    'CCABKARSC2RlcXNGbG93TmV3EjEKFWRlcXNfZmxvd19vbGRfZGVmaWNpdBgJIAEoBFISZGVxc0'
+    'Zsb3dPbGREZWZpY2l0EjcKGGRlcXNfZmxvd19vbGRfc3RhcnZhdGlvbhgKIAEoBFIVZGVxc0Zs'
+    'b3dPbGRTdGFydmF0aW9uEiEKDGRlcXNfZHJvcHBlZBgLIAEoBFILZGVxc0Ryb3BwZWQaqAEKC1'
+    'BpbmdNZXRyaWNzEisKEmluX3VuaGFwcHlfaG91cl8ycxgBIAEoCFIPaW5VbmhhcHB5SG91cjJz'
+    'EisKEmluX3VuaGFwcHlfaG91cl81cxgCIAEoCFIPaW5VbmhhcHB5SG91cjVzEiAKDGRyb3Bfcm'
+    'F0ZV81bRgDIAEoAlIKZHJvcFJhdGU1bRIdCgpsYXRlbmN5XzVtGAQgASgCUglsYXRlbmN5NW0a'
+    '+QQKB1J4U3RhdHMSFAoFYnl0ZXMYASABKARSBWJ5dGVzEiEKDGNvdW50X2Vycm9ycxgCIAEoBF'
+    'ILY291bnRFcnJvcnMSEAoDbnNzGAMgASgFUgNuc3MSEAoDbWNzGAUgASgNUgNtY3MSHAoJYmFu'
+    'ZHdpZHRoGAYgASgNUgliYW5kd2lkdGgSGQoIZ3VhcmRfbnMYByABKA1SB2d1YXJkTnMSGwoJcm'
+    'F0ZV9tYnBzGAggASgNUghyYXRlTWJwcxI3ChhhaXJ0aW1lX2ZyYWN0aW9uX2xhc3RfMXMYCSAB'
+    'KAJSFWFpcnRpbWVGcmFjdGlvbkxhc3QxcxInCg9zYW1wbGVkX3BhY2tldHMYCiABKA1SDnNhbX'
+    'BsZWRQYWNrZXRzEjYKF3NhbXBsZWRfcGFja2V0c19yZXRyaWVkGAsgASgNUhVzYW1wbGVkUGFj'
+    'a2V0c1JldHJpZWQSNgoXc2FtcGxlZF9wYWNrZXRzX2Ryb3BwZWQYDCABKA1SFXNhbXBsZWRQYW'
+    'NrZXRzRHJvcHBlZBIZCghwaHlfbW9kZRgNIAEoDVIHcGh5TW9kZRIrChJyYXRlX21icHNfbGFz'
+    'dF8zMHMYDiABKAJSD3JhdGVNYnBzTGFzdDMwcxIrChJyYXRlX21icHNfbGFzdF8xNXMYDyABKA'
+    'JSD3JhdGVNYnBzTGFzdDE1cxIwChVyYXRlX21icHNfbGFzdF8xbV9hdmcYECABKAJSEXJhdGVN'
+    'YnBzTGFzdDFtQXZnEjwKG3Rocm91Z2hwdXRfbWJwc19sYXN0XzFtX2F2ZxgRIAEoAlIXdGhyb3'
+    'VnaHB1dE1icHNMYXN0MW1BdmdKBAgEEAUa8gIKB1R4U3RhdHMSFAoFYnl0ZXMYASABKARSBWJ5'
+    'dGVzEiMKDXN1Y2Nlc3NfYnl0ZXMYAiABKARSDHN1Y2Nlc3NCeXRlcxIQCgNuc3MYAyABKAVSA2'
+    '5zcxIQCgNtY3MYBSABKA1SA21jcxIcCgliYW5kd2lkdGgYBiABKA1SCWJhbmR3aWR0aBIZCghn'
+    'dWFyZF9ucxgHIAEoDVIHZ3VhcmROcxIbCglyYXRlX21icHMYCCABKA1SCHJhdGVNYnBzEjcKGG'
+    'FpcnRpbWVfZnJhY3Rpb25fbGFzdF8xcxgJIAEoAlIVYWlydGltZUZyYWN0aW9uTGFzdDFzEhkK'
+    'CHBoeV9tb2RlGAogASgNUgdwaHlNb2RlEisKEnJhdGVfbWJwc19sYXN0XzMwcxgLIAEoAlIPcm'
+    'F0ZU1icHNMYXN0MzBzEisKEnJhdGVfbWJwc19sYXN0XzE1cxgMIAEoAlIPcmF0ZU1icHNMYXN0'
+    'MTVzSgQIBBAFIk0KCUludGVyZmFjZRILCgdVTktOT1dOEAASBwoDRVRIEAESCwoHUkZfMkdIWh'
+    'ACEgsKB1JGXzVHSFoQAxIQCgxSRl81R0haX0hJR0gQBCJCCgRSb2xlEhAKDFJPTEVfVU5LTk9X'
+    'ThAAEgoKBkNMSUVOVBABEgwKCFJFUEVBVEVSEAISDgoKQ09OVFJPTExFUhADSgQIMhAzSgQIMx'
+    'A0UgphdXRob3JpemVkUhFzYW5kYm94X2NsaWVudF9pZA==');
 
 @$core.Deprecated('Use wifiSetupResponseDescriptor instead')
 const WifiSetupResponse$json = {
@@ -5362,8 +10253,8 @@ const WifiSetupResponse$json = {
 };
 
 /// Descriptor for `WifiSetupResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List wifiSetupResponseDescriptor = $convert.base64Decode(
-    'ChFXaWZpU2V0dXBSZXNwb25zZQ==');
+final $typed_data.Uint8List wifiSetupResponseDescriptor =
+    $convert.base64Decode('ChFXaWZpU2V0dXBSZXNwb25zZQ==');
 
 @$core.Deprecated('Use wifiGetStatusResponseDescriptor instead')
 const WifiGetStatusResponse$json = {
@@ -5377,9 +10268,29 @@ const WifiGetStatusResponse$json = {
       '8': {'3': true},
       '10': 'captivePortalEnabled',
     },
-    {'1': 'device_info', '3': 3, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DeviceInfo', '10': 'deviceInfo'},
-    {'1': 'device_state', '3': 4, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DeviceState', '10': 'deviceState'},
-    {'1': 'ipv4_wan_address', '3': 1003, '4': 1, '5': 9, '10': 'ipv4WanAddress'},
+    {
+      '1': 'device_info',
+      '3': 3,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DeviceInfo',
+      '10': 'deviceInfo'
+    },
+    {
+      '1': 'device_state',
+      '3': 4,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DeviceState',
+      '10': 'deviceState'
+    },
+    {
+      '1': 'ipv4_wan_address',
+      '3': 1003,
+      '4': 1,
+      '5': 9,
+      '10': 'ipv4WanAddress'
+    },
     {'1': 'ping_drop_rate', '3': 1004, '4': 1, '5': 2, '10': 'pingDropRate'},
     {'1': 'ping_latency_ms', '3': 1005, '4': 1, '5': 2, '10': 'pingLatencyMs'},
     {
@@ -5400,33 +10311,202 @@ const WifiGetStatusResponse$json = {
       '8': {'3': true},
       '10': 'rf5ghzStatus',
     },
-    {'1': 'alerts', '3': 1010, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiAlerts', '10': 'alerts'},
+    {
+      '1': 'alerts',
+      '3': 1010,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiAlerts',
+      '10': 'alerts'
+    },
     {'1': 'is_aviation', '3': 1011, '4': 1, '5': 8, '10': 'isAviation'},
-    {'1': 'dish_ping_drop_rate', '3': 1012, '4': 1, '5': 2, '10': 'dishPingDropRate'},
-    {'1': 'dish_ping_latency_ms', '3': 1013, '4': 1, '5': 2, '10': 'dishPingLatencyMs'},
-    {'1': 'pop_ping_drop_rate', '3': 1014, '4': 1, '5': 2, '10': 'popPingDropRate'},
-    {'1': 'pop_ping_latency_ms', '3': 1015, '4': 1, '5': 2, '10': 'popPingLatencyMs'},
-    {'1': 'is_aviation_conformed', '3': 1016, '4': 1, '5': 8, '10': 'isAviationConformed'},
-    {'1': 'ipv6_wan_addresses', '3': 1017, '4': 3, '5': 9, '10': 'ipv6WanAddresses'},
-    {'1': 'dish_ping_drop_rate_5m', '3': 1018, '4': 1, '5': 2, '10': 'dishPingDropRate5m'},
-    {'1': 'dhcp_servers', '3': 1019, '4': 3, '5': 11, '6': '.SpaceX.API.Device.DhcpServer', '10': 'dhcpServers'},
-    {'1': 'pop_ping_drop_rate_5m', '3': 1020, '4': 1, '5': 2, '10': 'popPingDropRate5m'},
-    {'1': 'ping_drop_rate_5m', '3': 1021, '4': 1, '5': 2, '10': 'pingDropRate5m'},
-    {'1': 'poe_stats', '3': 1022, '4': 1, '5': 11, '6': '.SpaceX.API.Device.PoeStats', '10': 'poeStats'},
+    {
+      '1': 'dish_ping_drop_rate',
+      '3': 1012,
+      '4': 1,
+      '5': 2,
+      '10': 'dishPingDropRate'
+    },
+    {
+      '1': 'dish_ping_latency_ms',
+      '3': 1013,
+      '4': 1,
+      '5': 2,
+      '10': 'dishPingLatencyMs'
+    },
+    {
+      '1': 'pop_ping_drop_rate',
+      '3': 1014,
+      '4': 1,
+      '5': 2,
+      '10': 'popPingDropRate'
+    },
+    {
+      '1': 'pop_ping_latency_ms',
+      '3': 1015,
+      '4': 1,
+      '5': 2,
+      '10': 'popPingLatencyMs'
+    },
+    {
+      '1': 'is_aviation_conformed',
+      '3': 1016,
+      '4': 1,
+      '5': 8,
+      '10': 'isAviationConformed'
+    },
+    {
+      '1': 'ipv6_wan_addresses',
+      '3': 1017,
+      '4': 3,
+      '5': 9,
+      '10': 'ipv6WanAddresses'
+    },
+    {
+      '1': 'dish_ping_drop_rate_5m',
+      '3': 1018,
+      '4': 1,
+      '5': 2,
+      '10': 'dishPingDropRate5m'
+    },
+    {
+      '1': 'dhcp_servers',
+      '3': 1019,
+      '4': 3,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DhcpServer',
+      '10': 'dhcpServers'
+    },
+    {
+      '1': 'pop_ping_drop_rate_5m',
+      '3': 1020,
+      '4': 1,
+      '5': 2,
+      '10': 'popPingDropRate5m'
+    },
+    {
+      '1': 'ping_drop_rate_5m',
+      '3': 1021,
+      '4': 1,
+      '5': 2,
+      '10': 'pingDropRate5m'
+    },
+    {
+      '1': 'poe_stats',
+      '3': 1022,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.PoeStats',
+      '10': 'poeStats'
+    },
     {'1': 'dish_id', '3': 1023, '4': 1, '5': 9, '10': 'dishId'},
     {'1': 'utc_ns', '3': 1024, '4': 1, '5': 3, '10': 'utcNs'},
-    {'1': 'software_update_stats', '3': 1025, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiSoftwareUpdateStats', '10': 'softwareUpdateStats'},
-    {'1': 'setup_requirement', '3': 1026, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiSetupRequirement', '10': 'setupRequirement'},
-    {'1': 'pop_ipv6_ping_drop_rate', '3': 1027, '4': 1, '5': 2, '10': 'popIpv6PingDropRate'},
-    {'1': 'pop_ipv6_ping_drop_rate_5m', '3': 1028, '4': 1, '5': 2, '10': 'popIpv6PingDropRate5m'},
-    {'1': 'pop_ipv6_ping_latency_ms', '3': 1029, '4': 1, '5': 2, '10': 'popIpv6PingLatencyMs'},
-    {'1': 'secs_since_last_public_ipv4_change', '3': 1030, '4': 1, '5': 2, '10': 'secsSinceLastPublicIpv4Change'},
-    {'1': 'dish_disablement_code', '3': 1031, '4': 1, '5': 14, '6': '.SpaceX.API.Satellites.Network.UtDisablementCode', '10': 'dishDisablementCode'},
-    {'1': 'config', '3': 2000, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiConfig', '10': 'config'},
-    {'1': 'clients', '3': 3000, '4': 3, '5': 11, '6': '.SpaceX.API.Device.WifiClient', '10': 'clients'},
-    {'1': 'has_client_index', '3': 3001, '4': 1, '5': 8, '10': 'hasClientIndex'},
+    {
+      '1': 'software_update_stats',
+      '3': 1025,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiSoftwareUpdateStats',
+      '10': 'softwareUpdateStats'
+    },
+    {
+      '1': 'setup_requirement',
+      '3': 1026,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiSetupRequirement',
+      '10': 'setupRequirement'
+    },
+    {
+      '1': 'pop_ipv6_ping_drop_rate',
+      '3': 1027,
+      '4': 1,
+      '5': 2,
+      '10': 'popIpv6PingDropRate'
+    },
+    {
+      '1': 'pop_ipv6_ping_drop_rate_5m',
+      '3': 1028,
+      '4': 1,
+      '5': 2,
+      '10': 'popIpv6PingDropRate5m'
+    },
+    {
+      '1': 'pop_ipv6_ping_latency_ms',
+      '3': 1029,
+      '4': 1,
+      '5': 2,
+      '10': 'popIpv6PingLatencyMs'
+    },
+    {
+      '1': 'secs_since_last_public_ipv4_change',
+      '3': 1030,
+      '4': 1,
+      '5': 2,
+      '10': 'secsSinceLastPublicIpv4Change'
+    },
+    {
+      '1': 'dish_disablement_code',
+      '3': 1031,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Satellites.Network.UtDisablementCode',
+      '10': 'dishDisablementCode'
+    },
+    {
+      '1': 'using_individualized_calibration',
+      '3': 1032,
+      '4': 1,
+      '5': 8,
+      '10': 'usingIndividualizedCalibration'
+    },
+    {
+      '1': 'calibration_partitions_state',
+      '3': 1033,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.CalibrationPartitionsState',
+      '10': 'calibrationPartitionsState'
+    },
+    {
+      '1': 'hops_from_controller',
+      '3': 1034,
+      '4': 1,
+      '5': 13,
+      '10': 'hopsFromController'
+    },
+    {
+      '1': 'config',
+      '3': 2000,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiConfig',
+      '10': 'config'
+    },
+    {
+      '1': 'clients',
+      '3': 3000,
+      '4': 3,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiClient',
+      '10': 'clients'
+    },
+    {
+      '1': 'has_client_index',
+      '3': 3001,
+      '4': 1,
+      '5': 8,
+      '10': 'hasClientIndex'
+    },
     {'1': 'client_index', '3': 3002, '4': 1, '5': 5, '10': 'clientIndex'},
-    {'1': 'radius_stats', '3': 3003, '4': 1, '5': 11, '6': '.SpaceX.API.Device.RadiusStatsMap', '10': 'radiusStats'},
+    {
+      '1': 'radius_stats',
+      '3': 3003,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.RadiusStatsMap',
+      '10': 'radiusStats'
+    },
   ],
   '9': [
     {'1': 2, '2': 3},
@@ -5473,22 +10553,57 @@ final $typed_data.Uint8List wifiGetStatusResponseDescriptor = $convert.base64Dec
     'Sgoic2Vjc19zaW5jZV9sYXN0X3B1YmxpY19pcHY0X2NoYW5nZRiGCCABKAJSHXNlY3NTaW5jZU'
     'xhc3RQdWJsaWNJcHY0Q2hhbmdlEmUKFWRpc2hfZGlzYWJsZW1lbnRfY29kZRiHCCABKA4yMC5T'
     'cGFjZVguQVBJLlNhdGVsbGl0ZXMuTmV0d29yay5VdERpc2FibGVtZW50Q29kZVITZGlzaERpc2'
-    'FibGVtZW50Q29kZRI2CgZjb25maWcY0A8gASgLMh0uU3BhY2VYLkFQSS5EZXZpY2UuV2lmaUNv'
-    'bmZpZ1IGY29uZmlnEjgKB2NsaWVudHMYuBcgAygLMh0uU3BhY2VYLkFQSS5EZXZpY2UuV2lmaU'
-    'NsaWVudFIHY2xpZW50cxIpChBoYXNfY2xpZW50X2luZGV4GLkXIAEoCFIOaGFzQ2xpZW50SW5k'
-    'ZXgSIgoMY2xpZW50X2luZGV4GLoXIAEoBVILY2xpZW50SW5kZXgSRQoMcmFkaXVzX3N0YXRzGL'
-    'sXIAEoCzIhLlNwYWNlWC5BUEkuRGV2aWNlLlJhZGl1c1N0YXRzTWFwUgtyYWRpdXNTdGF0c0oE'
-    'CAIQA0oECAUQBkoECAYQB0oECAcQCEoGCOkHEOoHSgYI6gcQ6wdKBgjuBxDvB0oGCO8HEPAH');
+    'FibGVtZW50Q29kZRJJCiB1c2luZ19pbmRpdmlkdWFsaXplZF9jYWxpYnJhdGlvbhiICCABKAhS'
+    'HnVzaW5nSW5kaXZpZHVhbGl6ZWRDYWxpYnJhdGlvbhJwChxjYWxpYnJhdGlvbl9wYXJ0aXRpb2'
+    '5zX3N0YXRlGIkIIAEoDjItLlNwYWNlWC5BUEkuRGV2aWNlLkNhbGlicmF0aW9uUGFydGl0aW9u'
+    'c1N0YXRlUhpjYWxpYnJhdGlvblBhcnRpdGlvbnNTdGF0ZRIxChRob3BzX2Zyb21fY29udHJvbG'
+    'xlchiKCCABKA1SEmhvcHNGcm9tQ29udHJvbGxlchI2CgZjb25maWcY0A8gASgLMh0uU3BhY2VY'
+    'LkFQSS5EZXZpY2UuV2lmaUNvbmZpZ1IGY29uZmlnEjgKB2NsaWVudHMYuBcgAygLMh0uU3BhY2'
+    'VYLkFQSS5EZXZpY2UuV2lmaUNsaWVudFIHY2xpZW50cxIpChBoYXNfY2xpZW50X2luZGV4GLkX'
+    'IAEoCFIOaGFzQ2xpZW50SW5kZXgSIgoMY2xpZW50X2luZGV4GLoXIAEoBVILY2xpZW50SW5kZX'
+    'gSRQoMcmFkaXVzX3N0YXRzGLsXIAEoCzIhLlNwYWNlWC5BUEkuRGV2aWNlLlJhZGl1c1N0YXRz'
+    'TWFwUgtyYWRpdXNTdGF0c0oECAIQA0oECAUQBkoECAYQB0oECAcQCEoGCOkHEOoHSgYI6gcQ6w'
+    'dKBgjuBxDvB0oGCO8HEPAH');
 
 @$core.Deprecated('Use wifiBandStatusDescriptor instead')
 const WifiBandStatus$json = {
   '1': 'WifiBandStatus',
   '2': [
-    {'1': 'chan_busy_time_fraction', '3': 1, '4': 1, '5': 2, '10': 'chanBusyTimeFraction'},
-    {'1': 'tx_air_time_fraction', '3': 2, '4': 1, '5': 2, '10': 'txAirTimeFraction'},
-    {'1': 'rx_air_time_fraction', '3': 3, '4': 1, '5': 2, '10': 'rxAirTimeFraction'},
-    {'1': 'obss_air_time_fraction', '3': 4, '4': 1, '5': 2, '10': 'obssAirTimeFraction'},
-    {'1': 'edcca_air_time_fraction', '3': 5, '4': 1, '5': 2, '10': 'edccaAirTimeFraction'},
+    {
+      '1': 'chan_busy_time_fraction',
+      '3': 1,
+      '4': 1,
+      '5': 2,
+      '10': 'chanBusyTimeFraction'
+    },
+    {
+      '1': 'tx_air_time_fraction',
+      '3': 2,
+      '4': 1,
+      '5': 2,
+      '10': 'txAirTimeFraction'
+    },
+    {
+      '1': 'rx_air_time_fraction',
+      '3': 3,
+      '4': 1,
+      '5': 2,
+      '10': 'rxAirTimeFraction'
+    },
+    {
+      '1': 'obss_air_time_fraction',
+      '3': 4,
+      '4': 1,
+      '5': 2,
+      '10': 'obssAirTimeFraction'
+    },
+    {
+      '1': 'edcca_air_time_fraction',
+      '3': 5,
+      '4': 1,
+      '5': 2,
+      '10': 'edccaAirTimeFraction'
+    },
   ],
 };
 
@@ -5508,21 +10623,114 @@ const WifiAlerts$json = {
     {'1': 'thermal_throttle', '3': 1, '4': 1, '5': 8, '10': 'thermalThrottle'},
     {'1': 'install_pending', '3': 2, '4': 1, '5': 8, '10': 'installPending'},
     {'1': 'freshly_fused', '3': 3, '4': 1, '5': 8, '10': 'freshlyFused'},
-    {'1': 'lan_eth_slow_link_10', '3': 4, '4': 1, '5': 8, '10': 'lanEthSlowLink10'},
-    {'1': 'lan_eth_slow_link_100', '3': 5, '4': 1, '5': 8, '10': 'lanEthSlowLink100'},
-    {'1': 'wan_eth_poor_connection', '3': 10, '4': 1, '5': 8, '10': 'wanEthPoorConnection'},
-    {'1': 'mesh_topology_changing_often', '3': 11, '4': 1, '5': 8, '10': 'meshTopologyChangingOften'},
-    {'1': 'mesh_unreliable_backhaul', '3': 12, '4': 1, '5': 8, '10': 'meshUnreliableBackhaul'},
-    {'1': 'radius_missing_process', '3': 13, '4': 1, '5': 8, '10': 'radiusMissingProcess'},
+    {
+      '1': 'lan_eth_slow_link_10',
+      '3': 4,
+      '4': 1,
+      '5': 8,
+      '10': 'lanEthSlowLink10'
+    },
+    {
+      '1': 'lan_eth_slow_link_100',
+      '3': 5,
+      '4': 1,
+      '5': 8,
+      '10': 'lanEthSlowLink100'
+    },
+    {
+      '1': 'wan_eth_poor_connection',
+      '3': 10,
+      '4': 1,
+      '5': 8,
+      '10': 'wanEthPoorConnection'
+    },
+    {
+      '1': 'mesh_topology_changing_often',
+      '3': 11,
+      '4': 1,
+      '5': 8,
+      '10': 'meshTopologyChangingOften'
+    },
+    {
+      '1': 'mesh_unreliable_backhaul',
+      '3': 12,
+      '4': 1,
+      '5': 8,
+      '10': 'meshUnreliableBackhaul'
+    },
+    {
+      '1': 'radius_missing_process',
+      '3': 13,
+      '4': 1,
+      '5': 8,
+      '10': 'radiusMissingProcess'
+    },
     {'1': 'eth_switch_error', '3': 14, '4': 1, '5': 8, '10': 'ethSwitchError'},
-    {'1': 'poe_on_dish_unreachable', '3': 15, '4': 1, '5': 8, '10': 'poeOnDishUnreachable'},
+    {
+      '1': 'poe_on_dish_unreachable',
+      '3': 15,
+      '4': 1,
+      '5': 8,
+      '10': 'poeOnDishUnreachable'
+    },
     {'1': 'poe_fuse_blown', '3': 16, '4': 1, '5': 8, '10': 'poeFuseBlown'},
-    {'1': 'poe_router_overcurrent', '3': 17, '4': 1, '5': 8, '10': 'poeRouterOvercurrent'},
-    {'1': 'poe_off_current_nominal', '3': 18, '4': 1, '5': 8, '10': 'poeOffCurrentNominal'},
-    {'1': 'poe_vin_overvoltage', '3': 19, '4': 1, '5': 8, '10': 'poeVinOvervoltage'},
-    {'1': 'poe_vin_undervoltage', '3': 20, '4': 1, '5': 8, '10': 'poeVinUndervoltage'},
-    {'1': 'high_cable_ping_drop_rate', '3': 21, '4': 1, '5': 8, '10': 'highCablePingDropRate'},
+    {
+      '1': 'poe_router_overcurrent',
+      '3': 17,
+      '4': 1,
+      '5': 8,
+      '10': 'poeRouterOvercurrent'
+    },
+    {
+      '1': 'poe_off_current_nominal',
+      '3': 18,
+      '4': 1,
+      '5': 8,
+      '10': 'poeOffCurrentNominal'
+    },
+    {
+      '1': 'poe_vin_overvoltage',
+      '3': 19,
+      '4': 1,
+      '5': 8,
+      '10': 'poeVinOvervoltage'
+    },
+    {
+      '1': 'poe_vin_undervoltage',
+      '3': 20,
+      '4': 1,
+      '5': 8,
+      '10': 'poeVinUndervoltage'
+    },
+    {
+      '1': 'high_cable_ping_drop_rate',
+      '3': 21,
+      '4': 1,
+      '5': 8,
+      '10': 'highCablePingDropRate'
+    },
     {'1': 'sandbox_disabled', '3': 22, '4': 1, '5': 8, '10': 'sandboxDisabled'},
+    {
+      '1': 'only_overflight_blocked',
+      '3': 23,
+      '4': 1,
+      '5': 8,
+      '10': 'onlyOverflightBlocked'
+    },
+    {
+      '1': 'offline_networks_disabled',
+      '3': 24,
+      '4': 1,
+      '5': 8,
+      '10': 'offlineNetworksDisabled'
+    },
+    {
+      '1': 'wired_mesh_not_using_wan_iface',
+      '3': 25,
+      '4': 1,
+      '5': 8,
+      '10': 'wiredMeshNotUsingWanIface'
+    },
   ],
   '9': [
     {'1': 6, '2': 7},
@@ -5530,7 +10738,12 @@ const WifiAlerts$json = {
     {'1': 8, '2': 9},
     {'1': 9, '2': 10},
   ],
-  '10': ['inconsistent_2ghz_antennae_performance_15db', 'inconsistent_5ghz_antennae_performance_15db', 'poor_2ghz_antennae_performance_80db', 'poor_5ghz_antennae_performance_80db'],
+  '10': [
+    'inconsistent_2ghz_antennae_performance_15db',
+    'inconsistent_5ghz_antennae_performance_15db',
+    'poor_2ghz_antennae_performance_80db',
+    'poor_5ghz_antennae_performance_80db'
+  ],
 };
 
 /// Descriptor for `WifiAlerts`. Decode as a `google.protobuf.DescriptorProto`.
@@ -5551,10 +10764,14 @@ final $typed_data.Uint8List wifiAlertsDescriptor = $convert.base64Decode(
     'Vydm9sdGFnZRgTIAEoCFIRcG9lVmluT3ZlcnZvbHRhZ2USMAoUcG9lX3Zpbl91bmRlcnZvbHRh'
     'Z2UYFCABKAhSEnBvZVZpblVuZGVydm9sdGFnZRI4ChloaWdoX2NhYmxlX3BpbmdfZHJvcF9yYX'
     'RlGBUgASgIUhVoaWdoQ2FibGVQaW5nRHJvcFJhdGUSKQoQc2FuZGJveF9kaXNhYmxlZBgWIAEo'
-    'CFIPc2FuZGJveERpc2FibGVkSgQIBhAHSgQIBxAISgQICBAJSgQICRAKUitpbmNvbnNpc3Rlbn'
-    'RfMmdoel9hbnRlbm5hZV9wZXJmb3JtYW5jZV8xNWRiUitpbmNvbnNpc3RlbnRfNWdoel9hbnRl'
-    'bm5hZV9wZXJmb3JtYW5jZV8xNWRiUiNwb29yXzJnaHpfYW50ZW5uYWVfcGVyZm9ybWFuY2VfOD'
-    'BkYlIjcG9vcl81Z2h6X2FudGVubmFlX3BlcmZvcm1hbmNlXzgwZGI=');
+    'CFIPc2FuZGJveERpc2FibGVkEjYKF29ubHlfb3ZlcmZsaWdodF9ibG9ja2VkGBcgASgIUhVvbm'
+    'x5T3ZlcmZsaWdodEJsb2NrZWQSOgoZb2ZmbGluZV9uZXR3b3Jrc19kaXNhYmxlZBgYIAEoCFIX'
+    'b2ZmbGluZU5ldHdvcmtzRGlzYWJsZWQSQQoed2lyZWRfbWVzaF9ub3RfdXNpbmdfd2FuX2lmYW'
+    'NlGBkgASgIUhl3aXJlZE1lc2hOb3RVc2luZ1dhbklmYWNlSgQIBhAHSgQIBxAISgQICBAJSgQI'
+    'CRAKUitpbmNvbnNpc3RlbnRfMmdoel9hbnRlbm5hZV9wZXJmb3JtYW5jZV8xNWRiUitpbmNvbn'
+    'Npc3RlbnRfNWdoel9hbnRlbm5hZV9wZXJmb3JtYW5jZV8xNWRiUiNwb29yXzJnaHpfYW50ZW5u'
+    'YWVfcGVyZm9ybWFuY2VfODBkYlIjcG9vcl81Z2h6X2FudGVubmFlX3BlcmZvcm1hbmNlXzgwZG'
+    'I=');
 
 @$core.Deprecated('Use dhcpServerDescriptor instead')
 const DhcpServer$json = {
@@ -5562,7 +10779,14 @@ const DhcpServer$json = {
   '2': [
     {'1': 'domain', '3': 1, '4': 1, '5': 9, '10': 'domain'},
     {'1': 'subnet', '3': 2, '4': 1, '5': 9, '10': 'subnet'},
-    {'1': 'leases', '3': 3, '4': 3, '5': 11, '6': '.SpaceX.API.Device.DhcpLease', '10': 'leases'},
+    {
+      '1': 'leases',
+      '3': 3,
+      '4': 3,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DhcpLease',
+      '10': 'leases'
+    },
     {'1': 'ip_exhausted', '3': 4, '4': 1, '5': 8, '10': 'ipExhausted'},
   ],
 };
@@ -5597,12 +10821,43 @@ final $typed_data.Uint8List dhcpLeaseDescriptor = $convert.base64Decode(
 const PoeStats$json = {
   '1': 'PoeStats',
   '2': [
-    {'1': 'poe_state', '3': 1, '4': 1, '5': 14, '6': '.SpaceX.API.Device.PoeState', '10': 'poeState'},
+    {
+      '1': 'poe_state',
+      '3': 1,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.PoeState',
+      '10': 'poeState'
+    },
     {'1': 'poe_power', '3': 2, '4': 1, '5': 2, '10': 'poePower'},
-    {'1': 'poe_faults_fast_overcurrent', '3': 3, '4': 1, '5': 13, '10': 'poeFaultsFastOvercurrent'},
-    {'1': 'poe_faults_slow_overcurrent', '3': 4, '4': 1, '5': 13, '10': 'poeFaultsSlowOvercurrent'},
-    {'1': 'poe_faults_overvoltage', '3': 5, '4': 1, '5': 13, '10': 'poeFaultsOvervoltage'},
-    {'1': 'poe_faults_undervoltage', '3': 6, '4': 1, '5': 13, '10': 'poeFaultsUndervoltage'},
+    {
+      '1': 'poe_faults_fast_overcurrent',
+      '3': 3,
+      '4': 1,
+      '5': 13,
+      '10': 'poeFaultsFastOvercurrent'
+    },
+    {
+      '1': 'poe_faults_slow_overcurrent',
+      '3': 4,
+      '4': 1,
+      '5': 13,
+      '10': 'poeFaultsSlowOvercurrent'
+    },
+    {
+      '1': 'poe_faults_overvoltage',
+      '3': 5,
+      '4': 1,
+      '5': 13,
+      '10': 'poeFaultsOvervoltage'
+    },
+    {
+      '1': 'poe_faults_undervoltage',
+      '3': 6,
+      '4': 1,
+      '5': 13,
+      '10': 'poeFaultsUndervoltage'
+    },
     {'1': 'vsns_vin', '3': 7, '4': 1, '5': 2, '10': 'vsnsVin'},
   ],
 };
@@ -5621,11 +10876,36 @@ final $typed_data.Uint8List poeStatsDescriptor = $convert.base64Decode(
 const WifiSoftwareUpdateStats$json = {
   '1': 'WifiSoftwareUpdateStats',
   '2': [
-    {'1': 'state', '3': 1, '4': 1, '5': 14, '6': '.SpaceX.API.Device.WifiSoftwareUpdateState', '10': 'state'},
-    {'1': 'software_download_progress', '3': 2, '4': 1, '5': 2, '10': 'softwareDownloadProgress'},
-    {'1': 'seconds_since_get_target_versions', '3': 3, '4': 1, '5': 2, '10': 'secondsSinceGetTargetVersions'},
+    {
+      '1': 'state',
+      '3': 1,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.WifiSoftwareUpdateState',
+      '10': 'state'
+    },
+    {
+      '1': 'software_download_progress',
+      '3': 2,
+      '4': 1,
+      '5': 2,
+      '10': 'softwareDownloadProgress'
+    },
+    {
+      '1': 'seconds_since_get_target_versions',
+      '3': 3,
+      '4': 1,
+      '5': 2,
+      '10': 'secondsSinceGetTargetVersions'
+    },
     {'1': 'running_version', '3': 4, '4': 1, '5': 9, '10': 'runningVersion'},
-    {'1': 'version_in_progress', '3': 5, '4': 1, '5': 9, '10': 'versionInProgress'},
+    {
+      '1': 'version_in_progress',
+      '3': 5,
+      '4': 1,
+      '5': 9,
+      '10': 'versionInProgress'
+    },
   ],
 };
 
@@ -5642,8 +10922,21 @@ final $typed_data.Uint8List wifiSoftwareUpdateStatsDescriptor = $convert.base64D
 const WifiSetupRequirement$json = {
   '1': 'WifiSetupRequirement',
   '2': [
-    {'1': 'state', '3': 1, '4': 1, '5': 14, '6': '.SpaceX.API.Device.WifiSetupRequirementState', '10': 'state'},
-    {'1': 'pause_countdown_seconds', '3': 2, '4': 1, '5': 4, '10': 'pauseCountdownSeconds'},
+    {
+      '1': 'state',
+      '3': 1,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.WifiSetupRequirementState',
+      '10': 'state'
+    },
+    {
+      '1': 'pause_countdown_seconds',
+      '3': 2,
+      '4': 1,
+      '5': 4,
+      '10': 'pauseCountdownSeconds'
+    },
   ],
 };
 
@@ -5657,7 +10950,14 @@ final $typed_data.Uint8List wifiSetupRequirementDescriptor = $convert.base64Deco
 const RadiusStatsMap$json = {
   '1': 'RadiusStatsMap',
   '2': [
-    {'1': 'radius_stats', '3': 1, '4': 3, '5': 11, '6': '.SpaceX.API.Device.RadiusStatsMap.RadiusStatsEntry', '10': 'radiusStats'},
+    {
+      '1': 'radius_stats',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.SpaceX.API.Device.RadiusStatsMap.RadiusStatsEntry',
+      '10': 'radiusStats'
+    },
   ],
   '3': [RadiusStatsMap_RadiusStatsEntry$json, RadiusStatsMap_RadiusStats$json],
 };
@@ -5667,7 +10967,14 @@ const RadiusStatsMap_RadiusStatsEntry$json = {
   '1': 'RadiusStatsEntry',
   '2': [
     {'1': 'key', '3': 1, '4': 1, '5': 9, '10': 'key'},
-    {'1': 'value', '3': 2, '4': 1, '5': 11, '6': '.SpaceX.API.Device.RadiusStatsMap.RadiusStats', '10': 'value'},
+    {
+      '1': 'value',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.RadiusStatsMap.RadiusStats',
+      '10': 'value'
+    },
   ],
   '7': {'7': true},
 };
@@ -5678,12 +10985,48 @@ const RadiusStatsMap_RadiusStats$json = {
   '2': [
     {'1': 'iface_name', '3': 1, '4': 1, '5': 9, '10': 'ifaceName'},
     {'1': 'timeout_count', '3': 2, '4': 1, '5': 13, '10': 'timeoutCount'},
-    {'1': 'access_request_count', '3': 3, '4': 1, '5': 13, '10': 'accessRequestCount'},
-    {'1': 'access_accept_count', '3': 4, '4': 1, '5': 13, '10': 'accessAcceptCount'},
-    {'1': 'access_reject_count', '3': 5, '4': 1, '5': 13, '10': 'accessRejectCount'},
-    {'1': 'access_challenge_count', '3': 6, '4': 1, '5': 13, '10': 'accessChallengeCount'},
-    {'1': 'accounting_request_count', '3': 7, '4': 1, '5': 13, '10': 'accountingRequestCount'},
-    {'1': 'accounting_response_count', '3': 8, '4': 1, '5': 13, '10': 'accountingResponseCount'},
+    {
+      '1': 'access_request_count',
+      '3': 3,
+      '4': 1,
+      '5': 13,
+      '10': 'accessRequestCount'
+    },
+    {
+      '1': 'access_accept_count',
+      '3': 4,
+      '4': 1,
+      '5': 13,
+      '10': 'accessAcceptCount'
+    },
+    {
+      '1': 'access_reject_count',
+      '3': 5,
+      '4': 1,
+      '5': 13,
+      '10': 'accessRejectCount'
+    },
+    {
+      '1': 'access_challenge_count',
+      '3': 6,
+      '4': 1,
+      '5': 13,
+      '10': 'accessChallengeCount'
+    },
+    {
+      '1': 'accounting_request_count',
+      '3': 7,
+      '4': 1,
+      '5': 13,
+      '10': 'accountingRequestCount'
+    },
+    {
+      '1': 'accounting_response_count',
+      '3': 8,
+      '4': 1,
+      '5': 13,
+      '10': 'accountingResponseCount'
+    },
   ],
 };
 
@@ -5706,8 +11049,22 @@ final $typed_data.Uint8List radiusStatsMapDescriptor = $convert.base64Decode(
 const WifiAuthenticateResponse$json = {
   '1': 'WifiAuthenticateResponse',
   '2': [
-    {'1': 'wifi', '3': 1, '4': 1, '5': 11, '6': '.SpaceX.API.Device.ChallengeResponse', '10': 'wifi'},
-    {'1': 'dish', '3': 2, '4': 1, '5': 11, '6': '.SpaceX.API.Device.ChallengeResponse', '10': 'dish'},
+    {
+      '1': 'wifi',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.ChallengeResponse',
+      '10': 'wifi'
+    },
+    {
+      '1': 'dish',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.ChallengeResponse',
+      '10': 'dish'
+    },
   ],
 };
 
@@ -5725,15 +11082,69 @@ const WifiGetHistoryResponse$json = {
     {'1': 'current_index_15s', '3': 2, '4': 1, '5': 4, '10': 'currentIndex15s'},
     {'1': 'ping_drop_rate', '3': 1001, '4': 3, '5': 2, '10': 'pingDropRate'},
     {'1': 'ping_latency_ms', '3': 1002, '4': 3, '5': 2, '10': 'pingLatencyMs'},
-    {'1': 'pop_ipv4_ping_drop_rate_last_15s', '3': 1003, '4': 3, '5': 2, '10': 'popIpv4PingDropRateLast15s'},
-    {'1': 'pop_ipv6_ping_drop_rate_last_15s', '3': 1004, '4': 3, '5': 2, '10': 'popIpv6PingDropRateLast15s'},
-    {'1': 'google_ipv4_ping_drop_rate_last_15s', '3': 1005, '4': 3, '5': 2, '10': 'googleIpv4PingDropRateLast15s'},
-    {'1': 'google_ipv6_ping_drop_rate_last_15s', '3': 1006, '4': 3, '5': 2, '10': 'googleIpv6PingDropRateLast15s'},
-    {'1': 'cloudflare_ipv4_ping_drop_rate_last_15s', '3': 1007, '4': 3, '5': 2, '10': 'cloudflareIpv4PingDropRateLast15s'},
-    {'1': 'cloudflare_ipv6_ping_drop_rate_last_15s', '3': 1008, '4': 3, '5': 2, '10': 'cloudflareIpv6PingDropRateLast15s'},
-    {'1': 'dns_resolver_drop_rate', '3': 1009, '4': 3, '5': 11, '6': '.SpaceX.API.Device.WifiGetHistoryResponse.DnsResolverDropRateEntry', '10': 'dnsResolverDropRate'},
+    {
+      '1': 'pop_ipv4_ping_drop_rate_last_15s',
+      '3': 1003,
+      '4': 3,
+      '5': 2,
+      '10': 'popIpv4PingDropRateLast15s'
+    },
+    {
+      '1': 'pop_ipv6_ping_drop_rate_last_15s',
+      '3': 1004,
+      '4': 3,
+      '5': 2,
+      '10': 'popIpv6PingDropRateLast15s'
+    },
+    {
+      '1': 'google_ipv4_ping_drop_rate_last_15s',
+      '3': 1005,
+      '4': 3,
+      '5': 2,
+      '10': 'googleIpv4PingDropRateLast15s'
+    },
+    {
+      '1': 'google_ipv6_ping_drop_rate_last_15s',
+      '3': 1006,
+      '4': 3,
+      '5': 2,
+      '10': 'googleIpv6PingDropRateLast15s'
+    },
+    {
+      '1': 'cloudflare_ipv4_ping_drop_rate_last_15s',
+      '3': 1007,
+      '4': 3,
+      '5': 2,
+      '10': 'cloudflareIpv4PingDropRateLast15s'
+    },
+    {
+      '1': 'cloudflare_ipv6_ping_drop_rate_last_15s',
+      '3': 1008,
+      '4': 3,
+      '5': 2,
+      '10': 'cloudflareIpv6PingDropRateLast15s'
+    },
+    {
+      '1': 'dns_resolver_drop_rate',
+      '3': 1009,
+      '4': 3,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiGetHistoryResponse.DnsResolverDropRateEntry',
+      '10': 'dnsResolverDropRate'
+    },
+    {
+      '1': 'event_log',
+      '3': 1010,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.EventLog',
+      '10': 'eventLog'
+    },
   ],
-  '3': [WifiGetHistoryResponse_DnsResolverDropRateEntry$json, WifiGetHistoryResponse_DnsResolverHistory$json],
+  '3': [
+    WifiGetHistoryResponse_DnsResolverDropRateEntry$json,
+    WifiGetHistoryResponse_DnsResolverHistory$json
+  ],
 };
 
 @$core.Deprecated('Use wifiGetHistoryResponseDescriptor instead')
@@ -5741,7 +11152,14 @@ const WifiGetHistoryResponse_DnsResolverDropRateEntry$json = {
   '1': 'DnsResolverDropRateEntry',
   '2': [
     {'1': 'key', '3': 1, '4': 1, '5': 9, '10': 'key'},
-    {'1': 'value', '3': 2, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiGetHistoryResponse.DnsResolverHistory', '10': 'value'},
+    {
+      '1': 'value',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiGetHistoryResponse.DnsResolverHistory',
+      '10': 'value'
+    },
   ],
   '7': {'7': true},
 };
@@ -5750,7 +11168,13 @@ const WifiGetHistoryResponse_DnsResolverDropRateEntry$json = {
 const WifiGetHistoryResponse_DnsResolverHistory$json = {
   '1': 'DnsResolverHistory',
   '2': [
-    {'1': 'drop_rate_last_15s', '3': 2, '4': 3, '5': 2, '10': 'dropRateLast15s'},
+    {
+      '1': 'drop_rate_last_15s',
+      '3': 2,
+      '4': 3,
+      '5': 2,
+      '10': 'dropRateLast15s'
+    },
   ],
 };
 
@@ -5769,24 +11193,33 @@ final $typed_data.Uint8List wifiGetHistoryResponseDescriptor = $convert.base64De
     'ElMKJ2Nsb3VkZmxhcmVfaXB2Nl9waW5nX2Ryb3BfcmF0ZV9sYXN0XzE1cxjwByADKAJSIWNsb3'
     'VkZmxhcmVJcHY2UGluZ0Ryb3BSYXRlTGFzdDE1cxJ4ChZkbnNfcmVzb2x2ZXJfZHJvcF9yYXRl'
     'GPEHIAMoCzJCLlNwYWNlWC5BUEkuRGV2aWNlLldpZmlHZXRIaXN0b3J5UmVzcG9uc2UuRG5zUm'
-    'Vzb2x2ZXJEcm9wUmF0ZUVudHJ5UhNkbnNSZXNvbHZlckRyb3BSYXRlGoQBChhEbnNSZXNvbHZl'
-    'ckRyb3BSYXRlRW50cnkSEAoDa2V5GAEgASgJUgNrZXkSUgoFdmFsdWUYAiABKAsyPC5TcGFjZV'
-    'guQVBJLkRldmljZS5XaWZpR2V0SGlzdG9yeVJlc3BvbnNlLkRuc1Jlc29sdmVySGlzdG9yeVIF'
-    'dmFsdWU6AjgBGkEKEkRuc1Jlc29sdmVySGlzdG9yeRIrChJkcm9wX3JhdGVfbGFzdF8xNXMYAi'
-    'ADKAJSD2Ryb3BSYXRlTGFzdDE1cw==');
+    'Vzb2x2ZXJEcm9wUmF0ZUVudHJ5UhNkbnNSZXNvbHZlckRyb3BSYXRlEjkKCWV2ZW50X2xvZxjy'
+    'ByABKAsyGy5TcGFjZVguQVBJLkRldmljZS5FdmVudExvZ1IIZXZlbnRMb2cahAEKGERuc1Jlc2'
+    '9sdmVyRHJvcFJhdGVFbnRyeRIQCgNrZXkYASABKAlSA2tleRJSCgV2YWx1ZRgCIAEoCzI8LlNw'
+    'YWNlWC5BUEkuRGV2aWNlLldpZmlHZXRIaXN0b3J5UmVzcG9uc2UuRG5zUmVzb2x2ZXJIaXN0b3'
+    'J5UgV2YWx1ZToCOAEaQQoSRG5zUmVzb2x2ZXJIaXN0b3J5EisKEmRyb3BfcmF0ZV9sYXN0XzE1'
+    'cxgCIAMoAlIPZHJvcFJhdGVMYXN0MTVz');
 
 @$core.Deprecated('Use wifiGetPingMetricsResponseDescriptor instead')
 const WifiGetPingMetricsResponse$json = {
   '1': 'WifiGetPingMetricsResponse',
   '2': [
-    {'1': 'internet', '3': 1, '4': 1, '5': 11, '6': '.SpaceX.API.Device.PingMetrics', '10': 'internet'},
+    {
+      '1': 'internet',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.PingMetrics',
+      '10': 'internet'
+    },
   ],
 };
 
 /// Descriptor for `WifiGetPingMetricsResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List wifiGetPingMetricsResponseDescriptor = $convert.base64Decode(
-    'ChpXaWZpR2V0UGluZ01ldHJpY3NSZXNwb25zZRI6CghpbnRlcm5ldBgBIAEoCzIeLlNwYWNlWC'
-    '5BUEkuRGV2aWNlLlBpbmdNZXRyaWNzUghpbnRlcm5ldA==');
+final $typed_data.Uint8List wifiGetPingMetricsResponseDescriptor =
+    $convert.base64Decode(
+        'ChpXaWZpR2V0UGluZ01ldHJpY3NSZXNwb25zZRI6CghpbnRlcm5ldBgBIAEoCzIeLlNwYWNlWC'
+        '5BUEkuRGV2aWNlLlBpbmdNZXRyaWNzUghpbnRlcm5ldA==');
 
 @$core.Deprecated('Use pingMetricsDescriptor instead')
 const PingMetrics$json = {
@@ -5794,8 +11227,20 @@ const PingMetrics$json = {
   '2': [
     {'1': 'latency_mean_ms', '3': 1, '4': 1, '5': 2, '10': 'latencyMeanMs'},
     {'1': 'latency_stddev_ms', '3': 2, '4': 1, '5': 2, '10': 'latencyStddevMs'},
-    {'1': 'latency_mean_ms_5m', '3': 3, '4': 1, '5': 2, '10': 'latencyMeanMs5m'},
-    {'1': 'latency_mean_ms_1h', '3': 4, '4': 1, '5': 2, '10': 'latencyMeanMs1h'},
+    {
+      '1': 'latency_mean_ms_5m',
+      '3': 3,
+      '4': 1,
+      '5': 2,
+      '10': 'latencyMeanMs5m'
+    },
+    {
+      '1': 'latency_mean_ms_1h',
+      '3': 4,
+      '4': 1,
+      '5': 2,
+      '10': 'latencyMeanMs1h'
+    },
     {
       '1': 'latency_mean_ms_1d',
       '3': 5,
@@ -5808,16 +11253,58 @@ const PingMetrics$json = {
     {'1': 'drop_rate_5m', '3': 7, '4': 1, '5': 2, '10': 'dropRate5m'},
     {'1': 'drop_rate_1h', '3': 8, '4': 1, '5': 2, '10': 'dropRate1h'},
     {'1': 'drop_rate_1d', '3': 9, '4': 1, '5': 2, '10': 'dropRate1d'},
-    {'1': 'seconds_since_last_success', '3': 10, '4': 1, '5': 2, '10': 'secondsSinceLastSuccess'},
-    {'1': 'seconds_since_last_1s_outage', '3': 11, '4': 1, '5': 2, '10': 'secondsSinceLast1sOutage'},
-    {'1': 'seconds_since_last_5s_outage', '3': 12, '4': 1, '5': 2, '10': 'secondsSinceLast5sOutage'},
+    {
+      '1': 'seconds_since_last_success',
+      '3': 10,
+      '4': 1,
+      '5': 2,
+      '10': 'secondsSinceLastSuccess'
+    },
+    {
+      '1': 'seconds_since_last_1s_outage',
+      '3': 11,
+      '4': 1,
+      '5': 2,
+      '10': 'secondsSinceLast1sOutage'
+    },
+    {
+      '1': 'seconds_since_last_5s_outage',
+      '3': 12,
+      '4': 1,
+      '5': 2,
+      '10': 'secondsSinceLast5sOutage'
+    },
     {'1': 'happy_hours_1s_1d', '3': 13, '4': 1, '5': 2, '10': 'happyHours1s1d'},
     {'1': 'happy_hours_5s_1d', '3': 14, '4': 1, '5': 2, '10': 'happyHours5s1d'},
-    {'1': 'seconds_since_last_2s_outage', '3': 15, '4': 1, '5': 2, '10': 'secondsSinceLast2sOutage'},
+    {
+      '1': 'seconds_since_last_2s_outage',
+      '3': 15,
+      '4': 1,
+      '5': 2,
+      '10': 'secondsSinceLast2sOutage'
+    },
     {'1': 'happy_hours_2s_1d', '3': 16, '4': 1, '5': 2, '10': 'happyHours2s1d'},
-    {'1': 'seconds_since_last_15s_outage', '3': 18, '4': 1, '5': 2, '10': 'secondsSinceLast15sOutage'},
-    {'1': 'seconds_since_last_60s_outage', '3': 19, '4': 1, '5': 2, '10': 'secondsSinceLast60sOutage'},
-    {'1': 'seconds_since_last_300s_outage', '3': 20, '4': 1, '5': 2, '10': 'secondsSinceLast300sOutage'},
+    {
+      '1': 'seconds_since_last_15s_outage',
+      '3': 18,
+      '4': 1,
+      '5': 2,
+      '10': 'secondsSinceLast15sOutage'
+    },
+    {
+      '1': 'seconds_since_last_60s_outage',
+      '3': 19,
+      '4': 1,
+      '5': 2,
+      '10': 'secondsSinceLast60sOutage'
+    },
+    {
+      '1': 'seconds_since_last_300s_outage',
+      '3': 20,
+      '4': 1,
+      '5': 2,
+      '10': 'secondsSinceLast300sOutage'
+    },
   ],
 };
 
@@ -5846,7 +11333,14 @@ final $typed_data.Uint8List pingMetricsDescriptor = $convert.base64Decode(
 const WifiGetConfigResponse$json = {
   '1': 'WifiGetConfigResponse',
   '2': [
-    {'1': 'wifi_config', '3': 1, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiConfig', '10': 'wifiConfig'},
+    {
+      '1': 'wifi_config',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiConfig',
+      '10': 'wifiConfig'
+    },
   ],
 };
 
@@ -5861,8 +11355,8 @@ const WifiSetMeshDeviceTrustResponse$json = {
 };
 
 /// Descriptor for `WifiSetMeshDeviceTrustResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List wifiSetMeshDeviceTrustResponseDescriptor = $convert.base64Decode(
-    'Ch5XaWZpU2V0TWVzaERldmljZVRydXN0UmVzcG9uc2U=');
+final $typed_data.Uint8List wifiSetMeshDeviceTrustResponseDescriptor =
+    $convert.base64Decode('Ch5XaWZpU2V0TWVzaERldmljZVRydXN0UmVzcG9uc2U=');
 
 @$core.Deprecated('Use wifiSetMeshConfigResponseDescriptor instead')
 const WifiSetMeshConfigResponse$json = {
@@ -5870,17 +11364,36 @@ const WifiSetMeshConfigResponse$json = {
 };
 
 /// Descriptor for `WifiSetMeshConfigResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List wifiSetMeshConfigResponseDescriptor = $convert.base64Decode(
-    'ChlXaWZpU2V0TWVzaENvbmZpZ1Jlc3BvbnNl');
+final $typed_data.Uint8List wifiSetMeshConfigResponseDescriptor =
+    $convert.base64Decode('ChlXaWZpU2V0TWVzaENvbmZpZ1Jlc3BvbnNl');
 
 @$core.Deprecated('Use wifiGetClientHistoryResponseDescriptor instead')
 const WifiGetClientHistoryResponse$json = {
   '1': 'WifiGetClientHistoryResponse',
   '2': [
     {'1': 'current', '3': 1, '4': 1, '5': 4, '10': 'current'},
-    {'1': 'tx_throughput_mbps', '3': 2, '4': 3, '5': 2, '10': 'txThroughputMbps'},
-    {'1': 'rx_throughput_mbps', '3': 3, '4': 3, '5': 2, '10': 'rxThroughputMbps'},
-    {'1': 'throughput_limited', '3': 4, '4': 3, '5': 14, '6': '.SpaceX.API.Device.WifiGetClientHistoryResponse.WifiLimitedReason', '10': 'throughputLimited'},
+    {
+      '1': 'tx_throughput_mbps',
+      '3': 2,
+      '4': 3,
+      '5': 2,
+      '10': 'txThroughputMbps'
+    },
+    {
+      '1': 'rx_throughput_mbps',
+      '3': 3,
+      '4': 3,
+      '5': 2,
+      '10': 'rxThroughputMbps'
+    },
+    {
+      '1': 'throughput_limited',
+      '3': 4,
+      '4': 3,
+      '5': 14,
+      '6': '.SpaceX.API.Device.WifiGetClientHistoryResponse.WifiLimitedReason',
+      '10': 'throughputLimited'
+    },
     {'1': 'rx_rate_mbps', '3': 5, '4': 3, '5': 2, '10': 'rxRateMbps'},
     {'1': 'rssi', '3': 6, '4': 1, '5': 12, '10': 'rssi'},
   ],
@@ -5913,7 +11426,14 @@ final $typed_data.Uint8List wifiGetClientHistoryResponseDescriptor = $convert.ba
 const WifiSelfTestResponse$json = {
   '1': 'WifiSelfTestResponse',
   '2': [
-    {'1': 'self_test', '3': 1, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiSelfTest', '10': 'selfTest'},
+    {
+      '1': 'self_test',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiSelfTest',
+      '10': 'selfTest'
+    },
     {'1': 'json', '3': 2, '4': 1, '5': 9, '10': 'json'},
   ],
 };
@@ -5928,10 +11448,38 @@ const WifiSelfTest$json = {
   '1': 'WifiSelfTest',
   '2': [
     {'1': 'total_success', '3': 1, '4': 1, '5': 8, '10': 'totalSuccess'},
-    {'1': 'fused', '3': 2, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiSelfTest.TestResult', '10': 'fused'},
-    {'1': 'eth_phys', '3': 3, '4': 3, '5': 11, '6': '.SpaceX.API.Device.WifiSelfTest.TestResult', '10': 'ethPhys'},
-    {'1': 'pcis', '3': 4, '4': 3, '5': 11, '6': '.SpaceX.API.Device.WifiSelfTest.TestResult', '10': 'pcis'},
-    {'1': 'bl2_prod', '3': 5, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiSelfTest.TestResult', '10': 'bl2Prod'},
+    {
+      '1': 'fused',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiSelfTest.TestResult',
+      '10': 'fused'
+    },
+    {
+      '1': 'eth_phys',
+      '3': 3,
+      '4': 3,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiSelfTest.TestResult',
+      '10': 'ethPhys'
+    },
+    {
+      '1': 'pcis',
+      '3': 4,
+      '4': 3,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiSelfTest.TestResult',
+      '10': 'pcis'
+    },
+    {
+      '1': 'bl2_prod',
+      '3': 5,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiSelfTest.TestResult',
+      '10': 'bl2Prod'
+    },
   ],
   '3': [WifiSelfTest_TestResult$json],
 };
@@ -5963,9 +11511,27 @@ const WifiGuestInfoResponse$json = {
   '2': [
     {'1': 'is_guest', '3': 1, '4': 1, '5': 8, '10': 'isGuest'},
     {'1': 'is_online', '3': 2, '4': 1, '5': 8, '10': 'isOnline'},
-    {'1': 'router_hardware_version', '3': 3, '4': 1, '5': 9, '10': 'routerHardwareVersion'},
-    {'1': 'dish_hardware_version', '3': 4, '4': 1, '5': 9, '10': 'dishHardwareVersion'},
-    {'1': 'is_router_aviation_conformed', '3': 5, '4': 1, '5': 8, '10': 'isRouterAviationConformed'},
+    {
+      '1': 'router_hardware_version',
+      '3': 3,
+      '4': 1,
+      '5': 9,
+      '10': 'routerHardwareVersion'
+    },
+    {
+      '1': 'dish_hardware_version',
+      '3': 4,
+      '4': 1,
+      '5': 9,
+      '10': 'dishHardwareVersion'
+    },
+    {
+      '1': 'is_router_aviation_conformed',
+      '3': 5,
+      '4': 1,
+      '5': 8,
+      '10': 'isRouterAviationConformed'
+    },
   ],
 };
 
@@ -5986,31 +11552,75 @@ const WifiRfTestResponse$json = {
 };
 
 /// Descriptor for `WifiRfTestResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List wifiRfTestResponseDescriptor = $convert.base64Decode(
-    'ChJXaWZpUmZUZXN0UmVzcG9uc2USFgoGcmVwb3J0GAEgASgJUgZyZXBvcnQ=');
+final $typed_data.Uint8List wifiRfTestResponseDescriptor =
+    $convert.base64Decode(
+        'ChJXaWZpUmZUZXN0UmVzcG9uc2USFgoGcmVwb3J0GAEgASgJUgZyZXBvcnQ=');
 
 @$core.Deprecated('Use wifiGetPersistentStatsResponseDescriptor instead')
 const WifiGetPersistentStatsResponse$json = {
   '1': 'WifiGetPersistentStatsResponse',
   '2': [
-    {'1': 'stats', '3': 1, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiPersistentStats', '10': 'stats'},
+    {
+      '1': 'stats',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiPersistentStats',
+      '10': 'stats'
+    },
   ],
 };
 
 /// Descriptor for `WifiGetPersistentStatsResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List wifiGetPersistentStatsResponseDescriptor = $convert.base64Decode(
-    'Ch5XaWZpR2V0UGVyc2lzdGVudFN0YXRzUmVzcG9uc2USPAoFc3RhdHMYASABKAsyJi5TcGFjZV'
-    'guQVBJLkRldmljZS5XaWZpUGVyc2lzdGVudFN0YXRzUgVzdGF0cw==');
+final $typed_data.Uint8List wifiGetPersistentStatsResponseDescriptor =
+    $convert.base64Decode(
+        'Ch5XaWZpR2V0UGVyc2lzdGVudFN0YXRzUmVzcG9uc2USPAoFc3RhdHMYASABKAsyJi5TcGFjZV'
+        'guQVBJLkRldmljZS5XaWZpUGVyc2lzdGVudFN0YXRzUgVzdGF0cw==');
 
 @$core.Deprecated('Use wifiPersistentStatsDescriptor instead')
 const WifiPersistentStats$json = {
   '1': 'WifiPersistentStats',
   '2': [
-    {'1': 'factory_reset_button', '3': 1, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiPersistentStats.Event', '10': 'factoryResetButton'},
-    {'1': 'factory_reset_plug_unplug', '3': 2, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiPersistentStats.Event', '10': 'factoryResetPlugUnplug'},
-    {'1': 'factory_reset_command', '3': 3, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiPersistentStats.Event', '10': 'factoryResetCommand'},
-    {'1': 'factory_reset_failed_load_wifi_config', '3': 4, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiPersistentStats.Event', '10': 'factoryResetFailedLoadWifiConfig'},
-    {'1': 'reboot_from_software_update', '3': 5, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiPersistentStats.Event', '10': 'rebootFromSoftwareUpdate'},
+    {
+      '1': 'factory_reset_button',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiPersistentStats.Event',
+      '10': 'factoryResetButton'
+    },
+    {
+      '1': 'factory_reset_plug_unplug',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiPersistentStats.Event',
+      '10': 'factoryResetPlugUnplug'
+    },
+    {
+      '1': 'factory_reset_command',
+      '3': 3,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiPersistentStats.Event',
+      '10': 'factoryResetCommand'
+    },
+    {
+      '1': 'factory_reset_failed_load_wifi_config',
+      '3': 4,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiPersistentStats.Event',
+      '10': 'factoryResetFailedLoadWifiConfig'
+    },
+    {
+      '1': 'reboot_from_software_update',
+      '3': 5,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiPersistentStats.Event',
+      '10': 'rebootFromSoftwareUpdate'
+    },
   ],
   '3': [WifiPersistentStats_Event$json],
 };
@@ -6020,7 +11630,13 @@ const WifiPersistentStats_Event$json = {
   '1': 'Event',
   '2': [
     {'1': 'count', '3': 1, '4': 1, '5': 13, '10': 'count'},
-    {'1': 'last_occurred_timestamp', '3': 2, '4': 1, '5': 3, '10': 'lastOccurredTimestamp'},
+    {
+      '1': 'last_occurred_timestamp',
+      '3': 2,
+      '4': 1,
+      '5': 3,
+      '10': 'lastOccurredTimestamp'
+    },
   ],
 };
 
@@ -6049,9 +11665,10 @@ const WifiGetFirewallResponse$json = {
 };
 
 /// Descriptor for `WifiGetFirewallResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List wifiGetFirewallResponseDescriptor = $convert.base64Decode(
-    'ChdXaWZpR2V0RmlyZXdhbGxSZXNwb25zZRIaCghpcHRhYmxlcxgBIAEoCVIIaXB0YWJsZXMSHQ'
-    'oKaXB0YWJsZXNfNhgCIAEoCVIJaXB0YWJsZXM2');
+final $typed_data.Uint8List wifiGetFirewallResponseDescriptor =
+    $convert.base64Decode(
+        'ChdXaWZpR2V0RmlyZXdhbGxSZXNwb25zZRIaCghpcHRhYmxlcxgBIAEoCVIIaXB0YWJsZXMSHQ'
+        'oKaXB0YWJsZXNfNhgCIAEoCVIJaXB0YWJsZXM2');
 
 @$core.Deprecated('Use wifiFactoryTestCommandResponseDescriptor instead')
 const WifiFactoryTestCommandResponse$json = {
@@ -6062,9 +11679,10 @@ const WifiFactoryTestCommandResponse$json = {
 };
 
 /// Descriptor for `WifiFactoryTestCommandResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List wifiFactoryTestCommandResponseDescriptor = $convert.base64Decode(
-    'Ch5XaWZpRmFjdG9yeVRlc3RDb21tYW5kUmVzcG9uc2USGgoIcmVzcG9uc2UYASABKAlSCHJlc3'
-    'BvbnNl');
+final $typed_data.Uint8List wifiFactoryTestCommandResponseDescriptor =
+    $convert.base64Decode(
+        'Ch5XaWZpRmFjdG9yeVRlc3RDb21tYW5kUmVzcG9uc2USGgoIcmVzcG9uc2UYASABKAlSCHJlc3'
+        'BvbnNl');
 
 @$core.Deprecated('Use wifiBackhaulStatsResponseDescriptor instead')
 const WifiBackhaulStatsResponse$json = {
@@ -6072,9 +11690,23 @@ const WifiBackhaulStatsResponse$json = {
   '2': [
     {'1': 'success', '3': 1, '4': 1, '5': 8, '10': 'success'},
     {'1': 'bssid', '3': 2, '4': 1, '5': 9, '10': 'bssid'},
-    {'1': 'iface', '3': 3, '4': 1, '5': 14, '6': '.SpaceX.API.Device.IfaceType', '10': 'iface'},
+    {
+      '1': 'iface',
+      '3': 3,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.IfaceType',
+      '10': 'iface'
+    },
     {'1': 'preference', '3': 4, '4': 1, '5': 13, '10': 'preference'},
-    {'1': 'siteSurveyScan', '3': 5, '4': 3, '5': 11, '6': '.SpaceX.API.Device.WifiSiteSurveyResult', '10': 'siteSurveyScan'},
+    {
+      '1': 'siteSurveyScan',
+      '3': 5,
+      '4': 3,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiSiteSurveyResult',
+      '10': 'siteSurveyScan'
+    },
   ],
 };
 
@@ -6093,9 +11725,30 @@ const WifiSiteSurveyResult$json = {
     {'1': 'rssi', '3': 1, '4': 1, '5': 2, '10': 'rssi'},
     {'1': 'channel', '3': 2, '4': 1, '5': 13, '10': 'channel'},
     {'1': 'ssid', '3': 3, '4': 1, '5': 9, '10': 'ssid'},
-    {'1': 'security', '3': 4, '4': 1, '5': 14, '6': '.SpaceX.API.Device.WifiSecurity', '10': 'security'},
-    {'1': 'wireless_mode', '3': 5, '4': 1, '5': 14, '6': '.SpaceX.API.Device.WifiMode', '10': 'wirelessMode'},
-    {'1': 'iface', '3': 6, '4': 1, '5': 14, '6': '.SpaceX.API.Device.IfaceType', '10': 'iface'},
+    {
+      '1': 'security',
+      '3': 4,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.WifiSecurity',
+      '10': 'security'
+    },
+    {
+      '1': 'wireless_mode',
+      '3': 5,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.WifiMode',
+      '10': 'wirelessMode'
+    },
+    {
+      '1': 'iface',
+      '3': 6,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.IfaceType',
+      '10': 'iface'
+    },
     {'1': 'mac_address', '3': 7, '4': 1, '5': 9, '10': 'macAddress'},
     {'1': 'est_rx_rate', '3': 8, '4': 1, '5': 2, '10': 'estRxRate'},
   ],
@@ -6116,14 +11769,21 @@ const WifiClientSandboxResponse$json = {
 };
 
 /// Descriptor for `WifiClientSandboxResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List wifiClientSandboxResponseDescriptor = $convert.base64Decode(
-    'ChlXaWZpQ2xpZW50U2FuZGJveFJlc3BvbnNl');
+final $typed_data.Uint8List wifiClientSandboxResponseDescriptor =
+    $convert.base64Decode('ChlXaWZpQ2xpZW50U2FuZGJveFJlc3BvbnNl');
 
 @$core.Deprecated('Use wifiUpdateResponseDescriptor instead')
 const WifiUpdateResponse$json = {
   '1': 'WifiUpdateResponse',
   '2': [
-    {'1': 'stats', '3': 1, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiSoftwareUpdateStats', '10': 'stats'},
+    {
+      '1': 'stats',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiSoftwareUpdateStats',
+      '10': 'stats'
+    },
   ],
 };
 
@@ -6132,35 +11792,118 @@ final $typed_data.Uint8List wifiUpdateResponseDescriptor = $convert.base64Decode
     'ChJXaWZpVXBkYXRlUmVzcG9uc2USQAoFc3RhdHMYASABKAsyKi5TcGFjZVguQVBJLkRldmljZS'
     '5XaWZpU29mdHdhcmVVcGRhdGVTdGF0c1IFc3RhdHM=');
 
+@$core.Deprecated('Use wifiRunDebugNetsysResponseDescriptor instead')
+const WifiRunDebugNetsysResponse$json = {
+  '1': 'WifiRunDebugNetsysResponse',
+};
+
+/// Descriptor for `WifiRunDebugNetsysResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List wifiRunDebugNetsysResponseDescriptor =
+    $convert.base64Decode('ChpXaWZpUnVuRGVidWdOZXRzeXNSZXNwb25zZQ==');
+
+@$core.Deprecated('Use wifiResetEthPhyResponseDescriptor instead')
+const WifiResetEthPhyResponse$json = {
+  '1': 'WifiResetEthPhyResponse',
+};
+
+/// Descriptor for `WifiResetEthPhyResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List wifiResetEthPhyResponseDescriptor =
+    $convert.base64Decode('ChdXaWZpUmVzZXRFdGhQaHlSZXNwb25zZQ==');
+
+@$core.Deprecated('Use wifiFlushHardwareNatResponseDescriptor instead')
+const WifiFlushHardwareNatResponse$json = {
+  '1': 'WifiFlushHardwareNatResponse',
+};
+
+/// Descriptor for `WifiFlushHardwareNatResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List wifiFlushHardwareNatResponseDescriptor =
+    $convert.base64Decode('ChxXaWZpRmx1c2hIYXJkd2FyZU5hdFJlc3BvbnNl');
+
 @$core.Deprecated('Use transceiverIFLoopbackTestResponseDescriptor instead')
 const TransceiverIFLoopbackTestResponse$json = {
   '1': 'TransceiverIFLoopbackTestResponse',
   '2': [
     {'1': 'ber_loopback_test', '3': 1, '4': 1, '5': 2, '10': 'berLoopbackTest'},
     {'1': 'snr_loopback_test', '3': 2, '4': 1, '5': 2, '10': 'snrLoopbackTest'},
-    {'1': 'rssi_loopback_test', '3': 3, '4': 1, '5': 2, '10': 'rssiLoopbackTest'},
+    {
+      '1': 'rssi_loopback_test',
+      '3': 3,
+      '4': 1,
+      '5': 2,
+      '10': 'rssiLoopbackTest'
+    },
     {'1': 'pll_lock', '3': 4, '4': 1, '5': 8, '10': 'pllLock'},
   ],
 };
 
 /// Descriptor for `TransceiverIFLoopbackTestResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List transceiverIFLoopbackTestResponseDescriptor = $convert.base64Decode(
-    'CiFUcmFuc2NlaXZlcklGTG9vcGJhY2tUZXN0UmVzcG9uc2USKgoRYmVyX2xvb3BiYWNrX3Rlc3'
-    'QYASABKAJSD2Jlckxvb3BiYWNrVGVzdBIqChFzbnJfbG9vcGJhY2tfdGVzdBgCIAEoAlIPc25y'
-    'TG9vcGJhY2tUZXN0EiwKEnJzc2lfbG9vcGJhY2tfdGVzdBgDIAEoAlIQcnNzaUxvb3BiYWNrVG'
-    'VzdBIZCghwbGxfbG9jaxgEIAEoCFIHcGxsTG9jaw==');
+final $typed_data.Uint8List transceiverIFLoopbackTestResponseDescriptor =
+    $convert.base64Decode(
+        'CiFUcmFuc2NlaXZlcklGTG9vcGJhY2tUZXN0UmVzcG9uc2USKgoRYmVyX2xvb3BiYWNrX3Rlc3'
+        'QYASABKAJSD2Jlckxvb3BiYWNrVGVzdBIqChFzbnJfbG9vcGJhY2tfdGVzdBgCIAEoAlIPc25y'
+        'TG9vcGJhY2tUZXN0EiwKEnJzc2lfbG9vcGJhY2tfdGVzdBgDIAEoAlIQcnNzaUxvb3BiYWNrVG'
+        'VzdBIZCghwbGxfbG9jaxgEIAEoCFIHcGxsTG9jaw==');
 
 @$core.Deprecated('Use transceiverGetStatusResponseDescriptor instead')
 const TransceiverGetStatusResponse$json = {
   '1': 'TransceiverGetStatusResponse',
   '2': [
-    {'1': 'mod_state', '3': 1, '4': 1, '5': 14, '6': '.SpaceX.API.Device.TransceiverModulatorState', '10': 'modState'},
-    {'1': 'demod_state', '3': 2, '4': 1, '5': 14, '6': '.SpaceX.API.Device.TransceiverModulatorState', '10': 'demodState'},
-    {'1': 'tx_state', '3': 3, '4': 1, '5': 14, '6': '.SpaceX.API.Device.TransceiverTxRxState', '10': 'txState'},
-    {'1': 'rx_state', '3': 4, '4': 1, '5': 14, '6': '.SpaceX.API.Device.TransceiverTxRxState', '10': 'rxState'},
-    {'1': 'state', '3': 1006, '4': 1, '5': 14, '6': '.SpaceX.API.Device.DishState', '10': 'state'},
-    {'1': 'faults', '3': 1007, '4': 1, '5': 11, '6': '.SpaceX.API.Device.TransceiverFaults', '10': 'faults'},
-    {'1': 'transmit_blanking_state', '3': 1008, '4': 1, '5': 14, '6': '.SpaceX.API.Device.TransceiverTransmitBlankingState', '10': 'transmitBlankingState'},
+    {
+      '1': 'mod_state',
+      '3': 1,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.TransceiverModulatorState',
+      '10': 'modState'
+    },
+    {
+      '1': 'demod_state',
+      '3': 2,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.TransceiverModulatorState',
+      '10': 'demodState'
+    },
+    {
+      '1': 'tx_state',
+      '3': 3,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.TransceiverTxRxState',
+      '10': 'txState'
+    },
+    {
+      '1': 'rx_state',
+      '3': 4,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.TransceiverTxRxState',
+      '10': 'rxState'
+    },
+    {
+      '1': 'state',
+      '3': 1006,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.DishState',
+      '10': 'state'
+    },
+    {
+      '1': 'faults',
+      '3': 1007,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.TransceiverFaults',
+      '10': 'faults'
+    },
+    {
+      '1': 'transmit_blanking_state',
+      '3': 1008,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.TransceiverTransmitBlankingState',
+      '10': 'transmitBlankingState'
+    },
     {'1': 'modem_asic_temp', '3': 1009, '4': 1, '5': 2, '10': 'modemAsicTemp'},
     {'1': 'tx_if_temp', '3': 1010, '4': 1, '5': 2, '10': 'txIfTemp'},
   ],
@@ -6185,8 +11928,20 @@ final $typed_data.Uint8List transceiverGetStatusResponseDescriptor = $convert.ba
 const TransceiverFaults$json = {
   '1': 'TransceiverFaults',
   '2': [
-    {'1': 'over_temp_modem_asic_fault', '3': 1, '4': 1, '5': 8, '10': 'overTempModemAsicFault'},
-    {'1': 'over_temp_pcba_fault', '3': 2, '4': 1, '5': 8, '10': 'overTempPcbaFault'},
+    {
+      '1': 'over_temp_modem_asic_fault',
+      '3': 1,
+      '4': 1,
+      '5': 8,
+      '10': 'overTempModemAsicFault'
+    },
+    {
+      '1': 'over_temp_pcba_fault',
+      '3': 2,
+      '4': 1,
+      '5': 8,
+      '10': 'overTempPcbaFault'
+    },
     {'1': 'dc_voltage_fault', '3': 3, '4': 1, '5': 8, '10': 'dcVoltageFault'},
   ],
 };
@@ -6202,32 +11957,116 @@ final $typed_data.Uint8List transceiverFaultsDescriptor = $convert.base64Decode(
 const TransceiverGetTelemetryResponse$json = {
   '1': 'TransceiverGetTelemetryResponse',
   '2': [
-    {'1': 'antenna_pointing_mode', '3': 1001, '4': 1, '5': 13, '10': 'antennaPointingMode'},
+    {
+      '1': 'antenna_pointing_mode',
+      '3': 1001,
+      '4': 1,
+      '5': 13,
+      '10': 'antennaPointingMode'
+    },
     {'1': 'antenna_pitch', '3': 1002, '4': 1, '5': 2, '10': 'antennaPitch'},
     {'1': 'antenna_roll', '3': 1003, '4': 1, '5': 2, '10': 'antennaRoll'},
-    {'1': 'antenna_rx_theta', '3': 1004, '4': 1, '5': 2, '10': 'antennaRxTheta'},
-    {'1': 'antenna_true_heading', '3': 1005, '4': 1, '5': 2, '10': 'antennaTrueHeading'},
+    {
+      '1': 'antenna_rx_theta',
+      '3': 1004,
+      '4': 1,
+      '5': 2,
+      '10': 'antennaRxTheta'
+    },
+    {
+      '1': 'antenna_true_heading',
+      '3': 1005,
+      '4': 1,
+      '5': 2,
+      '10': 'antennaTrueHeading'
+    },
     {'1': 'rx_channel', '3': 1006, '4': 1, '5': 13, '10': 'rxChannel'},
     {'1': 'current_cell_id', '3': 1007, '4': 1, '5': 13, '10': 'currentCellId'},
-    {'1': 'seconds_until_slot_end', '3': 1008, '4': 1, '5': 2, '10': 'secondsUntilSlotEnd'},
-    {'1': 'wb_rssi_peak_mag_db', '3': 1009, '4': 1, '5': 2, '10': 'wbRssiPeakMagDb'},
-    {'1': 'pop_ping_drop_rate', '3': 1010, '4': 1, '5': 2, '10': 'popPingDropRate'},
+    {
+      '1': 'seconds_until_slot_end',
+      '3': 1008,
+      '4': 1,
+      '5': 2,
+      '10': 'secondsUntilSlotEnd'
+    },
+    {
+      '1': 'wb_rssi_peak_mag_db',
+      '3': 1009,
+      '4': 1,
+      '5': 2,
+      '10': 'wbRssiPeakMagDb'
+    },
+    {
+      '1': 'pop_ping_drop_rate',
+      '3': 1010,
+      '4': 1,
+      '5': 2,
+      '10': 'popPingDropRate'
+    },
     {'1': 'snr_db', '3': 1011, '4': 1, '5': 2, '10': 'snrDb'},
     {'1': 'l1_snr_avg_db', '3': 1012, '4': 1, '5': 2, '10': 'l1SnrAvgDb'},
     {'1': 'l1_snr_min_db', '3': 1013, '4': 1, '5': 2, '10': 'l1SnrMinDb'},
     {'1': 'l1_snr_max_db', '3': 1014, '4': 1, '5': 2, '10': 'l1SnrMaxDb'},
-    {'1': 'lmac_satellite_id', '3': 1015, '4': 1, '5': 13, '10': 'lmacSatelliteId'},
-    {'1': 'target_satellite_id', '3': 1016, '4': 1, '5': 13, '10': 'targetSatelliteId'},
+    {
+      '1': 'lmac_satellite_id',
+      '3': 1015,
+      '4': 1,
+      '5': 13,
+      '10': 'lmacSatelliteId'
+    },
+    {
+      '1': 'target_satellite_id',
+      '3': 1016,
+      '4': 1,
+      '5': 13,
+      '10': 'targetSatelliteId'
+    },
     {'1': 'grant_mcs', '3': 1017, '4': 1, '5': 13, '10': 'grantMcs'},
-    {'1': 'grant_symbols_avg', '3': 1018, '4': 1, '5': 2, '10': 'grantSymbolsAvg'},
+    {
+      '1': 'grant_symbols_avg',
+      '3': 1018,
+      '4': 1,
+      '5': 2,
+      '10': 'grantSymbolsAvg'
+    },
     {'1': 'ded_grant', '3': 1019, '4': 1, '5': 13, '10': 'dedGrant'},
-    {'1': 'mobility_proactive_slot_change', '3': 1020, '4': 1, '5': 13, '10': 'mobilityProactiveSlotChange'},
-    {'1': 'mobility_reactive_slot_change', '3': 1021, '4': 1, '5': 13, '10': 'mobilityReactiveSlotChange'},
-    {'1': 'rfp_total_syn_failed', '3': 1022, '4': 1, '5': 13, '10': 'rfpTotalSynFailed'},
+    {
+      '1': 'mobility_proactive_slot_change',
+      '3': 1020,
+      '4': 1,
+      '5': 13,
+      '10': 'mobilityProactiveSlotChange'
+    },
+    {
+      '1': 'mobility_reactive_slot_change',
+      '3': 1021,
+      '4': 1,
+      '5': 13,
+      '10': 'mobilityReactiveSlotChange'
+    },
+    {
+      '1': 'rfp_total_syn_failed',
+      '3': 1022,
+      '4': 1,
+      '5': 13,
+      '10': 'rfpTotalSynFailed'
+    },
     {'1': 'num_out_of_seq', '3': 1023, '4': 1, '5': 13, '10': 'numOutOfSeq'},
     {'1': 'num_ulmap_drop', '3': 1024, '4': 1, '5': 13, '10': 'numUlmapDrop'},
-    {'1': 'current_seconds_of_schedule', '3': 1025, '4': 1, '5': 2, '10': 'currentSecondsOfSchedule'},
-    {'1': 'send_label_switch_to_ground_failed_calls', '3': 1026, '4': 1, '5': 13, '10': 'sendLabelSwitchToGroundFailedCalls'},
+    {
+      '1': 'current_seconds_of_schedule',
+      '3': 1025,
+      '4': 1,
+      '5': 2,
+      '10': 'currentSecondsOfSchedule'
+    },
+    {
+      '1': 'send_label_switch_to_ground_failed_calls',
+      '3': 1026,
+      '4': 1,
+      '5': 13,
+      '10': 'sendLabelSwitchToGroundFailedCalls'
+    },
     {'1': 'ema_velocity_x', '3': 1027, '4': 1, '5': 1, '10': 'emaVelocityX'},
     {'1': 'ema_velocity_y', '3': 1028, '4': 1, '5': 1, '10': 'emaVelocityY'},
     {'1': 'ema_velocity_z', '3': 1029, '4': 1, '5': 1, '10': 'emaVelocityZ'},
@@ -6287,8 +12126,9 @@ const FinishUnlockResponse$json = {
 };
 
 /// Descriptor for `FinishUnlockResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List finishUnlockResponseDescriptor = $convert.base64Decode(
-    'ChRGaW5pc2hVbmxvY2tSZXNwb25zZRIWCgZzdGF0dXMYASABKA1SBnN0YXR1cw==');
+final $typed_data.Uint8List finishUnlockResponseDescriptor =
+    $convert.base64Decode(
+        'ChRGaW5pc2hVbmxvY2tSZXNwb25zZRIWCgZzdGF0dXMYASABKA1SBnN0YXR1cw==');
 
 @$core.Deprecated('Use wifiGetDiagnosticsResponseDescriptor instead')
 const WifiGetDiagnosticsResponse$json = {
@@ -6297,7 +12137,14 @@ const WifiGetDiagnosticsResponse$json = {
     {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
     {'1': 'hardware_version', '3': 2, '4': 1, '5': 9, '10': 'hardwareVersion'},
     {'1': 'software_version', '3': 3, '4': 1, '5': 9, '10': 'softwareVersion'},
-    {'1': 'networks', '3': 4, '4': 3, '5': 11, '6': '.SpaceX.API.Device.WifiGetDiagnosticsResponse.Network', '10': 'networks'},
+    {
+      '1': 'networks',
+      '3': 4,
+      '4': 3,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiGetDiagnosticsResponse.Network',
+      '10': 'networks'
+    },
   ],
   '3': [WifiGetDiagnosticsResponse_Network$json],
 };
@@ -6309,7 +12156,13 @@ const WifiGetDiagnosticsResponse_Network$json = {
     {'1': 'domain', '3': 1, '4': 1, '5': 9, '10': 'domain'},
     {'1': 'ipv4', '3': 2, '4': 1, '5': 9, '10': 'ipv4'},
     {'1': 'ipv6', '3': 3, '4': 3, '5': 9, '10': 'ipv6'},
-    {'1': 'clients_ethernet', '3': 10, '4': 1, '5': 13, '10': 'clientsEthernet'},
+    {
+      '1': 'clients_ethernet',
+      '3': 10,
+      '4': 1,
+      '5': 13,
+      '10': 'clientsEthernet'
+    },
     {'1': 'clients_2ghz', '3': 11, '4': 1, '5': 13, '10': 'clients2ghz'},
     {'1': 'clients_5ghz', '3': 12, '4': 1, '5': 13, '10': 'clients5ghz'},
   ],
@@ -6334,15 +12187,78 @@ const DishGetDiagnosticsResponse$json = {
     {'1': 'hardware_version', '3': 2, '4': 1, '5': 9, '10': 'hardwareVersion'},
     {'1': 'software_version', '3': 3, '4': 1, '5': 9, '10': 'softwareVersion'},
     {'1': 'utc_offset_s', '3': 4, '4': 1, '5': 5, '10': 'utcOffsetS'},
-    {'1': 'alerts', '3': 5, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishGetDiagnosticsResponse.Alerts', '10': 'alerts'},
-    {'1': 'disablement_code', '3': 6, '4': 1, '5': 14, '6': '.SpaceX.API.Device.DishGetDiagnosticsResponse.DisablementCode', '10': 'disablementCode'},
-    {'1': 'hardware_self_test', '3': 7, '4': 1, '5': 14, '6': '.SpaceX.API.Device.DishGetDiagnosticsResponse.TestResult', '10': 'hardwareSelfTest'},
-    {'1': 'location', '3': 8, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishGetDiagnosticsResponse.Location', '10': 'location'},
-    {'1': 'alignment_stats', '3': 9, '4': 1, '5': 11, '6': '.SpaceX.API.Device.DishGetDiagnosticsResponse.AlignmentStats', '10': 'alignmentStats'},
+    {
+      '1': 'alerts',
+      '3': 5,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishGetDiagnosticsResponse.Alerts',
+      '10': 'alerts'
+    },
+    {
+      '1': 'disablement_code',
+      '3': 6,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.DishGetDiagnosticsResponse.DisablementCode',
+      '10': 'disablementCode'
+    },
+    {
+      '1': 'hardware_self_test',
+      '3': 7,
+      '4': 1,
+      '5': 14,
+      '6': '.SpaceX.API.Device.DishGetDiagnosticsResponse.TestResult',
+      '10': 'hardwareSelfTest'
+    },
+    {
+      '1': 'location',
+      '3': 8,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishGetDiagnosticsResponse.Location',
+      '10': 'location'
+    },
+    {
+      '1': 'alignment_stats',
+      '3': 9,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishGetDiagnosticsResponse.AlignmentStats',
+      '10': 'alignmentStats'
+    },
     {'1': 'stowed', '3': 10, '4': 1, '5': 8, '10': 'stowed'},
+    {
+      '1': 'hardware_self_test_codes',
+      '3': 11,
+      '4': 3,
+      '5': 14,
+      '6': '.SpaceX.API.Device.DishGetDiagnosticsResponse.TestResultCode',
+      '10': 'hardwareSelfTestCodes'
+    },
+    {
+      '1': 'overage_rate_limited',
+      '3': 14,
+      '4': 1,
+      '5': 8,
+      '10': 'overageRateLimited'
+    },
   ],
-  '3': [DishGetDiagnosticsResponse_Alerts$json, DishGetDiagnosticsResponse_AlignmentStats$json, DishGetDiagnosticsResponse_Location$json],
-  '4': [DishGetDiagnosticsResponse_DisablementCode$json, DishGetDiagnosticsResponse_TestResult$json],
+  '3': [
+    DishGetDiagnosticsResponse_Alerts$json,
+    DishGetDiagnosticsResponse_AlignmentStats$json,
+    DishGetDiagnosticsResponse_Location$json
+  ],
+  '4': [
+    DishGetDiagnosticsResponse_DisablementCode$json,
+    DishGetDiagnosticsResponse_TestResult$json,
+    DishGetDiagnosticsResponse_TestResultCode$json
+  ],
+  '9': [
+    {'1': 12, '2': 13},
+    {'1': 13, '2': 14},
+  ],
+  '10': ['dl_bandwidth_restricted_reason', 'ul_bandwidth_restricted_reason'],
 };
 
 @$core.Deprecated('Use dishGetDiagnosticsResponseDescriptor instead')
@@ -6350,26 +12266,89 @@ const DishGetDiagnosticsResponse_Alerts$json = {
   '1': 'Alerts',
   '2': [
     {'1': 'dish_is_heating', '3': 1, '4': 1, '5': 8, '10': 'dishIsHeating'},
-    {'1': 'dish_thermal_throttle', '3': 2, '4': 1, '5': 8, '10': 'dishThermalThrottle'},
-    {'1': 'dish_thermal_shutdown', '3': 3, '4': 1, '5': 8, '10': 'dishThermalShutdown'},
-    {'1': 'power_supply_thermal_throttle', '3': 4, '4': 1, '5': 8, '10': 'powerSupplyThermalThrottle'},
+    {
+      '1': 'dish_thermal_throttle',
+      '3': 2,
+      '4': 1,
+      '5': 8,
+      '10': 'dishThermalThrottle'
+    },
+    {
+      '1': 'dish_thermal_shutdown',
+      '3': 3,
+      '4': 1,
+      '5': 8,
+      '10': 'dishThermalShutdown'
+    },
+    {
+      '1': 'power_supply_thermal_throttle',
+      '3': 4,
+      '4': 1,
+      '5': 8,
+      '10': 'powerSupplyThermalThrottle'
+    },
     {'1': 'motors_stuck', '3': 5, '4': 1, '5': 8, '10': 'motorsStuck'},
-    {'1': 'mast_not_near_vertical', '3': 6, '4': 1, '5': 8, '10': 'mastNotNearVertical'},
-    {'1': 'slow_ethernet_speeds', '3': 7, '4': 1, '5': 8, '10': 'slowEthernetSpeeds'},
-    {'1': 'software_install_pending', '3': 8, '4': 1, '5': 8, '10': 'softwareInstallPending'},
-    {'1': 'moving_too_fast_for_policy', '3': 9, '4': 1, '5': 8, '10': 'movingTooFastForPolicy'},
+    {
+      '1': 'mast_not_near_vertical',
+      '3': 6,
+      '4': 1,
+      '5': 8,
+      '10': 'mastNotNearVertical'
+    },
+    {
+      '1': 'slow_ethernet_speeds',
+      '3': 7,
+      '4': 1,
+      '5': 8,
+      '10': 'slowEthernetSpeeds'
+    },
+    {
+      '1': 'software_install_pending',
+      '3': 8,
+      '4': 1,
+      '5': 8,
+      '10': 'softwareInstallPending'
+    },
     {'1': 'obstructed', '3': 10, '4': 1, '5': 8, '10': 'obstructed'},
   ],
+  '9': [
+    {'1': 9, '2': 10},
+  ],
+  '10': ['moving_too_fast_for_policy'],
 };
 
 @$core.Deprecated('Use dishGetDiagnosticsResponseDescriptor instead')
 const DishGetDiagnosticsResponse_AlignmentStats$json = {
   '1': 'AlignmentStats',
   '2': [
-    {'1': 'boresight_azimuth_deg', '3': 1, '4': 1, '5': 2, '10': 'boresightAzimuthDeg'},
-    {'1': 'boresight_elevation_deg', '3': 2, '4': 1, '5': 2, '10': 'boresightElevationDeg'},
-    {'1': 'desired_boresight_azimuth_deg', '3': 3, '4': 1, '5': 2, '10': 'desiredBoresightAzimuthDeg'},
-    {'1': 'desired_boresight_elevation_deg', '3': 4, '4': 1, '5': 2, '10': 'desiredBoresightElevationDeg'},
+    {
+      '1': 'boresight_azimuth_deg',
+      '3': 1,
+      '4': 1,
+      '5': 2,
+      '10': 'boresightAzimuthDeg'
+    },
+    {
+      '1': 'boresight_elevation_deg',
+      '3': 2,
+      '4': 1,
+      '5': 2,
+      '10': 'boresightElevationDeg'
+    },
+    {
+      '1': 'desired_boresight_azimuth_deg',
+      '3': 3,
+      '4': 1,
+      '5': 2,
+      '10': 'desiredBoresightAzimuthDeg'
+    },
+    {
+      '1': 'desired_boresight_elevation_deg',
+      '3': 4,
+      '4': 1,
+      '5': 2,
+      '10': 'desiredBoresightElevationDeg'
+    },
   ],
 };
 
@@ -6381,8 +12360,20 @@ const DishGetDiagnosticsResponse_Location$json = {
     {'1': 'latitude', '3': 2, '4': 1, '5': 1, '10': 'latitude'},
     {'1': 'longitude', '3': 3, '4': 1, '5': 1, '10': 'longitude'},
     {'1': 'altitude_meters', '3': 4, '4': 1, '5': 1, '10': 'altitudeMeters'},
-    {'1': 'uncertainty_meters_valid', '3': 5, '4': 1, '5': 8, '10': 'uncertaintyMetersValid'},
-    {'1': 'uncertainty_meters', '3': 6, '4': 1, '5': 1, '10': 'uncertaintyMeters'},
+    {
+      '1': 'uncertainty_meters_valid',
+      '3': 5,
+      '4': 1,
+      '5': 8,
+      '10': 'uncertaintyMetersValid'
+    },
+    {
+      '1': 'uncertainty_meters',
+      '3': 6,
+      '4': 1,
+      '5': 1,
+      '10': 'uncertaintyMeters'
+    },
     {'1': 'gps_time_s', '3': 7, '4': 1, '5': 1, '10': 'gpsTimeS'},
   ],
 };
@@ -6403,6 +12394,9 @@ const DishGetDiagnosticsResponse_DisablementCode$json = {
     {'1': 'UNKNOWN_LOCATION', '2': 11},
     {'1': 'ACCOUNT_DISABLED', '2': 12},
     {'1': 'UNSUPPORTED_VERSION', '2': 13},
+    {'1': 'MOVING_TOO_FAST_FOR_POLICY', '2': 14},
+    {'1': 'UNDER_AVIATION_FLYOVER_LIMITS', '2': 15},
+    {'1': 'BLOCKED_AREA', '2': 16},
   ],
   '4': [
     {'1': 5, '2': 5},
@@ -6421,6 +12415,33 @@ const DishGetDiagnosticsResponse_TestResult$json = {
   ],
 };
 
+@$core.Deprecated('Use dishGetDiagnosticsResponseDescriptor instead')
+const DishGetDiagnosticsResponse_TestResultCode$json = {
+  '1': 'TestResultCode',
+  '2': [
+    {'1': 'GENERAL', '2': 0},
+    {'1': 'BOOT_UP', '2': 1},
+    {'1': 'CPU_VOLTAGE', '2': 2},
+    {'1': 'DBF_AAP_CS', '2': 3},
+    {'1': 'DBF_NUM_FEMS', '2': 4},
+    {'1': 'DBF_READ_ERRORS', '2': 5},
+    {'1': 'DBF_T_DIE_0', '2': 6},
+    {'1': 'DBF_T_DIE_1', '2': 7},
+    {'1': 'DBF_T_DIE_0_VALID', '2': 8},
+    {'1': 'DBF_T_DIE_1_VALID', '2': 9},
+    {'1': 'ETH_PRIME', '2': 10},
+    {'1': 'EIRP', '2': 11},
+    {'1': 'FEM_CUT', '2': 12},
+    {'1': 'FUSE_AVS', '2': 13},
+    {'1': 'GPS', '2': 14},
+    {'1': 'IMU', '2': 15},
+    {'1': 'PHY', '2': 16},
+    {'1': 'SCP_ERROR', '2': 17},
+    {'1': 'TEMPERATURE', '2': 18},
+    {'1': 'VTSENS', '2': 19},
+  ],
+};
+
 /// Descriptor for `DishGetDiagnosticsResponse`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List dishGetDiagnosticsResponseDescriptor = $convert.base64Decode(
     'ChpEaXNoR2V0RGlhZ25vc3RpY3NSZXNwb25zZRIOCgJpZBgBIAEoCVICaWQSKQoQaGFyZHdhcm'
@@ -6434,40 +12455,67 @@ final $typed_data.Uint8List dishGetDiagnosticsResponseDescriptor = $convert.base
     'U2VsZlRlc3QSUgoIbG9jYXRpb24YCCABKAsyNi5TcGFjZVguQVBJLkRldmljZS5EaXNoR2V0RG'
     'lhZ25vc3RpY3NSZXNwb25zZS5Mb2NhdGlvblIIbG9jYXRpb24SZQoPYWxpZ25tZW50X3N0YXRz'
     'GAkgASgLMjwuU3BhY2VYLkFQSS5EZXZpY2UuRGlzaEdldERpYWdub3N0aWNzUmVzcG9uc2UuQW'
-    'xpZ25tZW50U3RhdHNSDmFsaWdubWVudFN0YXRzEhYKBnN0b3dlZBgKIAEoCFIGc3Rvd2VkGvsD'
-    'CgZBbGVydHMSJgoPZGlzaF9pc19oZWF0aW5nGAEgASgIUg1kaXNoSXNIZWF0aW5nEjIKFWRpc2'
-    'hfdGhlcm1hbF90aHJvdHRsZRgCIAEoCFITZGlzaFRoZXJtYWxUaHJvdHRsZRIyChVkaXNoX3Ro'
-    'ZXJtYWxfc2h1dGRvd24YAyABKAhSE2Rpc2hUaGVybWFsU2h1dGRvd24SQQodcG93ZXJfc3VwcG'
-    'x5X3RoZXJtYWxfdGhyb3R0bGUYBCABKAhSGnBvd2VyU3VwcGx5VGhlcm1hbFRocm90dGxlEiEK'
-    'DG1vdG9yc19zdHVjaxgFIAEoCFILbW90b3JzU3R1Y2sSMwoWbWFzdF9ub3RfbmVhcl92ZXJ0aW'
-    'NhbBgGIAEoCFITbWFzdE5vdE5lYXJWZXJ0aWNhbBIwChRzbG93X2V0aGVybmV0X3NwZWVkcxgH'
-    'IAEoCFISc2xvd0V0aGVybmV0U3BlZWRzEjgKGHNvZnR3YXJlX2luc3RhbGxfcGVuZGluZxgIIA'
-    'EoCFIWc29mdHdhcmVJbnN0YWxsUGVuZGluZxI6Chptb3ZpbmdfdG9vX2Zhc3RfZm9yX3BvbGlj'
-    'eRgJIAEoCFIWbW92aW5nVG9vRmFzdEZvclBvbGljeRIeCgpvYnN0cnVjdGVkGAogASgIUgpvYn'
-    'N0cnVjdGVkGoYCCg5BbGlnbm1lbnRTdGF0cxIyChVib3Jlc2lnaHRfYXppbXV0aF9kZWcYASAB'
-    'KAJSE2JvcmVzaWdodEF6aW11dGhEZWcSNgoXYm9yZXNpZ2h0X2VsZXZhdGlvbl9kZWcYAiABKA'
-    'JSFWJvcmVzaWdodEVsZXZhdGlvbkRlZxJBCh1kZXNpcmVkX2JvcmVzaWdodF9hemltdXRoX2Rl'
-    'ZxgDIAEoAlIaZGVzaXJlZEJvcmVzaWdodEF6aW11dGhEZWcSRQofZGVzaXJlZF9ib3Jlc2lnaH'
-    'RfZWxldmF0aW9uX2RlZxgEIAEoAlIcZGVzaXJlZEJvcmVzaWdodEVsZXZhdGlvbkRlZxqOAgoI'
-    'TG9jYXRpb24SGAoHZW5hYmxlZBgBIAEoCFIHZW5hYmxlZBIaCghsYXRpdHVkZRgCIAEoAVIIbG'
-    'F0aXR1ZGUSHAoJbG9uZ2l0dWRlGAMgASgBUglsb25naXR1ZGUSJwoPYWx0aXR1ZGVfbWV0ZXJz'
-    'GAQgASgBUg5hbHRpdHVkZU1ldGVycxI4Chh1bmNlcnRhaW50eV9tZXRlcnNfdmFsaWQYBSABKA'
-    'hSFnVuY2VydGFpbnR5TWV0ZXJzVmFsaWQSLQoSdW5jZXJ0YWludHlfbWV0ZXJzGAYgASgBUhF1'
-    'bmNlcnRhaW50eU1ldGVycxIcCgpncHNfdGltZV9zGAcgASgBUghncHNUaW1lUyLGAgoPRGlzYW'
-    'JsZW1lbnRDb2RlEgsKB1VOS05PV04QABIICgRPS0FZEAESFQoRTk9fQUNUSVZFX0FDQ09VTlQQ'
-    'AhIgChxUT09fRkFSX0ZST01fU0VSVklDRV9BRERSRVNTEAMSDAoISU5fT0NFQU4QBBITCg9CTE'
-    '9DS0VEX0NPVU5UUlkQBhIfChtEQVRBX09WRVJBR0VfU0FOREJPWF9QT0xJQ1kQBxIUChBDRUxM'
-    'X0lTX0RJU0FCTEVEEAgSEwoPUk9BTV9SRVNUUklDVEVEEAoSFAoQVU5LTk9XTl9MT0NBVElPTh'
-    'ALEhQKEEFDQ09VTlRfRElTQUJMRUQQDBIXChNVTlNVUFBPUlRFRF9WRVJTSU9OEA0iBAgFEAUi'
-    'BAgJEAkqD0lOVkFMSURfQ09VTlRSWSoSVU5MSUNFTlNFRF9DT1VOVFJZIjMKClRlc3RSZXN1bH'
-    'QSDQoJTk9fUkVTVUxUEAASCgoGUEFTU0VEEAESCgoGRkFJTEVEEAI=');
+    'xpZ25tZW50U3RhdHNSDmFsaWdubWVudFN0YXRzEhYKBnN0b3dlZBgKIAEoCFIGc3Rvd2VkEnUK'
+    'GGhhcmR3YXJlX3NlbGZfdGVzdF9jb2RlcxgLIAMoDjI8LlNwYWNlWC5BUEkuRGV2aWNlLkRpc2'
+    'hHZXREaWFnbm9zdGljc1Jlc3BvbnNlLlRlc3RSZXN1bHRDb2RlUhVoYXJkd2FyZVNlbGZUZXN0'
+    'Q29kZXMSMAoUb3ZlcmFnZV9yYXRlX2xpbWl0ZWQYDiABKAhSEm92ZXJhZ2VSYXRlTGltaXRlZB'
+    'rhAwoGQWxlcnRzEiYKD2Rpc2hfaXNfaGVhdGluZxgBIAEoCFINZGlzaElzSGVhdGluZxIyChVk'
+    'aXNoX3RoZXJtYWxfdGhyb3R0bGUYAiABKAhSE2Rpc2hUaGVybWFsVGhyb3R0bGUSMgoVZGlzaF'
+    '90aGVybWFsX3NodXRkb3duGAMgASgIUhNkaXNoVGhlcm1hbFNodXRkb3duEkEKHXBvd2VyX3N1'
+    'cHBseV90aGVybWFsX3Rocm90dGxlGAQgASgIUhpwb3dlclN1cHBseVRoZXJtYWxUaHJvdHRsZR'
+    'IhCgxtb3RvcnNfc3R1Y2sYBSABKAhSC21vdG9yc1N0dWNrEjMKFm1hc3Rfbm90X25lYXJfdmVy'
+    'dGljYWwYBiABKAhSE21hc3ROb3ROZWFyVmVydGljYWwSMAoUc2xvd19ldGhlcm5ldF9zcGVlZH'
+    'MYByABKAhSEnNsb3dFdGhlcm5ldFNwZWVkcxI4Chhzb2Z0d2FyZV9pbnN0YWxsX3BlbmRpbmcY'
+    'CCABKAhSFnNvZnR3YXJlSW5zdGFsbFBlbmRpbmcSHgoKb2JzdHJ1Y3RlZBgKIAEoCFIKb2JzdH'
+    'J1Y3RlZEoECAkQClIabW92aW5nX3Rvb19mYXN0X2Zvcl9wb2xpY3kahgIKDkFsaWdubWVudFN0'
+    'YXRzEjIKFWJvcmVzaWdodF9hemltdXRoX2RlZxgBIAEoAlITYm9yZXNpZ2h0QXppbXV0aERlZx'
+    'I2Chdib3Jlc2lnaHRfZWxldmF0aW9uX2RlZxgCIAEoAlIVYm9yZXNpZ2h0RWxldmF0aW9uRGVn'
+    'EkEKHWRlc2lyZWRfYm9yZXNpZ2h0X2F6aW11dGhfZGVnGAMgASgCUhpkZXNpcmVkQm9yZXNpZ2'
+    'h0QXppbXV0aERlZxJFCh9kZXNpcmVkX2JvcmVzaWdodF9lbGV2YXRpb25fZGVnGAQgASgCUhxk'
+    'ZXNpcmVkQm9yZXNpZ2h0RWxldmF0aW9uRGVnGo4CCghMb2NhdGlvbhIYCgdlbmFibGVkGAEgAS'
+    'gIUgdlbmFibGVkEhoKCGxhdGl0dWRlGAIgASgBUghsYXRpdHVkZRIcCglsb25naXR1ZGUYAyAB'
+    'KAFSCWxvbmdpdHVkZRInCg9hbHRpdHVkZV9tZXRlcnMYBCABKAFSDmFsdGl0dWRlTWV0ZXJzEj'
+    'gKGHVuY2VydGFpbnR5X21ldGVyc192YWxpZBgFIAEoCFIWdW5jZXJ0YWludHlNZXRlcnNWYWxp'
+    'ZBItChJ1bmNlcnRhaW50eV9tZXRlcnMYBiABKAFSEXVuY2VydGFpbnR5TWV0ZXJzEhwKCmdwc1'
+    '90aW1lX3MYByABKAFSCGdwc1RpbWVTIpsDCg9EaXNhYmxlbWVudENvZGUSCwoHVU5LTk9XThAA'
+    'EggKBE9LQVkQARIVChFOT19BQ1RJVkVfQUNDT1VOVBACEiAKHFRPT19GQVJfRlJPTV9TRVJWSU'
+    'NFX0FERFJFU1MQAxIMCghJTl9PQ0VBThAEEhMKD0JMT0NLRURfQ09VTlRSWRAGEh8KG0RBVEFf'
+    'T1ZFUkFHRV9TQU5EQk9YX1BPTElDWRAHEhQKEENFTExfSVNfRElTQUJMRUQQCBITCg9ST0FNX1'
+    'JFU1RSSUNURUQQChIUChBVTktOT1dOX0xPQ0FUSU9OEAsSFAoQQUNDT1VOVF9ESVNBQkxFRBAM'
+    'EhcKE1VOU1VQUE9SVEVEX1ZFUlNJT04QDRIeChpNT1ZJTkdfVE9PX0ZBU1RfRk9SX1BPTElDWR'
+    'AOEiEKHVVOREVSX0FWSUFUSU9OX0ZMWU9WRVJfTElNSVRTEA8SEAoMQkxPQ0tFRF9BUkVBEBAi'
+    'BAgFEAUiBAgJEAkqD0lOVkFMSURfQ09VTlRSWSoSVU5MSUNFTlNFRF9DT1VOVFJZIjMKClRlc3'
+    'RSZXN1bHQSDQoJTk9fUkVTVUxUEAASCgoGUEFTU0VEEAESCgoGRkFJTEVEEAIivQIKDlRlc3RS'
+    'ZXN1bHRDb2RlEgsKB0dFTkVSQUwQABILCgdCT09UX1VQEAESDwoLQ1BVX1ZPTFRBR0UQAhIOCg'
+    'pEQkZfQUFQX0NTEAMSEAoMREJGX05VTV9GRU1TEAQSEwoPREJGX1JFQURfRVJST1JTEAUSDwoL'
+    'REJGX1RfRElFXzAQBhIPCgtEQkZfVF9ESUVfMRAHEhUKEURCRl9UX0RJRV8wX1ZBTElEEAgSFQ'
+    'oRREJGX1RfRElFXzFfVkFMSUQQCRINCglFVEhfUFJJTUUQChIICgRFSVJQEAsSCwoHRkVNX0NV'
+    'VBAMEgwKCEZVU0VfQVZTEA0SBwoDR1BTEA4SBwoDSU1VEA8SBwoDUEhZEBASDQoJU0NQX0VSUk'
+    '9SEBESDwoLVEVNUEVSQVRVUkUQEhIKCgZWVFNFTlMQE0oECAwQDUoECA0QDlIeZGxfYmFuZHdp'
+    'ZHRoX3Jlc3RyaWN0ZWRfcmVhc29uUh51bF9iYW5kd2lkdGhfcmVzdHJpY3RlZF9yZWFzb24=');
 
 @$core.Deprecated('Use toDeviceDescriptor instead')
 const ToDevice$json = {
   '1': 'ToDevice',
   '2': [
-    {'1': 'request', '3': 1, '4': 1, '5': 11, '6': '.SpaceX.API.Device.Request', '9': 0, '10': 'request'},
-    {'1': 'health_check', '3': 2, '4': 1, '5': 11, '6': '.SpaceX.API.Device.HealthCheck', '9': 0, '10': 'healthCheck'},
+    {
+      '1': 'request',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.Request',
+      '9': 0,
+      '10': 'request'
+    },
+    {
+      '1': 'health_check',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.HealthCheck',
+      '9': 0,
+      '10': 'healthCheck'
+    },
   ],
   '8': [
     {'1': 'message'},
@@ -6486,16 +12534,40 @@ const HealthCheck$json = {
 };
 
 /// Descriptor for `HealthCheck`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List healthCheckDescriptor = $convert.base64Decode(
-    'CgtIZWFsdGhDaGVjaw==');
+final $typed_data.Uint8List healthCheckDescriptor =
+    $convert.base64Decode('CgtIZWFsdGhDaGVjaw==');
 
 @$core.Deprecated('Use fromDeviceDescriptor instead')
 const FromDevice$json = {
   '1': 'FromDevice',
   '2': [
-    {'1': 'response', '3': 1, '4': 1, '5': 11, '6': '.SpaceX.API.Device.Response', '9': 0, '10': 'response'},
-    {'1': 'event', '3': 2, '4': 1, '5': 11, '6': '.SpaceX.API.Device.Event', '9': 0, '10': 'event'},
-    {'1': 'health_check', '3': 3, '4': 1, '5': 11, '6': '.SpaceX.API.Device.HealthCheck', '9': 0, '10': 'healthCheck'},
+    {
+      '1': 'response',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.Response',
+      '9': 0,
+      '10': 'response'
+    },
+    {
+      '1': 'event',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.Event',
+      '9': 0,
+      '10': 'event'
+    },
+    {
+      '1': 'health_check',
+      '3': 3,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.HealthCheck',
+      '9': 0,
+      '10': 'healthCheck'
+    },
   ],
   '8': [
     {'1': 'message'},
@@ -6513,11 +12585,51 @@ final $typed_data.Uint8List fromDeviceDescriptor = $convert.base64Decode(
 const Event$json = {
   '1': 'Event',
   '2': [
-    {'1': 'wifi_new_client_connected', '3': 3001, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiNewClientConnectedEvent', '9': 0, '10': 'wifiNewClientConnected'},
-    {'1': 'wifi_account_bonding', '3': 3002, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiAccountBondingEvent', '9': 0, '10': 'wifiAccountBonding'},
-    {'1': 'wifi_new_peer', '3': 3003, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiNewPeerEvent', '9': 0, '10': 'wifiNewPeer'},
-    {'1': 'wifi_cloud_status', '3': 3004, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiCloudStatusEvent', '9': 0, '10': 'wifiCloudStatus'},
-    {'1': 'wifi_client_sandbox', '3': 3005, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiClientSandboxRequest', '9': 0, '10': 'wifiClientSandbox'},
+    {
+      '1': 'wifi_new_client_connected',
+      '3': 3001,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiNewClientConnectedEvent',
+      '9': 0,
+      '10': 'wifiNewClientConnected'
+    },
+    {
+      '1': 'wifi_account_bonding',
+      '3': 3002,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiAccountBondingEvent',
+      '9': 0,
+      '10': 'wifiAccountBonding'
+    },
+    {
+      '1': 'wifi_new_peer',
+      '3': 3003,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiNewPeerEvent',
+      '9': 0,
+      '10': 'wifiNewPeer'
+    },
+    {
+      '1': 'wifi_cloud_status',
+      '3': 3004,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiCloudStatusEvent',
+      '9': 0,
+      '10': 'wifiCloudStatus'
+    },
+    {
+      '1': 'wifi_client_sandbox',
+      '3': 3005,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiClientSandboxRequest',
+      '9': 0,
+      '10': 'wifiClientSandbox'
+    },
   ],
   '8': [
     {'1': 'event'},
@@ -6540,14 +12652,22 @@ final $typed_data.Uint8List eventDescriptor = $convert.base64Decode(
 const WifiNewClientConnectedEvent$json = {
   '1': 'WifiNewClientConnectedEvent',
   '2': [
-    {'1': 'client', '3': 1, '4': 1, '5': 11, '6': '.SpaceX.API.Device.WifiClient', '10': 'client'},
+    {
+      '1': 'client',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.WifiClient',
+      '10': 'client'
+    },
   ],
 };
 
 /// Descriptor for `WifiNewClientConnectedEvent`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List wifiNewClientConnectedEventDescriptor = $convert.base64Decode(
-    'ChtXaWZpTmV3Q2xpZW50Q29ubmVjdGVkRXZlbnQSNQoGY2xpZW50GAEgASgLMh0uU3BhY2VYLk'
-    'FQSS5EZXZpY2UuV2lmaUNsaWVudFIGY2xpZW50');
+final $typed_data.Uint8List wifiNewClientConnectedEventDescriptor =
+    $convert.base64Decode(
+        'ChtXaWZpTmV3Q2xpZW50Q29ubmVjdGVkRXZlbnQSNQoGY2xpZW50GAEgASgLMh0uU3BhY2VYLk'
+        'FQSS5EZXZpY2UuV2lmaUNsaWVudFIGY2xpZW50');
 
 @$core.Deprecated('Use wifiAccountBondingEventDescriptor instead')
 const WifiAccountBondingEvent$json = {
@@ -6581,7 +12701,13 @@ final $typed_data.Uint8List wifiNewPeerEventDescriptor = $convert.base64Decode(
 const WifiCloudStatusEvent$json = {
   '1': 'WifiCloudStatusEvent',
   '2': [
-    {'1': 'direct_link_to_dish', '3': 1, '4': 1, '5': 8, '10': 'directLinkToDish'},
+    {
+      '1': 'direct_link_to_dish',
+      '3': 1,
+      '4': 1,
+      '5': 8,
+      '10': 'directLinkToDish'
+    },
     {'1': 'hardware_version', '3': 2, '4': 1, '5': 9, '10': 'hardwareVersion'},
     {'1': 'is_bypassed', '3': 3, '4': 1, '5': 8, '10': 'isBypassed'},
     {'1': 'api_version', '3': 4, '4': 1, '5': 13, '10': 'apiVersion'},
@@ -6594,4 +12720,3 @@ final $typed_data.Uint8List wifiCloudStatusEventDescriptor = $convert.base64Deco
     'JlY3RMaW5rVG9EaXNoEikKEGhhcmR3YXJlX3ZlcnNpb24YAiABKAlSD2hhcmR3YXJlVmVyc2lv'
     'bhIfCgtpc19ieXBhc3NlZBgDIAEoCFIKaXNCeXBhc3NlZBIfCgthcGlfdmVyc2lvbhgEIAEoDV'
     'IKYXBpVmVyc2lvbg==');
-

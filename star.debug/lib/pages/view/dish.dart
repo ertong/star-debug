@@ -3,6 +3,7 @@ import 'package:flutter/material.dart' hide Notification, Card, ConnectionState;
 import 'package:recase/recase.dart';
 import 'package:star_debug/grpc/starlink/network.pb.dart';
 import 'package:star_debug/grpc/starlink/starlink.pbgrpc.dart';
+import 'package:star_debug/grpc/starlink/telemetron.pb.dart';
 import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/pages/view/common.dart';
 import 'package:star_debug/preloaded.dart';
@@ -10,7 +11,7 @@ import 'package:star_debug/utils/format.dart';
 import 'package:star_debug/utils/kv_widget.dart';
 import 'package:star_debug/utils/snapshot.dart';
 import 'package:star_debug/utils/view_options.dart';
-import 'package:time_machine/time_machine.dart';
+import 'package:time_machine2/time_machine2.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 const String _TAG="DishWidget";
@@ -158,6 +159,11 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
 
         if (status.hasEthSpeedMbps())
           b.kv(M.grpc.DishGetStatus.eth_speed_mbps, status.ethSpeedMbps, ok: status.ethSpeedMbps==1000);
+
+        if (status.hasDlBandwidthRestrictedReason())
+          b.kv(M.grpc.DishGetStatus.dlBandwidthRestrictedReason, status.dlBandwidthRestrictedReason, ok: status.dlBandwidthRestrictedReason==RateLimitReason.NO_LIMIT);
+        if (status.hasUlBandwidthRestrictedReason())
+          b.kv(M.grpc.DishGetStatus.ulBandwidthRestrictedReason, status.ulBandwidthRestrictedReason, ok: status.ulBandwidthRestrictedReason==RateLimitReason.NO_LIMIT);
 
         rows.addAll(b.widgets);
       }
@@ -315,7 +321,7 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
         for (var e in (states.info_.byName).entries) {
           var key = e.key;
           var val = states.getField(e.value.tagNumber) ?? false;
-          if (key=="cady" && (hw.startsWith("rev4") || hw=="rev_mini_prod1"  || hw.startsWith("mini1_prod")))
+          if (key=="cady" && (hw.startsWith("rev4") || hw=="rev_mini_prod1"  || hw.startsWith("mini1_")))
             continue;
           var desc = R.i18n.map["grpc.DishReadyStates.$key"];
           if (desc!=null)
@@ -376,6 +382,12 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
     var str = "lat ${loc.lla.lat.toStringAsFixed(4)} lon ${loc.lla.lon.toStringAsFixed(4)} alt ${loc.lla.alt.toStringAsFixed(0)}m";
     if (loc.source==PositionSource.STARLINK)
       str = "$str\nsigma ${loc.sigmaM.toStringAsFixed(1)}";
+
+    if (loc.hasHorizontalSpeedMps())
+      str = "$str\nspeed horizontal ${loc.horizontalSpeedMps.toStringAsFixed(1)}m/s";
+    if (loc.hasVerticalSpeedMps())
+      str = "$str\nspeed vertical ${loc.verticalSpeedMps.toStringAsFixed(1)}m/s";
+
     b.kv(key, str, hide: hide);
   }
 }
