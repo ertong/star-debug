@@ -4,11 +4,14 @@ import 'package:dio/dio.dart';
 import 'package:grpc/grpc.dart';
 import 'package:star_debug/controller/conn/connection.dart';
 import 'package:star_debug/grpc/starlink/starlink.pbgrpc.dart';
+import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/utils/log_utils.dart';
 
 import 'grpc_connection.dart';
 
 String _TAG = "RouterConnection";
+
+const String kDefaultRouterIp = '192.168.1.1';
 
 class RouterPoolResponse {
   int code = 0;
@@ -20,7 +23,10 @@ class RouterConnection extends GrpcConnection {
   PooledRequest<WifiGetStatusResponse> wifiGetStatus = PooledRequest(2000);
   PooledRequest<RouterPoolResponse> httpPool = PooledRequest(2000);
 
-  RouterConnection({required super.notifyStream}):super(host: '192.168.1.1', port: 9000,) {
+  RouterConnection({required super.notifyStream}):super(
+    host: R.prefs.data.routerIp ?? kDefaultRouterIp,
+    port: 9000,
+  ) {
     TAG = "RouterConnection";
   }
 
@@ -81,10 +87,11 @@ class RouterConnection extends GrpcConnection {
   CancelToken? httpPoolCancelToken;
   final dio = Dio();
   Future doHttpPool() async {
+    final routerIp = R.prefs.data.routerIp ?? kDefaultRouterIp;
     try {
       httpPoolCancelToken?.cancel();
       httpPoolCancelToken = CancelToken();
-      var resp = await dio.request("http://192.168.1.1",
+      var resp = await dio.request("http://$routerIp",
           cancelToken: httpPoolCancelToken,
           options: Options(
               sendTimeout: Duration(seconds: 2),
@@ -104,9 +111,8 @@ class RouterConnection extends GrpcConnection {
       res.location = resp.headers["Location"]?.singleOrNull ?? "";
       httpPool.setData(now, res, 0);
 
-      // LogUtils.d(_TAG, "GET http://192.168.1.1: ${resp.statusCode}");
     } catch (e){
-      LogUtils.e(_TAG, "GET http://192.168.1.1: ${"$e".split("\n")[0]}");
+      LogUtils.d(_TAG, "doHttpPool error: $e");
     }
   }
 }

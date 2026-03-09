@@ -6,6 +6,7 @@ import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/routes.dart';
 
 import 'dialogs/select_lang.dart';
+import 'settings_subnet.dart';
 
 const String _TAG="SettingsPage";
 
@@ -56,8 +57,8 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
       ),
       onTap: () async{
         var lang = await showDialog<String>(context: context, builder: (c){ return SelectLangDialog(); });
-        if (lang!=null){
-          await R.prefs.save((p) {
+        if (lang!=null) {
+          await R.prefs.save((p){
             p.lang = lang;
           });
           await I18n.instance.setLang(lang);
@@ -104,6 +105,8 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
             });
           }
       ));
+
+    res.add(SubnetSettingsSection());
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
