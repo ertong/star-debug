@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:sqlite3_flutter_libs/sqlite3_flutter_libs.dart';
 import 'package:star_debug/channel/star_channel.dart';
 import 'package:star_debug/controller/conn/connection.dart';
 import 'package:star_debug/controller/conn/online_connection.dart';
@@ -129,7 +128,7 @@ class Preloaded{
     } ());
 
     futs.add(() async {
-      await applyWorkaroundToOpenSqlite3OnOldAndroidVersions();
+      // await applyWorkaroundToOpenSqlite3OnOldAndroidVersions();
       await DatabaseHolder.init();
       db = await DatabaseHolder.getDb();
     } ());
