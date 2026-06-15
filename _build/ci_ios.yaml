@@ -28,7 +28,7 @@ build_ios:
     - cd $CI_PROJECT_DIR/star.debug
     - flutter clean
     - flutter packages get
-    - cd ios && pod install --repo-update && cd ..
+    - cd $CI_PROJECT_DIR/star.debug/ios && pod install --repo-update && cd ..
     - flutter build ios --release --no-codesign $BUILD_OPTS
 #    - pwd
 #    - cd ios
@@ -48,9 +48,9 @@ publish_testflight:
     - cd $CI_PROJECT_DIR/star.debug
     - flutter clean
     - flutter packages get
-    - cd ios && pod install --repo-update && cd ..
+    - cd $CI_PROJECT_DIR/star.debug/ios && pod install --repo-update && cd ..
     - flutter build ios --release --no-codesign $BUILD_OPTS
-    - cd ios
+    - cd $CI_PROJECT_DIR/star.debug/ios
     - bundle install
     - bundle exec fastlane beta
     - bundle exec fastlane do_testflight
