@@ -14,9 +14,9 @@
   after_script:
     - security lock-keychain $MATCH_KEYCHAIN_NAME || echo No $MATCH_KEYCHAIN_NAME. Skip locking
     - rm -rf ~/Library/Keychains/${MATCH_KEYCHAIN_NAME}-db || echo Nothing to delete
-  cache:
-    key: iOS-${CI_COMMIT_SHA}
-    untracked: true
+#  cache:
+#    key: iOS-${CI_COMMIT_SHA}
+#    untracked: true
   tags: [flutter, macos]
 
 build_ios:
