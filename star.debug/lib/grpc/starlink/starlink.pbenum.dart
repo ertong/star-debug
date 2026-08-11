@@ -433,6 +433,33 @@ class WifiClientSandboxAlert extends $pb.ProtobufEnum {
   const WifiClientSandboxAlert._(super.value, super.name);
 }
 
+/// SpaceX.API.Device.WifiTracerouteIpFamily is an enum:
+class WifiTracerouteIpFamily extends $pb.ProtobufEnum {
+  static const WifiTracerouteIpFamily WIFI_TRACEROUTE_IP_FAMILY_UNKNOWN =
+      WifiTracerouteIpFamily._(
+          0, _omitEnumNames ? '' : 'WIFI_TRACEROUTE_IP_FAMILY_UNKNOWN');
+  static const WifiTracerouteIpFamily WIFI_TRACEROUTE_IP_FAMILY_IPV4 =
+      WifiTracerouteIpFamily._(
+          1, _omitEnumNames ? '' : 'WIFI_TRACEROUTE_IP_FAMILY_IPV4');
+  static const WifiTracerouteIpFamily WIFI_TRACEROUTE_IP_FAMILY_IPV6 =
+      WifiTracerouteIpFamily._(
+          2, _omitEnumNames ? '' : 'WIFI_TRACEROUTE_IP_FAMILY_IPV6');
+
+  static const $core.List<WifiTracerouteIpFamily> values =
+      <WifiTracerouteIpFamily>[
+    WIFI_TRACEROUTE_IP_FAMILY_UNKNOWN,
+    WIFI_TRACEROUTE_IP_FAMILY_IPV4,
+    WIFI_TRACEROUTE_IP_FAMILY_IPV6,
+  ];
+
+  static final $core.List<WifiTracerouteIpFamily?> _byValue =
+      $pb.ProtobufEnum.$_initByValueList(values, 2);
+  static WifiTracerouteIpFamily? valueOf($core.int value) =>
+      value < 0 || value >= _byValue.length ? null : _byValue[value];
+
+  const WifiTracerouteIpFamily._(super.value, super.name);
+}
+
 /// SpaceX.API.Device.HardwareIndex is an enum:
 class HardwareIndex extends $pb.ProtobufEnum {
   static const HardwareIndex UNKNOWN_HARDWARE_INDEX =
@@ -479,6 +506,29 @@ class HardwareIndex extends $pb.ProtobufEnum {
   const HardwareIndex._(super.value, super.name);
 }
 
+/// SpaceX.API.Device.WirelessBand is an enum:
+class WirelessBand extends $pb.ProtobufEnum {
+  static const WirelessBand RF_UNKNOWN =
+      WirelessBand._(0, _omitEnumNames ? '' : 'RF_UNKNOWN');
+  static const WirelessBand RF_2GHZ =
+      WirelessBand._(1, _omitEnumNames ? '' : 'RF_2GHZ');
+  static const WirelessBand RF_5GHZ =
+      WirelessBand._(2, _omitEnumNames ? '' : 'RF_5GHZ');
+
+  static const $core.List<WirelessBand> values = <WirelessBand>[
+    RF_UNKNOWN,
+    RF_2GHZ,
+    RF_5GHZ,
+  ];
+
+  static final $core.List<WirelessBand?> _byValue =
+      $pb.ProtobufEnum.$_initByValueList(values, 2);
+  static WirelessBand? valueOf($core.int value) =>
+      value < 0 || value >= _byValue.length ? null : _byValue[value];
+
+  const WirelessBand._(super.value, super.name);
+}
+
 /// SpaceX.API.Device.SpeedtestError is an enum:
 class SpeedtestError extends $pb.ProtobufEnum {
   static const SpeedtestError SPEEDTEST_ERROR_NONE =
@@ -509,6 +559,36 @@ class SpeedtestError extends $pb.ProtobufEnum {
       value < 0 || value >= _byValue.length ? null : _byValue[value];
 
   const SpeedtestError._(super.value, super.name);
+}
+
+/// SpaceX.API.Device.AttitudeEstimationState is an enum:
+class AttitudeEstimationState extends $pb.ProtobufEnum {
+  static const AttitudeEstimationState FILTER_RESET =
+      AttitudeEstimationState._(0, _omitEnumNames ? '' : 'FILTER_RESET');
+  static const AttitudeEstimationState FILTER_UNCONVERGED =
+      AttitudeEstimationState._(1, _omitEnumNames ? '' : 'FILTER_UNCONVERGED');
+  static const AttitudeEstimationState FILTER_CONVERGED =
+      AttitudeEstimationState._(2, _omitEnumNames ? '' : 'FILTER_CONVERGED');
+  static const AttitudeEstimationState FILTER_FAULTED =
+      AttitudeEstimationState._(3, _omitEnumNames ? '' : 'FILTER_FAULTED');
+  static const AttitudeEstimationState FILTER_INVALID =
+      AttitudeEstimationState._(4, _omitEnumNames ? '' : 'FILTER_INVALID');
+
+  static const $core.List<AttitudeEstimationState> values =
+      <AttitudeEstimationState>[
+    FILTER_RESET,
+    FILTER_UNCONVERGED,
+    FILTER_CONVERGED,
+    FILTER_FAULTED,
+    FILTER_INVALID,
+  ];
+
+  static final $core.List<AttitudeEstimationState?> _byValue =
+      $pb.ProtobufEnum.$_initByValueList(values, 4);
+  static AttitudeEstimationState? valueOf($core.int value) =>
+      value < 0 || value >= _byValue.length ? null : _byValue[value];
+
+  const AttitudeEstimationState._(super.value, super.name);
 }
 
 /// SpaceX.API.Device.UserMobilityClass is an enum:
@@ -677,36 +757,6 @@ class ActuatorState extends $pb.ProtobufEnum {
   const ActuatorState._(super.value, super.name);
 }
 
-/// SpaceX.API.Device.AttitudeEstimationState is an enum:
-class AttitudeEstimationState extends $pb.ProtobufEnum {
-  static const AttitudeEstimationState FILTER_RESET =
-      AttitudeEstimationState._(0, _omitEnumNames ? '' : 'FILTER_RESET');
-  static const AttitudeEstimationState FILTER_UNCONVERGED =
-      AttitudeEstimationState._(1, _omitEnumNames ? '' : 'FILTER_UNCONVERGED');
-  static const AttitudeEstimationState FILTER_CONVERGED =
-      AttitudeEstimationState._(2, _omitEnumNames ? '' : 'FILTER_CONVERGED');
-  static const AttitudeEstimationState FILTER_FAULTED =
-      AttitudeEstimationState._(3, _omitEnumNames ? '' : 'FILTER_FAULTED');
-  static const AttitudeEstimationState FILTER_INVALID =
-      AttitudeEstimationState._(4, _omitEnumNames ? '' : 'FILTER_INVALID');
-
-  static const $core.List<AttitudeEstimationState> values =
-      <AttitudeEstimationState>[
-    FILTER_RESET,
-    FILTER_UNCONVERGED,
-    FILTER_CONVERGED,
-    FILTER_FAULTED,
-    FILTER_INVALID,
-  ];
-
-  static final $core.List<AttitudeEstimationState?> _byValue =
-      $pb.ProtobufEnum.$_initByValueList(values, 4);
-  static AttitudeEstimationState? valueOf($core.int value) =>
-      value < 0 || value >= _byValue.length ? null : _byValue[value];
-
-  const AttitudeEstimationState._(super.value, super.name);
-}
-
 /// SpaceX.API.Device.RebootReason is an enum:
 class RebootReason extends $pb.ProtobufEnum {
   static const RebootReason REBOOT_REASON_NONE =
@@ -785,19 +835,71 @@ class AccountShard extends $pb.ProtobufEnum {
       AccountShard._(1, _omitEnumNames ? '' : 'ACCOUNT_SHARD_DEFAULT');
   static const AccountShard ACCOUNT_SHARD_INDIA =
       AccountShard._(2, _omitEnumNames ? '' : 'ACCOUNT_SHARD_INDIA');
+  static const AccountShard ACCOUNT_SHARD_STARSHIELD =
+      AccountShard._(3, _omitEnumNames ? '' : 'ACCOUNT_SHARD_STARSHIELD');
 
   static const $core.List<AccountShard> values = <AccountShard>[
     ACCOUNT_SHARD_UNKNOWN,
     ACCOUNT_SHARD_DEFAULT,
     ACCOUNT_SHARD_INDIA,
+    ACCOUNT_SHARD_STARSHIELD,
   ];
 
   static final $core.List<AccountShard?> _byValue =
-      $pb.ProtobufEnum.$_initByValueList(values, 2);
+      $pb.ProtobufEnum.$_initByValueList(values, 3);
   static AccountShard? valueOf($core.int value) =>
       value < 0 || value >= _byValue.length ? null : _byValue[value];
 
   const AccountShard._(super.value, super.name);
+}
+
+/// SpaceX.API.Device.NatFlag is an enum:
+class NatFlag extends $pb.ProtobufEnum {
+  static const NatFlag NAT_UNKNOWN =
+      NatFlag._(0, _omitEnumNames ? '' : 'NAT_UNKNOWN');
+  static const NatFlag NAT_DISABLED =
+      NatFlag._(1, _omitEnumNames ? '' : 'NAT_DISABLED');
+  static const NatFlag NAT_ENABLED =
+      NatFlag._(2, _omitEnumNames ? '' : 'NAT_ENABLED');
+
+  static const $core.List<NatFlag> values = <NatFlag>[
+    NAT_UNKNOWN,
+    NAT_DISABLED,
+    NAT_ENABLED,
+  ];
+
+  static final $core.List<NatFlag?> _byValue =
+      $pb.ProtobufEnum.$_initByValueList(values, 2);
+  static NatFlag? valueOf($core.int value) =>
+      value < 0 || value >= _byValue.length ? null : _byValue[value];
+
+  const NatFlag._(super.value, super.name);
+}
+
+/// SpaceX.API.Device.PowerSource is an enum:
+class PowerSource extends $pb.ProtobufEnum {
+  static const PowerSource POWER_SOURCE_UNKNOWN =
+      PowerSource._(0, _omitEnumNames ? '' : 'POWER_SOURCE_UNKNOWN');
+  static const PowerSource USBC =
+      PowerSource._(1, _omitEnumNames ? '' : 'USBC');
+  static const PowerSource BATTERY =
+      PowerSource._(2, _omitEnumNames ? '' : 'BATTERY');
+  static const PowerSource USBC_AND_BATTERY =
+      PowerSource._(3, _omitEnumNames ? '' : 'USBC_AND_BATTERY');
+
+  static const $core.List<PowerSource> values = <PowerSource>[
+    POWER_SOURCE_UNKNOWN,
+    USBC,
+    BATTERY,
+    USBC_AND_BATTERY,
+  ];
+
+  static final $core.List<PowerSource?> _byValue =
+      $pb.ProtobufEnum.$_initByValueList(values, 3);
+  static PowerSource? valueOf($core.int value) =>
+      value < 0 || value >= _byValue.length ? null : _byValue[value];
+
+  const PowerSource._(super.value, super.name);
 }
 
 /// SpaceX.API.Device.EventSeverity is an enum:
@@ -973,6 +1075,26 @@ class EventReason extends $pb.ProtobufEnum {
   static const EventReason EVENT_REASON_ROUTER_HIGH_OVERLAPPING_BSS =
       EventReason._(
           47, _omitEnumNames ? '' : 'EVENT_REASON_ROUTER_HIGH_OVERLAPPING_BSS');
+  static const EventReason EVENT_REASON_CLIENT_EXCESSIVE_NETWORK_CONNECTIONS =
+      EventReason._(
+          48,
+          _omitEnumNames
+              ? ''
+              : 'EVENT_REASON_CLIENT_EXCESSIVE_NETWORK_CONNECTIONS');
+  static const EventReason EVENT_REASON_ROUTER_LAN_ETH_LOW_SPEED =
+      EventReason._(
+          49, _omitEnumNames ? '' : 'EVENT_REASON_ROUTER_LAN_ETH_LOW_SPEED');
+  static const EventReason EVENT_REASON_OUTAGE_INHIBIT_RF =
+      EventReason._(50, _omitEnumNames ? '' : 'EVENT_REASON_OUTAGE_INHIBIT_RF');
+  static const EventReason EVENT_REASON_ROUTER_MESH_BACKHAUL_FLAPPING =
+      EventReason._(51,
+          _omitEnumNames ? '' : 'EVENT_REASON_ROUTER_MESH_BACKHAUL_FLAPPING');
+  static const EventReason EVENT_REASON_UT_ALERT_USER_REPORTED_ISSUE =
+      EventReason._(52,
+          _omitEnumNames ? '' : 'EVENT_REASON_UT_ALERT_USER_REPORTED_ISSUE');
+  static const EventReason EVENT_REASON_ROUTER_WAN_ETH_DOWN_FDIR =
+      EventReason._(
+          53, _omitEnumNames ? '' : 'EVENT_REASON_ROUTER_WAN_ETH_DOWN_FDIR');
 
   static const $core.List<EventReason> values = <EventReason>[
     EVENT_REASON_UNKNOWN,
@@ -1023,10 +1145,16 @@ class EventReason extends $pb.ProtobufEnum {
     EVENT_REASON_ROUTER_MESH_CONNECTION_CHANGING,
     EVENT_REASON_MESH_BACKHAUL_LOW_PHY,
     EVENT_REASON_ROUTER_HIGH_OVERLAPPING_BSS,
+    EVENT_REASON_CLIENT_EXCESSIVE_NETWORK_CONNECTIONS,
+    EVENT_REASON_ROUTER_LAN_ETH_LOW_SPEED,
+    EVENT_REASON_OUTAGE_INHIBIT_RF,
+    EVENT_REASON_ROUTER_MESH_BACKHAUL_FLAPPING,
+    EVENT_REASON_UT_ALERT_USER_REPORTED_ISSUE,
+    EVENT_REASON_ROUTER_WAN_ETH_DOWN_FDIR,
   ];
 
   static final $core.List<EventReason?> _byValue =
-      $pb.ProtobufEnum.$_initByValueList(values, 47);
+      $pb.ProtobufEnum.$_initByValueList(values, 53);
   static EventReason? valueOf($core.int value) =>
       value < 0 || value >= _byValue.length ? null : _byValue[value];
 
@@ -1331,6 +1459,63 @@ class WifiMode extends $pb.ProtobufEnum {
       value < 0 || value >= _byValue.length ? null : _byValue[value];
 
   const WifiMode._(super.value, super.name);
+}
+
+/// SpaceX.API.Device.WifiTracerouteState is an enum:
+class WifiTracerouteState extends $pb.ProtobufEnum {
+  static const WifiTracerouteState WIFI_TRACEROUTE_STATE_IDLE =
+      WifiTracerouteState._(
+          0, _omitEnumNames ? '' : 'WIFI_TRACEROUTE_STATE_IDLE');
+  static const WifiTracerouteState WIFI_TRACEROUTE_STATE_RUNNING =
+      WifiTracerouteState._(
+          1, _omitEnumNames ? '' : 'WIFI_TRACEROUTE_STATE_RUNNING');
+  static const WifiTracerouteState
+      WIFI_TRACEROUTE_STATE_COMPLETED_TARGET_REACHED = WifiTracerouteState._(
+          2,
+          _omitEnumNames
+              ? ''
+              : 'WIFI_TRACEROUTE_STATE_COMPLETED_TARGET_REACHED');
+  static const WifiTracerouteState
+      WIFI_TRACEROUTE_STATE_COMPLETED_TARGET_NOT_REACHED =
+      WifiTracerouteState._(
+          3,
+          _omitEnumNames
+              ? ''
+              : 'WIFI_TRACEROUTE_STATE_COMPLETED_TARGET_NOT_REACHED');
+  static const WifiTracerouteState WIFI_TRACEROUTE_STATE_EXEC_FAILED =
+      WifiTracerouteState._(
+          4, _omitEnumNames ? '' : 'WIFI_TRACEROUTE_STATE_EXEC_FAILED');
+  static const WifiTracerouteState WIFI_TRACEROUTE_STATE_TIMED_OUT =
+      WifiTracerouteState._(
+          5, _omitEnumNames ? '' : 'WIFI_TRACEROUTE_STATE_TIMED_OUT');
+  static const WifiTracerouteState WIFI_TRACEROUTE_STATE_OUTPUT_TOO_LARGE =
+      WifiTracerouteState._(
+          6, _omitEnumNames ? '' : 'WIFI_TRACEROUTE_STATE_OUTPUT_TOO_LARGE');
+  static const WifiTracerouteState WIFI_TRACEROUTE_STATE_INTERNAL_ERROR =
+      WifiTracerouteState._(
+          7, _omitEnumNames ? '' : 'WIFI_TRACEROUTE_STATE_INTERNAL_ERROR');
+  static const WifiTracerouteState WIFI_TRACEROUTE_STATE_INTERRUPTED =
+      WifiTracerouteState._(
+          8, _omitEnumNames ? '' : 'WIFI_TRACEROUTE_STATE_INTERRUPTED');
+
+  static const $core.List<WifiTracerouteState> values = <WifiTracerouteState>[
+    WIFI_TRACEROUTE_STATE_IDLE,
+    WIFI_TRACEROUTE_STATE_RUNNING,
+    WIFI_TRACEROUTE_STATE_COMPLETED_TARGET_REACHED,
+    WIFI_TRACEROUTE_STATE_COMPLETED_TARGET_NOT_REACHED,
+    WIFI_TRACEROUTE_STATE_EXEC_FAILED,
+    WIFI_TRACEROUTE_STATE_TIMED_OUT,
+    WIFI_TRACEROUTE_STATE_OUTPUT_TOO_LARGE,
+    WIFI_TRACEROUTE_STATE_INTERNAL_ERROR,
+    WIFI_TRACEROUTE_STATE_INTERRUPTED,
+  ];
+
+  static final $core.List<WifiTracerouteState?> _byValue =
+      $pb.ProtobufEnum.$_initByValueList(values, 8);
+  static WifiTracerouteState? valueOf($core.int value) =>
+      value < 0 || value >= _byValue.length ? null : _byValue[value];
+
+  const WifiTracerouteState._(super.value, super.name);
 }
 
 /// SpaceX.API.Device.TransceiverModulatorState is an enum:
@@ -1860,6 +2045,31 @@ class WifiConfig_WirelessMode extends $pb.ProtobufEnum {
   const WifiConfig_WirelessMode._(super.value, super.name);
 }
 
+class WifiConfig_Network_GeofenceAction extends $pb.ProtobufEnum {
+  static const WifiConfig_Network_GeofenceAction NONE =
+      WifiConfig_Network_GeofenceAction._(0, _omitEnumNames ? '' : 'NONE');
+  static const WifiConfig_Network_GeofenceAction
+      DISABLE_RADIOS_AND_BLOCK_TRAFFIC = WifiConfig_Network_GeofenceAction._(
+          1, _omitEnumNames ? '' : 'DISABLE_RADIOS_AND_BLOCK_TRAFFIC');
+  static const WifiConfig_Network_GeofenceAction BLOCK_TRAFFIC =
+      WifiConfig_Network_GeofenceAction._(
+          2, _omitEnumNames ? '' : 'BLOCK_TRAFFIC');
+
+  static const $core.List<WifiConfig_Network_GeofenceAction> values =
+      <WifiConfig_Network_GeofenceAction>[
+    NONE,
+    DISABLE_RADIOS_AND_BLOCK_TRAFFIC,
+    BLOCK_TRAFFIC,
+  ];
+
+  static final $core.List<WifiConfig_Network_GeofenceAction?> _byValue =
+      $pb.ProtobufEnum.$_initByValueList(values, 2);
+  static WifiConfig_Network_GeofenceAction? valueOf($core.int value) =>
+      value < 0 || value >= _byValue.length ? null : _byValue[value];
+
+  const WifiConfig_Network_GeofenceAction._(super.value, super.name);
+}
+
 class IwprivCommand_Ioctl extends $pb.ProtobufEnum {
   static const IwprivCommand_Ioctl IOCTL_SET =
       IwprivCommand_Ioctl._(0, _omitEnumNames ? '' : 'IOCTL_SET');
@@ -1936,6 +2146,8 @@ class DishOutage_Cause extends $pb.ProtobufEnum {
       DishOutage_Cause._(11, _omitEnumNames ? '' : 'SLEEPING');
   static const DishOutage_Cause SKY_SEARCH =
       DishOutage_Cause._(13, _omitEnumNames ? '' : 'SKY_SEARCH');
+  static const DishOutage_Cause INHIBIT_RF =
+      DishOutage_Cause._(14, _omitEnumNames ? '' : 'INHIBIT_RF');
 
   static const $core.List<DishOutage_Cause> values = <DishOutage_Cause>[
     UNKNOWN,
@@ -1951,10 +2163,11 @@ class DishOutage_Cause extends $pb.ProtobufEnum {
     CABLE_TEST,
     SLEEPING,
     SKY_SEARCH,
+    INHIBIT_RF,
   ];
 
   static final $core.List<DishOutage_Cause?> _byValue =
-      $pb.ProtobufEnum.$_initByValueList(values, 13);
+      $pb.ProtobufEnum.$_initByValueList(values, 14);
   static DishOutage_Cause? valueOf($core.int value) =>
       value < 0 || value >= _byValue.length ? null : _byValue[value];
 
@@ -2064,6 +2277,60 @@ class WifiClient_Interface extends $pb.ProtobufEnum {
       value < 0 || value >= _byValue.length ? null : _byValue[value];
 
   const WifiClient_Interface._(super.value, super.name);
+}
+
+class WifiClient_PhyMode extends $pb.ProtobufEnum {
+  static const WifiClient_PhyMode PHY_MODE_CCK =
+      WifiClient_PhyMode._(0, _omitEnumNames ? '' : 'PHY_MODE_CCK');
+  static const WifiClient_PhyMode PHY_MODE_OFDM =
+      WifiClient_PhyMode._(1, _omitEnumNames ? '' : 'PHY_MODE_OFDM');
+  static const WifiClient_PhyMode PHY_MODE_HTMIX =
+      WifiClient_PhyMode._(2, _omitEnumNames ? '' : 'PHY_MODE_HTMIX');
+  static const WifiClient_PhyMode PHY_MODE_HTGREENFIELD =
+      WifiClient_PhyMode._(3, _omitEnumNames ? '' : 'PHY_MODE_HTGREENFIELD');
+  static const WifiClient_PhyMode PHY_MODE_VHT =
+      WifiClient_PhyMode._(4, _omitEnumNames ? '' : 'PHY_MODE_VHT');
+  static const WifiClient_PhyMode PHY_MODE_HE =
+      WifiClient_PhyMode._(5, _omitEnumNames ? '' : 'PHY_MODE_HE');
+  static const WifiClient_PhyMode PHY_MODE_HE_5G =
+      WifiClient_PhyMode._(6, _omitEnumNames ? '' : 'PHY_MODE_HE_5G');
+  static const WifiClient_PhyMode PHY_MODE_HE_24G =
+      WifiClient_PhyMode._(7, _omitEnumNames ? '' : 'PHY_MODE_HE_24G');
+  static const WifiClient_PhyMode PHY_MODE_HE_SU =
+      WifiClient_PhyMode._(8, _omitEnumNames ? '' : 'PHY_MODE_HE_SU');
+  static const WifiClient_PhyMode PHY_MODE_HE_EXT_SU =
+      WifiClient_PhyMode._(9, _omitEnumNames ? '' : 'PHY_MODE_HE_EXT_SU');
+  static const WifiClient_PhyMode PHY_MODE_HE_TRIG =
+      WifiClient_PhyMode._(10, _omitEnumNames ? '' : 'PHY_MODE_HE_TRIG');
+  static const WifiClient_PhyMode PHY_MODE_HE_MU =
+      WifiClient_PhyMode._(11, _omitEnumNames ? '' : 'PHY_MODE_HE_MU');
+  static const WifiClient_PhyMode PHY_MODE_EHT =
+      WifiClient_PhyMode._(12, _omitEnumNames ? '' : 'PHY_MODE_EHT');
+  static const WifiClient_PhyMode PHY_MODE_UNKNOWN =
+      WifiClient_PhyMode._(255, _omitEnumNames ? '' : 'PHY_MODE_UNKNOWN');
+
+  static const $core.List<WifiClient_PhyMode> values = <WifiClient_PhyMode>[
+    PHY_MODE_CCK,
+    PHY_MODE_OFDM,
+    PHY_MODE_HTMIX,
+    PHY_MODE_HTGREENFIELD,
+    PHY_MODE_VHT,
+    PHY_MODE_HE,
+    PHY_MODE_HE_5G,
+    PHY_MODE_HE_24G,
+    PHY_MODE_HE_SU,
+    PHY_MODE_HE_EXT_SU,
+    PHY_MODE_HE_TRIG,
+    PHY_MODE_HE_MU,
+    PHY_MODE_EHT,
+    PHY_MODE_UNKNOWN,
+  ];
+
+  static final $core.Map<$core.int, WifiClient_PhyMode> _byValue =
+      $pb.ProtobufEnum.initByValue(values);
+  static WifiClient_PhyMode? valueOf($core.int value) => _byValue[value];
+
+  const WifiClient_PhyMode._(super.value, super.name);
 }
 
 class WifiClient_Role extends $pb.ProtobufEnum {

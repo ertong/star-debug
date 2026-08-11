@@ -9,6 +9,7 @@ enum RateLimitReason {
   POLICY_LIMIT = 2;
   USER_CUSTOM_LIMIT = 3;
   OVERAGE_LIMIT = 5;
+  LOW_SPEED_POLICY_LIMIT = 6;
   reserved 4;
   reserved "HIGH_HOURLY_AVG_LIMIT";
 }
