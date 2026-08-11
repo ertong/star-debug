@@ -18,13 +18,13 @@ import 'package:star_debug/utils/api_helper.dart';
 import 'package:star_debug/utils/debug_data.dart';
 import 'package:star_debug/utils/log_utils.dart';
 import 'package:star_debug/utils/snapshot.dart';
+import 'package:star_debug/utils/tab_index.dart';
 
 import 'live/router.dart';
 
-const String _TAG="LivePage";
+const String _TAG = "LivePage";
 
 class LivePage extends StatefulWidget {
-
   const LivePage({super.key});
 
   @override
@@ -41,67 +41,87 @@ class _Page {
   bool Function()? visible;
   late ValueKey<_Page> key;
 
-  _Page(this.label, this.color, this.builder, {this.icon, this.iconWidget, this.alert, this.visible}) {
+  _Page(
+    this.label,
+    this.color,
+    this.builder, {
+    this.icon,
+    this.iconWidget,
+    this.alert,
+    this.visible,
+  }) {
     key = ValueKey(this);
   }
 }
 
 class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
-
   StreamSubscription? subDish;
   StreamSubscription? subRouter;
   StreamSubscription? subOnline;
   var scrollController = ScrollController();
-  int _selectedIndex=0;
+  int _selectedIndex = 0;
   List<_Page> pages = [];
   List<_Page> visiblePages = [];
 
   @override
   void initState() {
     super.initState();
-    subDish = R.dishHolder.stream.listen((event) { notify(); });
-    subRouter = R.routerHolder.stream.listen((event) { notify(); });
-    subOnline = R.onlineHolder.stream.listen((event) { notify(); });
+    subDish = R.dishHolder.stream.listen((event) {
+      notify();
+    });
+    subRouter = R.routerHolder.stream.listen((event) {
+      notify();
+    });
+    subOnline = R.onlineHolder.stream.listen((event) {
+      notify();
+    });
 
-    pages.add(_Page(
+    pages.add(
+      _Page(
         () => M.header.general,
         () => R.prefs.data.darkMode ? Colors.white : Colors.black,
         () => scrolledPage(GeneralTab()),
         icon: Icons.settings_input_antenna,
         // alert: () { return 0; }
-    ));
+      ),
+    );
 
-    pages.add(_Page(
+    pages.add(
+      _Page(
         () => M.general.dish,
         () => colorOf(R.dishHolder),
         () => scrolledPage(DishTab()),
         icon: Icons.settings_input_antenna,
         alert: () {
           DishGetStatusResponse? data = R.dish?.dishGetStatus.data;
-          if (data==null) return 0;
+          if (data == null) return 0;
           return data.countAlerts();
-        }
-    ));
-    pages.add(_Page(
+        },
+      ),
+    );
+    pages.add(
+      _Page(
         () => M.general.router,
         () => colorOf(R.routerHolder),
         () => scrolledPage(RouterTab()),
         icon: Icons.router,
         alert: () {
           var data = R.router?.wifiGetStatus.data;
-          if (data==null) return 0;
+          if (data == null) return 0;
           return data.countAlerts();
         },
         visible: () {
-          return !R.features.routerOptional || R.router?.wifiGetStatus.data!=null;
-        }
-    ));
-    pages.add(_Page(
+          return !R.features.routerOptional ||
+              R.router?.wifiGetStatus.data != null;
+        },
+      ),
+    );
+    pages.add(
+      _Page(
         () => M.general.online,
         () {
           var online = R.online;
-          if (online==null)
-            return Colors.amber;
+          if (online == null) return Colors.amber;
 
           return online.isOk ? Colors.green : Colors.red;
         },
@@ -109,15 +129,16 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
         icon: Icons.public,
         alert: () {
           return R.online?.cntNotOk ?? 0;
-        }
-    ));
+        },
+      ),
+    );
   }
 
   Future notify() async {
     setState(() {});
     var snap = buildLiveSnapshot();
     var dish = snap.dishGetStatus;
-    if (dish!=null && dish.hasDeviceInfo() && dish.deviceInfo.hasId()){
+    if (dish != null && dish.hasDeviceInfo() && dish.deviceInfo.hasId()) {
       R.dishLog.notify(snap);
     }
   }
@@ -139,30 +160,40 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
 
     Widget? bar;
 
-    visiblePages = [for (var p in pages) if (p.visible?.call() ?? true) p];
+    visiblePages = [
+      for (var p in pages)
+        if (p.visible?.call() ?? true) p,
+    ];
+    _selectedIndex = validLivePageIndex(_selectedIndex, visiblePages.length);
 
     if (visiblePages.isNotEmpty) {
       List<BottomNavigationBarItem> items = [];
-      for(int i=0; i<visiblePages.length; ++i) {
+      for (int i = 0; i < visiblePages.length; ++i) {
         var p = visiblePages[i];
 
         int alerts = 0;
 
-        if (p.alert!=null)
-          alerts = p.alert!();
+        if (p.alert != null) alerts = p.alert!();
 
-        var icon = p.iconWidget ?? Icon(p.icon, color: p.color().withAlpha(_selectedIndex==i?255:100),);
-        items.add(BottomNavigationBarItem(
-          label: p.label(),
-          key: p.key,
-          icon: alerts==0
-              ? icon
-              : Badge(
-                  backgroundColor: Colors.red,
-                  label: Text("$alerts"),
-                  child: icon,
-                ),
-        ));
+        var icon =
+            p.iconWidget ??
+            Icon(
+              p.icon,
+              color: p.color().withAlpha(_selectedIndex == i ? 255 : 150),
+            );
+        items.add(
+          BottomNavigationBarItem(
+            label: p.label(),
+            key: p.key,
+            icon: alerts == 0
+                ? icon
+                : Badge(
+                    backgroundColor: Colors.red,
+                    label: Text("$alerts"),
+                    child: icon,
+                  ),
+          ),
+        );
       }
       bar = BottomNavigationBar(
         items: items,
@@ -170,8 +201,7 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
         type: BottomNavigationBarType.fixed,
         onTap: (idx) {
           _selectedIndex = idx;
-          if (scrollController.hasClients)
-            scrollController.jumpTo(0);
+          if (scrollController.hasClients) scrollController.jumpTo(0);
           setState(() {});
         },
       );
@@ -184,7 +214,10 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
         appBar: _buildBar(context) as PreferredSizeWidget?,
         drawer: AppDrawer(selectedRoute: Routes.LIVE),
         bottomNavigationBar: bar,
-        body: visiblePages[_selectedIndex].builder(),
+        body: KeyedSubtree(
+          key: visiblePages[_selectedIndex].key,
+          child: visiblePages[_selectedIndex].builder(),
+        ),
       ),
     );
   }
@@ -193,11 +226,9 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
     var color = Colors.red;
 
     final conn = holder.conn;
-    if (conn!=null && conn.subsChannel!=null)
-      color = Colors.amber;
+    if (conn != null && conn.subsChannel != null) color = Colors.amber;
 
-    if (conn!=null && conn.isReady())
-      color = Colors.green;
+    if (conn != null && conn.isReady()) color = Colors.green;
 
     return color;
   }
@@ -213,20 +244,26 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
   Widget _buildBar(BuildContext context) {
     return AppBar(
       actions: [
-        if (R.dish?.dishGetStatus.data!=null)
-            IconButton(
-                onPressed: onSave,
-                icon: Icon(Icons.save, color: Colors.white,)
-            ),
-        if (R.dish?.dishGetStatus.data!=null || R.router?.wifiGetStatus.data!=null)
+        if (R.dish?.dishGetStatus.data != null)
           IconButton(
-              onPressed: onShare,
-            icon: Icon(Icons.share, color: Colors.white,),
+            tooltip: M.general.save,
+            onPressed: onSave,
+            icon: Icon(Icons.save),
           ),
-        if (R.features.shareScreenshot && (R.dish?.dishGetStatus.data!=null || R.router?.wifiGetStatus.data!=null))
+        if (R.dish?.dishGetStatus.data != null ||
+            R.router?.wifiGetStatus.data != null)
           IconButton(
-              onPressed: onScreenshot,
-              icon: Icon(Icons.photo_camera_outlined, color: Colors.white,)
+            tooltip: M.general.share,
+            onPressed: onShare,
+            icon: Icon(Icons.share),
+          ),
+        if (R.features.shareScreenshot &&
+            (R.dish?.dishGetStatus.data != null ||
+                R.router?.wifiGetStatus.data != null))
+          IconButton(
+            tooltip: 'Screenshot',
+            onPressed: onScreenshot,
+            icon: Icon(Icons.photo_camera_outlined),
           ),
       ],
       title: Row(
@@ -248,11 +285,10 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
       if (dish != null && dish.hasDeviceInfo() && dish.deviceInfo.hasId()) {
         await R.dishLog.forceStore(snap);
         msg = "Snapshot saved to DB";
-      }
-      else {
+      } else {
         msg = "Not enough data to save";
       }
-    } catch(e,s){
+    } catch (e, s) {
       msg = "$e";
       LogUtils.ers(_TAG, "", e, s);
     }
@@ -261,16 +297,20 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
 
   Future onShare() async {
     var snap = buildLiveSnapshot();
-    if (snap.dishGetStatus == null && snap.routerGetStatus == null)
-      return;
+    if (snap.dishGetStatus == null && snap.routerGetStatus == null) return;
     try {
       var data = DebugDataHelper.debugData(snap);
-      await showDialog<String>(context: context, builder: (c) {
-        return SaveDebugDataDialog(
+      await showDialog<String>(
+        context: context,
+        builder: (c) {
+          return SaveDebugDataDialog(
             data: JsonEncoder.withIndent("  ").convert(data),
-            uid: data["dish"]?["deviceInfo"]?["id"] ?? data["router"]?["deviceInfo"]?["id"]
-        );
-      });
+            uid:
+                data["dish"]?["deviceInfo"]?["id"] ??
+                data["router"]?["deviceInfo"]?["id"],
+          );
+        },
+      );
     } catch (e, s) {
       LogUtils.ers(_TAG, "", e, s);
       R.showSnackBarText("$e");
@@ -279,17 +319,17 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
 
   Future onScreenshot() async {
     var snap = buildLiveSnapshot();
-    if (snap.dishGetStatus?.deviceInfo.id==null) {
+    if (snap.dishGetStatus?.deviceInfo.id == null) {
       R.showSnackBarText("No data available");
       return;
     }
 
-    await showDialog<String>(context: context, builder: (c) {
-      return ShareScreenshot(
-          snap: snap,
-      );
-    });
-
+    await showDialog<String>(
+      context: context,
+      builder: (c) {
+        return ShareScreenshot(snap: snap);
+      },
+    );
   }
 }
 

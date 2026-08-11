@@ -260,7 +260,6 @@ class _SubnetSettingsSectionState extends State<SubnetSettingsSection> {
             ],
           ),
         ),
-        Divider(height: 1),
       ],
     );
   }

@@ -11,7 +11,7 @@ import 'package:star_debug/routes.dart';
 import 'package:star_debug/space/space_parser.dart';
 import 'package:star_debug/utils/log_utils.dart';
 import 'package:star_debug/utils/snapshot.dart';
-
+import 'package:star_debug/widgets/app_surface.dart';
 
 const String _TAG = "MainPage";
 
@@ -24,7 +24,8 @@ class DebugDataPage extends StatefulWidget {
   State createState() => _DebugDataPageState();
 }
 
-class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateMixin {
+class _DebugDataPageState extends State<DebugDataPage>
+    with TickerProviderStateMixin {
   Snapshot? snap;
 
   Image? obstructions;
@@ -36,7 +37,6 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
       newData(widget.snap!);
     }
   }
-
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
 
@@ -65,36 +65,42 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
           width: MediaQuery.of(context).size.width,
           padding: EdgeInsets.all(10.0),
           child: Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextButton(
-                    onPressed: onOpenClicked,
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(Icons.add_circle),
-                        SizedBox(
-                          width: 5,
-                          height: 5,
-                        ),
-                        Text(M.general.open_json_file),
-                      ],
-                    )),
-                TextButton(
-                    onPressed: onOpenClipboardClicked,
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(Icons.paste),
-                        SizedBox(
-                          width: 5,
-                          height: 5,
-                        ),
-                        Text(M.general.open_clipboard),
-                      ],
-                    )),
-              ],
+            child: ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: 420),
+              child: AppSurface(
+                padding: EdgeInsets.all(22),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Icon(
+                      Icons.data_object,
+                      size: 42,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      M.general.debug_data_viewer,
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    SizedBox(height: 18),
+                    OutlinedButton.icon(
+                      onPressed: onOpenClicked,
+                      icon: Icon(Icons.file_open_outlined),
+                      label: Text(M.general.open_json_file),
+                    ),
+                    SizedBox(height: 8),
+                    OutlinedButton.icon(
+                      onPressed: onOpenClipboardClicked,
+                      icon: Icon(Icons.content_paste_outlined),
+                      label: Text(M.general.open_clipboard),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
         ),
@@ -141,7 +147,8 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
     if (result != null && result.files.single.path != null) {
       try {
         var f = File(result.files.single.path!);
-        if ((await f.stat()).size > 1024 * 1024) R.showSnackBarText("Too large file");
+        if ((await f.stat()).size > 1024 * 1024)
+          R.showSnackBarText("Too large file");
 
         newData(SpaceParser.ofJsonStr(await f.readAsString()).toSnapshot());
         setState(() {});
@@ -155,9 +162,6 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
   }
 
   Widget _buildBar(BuildContext context) {
-    return AppBar(
-      title: Text(M.general.debug_data_viewer),
-      centerTitle: true,
-    );
+    return AppBar(title: Text(M.general.debug_data_viewer), centerTitle: true);
   }
 }
