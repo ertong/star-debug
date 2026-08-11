@@ -18,6 +18,8 @@ const List<String> kStarlinkSubnets = [
 
 String _gatewayFromSubnet(String subnet) => subnet.split('/').first;
 
+const String _customSubnet = '__custom__';
+
 bool _isValidIpv4(String value) {
   final parts = value.split('.');
   if (parts.length != 4) return false;
@@ -36,10 +38,15 @@ class SubnetSettingsSection extends StatefulWidget {
 }
 
 class _SubnetSettingsSectionState extends State<SubnetSettingsSection> {
-
   late TextEditingController _customRouterCtrl;
   late TextEditingController _dishCtrl;
+  late String _selectedSubnet;
+  late String _routerIp;
+  late String _dishIp;
+
   bool _customRouterMode = false;
+  String? _routerError;
+  String? _dishError;
 
   @override
   void initState() {
@@ -49,9 +56,18 @@ class _SubnetSettingsSectionState extends State<SubnetSettingsSection> {
     final savedDishIp = R.prefs.data.dishIp ?? kDefaultDishIp;
 
     // Check if the saved router IP matches any preset subnet gateway
-    final matchesPreset = kStarlinkSubnets
-        .any((s) => _gatewayFromSubnet(s) == savedRouterIp);
+    final matchesPreset = kStarlinkSubnets.any(
+      (s) => _gatewayFromSubnet(s) == savedRouterIp,
+    );
     _customRouterMode = !matchesPreset && savedRouterIp != kDefaultRouterIp;
+    _selectedSubnet = _customRouterMode
+        ? _customSubnet
+        : kStarlinkSubnets.firstWhere(
+            (s) => _gatewayFromSubnet(s) == savedRouterIp,
+            orElse: () => kStarlinkSubnets.first,
+          );
+    _routerIp = savedRouterIp;
+    _dishIp = savedDishIp;
 
     _customRouterCtrl = TextEditingController(
       text: _customRouterMode ? savedRouterIp : '',
@@ -68,61 +84,65 @@ class _SubnetSettingsSectionState extends State<SubnetSettingsSection> {
     super.dispose();
   }
 
-  String? _currentSubnet() {
-    final routerIp = R.prefs.data.routerIp ?? kDefaultRouterIp;
-    for (var s in kStarlinkSubnets) {
-      if (_gatewayFromSubnet(s) == routerIp) return s;
-    }
-    return null; // means custom
-  }
-
-  void _onSubnetSelected(String? value) async {
+  Future<void> _onSubnetSelected(String? value) async {
     if (value == null) return;
 
-    if (value == '__custom__') {
-      setState(() { _customRouterMode = true; });
+    if (value == _customSubnet) {
+      setState(() {
+        _selectedSubnet = value;
+        _customRouterMode = true;
+        _routerError = null;
+      });
       return;
     }
 
-    setState(() { _customRouterMode = false; });
     final ip = _gatewayFromSubnet(value);
+    setState(() {
+      _selectedSubnet = value;
+      _customRouterMode = false;
+      _routerIp = ip;
+      _routerError = null;
+    });
     await R.prefs.save((p) => p.routerIp = ip == kDefaultRouterIp ? null : ip);
     _forceReconnect();
   }
 
-  void _onCustomRouterSubmit(String value) async {
+  Future<void> _onCustomRouterSubmit(String value) async {
     final ip = value.trim();
-    if (ip.isEmpty) {
-      // Reset to default
-      await R.prefs.save((p) => p.routerIp = null);
-      _forceReconnect();
+    if (ip.isNotEmpty && !_isValidIpv4(ip)) {
+      setState(() => _routerError = 'Enter a valid IPv4 address');
       return;
     }
-    if (!_isValidIpv4(ip)) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Invalid IPv4 address: $ip')),
-      );
-      return;
-    }
+
     await R.prefs.save((p) => p.routerIp = ip == kDefaultRouterIp ? null : ip);
     _forceReconnect();
+    if (!mounted) return;
+
+    setState(() {
+      _routerError = null;
+      _routerIp = ip.isEmpty ? kDefaultRouterIp : ip;
+      if (ip.isEmpty) {
+        _selectedSubnet = kStarlinkSubnets.first;
+        _customRouterMode = false;
+      }
+    });
   }
 
-  void _onDishIpSubmit(String value) async {
+  Future<void> _onDishIpSubmit(String value) async {
     final ip = value.trim();
-    if (ip.isEmpty) {
-      await R.prefs.save((p) => p.dishIp = null);
-      _forceReconnect();
+    if (ip.isNotEmpty && !_isValidIpv4(ip)) {
+      setState(() => _dishError = 'Enter a valid IPv4 address');
       return;
     }
-    if (!_isValidIpv4(ip)) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Invalid IPv4 address: $ip')),
-      );
-      return;
-    }
+
     await R.prefs.save((p) => p.dishIp = ip == kDefaultDishIp ? null : ip);
     _forceReconnect();
+    if (!mounted) return;
+
+    setState(() {
+      _dishError = null;
+      _dishIp = ip.isEmpty ? kDefaultDishIp : ip;
+    });
   }
 
   /// Close existing connections so they are re-created with the new IPs
@@ -134,110 +154,126 @@ class _SubnetSettingsSectionState extends State<SubnetSettingsSection> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final currentSubnet = _currentSubnet();
+    const fieldPadding = EdgeInsets.symmetric(horizontal: 12, vertical: 10);
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-
-        // Section header
-        Container(
-          padding: EdgeInsets.fromLTRB(3, 3, 3, 3),
-          color: theme.secondaryHeaderColor,
-          child: Row(children: [ Text('Starlink Network') ]),
+        ListTile(
+          dense: true,
+          visualDensity: VisualDensity.compact,
+          leading: Icon(Icons.lan_outlined),
+          title: Text('Starlink Network'),
+          subtitle: Text('Router $_routerIp  •  Dish $_dishIp'),
         ),
-
-        SizedBox(height: 8),
-
-        // Router subnet dropdown
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8),
+          padding: EdgeInsets.fromLTRB(16, 0, 16, 12),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text('Router Subnet', style: TextStyle(fontWeight: FontWeight.bold)),
-              SizedBox(height: 4),
-              DropdownButton<String>(
-                isExpanded: true,
-                value: _customRouterMode ? '__custom__' : (currentSubnet ?? kStarlinkSubnets.first),
-                items: [
-                  ...kStarlinkSubnets.map((s) => DropdownMenuItem(
-                    value: s,
-                    child: Text(s),
-                  )),
-                  DropdownMenuItem(
-                    value: '__custom__',
-                    child: Text('Custom…'),
+              Row(
+                children: [
+                  SizedBox(width: 72, child: Text('Router')),
+                  Expanded(
+                    child: DropdownButtonFormField<String>(
+                      key: ValueKey(_selectedSubnet),
+                      isExpanded: true,
+                      initialValue: _selectedSubnet,
+                      decoration: InputDecoration(
+                        isDense: true,
+                        contentPadding: fieldPadding,
+                        border: OutlineInputBorder(),
+                      ),
+                      items: [
+                        ...kStarlinkSubnets.map(
+                          (s) => DropdownMenuItem(value: s, child: Text(s)),
+                        ),
+                        DropdownMenuItem(
+                          value: _customSubnet,
+                          child: Text('Custom…'),
+                        ),
+                      ],
+                      onChanged: _onSubnetSelected,
+                    ),
                   ),
                 ],
-                onChanged: _onSubnetSelected,
               ),
-
               if (_customRouterMode) ...[
-                SizedBox(height: 4),
-                TextField(
-                  controller: _customRouterCtrl,
-                  decoration: InputDecoration(
-                    labelText: 'Custom Router IP',
-                    hintText: kDefaultRouterIp,
-                    border: OutlineInputBorder(),
-                  ),
-                  keyboardType: TextInputType.numberWithOptions(decimal: true),
-                  textInputAction: TextInputAction.done,
-                  onSubmitted: _onCustomRouterSubmit,
-                ),
-                SizedBox(height: 4),
-                ElevatedButton(
-                  onPressed: () => _onCustomRouterSubmit(_customRouterCtrl.text),
-                  child: Text('Apply'),
+                SizedBox(height: 8),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(width: 72, child: Text('Router IP')),
+                    Expanded(
+                      child: TextField(
+                        controller: _customRouterCtrl,
+                        decoration: InputDecoration(
+                          isDense: true,
+                          hintText: kDefaultRouterIp,
+                          errorText: _routerError,
+                          contentPadding: fieldPadding,
+                          suffixIcon: _applyButton(
+                            tooltip: 'Apply router IP',
+                            onPressed: () =>
+                                _onCustomRouterSubmit(_customRouterCtrl.text),
+                          ),
+                          border: OutlineInputBorder(),
+                        ),
+                        keyboardType: TextInputType.numberWithOptions(
+                          decimal: true,
+                        ),
+                        textInputAction: TextInputAction.done,
+                        onSubmitted: _onCustomRouterSubmit,
+                      ),
+                    ),
+                  ],
                 ),
               ],
+              SizedBox(height: 8),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(width: 72, child: Text('Dish IP')),
+                  Expanded(
+                    child: TextField(
+                      controller: _dishCtrl,
+                      decoration: InputDecoration(
+                        isDense: true,
+                        hintText: kDefaultDishIp,
+                        errorText: _dishError,
+                        contentPadding: fieldPadding,
+                        suffixIcon: _applyButton(
+                          tooltip: 'Apply Dish IP',
+                          onPressed: () => _onDishIpSubmit(_dishCtrl.text),
+                        ),
+                        border: OutlineInputBorder(),
+                      ),
+                      keyboardType: TextInputType.numberWithOptions(
+                        decimal: true,
+                      ),
+                      textInputAction: TextInputAction.done,
+                      onSubmitted: _onDishIpSubmit,
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
-
-        SizedBox(height: 8),
-
-        // Dish IP (advanced)
-        ExpansionTile(
-          title: Text('Advanced'),
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Dish (Dishy) IP',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 4),
-                  TextField(
-                    controller: _dishCtrl,
-                    decoration: InputDecoration(
-                      labelText: 'Dish IP',
-                      hintText: kDefaultDishIp,
-                      helperText: 'Leave blank to use default ($kDefaultDishIp)',
-                      border: OutlineInputBorder(),
-                    ),
-                    keyboardType: TextInputType.numberWithOptions(decimal: true),
-                    textInputAction: TextInputAction.done,
-                    onSubmitted: _onDishIpSubmit,
-                  ),
-                  SizedBox(height: 4),
-                  ElevatedButton(
-                    onPressed: () => _onDishIpSubmit(_dishCtrl.text),
-                    child: Text('Apply'),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-
-        SizedBox(height: 8),
+        Divider(height: 1),
       ],
+    );
+  }
+
+  Widget _applyButton({
+    required String tooltip,
+    required VoidCallback onPressed,
+  }) {
+    return IconButton(
+      tooltip: tooltip,
+      visualDensity: VisualDensity.compact,
+      icon: Icon(Icons.check),
+      onPressed: onPressed,
     );
   }
 }

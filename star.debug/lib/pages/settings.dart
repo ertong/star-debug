@@ -108,9 +108,7 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
 
     res.add(SubnetSettingsSection());
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
+    return ListView(
       children: res,
     );
   }
