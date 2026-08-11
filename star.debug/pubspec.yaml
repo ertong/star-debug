@@ -21,7 +21,8 @@ dependencies:
   drift: ^2.34.3
   i18n: any
   devicelocale: ^0.9.0
-  permission_handler: ^13.0.1
+  # 13.x requires Android compileSdk 37 and AGP 9.1; CI currently targets API 36.
+  permission_handler: ^12.0.3
   device_info_plus: ^13.2.0
   connectivity_plus: ^7.3.1
   json_annotation: ^4.12.0

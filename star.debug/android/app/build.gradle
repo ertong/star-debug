@@ -37,8 +37,8 @@ if (keystorePropertiesFile.exists()) {
 android {
     compileSdkVersion 36 //flutter.compileSdkVersion
     buildToolsVersion "36.0.0"
-    // ndkVersion flutter.ndkVersion
-//    ndkVersion = "27.0.12077973" // flutter default is outdated
+    // jni 1.x requires r28c; Android NDK versions are backward compatible.
+    ndkVersion = "28.2.13676358"
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
