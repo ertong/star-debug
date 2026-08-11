@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:clipboard/clipboard.dart';
@@ -49,20 +50,21 @@ class _SaveDebugDataDialogState<TItem> extends State<SaveDebugDataDialog<TItem>>
         basename="$basename.${widget.uid}";
       var name = "$basename.json.txt";
 
-      var path = await FilePicker.platform.saveFile(
+      var path = await FilePicker.saveFile(
         dialogTitle: "Save Debug Data json",
         fileName: name,
+        bytes: utf8.encode(widget.data)
       );
 
       if (path==null)
         return;
 
-      var f = File("$path").openWrite();
-      try {
-        f.write(widget.data);
-      } finally {
-        f.close();
-      }
+      // var f = File("$path").openWrite();
+      // try {
+      //   f.write(widget.data);
+      // } finally {
+      //   f.close();
+      // }
 
       R.showSnackBar(SnackBar(
         duration: Duration(seconds: 2),

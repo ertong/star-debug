@@ -13,6 +13,10 @@ class Prefs{
 
   bool valkyrieCheck = false;
 
+  // Starlink subnet overrides (null = use defaults)
+  String? routerIp;  // default: 192.168.1.1
+  String? dishIp;    // default: 192.168.100.1
+
   Prefs();
 }
 
@@ -40,6 +44,8 @@ class SharedPrefs {
     res.darkMode = prefs.getBool("darkMode") ?? res.darkMode;
     res.valkyrieCheck = prefs.getBool("valkyrieCheck") ?? res.valkyrieCheck;
     res.autoStoreDiskLog = prefs.getBool("autoStoreDiskLog") ?? res.autoStoreDiskLog;
+    res.routerIp = prefs.getString("routerIp");
+    res.dishIp = prefs.getString("dishIp");
 
     return res;
   }
@@ -92,6 +98,12 @@ class SharedPrefs {
 
     if (saved.autoStoreDiskLog!=data.autoStoreDiskLog)
       await setBool("autoStoreDiskLog", data.autoStoreDiskLog);
+
+    if (saved.routerIp!=data.routerIp)
+      await setString("routerIp", data.routerIp);
+
+    if (saved.dishIp!=data.dishIp)
+      await setString("dishIp", data.dishIp);
 
     _data = await _load();
     _streamController.add(_data);

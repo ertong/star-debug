@@ -1,9 +1,9 @@
-image: ertong/flutter:3.38.9-api36-jdk17
+image: ertong/flutter:3.44.1-api36-jdk17
 
 variables:
-  PUB_CACHE: ${CI_PROJECT_DIR}/.cache/.pub-cache
-  GRADLE_USER_HOME: ${CI_PROJECT_DIR}/.cache/.gradle
-  GEM_HOME: ${CI_PROJECT_DIR}/.cache/.gem
+#  PUB_CACHE: ${CI_PROJECT_DIR}/.cache/.pub-cache
+#  GRADLE_USER_HOME: ${CI_PROJECT_DIR}/.cache/.gradle
+#  GEM_HOME: ${CI_PROJECT_DIR}/.cache/.gem
   GIT_STRATEGY: fetch
   GIT_DEPTH: "1"
   APP_BASENAME: stardebug

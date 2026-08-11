@@ -3,10 +3,10 @@
     - !reference [before_script]
     - flutter doctor -v
   after_script:
-  cache:
-    paths:
-      - .cache
-    key: android
+#  cache:
+#    paths:
+#      - .cache
+#    key: android
 
 test:
   extends: .android_job

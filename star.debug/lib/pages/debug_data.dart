@@ -131,7 +131,7 @@ class _DebugDataPageState extends State<DebugDataPage> with TickerProviderStateM
     snap = null;
     FilePickerResult? result;
     try {
-      result = await FilePicker.platform.pickFiles(allowMultiple: false);
+      result = await FilePicker.pickFiles(allowMultiple: false);
     } catch (e, s) {
       LogUtils.ers(_TAG, "Pick files", e, s);
       R.showSnackBarText("$e");

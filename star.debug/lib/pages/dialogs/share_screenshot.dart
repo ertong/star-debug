@@ -233,15 +233,16 @@ class _ShareScreenshotState<TItem> extends State<ShareScreenshot<TItem>>
     try {
       var name = "${getBasename()}.jpg";
 
-      var path = await FilePicker.platform.saveFile(
+      var path = await FilePicker.saveFile(
         dialogTitle: "Save Screenshot",
         fileName: name,
+        bytes: img
       );
 
       if (path==null)
         return;
 
-      await File("$path").writeAsBytes(img);
+      // await File("$path").writeAsBytes(img);
 
       R.showSnackBar(SnackBar(
         duration: Duration(seconds: 2),

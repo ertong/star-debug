@@ -14,9 +14,9 @@
   after_script:
     - security lock-keychain $MATCH_KEYCHAIN_NAME || echo No $MATCH_KEYCHAIN_NAME. Skip locking
     - rm -rf ~/Library/Keychains/${MATCH_KEYCHAIN_NAME}-db || echo Nothing to delete
-  cache:
-    key: iOS-${CI_COMMIT_SHA}
-    untracked: true
+#  cache:
+#    key: iOS-${CI_COMMIT_SHA}
+#    untracked: true
   tags: [flutter, macos]
 
 build_ios:
@@ -28,7 +28,7 @@ build_ios:
     - cd $CI_PROJECT_DIR/star.debug
     - flutter clean
     - flutter packages get
-    - cd ios && pod install --repo-update && cd ..
+    - cd $CI_PROJECT_DIR/star.debug/ios && pod install --repo-update && cd ..
     - flutter build ios --release --no-codesign $BUILD_OPTS
 #    - pwd
 #    - cd ios
@@ -48,9 +48,9 @@ publish_testflight:
     - cd $CI_PROJECT_DIR/star.debug
     - flutter clean
     - flutter packages get
-    - cd ios && pod install --repo-update && cd ..
+    - cd $CI_PROJECT_DIR/star.debug/ios && pod install --repo-update && cd ..
     - flutter build ios --release --no-codesign $BUILD_OPTS
-    - cd ios
+    - cd $CI_PROJECT_DIR/star.debug/ios
     - bundle install
     - bundle exec fastlane beta
     - bundle exec fastlane do_testflight

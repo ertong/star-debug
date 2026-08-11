@@ -16,57 +16,60 @@ dependencies:
     sdk: flutter
 
   shared_preferences: any
-  logger: ^2.6.2
+  logger: ^2.7.0
   path_provider: any
-  drift: ^2.31.0
-  sqlite3_flutter_libs: ^0.5.41
+  drift: ^2.33.0
   i18n: any
-  devicelocale: ^0.8.2
-  permission_handler: ^12.0.1
-  device_info_plus: ^12.3.0
-  connectivity_plus: ^7.0.0
-  json_annotation: ^4.10.0
-  package_info_plus: ^9.0.0
+  devicelocale: ^0.9.0
+  permission_handler: ^12.0.3
+  device_info_plus: ^13.1.0
+  connectivity_plus: ^7.1.1
+  json_annotation: ^4.12.0
+  package_info_plus: ^10.1.0
   intl: any
-  firebase_core: ^4.4.0
+  firebase_core: ^4.10.0
   firebase_crashlytics: any
   firebase_analytics: any
   clipboard: #^3.0.14
     git: # fix windows build issues
       url: https://github.com/dongfengweixiao/flutter_clipboard.git
       ref: 6f8dce7
-  time_machine2: ^0.13.1
-  flutter_timezone: ^5.0.1
-  upgrader: ^12.5.0
-  file_picker: any
+  time_machine2: ^0.14.0
+  flutter_timezone: ^5.1.0
+  upgrader: ^13.5.0
+  file_picker:
+    git: # fix windows build issues
+      url: https://github.com/miguelpruivo/flutter_file_picker.git
+      ref: v12.0.0-beta.5
   flex_list: ^1.2.0
   grpc: ^5.1.0
   protobuf: any
   fixnum: any
-  dio: ^5.9.1
-  syncfusion_flutter_charts: ^32.2.3
+  dio: ^5.9.2
+  syncfusion_flutter_charts: ^33.2.10
   recase: 4.1.0
-  share_plus: ^12.0.1
+  share_plus: ^13.1.0
   mutex: ^3.1.0
   flutter_markdown: ^0.7.7+1
   url_launcher: ^6.3.2
-  flutter_email_sender: ^8.0.0
+  flutter_email_sender: ^9.0.0
   convert: ^3.1.2
   screenshot: 3.0.0
-  image: ^4.7.2
+  image: ^4.9.1
   google_fonts: any
   webview_flutter: ^4.13.1
 
 dependency_overrides:
-  build: ^4.0.4 # for i18n as of 4.2.5
+#  build: ^4.0.4 # for i18n as of 4.2.5
+#  win32: ^6.3.0  # for file_picker 11.0.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  json_serializable: ^6.12.0
+  json_serializable: ^6.14.0
   build_runner: any
   flutter_launcher_icons: any
-  drift_dev: ^2.31.0
+  drift_dev: ^2.33.0
 
   # The lint set provided by the package is activated in the `analysis_options.yaml`
   flutter_lints: ^6.0.0
