@@ -57,7 +57,7 @@ From `star.debug/`:
 - `dart format lib test` — format Dart sources and tests.
 - `dart run build_runner build --delete-conflicting-outputs` — regenerate Drift and localization
   Dart output.
-- `python msg.py sync` — align translated message YAML keys before running `build_runner`.
+- `./msg.sh sync` — align translated message YAML keys through the project virtual environment.
 - `flutter build apk --debug --target-platform android-arm,android-arm64,android-x64` — reproduce
   the Android debug build used by CI.
 
@@ -69,7 +69,7 @@ See the prerequisites and exact ownership map in `docs/development.md`.
 Do not manually edit generated `*.g.dart`, `*.pb*.dart`, or `*.i18n.dart` files.
 
 - Update Drift models and `*.drift` SQL, then run `build_runner`.
-- Update `lib/messages/*.i18n.yaml`, run `python msg.py sync`, then run `build_runner`.
+- Update `lib/messages/*.i18n.yaml`, run `./msg.sh sync`, then run `build_runner`.
 - Update `_misc/*.proto`, then run `_misc/protoc.sh` from the repository root.
 
 Review and commit generated output together with its source changes. Treat platform-generated plugin

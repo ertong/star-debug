@@ -84,18 +84,19 @@ English is the source catalog in `lib/messages/messages.i18n.yaml`; Ukrainian is
 `messages_uk.i18n.yaml`. When adding or removing keys:
 
 ```sh
-python msg.py sync
+./msg.sh sync
 dart run build_runner build --delete-conflicting-outputs
 ```
 
-`msg.py sync` aligns non-English keys with English. Missing strings are retained as marked entries
-for translation, and removed English keys are preserved as obsolete entries rather than silently
+`msg.sh` invokes `msg.py` with the repository-root `.venv/bin/python` and forwards all arguments.
+It fails with setup guidance if the project virtual environment does not exist. `msg.py sync`
+aligns non-English keys with English. Missing strings are retained as marked entries for
+translation, and removed English keys are preserved as obsolete entries rather than silently
 discarded. Its optional `--auto` mode calls an external translation service, so use it only when
 network access and external data submission are appropriate.
 
-The Python helper imports packages listed in the repository-root `requirements.txt`. It is separate
-from the virtual environment used automatically by `_misc/protoc.sh` unless the developer chooses
-to reuse that environment.
+The wrapper shares the project virtual environment used by `_misc/protoc.sh`. Its dependencies are
+listed in the repository-root `requirements.txt`.
 
 ## Database changes
 
