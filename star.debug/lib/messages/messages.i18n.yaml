@@ -53,8 +53,8 @@ general:
   x_hours_ago(t): ${t}h ago
   x_days_ago(t): ${t}d ago
   should_not_be_empty: Should not be empty
-  yes: yes
-  no: no
+  "yes": yes
+  "no": no
   not_specified: not specified
 
 recent:
@@ -123,6 +123,12 @@ live:
   outages: Outages
   event_logs: Event Logs
   n_records_before(n): ... $n records before ...
+  event_device_id: Device ID
+  event_band: Band
+  event_repeater_id: Repeater ID
+  event_repeater_ids: Repeater IDs
+  event_change: Change
+  event_overlapping_bss: Overlapping networks
 
 header:
   general: General
@@ -141,6 +147,8 @@ header:
   features: Features
   connected_routers: Connected routers
   actions: Actions
+  power: Power
+  service: Service
 
 tabs:
   app:
@@ -277,6 +285,12 @@ grpc:
     no_sats_after_ttff__hint: Whether GPS satellite visibility was lost after Time To First Fix (TTFF). May indicate GPS antenna issues.
     inhibit_gps: Don't trust Dishy's GPS
     inhibit_gps__hint: Whether the dish's internal GPS is being ignored in favor of an alternative location source.
+    pnt_filter_convergence_state: Position filter state
+
+  DishBatteryStats:
+    state_of_charge: Battery charge
+    is_charging: Charging
+    power_source: Power source
 
   DishReadyStates:
     cady: Clock generator
@@ -371,6 +385,10 @@ grpc:
     patches_valid: patches_valid
     dlBandwidthRestrictedReason: Bandwidth restriction (download)
     ulBandwidthRestrictedReason: Bandwidth restriction (upload)
+    account_shard: Account shard
+    nat_flag: NAT
+    user_debug_mode_enabled: User debug mode
+    treat_as_metered: Metered connection
 
     downlink_throughput_bps: Downlink Throughput
     uplink_throughput_bps: Uplink Throughput
@@ -518,6 +536,10 @@ grpc:
     landing: landing
     domain: domain
     dhcpv4_start: dhcpv4_start
+    dns_disabled: DNS disabled
+    get_lease_dhcp: Obtain DHCP lease
+    default_route_disabled: Default route disabled
+    geofence_action: Geofence action
   BasicServiceSet:
     bssid: bssid
     bssid__hint: |
@@ -539,6 +561,8 @@ grpc:
 #  repeated .SpaceX.API.Device.PublicKey dynamic_keys = 22;
     is_repeater: is_repeater
     boot_count: Boot count
+    bridged_network_group_override: Bridged network group override
+    lan_port: LAN port
     string: string
     bypass_mode: bypass_mode
 #  map<string, .SpaceX.API.Device.MeshConfig> mesh_configs = 33;

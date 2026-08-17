@@ -156,7 +156,7 @@ class OnlineConnection extends BaseConnection {
   late HttpTest optGoogle = HttpTest("https://dns.google/", ()=>notify(), method: "GET");
   late HttpTest optGoogle6 = HttpTest("https://ipv6.google.com/", ()=>notify(), method: "GET");
 
-  late HttpTest optStarlink = HttpTest("https://starlink.com/", ()=>notify());
+  late HttpTest optStarlink = HttpTest("https://starlink.com/", ()=>notify(), method: "HEAD");
 
   late HttpTest getOpendns = HttpTest("https://myipv4.p1.opendns.com/get_my_ip", ()=>notify(), method: "GET");
   late HttpTest getIpify = HttpTest("https://api.ipify.org?format=json", ()=>notify(), method: "GET");

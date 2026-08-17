@@ -119,6 +119,15 @@ class _RouterWidgetState extends State<RouterWidget> with TickerProviderStateMix
           for (WifiConfig_Network n in config.networks) {
             if (n.hasIpv4())
               b.kv("IPv4", n.ipv4, hide: opts.hideIp);
+            if (n.hasDnsDisabled() && n.dnsDisabled)
+              b.kv(M.grpc.Network.dns_disabled, true);
+            if (n.hasGetLeaseDhcp() && n.getLeaseDhcp)
+              b.kv(M.grpc.Network.get_lease_dhcp, true);
+            if (n.hasDefaultRouteDisabled() && n.defaultRouteDisabled)
+              b.kv(M.grpc.Network.default_route_disabled, true);
+            if (n.hasGeofenceAction() &&
+                n.geofenceAction != WifiConfig_Network_GeofenceAction.NONE)
+              b.kv(M.grpc.Network.geofence_action, n.geofenceAction);
             for (var srv in n.basicServiceSets) {
               bssid = srv.bssid;
               b.kv("${srv.band}", "${srv.ssid}\n${srv.bssid}",
@@ -131,6 +140,25 @@ class _RouterWidgetState extends State<RouterWidget> with TickerProviderStateMix
           if (bssid!=null && R.prefs.data.valkyrieCheck && R.features.valkyrieCheck)
             b.widgets.add(R.valkyrie.widget(bssid, theme));
           rows.addAll(b.widgets);
+        }
+
+        if (config.unbridgedEthPorts.isNotEmpty) {
+          var b = KVWidgetBuilder(context, theme);
+          for (var port in config.unbridgedEthPorts) {
+            if (port.hasBridgedNetworkGroupOverride() &&
+                port.bridgedNetworkGroupOverride > 0) {
+              var value = "${port.bridgedNetworkGroupOverride}";
+              if (port.hasLanPortIndex())
+                value = "${M.grpc.WifiConfig.lan_port} ${port.lanPortIndex}: $value";
+              b.kv(M.grpc.WifiConfig.bridged_network_group_override, value);
+            }
+          }
+          if (b.widgets.isNotEmpty) {
+            var header = KVWidgetBuilder(context, theme);
+            header.header(M.header.networks);
+            header.widgets.addAll(b.widgets);
+            rows.addAll(header.widgets);
+          }
         }
 
         if (config.hasBoot()) {

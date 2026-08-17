@@ -26,6 +26,8 @@ class RateLimitReason extends $pb.ProtobufEnum {
       RateLimitReason._(3, _omitEnumNames ? '' : 'USER_CUSTOM_LIMIT');
   static const RateLimitReason OVERAGE_LIMIT =
       RateLimitReason._(5, _omitEnumNames ? '' : 'OVERAGE_LIMIT');
+  static const RateLimitReason LOW_SPEED_POLICY_LIMIT =
+      RateLimitReason._(6, _omitEnumNames ? '' : 'LOW_SPEED_POLICY_LIMIT');
 
   static const $core.List<RateLimitReason> values = <RateLimitReason>[
     UNKNOWN,
@@ -33,10 +35,11 @@ class RateLimitReason extends $pb.ProtobufEnum {
     POLICY_LIMIT,
     USER_CUSTOM_LIMIT,
     OVERAGE_LIMIT,
+    LOW_SPEED_POLICY_LIMIT,
   ];
 
   static final $core.List<RateLimitReason?> _byValue =
-      $pb.ProtobufEnum.$_initByValueList(values, 5);
+      $pb.ProtobufEnum.$_initByValueList(values, 6);
   static RateLimitReason? valueOf($core.int value) =>
       value < 0 || value >= _byValue.length ? null : _byValue[value];
 

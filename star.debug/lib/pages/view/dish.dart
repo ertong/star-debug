@@ -18,6 +18,7 @@ import 'package:time_machine2/time_machine2.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../../utils/log_utils.dart';
+import '../../utils/starlink_model.dart';
 
 const String _TAG="DishWidget";
 
@@ -113,7 +114,7 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
 
 
     bool gpsInhibited = widget.snap.dishGetStatus?.gpsStats.inhibitGps ?? false;
-    bool rfInhibited = widget.snap.dishGetStatus?.outage.cause == DishOutage_Cause.SKY_SEARCH;
+    bool rfInhibited = widget.snap.dishGetStatus?.outage.cause == DishOutage_Cause.INHIBIT_RF;
 
     b.widgets.add(Wrap(
       // mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -267,6 +268,39 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
         rows.addAll(b.widgets);
       }
 
+      if (status.hasBatteryStats()) {
+        var stats = status.batteryStats;
+        var b = KVWidgetBuilder(context, theme);
+        b.header(M.header.power);
+
+        if (stats.hasStateOfCharge())
+          b.kv(M.grpc.DishBatteryStats.state_of_charge, "${stats.stateOfCharge} %");
+        if (stats.hasIsCharging())
+          b.kv(M.grpc.DishBatteryStats.is_charging, stats.isCharging);
+        if (stats.hasPowerSource() && stats.powerSource != PowerSource.POWER_SOURCE_UNKNOWN)
+          b.kv(M.grpc.DishBatteryStats.power_source, stats.powerSource);
+
+        if (b.widgets.length > 1)
+          rows.addAll(b.widgets);
+      }
+
+      {
+        var b = KVWidgetBuilder(context, theme);
+        b.header(M.header.service);
+
+        if (status.hasAccountShard() && status.accountShard != AccountShard.ACCOUNT_SHARD_UNKNOWN)
+          b.kv(M.grpc.DishGetStatus.account_shard, status.accountShard);
+        if (status.hasNatFlag() && status.natFlag != NatFlag.NAT_UNKNOWN)
+          b.kv(M.grpc.DishGetStatus.nat_flag, status.natFlag);
+        if (status.hasUserDebugModeEnabled() && status.userDebugModeEnabled)
+          b.kv(M.grpc.DishGetStatus.user_debug_mode_enabled, true);
+        if (status.hasTreatAsMetered() && status.treatAsMetered)
+          b.kv(M.grpc.DishGetStatus.treat_as_metered, true);
+
+        if (b.widgets.length > 1)
+          rows.addAll(b.widgets);
+      }
+
       final String hw = status.deviceInfo.hardwareVersion ?? "";
 
       if (status.hasDeviceInfo())
@@ -330,6 +364,12 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
         if (stats.hasInhibitGps())
           b.kv(M.grpc.DishGpsStats.inhibit_gps, stats.inhibitGps,
               hint: M.grpc.DishGpsStats.inhibit_gps__hint);
+        if (stats.hasPntFilterConvergenceState())
+          b.kv(
+            M.grpc.DishGpsStats.pnt_filter_convergence_state,
+            stats.pntFilterConvergenceState,
+            hint: M.grpc.AlignmentStats.attitude_estimation_state__hint,
+          );
 
         if (widget.snap.dishGetLocationStarlink!=null)
           location(b, "Starlink", widget.snap.dishGetLocationStarlink!, hide: opts.hideLocation);
@@ -420,7 +460,7 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
         for (var e in (states.info_.byName).entries) {
           var key = e.key;
           var val = states.getField(e.value.tagNumber) ?? false;
-          if (key=="cady" && (hw.startsWith("rev4") || hw=="rev_mini_prod1"  || hw.startsWith("mini1_")))
+          if (key=="cady" && !StarlinkModel.hasCady(hw))
             continue;
           var desc = R.i18n.map["grpc.DishReadyStates.$key"];
           if (desc!=null)

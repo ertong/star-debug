@@ -8,6 +8,7 @@ import 'package:star_debug/preloaded.dart';
 
 import 'messages/i18n.dart';
 import 'routes.dart';
+import 'theme.dart';
 import 'utils/log_utils.dart';
 
 const String _TAG = "StarDebugApp";
@@ -19,17 +20,16 @@ class StarDebugApp extends StatefulWidget {
   StarDebugAppState createState() => StarDebugAppState();
 }
 
-class StarDebugAppState extends State<StarDebugApp>
-{
+class StarDebugAppState extends State<StarDebugApp> {
   StreamSubscription? subsNotification;
 
   @override
   void initState() {
     super.initState();
 
-    ()async{
-        // var intent = await R.plugin.getIntentAndClear();
-        // LogUtils.d(_TAG, "INTENT $intent");
+    () async {
+      // var intent = await R.plugin.getIntentAndClear();
+      // LogUtils.d(_TAG, "INTENT $intent");
     }();
   }
 
@@ -41,13 +41,8 @@ class StarDebugAppState extends State<StarDebugApp>
 
   @override
   Widget build(BuildContext context) {
-    var theme = R.prefs.data.darkMode
-        ? ThemeData.dark(useMaterial3: false)
-        : ThemeData.light(useMaterial3: false);
-
-    theme = theme.copyWith(
-      //https://stackoverflow.com/questions/75698363/why-different-paddings-on-mobile-and-desktop-flutter-platforms
-      materialTapTargetSize: MaterialTapTargetSize.padded,
+    final theme = StarDebugTheme.build(
+      R.prefs.data.darkMode ? Brightness.dark : Brightness.light,
     );
 
     return MaterialApp(
@@ -61,15 +56,19 @@ class StarDebugAppState extends State<StarDebugApp>
       navigatorKey: R.navigatorKey,
       supportedLocales: I18n.instance.locales.values,
       locale: I18n.instance.locale,
-      builder: (context, child) =>
-          MediaQuery(data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true), child: child!),
+      builder: (context, child) => MediaQuery(
+        data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+        child: child!,
+      ),
 
       onGenerateTitle: (BuildContext context) => M.general.app_name,
 
       theme: theme,
+      themeAnimationDuration: Duration(milliseconds: 250),
+      themeAnimationCurve: Curves.easeOutCubic,
 
       navigatorObservers: [
-        if (R.analytics!=null)
+        if (R.analytics != null)
           FirebaseAnalyticsObserver(analytics: R.analytics!),
         _MyNavigatorObserver(),
       ],
@@ -80,9 +79,11 @@ class StarDebugAppState extends State<StarDebugApp>
 }
 
 class _MyNavigatorObserver extends NavigatorObserver {
-
   @override
   void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
-    LogUtils.d(_TAG, "Pushed route: ${route.settings.name} from ${previousRoute?.settings.name}");
+    LogUtils.d(
+      _TAG,
+      "Pushed route: ${route.settings.name} from ${previousRoute?.settings.name}",
+    );
   }
 }

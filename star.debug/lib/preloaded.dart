@@ -31,6 +31,11 @@ import 'utils/shared_prefs.dart';
 late Preloaded R;
 const String _TAG = "Preload";
 
+/// Owns process-wide services that must be ready before [StarDebugApp] is built.
+///
+/// The global [R] is assigned before [init] starts so bootstrap code can construct
+/// dependent services in a defined order. Callers must await `initialized.future`
+/// before reading late fields such as [prefs], [db], or the connection holders.
 class Preloaded{
 
   late String versionName;
@@ -69,6 +74,10 @@ class Preloaded{
 
   Preloaded();
 
+  /// Initializes platform services in parallel, then creates connection holders.
+  ///
+  /// Firebase is mobile-only. The database path is resolved here before its Drift
+  /// executor moves to a background isolate.
   Future<void> init() async {
     assert(() {
       isDebug = true;

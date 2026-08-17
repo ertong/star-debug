@@ -20,6 +20,11 @@ class Prefs{
   Prefs();
 }
 
+/// Asynchronous typed facade over the application's [SharedPreferences] keys.
+///
+/// Construction starts the initial load; callers must await `initialized.future`
+/// before reading [data]. Successful mutations reload and broadcast a fresh
+/// [Prefs] instance so widgets do not retain a partially updated in-memory object.
 class SharedPrefs {
   static const String TAG = "SharedPrefs";
 
@@ -79,6 +84,7 @@ class SharedPrefs {
   }
 
 
+  /// Applies [change] to a freshly loaded value and persists only changed fields.
   Future<void> save(Function(Prefs) change) async {
     var saved = await _load();
     var data = await _load();

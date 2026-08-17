@@ -13,7 +13,7 @@ import file_picker
 import firebase_analytics
 import firebase_core
 import firebase_crashlytics
-import flutter_email_sender
+import flutter_email_sender_method_channel
 import flutter_timezone
 import package_info_plus
 import share_plus

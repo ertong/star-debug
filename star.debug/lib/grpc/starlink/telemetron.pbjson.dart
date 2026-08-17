@@ -24,6 +24,7 @@ const RateLimitReason$json = {
     {'1': 'POLICY_LIMIT', '2': 2},
     {'1': 'USER_CUSTOM_LIMIT', '2': 3},
     {'1': 'OVERAGE_LIMIT', '2': 5},
+    {'1': 'LOW_SPEED_POLICY_LIMIT', '2': 6},
   ],
   '4': [
     {'1': 4, '2': 4},
@@ -34,5 +35,5 @@ const RateLimitReason$json = {
 /// Descriptor for `RateLimitReason`. Decode as a `google.protobuf.EnumDescriptorProto`.
 final $typed_data.Uint8List rateLimitReasonDescriptor = $convert.base64Decode(
     'Cg9SYXRlTGltaXRSZWFzb24SCwoHVU5LTk9XThAAEgwKCE5PX0xJTUlUEAESEAoMUE9MSUNZX0'
-    'xJTUlUEAISFQoRVVNFUl9DVVNUT01fTElNSVQQAxIRCg1PVkVSQUdFX0xJTUlUEAUiBAgEEAQq'
-    'FUhJR0hfSE9VUkxZX0FWR19MSU1JVA==');
+    'xJTUlUEAISFQoRVVNFUl9DVVNUT01fTElNSVQQAxIRCg1PVkVSQUdFX0xJTUlUEAUSGgoWTE9X'
+    'X1NQRUVEX1BPTElDWV9MSU1JVBAGIgQIBBAEKhVISUdIX0hPVVJMWV9BVkdfTElNSVQ=');

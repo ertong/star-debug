@@ -11,7 +11,7 @@ class AppDrawer extends StatefulWidget {
 
   const AppDrawer({super.key, this.selectedRoute = ""});
 
-  static int countBackClick=0;
+  static int countBackClick = 0;
 
   @override
   State createState() => _AppDrawerState();
@@ -19,21 +19,19 @@ class AppDrawer extends StatefulWidget {
   static Future<bool> willPopFunc(GlobalKey<ScaffoldState> scaffoldKey) async {
     try {
       var state = scaffoldKey.currentState;
-      if (state == null)
-        return true;
+      if (state == null) return true;
 
       bool canPop = Navigator.of(state.context).canPop();
       if (state.hasDrawer)
         if (!state.isDrawerOpen) {
-          if (canPop)
-            return true;
+          if (canPop) return true;
           countBackClick++;
           state.openDrawer();
           return false;
         } else if (countBackClick > 0) {
           Navigator.pop(state.context); // drawer is opened, close it
         }
-    }catch(e,s){
+    } catch (e, s) {
       LogUtils.ers(_TAG, "", e, s);
     }
 
@@ -42,8 +40,7 @@ class AppDrawer extends StatefulWidget {
 }
 
 class _AppDrawerState extends State<AppDrawer> {
-
-  int debugClickCount=0;
+  int debugClickCount = 0;
 
   @override
   void initState() {
@@ -53,7 +50,7 @@ class _AppDrawerState extends State<AppDrawer> {
   @override
   void dispose() {
     super.dispose();
-    AppDrawer.countBackClick=0;
+    AppDrawer.countBackClick = 0;
   }
 
   @override
@@ -66,42 +63,78 @@ class _AppDrawerState extends State<AppDrawer> {
               padding: EdgeInsets.zero,
               children: <Widget>[
                 _createHeader(),
-                _createDrawerItemRoute(context, Icons.play_arrow, "Starlink Live", Routes.LIVE),
-                _createDrawerItemRoute(context, Icons.bug_report, M.general.debug_data_viewer, Routes.MAIN),
-                _createDrawerItemRoute(context, Icons.pets, M.my.my_starlinks, Routes.MY_STARLINKS),
+                _createDrawerItemRoute(
+                  context,
+                  Icons.play_arrow,
+                  "Starlink Live",
+                  Routes.LIVE,
+                ),
+                _createDrawerItemRoute(
+                  context,
+                  Icons.bug_report,
+                  M.general.debug_data_viewer,
+                  Routes.MAIN,
+                ),
+                _createDrawerItemRoute(
+                  context,
+                  Icons.pets,
+                  M.my.my_starlinks,
+                  Routes.MY_STARLINKS,
+                ),
                 if (R.isDebug)
-                  _createDrawerItemRoute(context, Icons.smart_toy, "Sandbox", Routes.DEBUG),
-                _createDrawerItemRoute(context, Icons.settings, M.settings.settings, Routes.SETTINGS),
-
+                  _createDrawerItemRoute(
+                    context,
+                    Icons.smart_toy,
+                    "Sandbox",
+                    Routes.DEBUG,
+                  ),
+                _createDrawerItemRoute(
+                  context,
+                  Icons.settings,
+                  M.settings.settings,
+                  Routes.SETTINGS,
+                ),
               ],
             ),
           ),
           SafeArea(
-            child: ListTile(
-              leading: Padding(
-                  padding: EdgeInsets.fromLTRB(4, 0, 0, 0),
-                  child: Transform.scale(scale: 1, child:_buildLogo())
+            top: false,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(8, 4, 8, 0),
+              child: ListTile(
+                leading: Transform.scale(scale: 1, child: _buildLogo()),
+                title: Text(M.about.about_starlink_for_ukraine),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                selected: widget.selectedRoute == Routes.ABOUT,
+                selectedTileColor: Theme.of(
+                  context,
+                ).colorScheme.primary.withAlpha(24),
+                onTap: () {
+                  if (widget.selectedRoute == Routes.ABOUT) {
+                    Navigator.pop(context);
+                  } else {
+                    Navigator.of(
+                      context,
+                    ).pushNamedAndRemoveUntil(Routes.ABOUT, (r) => false);
+                  }
+                },
               ),
-              title: Text(M.about.about_starlink_for_ukraine,),
-              contentPadding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-              dense: true,
-              onTap: (){
-                Navigator.of(context).pushNamedAndRemoveUntil(Routes.ABOUT, (r) => false);
-              },
             ),
           ),
-          SizedBox(height: 8,)
+          SizedBox(height: 8),
         ],
       ),
     );
   }
 
-  Widget _buildLogo(){
+  Widget _buildLogo() {
     return Container(
       decoration: BoxDecoration(
-          shape: BoxShape.rectangle,
-          borderRadius: BorderRadius.all(Radius.circular(25)),
-          color: Colors.black
+        shape: BoxShape.rectangle,
+        borderRadius: BorderRadius.all(Radius.circular(25)),
+        color: Colors.black,
       ),
       width: 30,
       height: 30,
@@ -127,82 +160,129 @@ class _AppDrawerState extends State<AppDrawer> {
     return SizedBox(
       height: 130 + media.viewPadding.top,
       child: DrawerHeader(
-          margin: EdgeInsets.zero,
-          padding: EdgeInsets.zero,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: const [
-                Color(0xFF4f5b62),
-                Color(0xFF263238),
-                Color(0xFF000a12),],
-              transform: GradientRotation(3*3.14/4),
-            ),
+        margin: EdgeInsets.zero,
+        padding: EdgeInsets.zero,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: const [
+              Color(0xFF4f5b62),
+              Color(0xFF263238),
+              Color(0xFF000a12),
+            ],
+            transform: GradientRotation(3 * 3.14 / 4),
           ),
-          child: LayoutBuilder(
-              builder: (context, constraints) {
-                return Stack(children: <Widget>[
-                  Positioned(
-                      top: 30,
-                      left: 20,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          GestureDetector(
-                            onTap: (){
-                              debugClickCount++;
-                              if (debugClickCount>5 && !R.isDebug)
-                                setState(() {
-                                  R.isDebug = true;
-                                });
-                            },
-                            child: Image(
-                              image: AssetImage('assets/images/logo_transparent.png'),
-                              width: 50,
-                            ),
+        ),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return Stack(
+              children: <Widget>[
+                Positioned(
+                  top: 30,
+                  left: 20,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      GestureDetector(
+                        onTap: () {
+                          debugClickCount++;
+                          if (debugClickCount > 5 && !R.isDebug)
+                            setState(() {
+                              R.isDebug = true;
+                            });
+                        },
+                        child: Image(
+                          image: AssetImage(
+                            'assets/images/logo_transparent.png',
                           ),
-                          SizedBox(
-                            width: constraints.maxWidth - 50-20-10,
-                            child: Padding(
-                                padding: EdgeInsets.fromLTRB(15, 5, 0, 0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text("${M.general.app_name}", style: TextStyle(color: Colors.white), softWrap: true,),
-                                    Text("${R.versionName}", style: TextStyle(color: Colors.white), softWrap: true,),
-                                  ],
-                                )
-                            ),
-                          )
-                        ],
-                      )
+                          width: 50,
+                        ),
+                      ),
+                      SizedBox(
+                        width: constraints.maxWidth - 50 - 20 - 10,
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(15, 5, 0, 0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                M.general.app_name,
+                                style: Theme.of(context).textTheme.titleLarge
+                                    ?.copyWith(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                softWrap: true,
+                              ),
+                              SizedBox(height: 2),
+                              Text(
+                                R.versionName,
+                                style: Theme.of(context).textTheme.bodySmall
+                                    ?.copyWith(
+                                      color: Colors.white.withAlpha(190),
+                                    ),
+                                softWrap: true,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ]);
-              }
-          )),
-    );
-  }
-
-  Widget _createDrawerItemRoute(BuildContext context, IconData icon, String text, String route) {
-    return _createDrawerItem(context, icon, text, () {
-      Navigator.of(context).pushNamedAndRemoveUntil(route, (r) => false);
-    }, null, widget.selectedRoute == route);
-  }
-
-  Widget _createDrawerItem(BuildContext context, IconData icon, String text, GestureTapCallback onTap, String? subtitle, bool isSelected) {
-    return ListTile(
-      title: Text(text),
-      leading: Padding(
-          padding: EdgeInsets.fromLTRB(7, 0, 0, 0),
-          child: Icon(icon)
+                ),
+              ],
+            );
+          },
+        ),
       ),
-      selected: isSelected,
-      dense: true,
-      contentPadding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-      subtitle: subtitle !=null ? Text(subtitle) : null,
-      onTap: onTap,
     );
-
   }
 
+  Widget _createDrawerItemRoute(
+    BuildContext context,
+    IconData icon,
+    String text,
+    String route,
+  ) {
+    return _createDrawerItem(
+      context,
+      icon,
+      text,
+      () {
+        if (widget.selectedRoute == route) {
+          Navigator.pop(context);
+        } else {
+          Navigator.of(context).pushNamedAndRemoveUntil(route, (r) => false);
+        }
+      },
+      null,
+      widget.selectedRoute == route,
+    );
+  }
 
+  Widget _createDrawerItem(
+    BuildContext context,
+    IconData icon,
+    String text,
+    GestureTapCallback onTap,
+    String? subtitle,
+    bool isSelected,
+  ) {
+    final colors = Theme.of(context).colorScheme;
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+      child: ListTile(
+        title: Text(
+          text,
+          style: isSelected ? TextStyle(fontWeight: FontWeight.w600) : null,
+        ),
+        leading: Icon(icon, color: isSelected ? colors.primary : null),
+        selected: isSelected,
+        selectedTileColor: colors.primary.withAlpha(24),
+        dense: true,
+        contentPadding: EdgeInsets.symmetric(horizontal: 14),
+        subtitle: subtitle != null ? Text(subtitle) : null,
+        onTap: onTap,
+      ),
+    );
+  }
 }
