@@ -18,6 +18,7 @@ import 'package:time_machine2/time_machine2.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../../utils/log_utils.dart';
+import '../../utils/starlink_model.dart';
 
 const String _TAG="DishWidget";
 
@@ -459,7 +460,7 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
         for (var e in (states.info_.byName).entries) {
           var key = e.key;
           var val = states.getField(e.value.tagNumber) ?? false;
-          if (key=="cady" && (hw.startsWith("rev4") || hw=="rev_mini_prod1"  || hw.startsWith("mini1_")))
+          if (key=="cady" && !StarlinkModel.hasCady(hw))
             continue;
           var desc = R.i18n.map["grpc.DishReadyStates.$key"];
           if (desc!=null)

@@ -2,6 +2,7 @@
 import 'package:star_debug/grpc/starlink/network.pbenum.dart';
 import 'package:star_debug/grpc/starlink/starlink.pb.dart';
 import 'package:star_debug/preloaded.dart';
+import 'package:star_debug/utils/starlink_model.dart';
 
 extension DishGetStatusExt on DishGetStatusResponse {
   int countAlerts(){
@@ -19,7 +20,7 @@ extension DishGetStatusExt on DishGetStatusResponse {
         var key = e.key;
         var val = readyStates.getField(e.value.tagNumber) ?? false;
 
-        if (key=="cady" && (hw.startsWith("rev4") || hw=="rev_mini_prod1" || hw.startsWith("mini1_")))
+        if (key=="cady" && !StarlinkModel.hasCady(hw))
           continue;
 
         if (!val)
