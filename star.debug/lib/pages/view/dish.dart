@@ -349,7 +349,7 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
 
       if (status.hasGpsStats()) {
         var b = KVWidgetBuilder(context, theme);
-        b.header(M.header.gps_stats);
+        b.header(M.header.gnss_stats);
         var stats = status.gpsStats;
         // if (stats.hasGpsValid())
         b.kv(M.grpc.DishGpsStats.gps_valid, stats.gpsValid, ok: stats.gpsValid,

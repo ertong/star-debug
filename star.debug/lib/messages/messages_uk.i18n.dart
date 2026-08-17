@@ -707,7 +707,7 @@ class HeaderMessagesUk extends HeaderMessages {
   /// ```dart
   /// "GPS"
   /// ```
-  String get gps_stats => """GPS""";
+  String get gnss_stats => """GPS""";
 
   /// ```dart
   /// "Антена"
@@ -2940,7 +2940,7 @@ Map<String, String> get messagesUkMap => {
   """header.alerts""": """Попередження""",
   """header.device_info""": """Про пристрій""",
   """header.config""": """Налаштування""",
-  """header.gps_stats""": """GPS""",
+  """header.gnss_stats""": """GPS""",
   """header.antenna""": """Антена""",
   """header.ready_states""": """Готовність модулів""",
   """header.init_duration""": """Час ініціалізації (сек)""",
