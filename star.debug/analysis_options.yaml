@@ -16,6 +16,13 @@ analyzer:
     - '**.pbenum.dart'
     - '**.pbjson.dart'
     - '**.pbgrpc.dart'
+    - build/**
+    - android/**
+    - ios/**
+    - web/**
+    - windows/**
+    - macos/**
+    - linux/**
   #- '**.freezed.dart'
   #- '**.g.dart'
 
