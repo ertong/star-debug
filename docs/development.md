@@ -2,7 +2,7 @@
 
 ## Prerequisites and setup
 
-The Flutter package is [`star.debug/`](../star.debug/). Its `.tool-versions` pins Flutter `3.44.1`,
+The Flutter package is [`star.debug/`](../star.debug/). Its `.tool-versions` pins Flutter `3.47.0`,
 and `pubspec.yaml` requires Dart `>=3.9.2 <4.0.0`.
 
 From the repository root:
@@ -18,7 +18,7 @@ network access to the Starlink subnets. The defaults are `192.168.100.1` for the
 `192.168.1.1` for the router; the settings screen can persist alternate IPv4 addresses.
 
 Firebase initializes only on Android and iOS. Desktop development does not require Firebase
-startup, but platform plugin availability can still differ.
+startup, but platform plugin availability can still differ. iOS builds require iOS 16.0 or later.
 
 ## Validation
 

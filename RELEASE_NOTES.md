@@ -1,3 +1,13 @@
+## 1.2b79
+
+### New Features:
+- Add Starlink Network settings with preset subnets and custom router or dish IPv4 addresses.
+
+### Enhancements:
+- Refresh navigation, settings, lists, data views, and light/dark themes.
+- Improve internet, IPv6, and Starlink ISP checks with clearer progress and failure states.
+- Update Starlink protocol support to 2026.08.08.
+
 ## 1.2b78
 
 ### New Features:

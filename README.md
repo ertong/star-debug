@@ -5,12 +5,16 @@
 
 Star Debug is an alternative tool to manage your Starlink devices.
 
-Currently (as of version 1.2.76), it supports:
+Currently (as of version 1.2b79), it supports:
+
 - Decode and view DebugData json copied (or saved to file) from the official Starlink app or web panel.
-- Initiate basic operations with the dish: Reboot/Stow/Unstow/GPSon/off and with the router: reboot and basic wifi setup (if applicable).
-- View telemetry available in DebugData, but updated from Starlink online: statuses, alerts, basic stats, current configurations, etc.
+- Initiate basic operations with the dish: Reboot/Stow/Unstow/GNSS on/off and with the router:
+  reboot and basic wifi setup (if applicable).
+- View telemetry available in DebugData, but updated from Starlink online: statuses, alerts, basic
+  stats, current configurations, etc.
 - Create and share DebugData-compatible json data.
-- Check the internet connection in place within the app.
+- Check IPv4, IPv6, public IP, and Starlink ISP connectivity within the app.
+- Select a known Starlink router subnet or configure custom router and dish IPv4 addresses.
 - "My Starlinks"
   - Snapshots of live device data and debug data can now be stored in the local application database.
   - Users can create snapshots of live data at any specific moment of interest.
