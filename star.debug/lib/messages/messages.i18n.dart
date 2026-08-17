@@ -637,6 +637,36 @@ class LiveMessages {
   /// "... $n records before ..."
   /// ```
   String n_records_before(n) => """... $n records before ...""";
+
+  /// ```dart
+  /// "Device ID"
+  /// ```
+  String get event_device_id => """Device ID""";
+
+  /// ```dart
+  /// "Band"
+  /// ```
+  String get event_band => """Band""";
+
+  /// ```dart
+  /// "Repeater ID"
+  /// ```
+  String get event_repeater_id => """Repeater ID""";
+
+  /// ```dart
+  /// "Repeater IDs"
+  /// ```
+  String get event_repeater_ids => """Repeater IDs""";
+
+  /// ```dart
+  /// "Change"
+  /// ```
+  String get event_change => """Change""";
+
+  /// ```dart
+  /// "Overlapping networks"
+  /// ```
+  String get event_overlapping_bss => """Overlapping networks""";
 }
 
 class HeaderMessages {
@@ -722,6 +752,16 @@ class HeaderMessages {
   /// "Actions"
   /// ```
   String get actions => """Actions""";
+
+  /// ```dart
+  /// "Power"
+  /// ```
+  String get power => """Power""";
+
+  /// ```dart
+  /// "Service"
+  /// ```
+  String get service => """Service""";
 }
 
 class TabsMessages {
@@ -924,6 +964,8 @@ class GrpcMessages {
   BootInfoGrpcMessages get BootInfo => BootInfoGrpcMessages(this);
   DishOutageGrpcMessages get DishOutage => DishOutageGrpcMessages(this);
   DishGpsStatsGrpcMessages get DishGpsStats => DishGpsStatsGrpcMessages(this);
+  DishBatteryStatsGrpcMessages get DishBatteryStats =>
+      DishBatteryStatsGrpcMessages(this);
   DishReadyStatesGrpcMessages get DishReadyStates =>
       DishReadyStatesGrpcMessages(this);
   DishInitDurationGrpcMessages get DishInitDuration =>
@@ -1192,6 +1234,31 @@ class DishGpsStatsGrpcMessages {
   /// ```
   String get inhibit_gps__hint =>
       """Whether the dish's internal GPS is being ignored in favor of an alternative location source.""";
+
+  /// ```dart
+  /// "Position filter state"
+  /// ```
+  String get pnt_filter_convergence_state => """Position filter state""";
+}
+
+class DishBatteryStatsGrpcMessages {
+  final GrpcMessages _parent;
+  const DishBatteryStatsGrpcMessages(this._parent);
+
+  /// ```dart
+  /// "Battery charge"
+  /// ```
+  String get state_of_charge => """Battery charge""";
+
+  /// ```dart
+  /// "Charging"
+  /// ```
+  String get is_charging => """Charging""";
+
+  /// ```dart
+  /// "Power source"
+  /// ```
+  String get power_source => """Power source""";
 }
 
 class DishReadyStatesGrpcMessages {
@@ -1612,6 +1679,26 @@ class DishGetStatusGrpcMessages {
   /// ```
   String get ulBandwidthRestrictedReason =>
       """Bandwidth restriction (upload)""";
+
+  /// ```dart
+  /// "Account shard"
+  /// ```
+  String get account_shard => """Account shard""";
+
+  /// ```dart
+  /// "NAT"
+  /// ```
+  String get nat_flag => """NAT""";
+
+  /// ```dart
+  /// "User debug mode"
+  /// ```
+  String get user_debug_mode_enabled => """User debug mode""";
+
+  /// ```dart
+  /// "Metered connection"
+  /// ```
+  String get treat_as_metered => """Metered connection""";
 
   /// ```dart
   /// "Downlink Throughput"
@@ -2076,6 +2163,26 @@ class NetworkGrpcMessages {
   /// "dhcpv4_start"
   /// ```
   String get dhcpv4_start => """dhcpv4_start""";
+
+  /// ```dart
+  /// "DNS disabled"
+  /// ```
+  String get dns_disabled => """DNS disabled""";
+
+  /// ```dart
+  /// "Obtain DHCP lease"
+  /// ```
+  String get get_lease_dhcp => """Obtain DHCP lease""";
+
+  /// ```dart
+  /// "Default route disabled"
+  /// ```
+  String get default_route_disabled => """Default route disabled""";
+
+  /// ```dart
+  /// "Geofence action"
+  /// ```
+  String get geofence_action => """Geofence action""";
 }
 
 class BasicServiceSetGrpcMessages {
@@ -2167,6 +2274,17 @@ class WifiConfigGrpcMessages {
   /// "Boot count"
   /// ```
   String get boot_count => """Boot count""";
+
+  /// ```dart
+  /// "Bridged network group override"
+  /// ```
+  String get bridged_network_group_override =>
+      """Bridged network group override""";
+
+  /// ```dart
+  /// "LAN port"
+  /// ```
+  String get lan_port => """LAN port""";
 
   /// ```dart
   /// "string"
@@ -2812,6 +2930,12 @@ Moreover, in the case of a moving router, its route can be followed.
   """live.check_update""": """Check Update""",
   """live.outages""": """Outages""",
   """live.event_logs""": """Event Logs""",
+  """live.event_device_id""": """Device ID""",
+  """live.event_band""": """Band""",
+  """live.event_repeater_id""": """Repeater ID""",
+  """live.event_repeater_ids""": """Repeater IDs""",
+  """live.event_change""": """Change""",
+  """live.event_overlapping_bss""": """Overlapping networks""",
   """header.general""": """General""",
   """header.signal""": """Signal""",
   """header.network""": """Network""",
@@ -2828,6 +2952,8 @@ Moreover, in the case of a moving router, its route can be followed.
   """header.features""": """Features""",
   """header.connected_routers""": """Connected routers""",
   """header.actions""": """Actions""",
+  """header.power""": """Power""",
+  """header.service""": """Service""",
   """tabs.app.unknown""": """Unknown""",
   """tabs.app.app_version""": """App version""",
   """tabs.app.app_environment""": """App environment""",
@@ -2938,6 +3064,11 @@ Moreover, in the case of a moving router, its route can be followed.
   """grpc.DishGpsStats.inhibit_gps""": """Don't trust Dishy's GPS""",
   """grpc.DishGpsStats.inhibit_gps__hint""":
       """Whether the dish's internal GPS is being ignored in favor of an alternative location source.""",
+  """grpc.DishGpsStats.pnt_filter_convergence_state""":
+      """Position filter state""",
+  """grpc.DishBatteryStats.state_of_charge""": """Battery charge""",
+  """grpc.DishBatteryStats.is_charging""": """Charging""",
+  """grpc.DishBatteryStats.power_source""": """Power source""",
   """grpc.DishReadyStates.cady""": """Clock generator""",
   """grpc.DishReadyStates.scp""": """RFFE bus interface""",
   """grpc.DishReadyStates.l1l2""": """Modem L1L2""",
@@ -3056,6 +3187,10 @@ with internet access and dish access. You can find this setting in
       """Bandwidth restriction (download)""",
   """grpc.DishGetStatus.ulBandwidthRestrictedReason""":
       """Bandwidth restriction (upload)""",
+  """grpc.DishGetStatus.account_shard""": """Account shard""",
+  """grpc.DishGetStatus.nat_flag""": """NAT""",
+  """grpc.DishGetStatus.user_debug_mode_enabled""": """User debug mode""",
+  """grpc.DishGetStatus.treat_as_metered""": """Metered connection""",
   """grpc.DishGetStatus.downlink_throughput_bps""": """Downlink Throughput""",
   """grpc.DishGetStatus.uplink_throughput_bps""": """Uplink Throughput""",
   """grpc.DishGetStatus.pop_ping_drop_rate""": """PoP ping drop rate""",
@@ -3215,6 +3350,10 @@ with internet access and dish access. You can find this setting in
   """grpc.Network.landing""": """landing""",
   """grpc.Network.domain""": """domain""",
   """grpc.Network.dhcpv4_start""": """dhcpv4_start""",
+  """grpc.Network.dns_disabled""": """DNS disabled""",
+  """grpc.Network.get_lease_dhcp""": """Obtain DHCP lease""",
+  """grpc.Network.default_route_disabled""": """Default route disabled""",
+  """grpc.Network.geofence_action""": """Geofence action""",
   """grpc.BasicServiceSet.bssid""": """bssid""",
   """grpc.BasicServiceSet.bssid__hint""":
       """Starlink BSSID originally starts with **74:24:9f**, but due to security concerns, 
@@ -3233,6 +3372,9 @@ starting from approximately January 2023, Starlink routers are able to pick rand
   """grpc.WifiConfig.channel_5ghz""": """channel_5ghz""",
   """grpc.WifiConfig.is_repeater""": """is_repeater""",
   """grpc.WifiConfig.boot_count""": """Boot count""",
+  """grpc.WifiConfig.bridged_network_group_override""":
+      """Bridged network group override""",
+  """grpc.WifiConfig.lan_port""": """LAN port""",
   """grpc.WifiConfig.string""": """string""",
   """grpc.WifiConfig.bypass_mode""": """bypass_mode""",
   """grpc.WifiConfig.apply_dynamic_keys""": """apply_dynamic_keys""",

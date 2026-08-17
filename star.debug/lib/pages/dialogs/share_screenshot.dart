@@ -110,7 +110,14 @@ class _ShareScreenshotState<TItem> extends State<ShareScreenshot<TItem>>
 
     List<Widget> rows = [];
     var theme = Theme.of(context);
-    buildEventLogs(context, theme, widget.snap.dishGetHistory, rows, 20);
+    buildEventLogs(
+      context,
+      theme,
+      widget.snap.dishGetHistory,
+      rows,
+      20,
+      viewOptions: viewOptions,
+    );
 
     return IntrinsicWidth(
       child: Column(

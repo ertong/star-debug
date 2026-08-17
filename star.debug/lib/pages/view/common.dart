@@ -78,8 +78,60 @@ String formatEventReason(EventReason reason){
   return res;
 }
 
+List<String> formatEventMetadata(UXEvent event, {bool hideIds = false}) {
+  var metadata = <String>[];
+
+  // if (!hideIds && event.hasDeviceId() && event.deviceId.isNotEmpty)
+  //   metadata.add("${M.live.event_device_id}: ${event.deviceId}");
+
+  switch (event.whichMetadata()) {
+    case UXEvent_Metadata.clientReconnectingOftenMetadata:
+      break;
+    case UXEvent_Metadata.clientSwitchingBandMetadata:
+      var value = event.clientSwitchingBandMetadata;
+      var bands = <String>[
+        if (value.hasFromBand() && value.fromBand.isNotEmpty) value.fromBand,
+        if (value.hasToBand() && value.toBand.isNotEmpty) value.toBand,
+      ];
+      if (bands.isNotEmpty)
+        metadata.add("${M.live.event_band}: ${bands.join(' → ')}");
+      break;
+    case UXEvent_Metadata.clientSwitchingUpstreamMacMetadata:
+      break;
+    case UXEvent_Metadata.meshConnectionChangingMetadata:
+      var value = event.meshConnectionChangingMetadata;
+      if (!hideIds && value.hasRepeaterId() && value.repeaterId.isNotEmpty)
+        metadata.add("${M.live.event_repeater_id}: ${value.repeaterId}");
+      if (value.hasChange())
+        metadata.add("${M.live.event_change}: ${value.change}");
+      break;
+    case UXEvent_Metadata.meshBackhaulLowPhyMetadata:
+      var ids = event.meshBackhaulLowPhyMetadata.repeaterIds;
+      if (!hideIds && ids.isNotEmpty)
+        metadata.add("${M.live.event_repeater_ids}: ${ids.join(', ')}");
+      break;
+    case UXEvent_Metadata.highOverlappingBssMetadata:
+      for (var value in event.highOverlappingBssMetadata.highOverlappingBssStats) {
+        var details = <String>[
+          if (value.hasIface() && value.iface.isNotEmpty) value.iface,
+          if (value.hasAverageOverlappingBssPercentage())
+            "${value.averageOverlappingBssPercentage} %",
+        ];
+        if (details.isNotEmpty)
+          metadata.add("${M.live.event_overlapping_bss}: ${details.join(' · ')}");
+      }
+      break;
+    case UXEvent_Metadata.clientExcessiveNetworkConnectionsMetadata:
+      break;
+    case UXEvent_Metadata.notSet:
+      break;
+  }
+
+  return metadata;
+}
+
 void buildEventLogs(BuildContext context, ThemeData theme, DishGetHistoryResponse? getHistory, List<Widget> rows,
-    int num_rows, {bool? expanded, void Function(bool)? setExpanded}
+    int num_rows, {bool? expanded, void Function(bool)? setExpanded, ViewOptions? viewOptions}
 ) {
   var eventLog = getHistory?.eventLog;
 
@@ -106,6 +158,7 @@ void buildEventLogs(BuildContext context, ThemeData theme, DishGetHistoryRespons
     ));
 
   for (var o in eventLog.events.length<=num_rows || expanded==true ? eventLog.events : eventLog.events.skip(eventLog.events.length-num_rows) ) {
+    var metadata = formatEventMetadata(o, hideIds: viewOptions?.hideIds ?? false);
     Widget? icon;
     // if (o.severity==EventSeverity.EVENT_SEVERITY_UNKNOWN);
     if (o.severity==EventSeverity.EVENT_SEVERITY_WARNING)
@@ -116,7 +169,7 @@ void buildEventLogs(BuildContext context, ThemeData theme, DishGetHistoryRespons
       icon = Icon(Icons.info, size: 16, color: Colors.blueAccent,);
 
     if (o.startTimestampNs==-1) {
-      b.kvs("${formatEventReason(o.reason)}", "",
+      b.kvs("${formatEventReason(o.reason)}", metadata.join("\n"),
         kw: Row(
           spacing: 3,
           children: [
@@ -131,7 +184,11 @@ void buildEventLogs(BuildContext context, ThemeData theme, DishGetHistoryRespons
     int ts_int = (o.startTimestampNs~/1000~/1000).toInt();
 
     var ts = Instant.fromEpochMilliseconds(ts_int).inLocalZone();
-    b.kvs("${ts.toString("HH:mm:ss")} ", "${Format.secD(o.durationNs.toDouble()/1000/1000/1000)}",
+    var details = <String>[
+      Format.secD(o.durationNs.toDouble()/1000/1000/1000),
+      ...metadata,
+    ];
+    b.kvs("${ts.toString("HH:mm:ss")} ", details.join("\n"),
         kw: Row(
           spacing: 3,
           children: [

@@ -638,6 +638,36 @@ class LiveMessagesUk extends LiveMessages {
   /// "... $n записів попереду ..."
   /// ```
   String n_records_before(n) => """... $n записів попереду ...""";
+
+  /// ```dart
+  /// "ID пристрою"
+  /// ```
+  String get event_device_id => """ID пристрою""";
+
+  /// ```dart
+  /// "Діапазон"
+  /// ```
+  String get event_band => """Діапазон""";
+
+  /// ```dart
+  /// "ID ретранслятора"
+  /// ```
+  String get event_repeater_id => """ID ретранслятора""";
+
+  /// ```dart
+  /// "ID ретрансляторів"
+  /// ```
+  String get event_repeater_ids => """ID ретрансляторів""";
+
+  /// ```dart
+  /// "Зміна"
+  /// ```
+  String get event_change => """Зміна""";
+
+  /// ```dart
+  /// "Мережі, що перекриваються"
+  /// ```
+  String get event_overlapping_bss => """Мережі, що перекриваються""";
 }
 
 class HeaderMessagesUk extends HeaderMessages {
@@ -723,6 +753,16 @@ class HeaderMessagesUk extends HeaderMessages {
   /// "Операції"
   /// ```
   String get actions => """Операції""";
+
+  /// ```dart
+  /// "Живлення"
+  /// ```
+  String get power => """Живлення""";
+
+  /// ```dart
+  /// "Сервіс"
+  /// ```
+  String get service => """Сервіс""";
 }
 
 class TabsMessagesUk extends TabsMessages {
@@ -926,6 +966,8 @@ class GrpcMessagesUk extends GrpcMessages {
   DishOutageGrpcMessagesUk get DishOutage => DishOutageGrpcMessagesUk(this);
   DishGpsStatsGrpcMessagesUk get DishGpsStats =>
       DishGpsStatsGrpcMessagesUk(this);
+  DishBatteryStatsGrpcMessagesUk get DishBatteryStats =>
+      DishBatteryStatsGrpcMessagesUk(this);
   DishReadyStatesGrpcMessagesUk get DishReadyStates =>
       DishReadyStatesGrpcMessagesUk(this);
   DishInitDurationGrpcMessagesUk get DishInitDuration =>
@@ -1193,6 +1235,31 @@ class DishGpsStatsGrpcMessagesUk extends DishGpsStatsGrpcMessages {
   /// ```
   String get inhibit_gps__hint =>
       """Чи ігнорується внутрішній GPS тарілки на користь альтернативного джерела місцезнаходження.""";
+
+  /// ```dart
+  /// "Стан фільтра позиціонування"
+  /// ```
+  String get pnt_filter_convergence_state => """Стан фільтра позиціонування""";
+}
+
+class DishBatteryStatsGrpcMessagesUk extends DishBatteryStatsGrpcMessages {
+  final GrpcMessagesUk _parent;
+  const DishBatteryStatsGrpcMessagesUk(this._parent) : super(_parent);
+
+  /// ```dart
+  /// "Заряд батареї"
+  /// ```
+  String get state_of_charge => """Заряд батареї""";
+
+  /// ```dart
+  /// "Заряджання"
+  /// ```
+  String get is_charging => """Заряджання""";
+
+  /// ```dart
+  /// "Джерело живлення"
+  /// ```
+  String get power_source => """Джерело живлення""";
 }
 
 class DishReadyStatesGrpcMessagesUk extends DishReadyStatesGrpcMessages {
@@ -1612,6 +1679,26 @@ class DishGetStatusGrpcMessagesUk extends DishGetStatusGrpcMessages {
   /// "Обмеження швидкості (upload)"
   /// ```
   String get ulBandwidthRestrictedReason => """Обмеження швидкості (upload)""";
+
+  /// ```dart
+  /// "Сегмент облікового запису"
+  /// ```
+  String get account_shard => """Сегмент облікового запису""";
+
+  /// ```dart
+  /// "NAT"
+  /// ```
+  String get nat_flag => """NAT""";
+
+  /// ```dart
+  /// "Режим налагодження користувача"
+  /// ```
+  String get user_debug_mode_enabled => """Режим налагодження користувача""";
+
+  /// ```dart
+  /// "Тарифіковане з'єднання"
+  /// ```
+  String get treat_as_metered => """Тарифіковане з'єднання""";
 
   /// ```dart
   /// "Downlink Throughput"
@@ -2075,6 +2162,26 @@ class NetworkGrpcMessagesUk extends NetworkGrpcMessages {
   /// "dhcpv4_start"
   /// ```
   String get dhcpv4_start => """dhcpv4_start""";
+
+  /// ```dart
+  /// "DNS вимкнено"
+  /// ```
+  String get dns_disabled => """DNS вимкнено""";
+
+  /// ```dart
+  /// "Отримувати оренду DHCP"
+  /// ```
+  String get get_lease_dhcp => """Отримувати оренду DHCP""";
+
+  /// ```dart
+  /// "Маршрут за замовчуванням вимкнено"
+  /// ```
+  String get default_route_disabled => """Маршрут за замовчуванням вимкнено""";
+
+  /// ```dart
+  /// "Дія геозони"
+  /// ```
+  String get geofence_action => """Дія геозони""";
 }
 
 class BasicServiceSetGrpcMessagesUk extends BasicServiceSetGrpcMessages {
@@ -2166,6 +2273,17 @@ class WifiConfigGrpcMessagesUk extends WifiConfigGrpcMessages {
   /// "Кількість завантаженнь"
   /// ```
   String get boot_count => """Кількість завантаженнь""";
+
+  /// ```dart
+  /// "Перевизначена група мостової мережі"
+  /// ```
+  String get bridged_network_group_override =>
+      """Перевизначена група мостової мережі""";
+
+  /// ```dart
+  /// "LAN-порт"
+  /// ```
+  String get lan_port => """LAN-порт""";
 
   /// ```dart
   /// "string"
@@ -2810,6 +2928,12 @@ Map<String, String> get messagesUkMap => {
   """live.check_update""": """Перевірити оновлення""",
   """live.outages""": """Відключення""",
   """live.event_logs""": """Лог події""",
+  """live.event_device_id""": """ID пристрою""",
+  """live.event_band""": """Діапазон""",
+  """live.event_repeater_id""": """ID ретранслятора""",
+  """live.event_repeater_ids""": """ID ретрансляторів""",
+  """live.event_change""": """Зміна""",
+  """live.event_overlapping_bss""": """Мережі, що перекриваються""",
   """header.general""": """Загальне""",
   """header.signal""": """Сигнал""",
   """header.network""": """Мережа""",
@@ -2826,6 +2950,8 @@ Map<String, String> get messagesUkMap => {
   """header.features""": """Функції""",
   """header.connected_routers""": """Під'єднані роутери""",
   """header.actions""": """Операції""",
+  """header.power""": """Живлення""",
+  """header.service""": """Сервіс""",
   """tabs.app.unknown""": """Невідомо""",
   """tabs.app.app_version""": """Версія додатку""",
   """tabs.app.app_environment""": """Середовище додатку""",
@@ -2935,6 +3061,11 @@ Map<String, String> get messagesUkMap => {
   """grpc.DishGpsStats.inhibit_gps""": """Не довіряти GPS""",
   """grpc.DishGpsStats.inhibit_gps__hint""":
       """Чи ігнорується внутрішній GPS тарілки на користь альтернативного джерела місцезнаходження.""",
+  """grpc.DishGpsStats.pnt_filter_convergence_state""":
+      """Стан фільтра позиціонування""",
+  """grpc.DishBatteryStats.state_of_charge""": """Заряд батареї""",
+  """grpc.DishBatteryStats.is_charging""": """Заряджання""",
+  """grpc.DishBatteryStats.power_source""": """Джерело живлення""",
   """grpc.DishReadyStates.cady""": """Тактовий генератор""",
   """grpc.DishReadyStates.scp""": """Інтерфейс шини RFFE""",
   """grpc.DishReadyStates.l1l2""": """Модем L1L2""",
@@ -3051,6 +3182,11 @@ Map<String, String> get messagesUkMap => {
       """Обмеження швидкості (download)""",
   """grpc.DishGetStatus.ulBandwidthRestrictedReason""":
       """Обмеження швидкості (upload)""",
+  """grpc.DishGetStatus.account_shard""": """Сегмент облікового запису""",
+  """grpc.DishGetStatus.nat_flag""": """NAT""",
+  """grpc.DishGetStatus.user_debug_mode_enabled""":
+      """Режим налагодження користувача""",
+  """grpc.DishGetStatus.treat_as_metered""": """Тарифіковане з'єднання""",
   """grpc.DishGetStatus.downlink_throughput_bps""": """Downlink Throughput""",
   """grpc.DishGetStatus.uplink_throughput_bps""": """Uplink Throughput""",
   """grpc.DishGetStatus.pop_ping_drop_rate""": """PoP ping drop rate""",
@@ -3208,6 +3344,11 @@ Map<String, String> get messagesUkMap => {
   """grpc.Network.landing""": """landing""",
   """grpc.Network.domain""": """domain""",
   """grpc.Network.dhcpv4_start""": """dhcpv4_start""",
+  """grpc.Network.dns_disabled""": """DNS вимкнено""",
+  """grpc.Network.get_lease_dhcp""": """Отримувати оренду DHCP""",
+  """grpc.Network.default_route_disabled""":
+      """Маршрут за замовчуванням вимкнено""",
+  """grpc.Network.geofence_action""": """Дія геозони""",
   """grpc.BasicServiceSet.bssid""": """bssid""",
   """grpc.BasicServiceSet.bssid__hint""":
       """Starlink BSSID спочатку починався з **74:24:9f**, але через проблеми з безпекою,
@@ -3226,6 +3367,9 @@ Map<String, String> get messagesUkMap => {
   """grpc.WifiConfig.channel_5ghz""": """channel_5ghz""",
   """grpc.WifiConfig.is_repeater""": """is_repeater""",
   """grpc.WifiConfig.boot_count""": """Кількість завантаженнь""",
+  """grpc.WifiConfig.bridged_network_group_override""":
+      """Перевизначена група мостової мережі""",
+  """grpc.WifiConfig.lan_port""": """LAN-порт""",
   """grpc.WifiConfig.string""": """string""",
   """grpc.WifiConfig.bypass_mode""": """bypass_mode""",
   """grpc.WifiConfig.apply_dynamic_keys""": """apply_dynamic_keys""",
