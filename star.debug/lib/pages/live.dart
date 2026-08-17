@@ -122,6 +122,7 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
         () {
           var online = R.online;
           if (online == null) return Colors.amber;
+          if (online.internetCheckOk == null) return Colors.amber;
 
           return online.isOk ? Colors.green : Colors.red;
         },

@@ -106,7 +106,9 @@ because each gRPC connection captures its host during construction.
 [`OnlineConnection`](../star.debug/lib/controller/conn/online_connection.dart) triggers its HTTP
 probes every three seconds. It checks several independent IPv4 and IPv6 destinations, obtains the
 public IP from multiple services, and compares that IP with Starlink's published geolocation feed.
-A result is considered current for about 5.5 seconds.
+Each endpoint allows only one request in flight. The UI retains its last completed result during a
+refresh, while bounded request timeouts and the next completed result keep failure reporting
+responsive. Probe errors are normalized to short reasons for display.
 
 On Android, each probe goes through [`StarChannel`](../star.debug/lib/channel/star_channel.dart) and
 the native `MainActivity`/`HttpTester` implementation. The native implementation uses OkHttp,
