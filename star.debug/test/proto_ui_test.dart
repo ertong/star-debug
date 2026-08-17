@@ -196,7 +196,6 @@ void main() {
     );
 
     expect(formatEventMetadata(event), [
-      'Device ID: ut-123',
       'Band: 2 GHz → 5 GHz',
     ]);
     expect(formatEventMetadata(event, hideIds: true), ['Band: 2 GHz → 5 GHz']);

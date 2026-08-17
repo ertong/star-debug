@@ -137,7 +137,7 @@ header:
   alerts: Alerts
   device_info: Device Info
   config: Config
-  gps_stats: GPS Stats
+  gnss_stats: GNSS Stats
   antenna: Antenna
   ready_states: Ready States
   init_duration: Initialization duration (sec)

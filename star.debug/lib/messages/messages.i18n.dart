@@ -704,9 +704,9 @@ class HeaderMessages {
   String get config => """Config""";
 
   /// ```dart
-  /// "GPS Stats"
+  /// "GNSS Stats"
   /// ```
-  String get gps_stats => """GPS Stats""";
+  String get gnss_stats => """GNSS Stats""";
 
   /// ```dart
   /// "Antenna"
@@ -2942,7 +2942,7 @@ Moreover, in the case of a moving router, its route can be followed.
   """header.alerts""": """Alerts""",
   """header.device_info""": """Device Info""",
   """header.config""": """Config""",
-  """header.gps_stats""": """GPS Stats""",
+  """header.gnss_stats""": """GNSS Stats""",
   """header.antenna""": """Antenna""",
   """header.ready_states""": """Ready States""",
   """header.init_duration""": """Initialization duration (sec)""",

@@ -133,7 +133,7 @@ header:
   alerts: Попередження
   device_info: Про пристрій
   config: Налаштування
-  gps_stats: GPS
+  gnss_stats: GNSS
   antenna: Антена
   ready_states: Готовність модулів
   init_duration: Час ініціалізації (сек)
