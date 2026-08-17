@@ -7680,7 +7680,7 @@ class WifiConfig extends $pb.GeneratedMessage {
     $core.int? wanHostDscpMark,
     $core.int? tag,
     $core.bool? debugPopPings,
-    $core.bool? clientTester,
+    @$core.Deprecated('This field is deprecated.') $core.bool? clientTester,
     $core.int? assetClass,
     $core.bool? debugPings,
     $core.bool? disableBandSteering,
@@ -7730,6 +7730,7 @@ class WifiConfig extends $pb.GeneratedMessage {
     $core.bool? applyWanTrafficControl,
     $core.bool? applyWanHostDscpMark,
     $core.bool? applyDebugPopPings,
+    @$core.Deprecated('This field is deprecated.')
     $core.bool? applyClientTester,
     $core.bool? disableWirelessMeshOnboarding,
     $core.bool? applyDisableWirelessMeshOnboarding,
@@ -8647,12 +8648,16 @@ class WifiConfig extends $pb.GeneratedMessage {
   @$pb.TagNumber(79)
   void clearDebugPopPings() => $_clearField(79);
 
+  @$core.Deprecated('This field is deprecated.')
   @$pb.TagNumber(80)
   $core.bool get clientTester => $_getBF(52);
+  @$core.Deprecated('This field is deprecated.')
   @$pb.TagNumber(80)
   set clientTester($core.bool value) => $_setBool(52, value);
+  @$core.Deprecated('This field is deprecated.')
   @$pb.TagNumber(80)
   $core.bool hasClientTester() => $_has(52);
+  @$core.Deprecated('This field is deprecated.')
   @$pb.TagNumber(80)
   void clearClientTester() => $_clearField(80);
 
@@ -9101,12 +9106,16 @@ class WifiConfig extends $pb.GeneratedMessage {
   @$pb.TagNumber(1095)
   void clearApplyDebugPopPings() => $_clearField(1095);
 
+  @$core.Deprecated('This field is deprecated.')
   @$pb.TagNumber(1096)
   $core.bool get applyClientTester => $_getBF(101);
+  @$core.Deprecated('This field is deprecated.')
   @$pb.TagNumber(1096)
   set applyClientTester($core.bool value) => $_setBool(101, value);
+  @$core.Deprecated('This field is deprecated.')
   @$pb.TagNumber(1096)
   $core.bool hasApplyClientTester() => $_has(101);
+  @$core.Deprecated('This field is deprecated.')
   @$pb.TagNumber(1096)
   void clearApplyClientTester() => $_clearField(1096);
 

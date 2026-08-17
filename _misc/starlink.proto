@@ -682,7 +682,7 @@ message WifiConfig {
   int32 wan_host_dscp_mark = 77;
   uint32 tag = 78;
   bool debug_pop_pings = 79;
-  bool client_tester = 80;
+  bool client_tester = 80 [deprecated = true];
   uint32 asset_class = 81;
   bool debug_pings = 94;
   bool disable_band_steering = 95;
@@ -731,7 +731,7 @@ message WifiConfig {
   bool apply_wan_traffic_control = 1092;
   bool apply_wan_host_dscp_mark = 1093;
   bool apply_debug_pop_pings = 1095;
-  bool apply_client_tester = 1096;
+  bool apply_client_tester = 1096 [deprecated = true];
   bool disable_wireless_mesh_onboarding = 1097;
   bool apply_disable_wireless_mesh_onboarding = 1098;
   bool apply_asset_class = 1099;
@@ -2081,6 +2081,12 @@ enum RebootReason {
   REBOOT_REASON_XP70_SACS = 15;
   REBOOT_REASON_INE_FAILED = 16;
   REBOOT_REASON_KERNEL_TAINTED = 17;
+  REBOOT_REASON_HARD_POWER_DOWN = 100;
+  REBOOT_REASON_ERROR_FILE_MISSING = 200;
+  REBOOT_REASON_ERROR_CRC_MISMATCH = 201;
+  REBOOT_REASON_ERROR_EDR_TIMEOUT = 202;
+  REBOOT_REASON_ERROR_UNSUPPORTED_VERSION = 203;
+  REBOOT_REASON_ERROR_BOOT_COUNT_MISMATCH = 204;
 }
 
 //SpaceX.API.Device.PLCStats is a message:

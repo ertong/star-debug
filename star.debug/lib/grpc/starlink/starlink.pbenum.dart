@@ -797,6 +797,20 @@ class RebootReason extends $pb.ProtobufEnum {
       RebootReason._(16, _omitEnumNames ? '' : 'REBOOT_REASON_INE_FAILED');
   static const RebootReason REBOOT_REASON_KERNEL_TAINTED =
       RebootReason._(17, _omitEnumNames ? '' : 'REBOOT_REASON_KERNEL_TAINTED');
+  static const RebootReason REBOOT_REASON_HARD_POWER_DOWN = RebootReason._(
+      100, _omitEnumNames ? '' : 'REBOOT_REASON_HARD_POWER_DOWN');
+  static const RebootReason REBOOT_REASON_ERROR_FILE_MISSING = RebootReason._(
+      200, _omitEnumNames ? '' : 'REBOOT_REASON_ERROR_FILE_MISSING');
+  static const RebootReason REBOOT_REASON_ERROR_CRC_MISMATCH = RebootReason._(
+      201, _omitEnumNames ? '' : 'REBOOT_REASON_ERROR_CRC_MISMATCH');
+  static const RebootReason REBOOT_REASON_ERROR_EDR_TIMEOUT = RebootReason._(
+      202, _omitEnumNames ? '' : 'REBOOT_REASON_ERROR_EDR_TIMEOUT');
+  static const RebootReason REBOOT_REASON_ERROR_UNSUPPORTED_VERSION =
+      RebootReason._(
+          203, _omitEnumNames ? '' : 'REBOOT_REASON_ERROR_UNSUPPORTED_VERSION');
+  static const RebootReason REBOOT_REASON_ERROR_BOOT_COUNT_MISMATCH =
+      RebootReason._(
+          204, _omitEnumNames ? '' : 'REBOOT_REASON_ERROR_BOOT_COUNT_MISMATCH');
 
   static const $core.List<RebootReason> values = <RebootReason>[
     REBOOT_REASON_NONE,
@@ -817,12 +831,17 @@ class RebootReason extends $pb.ProtobufEnum {
     REBOOT_REASON_XP70_SACS,
     REBOOT_REASON_INE_FAILED,
     REBOOT_REASON_KERNEL_TAINTED,
+    REBOOT_REASON_HARD_POWER_DOWN,
+    REBOOT_REASON_ERROR_FILE_MISSING,
+    REBOOT_REASON_ERROR_CRC_MISMATCH,
+    REBOOT_REASON_ERROR_EDR_TIMEOUT,
+    REBOOT_REASON_ERROR_UNSUPPORTED_VERSION,
+    REBOOT_REASON_ERROR_BOOT_COUNT_MISMATCH,
   ];
 
-  static final $core.List<RebootReason?> _byValue =
-      $pb.ProtobufEnum.$_initByValueList(values, 17);
-  static RebootReason? valueOf($core.int value) =>
-      value < 0 || value >= _byValue.length ? null : _byValue[value];
+  static final $core.Map<$core.int, RebootReason> _byValue =
+      $pb.ProtobufEnum.initByValue(values);
+  static RebootReason? valueOf($core.int value) => _byValue[value];
 
   const RebootReason._(super.value, super.name);
 }
