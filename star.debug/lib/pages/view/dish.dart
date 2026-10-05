@@ -71,7 +71,7 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
       options: ChannelOptions(
         credentials: ChannelCredentials.insecure(),
         codecRegistry: CodecRegistry(codecs: const [GzipCodec(), IdentityCodec()]),
-        connectionTimeout: Duration(seconds: 3),
+        connectTimeout: Duration(seconds: 3),
         idleTimeout: Duration(seconds: 10),
       ),
     );
