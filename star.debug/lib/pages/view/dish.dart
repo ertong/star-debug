@@ -385,6 +385,10 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
         var b = KVWidgetBuilder(context, theme);
         b.header(M.header.antenna);
 
+        if (status.hasSignalQuality() && status.signalQuality.isFinite)
+          b.kv(M.grpc.DishGetStatus.signal_quality, status.signalQuality,
+              hint: M.grpc.DishGetStatus.signal_quality__hint);
+
         if (status.hasBoresightAzimuthDeg())
           b.kv(M.grpc.DishGetStatus.boresight_azimuth_deg, status.boresightAzimuthDeg.toStringAsFixed(2),
               hint: M.grpc.DishGetStatus.boresight_azimuth_deg__hint);

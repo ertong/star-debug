@@ -368,6 +368,8 @@ grpc:
     patches_valid__hint: Чи містять патчі карти перешкод дійсні дані.
   DishGetStatus:
     uptime_s: Час після завантаження
+    signal_quality: Якість сигналу
+    signal_quality__hint: Якість сигналу, яку повідомляє тарілка.
     uptime_s__hint: Час роботи тарілки від останнього перезавантаження.
     seconds_to_first_nonempty_slot: Час до першого непорожнього слота
     seconds_to_first_nonempty_slot__hint: Час до наступного запланованого слота зв'язку
@@ -543,6 +545,9 @@ grpc:
 
       - **BLOCKED_AREA** - Тарілка знаходиться в обмеженій або заблокованій зоні.
 
+      - **OUTSIDE_HOME_REGION** - Обслуговування обмежено, оскільки тарілка перебуває
+      поза домашнім регіоном.
+
       '
     reboot_reason: Причина перезавантаження
     reboot_reason__hint: 'Можливі варіанти:
@@ -583,6 +588,10 @@ grpc:
       - **INE_FAILED** - Помилка початкового входу в мережу.
 
       - **KERNEL_TAINTED** - Ядро було забруднене (наприклад, помилка модуля).
+
+      - **MINI2_AUTO_OFF** - Застаріла причина автоматичного вимкнення.
+
+      - **BATTERY_AUTO_OFF** - Автоматичне вимкнення, пов''язане з роботою від акумулятора.
 
       '
   AlignmentStats:
@@ -700,6 +709,10 @@ grpc:
     success_bytes: success_bytes
   WifiClient:
     name: name
+    link(n): Лінія $n
+    link_address: MAC адреса лінії
+    using_mlo: Багатолінійний режим (MLO)
+    using_mlo__hint: Чи використовує цей клієнт багатолінійний режим Wi-Fi.
     mac_address: MAC адреса
     ip_address: IP адреса
     signal_strength: Рівень сигналу
@@ -708,7 +721,7 @@ grpc:
     associated_time_s: Associated time, s
     mode_str: mode_str
     iface: Інтерфейс
-    snr: Signal to noise
+    snr: Співвідношення сигнал/шум
     psmode: psmode
     channel_width: channel_width
     upstream_mac_address: upstream_mac_address
@@ -742,6 +755,7 @@ grpc:
     captive_portal_enabled: Captive portal enabled
     uptime_s: Час після завантаження
     ipv4_wan_address: WAN IPv4
+    public_ipv4: Публічна IPv4 адреса
     ping_drop_rate: Ping drop rate
     ping_latency_ms: Ping latency, ms
     is_aviation: Aviation

@@ -1608,6 +1608,17 @@ class DishGetStatusGrpcMessagesUk extends DishGetStatusGrpcMessages {
   String get uptime_s => """Час після завантаження""";
 
   /// ```dart
+  /// "Якість сигналу"
+  /// ```
+  String get signal_quality => """Якість сигналу""";
+
+  /// ```dart
+  /// "Якість сигналу, яку повідомляє тарілка."
+  /// ```
+  String get signal_quality__hint =>
+      """Якість сигналу, яку повідомляє тарілка.""";
+
+  /// ```dart
   /// "Час роботи тарілки від останнього перезавантаження."
   /// ```
   String get uptime_s__hint =>
@@ -1955,6 +1966,7 @@ class DishGetStatusGrpcMessagesUk extends DishGetStatusGrpcMessages {
   /// - **MOVING_TOO_FAST_FOR_POLICY** - Тарілка рухається швидше, ніж дозволено планом обслуговування.
   /// - **UNDER_AVIATION_FLYOVER_LIMITS** - Нижче авіаційних обмежень висоти прольоту.
   /// - **BLOCKED_AREA** - Тарілка знаходиться в обмеженій або заблокованій зоні.
+  /// - **OUTSIDE_HOME_REGION** - Обслуговування обмежено, оскільки тарілка перебуває поза домашнім регіоном.
   /// """
   /// ```
   String get disablement_code__hint => """Можливі варіанти:
@@ -1974,6 +1986,7 @@ class DishGetStatusGrpcMessagesUk extends DishGetStatusGrpcMessages {
 - **MOVING_TOO_FAST_FOR_POLICY** - Тарілка рухається швидше, ніж дозволено планом обслуговування.
 - **UNDER_AVIATION_FLYOVER_LIMITS** - Нижче авіаційних обмежень висоти прольоту.
 - **BLOCKED_AREA** - Тарілка знаходиться в обмеженій або заблокованій зоні.
+- **OUTSIDE_HOME_REGION** - Обслуговування обмежено, оскільки тарілка перебуває поза домашнім регіоном.
 """;
 
   /// ```dart
@@ -2003,6 +2016,8 @@ class DishGetStatusGrpcMessagesUk extends DishGetStatusGrpcMessages {
   /// - **XP70_SACS** - Збій підсистеми XP70 SACS.
   /// - **INE_FAILED** - Помилка початкового входу в мережу.
   /// - **KERNEL_TAINTED** - Ядро було забруднене (наприклад, помилка модуля).
+  /// - **MINI2_AUTO_OFF** - Застаріла причина автоматичного вимкнення.
+  /// - **BATTERY_AUTO_OFF** - Автоматичне вимкнення, пов'язане з роботою від акумулятора.
   /// """
   /// ```
   String get reboot_reason__hint => """Можливі варіанти:
@@ -2025,6 +2040,8 @@ class DishGetStatusGrpcMessagesUk extends DishGetStatusGrpcMessages {
 - **XP70_SACS** - Збій підсистеми XP70 SACS.
 - **INE_FAILED** - Помилка початкового входу в мережу.
 - **KERNEL_TAINTED** - Ядро було забруднене (наприклад, помилка модуля).
+- **MINI2_AUTO_OFF** - Застаріла причина автоматичного вимкнення.
+- **BATTERY_AUTO_OFF** - Автоматичне вимкнення, пов'язане з роботою від акумулятора.
 """;
 }
 
@@ -2544,6 +2561,27 @@ class WifiClientGrpcMessagesUk extends WifiClientGrpcMessages {
   String get name => """name""";
 
   /// ```dart
+  /// "Лінія $n"
+  /// ```
+  String link(n) => """Лінія $n""";
+
+  /// ```dart
+  /// "MAC адреса лінії"
+  /// ```
+  String get link_address => """MAC адреса лінії""";
+
+  /// ```dart
+  /// "Багатолінійний режим (MLO)"
+  /// ```
+  String get using_mlo => """Багатолінійний режим (MLO)""";
+
+  /// ```dart
+  /// "Чи використовує цей клієнт багатолінійний режим Wi-Fi."
+  /// ```
+  String get using_mlo__hint =>
+      """Чи використовує цей клієнт багатолінійний режим Wi-Fi.""";
+
+  /// ```dart
   /// "MAC адреса"
   /// ```
   String get mac_address => """MAC адреса""";
@@ -2584,9 +2622,9 @@ class WifiClientGrpcMessagesUk extends WifiClientGrpcMessages {
   String get iface => """Інтерфейс""";
 
   /// ```dart
-  /// "Signal to noise"
+  /// "Співвідношення сигнал/шум"
   /// ```
-  String get snr => """Signal to noise""";
+  String get snr => """Співвідношення сигнал/шум""";
 
   /// ```dart
   /// "psmode"
@@ -2755,6 +2793,11 @@ class WifiGetStatusGrpcMessagesUk extends WifiGetStatusGrpcMessages {
   /// "WAN IPv4"
   /// ```
   String get ipv4_wan_address => """WAN IPv4""";
+
+  /// ```dart
+  /// "Публічна IPv4 адреса"
+  /// ```
+  String get public_ipv4 => """Публічна IPv4 адреса""";
 
   /// ```dart
   /// "Ping drop rate"
@@ -3144,6 +3187,9 @@ Map<String, String> get messagesUkMap => {
   """grpc.DishObstructionStats.patches_valid__hint""":
       """Чи містять патчі карти перешкод дійсні дані.""",
   """grpc.DishGetStatus.uptime_s""": """Час після завантаження""",
+  """grpc.DishGetStatus.signal_quality""": """Якість сигналу""",
+  """grpc.DishGetStatus.signal_quality__hint""":
+      """Якість сигналу, яку повідомляє тарілка.""",
   """grpc.DishGetStatus.uptime_s__hint""":
       """Час роботи тарілки від останнього перезавантаження.""",
   """grpc.DishGetStatus.seconds_to_first_nonempty_slot""":
@@ -3263,6 +3309,7 @@ Map<String, String> get messagesUkMap => {
 - **MOVING_TOO_FAST_FOR_POLICY** - Тарілка рухається швидше, ніж дозволено планом обслуговування.
 - **UNDER_AVIATION_FLYOVER_LIMITS** - Нижче авіаційних обмежень висоти прольоту.
 - **BLOCKED_AREA** - Тарілка знаходиться в обмеженій або заблокованій зоні.
+- **OUTSIDE_HOME_REGION** - Обслуговування обмежено, оскільки тарілка перебуває поза домашнім регіоном.
 """,
   """grpc.DishGetStatus.reboot_reason""": """Причина перезавантаження""",
   """grpc.DishGetStatus.reboot_reason__hint""": """Можливі варіанти:
@@ -3285,6 +3332,8 @@ Map<String, String> get messagesUkMap => {
 - **XP70_SACS** - Збій підсистеми XP70 SACS.
 - **INE_FAILED** - Помилка початкового входу в мережу.
 - **KERNEL_TAINTED** - Ядро було забруднене (наприклад, помилка модуля).
+- **MINI2_AUTO_OFF** - Застаріла причина автоматичного вимкнення.
+- **BATTERY_AUTO_OFF** - Автоматичне вимкнення, пов'язане з роботою від акумулятора.
 """,
   """grpc.AlignmentStats.has_actuators""": """has_actuators""",
   """grpc.AlignmentStats.actuator_state""": """actuator_state""",
@@ -3396,6 +3445,10 @@ Map<String, String> get messagesUkMap => {
   """grpc.RxTxStats.phy_mode""": """phy_mode""",
   """grpc.RxTxStats.success_bytes""": """success_bytes""",
   """grpc.WifiClient.name""": """name""",
+  """grpc.WifiClient.link_address""": """MAC адреса лінії""",
+  """grpc.WifiClient.using_mlo""": """Багатолінійний режим (MLO)""",
+  """grpc.WifiClient.using_mlo__hint""":
+      """Чи використовує цей клієнт багатолінійний режим Wi-Fi.""",
   """grpc.WifiClient.mac_address""": """MAC адреса""",
   """grpc.WifiClient.ip_address""": """IP адреса""",
   """grpc.WifiClient.signal_strength""": """Рівень сигналу""",
@@ -3404,7 +3457,7 @@ Map<String, String> get messagesUkMap => {
   """grpc.WifiClient.associated_time_s""": """Associated time, s""",
   """grpc.WifiClient.mode_str""": """mode_str""",
   """grpc.WifiClient.iface""": """Інтерфейс""",
-  """grpc.WifiClient.snr""": """Signal to noise""",
+  """grpc.WifiClient.snr""": """Співвідношення сигнал/шум""",
   """grpc.WifiClient.psmode""": """psmode""",
   """grpc.WifiClient.channel_width""": """channel_width""",
   """grpc.WifiClient.upstream_mac_address""": """upstream_mac_address""",
@@ -3441,6 +3494,7 @@ Map<String, String> get messagesUkMap => {
   """grpc.WifiGetStatus.captive_portal_enabled""": """Captive portal enabled""",
   """grpc.WifiGetStatus.uptime_s""": """Час після завантаження""",
   """grpc.WifiGetStatus.ipv4_wan_address""": """WAN IPv4""",
+  """grpc.WifiGetStatus.public_ipv4""": """Публічна IPv4 адреса""",
   """grpc.WifiGetStatus.ping_drop_rate""": """Ping drop rate""",
   """grpc.WifiGetStatus.ping_latency_ms""": """Ping latency, ms""",
   """grpc.WifiGetStatus.is_aviation""": """Aviation""",

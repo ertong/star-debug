@@ -1606,6 +1606,16 @@ class DishGetStatusGrpcMessages {
   String get uptime_s => """Uptime""";
 
   /// ```dart
+  /// "Signal quality"
+  /// ```
+  String get signal_quality => """Signal quality""";
+
+  /// ```dart
+  /// "Signal quality reported by the dish."
+  /// ```
+  String get signal_quality__hint => """Signal quality reported by the dish.""";
+
+  /// ```dart
   /// "Time the dish has been running since the last reboot."
   /// ```
   String get uptime_s__hint =>
@@ -1955,6 +1965,7 @@ class DishGetStatusGrpcMessages {
   /// - **MOVING_TOO_FAST_FOR_POLICY** - The dish is moving faster than allowed by the service plan.
   /// - **UNDER_AVIATION_FLYOVER_LIMITS** - Under aviation flyover altitude limits.
   /// - **BLOCKED_AREA** - The dish is in a restricted or blocked area.
+  /// - **OUTSIDE_HOME_REGION** - Service is restricted because the dish is outside its home region.
   /// """
   /// ```
   String get disablement_code__hint => """The possible options are:
@@ -1974,6 +1985,7 @@ class DishGetStatusGrpcMessages {
 - **MOVING_TOO_FAST_FOR_POLICY** - The dish is moving faster than allowed by the service plan.
 - **UNDER_AVIATION_FLYOVER_LIMITS** - Under aviation flyover altitude limits.
 - **BLOCKED_AREA** - The dish is in a restricted or blocked area.
+- **OUTSIDE_HOME_REGION** - Service is restricted because the dish is outside its home region.
 """;
 
   /// ```dart
@@ -2003,6 +2015,8 @@ class DishGetStatusGrpcMessages {
   /// - **XP70_SACS** - XP70 SACS subsystem failure.
   /// - **INE_FAILED** - Initial network entry failed.
   /// - **KERNEL_TAINTED** - The kernel was tainted (e.g. by a module error).
+  /// - **MINI2_AUTO_OFF** - Legacy automatic power-off reason (deprecated).
+  /// - **BATTERY_AUTO_OFF** - Automatic power-off related to battery operation.
   /// """
   /// ```
   String get reboot_reason__hint => """The possible options are:
@@ -2025,6 +2039,8 @@ class DishGetStatusGrpcMessages {
 - **XP70_SACS** - XP70 SACS subsystem failure.
 - **INE_FAILED** - Initial network entry failed.
 - **KERNEL_TAINTED** - The kernel was tainted (e.g. by a module error).
+- **MINI2_AUTO_OFF** - Legacy automatic power-off reason (deprecated).
+- **BATTERY_AUTO_OFF** - Automatic power-off related to battery operation.
 """;
 }
 
@@ -2544,6 +2560,27 @@ class WifiClientGrpcMessages {
   String get name => """name""";
 
   /// ```dart
+  /// "Link $n"
+  /// ```
+  String link(n) => """Link $n""";
+
+  /// ```dart
+  /// "Link MAC address"
+  /// ```
+  String get link_address => """Link MAC address""";
+
+  /// ```dart
+  /// "Multi-link operation (MLO)"
+  /// ```
+  String get using_mlo => """Multi-link operation (MLO)""";
+
+  /// ```dart
+  /// "Whether this client is using Wi-Fi multi-link operation."
+  /// ```
+  String get using_mlo__hint =>
+      """Whether this client is using Wi-Fi multi-link operation.""";
+
+  /// ```dart
   /// "MAC address"
   /// ```
   String get mac_address => """MAC address""";
@@ -2755,6 +2792,11 @@ class WifiGetStatusGrpcMessages {
   /// "WAN IPv4"
   /// ```
   String get ipv4_wan_address => """WAN IPv4""";
+
+  /// ```dart
+  /// "Public IPv4"
+  /// ```
+  String get public_ipv4 => """Public IPv4""";
 
   /// ```dart
   /// "Ping drop rate"
@@ -3145,6 +3187,9 @@ with internet access and dish access. You can find this setting in
   """grpc.DishObstructionStats.patches_valid__hint""":
       """Whether the obstruction map patches contain valid data.""",
   """grpc.DishGetStatus.uptime_s""": """Uptime""",
+  """grpc.DishGetStatus.signal_quality""": """Signal quality""",
+  """grpc.DishGetStatus.signal_quality__hint""":
+      """Signal quality reported by the dish.""",
   """grpc.DishGetStatus.uptime_s__hint""":
       """Time the dish has been running since the last reboot.""",
   """grpc.DishGetStatus.seconds_to_first_nonempty_slot""":
@@ -3264,6 +3309,7 @@ with internet access and dish access. You can find this setting in
 - **MOVING_TOO_FAST_FOR_POLICY** - The dish is moving faster than allowed by the service plan.
 - **UNDER_AVIATION_FLYOVER_LIMITS** - Under aviation flyover altitude limits.
 - **BLOCKED_AREA** - The dish is in a restricted or blocked area.
+- **OUTSIDE_HOME_REGION** - Service is restricted because the dish is outside its home region.
 """,
   """grpc.DishGetStatus.reboot_reason""": """Reboot reason""",
   """grpc.DishGetStatus.reboot_reason__hint""": """The possible options are:
@@ -3286,6 +3332,8 @@ with internet access and dish access. You can find this setting in
 - **XP70_SACS** - XP70 SACS subsystem failure.
 - **INE_FAILED** - Initial network entry failed.
 - **KERNEL_TAINTED** - The kernel was tainted (e.g. by a module error).
+- **MINI2_AUTO_OFF** - Legacy automatic power-off reason (deprecated).
+- **BATTERY_AUTO_OFF** - Automatic power-off related to battery operation.
 """,
   """grpc.AlignmentStats.has_actuators""": """has_actuators""",
   """grpc.AlignmentStats.actuator_state""": """actuator_state""",
@@ -3396,6 +3444,10 @@ starting from approximately January 2023, Starlink routers are able to pick rand
   """grpc.RxTxStats.phy_mode""": """phy_mode""",
   """grpc.RxTxStats.success_bytes""": """success_bytes""",
   """grpc.WifiClient.name""": """name""",
+  """grpc.WifiClient.link_address""": """Link MAC address""",
+  """grpc.WifiClient.using_mlo""": """Multi-link operation (MLO)""",
+  """grpc.WifiClient.using_mlo__hint""":
+      """Whether this client is using Wi-Fi multi-link operation.""",
   """grpc.WifiClient.mac_address""": """MAC address""",
   """grpc.WifiClient.ip_address""": """IP address""",
   """grpc.WifiClient.signal_strength""": """Signal strength""",
@@ -3441,6 +3493,7 @@ starting from approximately January 2023, Starlink routers are able to pick rand
   """grpc.WifiGetStatus.captive_portal_enabled""": """Captive portal enabled""",
   """grpc.WifiGetStatus.uptime_s""": """Uptime""",
   """grpc.WifiGetStatus.ipv4_wan_address""": """WAN IPv4""",
+  """grpc.WifiGetStatus.public_ipv4""": """Public IPv4""",
   """grpc.WifiGetStatus.ping_drop_rate""": """Ping drop rate""",
   """grpc.WifiGetStatus.ping_latency_ms""": """Ping latency, ms""",
   """grpc.WifiGetStatus.is_aviation""": """Aviation""",
