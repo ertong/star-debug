@@ -3,6 +3,7 @@ import 'package:star_debug/drawer.dart';
 import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/routes.dart';
+import 'package:star_debug/widgets/app_drawer_pop_scope.dart';
 
 import 'dialogs/select_lang.dart';
 import 'settings_subnet.dart';
@@ -28,8 +29,8 @@ class _SettingsPageState extends State<SettingsPage>
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => AppDrawer.willPopFunc(scaffoldKey),
+    return AppDrawerPopScope(
+      scaffoldKey: scaffoldKey,
       child: Scaffold(
         key: scaffoldKey,
         appBar: _buildBar(context) as PreferredSizeWidget?,

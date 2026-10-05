@@ -13,10 +13,11 @@ import 'package:star_debug/space/entity.dart';
 import 'package:star_debug/utils/api_helper.dart';
 import 'package:star_debug/utils/snapshot.dart';
 import 'package:star_debug/utils/view_options.dart';
+import 'package:star_debug/widgets/app_drawer_pop_scope.dart';
 
 import '../utils/kv_widget.dart';
 
-const String _TAG="MainPage";
+const String _TAG = "MainPage";
 
 class SnapshotPage extends StatefulWidget {
   final Snapshot snap;
@@ -39,12 +40,20 @@ class _Page {
   Widget Function() builder;
   bool Function()? visible;
 
-  _Page(this.id, this.label, this.builder, {this.icon, this.iconWidget, this.entity, this.alertsCount=0});
+  _Page(
+    this.id,
+    this.label,
+    this.builder, {
+    this.icon,
+    this.iconWidget,
+    this.entity,
+    this.alertsCount = 0,
+  });
 }
 
-class _SnapshotPageState extends State<SnapshotPage> with TickerProviderStateMixin {
-
-  int _selectedIndex=0;
+class _SnapshotPageState extends State<SnapshotPage>
+    with TickerProviderStateMixin {
+  int _selectedIndex = 0;
   List<_Page> pages = [];
 
   Image? obstructions;
@@ -56,7 +65,6 @@ class _SnapshotPageState extends State<SnapshotPage> with TickerProviderStateMix
     super.initState();
     newData(widget.snap);
   }
-
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
   ThemeData theme = ThemeData.fallback();
@@ -71,16 +79,15 @@ class _SnapshotPageState extends State<SnapshotPage> with TickerProviderStateMix
         if (p.visible?.call() ?? true)
           BottomNavigationBarItem(
             label: p.label,
-            icon: p.alertsCount==0
+            icon: p.alertsCount == 0
                 ? p.iconWidget ?? Icon(p.icon)
                 : Badge(
-                  label: Text("${p.alertsCount}"),
-                  child: p.iconWidget ?? Icon(p.icon),
-                ),
+                    label: Text("${p.alertsCount}"),
+                    child: p.iconWidget ?? Icon(p.icon),
+                  ),
           ),
     ];
-    if (_selectedIndex>=items.length)
-      _selectedIndex = 0;
+    if (_selectedIndex >= items.length) _selectedIndex = 0;
 
     if (items.isNotEmpty)
       bar = BottomNavigationBar(
@@ -89,32 +96,31 @@ class _SnapshotPageState extends State<SnapshotPage> with TickerProviderStateMix
             if (p.visible?.call() ?? true)
               BottomNavigationBarItem(
                 label: p.label,
-                icon: p.alertsCount==0
+                icon: p.alertsCount == 0
                     ? (p.iconWidget ?? Icon(p.icon))
                     : Badge(
-                      label: Text("${p.alertsCount}"),
-                      child: p.iconWidget ?? Icon(p.icon),
-                    ),
+                        label: Text("${p.alertsCount}"),
+                        child: p.iconWidget ?? Icon(p.icon),
+                      ),
               ),
         ],
         currentIndex: _selectedIndex,
         // selectedItemColor: Colors.amber[800],
         onTap: (idx) {
           _selectedIndex = idx;
-          if (scrollController.hasClients)
-            scrollController.jumpTo(0);
+          if (scrollController.hasClients) scrollController.jumpTo(0);
           setState(() {});
         },
       );
 
-    return WillPopScope(
-      onWillPop: () async => AppDrawer.willPopFunc(scaffoldKey),
+    return AppDrawerPopScope(
+      scaffoldKey: scaffoldKey,
       child: Scaffold(
-          key: scaffoldKey,
-          appBar: _buildBar(context) as PreferredSizeWidget?,
-          drawer: AppDrawer(selectedRoute: Routes.MAIN),
-          bottomNavigationBar: bar,
-          body: _buildSpace()
+        key: scaffoldKey,
+        appBar: _buildBar(context) as PreferredSizeWidget?,
+        drawer: AppDrawer(selectedRoute: Routes.MAIN),
+        bottomNavigationBar: bar,
+        body: _buildSpace(),
       ),
     );
   }
@@ -132,45 +138,73 @@ class _SnapshotPageState extends State<SnapshotPage> with TickerProviderStateMix
     obstructions = null;
     _selectedIndex = 0;
 
-    if (snap.dishGetStatus!=null){
-
+    if (snap.dishGetStatus != null) {
       List<Widget> charts = [];
 
       var history = snap.dishGetHistory;
       var historyTs = snap.historyTs;
-      if (history!=null && historyTs!=null) {
-        charts.add(buildGraph(M.grpc.DishGetStatus.pop_ping_latency_ms, "ms", history.current.toInt(), historyTs, history.popPingLatencyMs));
-        charts.add(buildGraph(M.grpc.DishGetStatus.pop_ping_drop_rate, "", history.current.toInt(), historyTs, history.popPingDropRate));
-        charts.add(buildGraph("Uplink", "Mb/s", history.current.toInt(), historyTs, [for (var v in history.uplinkThroughputBps) v / 1024 / 1024]));
-        charts.add(buildGraph("Downlink", "Mb/s", history.current.toInt(), historyTs, [for (var v in history.downlinkThroughputBps) v / 1024 / 1024]));
-        charts.add(buildGraph("PowerIn", "W", history.current.toInt(), historyTs, [for (var v in history.powerIn) v]));
+      if (history != null && historyTs != null) {
+        charts.add(
+          buildGraph(
+            M.grpc.DishGetStatus.pop_ping_latency_ms,
+            "ms",
+            history.current.toInt(),
+            historyTs,
+            history.popPingLatencyMs,
+          ),
+        );
+        charts.add(
+          buildGraph(
+            M.grpc.DishGetStatus.pop_ping_drop_rate,
+            "",
+            history.current.toInt(),
+            historyTs,
+            history.popPingDropRate,
+          ),
+        );
+        charts.add(
+          buildGraph("Uplink", "Mb/s", history.current.toInt(), historyTs, [
+            for (var v in history.uplinkThroughputBps) v / 1024 / 1024,
+          ]),
+        );
+        charts.add(
+          buildGraph("Downlink", "Mb/s", history.current.toInt(), historyTs, [
+            for (var v in history.downlinkThroughputBps) v / 1024 / 1024,
+          ]),
+        );
+        charts.add(
+          buildGraph("PowerIn", "W", history.current.toInt(), historyTs, [
+            for (var v in history.powerIn) v,
+          ]),
+        );
       }
 
-      pages.add(_Page("dishy", M.general.dish,
+      pages.add(
+        _Page(
+          "dishy",
+          M.general.dish,
           () {
             List<Widget> rows = [];
-            if (snap.dishTs!=null) {
+            if (snap.dishTs != null) {
               var b = KVWidgetBuilder(context, theme);
-              b.kv(M.general.dump_created_time, DateTime.fromMillisecondsSinceEpoch(snap.dishTs!));
+              b.kv(
+                M.general.dump_created_time,
+                DateTime.fromMillisecondsSinceEpoch(snap.dishTs!),
+              );
               rows.addAll(b.widgets);
             }
-            rows.add(DishWidget(
-              snap: snap,
-              viewOptions: ViewOptions(),
-            ));
+            rows.add(DishWidget(snap: snap, viewOptions: ViewOptions()));
 
             rows.addAll(charts);
 
-            if (this.obstructions!=null) {
-              rows.add(SizedBox(
-                  width: 200,
-                  child: obstructions!
-              ));
+            if (this.obstructions != null) {
+              rows.add(SizedBox(width: 200, child: obstructions!));
             }
-            return scrolledPage(Column(children: rows,));
+            return scrolledPage(Column(children: rows));
           },
           icon: Icons.settings_input_antenna,
-          alertsCount: snap.dishGetStatus!.countAlerts())
+          alertsCount: snap.dishGetStatus!.countAlerts(),
+        ),
       );
 
       // Map<String, dynamic>? obstr_data = parser.jsonDish?['obstructionStats'];
@@ -193,43 +227,50 @@ class _SnapshotPageState extends State<SnapshotPage> with TickerProviderStateMix
       // }
     }
 
-    if (snap.routerGetStatus!=null)
-      pages.add(_Page(
-        "router", M.general.router,
-        () {
-          List<Widget> rows = [];
-          if (snap.routerTs != null) {
-            var b = KVWidgetBuilder(context, theme);
-            b.kv(M.general.dump_created_time, DateTime.fromMillisecondsSinceEpoch(snap.routerTs!));
-            rows.addAll(b.widgets);
-          }
-          rows.add(RouterWidget(
-            snap: snap,
-            viewOptions: ViewOptions(),
-          ));
-          return scrolledPage(Column(children: rows,));
-        },
-        icon: Icons.router,
-        alertsCount: snap.routerGetStatus!.countAlerts())
+    if (snap.routerGetStatus != null)
+      pages.add(
+        _Page(
+          "router",
+          M.general.router,
+          () {
+            List<Widget> rows = [];
+            if (snap.routerTs != null) {
+              var b = KVWidgetBuilder(context, theme);
+              b.kv(
+                M.general.dump_created_time,
+                DateTime.fromMillisecondsSinceEpoch(snap.routerTs!),
+              );
+              rows.addAll(b.widgets);
+            }
+            rows.add(RouterWidget(snap: snap, viewOptions: ViewOptions()));
+            return scrolledPage(Column(children: rows));
+          },
+          icon: Icons.router,
+          alertsCount: snap.routerGetStatus!.countAlerts(),
+        ),
       );
 
-    if (snap.deviceApp!=null)
-      pages.add(_Page("app", M.general.device_app,
-        () => scrolledPage(Column(children: _buildPage(snap.deviceApp!),)),
-        icon: Icons.ad_units,
-        entity: snap.deviceApp!)
+    if (snap.deviceApp != null)
+      pages.add(
+        _Page(
+          "app",
+          M.general.device_app,
+          () => scrolledPage(Column(children: _buildPage(snap.deviceApp!))),
+          icon: Icons.ad_units,
+          entity: snap.deviceApp!,
+        ),
       );
   }
 
-  List<Widget> _buildPage(Entity entity){
+  List<Widget> _buildPage(Entity entity) {
     List<Widget> rows = [];
 
     String? img = entity.get_device_image_file();
-    if (img!=null) {
+    if (img != null) {
       rows.add(
         ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: Image.asset(img, height: 60,)
+          borderRadius: BorderRadius.circular(8),
+          child: Image.asset(img, height: 60),
         ),
       );
     }
@@ -240,15 +281,13 @@ class _SnapshotPageState extends State<SnapshotPage> with TickerProviderStateMix
       rows.addAll(b.widgets);
     }
     for (var p in entity.plugins) {
-      if(p==null)
-        continue;
+      if (p == null) continue;
 
       var b = KVWidgetBuilder(context, theme);
       b.header(p.get_name());
       p.get_data(b);
 
-      if (b.widgets.length<=1)
-        continue;
+      if (b.widgets.length <= 1) continue;
 
       // var data = p.get_data();
       rows.addAll(b.widgets);
@@ -258,7 +297,7 @@ class _SnapshotPageState extends State<SnapshotPage> with TickerProviderStateMix
   }
 
   Widget _buildSpace() {
-    if (_selectedIndex<pages.length){
+    if (_selectedIndex < pages.length) {
       var page = pages[_selectedIndex];
       return page.builder();
     }
@@ -267,46 +306,54 @@ class _SnapshotPageState extends State<SnapshotPage> with TickerProviderStateMix
   }
 
   Widget _buildBar(BuildContext context) {
-    String? uid = widget.snap.dishGetStatus?.deviceInfo.id ?? widget.snap.routerGetStatus?.deviceInfo.id;
+    String? uid =
+        widget.snap.dishGetStatus?.deviceInfo.id ??
+        widget.snap.routerGetStatus?.deviceInfo.id;
 
     return AppBar(
       title: Text(M.general.debug_data_viewer),
       centerTitle: true,
       actions: [
         IconButton(
-            onPressed: uid==null ? null : () async {
-                await showDialog<String>(context: context, builder: (c) {
-                  return SaveDebugDataDialog(
-                      data: widget.snap.toDebugDataJson(),
-                      uid: uid,
-                      showInApp: false,
+          onPressed: uid == null
+              ? null
+              : () async {
+                  await showDialog<String>(
+                    context: context,
+                    builder: (c) {
+                      return SaveDebugDataDialog(
+                        data: widget.snap.toDebugDataJson(),
+                        uid: uid,
+                        showInApp: false,
+                      );
+                    },
                   );
-                });
-            },
-            icon: Icon(Icons.share, color: Colors.white,)
+                },
+          icon: Icon(Icons.share, color: Colors.white),
         ),
         if (R.features.shareScreenshot)
           IconButton(
-              onPressed: onScreenshot,
-              icon: Icon(Icons.photo_camera_outlined, color: Colors.white,)
+            onPressed: onScreenshot,
+            icon: Icon(Icons.photo_camera_outlined, color: Colors.white),
           ),
-        if(widget.onClose!=null)
+        if (widget.onClose != null)
           IconButton(
-              onPressed: (){
-                widget.onClose?.call();
-                setState(() {});
-              },
-              icon: Icon(Icons.clear, color: Colors.white,)
+            onPressed: () {
+              widget.onClose?.call();
+              setState(() {});
+            },
+            icon: Icon(Icons.clear, color: Colors.white),
           ),
       ],
     );
   }
 
   Future onScreenshot() async {
-    await showDialog<String>(context: context, builder: (c) {
-      return ShareScreenshot(
-        snap: widget.snap,
-      );
-    });
+    await showDialog<String>(
+      context: context,
+      builder: (c) {
+        return ShareScreenshot(snap: widget.snap);
+      },
+    );
   }
 }

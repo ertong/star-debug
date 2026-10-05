@@ -12,6 +12,7 @@ import 'package:star_debug/space/space_parser.dart';
 import 'package:star_debug/utils/log_utils.dart';
 import 'package:star_debug/utils/snapshot.dart';
 import 'package:star_debug/widgets/app_surface.dart';
+import 'package:star_debug/widgets/app_drawer_pop_scope.dart';
 
 const String _TAG = "MainPage";
 
@@ -54,8 +55,8 @@ class _DebugDataPageState extends State<DebugDataPage>
         },
       );
 
-    return WillPopScope(
-      onWillPop: () async => AppDrawer.willPopFunc(scaffoldKey),
+    return AppDrawerPopScope(
+      scaffoldKey: scaffoldKey,
       child: Scaffold(
         key: scaffoldKey,
         appBar: _buildBar(context) as PreferredSizeWidget?,

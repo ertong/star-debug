@@ -2,41 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/routes.dart';
-import 'package:star_debug/utils/log_utils.dart';
-
-const String _TAG = "AppDrawer";
 
 class AppDrawer extends StatefulWidget {
   final String selectedRoute;
 
   const AppDrawer({super.key, this.selectedRoute = ""});
 
-  static int countBackClick = 0;
-
   @override
   State createState() => _AppDrawerState();
-
-  static Future<bool> willPopFunc(GlobalKey<ScaffoldState> scaffoldKey) async {
-    try {
-      var state = scaffoldKey.currentState;
-      if (state == null) return true;
-
-      bool canPop = Navigator.of(state.context).canPop();
-      if (state.hasDrawer)
-        if (!state.isDrawerOpen) {
-          if (canPop) return true;
-          countBackClick++;
-          state.openDrawer();
-          return false;
-        } else if (countBackClick > 0) {
-          Navigator.pop(state.context); // drawer is opened, close it
-        }
-    } catch (e, s) {
-      LogUtils.ers(_TAG, "", e, s);
-    }
-
-    return true;
-  }
 }
 
 class _AppDrawerState extends State<AppDrawer> {
@@ -50,7 +23,6 @@ class _AppDrawerState extends State<AppDrawer> {
   @override
   void dispose() {
     super.dispose();
-    AppDrawer.countBackClick = 0;
   }
 
   @override
