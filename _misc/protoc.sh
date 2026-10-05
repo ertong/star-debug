@@ -33,4 +33,5 @@ cd $DIR
   network.proto \
   starlink.proto \
   telemetron.proto \
-  gnss.proto
+  gnss.proto \
+  unlock.proto

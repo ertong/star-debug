@@ -50,6 +50,8 @@ class UtDisablementCode extends $pb.ProtobufEnum {
           15, _omitEnumNames ? '' : 'UNDER_AVIATION_FLYOVER_LIMITS');
   static const UtDisablementCode BLOCKED_AREA =
       UtDisablementCode._(16, _omitEnumNames ? '' : 'BLOCKED_AREA');
+  static const UtDisablementCode OUTSIDE_HOME_REGION =
+      UtDisablementCode._(17, _omitEnumNames ? '' : 'OUTSIDE_HOME_REGION');
 
   static const $core.List<UtDisablementCode> values = <UtDisablementCode>[
     UNKNOWN_STATE,
@@ -67,10 +69,11 @@ class UtDisablementCode extends $pb.ProtobufEnum {
     MOVING_TOO_FAST_FOR_POLICY,
     UNDER_AVIATION_FLYOVER_LIMITS,
     BLOCKED_AREA,
+    OUTSIDE_HOME_REGION,
   ];
 
   static final $core.List<UtDisablementCode?> _byValue =
-      $pb.ProtobufEnum.$_initByValueList(values, 16);
+      $pb.ProtobufEnum.$_initByValueList(values, 17);
   static UtDisablementCode? valueOf($core.int value) =>
       value < 0 || value >= _byValue.length ? null : _byValue[value];
 

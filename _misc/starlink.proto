@@ -11,6 +11,7 @@ import "status.proto";
 import "network.proto";
 import "telemetron.proto";
 import "gnss.proto";
+import "unlock.proto";
 import "google/protobuf/timestamp.proto";
 
 //SpaceX.API.Device.Device is a service:
@@ -116,8 +117,8 @@ message Request {
     .SpaceX.API.Device.TransceiverIFLoopbackTestRequest transceiver_if_loopback_test = 4001;
     .SpaceX.API.Device.TransceiverGetStatusRequest transceiver_get_status = 4003;
     .SpaceX.API.Device.TransceiverGetTelemetryRequest transceiver_get_telemetry = 4004;
-//    .SpaceX.API.Device.Services.Unlock.StartUnlockRequest start_unlock = 5000;
-//    .SpaceX.API.Device.Services.Unlock.FinishUnlockRequest finish_unlock = 5001;
+    .SpaceX.API.Device.Services.Unlock.StartUnlockRequest start_unlock = 5000;
+    .SpaceX.API.Device.Services.Unlock.FinishUnlockRequest finish_unlock = 5001;
     .SpaceX.API.Device.GetDiagnosticsRequest get_diagnostics = 6000;
     .SpaceX.API.Device.GetGnssMeasurementRequest get_gnss_measurement = 7000;
     .SpaceX.API.Device.ToggleModeRequest toggle_mode = 7001;
@@ -657,7 +658,7 @@ message WifiConfig {
   bool disable_mesh_onboarding = 52;
   bool pin_country_code = 53;
   bool custom_power_table = 54;
-  bool use_public_services = 55;
+  bool use_public_services = 55 [deprecated = true];
   bool disable_automated_speedtests = 56;
   uint32 channel_5ghz_high = 57;
   .SpaceX.API.Device.WifiConfig.WirelessMode wireless_mode_5ghz_high = 58;
@@ -704,7 +705,7 @@ message WifiConfig {
   bool apply_secure_dns = 1065;
   bool apply_ap_mode = 1066;
   bool apply_disable_mesh_onboarding = 1067;
-  bool apply_use_public_services = 1068;
+  bool apply_use_public_services = 1068 [deprecated = true];
   bool apply_disable_automated_speedtests = 1069;
   bool apply_wireless_mode_5ghz_high = 1070;
   bool apply_ht_bandwidth_5ghz_high = 1071;
@@ -1095,12 +1096,6 @@ message CaptivePortal {
   bool display_in_captive_browser = 2;
 }
 
-//SpaceX.API.Device.WifiConfig.UnbridgedEthPort.StaticRoute is a message:
-message StaticRoute {
-  string subnet = 1;
-  uint32 network_groups = 2;
-}
-
 //SpaceX.API.Device.WanNone is a message:
 message WanNone {
 }
@@ -1315,16 +1310,6 @@ message TransceiverGetStatusRequest {
 message TransceiverGetTelemetryRequest {
 }
 
-//SpaceX.API.Device.Services.Unlock.StartUnlockRequest is a message:
-message StartUnlockRequest {
-}
-
-//SpaceX.API.Device.Services.Unlock.FinishUnlockRequest is a message:
-message FinishUnlockRequest {
-  bytes challenge = 1;
-  bytes signature = 2;
-}
-
 //SpaceX.API.Device.GetDiagnosticsRequest is a message:
 message GetDiagnosticsRequest {
 }
@@ -1423,8 +1408,8 @@ message Response {
     .SpaceX.API.Device.TransceiverIFLoopbackTestResponse transceiver_if_loopback_test = 4001;
     .SpaceX.API.Device.TransceiverGetStatusResponse transceiver_get_status = 4003;
     .SpaceX.API.Device.TransceiverGetTelemetryResponse transceiver_get_telemetry = 4004;
-//    .SpaceX.API.Device.Services.Unlock.StartUnlockResponse start_unlock = 5000;
-//    .SpaceX.API.Device.Services.Unlock.FinishUnlockResponse finish_unlock = 5001;
+    .SpaceX.API.Device.Services.Unlock.StartUnlockResponse start_unlock = 5000;
+    .SpaceX.API.Device.Services.Unlock.FinishUnlockResponse finish_unlock = 5001;
     .SpaceX.API.Device.WifiGetDiagnosticsResponse wifi_get_diagnostics = 6000;
     .SpaceX.API.Device.DishGetDiagnosticsResponse dish_get_diagnostics = 6001;
     .SpaceX.API.Device.GetGnssMeasurementResponse get_gnss_measurement = 7000;
@@ -1432,12 +1417,6 @@ message Response {
   }
   reserved 1018, 1026, 2012, 2014, 2025, 3008, 3011, 3014, 3203;
   reserved "start_dish_self_test";
-}
-
-//SpaceX.API.Status.Status is a message:
-message Status {
-  int32 code = 1;
-  string message = 2;
 }
 
 //SpaceX.API.Device.RebootResponse is a message:
@@ -1876,6 +1855,7 @@ message DishGetStatusResponse {
   .SpaceX.API.Device.DishBatteryStats battery_stats = 1054;
   bool user_debug_mode_enabled = 1055;
   bool treat_as_metered = 1056;
+  float signal_quality = 1057;
   .SpaceX.API.Device.DishConfig config = 2000;
   reserved 1001, 1006, 1013, 1046, 1047;
   reserved "phy_rx_beam_snr_avg", "t_center";
@@ -1903,7 +1883,6 @@ message DishAlerts {
   bool unexpected_location = 4;
   bool mast_not_near_vertical = 5;
   bool slow_ethernet_speeds = 6;
-  bool roaming = 7;
   bool install_pending = 8;
   bool is_heating = 9;
   bool power_supply_thermal_throttle = 10;
@@ -1917,8 +1896,8 @@ message DishAlerts {
   bool router_water_detected = 21;
   bool upsu_router_port_slow = 22;
   bool no_ethernet_link = 23;
-  reserved 12, 13, 15;
-  reserved "moving_fast_while_not_aviation", "moving_too_fast_for_policy", "moving_while_not_mobile";
+  reserved 7, 12, 13, 15;
+  reserved "moving_fast_while_not_aviation", "moving_too_fast_for_policy", "moving_while_not_mobile", "roaming";
 }
 
 //SpaceX.API.Device.DishOutage is a message:
@@ -2081,6 +2060,8 @@ enum RebootReason {
   REBOOT_REASON_XP70_SACS = 15;
   REBOOT_REASON_INE_FAILED = 16;
   REBOOT_REASON_KERNEL_TAINTED = 17;
+  REBOOT_REASON_MINI2_AUTO_OFF = 18 [deprecated = true];
+  REBOOT_REASON_BATTERY_AUTO_OFF = 19;
   REBOOT_REASON_HARD_POWER_DOWN = 100;
   REBOOT_REASON_ERROR_FILE_MISSING = 200;
   REBOOT_REASON_ERROR_CRC_MISMATCH = 201;
@@ -2618,6 +2599,7 @@ message WifiClient {
     float signal_strength = 3;
     .SpaceX.API.Device.WifiClient.RxStats rx_stats = 4;
     .SpaceX.API.Device.WifiClient.TxStats tx_stats = 5;
+    float snr = 6;
   }
   message PingMetrics {
     bool in_unhappy_hour_2s = 1;
@@ -2759,6 +2741,7 @@ message WifiGetStatusResponse {
   .SpaceX.API.Device.CalibrationPartitionsState calibration_partitions_state = 1033;
   uint32 hops_from_controller = 1034;
   bool no_wan_link = 1035;
+  string public_ipv4 = 1036;
   .SpaceX.API.Device.WifiConfig config = 2000;
   repeated .SpaceX.API.Device.WifiClient clients = 3000;
   bool has_client_index = 3001;
@@ -3250,18 +3233,6 @@ message TransceiverGetTelemetryResponse {
   float ce_rssi_db = 1030;
 }
 
-//SpaceX.API.Device.Services.Unlock.StartUnlockResponse is a message:
-message StartUnlockResponse {
-  string device_id = 1;
-  bytes nonce = 2;
-  bytes sign_spki = 3;
-}
-
-//SpaceX.API.Device.Services.Unlock.FinishUnlockResponse is a message:
-message FinishUnlockResponse {
-  uint32 status = 1;
-}
-
 //SpaceX.API.Device.WifiGetDiagnosticsResponse is a message:
 message WifiGetDiagnosticsResponse {
   string id = 1;
@@ -3336,6 +3307,7 @@ message DishGetDiagnosticsResponse {
     MOVING_TOO_FAST_FOR_POLICY = 14;
     UNDER_AVIATION_FLYOVER_LIMITS = 15;
     BLOCKED_AREA = 16;
+    OUTSIDE_HOME_REGION = 17;
     reserved 5, 9;
     reserved "INVALID_COUNTRY", "UNLICENSED_COUNTRY";
   }
