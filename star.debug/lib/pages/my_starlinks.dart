@@ -15,6 +15,7 @@ import 'package:star_debug/utils/format.dart';
 import 'package:star_debug/widgets/load_more.dart';
 import 'package:star_debug/widgets/load_more_styled.dart';
 import 'package:star_debug/widgets/app_surface.dart';
+import 'package:star_debug/widgets/app_drawer_pop_scope.dart';
 import 'package:time_machine2/time_machine2.dart';
 
 const String _TAG = "MyStarlinksPage";
@@ -55,8 +56,8 @@ class _MyStarlinksPageState extends State<MyStarlinksPage>
   Widget build(BuildContext context) {
     theme = Theme.of(context);
 
-    return WillPopScope(
-      onWillPop: () async => AppDrawer.willPopFunc(scaffoldKey),
+    return AppDrawerPopScope(
+      scaffoldKey: scaffoldKey,
       child: Scaffold(
         key: scaffoldKey,
         appBar: _buildBar(context) as PreferredSizeWidget?,

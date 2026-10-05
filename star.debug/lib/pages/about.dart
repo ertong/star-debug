@@ -5,12 +5,13 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart' hide Notification, Card;
 import 'package:flutter/services.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:star_debug/drawer.dart';
 import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/routes.dart';
 import 'package:star_debug/utils/log_utils.dart';
+import 'package:star_debug/widgets/app_drawer_pop_scope.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 const String _TAG = "AboutPage";
@@ -32,8 +33,8 @@ class _AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => AppDrawer.willPopFunc(scaffoldKey),
+    return AppDrawerPopScope(
+      scaffoldKey: scaffoldKey,
       child: Scaffold(
         key: scaffoldKey,
         appBar: _buildBar(context) as PreferredSizeWidget?,
@@ -59,7 +60,7 @@ class _AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
     var theme = Theme.of(context);
 
     var style = MarkdownStyleSheet.fromTheme(theme);
-    style = MarkdownStyleSheet(textScaleFactor: 1.2);
+    style = MarkdownStyleSheet(textScaler: TextScaler.linear(1.2));
 
     res.add(
       Center(

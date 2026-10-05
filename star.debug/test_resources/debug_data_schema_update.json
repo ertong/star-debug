@@ -1,0 +1,23 @@
+{
+  "dish": {
+    "deviceInfo": {"hardwareVersion": "synthetic-dish"},
+    "signalQuality": 0.75,
+    "disablementCode": 17,
+    "rebootReason": 19,
+    "alerts": {"roaming": true, "installPending": true}
+  },
+  "router": {
+    "deviceInfo": {"hardwareVersion": "synthetic-router"},
+    "publicIpv4": "203.0.113.42",
+    "dishDisablementCode": 17,
+    "clientsList": [
+      {
+        "usingMlo": true,
+        "linksList": [
+          {"band": 2, "signalStrength": -50.0, "snr": 31.5},
+          {"band": 5, "signalStrength": -55.0, "snr": 28.25}
+        ]
+      }
+    ]
+  }
+}

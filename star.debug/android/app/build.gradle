@@ -1,6 +1,5 @@
 plugins {
     id 'com.android.application'
-    id "kotlin-android"
     id "dev.flutter.flutter-gradle-plugin"
     id "com.google.gms.google-services"
     id "com.google.firebase.crashlytics"
@@ -35,7 +34,8 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    compileSdkVersion 36 //flutter.compileSdkVersion
+    compileSdkVersion 37
+    compileSdkMinor 0
     buildToolsVersion "36.0.0"
     // jni 1.x requires r28c; Android NDK versions are backward compatible.
     ndkVersion = "28.2.13676358"
@@ -87,6 +87,5 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:5.3.2")
     implementation("com.squareup.okhttp3:okhttp-dnsoverhttps:5.3.2")
 
-    // https://gist.github.com/danielcshn/7aa57155d766d46c043fde015f054d40
-    implementation(platform("org.jetbrains.kotlin:kotlin-bom:2.1.10"))
+    implementation(platform("org.jetbrains.kotlin:kotlin-bom:2.3.20"))
 }

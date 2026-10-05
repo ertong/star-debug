@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package SpaceX.API.Device.Services.Unlock;
+
+//SpaceX.API.Device.Services.Unlock.StartUnlockRequest is a message:
+message StartUnlockRequest {
+}
+
+//SpaceX.API.Device.Services.Unlock.FinishUnlockRequest is a message:
+message FinishUnlockRequest {
+  bytes challenge = 1;
+  bytes signature = 2;
+}
+
+//SpaceX.API.Device.Services.Unlock.StartUnlockResponse is a message:
+message StartUnlockResponse {
+  string device_id = 1;
+  bytes nonce = 2;
+  bytes sign_spki = 3;
+}
+
+//SpaceX.API.Device.Services.Unlock.FinishUnlockResponse is a message:
+message FinishUnlockResponse {
+  uint32 status = 1;
+}

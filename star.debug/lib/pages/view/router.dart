@@ -52,6 +52,10 @@ class _RouterWidgetState extends State<RouterWidget> with TickerProviderStateMix
         if (status.hasIpv4WanAddress())
           b.kv(M.grpc.WifiGetStatus.ipv4_wan_address, status.ipv4WanAddress, hide: opts.hideIp);
 
+        if (status.hasPublicIpv4() && status.publicIpv4.isNotEmpty)
+          b.kv(M.grpc.WifiGetStatus.public_ipv4, status.publicIpv4,
+              hide: opts.hideIp);
+
         if (status.ipv6WanAddresses.isNotEmpty)
           b.kv(M.grpc.WifiGetStatus.ipv6_wan_addresses, status.ipv6WanAddresses.join("\n"), hide: opts.hideIp);
 
@@ -197,10 +201,31 @@ class _RouterWidgetState extends State<RouterWidget> with TickerProviderStateMix
             b.kv(M.grpc.WifiClient.signal_strength, "${client.signalStrength}");
           if (client.hasSnr())
             b.kv(M.grpc.WifiClient.snr, "${client.snr}");
+          if (client.hasUsingMlo())
+            b.kv(M.grpc.WifiClient.using_mlo, client.usingMlo,
+                hint: M.grpc.WifiClient.using_mlo__hint);
           if (client.hasTxStats())
             b.kv(M.grpc.WifiClient.x_rx_bytes, Format.bytes(client.txStats.bytes.toDouble()));
           if (client.hasRxStats())
             b.kv(M.grpc.WifiClient.x_tx_bytes, Format.bytes(client.rxStats.bytes.toDouble()));
+
+          for (var i = 0; i < client.links.length; i++) {
+            var link = client.links[i];
+            var linkRows = KVWidgetBuilder(context, theme);
+            if (link.hasBand() && link.band != WifiClient_Interface.UNKNOWN)
+              linkRows.kv(M.grpc.WifiClient.iface, link.band);
+            if (link.hasLinkAddress() && link.linkAddress.isNotEmpty)
+              linkRows.kv(M.grpc.WifiClient.link_address, link.linkAddress,
+                  hide: opts.hideMac);
+            if (link.hasSignalStrength() && link.signalStrength.isFinite)
+              linkRows.kv(M.grpc.WifiClient.signal_strength, link.signalStrength);
+            if (link.hasSnr() && link.snr.isFinite)
+              linkRows.kv(M.grpc.WifiClient.snr, link.snr);
+            if (linkRows.widgets.isNotEmpty) {
+              b.header(M.grpc.WifiClient.link(i + 1));
+              b.widgets.addAll(linkRows.widgets);
+            }
+          }
         }
 
         rows.addAll(b.widgets);

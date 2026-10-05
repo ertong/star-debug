@@ -797,6 +797,11 @@ class RebootReason extends $pb.ProtobufEnum {
       RebootReason._(16, _omitEnumNames ? '' : 'REBOOT_REASON_INE_FAILED');
   static const RebootReason REBOOT_REASON_KERNEL_TAINTED =
       RebootReason._(17, _omitEnumNames ? '' : 'REBOOT_REASON_KERNEL_TAINTED');
+  @$core.Deprecated('This enum value is deprecated')
+  static const RebootReason REBOOT_REASON_MINI2_AUTO_OFF =
+      RebootReason._(18, _omitEnumNames ? '' : 'REBOOT_REASON_MINI2_AUTO_OFF');
+  static const RebootReason REBOOT_REASON_BATTERY_AUTO_OFF = RebootReason._(
+      19, _omitEnumNames ? '' : 'REBOOT_REASON_BATTERY_AUTO_OFF');
   static const RebootReason REBOOT_REASON_HARD_POWER_DOWN = RebootReason._(
       100, _omitEnumNames ? '' : 'REBOOT_REASON_HARD_POWER_DOWN');
   static const RebootReason REBOOT_REASON_ERROR_FILE_MISSING = RebootReason._(
@@ -831,6 +836,8 @@ class RebootReason extends $pb.ProtobufEnum {
     REBOOT_REASON_XP70_SACS,
     REBOOT_REASON_INE_FAILED,
     REBOOT_REASON_KERNEL_TAINTED,
+    REBOOT_REASON_MINI2_AUTO_OFF,
+    REBOOT_REASON_BATTERY_AUTO_OFF,
     REBOOT_REASON_HARD_POWER_DOWN,
     REBOOT_REASON_ERROR_FILE_MISSING,
     REBOOT_REASON_ERROR_CRC_MISMATCH,
@@ -2492,6 +2499,9 @@ class DishGetDiagnosticsResponse_DisablementCode extends $pb.ProtobufEnum {
   static const DishGetDiagnosticsResponse_DisablementCode BLOCKED_AREA =
       DishGetDiagnosticsResponse_DisablementCode._(
           16, _omitEnumNames ? '' : 'BLOCKED_AREA');
+  static const DishGetDiagnosticsResponse_DisablementCode OUTSIDE_HOME_REGION =
+      DishGetDiagnosticsResponse_DisablementCode._(
+          17, _omitEnumNames ? '' : 'OUTSIDE_HOME_REGION');
 
   static const $core.List<DishGetDiagnosticsResponse_DisablementCode> values =
       <DishGetDiagnosticsResponse_DisablementCode>[
@@ -2510,10 +2520,11 @@ class DishGetDiagnosticsResponse_DisablementCode extends $pb.ProtobufEnum {
     MOVING_TOO_FAST_FOR_POLICY,
     UNDER_AVIATION_FLYOVER_LIMITS,
     BLOCKED_AREA,
+    OUTSIDE_HOME_REGION,
   ];
 
   static final $core.List<DishGetDiagnosticsResponse_DisablementCode?>
-      _byValue = $pb.ProtobufEnum.$_initByValueList(values, 16);
+      _byValue = $pb.ProtobufEnum.$_initByValueList(values, 17);
   static DishGetDiagnosticsResponse_DisablementCode? valueOf($core.int value) =>
       value < 0 || value >= _byValue.length ? null : _byValue[value];
 

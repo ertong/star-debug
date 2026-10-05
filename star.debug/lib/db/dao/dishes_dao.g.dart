@@ -11,15 +11,15 @@ mixin _$DishesDaoMixin on DatabaseAccessor<Database> {
     return customSelect(
       'SELECT * FROM dishes WHERE dish_id = ?1',
       variables: [Variable<String>(dishId)],
-      readsFrom: {dishes},
-    ).asyncMap(dishes.mapFromRow);
+      readsFrom: {this.dishes},
+    ).asyncMap(this.dishes.mapFromRow);
   }
 
   Future<int> deleteDish(String dishId) {
     return customUpdate(
       'DELETE FROM dishes WHERE dish_id = ?1',
       variables: [Variable<String>(dishId)],
-      updates: {dishes},
+      updates: {this.dishes},
       updateKind: UpdateKind.delete,
     );
   }
@@ -28,7 +28,7 @@ mixin _$DishesDaoMixin on DatabaseAccessor<Database> {
     return customUpdate(
       'DELETE FROM dish_logs WHERE dish_id = ?1',
       variables: [Variable<String>(dishId)],
-      updates: {dishLogs},
+      updates: {this.dishLogs},
       updateKind: UpdateKind.delete,
     );
   }
@@ -37,7 +37,7 @@ mixin _$DishesDaoMixin on DatabaseAccessor<Database> {
     return customUpdate(
       'DELETE FROM dish_logs WHERE dish_id = ?1 AND timestamp != (SELECT MAX(timestamp) FROM dish_logs WHERE dish_id = ?1)',
       variables: [Variable<String>(dishId)],
-      updates: {dishLogs},
+      updates: {this.dishLogs},
       updateKind: UpdateKind.delete,
     );
   }
@@ -46,15 +46,15 @@ mixin _$DishesDaoMixin on DatabaseAccessor<Database> {
     return customSelect(
       'SELECT * FROM dish_logs WHERE id = ?1',
       variables: [Variable<int>(id)],
-      readsFrom: {dishLogs},
-    ).asyncMap(dishLogs.mapFromRow);
+      readsFrom: {this.dishLogs},
+    ).asyncMap(this.dishLogs.mapFromRow);
   }
 
   Selectable<int> hasDishLog(String dishId, int timestamp) {
     return customSelect(
       'SELECT 1 AS _c0 FROM dish_logs WHERE dish_id = ?1 AND timestamp = ?2',
       variables: [Variable<String>(dishId), Variable<int>(timestamp)],
-      readsFrom: {dishLogs},
+      readsFrom: {this.dishLogs},
     ).map((QueryRow row) => row.read<int>('_c0'));
   }
 
@@ -70,7 +70,7 @@ mixin _$DishesDaoMixin on DatabaseAccessor<Database> {
         Variable<int>(fromDishTimestamp),
         Variable<int>(limit),
       ],
-      readsFrom: {dishLogs, dishes},
+      readsFrom: {this.dishLogs, this.dishes},
     ).map(
       (QueryRow row) => GetDishesResult(
         dishId: row.read<String>('dish_id'),
@@ -98,8 +98,8 @@ mixin _$DishesDaoMixin on DatabaseAccessor<Database> {
         Variable<String>(dishId),
         Variable<int>(limit),
       ],
-      readsFrom: {dishLogs},
-    ).asyncMap(dishLogs.mapFromRow);
+      readsFrom: {this.dishLogs},
+    ).asyncMap(this.dishLogs.mapFromRow);
   }
 
   DishesDaoManager get managers => DishesDaoManager(this);

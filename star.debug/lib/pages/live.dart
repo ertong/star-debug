@@ -19,6 +19,7 @@ import 'package:star_debug/utils/debug_data.dart';
 import 'package:star_debug/utils/log_utils.dart';
 import 'package:star_debug/utils/snapshot.dart';
 import 'package:star_debug/utils/tab_index.dart';
+import 'package:star_debug/widgets/app_drawer_pop_scope.dart';
 
 import 'live/router.dart';
 
@@ -208,8 +209,8 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
       );
     }
 
-    return WillPopScope(
-      onWillPop: () async => AppDrawer.willPopFunc(scaffoldKey),
+    return AppDrawerPopScope(
+      scaffoldKey: scaffoldKey,
       child: Scaffold(
         key: scaffoldKey,
         appBar: _buildBar(context) as PreferredSizeWidget?,

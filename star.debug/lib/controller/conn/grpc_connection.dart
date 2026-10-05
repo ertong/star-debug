@@ -124,7 +124,7 @@ abstract class GrpcConnection extends BaseConnection {
         options: ChannelOptions(
           credentials: ChannelCredentials.insecure(),
           codecRegistry: CodecRegistry(codecs: const [GzipCodec(), IdentityCodec()]),
-          connectionTimeout: Duration(seconds: 5),
+          connectTimeout: Duration(seconds: 5),
           idleTimeout: Duration(seconds: 2),
           backoffStrategy: (d)=>const Duration(seconds: 3)
         ),

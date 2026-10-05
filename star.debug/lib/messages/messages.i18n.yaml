@@ -372,6 +372,8 @@ grpc:
 
   DishGetStatus:
     uptime_s: Uptime
+    signal_quality: Signal quality
+    signal_quality__hint: Signal quality reported by the dish.
     uptime_s__hint: Time the dish has been running since the last reboot.
     seconds_to_first_nonempty_slot: Seconds to first non-empty slot
     seconds_to_first_nonempty_slot__hint: Time until the dish has its next scheduled communication slot with a satellite.
@@ -483,6 +485,7 @@ grpc:
       - **MOVING_TOO_FAST_FOR_POLICY** - The dish is moving faster than allowed by the service plan.
       - **UNDER_AVIATION_FLYOVER_LIMITS** - Under aviation flyover altitude limits.
       - **BLOCKED_AREA** - The dish is in a restricted or blocked area.
+      - **OUTSIDE_HOME_REGION** - Service is restricted because the dish is outside its home region.
     reboot_reason: Reboot reason
     reboot_reason__hint: |
       The possible options are:
@@ -505,6 +508,8 @@ grpc:
       - **XP70_SACS** - XP70 SACS subsystem failure.
       - **INE_FAILED** - Initial network entry failed.
       - **KERNEL_TAINTED** - The kernel was tainted (e.g. by a module error).
+      - **MINI2_AUTO_OFF** - Legacy automatic power-off reason (deprecated).
+      - **BATTERY_AUTO_OFF** - Automatic power-off related to battery operation.
   AlignmentStats:
     has_actuators: has_actuators
     actuator_state: actuator_state
@@ -623,6 +628,10 @@ grpc:
 
   WifiClient:
     name: name
+    link(n): Link $n
+    link_address: Link MAC address
+    using_mlo: Multi-link operation (MLO)
+    using_mlo__hint: Whether this client is using Wi-Fi multi-link operation.
     mac_address: MAC address
     ip_address: IP address
     signal_strength: Signal strength
@@ -679,6 +688,7 @@ grpc:
   #  .SpaceX.API.Device.DeviceInfo device_info = 3;
     uptime_s: Uptime
     ipv4_wan_address: WAN IPv4
+    public_ipv4: Public IPv4
     ping_drop_rate: Ping drop rate
     ping_latency_ms: Ping latency, ms
     is_aviation: Aviation
