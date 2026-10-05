@@ -48,12 +48,10 @@ linter:
     unnecessary_this: false
 
     prefer_final_locals: false
-    prefer_final_parameters: false
     prefer_const_constructors: false
 
     constant_identifier_names: false
     unnecessary_string_interpolations: false
-    unnecessary_await_in_return: false
     unnecessary_parenthesis: false
     avoid_redundant_argument_values: false
 

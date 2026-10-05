@@ -5,6 +5,9 @@ build_win32:
     - . ./env.ps1
   script:
     - cd $CI_PROJECT_DIR/star.debug
+    - $flutterVersion = ((Get-Content .tool-versions) -split '\s+')[1]
+    - git -c core.longpaths=true clone --depth 1 --branch $flutterVersion https://github.com/flutter/flutter.git "$env:CI_PROJECT_DIR/.flutter"
+    - $env:PATH = "$env:CI_PROJECT_DIR/.flutter/bin;$env:PATH"
     - flutter doctor -v
     - flutter clean
     - flutter packages get

@@ -11,12 +11,14 @@ subprojects {
     project.buildDir = "${rootProject.buildDir}/${project.name}"
 }
 
-// Not sure it is required, try to remove after migrating to AGP 9. But maybe it reduces number of SDKs needed to build.
+// Compile plugins against the same SDK as the app, including libraries that
+// require API 37.0. Flutter 3.47 still uses the legacy AGP DSL.
 subprojects { subproject ->
     afterEvaluate{
         if((subproject.plugins.hasPlugin('android') || subproject.plugins.hasPlugin('android-library'))) {
             android {
-                compileSdkVersion 36
+                compileSdkVersion 37
+                compileSdkMinor 0
                 buildToolsVersion "36.0.0"
             }
         }

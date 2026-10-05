@@ -16,7 +16,7 @@ mixin _$RecentInputsDaoMixin on DatabaseAccessor<Database> {
         Variable<String>(data),
         Variable<String>(search),
       ],
-      updates: {recentInputs},
+      updates: {this.recentInputs},
     );
   }
 
@@ -24,7 +24,7 @@ mixin _$RecentInputsDaoMixin on DatabaseAccessor<Database> {
     return customUpdate(
       'DELETE FROM recent_inputs WHERE type = ?1 AND data = ?2',
       variables: [Variable<String>(type), Variable<String>(data)],
-      updates: {recentInputs},
+      updates: {this.recentInputs},
       updateKind: UpdateKind.delete,
     );
   }
@@ -33,8 +33,8 @@ mixin _$RecentInputsDaoMixin on DatabaseAccessor<Database> {
     return customSelect(
       'SELECT * FROM recent_inputs WHERE type = ?1 AND search LIKE \'%\' || ?2 || \'%\' ORDER BY timestamp DESC',
       variables: [Variable<String>(type), Variable<String>(search)],
-      readsFrom: {recentInputs},
-    ).asyncMap(recentInputs.mapFromRow);
+      readsFrom: {this.recentInputs},
+    ).asyncMap(this.recentInputs.mapFromRow);
   }
 
   RecentInputsDaoManager get managers => RecentInputsDaoManager(this);

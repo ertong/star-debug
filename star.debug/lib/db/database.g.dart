@@ -1306,30 +1306,28 @@ abstract class _$Database extends GeneratedDatabase {
   ];
 }
 
-typedef $$DishLogsTableCreateCompanionBuilder =
-    DishLogsCompanion Function({
-      Value<int> id,
-      required int timestamp,
-      required String dishId,
-      required bool forceStore,
-      Value<String?> debugDataJson,
-      Value<Uint8List?> dishStatusJson,
-      Value<Uint8List?> dishHistoryJson,
-      Value<Uint8List?> wifiStatusJson,
-      Value<String?> onlineJson,
-    });
-typedef $$DishLogsTableUpdateCompanionBuilder =
-    DishLogsCompanion Function({
-      Value<int> id,
-      Value<int> timestamp,
-      Value<String> dishId,
-      Value<bool> forceStore,
-      Value<String?> debugDataJson,
-      Value<Uint8List?> dishStatusJson,
-      Value<Uint8List?> dishHistoryJson,
-      Value<Uint8List?> wifiStatusJson,
-      Value<String?> onlineJson,
-    });
+typedef $$DishLogsTableCreateCompanionBuilder = DishLogsCompanion Function({
+  Value<int> id,
+  required int timestamp,
+  required String dishId,
+  required bool forceStore,
+  Value<String?> debugDataJson,
+  Value<Uint8List?> dishStatusJson,
+  Value<Uint8List?> dishHistoryJson,
+  Value<Uint8List?> wifiStatusJson,
+  Value<String?> onlineJson,
+});
+typedef $$DishLogsTableUpdateCompanionBuilder = DishLogsCompanion Function({
+  Value<int> id,
+  Value<int> timestamp,
+  Value<String> dishId,
+  Value<bool> forceStore,
+  Value<String?> debugDataJson,
+  Value<Uint8List?> dishStatusJson,
+  Value<Uint8List?> dishHistoryJson,
+  Value<Uint8List?> wifiStatusJson,
+  Value<String?> onlineJson,
+});
 
 class $$DishLogsTableFilterComposer
     extends Composer<_$Database, $DishLogsTable> {
@@ -1561,7 +1559,16 @@ class $$DishLogsTableTableManager
                 onlineJson: onlineJson,
               ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .map(
+                (e) => (
+                  e.readTable<$DishLogsTable, DishLog>(table),
+                  BaseReferences<_$Database, $DishLogsTable, DishLog>(
+                    db,
+                    table,
+                    e,
+                  ),
+                ),
+              )
               .toList(),
           prefetchHooksCallback: null,
         ),
@@ -1582,22 +1589,20 @@ typedef $$DishLogsTableProcessedTableManager =
       DishLog,
       PrefetchHooks Function()
     >;
-typedef $$DishesTableCreateCompanionBuilder =
-    DishesCompanion Function({
-      required String dishId,
-      Value<String?> name,
-      Value<int?> latestLogId,
-      Value<int> latestLogTimestamp,
-      Value<int> rowid,
-    });
-typedef $$DishesTableUpdateCompanionBuilder =
-    DishesCompanion Function({
-      Value<String> dishId,
-      Value<String?> name,
-      Value<int?> latestLogId,
-      Value<int> latestLogTimestamp,
-      Value<int> rowid,
-    });
+typedef $$DishesTableCreateCompanionBuilder = DishesCompanion Function({
+  required String dishId,
+  Value<String?> name,
+  Value<int?> latestLogId,
+  Value<int> latestLogTimestamp,
+  Value<int> rowid,
+});
+typedef $$DishesTableUpdateCompanionBuilder = DishesCompanion Function({
+  Value<String> dishId,
+  Value<String?> name,
+  Value<int?> latestLogId,
+  Value<int> latestLogTimestamp,
+  Value<int> rowid,
+});
 
 class $$DishesTableFilterComposer extends Composer<_$Database, $DishesTable> {
   $$DishesTableFilterComposer({
@@ -1738,7 +1743,12 @@ class $$DishesTableTableManager
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .map(
+                (e) => (
+                  e.readTable<$DishesTable, Dish>(table),
+                  BaseReferences<_$Database, $DishesTable, Dish>(db, table, e),
+                ),
+              )
               .toList(),
           prefetchHooksCallback: null,
         ),
@@ -1929,7 +1939,16 @@ class $$RecentInputsTableTableManager
                 search: search,
               ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .map(
+                (e) => (
+                  e.readTable<$RecentInputsTable, RecentInput>(table),
+                  BaseReferences<_$Database, $RecentInputsTable, RecentInput>(
+                    db,
+                    table,
+                    e,
+                  ),
+                ),
+              )
               .toList(),
           prefetchHooksCallback: null,
         ),

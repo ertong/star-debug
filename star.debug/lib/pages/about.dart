@@ -5,7 +5,7 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart' hide Notification, Card;
 import 'package:flutter/services.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:star_debug/drawer.dart';
 import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/preloaded.dart';
@@ -60,7 +60,7 @@ class _AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
     var theme = Theme.of(context);
 
     var style = MarkdownStyleSheet.fromTheme(theme);
-    style = MarkdownStyleSheet(textScaleFactor: 1.2);
+    style = MarkdownStyleSheet(textScaler: TextScaler.linear(1.2));
 
     res.add(
       Center(

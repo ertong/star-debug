@@ -445,8 +445,7 @@ class AboutMessages {
   /// the russian aggressor is trying to turn cities into ashes.
   /// """
   /// ```
-  String get about_text =>
-      """This application was created as part of the volunteer initiative "**Narodnyi Starlink**" for the needs 
+  String get about_text => """This application was created as part of the volunteer initiative "**Narodnyi Starlink**" for the needs 
 of people who care about the availability of communications even in the places where 
 the russian aggressor is trying to turn cities into ashes.
 """;
@@ -517,8 +516,7 @@ class ValkyrieMessages {
   /// Moreover, in the case of a moving router, its route can be followed.
   /// """
   /// ```
-  String get hint =>
-      """Checks whether router BSSID (wireless MAC address) is found in databases from Valkyrie.
+  String get hint => """Checks whether router BSSID (wireless MAC address) is found in databases from Valkyrie.
 
 The possible options are:
 
@@ -2200,8 +2198,7 @@ class BasicServiceSetGrpcMessages {
   /// starting from approximately January 2023, Starlink routers are able to pick random BSSID on factory reset.
   /// """
   /// ```
-  String get bssid__hint =>
-      """Starlink BSSID originally starts with **74:24:9f**, but due to security concerns, 
+  String get bssid__hint => """Starlink BSSID originally starts with **74:24:9f**, but due to security concerns, 
 starting from approximately January 2023, Starlink routers are able to pick random BSSID on factory reset.
 """;
 
@@ -2884,8 +2881,7 @@ Map<String, String> get messagesMap => {
   """about.about_starlink_for_ukraine""": """About Narodnyi Starlink""",
   """about.starlink_for_ukraine""": """Narodnyi Starlink""",
   """about.starlink_for_ukraine_in_fb""": """Narodnyi Starlink on Facebook""",
-  """about.about_text""":
-      """This application was created as part of the volunteer initiative "**Narodnyi Starlink**" for the needs 
+  """about.about_text""": """This application was created as part of the volunteer initiative "**Narodnyi Starlink**" for the needs 
 of people who care about the availability of communications even in the places where 
 the russian aggressor is trying to turn cities into ashes.
 """,
@@ -2895,12 +2891,10 @@ the russian aggressor is trying to turn cities into ashes.
   """settings.auto_store_dish_log_sub""":
       """Store snapshots automatically from Starlink Live in My Starlinks""",
   """valkyrie.valkyrie_check""": """Valkyrie Check""",
-  """valkyrie.valkyrie_check_sub""":
-      """Checks whether router BSSID (wireless MAC address) is found in databases from Valkyrie.""",
+  """valkyrie.valkyrie_check_sub""": """Checks whether router BSSID (wireless MAC address) is found in databases from Valkyrie.""",
   """valkyrie.found""": """Found""",
   """valkyrie.not_found""": """Not found""",
-  """valkyrie.hint""":
-      """Checks whether router BSSID (wireless MAC address) is found in databases from Valkyrie.
+  """valkyrie.hint""": """Checks whether router BSSID (wireless MAC address) is found in databases from Valkyrie.
 
 The possible options are:
 
@@ -2921,10 +2915,8 @@ Moreover, in the case of a moving router, its route can be followed.
   """wifi.setup_ssid_and_password""": """Setup SSID and password""",
   """wifi.keep_default_wifi_settings""": """STARLINK/no password""",
   """wifi.enable_bypass_mode""": """Enable bypass mode""",
-  """wifi.setup_default""":
-      """You have selected to leave the default network name "STARLINK" and no password. Confirm?""",
-  """wifi.setup_bypass""":
-      """You have selected to enable bypass mode. The router will be not accessible in this mode until the next hardware reset. Confirm?""",
+  """wifi.setup_default""": """You have selected to leave the default network name "STARLINK" and no password. Confirm?""",
+  """wifi.setup_bypass""": """You have selected to enable bypass mode. The router will be not accessible in this mode until the next hardware reset. Confirm?""",
   """wifi.more_8_chars""": """8 chars or more""",
   """live.starlink_live""": """Starlink Live""",
   """live.check_update""": """Check Update""",
@@ -3059,11 +3051,9 @@ Moreover, in the case of a moving router, its route can be followed.
       """Number of GPS satellites currently visible to the dish.""",
   """grpc.DishGpsStats.no_sats_after_ttff""":
       """No GPS satellites after a first fix""",
-  """grpc.DishGpsStats.no_sats_after_ttff__hint""":
-      """Whether GPS satellite visibility was lost after Time To First Fix (TTFF). May indicate GPS antenna issues.""",
+  """grpc.DishGpsStats.no_sats_after_ttff__hint""": """Whether GPS satellite visibility was lost after Time To First Fix (TTFF). May indicate GPS antenna issues.""",
   """grpc.DishGpsStats.inhibit_gps""": """Don't trust Dishy's GPS""",
-  """grpc.DishGpsStats.inhibit_gps__hint""":
-      """Whether the dish's internal GPS is being ignored in favor of an alternative location source.""",
+  """grpc.DishGpsStats.inhibit_gps__hint""": """Whether the dish's internal GPS is being ignored in favor of an alternative location source.""",
   """grpc.DishGpsStats.pnt_filter_convergence_state""":
       """Position filter state""",
   """grpc.DishBatteryStats.state_of_charge""": """Battery charge""",
@@ -3077,32 +3067,25 @@ Moreover, in the case of a moving router, its route can be followed.
   """grpc.DishReadyStates.rf""": """RF front end""",
   """grpc.DishInitDuration.attitudeInitialization""":
       """Attitude initialization""",
-  """grpc.DishInitDuration.attitudeInitialization_hint""":
-      """The terminal was able to understand its initial position (where is the top, where is the bottom, how it is tilted).""",
+  """grpc.DishInitDuration.attitudeInitialization_hint""": """The terminal was able to understand its initial position (where is the top, where is the bottom, how it is tilted).""",
   """grpc.DishInitDuration.burstDetected""": """Burst detected""",
   """grpc.DishInitDuration.burstDetected_hint""":
       """The terminal heard the signal of the Starlink satellite.""",
   """grpc.DishInitDuration.ekfConverged""": """EKF converged""",
-  """grpc.DishInitDuration.ekfConverged_hint""":
-      """The terminal was able to understand its initial position (similar to Attitude initialization), but it is already stable, everything has converged and the terminal is already sure how it is turned.""",
+  """grpc.DishInitDuration.ekfConverged_hint""": """The terminal was able to understand its initial position (similar to Attitude initialization), but it is already stable, everything has converged and the terminal is already sure how it is turned.""",
   """grpc.DishInitDuration.firstCplane""": """First CPlane""",
-  """grpc.DishInitDuration.firstCplane_hint""":
-      """The terminal received the first control data packet from the satellite.""",
+  """grpc.DishInitDuration.firstCplane_hint""": """The terminal received the first control data packet from the satellite.""",
   """grpc.DishInitDuration.firstPopPing""": """First PoP ping""",
-  """grpc.DishInitDuration.firstPopPing_hint""":
-      """The terminal pinged the Point of Presence on the ground for the first time.""",
+  """grpc.DishInitDuration.firstPopPing_hint""": """The terminal pinged the Point of Presence on the ground for the first time.""",
   """grpc.DishInitDuration.gpsValid""": """GPS valid""",
   """grpc.DishInitDuration.gpsValid_hint""":
       """GPS became a valid GPS and gave an accurate position.""",
   """grpc.DishInitDuration.initialNetworkEntry""": """Initial network entry""",
-  """grpc.DishInitDuration.initialNetworkEntry_hint""":
-      """The terminal has connected to the Starlink network for the first time and started communication.""",
+  """grpc.DishInitDuration.initialNetworkEntry_hint""": """The terminal has connected to the Starlink network for the first time and started communication.""",
   """grpc.DishInitDuration.networkSchedule""": """Network schedule""",
-  """grpc.DishInitDuration.networkSchedule_hint""":
-      """The terminal has received the first data packet with the cell schedule.""",
+  """grpc.DishInitDuration.networkSchedule_hint""": """The terminal has received the first data packet with the cell schedule.""",
   """grpc.DishInitDuration.rfReady""": """RF ready""",
-  """grpc.DishInitDuration.rfReady_hint""":
-      """The terminal has completed antenna initialization without errors in XPHY, RF, SCP, etc.""",
+  """grpc.DishInitDuration.rfReady_hint""": """The terminal has completed antenna initialization without errors in XPHY, RF, SCP, etc.""",
   """grpc.DishInitDuration.stableConnection""": """Stable connection""",
   """grpc.DishInitDuration.stableConnection_hint""":
       """The terminal has received a stable connection to the network.""",
@@ -3134,15 +3117,12 @@ with internet access and dish access. You can find this setting in
   """grpc.DishConfig.power_save_duration_minutes""":
       """Power save duration minutes""",
   """grpc.DishConfig.power_save_mode""": """Power save mode""",
-  """grpc.DishConfig.power_save_mode__hint""":
-      """You can set a sleep mode for your Starlink. Starlink won't provide Internet or melt snow while sleeping.""",
+  """grpc.DishConfig.power_save_mode__hint""": """You can set a sleep mode for your Starlink. Starlink won't provide Internet or melt snow while sleeping.""",
   """grpc.DishObstructionStats.fraction_obstructed""":
       """Fraction obstructed""",
-  """grpc.DishObstructionStats.fraction_obstructed__hint""":
-      """Percentage of the sky obstructed from the dish's view. Lower is better.""",
+  """grpc.DishObstructionStats.fraction_obstructed__hint""": """Percentage of the sky obstructed from the dish's view. Lower is better.""",
   """grpc.DishObstructionStats.valid_s""": """Time valid""",
-  """grpc.DishObstructionStats.valid_s__hint""":
-      """Duration for which obstruction data has been collected and is considered valid.""",
+  """grpc.DishObstructionStats.valid_s__hint""": """Duration for which obstruction data has been collected and is considered valid.""",
   """grpc.DishObstructionStats.currently_obstructed""":
       """Currently obstructed""",
   """grpc.DishObstructionStats.currently_obstructed__hint""":
@@ -3157,8 +3137,7 @@ with internet access and dish access. You can find this setting in
       """Average time between prolonged obstructions.""",
   """grpc.DishObstructionStats.avg_prolonged_obstruction_valid""":
       """Average prolonged obstruction valid""",
-  """grpc.DishObstructionStats.avg_prolonged_obstruction_valid__hint""":
-      """Whether enough data has been collected for prolonged obstruction statistics to be reliable.""",
+  """grpc.DishObstructionStats.avg_prolonged_obstruction_valid__hint""": """Whether enough data has been collected for prolonged obstruction statistics to be reliable.""",
   """grpc.DishObstructionStats.time_obstructed""": """Time obstructed""",
   """grpc.DishObstructionStats.time_obstructed__hint""":
       """Total fraction of time the dish signal has been obstructed.""",
@@ -3170,8 +3149,7 @@ with internet access and dish access. You can find this setting in
       """Time the dish has been running since the last reboot.""",
   """grpc.DishGetStatus.seconds_to_first_nonempty_slot""":
       """Seconds to first non-empty slot""",
-  """grpc.DishGetStatus.seconds_to_first_nonempty_slot__hint""":
-      """Time until the dish has its next scheduled communication slot with a satellite.""",
+  """grpc.DishGetStatus.seconds_to_first_nonempty_slot__hint""": """Time until the dish has its next scheduled communication slot with a satellite.""",
   """grpc.DishGetStatus.fraction_obstructed""": """fraction_obstructed""",
   """grpc.DishGetStatus.valid_s""": """valid_s""",
   """grpc.DishGetStatus.currently_obstructed""": """currently_obstructed""",
@@ -3207,16 +3185,13 @@ with internet access and dish access. You can find this setting in
 **PoP Ping Drop Rate** indicates the fraction of packets lost during transmission between the User Terminal and a Point of Presence.
 """,
   """grpc.DishGetStatus.stow_requested""": """Stow requested""",
-  """grpc.DishGetStatus.stow_requested__hint""":
-      """Whether a stow command has been sent. When stowed, the dish folds flat for storage or transport.""",
+  """grpc.DishGetStatus.stow_requested__hint""": """Whether a stow command has been sent. When stowed, the dish folds flat for storage or transport.""",
   """grpc.DishGetStatus.boresight_azimuth_deg""":
       """Panel boresight Azimuth angle, deg""",
-  """grpc.DishGetStatus.boresight_azimuth_deg__hint""":
-      """The horizontal compass direction the dish antenna panel is currently pointing, in degrees.""",
+  """grpc.DishGetStatus.boresight_azimuth_deg__hint""": """The horizontal compass direction the dish antenna panel is currently pointing, in degrees.""",
   """grpc.DishGetStatus.boresight_elevation_deg""":
       """Panel boresight Elevation angle, deg""",
-  """grpc.DishGetStatus.boresight_elevation_deg__hint""":
-      """The vertical angle the dish antenna panel is currently pointing above the horizon, in degrees.""",
+  """grpc.DishGetStatus.boresight_elevation_deg__hint""": """The vertical angle the dish antenna panel is currently pointing above the horizon, in degrees.""",
   """grpc.DishGetStatus.eth_speed_mbps""": """Ethernet speed, Mbps""",
   """grpc.DishGetStatus.mobility_class""": """Mobility class""",
   """grpc.DishGetStatus.mobility_class__hint""": """The possible options are:
@@ -3227,8 +3202,7 @@ with internet access and dish access. You can find this setting in
 """,
   """grpc.DishGetStatus.is_snr_above_noise_floor""":
       """SNR above the noise floor""",
-  """grpc.DishGetStatus.is_snr_above_noise_floor__hint""":
-      """Whether the Signal-to-Noise Ratio is above the minimum threshold required for reliable communication.""",
+  """grpc.DishGetStatus.is_snr_above_noise_floor__hint""": """Whether the Signal-to-Noise Ratio is above the minimum threshold required for reliable communication.""",
   """grpc.DishGetStatus.class_of_service""": """Class of service""",
   """grpc.DishGetStatus.class_of_service__hint""": """The possible options are:
 
@@ -3253,8 +3227,7 @@ with internet access and dish access. You can find this setting in
 - **FAULTED** - Software update process has faulted.
 """,
   """grpc.DishGetStatus.is_snr_persistently_low""": """SNR persistently low""",
-  """grpc.DishGetStatus.is_snr_persistently_low__hint""":
-      """Whether the Signal-to-Noise Ratio has been consistently below acceptable levels. May indicate obstructions or hardware issues.""",
+  """grpc.DishGetStatus.is_snr_persistently_low__hint""": """Whether the Signal-to-Noise Ratio has been consistently below acceptable levels. May indicate obstructions or hardware issues.""",
   """grpc.DishGetStatus.has_actuators""": """Actuators""",
   """grpc.DishGetStatus.has_actuators__hint""":
       """Whether the dish has motorized actuators for tilting and rotating.""",
@@ -3336,12 +3309,10 @@ with internet access and dish access. You can find this setting in
       """Attitude uncertainty, deg""",
   """grpc.AlignmentStats.desired_boresight_azimuth_deg""":
       """Desired boresight Azimuth angle, deg""",
-  """grpc.AlignmentStats.desired_boresight_azimuth_deg__hint""":
-      """The target horizontal direction the dish should point to for optimal satellite communication, in degrees.""",
+  """grpc.AlignmentStats.desired_boresight_azimuth_deg__hint""": """The target horizontal direction the dish should point to for optimal satellite communication, in degrees.""",
   """grpc.AlignmentStats.desired_boresight_elevation_deg""":
       """Desired boresight Elevation angle, deg""",
-  """grpc.AlignmentStats.desired_boresight_elevation_deg__hint""":
-      """The target vertical angle the dish should point to for optimal satellite communication, in degrees.""",
+  """grpc.AlignmentStats.desired_boresight_elevation_deg__hint""": """The target vertical angle the dish should point to for optimal satellite communication, in degrees.""",
   """grpc.ClientName.mac_address""": """mac_address""",
   """grpc.ClientName.given_name""": """given_name""",
   """grpc.Network.ipv4""": """ipv4""",
@@ -3355,8 +3326,7 @@ with internet access and dish access. You can find this setting in
   """grpc.Network.default_route_disabled""": """Default route disabled""",
   """grpc.Network.geofence_action""": """Geofence action""",
   """grpc.BasicServiceSet.bssid""": """bssid""",
-  """grpc.BasicServiceSet.bssid__hint""":
-      """Starlink BSSID originally starts with **74:24:9f**, but due to security concerns, 
+  """grpc.BasicServiceSet.bssid__hint""": """Starlink BSSID originally starts with **74:24:9f**, but due to security concerns, 
 starting from approximately January 2023, Starlink routers are able to pick random BSSID on factory reset.
 """,
   """grpc.BasicServiceSet.ssid""": """ssid""",

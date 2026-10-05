@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'dart:convert';
 
 import 'package:clipboard/clipboard.dart';
 import 'package:file_picker/file_picker.dart';
@@ -136,22 +136,22 @@ class _DebugDataPageState extends State<DebugDataPage>
 
   void onOpenClicked() async {
     snap = null;
-    FilePickerResult? result;
+    PlatformFile? result;
     try {
-      result = await FilePicker.pickFiles(allowMultiple: false);
+      result = await FilePicker.pickFile();
     } catch (e, s) {
       LogUtils.ers(_TAG, "Pick files", e, s);
       R.showSnackBarText("$e");
       return;
     }
 
-    if (result != null && result.files.single.path != null) {
+    if (result != null) {
       try {
-        var f = File(result.files.single.path!);
-        if ((await f.stat()).size > 1024 * 1024)
+        var bytes = await result.readAsBytes();
+        if (bytes.length > 1024 * 1024)
           R.showSnackBarText("Too large file");
 
-        newData(SpaceParser.ofJsonStr(await f.readAsString()).toSnapshot());
+        newData(SpaceParser.ofJsonStr(utf8.decode(bytes)).toSnapshot());
         setState(() {});
       } catch (e, s) {
         LogUtils.ers(_TAG, "Opening $result", e, s);

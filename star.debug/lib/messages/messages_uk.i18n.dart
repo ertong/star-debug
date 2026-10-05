@@ -1,6 +1,7 @@
 // GENERATED FILE, do not edit!
 // ignore_for_file: annotate_overrides, non_constant_identifier_names, prefer_single_quotes, unused_element, unused_field
 import 'package:i18n/i18n.dart' as i18n;
+
 import 'messages.i18n.dart';
 
 String get _languageCode => 'uk';
@@ -446,8 +447,7 @@ class AboutMessagesUk extends AboutMessages {
   /// які росія намагається перетворити на пустелю.
   /// """
   /// ```
-  String get about_text =>
-      """Додаток створений в рамках волонтерської ініціативи "**Народний Starlink**"
+  String get about_text => """Додаток створений в рамках волонтерської ініціативи "**Народний Starlink**"
 для потреб людей, що щодня працюють над тим, щоб зв'язок був доступний навіть в місцях,
 які росія намагається перетворити на пустелю.
 """;
@@ -518,8 +518,7 @@ class ValkyrieMessagesUk extends ValkyrieMessages {
   /// Крім того, у випадку рухомого маршрутизатора, можна прослідкувати його маршрут.
   /// """
   /// ```
-  String get hint =>
-      """Перевіряє, чи BSSID (MAC-адреса бездротового інтерфейсу) маршрутизатора знайдена в базах даних від Valkyrie.
+  String get hint => """Перевіряє, чи BSSID (MAC-адреса бездротового інтерфейсу) маршрутизатора знайдена в базах даних від Valkyrie.
 
 Можливі варіанти:
 
@@ -2199,8 +2198,7 @@ class BasicServiceSetGrpcMessagesUk extends BasicServiceSetGrpcMessages {
   ///  починаючи приблизно з січня 2023 року, маршрутизатори Starlink можуть обрати випадковий BSSID після скидання до заводських налаштувань.
   /// """
   /// ```
-  String get bssid__hint =>
-      """Starlink BSSID спочатку починався з **74:24:9f**, але через проблеми з безпекою,
+  String get bssid__hint => """Starlink BSSID спочатку починався з **74:24:9f**, але через проблеми з безпекою,
  починаючи приблизно з січня 2023 року, маршрутизатори Starlink можуть обрати випадковий BSSID після скидання до заводських налаштувань.
 """;
 
@@ -2882,8 +2880,7 @@ Map<String, String> get messagesUkMap => {
   """about.about_starlink_for_ukraine""": """Про Народний Starlink""",
   """about.starlink_for_ukraine""": """Народний Starlink""",
   """about.starlink_for_ukraine_in_fb""": """Народний Starlink у Facebook""",
-  """about.about_text""":
-      """Додаток створений в рамках волонтерської ініціативи "**Народний Starlink**"
+  """about.about_text""": """Додаток створений в рамках волонтерської ініціативи "**Народний Starlink**"
 для потреб людей, що щодня працюють над тим, щоб зв'язок був доступний навіть в місцях,
 які росія намагається перетворити на пустелю.
 """,
@@ -2897,8 +2894,7 @@ Map<String, String> get messagesUkMap => {
       """Перевіряє SSID роутера на наявність в базах від Valkyrie""",
   """valkyrie.found""": """Знайдено""",
   """valkyrie.not_found""": """Не знайдено""",
-  """valkyrie.hint""":
-      """Перевіряє, чи BSSID (MAC-адреса бездротового інтерфейсу) маршрутизатора знайдена в базах даних від Valkyrie.
+  """valkyrie.hint""": """Перевіряє, чи BSSID (MAC-адреса бездротового інтерфейсу) маршрутизатора знайдена в базах даних від Valkyrie.
 
 Можливі варіанти:
 
@@ -2919,10 +2915,8 @@ Map<String, String> get messagesUkMap => {
   """wifi.setup_ssid_and_password""": """Налаштувати SSID та пароль""",
   """wifi.keep_default_wifi_settings""": """STARLINK/без пароля""",
   """wifi.enable_bypass_mode""": """Увімкнути режим Bypass""",
-  """wifi.setup_default""":
-      """Ви вирішили залишити назву мережі за замовчуванням "STARLINK" і без пароля. Вірно?""",
-  """wifi.setup_bypass""":
-      """Ви обрали активувати mypass mode. Роутер буде недоступний в цьому режимі аж до наступного апаратного скидання. Підтвердити?""",
+  """wifi.setup_default""": """Ви вирішили залишити назву мережі за замовчуванням "STARLINK" і без пароля. Вірно?""",
+  """wifi.setup_bypass""": """Ви обрали активувати mypass mode. Роутер буде недоступний в цьому режимі аж до наступного апаратного скидання. Підтвердити?""",
   """wifi.more_8_chars""": """8 символів або більше""",
   """live.starlink_live""": """Starlink Live""",
   """live.check_update""": """Перевірити оновлення""",
@@ -3056,11 +3050,9 @@ Map<String, String> get messagesUkMap => {
       """Кількість GPS-супутників, які наразі бачить тарілка.""",
   """grpc.DishGpsStats.no_sats_after_ttff""":
       """Немає супутників після першого фіксу""",
-  """grpc.DishGpsStats.no_sats_after_ttff__hint""":
-      """Чи було втрачено видимість GPS-супутників після першого фіксу (TTFF). Може вказувати на проблеми з GPS-антеною.""",
+  """grpc.DishGpsStats.no_sats_after_ttff__hint""": """Чи було втрачено видимість GPS-супутників після першого фіксу (TTFF). Може вказувати на проблеми з GPS-антеною.""",
   """grpc.DishGpsStats.inhibit_gps""": """Не довіряти GPS""",
-  """grpc.DishGpsStats.inhibit_gps__hint""":
-      """Чи ігнорується внутрішній GPS тарілки на користь альтернативного джерела місцезнаходження.""",
+  """grpc.DishGpsStats.inhibit_gps__hint""": """Чи ігнорується внутрішній GPS тарілки на користь альтернативного джерела місцезнаходження.""",
   """grpc.DishGpsStats.pnt_filter_convergence_state""":
       """Стан фільтра позиціонування""",
   """grpc.DishBatteryStats.state_of_charge""": """Заряд батареї""",
@@ -3074,14 +3066,12 @@ Map<String, String> get messagesUkMap => {
   """grpc.DishReadyStates.rf""": """RF front end""",
   """grpc.DishInitDuration.attitudeInitialization""":
       """Attitude initialization""",
-  """grpc.DishInitDuration.attitudeInitialization_hint""":
-      """Термінал зміг зрозуміти своє початкове положення (де верх, де низ, як він нахилений).""",
+  """grpc.DishInitDuration.attitudeInitialization_hint""": """Термінал зміг зрозуміти своє початкове положення (де верх, де низ, як він нахилений).""",
   """grpc.DishInitDuration.burstDetected""": """Burst  detected""",
   """grpc.DishInitDuration.burstDetected_hint""":
       """Термінл почув сигнал супутника Starlink.""",
   """grpc.DishInitDuration.ekfConverged""": """EKF converged""",
-  """grpc.DishInitDuration.ekfConverged_hint""":
-      """Термінал зміг зрозуміти своє початкове положення (схоже на Attitude initialization), але вже стабільне, все зійшлось і термінал вже точно впевнений як він повернутий.""",
+  """grpc.DishInitDuration.ekfConverged_hint""": """Термінал зміг зрозуміти своє початкове положення (схоже на Attitude initialization), але вже стабільне, все зійшлось і термінал вже точно впевнений як він повернутий.""",
   """grpc.DishInitDuration.firstCplane""": """First CPlane""",
   """grpc.DishInitDuration.firstCplane_hint""":
       """Термінал отримав перший контрольний пакет даних від супутника.""",
@@ -3092,14 +3082,12 @@ Map<String, String> get messagesUkMap => {
   """grpc.DishInitDuration.gpsValid_hint""":
       """GPS став валідним та видав точну позицію.""",
   """grpc.DishInitDuration.initialNetworkEntry""": """Initial network entry""",
-  """grpc.DishInitDuration.initialNetworkEntry_hint""":
-      """Термінал вперше під'єднався до мережі Starlink та почав комунікацію.""",
+  """grpc.DishInitDuration.initialNetworkEntry_hint""": """Термінал вперше під'єднався до мережі Starlink та почав комунікацію.""",
   """grpc.DishInitDuration.networkSchedule""": """Network schedule""",
   """grpc.DishInitDuration.networkSchedule_hint""":
       """Термінал отримав перший пакет даних з розкладом роботи соти.""",
   """grpc.DishInitDuration.rfReady""": """RF ready""",
-  """grpc.DishInitDuration.rfReady_hint""":
-      """Термінал виконав ініціалізацію антени без помилок по XPHY, RF, SCP, тощо.""",
+  """grpc.DishInitDuration.rfReady_hint""": """Термінал виконав ініціалізацію антени без помилок по XPHY, RF, SCP, тощо.""",
   """grpc.DishInitDuration.stableConnection""": """Stable connection""",
   """grpc.DishInitDuration.stableConnection_hint""":
       """Термінал отримав стабільне з'єднання за мережею.""",
@@ -3130,15 +3118,12 @@ Map<String, String> get messagesUkMap => {
   """grpc.DishConfig.power_save_duration_minutes""":
       """Power save duration minutes""",
   """grpc.DishConfig.power_save_mode""": """Power save mode""",
-  """grpc.DishConfig.power_save_mode__hint""":
-      """Для Starlink можна налаштувати режим сну. Starlink не надає Інтернет і не топить сніг під час сну.""",
+  """grpc.DishConfig.power_save_mode__hint""": """Для Starlink можна налаштувати режим сну. Starlink не надає Інтернет і не топить сніг під час сну.""",
   """grpc.DishObstructionStats.fraction_obstructed""":
       """Частка часу с перешкодами""",
-  """grpc.DishObstructionStats.fraction_obstructed__hint""":
-      """Відсоток неба, закритого перешкодами від огляду тарілки. Чим менше, тим краще.""",
+  """grpc.DishObstructionStats.fraction_obstructed__hint""": """Відсоток неба, закритого перешкодами від огляду тарілки. Чим менше, тим краще.""",
   """grpc.DishObstructionStats.valid_s""": """Time valid""",
-  """grpc.DishObstructionStats.valid_s__hint""":
-      """Тривалість, протягом якої дані про перешкоди збирались і вважаються дійсними.""",
+  """grpc.DishObstructionStats.valid_s__hint""": """Тривалість, протягом якої дані про перешкоди збирались і вважаються дійсними.""",
   """grpc.DishObstructionStats.currently_obstructed""": """Є перешкода""",
   """grpc.DishObstructionStats.currently_obstructed__hint""":
       """Чи заблокований наразі сигнал тарілки перешкодою.""",
@@ -3152,11 +3137,9 @@ Map<String, String> get messagesUkMap => {
       """Середній час між тривалими перешкодами.""",
   """grpc.DishObstructionStats.avg_prolonged_obstruction_valid""":
       """Average prolonged obstruction valid""",
-  """grpc.DishObstructionStats.avg_prolonged_obstruction_valid__hint""":
-      """Чи зібрано достатньо даних для надійної статистики тривалих перешкод.""",
+  """grpc.DishObstructionStats.avg_prolonged_obstruction_valid__hint""": """Чи зібрано достатньо даних для надійної статистики тривалих перешкод.""",
   """grpc.DishObstructionStats.time_obstructed""": """Тривалість перешкоди""",
-  """grpc.DishObstructionStats.time_obstructed__hint""":
-      """Загальна частка часу, протягом якого сигнал тарілки був заблокований перешкодами.""",
+  """grpc.DishObstructionStats.time_obstructed__hint""": """Загальна частка часу, протягом якого сигнал тарілки був заблокований перешкодами.""",
   """grpc.DishObstructionStats.patches_valid""": """Patches valid""",
   """grpc.DishObstructionStats.patches_valid__hint""":
       """Чи містять патчі карти перешкод дійсні дані.""",
@@ -3203,15 +3186,12 @@ Map<String, String> get messagesUkMap => {
 **PoP Ping Drop Rate** вказує на частку пакетів, які втрачаються під час передачі між користувацьким терміналом та точкою присутності.
 """,
   """grpc.DishGetStatus.stow_requested""": """Складання в процесі""",
-  """grpc.DishGetStatus.stow_requested__hint""":
-      """Чи було надіслано команду складання. У складеному стані тарілка згортається для зберігання або транспортування.""",
+  """grpc.DishGetStatus.stow_requested__hint""": """Чи було надіслано команду складання. У складеному стані тарілка згортається для зберігання або транспортування.""",
   """grpc.DishGetStatus.boresight_azimuth_deg""": """Азимут осі панелі, град""",
-  """grpc.DishGetStatus.boresight_azimuth_deg__hint""":
-      """Горизонтальний кут компасу, в якому наразі спрямована антенна панель тарілки, в градусах.""",
+  """grpc.DishGetStatus.boresight_azimuth_deg__hint""": """Горизонтальний кут компасу, в якому наразі спрямована антенна панель тарілки, в градусах.""",
   """grpc.DishGetStatus.boresight_elevation_deg""":
       """Кут підйому панелі, град""",
-  """grpc.DishGetStatus.boresight_elevation_deg__hint""":
-      """Вертикальний кут, під яким наразі спрямована антенна панель тарілки відносно горизонту, в градусах.""",
+  """grpc.DishGetStatus.boresight_elevation_deg__hint""": """Вертикальний кут, під яким наразі спрямована антенна панель тарілки відносно горизонту, в градусах.""",
   """grpc.DishGetStatus.eth_speed_mbps""": """Швидкість Ethernet, Mbps""",
   """grpc.DishGetStatus.mobility_class""": """Клас мобільності""",
   """grpc.DishGetStatus.mobility_class__hint""": """Можливі варіанти:
@@ -3222,8 +3202,7 @@ Map<String, String> get messagesUkMap => {
 """,
   """grpc.DishGetStatus.is_snr_above_noise_floor""":
       """SNR вище за рівень шуму""",
-  """grpc.DishGetStatus.is_snr_above_noise_floor__hint""":
-      """Чи перевищує відношення сигнал/шум мінімальний поріг, необхідний для надійного зв'язку.""",
+  """grpc.DishGetStatus.is_snr_above_noise_floor__hint""": """Чи перевищує відношення сигнал/шум мінімальний поріг, необхідний для надійного зв'язку.""",
   """grpc.DishGetStatus.class_of_service""": """Клас сервісу""",
   """grpc.DishGetStatus.class_of_service__hint""": """Можливі варіанти:
 
@@ -3247,8 +3226,7 @@ Map<String, String> get messagesUkMap => {
 - **FAULTED** - Помилка процесу оновлення.
 """,
   """grpc.DishGetStatus.is_snr_persistently_low""": """SNR стабільно низький""",
-  """grpc.DishGetStatus.is_snr_persistently_low__hint""":
-      """Чи було відношення сигнал/шум стабільно нижче допустимого рівня. Може вказувати на перешкоди або проблеми з обладнанням.""",
+  """grpc.DishGetStatus.is_snr_persistently_low__hint""": """Чи було відношення сигнал/шум стабільно нижче допустимого рівня. Може вказувати на перешкоди або проблеми з обладнанням.""",
   """grpc.DishGetStatus.has_actuators""": """Наявність приводу""",
   """grpc.DishGetStatus.has_actuators__hint""":
       """Чи має тарілка моторизовані приводи для нахилу та обертання.""",
@@ -3330,12 +3308,10 @@ Map<String, String> get messagesUkMap => {
       """Attitude uncertainty, deg""",
   """grpc.AlignmentStats.desired_boresight_azimuth_deg""":
       """Desired boresight Azimuth angle, deg""",
-  """grpc.AlignmentStats.desired_boresight_azimuth_deg__hint""":
-      """Цільовий горизонтальний напрямок, в якому тарілка повинна бути спрямована для оптимального зв'язку з супутниками, в градусах.""",
+  """grpc.AlignmentStats.desired_boresight_azimuth_deg__hint""": """Цільовий горизонтальний напрямок, в якому тарілка повинна бути спрямована для оптимального зв'язку з супутниками, в градусах.""",
   """grpc.AlignmentStats.desired_boresight_elevation_deg""":
       """Desired boresight Elevation angle, deg""",
-  """grpc.AlignmentStats.desired_boresight_elevation_deg__hint""":
-      """Цільовий вертикальний кут, під яким тарілка повинна бути спрямована для оптимального зв'язку з супутниками, в градусах.""",
+  """grpc.AlignmentStats.desired_boresight_elevation_deg__hint""": """Цільовий вертикальний кут, під яким тарілка повинна бути спрямована для оптимального зв'язку з супутниками, в градусах.""",
   """grpc.ClientName.mac_address""": """mac_address""",
   """grpc.ClientName.given_name""": """given_name""",
   """grpc.Network.ipv4""": """ipv4""",
@@ -3350,8 +3326,7 @@ Map<String, String> get messagesUkMap => {
       """Маршрут за замовчуванням вимкнено""",
   """grpc.Network.geofence_action""": """Дія геозони""",
   """grpc.BasicServiceSet.bssid""": """bssid""",
-  """grpc.BasicServiceSet.bssid__hint""":
-      """Starlink BSSID спочатку починався з **74:24:9f**, але через проблеми з безпекою,
+  """grpc.BasicServiceSet.bssid__hint""": """Starlink BSSID спочатку починався з **74:24:9f**, але через проблеми з безпекою,
  починаючи приблизно з січня 2023 року, маршрутизатори Starlink можуть обрати випадковий BSSID після скидання до заводських налаштувань.
 """,
   """grpc.BasicServiceSet.ssid""": """ssid""",
