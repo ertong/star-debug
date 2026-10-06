@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:star_debug/controller/conn/dish_connection.dart';
-import 'package:star_debug/controller/conn/router_connection.dart';
 import 'package:star_debug/preloaded.dart';
+import 'package:star_debug/utils/starlink_addresses.dart';
 
 /// All known Starlink subnets.
 /// The gateway IP (before /) is used as the router IP.
@@ -19,16 +18,6 @@ const List<String> kStarlinkSubnets = [
 String _gatewayFromSubnet(String subnet) => subnet.split('/').first;
 
 const String _customSubnet = '__custom__';
-
-bool _isValidIpv4(String value) {
-  final parts = value.split('.');
-  if (parts.length != 4) return false;
-  for (var p in parts) {
-    final n = int.tryParse(p);
-    if (n == null || n < 0 || n > 255) return false;
-  }
-  return true;
-}
 
 class SubnetSettingsSection extends StatefulWidget {
   const SubnetSettingsSection({super.key});
@@ -103,25 +92,25 @@ class _SubnetSettingsSectionState extends State<SubnetSettingsSection> {
       _routerIp = ip;
       _routerError = null;
     });
-    await R.prefs.save((p) => p.routerIp = ip == kDefaultRouterIp ? null : ip);
-    _forceReconnect();
+    await R.prefs.save((p) => p.routerIp = normalizeIpv4Override(ip, kDefaultRouterIp));
+    R.routerHolder.reconnect();
   }
 
   Future<void> _onCustomRouterSubmit(String value) async {
     final ip = value.trim();
-    if (ip.isNotEmpty && !_isValidIpv4(ip)) {
+    if (ip.isNotEmpty && !isValidIpv4Address(ip)) {
       setState(() => _routerError = 'Enter a valid IPv4 address');
       return;
     }
 
-    await R.prefs.save((p) => p.routerIp = ip == kDefaultRouterIp ? null : ip);
-    _forceReconnect();
+    await R.prefs.save((p) => p.routerIp = normalizeIpv4Override(ip, kDefaultRouterIp));
+    R.routerHolder.reconnect();
     if (!mounted) return;
 
     setState(() {
       _routerError = null;
-      _routerIp = ip.isEmpty ? kDefaultRouterIp : ip;
-      if (ip.isEmpty) {
+      _routerIp = R.prefs.data.routerIp ?? kDefaultRouterIp;
+      if (R.prefs.data.routerIp == null) {
         _selectedSubnet = kStarlinkSubnets.first;
         _customRouterMode = false;
       }
@@ -130,26 +119,19 @@ class _SubnetSettingsSectionState extends State<SubnetSettingsSection> {
 
   Future<void> _onDishIpSubmit(String value) async {
     final ip = value.trim();
-    if (ip.isNotEmpty && !_isValidIpv4(ip)) {
+    if (ip.isNotEmpty && !isValidIpv4Address(ip)) {
       setState(() => _dishError = 'Enter a valid IPv4 address');
       return;
     }
 
-    await R.prefs.save((p) => p.dishIp = ip == kDefaultDishIp ? null : ip);
-    _forceReconnect();
+    await R.prefs.save((p) => p.dishIp = normalizeIpv4Override(ip, kDefaultDishIp));
+    R.dishHolder.reconnect();
     if (!mounted) return;
 
     setState(() {
       _dishError = null;
-      _dishIp = ip.isEmpty ? kDefaultDishIp : ip;
+      _dishIp = R.prefs.data.dishIp ?? kDefaultDishIp;
     });
-  }
-
-  /// Close existing connections so they are re-created with the new IPs
-  /// on the next tick cycle.
-  void _forceReconnect() {
-    R.routerHolder.conn?.close();
-    R.dishHolder.conn?.close();
   }
 
   @override

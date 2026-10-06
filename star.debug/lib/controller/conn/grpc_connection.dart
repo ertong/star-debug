@@ -36,7 +36,7 @@ abstract class GrpcConnection extends BaseConnection {
   int statusReceivedTime = 0;
 
   GrpcConnection({required this.notifyStream, required this.host, required this.port}){
-    LogUtils.d(TAG, "New connection: $this");
+    LogUtils.d(TAG, "New connection: $host:$port");
     subsConnectivity = Connectivity().onConnectivityChanged.listen((event) {
       LogUtils.d(TAG, "Connectivity change: $event");
       channel?.shutdown();

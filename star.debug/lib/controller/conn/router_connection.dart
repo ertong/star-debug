@@ -6,12 +6,13 @@ import 'package:star_debug/controller/conn/connection.dart';
 import 'package:star_debug/grpc/starlink/starlink.pbgrpc.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/utils/log_utils.dart';
+import 'package:star_debug/utils/starlink_addresses.dart';
 
 import 'grpc_connection.dart';
 
-String _TAG = "RouterConnection";
+export 'package:star_debug/utils/starlink_addresses.dart' show kDefaultRouterIp;
 
-const String kDefaultRouterIp = '192.168.1.1';
+String _TAG = "RouterConnection";
 
 class RouterPoolResponse {
   int code = 0;
@@ -24,7 +25,7 @@ class RouterConnection extends GrpcConnection {
   PooledRequest<RouterPoolResponse> httpPool = PooledRequest(2000);
 
   RouterConnection({required super.notifyStream}):super(
-    host: R.prefs.data.routerIp ?? kDefaultRouterIp,
+    host: normalizeIpv4Override(R.prefs.data.routerIp, kDefaultRouterIp) ?? kDefaultRouterIp,
     port: 9000,
   ) {
     TAG = "RouterConnection";
@@ -87,7 +88,7 @@ class RouterConnection extends GrpcConnection {
   CancelToken? httpPoolCancelToken;
   final dio = Dio();
   Future doHttpPool() async {
-    final routerIp = R.prefs.data.routerIp ?? kDefaultRouterIp;
+    final routerIp = host;
     try {
       httpPoolCancelToken?.cancel();
       httpPoolCancelToken = CancelToken();

@@ -192,7 +192,9 @@ documentation, or source control.
 - `PooledRequest.data` can be stale; use timestamps, `hasRecentData()`, or `validData()` when
   freshness is part of the contract.
 - A connection captures its host when constructed. Calling `close()` does not clear its holder's
-  reference or guarantee immediate reconstruction.
+  reference or guarantee immediate reconstruction. Use `ConnectionHolder.reconnect()` when changing
+  addresses; blank address settings restore defaults, and preferences repair invalid saved overrides
+  on load without clearing other user data.
 - Debug-data timestamps are seconds; runtime and database timestamps are milliseconds.
 - Imported debug data may contain either embedded protobuf bytes or only JSON-shaped protobuf data.
   Maintain both paths and the round-trip tests.
