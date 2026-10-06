@@ -13,6 +13,21 @@ Read the focused documentation before changing a central subsystem:
   common traps.
 - [`docs/README.md`](docs/README.md) is the documentation index and source map.
 
+## Change scope
+
+- Change only code, tests, configuration, and documentation needed for the requested task.
+  Editing a file does not authorize cleanup of other parts of that file.
+- Match the surrounding style in new or changed code. Change existing code style only when the user
+  explicitly requests it. Do not normalize nearby quotes, braces, `const`/`final`, `this.`, naming,
+  import order, line wrapping, whitespace, or line endings as incidental cleanup.
+- Avoid unrelated refactors, renames, dependency updates, lint fixes, and documentation rewrites.
+  Report unrelated issues separately instead of fixing them in the same task.
+- Use formatting checks without writing changes, scoped to the Dart files needed for the task.
+  Do not run a repository-wide formatter unless formatting is explicitly requested. If a formatter
+  rewrites unrelated code within a changed file, remove only your incidental formatting edits.
+- Before finishing, review the diff and ensure each changed hunk serves the task. Preserve all
+  pre-existing user changes, including when removing your own incidental edits.
+
 ## Project structure
 
 - `star.debug/lib/pages/` contains screens, live tabs, and dialogs.
@@ -54,7 +69,8 @@ From `star.debug/`:
 - `flutter test` — run the complete suite; this is the CI test command.
 - `flutter test test/debug_data_test.dart` — run the debug-data compatibility suite.
 - `flutter analyze` — apply the analyzer and repository lint configuration.
-- `dart format lib test` — format Dart sources and tests.
+- `dart format --output=none --set-exit-if-changed <changed Dart files>` — check formatting without
+  writing changes; replace the placeholder with the files needed for the task.
 - `dart run build_runner build --delete-conflicting-outputs` — regenerate Drift and localization
   Dart output.
 - `./msg.sh sync` — align translated message YAML keys through the project virtual environment.
@@ -77,9 +93,10 @@ registrants the same way.
 
 ## Coding and testing conventions
 
-Follow `analysis_options.yaml` and `flutter_lints`. Use Dart's standard two-space indentation. Name
-files and directories in `snake_case`, types in `UpperCamelCase`, and members in `lowerCamelCase`.
-Keep UI, connection logic, parsing, and persistence in their existing ownership areas.
+Follow `analysis_options.yaml` and `flutter_lints` for new code, while preserving existing style as
+described in Change scope. Use Dart's standard two-space indentation. Name new files and directories
+in `snake_case`, types in `UpperCamelCase`, and members in `lowerCamelCase`. Keep UI, connection
+logic, parsing, and persistence in their existing ownership areas.
 
 Add focused `flutter_test` tests named `*_test.dart`. Use `test()` for parsing and utility behavior
 and `testWidgets()` for UI interactions. For a new debug-data format, add a sanitized fixture and
@@ -87,7 +104,8 @@ verify both embedded-protobuf and JSON-only round trips. Never include credentia
 or personal device data in fixtures.
 
 Before finishing, run the narrow tests for the changed behavior, then `flutter test` and
-`flutter analyze` when practical. Check formatting for touched Dart files. For generated or
+`flutter analyze` when practical. Check formatting without rewriting unrelated code; report
+pre-existing formatting or analyzer findings outside the task's scope. For generated or
 platform-specific changes, also run the relevant generator or platform build.
 
 ## Commits and pull requests

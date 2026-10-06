@@ -7,12 +7,15 @@ import 'package:star_debug/pages/view/router.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:grpc/grpc.dart';
 import 'package:star_debug/utils/view_options.dart';
+import 'package:star_debug/widgets/connection_error_log.dart';
 
 
 const String _TAG="RouterTab";
 
 class RouterTab extends StatefulWidget {
-  const RouterTab({super.key});
+  final ScrollController? scrollController;
+
+  const RouterTab({super.key, this.scrollController});
 
   @override
   State createState() => _RouterTabState();
@@ -41,9 +44,10 @@ class _RouterTabState extends State<RouterTab> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     theme = Theme.of(context);
-    return Center(
-      child: Column(children:
-      _buildBody(),),
+    return ConnectionErrorLogLayout(
+      controller: widget.scrollController,
+      entries: R.router?.errorLog.entries ?? [],
+      children: _buildBody(),
     );
   }
 

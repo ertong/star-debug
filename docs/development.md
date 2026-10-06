@@ -20,6 +20,20 @@ network access to the Starlink subnets. The defaults are `192.168.100.1` for the
 Firebase initializes only on Android and iOS. Desktop development does not require Firebase
 startup, but platform plugin availability can still differ.
 
+## Scope of changes
+
+Follow the [Change scope rules in AGENTS.md](../AGENTS.md#change-scope). Keep each edit tied to the
+requested behavior, its tests, or the configuration and documentation needed to support it.
+Nearby code and other parts of a touched file are not an invitation to refactor or restyle.
+
+Match the surrounding style when adding or changing code. Preserve existing quotes, braces,
+`const`/`final`, `this.`, naming, import order, wrapping, whitespace, and line endings unless the
+user explicitly requests a style change. Leave unrelated lint fixes, dependency updates, and
+documentation cleanup for a separate task. Preserve pre-existing user changes.
+
+Review the final diff hunk by hunk for task relevance. When a formatter introduces unrelated
+changes, remove only those incidental edits you introduced and retain the intended changes.
+
 ## Validation
 
 Run commands from `star.debug/` unless noted otherwise:
@@ -27,11 +41,16 @@ Run commands from `star.debug/` unless noted otherwise:
 ```sh
 flutter test
 flutter analyze
-dart format --output=none --set-exit-if-changed lib test
 ```
 
-CI runs `flutter test`. Before completing a change, also run the analyzer and formatting check for
-the files in scope. Use a focused test during iteration, for example:
+Check formatting by passing only the Dart files needed for the task to
+`dart format --output=none --set-exit-if-changed`. This check does not write changes. A formatting
+failure in existing code does not authorize restyling that code. Report pre-existing findings
+outside the task's scope, and use a writing formatter only when its edits stay within that scope.
+Repository-wide formatting requires an explicit formatting request.
+
+CI runs `flutter test`. Before completing a change, also run the analyzer and scoped formatting
+check. Use a focused test during iteration, for example:
 
 ```sh
 flutter test test/debug_data_test.dart
