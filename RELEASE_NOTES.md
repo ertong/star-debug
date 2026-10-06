@@ -1,4 +1,4 @@
-## 1.2b80
+## 1.2b81
 
 ### Enhancements:
 - Update Starlink protocol support to 2026.09.24.
