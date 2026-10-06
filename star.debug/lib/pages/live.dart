@@ -91,7 +91,10 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
       _Page(
         () => M.general.dish,
         () => colorOf(R.dishHolder),
-        () => scrolledPage(DishTab()),
+        () => scrolledPage(
+          DishTab(scrollController: scrollController),
+          scrollable: false,
+        ),
         icon: Icons.settings_input_antenna,
         alert: () {
           DishGetStatusResponse? data = R.dish?.dishGetStatus.data;
@@ -104,7 +107,10 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
       _Page(
         () => M.general.router,
         () => colorOf(R.routerHolder),
-        () => scrolledPage(RouterTab()),
+        () => scrolledPage(
+          RouterTab(scrollController: scrollController),
+          scrollable: false,
+        ),
         icon: Icons.router,
         alert: () {
           var data = R.router?.wifiGetStatus.data;
@@ -235,11 +241,13 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
     return color;
   }
 
-  Widget scrolledPage(Widget child) {
+  Widget scrolledPage(Widget child, {bool scrollable = true}) {
     return Container(
       width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.all(10.0),
-      child: SingleChildScrollView(controller: scrollController, child: child),
+      child: scrollable
+          ? SingleChildScrollView(controller: scrollController, child: child)
+          : child,
     );
   }
 

@@ -69,9 +69,11 @@ the holder streams; the subscriptions both receive updates and express demand fo
 - Windows is exempt from background shutdown.
 - Calling `BaseConnection.close()` marks the connection for shutdown, but does not itself clear the
   holder's non-null `conn` reference. Replacement requires a holder tick that discards it.
+- `ConnectionHolder.reconnect()` closes and discards the current connection, notifies listeners,
+  and wakes the controller when there is demand. The next foreground tick captures the new host.
 
-The final point matters for reconnect features: do not assume that calling `close()` on a connection
-causes the holder to construct a replacement on its next tick.
+Use the holder's `reconnect()` for address changes; calling `close()` on a connection alone does not
+cause the holder to construct a replacement on its next tick.
 
 `PooledRequest<T>` retains the latest response, API version, send time, and receive time. Its
 `validData()` method rejects data older than five seconds, but reading `data` directly does not.
@@ -98,8 +100,11 @@ Wi-Fi status every two seconds and separately probes the router's HTTP root for 
 and redirect location.
 
 Router and dish addresses come from `SharedPrefs`, falling back to `kDefaultRouterIp` and
-`kDefaultDishIp`. Address changes must take the holder lifecycle described above into account,
-because each gRPC connection captures its host during construction.
+`kDefaultDishIp`. Loading preferences removes blank, invalid, and explicit default overrides and
+canonicalizes valid IPv4 addresses, repairing older installations without clearing other data.
+Saving applies the same normalization. Address settings reconnect only the affected holder,
+because each gRPC connection captures its host during construction. The router HTTP probe uses
+that same captured host.
 
 ## Internet diagnostics and Android integration
 

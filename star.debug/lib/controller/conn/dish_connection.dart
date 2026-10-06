@@ -5,10 +5,11 @@ import 'package:star_debug/controller/conn/connection.dart';
 import 'package:star_debug/grpc/starlink/starlink.pbgrpc.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/utils/log_utils.dart';
+import 'package:star_debug/utils/starlink_addresses.dart';
 
 import 'grpc_connection.dart';
 
-const String kDefaultDishIp = '192.168.100.1';
+export 'package:star_debug/utils/starlink_addresses.dart' show kDefaultDishIp;
 
 class DishConnection extends GrpcConnection {
 
@@ -19,7 +20,7 @@ class DishConnection extends GrpcConnection {
   PooledRequest<GetLocationResponse> dishGetLocationStarlink = PooledRequest(2000);
 
   DishConnection({required super.notifyStream}):super(
-    host: R.prefs.data.dishIp ?? kDefaultDishIp,
+    host: normalizeIpv4Override(R.prefs.data.dishIp, kDefaultDishIp) ?? kDefaultDishIp,
     port: 9200,
   ) {
     TAG = "DishConnection";

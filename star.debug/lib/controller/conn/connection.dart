@@ -20,14 +20,15 @@ class ConnectionHolder<T extends BaseConnection> {
   bool isRunning = false;
 
   T Function(StreamController notifyStream) builder;
+  final void Function() _wakeController;
 
   T? conn;
 
-  ConnectionHolder(this.builder, void Function() onNewListen){
+  ConnectionHolder(this.builder, this._wakeController){
     _streamController.onListen = (){
       ++listened;
       LogUtils.d(_TAG, "add listened: $listened");
-      onNewListen();
+      _wakeController();
     };
 
     _streamController.onCancel = (){
@@ -35,6 +36,14 @@ class ConnectionHolder<T extends BaseConnection> {
       LogUtils.d(_TAG, "remove listened: $listened");
       timeListenedZero = DateTime.now().millisecondsSinceEpoch;
     };
+  }
+
+  /// Discard the captured host and let demand create a fresh connection.
+  void reconnect() {
+    conn?.close();
+    conn = null;
+    _streamController.add(null);
+    if (listened > 0) _wakeController();
   }
 
   void tick(int timePaused){

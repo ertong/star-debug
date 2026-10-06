@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:star_debug/preloaded.dart';
+import 'package:star_debug/utils/starlink_addresses.dart';
 
 class Prefs{
   String? lang;
@@ -49,10 +50,21 @@ class SharedPrefs {
     res.darkMode = prefs.getBool("darkMode") ?? res.darkMode;
     res.valkyrieCheck = prefs.getBool("valkyrieCheck") ?? res.valkyrieCheck;
     res.autoStoreDiskLog = prefs.getBool("autoStoreDiskLog") ?? res.autoStoreDiskLog;
-    res.routerIp = prefs.getString("routerIp");
-    res.dishIp = prefs.getString("dishIp");
+    res.routerIp = await _loadAddress("routerIp", kDefaultRouterIp);
+    res.dishIp = await _loadAddress("dishIp", kDefaultDishIp);
 
     return res;
+  }
+
+  Future<String?> _loadAddress(String key, String defaultIp) async {
+    final saved = prefs.get(key);
+    final address = normalizeIpv4Override(
+      saved is String ? saved : null,
+      defaultIp,
+    );
+    // Repair persisted overrides so restarting cannot restore a broken host.
+    if (saved != address) await setString(key, address);
+    return address;
   }
 
   Future<void> setBool(String key, bool? value) async {
@@ -89,6 +101,8 @@ class SharedPrefs {
     var saved = await _load();
     var data = await _load();
     change(data);
+    data.routerIp = normalizeIpv4Override(data.routerIp, kDefaultRouterIp);
+    data.dishIp = normalizeIpv4Override(data.dishIp, kDefaultDishIp);
 
     if (saved.lang!=data.lang)
         await setString("lang", data.lang);

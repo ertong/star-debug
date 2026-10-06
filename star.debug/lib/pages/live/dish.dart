@@ -8,12 +8,15 @@ import 'package:star_debug/preloaded.dart';
 import 'package:grpc/grpc.dart';
 import 'package:star_debug/utils/kv_widget.dart';
 import 'package:star_debug/utils/view_options.dart';
+import 'package:star_debug/widgets/connection_error_log.dart';
 import '../view/common.dart';
 
 const String _TAG="DishTab";
 
 class DishTab extends StatefulWidget {
-  const DishTab({super.key});
+  final ScrollController? scrollController;
+
+  const DishTab({super.key, this.scrollController});
 
   @override
   State createState() => _DishTabState();
@@ -72,9 +75,10 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     theme = Theme.of(context);
-    return Center(
-      child: Column(children:
-      _buildBody(context),),
+    return ConnectionErrorLogLayout(
+      controller: widget.scrollController,
+      entries: R.dish?.errorLog.entries ?? [],
+      children: _buildBody(context),
     );
   }
 
@@ -89,7 +93,7 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
     int now = DateTime.now().millisecondsSinceEpoch;
 
     if (conn.connState!=ConnectionState.ready || now-conn.dishGetStatus.receivedTime>4000) {
-      rows.add(Text("Channel: ${conn.connState}"));
+      rows.add(Text("Channel: ${conn.connState}\n(${conn.host})", textAlign: TextAlign.center));
     }
 
     if (conn.dishGetStatus.data!=null && now-conn.dishGetStatus.receivedTime<5000) {

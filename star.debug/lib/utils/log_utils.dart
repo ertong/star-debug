@@ -2,6 +2,7 @@ import 'package:logger/logger.dart';
 
 class LogUtils {
   static final logger = Logger(
+    filter: ProductionFilter(),
     printer: SimplePrinter(printTime: true),
   );
 
@@ -19,7 +20,9 @@ class LogUtils {
 
   static void ers(String tag, String msg, dynamic ex, StackTrace stacktrace) {
     // ignore: avoid_print
-    print(stacktrace);
+    if (stacktrace.toString().trim().isNotEmpty) {
+      print(stacktrace);
+    }
     logger.e("[$tag]: $msg", error: ex, stackTrace: stacktrace);
   }
 

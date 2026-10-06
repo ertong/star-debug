@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:grpc/grpc.dart';
 import 'package:star_debug/controller/conn/connection.dart';
+import 'package:star_debug/controller/conn/connection_error_log.dart';
 import 'package:star_debug/grpc/starlink/starlink.pbgrpc.dart';
 import 'package:star_debug/utils/log_utils.dart';
 import 'package:star_debug/utils/wait_notify.dart';
@@ -28,13 +29,14 @@ abstract class GrpcConnection extends BaseConnection {
   ConnectionState connState = ConnectionState.idle;
   String? lastChannelError;
   String? lastStreamError;
+  final ConnectionErrorLog errorLog = ConnectionErrorLog();
 
   StreamController<ToDevice> reqStream = StreamController();
 
   int statusReceivedTime = 0;
 
   GrpcConnection({required this.notifyStream, required this.host, required this.port}){
-    LogUtils.d(TAG, "New connection: $this");
+    LogUtils.d(TAG, "New connection: $host:$port");
     subsConnectivity = Connectivity().onConnectivityChanged.listen((event) {
       LogUtils.d(TAG, "Connectivity change: $event");
       channel?.shutdown();
@@ -59,9 +61,16 @@ abstract class GrpcConnection extends BaseConnection {
       }
       catch (e, s) {
         LogUtils.ers(TAG, "", e, s);
+        recordConnectionError(e);
         await Future.delayed(Duration(seconds: 1));
       }
     }
+  }
+
+  void recordConnectionError(Object error) {
+    if (isClosed) return;
+    errorLog.add(error);
+    notify();
   }
 
   void notify(){
@@ -101,6 +110,7 @@ abstract class GrpcConnection extends BaseConnection {
 
     if (channel!=null && connState==ConnectionState.connecting && now-timeConnectingStart>5000){
       LogUtils.d(TAG, "Connecting for too long");
+      recordConnectionError("Connection timed out");
       channel?.shutdown();
       channel = null;
     }
@@ -110,6 +120,9 @@ abstract class GrpcConnection extends BaseConnection {
         && (now-timeLastChannel>9000)
     ) {
         LogUtils.d(TAG, "No messages for too long");
+        recordConnectionError(connState == ConnectionState.idle
+            ? "Connection lost"
+            : "No status received for 5 seconds");
         channel?.shutdown();
         channel = null;
     }
@@ -119,7 +132,7 @@ abstract class GrpcConnection extends BaseConnection {
       connState=ConnectionState.idle;
       timeConnectingStart=0;
 
-      channel = ClientChannel(
+      final newChannel = ClientChannel(
         host, port: port,
         options: ChannelOptions(
           credentials: ChannelCredentials.insecure(),
@@ -129,9 +142,11 @@ abstract class GrpcConnection extends BaseConnection {
           backoffStrategy: (d)=>const Duration(seconds: 3)
         ),
       );
+      channel = newChannel;
       timeLastChannel = now;
-      subsChannel = channel!.onConnectionStateChanged.listen(
+      subsChannel = newChannel.onConnectionStateChanged.listen(
         (ConnectionState event) {
+          if (isClosed || channel != newChannel) return;
           LogUtils.d(TAG, "CONN: $event");
           connState = event;
           if (connState==ConnectionState.ready)
@@ -146,22 +161,24 @@ abstract class GrpcConnection extends BaseConnection {
           notify();
         },
         onError: (e, s){
+          if (isClosed || channel != newChannel) return;
           LogUtils.ers(TAG, "Channel error", e, s);
           subsChannel?.cancel();
           subsChannel = null;
           channel = null;
           lastChannelError = "$e";
           connState = ConnectionState.idle;
-          notify();
+          recordConnectionError(e);
         },
         onDone: (){
+          if (isClosed || channel != newChannel) return;
           LogUtils.d(TAG, "Channel done");
           subsChannel?.cancel();
           subsChannel = null;
           channel = null;
           connState = ConnectionState.idle;
           lastChannelError = "Channel is closed";
-          notify();
+          recordConnectionError("Connection closed");
         },
         cancelOnError: true,
       );
@@ -172,26 +189,31 @@ abstract class GrpcConnection extends BaseConnection {
     if (subsStream==null){
       LogUtils.d(TAG, "Open new stream");
       subsStream?.cancel();
-      reqStream = StreamController();
-      ResponseStream<FromDevice> stream = stub!.stream(reqStream.stream);
+      final streamChannel = channel;
+      final requests = StreamController<ToDevice>();
+      reqStream = requests;
+      ResponseStream<FromDevice> stream = stub!.stream(requests.stream);
       subsStream = stream.listen(
             (FromDevice msg) {
+          if (isClosed || channel != streamChannel || reqStream != requests) return;
           unawaited(onReceived(msg));
           lastStreamError = null;
         },
         onError: (e, s){
+          if (isClosed || channel != streamChannel || reqStream != requests) return;
           LogUtils.ers(TAG, "Stream error", e, s);
           subsStream?.cancel();
           lastStreamError = "$e";
           subsStream = null;
-          notify();
+          recordConnectionError(e);
         },
         onDone: (){
+          if (isClosed || channel != streamChannel || reqStream != requests) return;
           LogUtils.d(TAG, "Stream done");
           subsStream?.cancel();
           subsStream = null;
           lastStreamError = "Stream is done";
-          notify();
+          recordConnectionError("Device stream closed");
         },
         cancelOnError: true,
       );
