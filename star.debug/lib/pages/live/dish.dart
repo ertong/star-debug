@@ -89,7 +89,7 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
     int now = DateTime.now().millisecondsSinceEpoch;
 
     if (conn.connState!=ConnectionState.ready || now-conn.dishGetStatus.receivedTime>4000) {
-      rows.add(Text("Channel: ${conn.connState}"));
+      rows.add(Text("Channel: ${conn.connState}\n(${conn.host})", textAlign: TextAlign.center));
     }
 
     if (conn.dishGetStatus.data!=null && now-conn.dishGetStatus.receivedTime<5000) {

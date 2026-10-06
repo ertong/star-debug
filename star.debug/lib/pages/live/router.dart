@@ -58,7 +58,7 @@ class _RouterTabState extends State<RouterTab> with TickerProviderStateMixin {
     int now = DateTime.now().millisecondsSinceEpoch;
 
     if (conn.connState!=ConnectionState.ready || now-conn.statusReceivedTime>4000) {
-      rows.add(Text("Channel: ${conn.connState}"));
+      rows.add(Text("Channel: ${conn.connState}\n(${conn.host})", textAlign: TextAlign.center,));
     }
 
     if (conn.wifiGetStatus.data!=null && now-conn.statusReceivedTime<5000) {
