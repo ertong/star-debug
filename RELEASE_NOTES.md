@@ -1,3 +1,11 @@
+## 1.2b80
+
+### Enhancements:
+- Update Starlink protocol support to 2026.09.24.
+
+### Fixes:
+- Fix connection timeout settings for dish and router requests.
+
 ## 1.2b79
 
 ### New Features:
