@@ -1455,6 +1455,12 @@ void main() {
       expect(find.byKey(const Key('dish-obstruction-minimap')), findsOneWidget);
       expect(find.byKey(const Key('dish-obstruction-map')), findsNothing);
       expect(find.text('40.00%'), findsOneWidget);
+      expect(find.text('2 / 5'), findsOneWidget);
+      expect(find.text('2.50%'), findsNothing);
+      expect(
+        find.text('${M.obstructions.dish_fraction}: 2.50%'),
+        findsOneWidget,
+      );
       expect(find.text(M.obstructions.orientation), findsNothing);
       expect(find.text(M.obstructions.delayed_short), findsOneWidget);
       await tester.tap(find.text(M.obstructions.title));
@@ -1463,6 +1469,10 @@ void main() {
       expect(find.text(M.obstructions.orientation), findsOneWidget);
       expect(find.text(M.obstructions.average_duration), findsNothing);
       expect(find.text(M.obstructions.delayed), findsOneWidget);
+      expect(find.text(M.obstructions.cells_hint), findsOneWidget);
+      expect(find.text(M.obstructions.dish_fraction_hint), findsOneWidget);
+      expect(find.text('40.00%'), findsNWidgets(2));
+      expect(find.text('2.50%'), findsOneWidget);
       map.value = _map()..snr.setAll(0, [1, 1, 1, 1, 1, 1]);
       await tester.pump();
       await tester.pump();
@@ -1541,6 +1551,7 @@ void main() {
                     ),
                   ),
                   stats: DishObstructionStats(
+                    fractionObstructed: 0.025,
                     avgProlongedObstructionValid: true,
                     avgProlongedObstructionDurationS: 12,
                     avgProlongedObstructionIntervalS: 600,
@@ -1558,6 +1569,11 @@ void main() {
             await tester.pumpAndSettle();
             expect(find.text(M.obstructions.average_duration), findsOneWidget);
             expect(find.text(M.obstructions.average_interval), findsOneWidget);
+            await tester.ensureVisible(find.text(M.obstructions.reading_map));
+            await tester.tap(find.text(M.obstructions.reading_map));
+            await tester.pumpAndSettle();
+            expect(find.text(M.obstructions.collection_hint), findsOneWidget);
+            expect(find.text(M.obstructions.reception_hint), findsOneWidget);
             expect(
               tester.takeException(),
               isNull,

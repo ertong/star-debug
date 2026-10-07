@@ -6,7 +6,7 @@ and UI/UX. Findings were reconciled against source and targeted reproduction pro
 The original review changed documentation only. The follow-up described under F2 implements
 identity-change invalidation. The R2 follow-up extracts geometry and resolves F3; R3 separates
 heading policies and resolves F4. R5 separates source mode and freshness, preserves capture timing,
-and resolves F9. Other suggested fixes remain unimplemented.
+and resolves F9. The UI wording follow-up addresses F5. Other suggested fixes remain unimplemented.
 
 Read [protocol evidence and interpretation](obstruction_map_sources.md) for external references
 and confidence limits. Architectural proposals have a separate home in
@@ -130,6 +130,9 @@ ambiguous targets. Add target-specific singular tests with both signs. Existing 
 cover actual heading; the target widget test uses a nonsingular panel. Introduced by `e819511`.
 
 ### F5 — P2: Summary status text has insufficient light-theme contrast
+
+**Follow-up, 2026-10-07:** the summary now uses the theme's `onSurface` foreground;
+see the [UI wording follow-up](#ui-wording-follow-up-2026-10-07).
 
 Evidence: [`_MapView.stateColor`](../star.debug/lib/widgets/obstruction_map.dart) uses fixed
 signal colors as the foreground of the small summary label. The actual light
@@ -390,3 +393,36 @@ per new map. These are small-sample CPU estimates; they exclude GPU rasterizatio
 widget rebuilds, and real-device frame timing. The upfront large-map cost and changing UT-basis
 sector scans remain candidates for supported-device profiling. No isolate, dependency, generated
 code, or protocol change was introduced.
+
+## UI wording follow-up, 2026-10-07
+
+The shared widget's English and Ukrainian labels and explanations were checked against the
+[protocol and interpretation reference](obstruction_map_sources.md), the linked gRPC tools
+renderer, SatInView frame observations, the January 2026 measurement study, and indexed official
+Starlink guidance. Direct support-page retrieval still requires JavaScript.
+
+- The summary names the obstruction map, identifies the percentage denominator, and shows the
+  blocked/observed counts. The guide explains that reduced-signal cells remain in the denominator.
+- Color labels describe recorded signal quality. The reading guide describes the continuous
+  red–amber–blue gradient and distinguishes gray/unobserved cells from obstructions.
+- Dish-reported obstruction fraction remains separate from map-cell calculations. Its shared
+  diagnostic hint no longer claims a measured percentage of sky area. Prolonged-obstruction
+  statistics are labeled as obstructions rather than outages.
+- UT captions describe projected north and approximate compass/sector references. Arrow hints
+  describe pointing directions and elevation-dependent lengths; they do not claim satellite
+  positions. Angle hints explain true-north azimuth, elevation, and target-minus-dish differences.
+- Sector hints explain the 45° bearing steps, excluded center cell, and sample-count limits.
+  Collection and reception hints distinguish accumulated observations from response timestamps.
+- Empty-map wording also covers a dish-reported unready map that contains observed samples.
+  Capture messages describe the saved state rather than promising further collection.
+
+F5's summary text now uses the theme's `onSurface` foreground rather than signal-palette colors.
+This change does not address the separate canvas accessibility findings F6 and F7, or validate
+geographic calibration. No geometry, protocol, or freshness policy was changed.
+
+Localization output was regenerated. Focused map/freshness tests passed (48 tests), including
+expanded-guide layouts in both languages and the independent map/dish percentages. The complete
+suite passed (194 tests). The scoped Dart formatting check passed; `flutter analyze` reported
+42 existing findings outside the changed widget and test.
+
+Synthetic previews were checked with both app themes; no live dish or device calibration was used.

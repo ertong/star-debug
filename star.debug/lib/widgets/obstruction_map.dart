@@ -197,7 +197,7 @@ class _ObstructionMapWidgetState extends State<ObstructionMapWidget> {
                         Text(
                           view.signalState,
                           style: theme.textTheme.bodySmall?.copyWith(
-                            color: view.stateColor,
+                            color: theme.colorScheme.onSurface,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
@@ -210,6 +210,10 @@ class _ObstructionMapWidgetState extends State<ObstructionMapWidget> {
                         ),
                         Text(
                           M.obstructions.blocked_cells,
+                          style: theme.textTheme.bodySmall,
+                        ),
+                        Text(
+                          '${view.map!.blocked} / ${view.map!.observed}',
                           style: theme.textTheme.bodySmall,
                         ),
                         if (view.dishFraction != null) ...[
@@ -350,12 +354,6 @@ class _MapView {
       : map!.reduced > 0
       ? M.obstructions.reduced_signal
       : M.obstructions.no_blocked_cells;
-  Color get stateColor =>
-      stats?.hasCurrentlyObstructed() == true && stats!.currentlyObstructed
-      ? ObstructionMapPalette.obstructedColor
-      : map!.blocked > 0 || map!.reduced > 0
-      ? ObstructionMapPalette.reducedSignalColor
-      : ObstructionMapPalette.clearColor;
 }
 
 String _percent(double? value) =>
@@ -621,7 +619,7 @@ class _ObstructionDetails extends StatelessWidget {
               ? M.obstructions.current_signal
               : M.obstructions.captured_signal,
           stats!.currentlyObstructed
-              ? M.obstructions.blocked
+              ? M.obstructions.signal_blocked
               : M.obstructions.not_blocked,
         ),
       );
@@ -684,6 +682,13 @@ class _ObstructionDetails extends StatelessWidget {
                 ?.copyWith(fontSize: 11),
           ),
         ],
+        if (view.dishFraction != null) ...[
+          const SizedBox(height: 7),
+          Text(
+            M.obstructions.dish_fraction_hint,
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
+        ],
         const SizedBox(height: 14),
         _section(context, M.obstructions.orientation),
         _MetricGrid(
@@ -712,6 +717,11 @@ class _ObstructionDetails extends StatelessWidget {
                 _bearing(orientation.elevationOffset),
               ),
           ],
+        ),
+        const SizedBox(height: 5),
+        Text(
+          M.obstructions.orientation_hint,
+          style: Theme.of(context).textTheme.bodySmall,
         ),
         if (orientation.headingUncertain)
           Padding(
@@ -809,9 +819,11 @@ class _ReadingGuide extends StatelessWidget {
     children: [
       for (final text in [
         M.obstructions.explanation,
+        M.obstructions.collection_hint,
         M.obstructions.exclusion_hint,
         M.obstructions.patterns_hint,
         M.obstructions.patch_hint,
+        M.obstructions.reception_hint,
       ])
         Padding(
           padding: const EdgeInsets.only(bottom: 7),
