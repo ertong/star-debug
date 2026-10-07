@@ -178,6 +178,11 @@ Maps with invalid dimensions or no observed samples show a state message instead
 An explicitly zero `patchesValid` count also suppresses the canvas when its status is usable under
 the freshness policy below. Missing readiness counts do not invalidate older maps.
 
+Rendered snapshot images pass `forSnapshotImage` through `DishWidget` to the shared map widget.
+This presentation uses the detailed canvas and compact statistics/orientation grids, with legends
+and brief status warnings instead of popup explanations or controls. It shares the popup's data,
+geometry, and freshness filtering; reception ages are relative to the capture time.
+
 Implementation responsibilities are separated into
 [`ObstructionMapData`](../star.debug/lib/utils/obstructions.dart) for immutable samples,
 classification, totals, and connected patches;

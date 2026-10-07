@@ -21,6 +21,7 @@ class ObstructionMapWidget extends StatefulWidget {
   final MapSourceMode sourceMode;
   final int? statusReceivedTime;
   final bool statusTimestampIsEstimated;
+  final bool forSnapshotImage;
 
   const ObstructionMapWidget({
     super.key,
@@ -32,6 +33,7 @@ class ObstructionMapWidget extends StatefulWidget {
     this.sourceMode = MapSourceMode.stored,
     this.statusReceivedTime,
     this.statusTimestampIsEstimated = false,
+    this.forSnapshotImage = false,
   });
 
   @override
@@ -138,6 +140,8 @@ class _ObstructionMapWidgetState extends State<ObstructionMapWidget> {
   @override
   Widget build(BuildContext context) {
     final view = _view();
+    if (widget.forSnapshotImage)
+      return _ObstructionDetails(view: view, forSnapshotImage: true);
     final theme = Theme.of(context);
     return Semantics(
       button: true,
@@ -391,8 +395,13 @@ class _DownwardWarning extends StatelessWidget {
 class _UnavailableMap extends StatelessWidget {
   final _MapView view;
   final bool compact;
+  final String? message;
 
-  const _UnavailableMap({required this.view, this.compact = false});
+  const _UnavailableMap({
+    required this.view,
+    this.compact = false,
+    this.message,
+  });
 
   @override
   Widget build(BuildContext context) => Padding(
@@ -408,7 +417,7 @@ class _UnavailableMap extends StatelessWidget {
         const SizedBox(width: 10),
         Expanded(
           child: Text(
-            view.unavailable,
+            message ?? view.unavailable,
             style: compact ? Theme.of(context).textTheme.bodySmall : null,
           ),
         ),
@@ -419,11 +428,22 @@ class _UnavailableMap extends StatelessWidget {
 
 class _ObstructionDetails extends StatelessWidget {
   final _MapView view;
+  final bool forSnapshotImage;
 
-  const _ObstructionDetails({required this.view});
+  const _ObstructionDetails({
+    required this.view,
+    this.forSnapshotImage = false,
+  });
+
+  String _timingValue(int? age) => forSnapshotImage
+      ? age == null
+            ? M.obstructions.timing_unknown
+            : Format.sec(age)
+      : view.timingValue(age);
 
   @override
   Widget build(BuildContext context) {
+    if (forSnapshotImage) return _snapshotImage(context);
     final theme = Theme.of(context);
     final size = MediaQuery.sizeOf(context);
     return Dialog(
@@ -526,6 +546,45 @@ class _ObstructionDetails extends StatelessWidget {
     );
   }
 
+  Widget _snapshotImage(BuildContext context) => AppSurface(
+    key: const Key('dish-obstruction-snapshot'),
+    margin: const EdgeInsets.only(top: 10),
+    padding: const EdgeInsets.all(10),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          M.obstructions.title,
+          style: Theme.of(context).textTheme.titleSmall
+              ?.copyWith(fontWeight: FontWeight.bold),
+        ),
+        Text(
+          '${M.obstructions.source}: ${view.sourceLabel}',
+          style: Theme.of(context).textTheme.bodySmall,
+        ),
+        if (view.hasResponse)
+          Text(
+            '${M.obstructions.capture_map_age}: ${_timingValue(view.timing.mapAge)}',
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
+        const SizedBox(height: 6),
+        _mapPanel(context),
+        if (view.ready) ...[
+          const SizedBox(height: 6),
+          Text(
+            view.signalState,
+            style: Theme.of(context).textTheme.bodySmall
+                ?.copyWith(fontWeight: FontWeight.w600),
+          ),
+        ],
+        if (view.delayed) Text(M.obstructions.delayed_short),
+        if (view.statusWarningShort != null) Text(view.statusWarningShort!),
+        const SizedBox(height: 6),
+        _information(context),
+      ],
+    ),
+  );
+
   Widget _mapPanel(BuildContext context) => Column(
     children: [
       if (view.ready) ...[
@@ -558,7 +617,9 @@ class _ObstructionDetails extends StatelessWidget {
           view.map!.frame == ObstructionMapReferenceFrame.FRAME_EARTH
               ? M.obstructions.earth_frame
               : view.map!.frame == ObstructionMapReferenceFrame.FRAME_UT
-              ? view.northAligned
+              ? forSnapshotImage && view.northAligned
+                    ? M.obstructions.dish_frame_image
+                    : view.northAligned
                     ? M.obstructions.dish_frame_oriented
                     : M.obstructions.dish_frame
               : M.obstructions.unknown_frame,
@@ -570,7 +631,9 @@ class _ObstructionDetails extends StatelessWidget {
                 view.orientation.attitude != null)) ...[
           const SizedBox(height: 4),
           Text(
-            M.obstructions.arrow_guide,
+            forSnapshotImage
+                ? M.obstructions.arrow_legend
+                : M.obstructions.arrow_guide,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodySmall,
           ),
@@ -578,13 +641,25 @@ class _ObstructionDetails extends StatelessWidget {
         if (view.sectors != null) ...[
           const SizedBox(height: 4),
           Text(
-            M.obstructions.sectors_hint,
+            forSnapshotImage
+                ? M.obstructions.sector_legend
+                : M.obstructions.sectors_hint,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodySmall,
           ),
         ],
       ] else
-        _UnavailableMap(view: view),
+        _UnavailableMap(
+          view: view,
+          compact: forSnapshotImage,
+          message: forSnapshotImage
+              ? !view.hasResponse
+                    ? M.obstructions.unavailable
+                    : view.map == null
+                    ? M.obstructions.invalid_map_capture
+                    : M.obstructions.gathering_capture
+              : null,
+        ),
       if (view.orientation.lookingDownward) ...[
         const SizedBox(height: 8),
         const _DownwardWarning(),
@@ -606,7 +681,12 @@ class _ObstructionDetails extends StatelessWidget {
     final stats = view.stats;
     final orientation = view.orientation;
     final cells = <_Metric>[
-      _Metric(view.statusTimingLabel, view.timingValue(view.timing.statusAge)),
+      _Metric(
+        forSnapshotImage
+            ? M.obstructions.capture_status_age
+            : view.statusTimingLabel,
+        _timingValue(view.timing.statusAge),
+      ),
     ];
     if (view.dishFraction != null)
       cells.add(
@@ -615,7 +695,7 @@ class _ObstructionDetails extends StatelessWidget {
     if (stats?.hasCurrentlyObstructed() == true) {
       cells.add(
         _Metric(
-          view.live
+          view.live && !forSnapshotImage
               ? M.obstructions.current_signal
               : M.obstructions.captured_signal,
           stats!.currentlyObstructed
@@ -673,8 +753,8 @@ class _ObstructionDetails extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _MetricGrid(metrics: cells),
-        if (view.ready) ...[
+        _MetricGrid(metrics: cells, compact: forSnapshotImage),
+        if (view.ready && !forSnapshotImage) ...[
           const SizedBox(height: 7),
           Text(
             M.obstructions.cells_hint,
@@ -682,55 +762,72 @@ class _ObstructionDetails extends StatelessWidget {
                 ?.copyWith(fontSize: 11),
           ),
         ],
-        if (view.dishFraction != null) ...[
+        if (view.dishFraction != null && !forSnapshotImage) ...[
           const SizedBox(height: 7),
           Text(
             M.obstructions.dish_fraction_hint,
             style: Theme.of(context).textTheme.bodySmall,
           ),
         ],
-        const SizedBox(height: 14),
-        _section(context, M.obstructions.orientation),
-        _MetricGrid(
-          metrics: [
-            _Metric(M.obstructions.dish_bearing, _bearing(orientation.azimuth)),
-            _Metric(M.obstructions.elevation, _bearing(orientation.elevation)),
-            if (orientation.desiredAzimuth != null)
+        if (!forSnapshotImage ||
+            orientation.azimuth != null ||
+            orientation.elevation != null ||
+            orientation.desiredAzimuth != null ||
+            orientation.desiredElevation != null) ...[
+          SizedBox(height: forSnapshotImage ? 8 : 14),
+          _section(context, M.obstructions.orientation),
+          _MetricGrid(
+            compact: forSnapshotImage,
+            metrics: [
               _Metric(
-                M.obstructions.target_bearing,
-                _bearing(orientation.desiredAzimuth),
+                M.obstructions.dish_bearing,
+                _bearing(orientation.azimuth),
               ),
-            if (orientation.desiredElevation != null)
               _Metric(
-                M.obstructions.target_elevation,
-                _bearing(orientation.desiredElevation),
+                M.obstructions.elevation,
+                _bearing(orientation.elevation),
               ),
-            if (orientation.azimuthOffset != null &&
-                !orientation.headingUncertain)
-              _Metric(
-                M.obstructions.azimuth_difference,
-                _bearing(orientation.azimuthOffset),
-              ),
-            if (orientation.elevationOffset != null)
-              _Metric(
-                M.obstructions.elevation_difference,
-                _bearing(orientation.elevationOffset),
-              ),
-          ],
-        ),
-        const SizedBox(height: 5),
-        Text(
-          M.obstructions.orientation_hint,
-          style: Theme.of(context).textTheme.bodySmall,
-        ),
-        if (orientation.headingUncertain)
-          Padding(
-            padding: const EdgeInsets.only(top: 5),
-            child: Text(
-              M.obstructions.heading_uncertain,
+              if (orientation.desiredAzimuth != null)
+                _Metric(
+                  M.obstructions.target_bearing,
+                  _bearing(orientation.desiredAzimuth),
+                ),
+              if (orientation.desiredElevation != null)
+                _Metric(
+                  M.obstructions.target_elevation,
+                  _bearing(orientation.desiredElevation),
+                ),
+              if (orientation.azimuthOffset != null &&
+                  !orientation.headingUncertain)
+                _Metric(
+                  M.obstructions.azimuth_difference,
+                  _bearing(orientation.azimuthOffset),
+                ),
+              if (orientation.elevationOffset != null)
+                _Metric(
+                  M.obstructions.elevation_difference,
+                  _bearing(orientation.elevationOffset),
+                ),
+            ],
+          ),
+          if (!forSnapshotImage) ...[
+            const SizedBox(height: 5),
+            Text(
+              M.obstructions.orientation_hint,
               style: Theme.of(context).textTheme.bodySmall,
             ),
-          ),
+          ],
+          if (orientation.headingUncertain)
+            Padding(
+              padding: const EdgeInsets.only(top: 5),
+              child: Text(
+                forSnapshotImage
+                    ? M.obstructions.heading_uncertain_short
+                    : M.obstructions.heading_uncertain,
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+            ),
+        ],
       ],
     );
   }
@@ -754,7 +851,8 @@ class _Metric {
 
 class _MetricGrid extends StatelessWidget {
   final List<_Metric> metrics;
-  const _MetricGrid({required this.metrics});
+  final bool compact;
+  const _MetricGrid({required this.metrics, this.compact = false});
 
   @override
   Widget build(BuildContext context) => LayoutBuilder(
@@ -773,7 +871,10 @@ class _MetricGrid extends StatelessWidget {
           for (final metric in metrics)
             Container(
               width: (width - (columns - 1) * 6) / columns,
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+              padding: EdgeInsets.symmetric(
+                horizontal: compact ? 7 : 10,
+                vertical: compact ? 5 : 8,
+              ),
               decoration: BoxDecoration(
                 color: theme.colorScheme.primary.withAlpha(14),
                 borderRadius: BorderRadius.circular(10),

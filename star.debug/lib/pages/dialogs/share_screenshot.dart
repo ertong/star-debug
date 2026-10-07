@@ -135,6 +135,7 @@ class _ShareScreenshotState<TItem> extends State<ShareScreenshot<TItem>>
                   child: DishWidget(
                     snap: widget.snap,
                     sourceMode: widget.sourceMode,
+                    forSnapshotImage: true,
                     viewOptions: viewOptions,
                   ),
                 ),

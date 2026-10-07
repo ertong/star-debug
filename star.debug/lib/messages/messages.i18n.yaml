@@ -788,3 +788,7 @@ obstructions:
   orientation_hint: "Azimuth is clockwise from true north (0°); east is 90°. Elevation is above the horizon: 0° is horizontal, 90° straight up. Target angles are the dish-reported alignment goal. Differences are target minus dish, with azimuth wrapped to ±180°."
   reception_hint: "Reception times date the map and status responses, not individual observations in the accumulated map."
   collection_hint: "The map fills as the dish communicates with satellites and continues to update. Initial collection can take hours; gaps alone do not show an obstruction."
+  dish_frame_image: "Projected north up · dish-relative map · approximate compass"
+  arrow_legend: "White: dish · dashed gold: target"
+  sector_legend: "Sectors: blocked % · blocked / observed"
+  heading_uncertain_short: "Dish azimuth is uncertain near vertical."

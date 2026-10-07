@@ -3299,6 +3299,28 @@ class ObstructionsMessages {
   /// ```
   String get collection_hint =>
       """The map fills as the dish communicates with satellites and continues to update. Initial collection can take hours; gaps alone do not show an obstruction.""";
+
+  /// ```dart
+  /// "Projected north up · dish-relative map · approximate compass"
+  /// ```
+  String get dish_frame_image =>
+      """Projected north up · dish-relative map · approximate compass""";
+
+  /// ```dart
+  /// "White: dish · dashed gold: target"
+  /// ```
+  String get arrow_legend => """White: dish · dashed gold: target""";
+
+  /// ```dart
+  /// "Sectors: blocked % · blocked / observed"
+  /// ```
+  String get sector_legend => """Sectors: blocked % · blocked / observed""";
+
+  /// ```dart
+  /// "Dish azimuth is uncertain near vertical."
+  /// ```
+  String get heading_uncertain_short =>
+      """Dish azimuth is uncertain near vertical.""";
 }
 
 Map<String, String> get messagesMap => {
@@ -4036,4 +4058,11 @@ starting from approximately January 2023, Starlink routers are able to pick rand
   """obstructions.orientation_hint""": """Azimuth is clockwise from true north (0°); east is 90°. Elevation is above the horizon: 0° is horizontal, 90° straight up. Target angles are the dish-reported alignment goal. Differences are target minus dish, with azimuth wrapped to ±180°.""",
   """obstructions.reception_hint""": """Reception times date the map and status responses, not individual observations in the accumulated map.""",
   """obstructions.collection_hint""": """The map fills as the dish communicates with satellites and continues to update. Initial collection can take hours; gaps alone do not show an obstruction.""",
+  """obstructions.dish_frame_image""":
+      """Projected north up · dish-relative map · approximate compass""",
+  """obstructions.arrow_legend""": """White: dish · dashed gold: target""",
+  """obstructions.sector_legend""":
+      """Sectors: blocked % · blocked / observed""",
+  """obstructions.heading_uncertain_short""":
+      """Dish azimuth is uncertain near vertical.""",
 };

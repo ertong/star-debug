@@ -28,9 +28,10 @@ class DishWidget extends StatefulWidget {
   final ViewOptions viewOptions;
   final Snapshot snap;
   final bool showActions;
+  final bool forSnapshotImage;
   final bool statusVisible;
   final MapSourceMode sourceMode;
-  const DishWidget({super.key, required this.viewOptions, required this.snap, required this.sourceMode, this.showActions = false, this.statusVisible = true});
+  const DishWidget({super.key, required this.viewOptions, required this.snap, required this.sourceMode, this.showActions = false, this.statusVisible = true, this.forSnapshotImage = false});
 
   @override
   State createState() => _DishWidgetState();
@@ -155,6 +156,7 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
       stats: status != null && status.hasObstructionStats() ? status.obstructionStats : null,
       status: status,
       sourceMode: widget.sourceMode,
+      forSnapshotImage: widget.forSnapshotImage,
       statusReceivedTime: widget.snap.dishTs,
       statusTimestampIsEstimated: widget.snap.dishTsIsEstimated,
     );
