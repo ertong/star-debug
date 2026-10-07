@@ -469,7 +469,9 @@ class _ObstructionDetails extends StatelessWidget {
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.bodySmall,
         ),
-        if (view.map!.northUp) ...[
+        if (view.map!.northUp ||
+            (view.map!.frame == ObstructionMapReferenceFrame.FRAME_UT &&
+                view.orientation.attitude != null)) ...[
           const SizedBox(height: 4),
           Text(
             M.obstructions.arrow_guide,
@@ -951,27 +953,28 @@ class _ObstructionPainter extends CustomPainter {
         );
       }
     }
-    if (map.northUp && !compact && orientation.hasDesiredProjection) {
+    final target = map.headingProjection(
+      orientation.desiredAzimuth,
+      orientation.desiredElevation,
+      orientation,
+    );
+    if (!compact && target != null) {
       _heading(
         canvas,
         center,
         rect,
-        orientation.desiredAzimuth ?? 0,
+        target,
         const Color(0xfff4d165),
-        elevation: orientation.desiredElevation!,
         dashed: true,
       );
     }
-    if (map.northUp && orientation.hasProjection) {
-      _heading(
-        canvas,
-        center,
-        rect,
-        orientation.azimuth ?? 0,
-        Colors.white,
-        elevation: orientation.elevation!,
-        dashed: false,
-      );
+    final actual = map.headingProjection(
+      orientation.azimuth,
+      orientation.elevation,
+      orientation,
+    );
+    if (actual != null) {
+      _heading(canvas, center, rect, actual, Colors.white, dashed: false);
     }
   }
 
@@ -1016,17 +1019,14 @@ class _ObstructionPainter extends CustomPainter {
     Canvas canvas,
     Offset center,
     Rect rect,
-    double bearing,
+    Offset projection,
     Color color, {
-    required double elevation,
     required bool dashed,
   }) {
-    final radians = bearing * math.pi / 180;
-    final direction = Offset(math.sin(radians), -math.cos(radians));
+    final fraction = projection.distance;
+    final direction = fraction == 0 ? Offset.zero : projection / fraction;
     final length =
-        math.min(rect.width, rect.height) *
-        (compact ? 0.29 : 0.36) *
-        DishOrientation.horizontalFraction(elevation)!;
+        math.min(rect.width, rect.height) * (compact ? 0.29 : 0.36) * fraction;
     final tip = center + direction * length;
     final paint = Paint()
       ..color = color
@@ -1087,6 +1087,7 @@ class _ObstructionPainter extends CustomPainter {
           orientation.headingUncertain ||
       oldDelegate.orientation.attitude?.north != orientation.attitude?.north ||
       oldDelegate.orientation.attitude?.east != orientation.attitude?.east ||
+      oldDelegate.orientation.attitude?.down != orientation.attitude?.down ||
       oldDelegate.foreground != foreground ||
       oldDelegate.fontFamily != fontFamily ||
       oldDelegate.compact != compact;

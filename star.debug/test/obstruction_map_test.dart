@@ -55,7 +55,7 @@ Future<Uint8List> _paintMinimap(
   }))!;
 }
 
-int _whiteExtent(Uint8List pixels) {
+int _whiteExtent(Uint8List pixels, {bool vertical = false}) {
   var extent = 0;
   for (var y = 12; y < 96; y++) {
     for (var x = 12; x < 96; x++) {
@@ -64,12 +64,29 @@ int _whiteExtent(Uint8List pixels) {
           pixels[i + 1] == 255 &&
           pixels[i + 2] == 255 &&
           pixels[i + 3] > 0) {
-        final distance = (x - 54).abs();
+        final distance = ((vertical ? y : x) - 54).abs();
         if (distance > extent) extent = distance;
       }
     }
   }
   return extent;
+}
+
+DishGetStatusResponse _utStatus(double elevation, {double bearing = 90}) {
+  // A level panel rotated toward the supplied bearing, then tilted around X.
+  // Its +Z normal has exactly the requested geographic bearing/elevation.
+  final yaw = (bearing - 90) * math.pi / 180 / 2;
+  final tilt = (90 - elevation) * math.pi / 180 / 2;
+  return DishGetStatusResponse(
+    boresightAzimuthDeg: bearing,
+    boresightElevationDeg: elevation,
+    ned2dishQuaternion: Quaternion(
+      qScalar: -math.sin(yaw) * math.sin(tilt),
+      qX: -math.sin(yaw) * math.cos(tilt),
+      qY: math.cos(yaw) * math.cos(tilt),
+      qZ: math.cos(yaw) * math.sin(tilt),
+    ),
+  );
 }
 
 void main() {
@@ -374,6 +391,173 @@ void main() {
     expect(extents[0], greaterThan(20));
     expect(extents[1], inInclusiveRange(8, 13));
     expect(extents[2], inInclusiveRange(1, 2));
+    expect(tester.takeException(), isNull);
+  });
+
+  test(
+    'UT heading projection preserves angle scaling and horizontal limit',
+    () {
+      final map = ObstructionMapData.fromResponse(
+        _map()..mapReferenceFrame = ObstructionMapReferenceFrame.FRAME_UT,
+      )!;
+      for (final elevation in [0.0, 60.0, 90.0, -60.0, -90.0]) {
+        final orientation = DishOrientation.fromStatus(_utStatus(elevation));
+        final projection = map.headingProjection(
+          orientation.azimuth,
+          orientation.elevation,
+          orientation,
+        )!;
+        final fraction = DishOrientation.horizontalFraction(elevation)!;
+        expect(projection.dx, closeTo(0, 1e-12));
+        expect(
+          projection.dy,
+          closeTo(elevation < 0 ? fraction : -fraction, 1e-12),
+        );
+        expect(projection.distance, closeTo(fraction, 1e-12));
+        if (elevation.abs() == 90) {
+          expect(
+            map.headingProjection(null, elevation, orientation),
+            Offset.zero,
+          );
+        }
+      }
+      // The exact horizontal case agrees with the limit from above the horizon.
+      final almostHorizontal = DishOrientation.fromStatus(_utStatus(0.0000001));
+      expect(
+        map
+            .headingProjection(
+              90,
+              almostHorizontal.elevation,
+              almostHorizontal,
+            )!
+            .dy,
+        closeTo(-1, 1e-12),
+      );
+    },
+  );
+
+  test(
+    'heading projections require valid angles, known frame and UT attitude',
+    () {
+      final valid = DishOrientation.fromStatus(_utStatus(60));
+      for (final frame in ObstructionMapReferenceFrame.values) {
+        final map = ObstructionMapData.fromResponse(
+          _map()..mapReferenceFrame = frame,
+        )!;
+        for (final elevation in [
+          null,
+          double.nan,
+          double.infinity,
+          -91.0,
+          91.0,
+        ]) {
+          expect(map.headingProjection(90, elevation, valid), isNull);
+        }
+        expect(map.headingProjection(null, 60, valid), isNull);
+        expect(map.headingProjection(double.nan, 60, valid), isNull);
+        if (frame != ObstructionMapReferenceFrame.FRAME_EARTH) {
+          expect(
+            map.headingProjection(90, 60, const DishOrientation()),
+            isNull,
+          );
+        }
+        if (frame == ObstructionMapReferenceFrame.FRAME_UNKNOWN) {
+          expect(map.headingProjection(90, 60, valid), isNull);
+          expect(map.headingProjection(null, 90, valid), isNull);
+        }
+      }
+      final faulted = _utStatus(60)
+        ..alignmentStats = AlignmentStats(
+          attitudeEstimationState: AttitudeEstimationState.FILTER_FAULTED,
+        );
+      final orientation = DishOrientation.fromStatus(faulted);
+      final map = ObstructionMapData.fromResponse(
+        _map()..mapReferenceFrame = ObstructionMapReferenceFrame.FRAME_UT,
+      )!;
+      expect(map.headingProjection(90, 60, orientation), isNull);
+    },
+  );
+
+  testWidgets(
+    'UT dish arrow scales from the center and warns when facing down',
+    (tester) async {
+      final map = DishGetObstructionMapResponse(
+        numRows: 5,
+        numCols: 5,
+        snr: List.filled(25, 1.0),
+        mapReferenceFrame: ObstructionMapReferenceFrame.FRAME_UT,
+      );
+      final extents = <int>[];
+      for (final elevation in [0.0, 60.0, 90.0, -60.0]) {
+        final status = _utStatus(elevation);
+        if (elevation == 90) status.clearBoresightAzimuthDeg();
+        await tester.pumpWidget(
+          _page(ObstructionMapWidget(map: map, timestamp: 1, status: status)),
+        );
+        final pixels = await _paintMinimap(tester);
+        extents.add(_whiteExtent(pixels, vertical: true));
+        // The solid white indicator always starts at the map center.
+        final center = (54 * 108 + 54) * 4;
+        expect(pixels.sublist(center, center + 3), [255, 255, 255]);
+        expect(find.byKey(const Key('dish-orientation-compass')), findsNothing);
+        if (elevation < 0) {
+          expect(find.text(M.obstructions.looking_downward), findsOneWidget);
+          // Below-horizon east projects down on this panel, matching its labels.
+          final tip = (62 * 108 + 54) * 4;
+          expect(pixels.sublist(tip, tip + 3), [255, 255, 255]);
+        }
+        await tester.tap(find.text(M.obstructions.title));
+        await tester.pumpAndSettle();
+        expect(find.text(M.obstructions.arrow_guide), findsOneWidget);
+        expect(
+          _whiteExtent(
+            await _paintMinimap(tester, key: 'dish-obstruction-map'),
+            vertical: true,
+          ),
+          greaterThan(0),
+        );
+        await tester.tap(find.byTooltip(M.general.close));
+        await tester.pumpAndSettle();
+      }
+      expect(extents[0], greaterThan(20));
+      expect(extents[1], inInclusiveRange(8, 13));
+      expect(extents[2], inInclusiveRange(1, 2));
+      expect(extents[3], inInclusiveRange(8, 13));
+      expect(tester.takeException(), isNull);
+    },
+  );
+
+  testWidgets('UT target arrow shares the dish map with the actual heading', (
+    tester,
+  ) async {
+    final map = DishGetObstructionMapResponse(
+      numRows: 5,
+      numCols: 5,
+      snr: List.filled(25, 1.0),
+      mapReferenceFrame: ObstructionMapReferenceFrame.FRAME_UT,
+    );
+    final status = _utStatus(60)
+      ..alignmentStats = AlignmentStats(
+        desiredBoresightAzimuthDeg: 270,
+        desiredBoresightElevationDeg: 40,
+      );
+    await tester.pumpWidget(
+      _page(ObstructionMapWidget(map: map, timestamp: 1, status: status)),
+    );
+    await tester.tap(find.text(M.obstructions.title));
+    await tester.pumpAndSettle();
+    final pixels = await _paintMinimap(tester, key: 'dish-obstruction-map');
+    var hasTarget = false;
+    for (var y = 55; y < 96; y++) {
+      for (var x = 12; x < 96; x++) {
+        final i = (y * 108 + x) * 4;
+        if (pixels[i] == 244 && pixels[i + 1] == 209 && pixels[i + 2] == 101)
+          hasTarget = true;
+      }
+    }
+    expect(hasTarget, isTrue);
+    expect(_whiteExtent(pixels, vertical: true), greaterThan(8));
+    expect(find.byKey(const Key('dish-orientation-compass')), findsNothing);
     expect(tester.takeException(), isNull);
   });
 
@@ -733,7 +917,7 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('map canvas shows orientation only with a geographic frame', (
+  testWidgets('map arrows require a known frame and UT attitude', (
     tester,
   ) async {
     for (final frame in ObstructionMapReferenceFrame.values) {

@@ -182,8 +182,15 @@ No raw pixels are rotated or resampled, and the PNG export is unchanged. Missing
 attitude and unknown frames have no geographic references. Near-vertical boresight bearing does
 not affect the references because they use the full quaternion.
 
-Direction markings share the existing map canvas. Heading arrows remain on EARTH maps, where
-their horizontal geographic projection is defined, and there is no separate compass view.
+Direction markings and heading arrows share the existing map canvas. EARTH arrows follow
+geographic bearings; UT arrows use the same quaternion and panel-to-canvas conversion as the
+direction references. UT arrows require valid attitude; unknown frames have no arrows. There is
+no separate compass view. Where a heading is perpendicular to a horizontal-pointing panel's
+plane, its in-plane projection is zero: the arrow uses the projected Down tangent as the limit
+from above the horizon, reversed below the horizon. This defines a full-length arrow at exactly
+horizontal elevation without choosing a fixed screen direction. The target arrow uses the same
+projection and appears dashed in gold in the details; the actual arrow is solid white in both
+the summary and details.
 Arrows use reported boresight fields, preferring
 `alignmentStats` when present. Both a valid elevation and azimuth are required for an arrow; an
 exactly vertical direction needs only elevation. Missing or invalid angles produce no indicator,

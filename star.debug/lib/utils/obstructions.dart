@@ -169,6 +169,33 @@ class ObstructionMapData {
     }
     return null;
   }
+
+  /// Stylized heading indicator: its direction follows the map references,
+  /// while its magnitude is the normal's horizontal component, cos(elevation).
+  Offset? headingProjection(
+    double? bearing,
+    double? elevation,
+    DishOrientation orientation,
+  ) {
+    if (!DishOrientation.canProject(bearing, elevation)) return null;
+    final attitude = orientation.attitude;
+    if (!northUp &&
+        (frame != ObstructionMapReferenceFrame.FRAME_UT || attitude == null))
+      return null;
+    final fraction = DishOrientation.horizontalFraction(elevation)!;
+    if (fraction == 0) return Offset.zero;
+    var direction = horizontalDirection(bearing!, orientation);
+    if (direction == null && attitude != null) {
+      // At a horizontal panel normal, the ground heading is perpendicular to
+      // the panel and its projection vanishes. The projected Down vector is
+      // the tangent toward lower elevation: use the upward-side limit at zero
+      // elevation, and reverse it for a below-horizon heading.
+      final tangent = Offset(attitude.down.dx, -attitude.down.dy);
+      if (tangent.distanceSquared <= 1e-12) return null;
+      direction = tangent / tangent.distance * (elevation! < 0 ? -1 : 1);
+    }
+    return direction == null ? null : direction * fraction;
+  }
 }
 
 class ObstructionSector {
@@ -188,8 +215,9 @@ class ObstructionSector {
 class DishAttitude {
   final Offset north;
   final Offset east;
+  final Offset down;
 
-  const DishAttitude._(this.north, this.east);
+  const DishAttitude._(this.north, this.east, this.down);
 
   static DishAttitude? fromQuaternion(Quaternion quaternion) {
     if (!quaternion.hasQScalar() ||
@@ -218,6 +246,7 @@ class DishAttitude {
     return DishAttitude._(
       Offset(1 - 2 * (y * y + z * z), 2 * (x * y - z * w)),
       Offset(2 * (x * y + z * w), 1 - 2 * (x * x + z * z)),
+      Offset(2 * (x * z - y * w), 2 * (y * z + x * w)),
     );
   }
 
