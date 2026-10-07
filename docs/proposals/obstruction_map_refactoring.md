@@ -2,7 +2,8 @@
 
 Proposals recorded 2026-10-07 against `a40fd5f`. The identity-change fix described in R1 has
 since been implemented; R2 extraction, R3 arrow policies, and R5 source/freshness context are
-also implemented. R6 centralizes logging serialization, and R7 isolates optional map parsing.
+also implemented. R6 centralizes logging serialization, R7 isolates optional map parsing, and
+R8 caches the shared raw bitmap and directional counts.
 Other structural refactors remain proposed. See the [review](../obstruction_map_review.md) for confirmed findings and
 [protocol evidence](../obstruction_map_sources.md) for assumptions that need calibration.
 
@@ -165,15 +166,69 @@ F8 restriction explicit without introducing a standalone viewer in this parser c
 
 ## R8 — Profile before caching or rasterizing
 
-Parsing already avoids rebuilding map measurements when protobuf object identity is unchanged.
-However, each new `_MapView` can rescan samples for sectors, and a new overlay identity triggers
-painting even when only age changes. The painter draws each accepted cell, up to 262,144.
+**Implemented follow-up, 2026-10-07:** before this change, normalization already reused measurements
+when protobuf object identity was unchanged, but each new details `_MapView` could rescan sectors.
+The new overlay identity caused painting even for age-only updates, and each paint recorded one
+rectangle per cell, up to 262,144.
 
-Measure realistic 123×123 maps and upper-bound imports on supported devices. If needed, cache
-sectors by parsed map and projected basis, and cache a raw raster beneath lightweight overlays.
-Include invalidation for frame, map, attitude, theme, size, and text scaler. Dispose retained
-images/pictures on replacement and widget disposal. Do not assume a measured performance defect
-or move decoding to an isolate without profiling transfer costs.
+[`ObstructionMapWidget`](../../star.debug/lib/widgets/obstruction_map.dart) now owns one raw
+one-pixel-per-cell bitmap, shared by its minimap and details. It is recreated only when the map
+object changes. Frame, heading, attitude, freshness, theme, and size updates do not recolor that
+fixed-palette image; the existing painter applies rotation, layout, clipping, padding, and live
+overlays separately. It uses nearest-neighbor filtering to preserve cell colors. PNG export still
+produces its separate two-pixels-per-cell image on demand. At four bytes per pixel, the raw image
+storage is about 59 KiB for 123×123 and 1 MiB for 512×512; actual engine allocations can be larger,
+and retiring images overlap briefly with their replacements.
+
+[`ObstructionSectorCache`](../../star.debug/lib/utils/obstruction_map_analysis.dart) retains only
+the latest normalized map/frame/effective UT North/East basis and overlay, including a null result.
+The unnormalized basis preserves tilt-dependent classification. EARTH ignores attitude; heading,
+Down, theme, size, and age are outside the key. Freshness still removes unusable UT attitude and
+therefore changes its key. Equal bases reuse overlay identity, so age-only updates can skip
+painting. The entry is cleared on map replacement. Layout, text, compass and arrow drawing remain
+uncached, and this change does not add the text-scaler support proposed in R4.
+
+The bitmap helper records cells once, obtains a synchronous image handle, and disposes its
+temporary picture. Flutter's [toImageSync contract](https://api.flutter.dev/flutter/dart-ui/Picture/toImageSync.html)
+states that rasterization happens asynchronously and uses GPU residency when available, with a
+CPU fallback. There is no Dart decoder future to race replacement or unmounting.
+The widget disposes retired handles after two frames, allowing the post-frame dialog update or
+route removal to complete. [Image.dispose](https://api.flutter.dev/flutter/dart-ui/Image/dispose.html)
+invalidates the handle; [nearest-neighbor sampling](https://api.flutter.dev/flutter/dart-ui/FilterQuality.html)
+repeats or eliminates pixels during scaling. These primary API references were checked 2026-10-07.
+
+A temporary Linux Flutter 3.47.6 debug-test probe compared the old and cached painters on synthetic
+123×123 and maximum-size 512×512 maps: 10% unknown, 20% blocked, 20% intermediate, 50% clear.
+Each action had three warmups and nine timed iterations; the table shows median milliseconds.
+Painting was measured by recording the actual widget painter into a `PictureRecorder` at 108×108
+and 310×310, then disposing the picture. Fresh bitmap creation includes recording, synchronous
+handle creation, and disposal. These are CPU-side estimates, not GPU timings, device frame rates,
+or complete rebuild costs; run-to-run variation affects the small values.
+
+| Step | 123×123 | 512×512 | Current frequency |
+| --- | ---: | ---: | --- |
+| Protobuf decoding, before caching | 0.47 | 15.53 | Each received payload; unchanged |
+| Normalization and patch analysis, before caching | 0.36 | 4.94 | Each new map object; already cached |
+| EARTH sector scan, before caching | 0.41 | 6.87 | First details request or changed sector key |
+| UT sector scan, before caching | 0.43 | 6.96 | First details request or changed effective UT basis |
+| New bitmap creation | 8.45 | 155.45 | Once per new valid map object |
+| Minimap paint recording, before → cached | 3.95 → 0.15 | 65.21 → 0.24 | Only when painter inputs or layout need painting |
+| Details paint recording, before → cached | 4.47 → 0.57 | 65.57 → 0.52 | Only when painter inputs or layout need painting |
+
+Sector-cache hits return the existing overlay without scanning samples. The live widget still
+reevaluates age once per second and receives status changes normally; a stable map and effective
+orientation can retain both image and overlay without repainting. Successful map polling normally
+delivers a new map every 30 seconds, with immediate initial/identity-change requests. Frozen views
+keep their cache for the mounted widget's lifetime. Repeated status changes that alter the UT
+basis still scan sectors, and constructing a large new bitmap still has an upfront cost. Profile
+representative phones and oversized imports before further optimization or isolate transfer.
+
+[Bitmap tests](../../star.debug/test/obstruction_map_bitmap_test.dart) verify row order, rectangular
+dimensions, palette values, unknown/nonfinite samples, frame independence, and picture disposal.
+[Sector-cache tests](../../star.debug/test/obstruction_sector_cache_test.dart) verify exact keys,
+null caching, eviction, and clearing. [Widget cache tests](../../star.debug/test/obstruction_map_cache_test.dart)
+verify shared handles, freshness/repaint decisions, delayed dialog replacement, rapid replacement,
+invalid/null maps, and exactly-once disposal when the source disappears during retirement.
 
 ## Suggested sequence and decisions
 

@@ -1,7 +1,34 @@
 import 'dart:ui';
 
+import 'package:star_debug/grpc/starlink/starlink.pb.dart';
 import 'package:star_debug/utils/obstruction_map_geometry.dart';
 import 'package:star_debug/utils/obstructions.dart';
+
+/// Retains only the latest map and effective sector basis, including a missing
+/// overlay. Heading changes do not affect directional sample counts.
+class ObstructionSectorCache {
+  (ObstructionMapData, ObstructionMapReferenceFrame, Offset?, Offset?)? _key;
+  ObstructionSectorOverlay? _overlay;
+
+  void clear() {
+    _key = null;
+    _overlay = null;
+  }
+
+  ObstructionSectorOverlay? get(
+    ObstructionMapData map,
+    ObstructionMapGeometry geometry,
+  ) {
+    final attitude = geometry.frame == ObstructionMapReferenceFrame.FRAME_UT
+        ? geometry.orientation.attitude
+        : null;
+    final key = (map, geometry.frame, attitude?.north, attitude?.east);
+    if (_key == key) return _overlay;
+    _overlay = ObstructionSectorOverlay.fromMap(map, geometry);
+    _key = key;
+    return _overlay;
+  }
+}
 
 /// Directional sample counts derived outside painting. These are display-plane
 /// wedges, not calibrated geographic obstruction or sky-area percentages.

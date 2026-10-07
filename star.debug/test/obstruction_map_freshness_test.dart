@@ -8,7 +8,6 @@ import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/utils/format.dart';
 import 'package:star_debug/utils/obstruction_map_context.dart';
-import 'package:star_debug/utils/obstruction_map_rendering.dart';
 import 'package:star_debug/widgets/obstruction_map.dart';
 
 const _reference = 1710000100000;
@@ -43,7 +42,7 @@ Widget _page(ObstructionMapWidget child) => MaterialApp(
 class _MapMarks extends TestRecordingCanvas {
   int references = 0;
   int arrowLines = 0;
-  int blockedCells = 0;
+  int gridImages = 0;
 
   @override
   void drawParagraph(ui.Paragraph paragraph, Offset offset) {
@@ -56,11 +55,8 @@ class _MapMarks extends TestRecordingCanvas {
   }
 
   @override
-  void drawRect(Rect rect, Paint paint) {
-    if (paint.color.toARGB32() ==
-        ObstructionMapPalette.obstructedColor.toARGB32()) {
-      blockedCells++;
-    }
+  void drawImageRect(ui.Image image, Rect src, Rect dst, Paint paint) {
+    gridImages++;
   }
 }
 
@@ -98,7 +94,7 @@ void main() {
         ),
       );
       final marks = _marks(tester);
-      expect(marks.blockedCells, 1);
+      expect(marks.gridImages, 1);
       expect(marks.references, statusAge < 5000 ? greaterThan(0) : 0);
       expect(marks.arrowLines, statusAge < 5000 ? greaterThan(0) : 0);
       expect(find.text(M.obstructions.delayed_short), findsNothing);
@@ -148,7 +144,7 @@ void main() {
           ),
         );
         final marks = _marks(tester);
-        expect(marks.blockedCells, 1);
+        expect(marks.gridImages, 1);
         expect(marks.references, 0);
         expect(marks.arrowLines, 0);
         expect(find.text(M.obstructions.signal_blocked), findsNothing);
@@ -189,7 +185,7 @@ void main() {
     final marks = _marks(tester);
     expect(marks.references, greaterThan(0));
     expect(marks.arrowLines, 0);
-    expect(marks.blockedCells, 1);
+    expect(marks.gridImages, 1);
   });
 
   testWidgets('delayed map keeps independently fresh status orientation', (
@@ -320,7 +316,7 @@ void main() {
         ),
       );
       final marks = _marks(tester);
-      expect(marks.blockedCells, 1);
+      expect(marks.gridImages, 1);
       expect(marks.references, 0);
       expect(marks.arrowLines, 0);
       await tester.tap(find.text(M.obstructions.title));

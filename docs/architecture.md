@@ -191,6 +191,28 @@ shared signal colors and unrotated raster output. The widget owns text measureme
 arrow styling, and collision handling. Sector cuts, cardinal marks, numeric bearings, and badge
 centers use the same ray intersection, preserving bearing angles on rectangular grids.
 
+Each mounted `ObstructionMapWidget` normalizes the response and creates one unrotated bitmap when
+the protobuf map object changes. The bitmap has one pixel per source cell and is shared by the
+minimap and its details dialog. Age, status, heading, theme, and size updates reuse it. Painting
+scales it with nearest-neighbor sampling under the existing rotation, clipping, and unknown-color
+padding; compass marks, arrows, sector badges, and text remain separate. PNG sharing still creates
+its own unrotated two-pixels-per-cell export.
+
+The widget also owns a one-entry `ObstructionSectorCache`, populated when details need sectors.
+Its key is the normalized map, reference frame, and effective unnormalized North/East basis for
+UT maps. EARTH sectors ignore attitude. A missing overlay is cached too. Map replacement clears
+the entry; UT basis changes or freshness filtering recompute it, while age-only and heading-only
+updates retain the overlay identity. With other painter inputs unchanged, age-only updates can
+avoid painting. Layout and text remain per-view work.
+
+`generateObstructionBitmap()` returns an image handle synchronously using `Picture.toImageSync()`;
+Flutter rasterizes it asynchronously, with GPU residency when available. The temporary picture
+is disposed immediately. The widget retires old image handles after two post-frame callbacks so
+the separately updated dialog can replace its painter or close first; retirement also runs after
+source disposal. New map creation still records every cell once. See the
+[R8 measurements and API references](proposals/obstruction_map_refactoring.md#r8--profile-before-caching-or-rasterizing)
+for costs and remaining device-profiling limits.
+
 [`ObstructionMapContext`](../star.debug/lib/utils/obstruction_map_context.dart) keeps explicit
 live/imported/stored source modes and independent map/status reception ages. Live ages use the
 current snapshot timestamp; frozen views use the capture timestamp, so opening an old capture

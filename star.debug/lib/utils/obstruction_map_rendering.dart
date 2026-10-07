@@ -27,6 +27,31 @@ class ObstructionMapPalette {
   }
 }
 
+/// One pixel per source cell, without orientation or presentation overlays.
+/// The caller owns and must dispose the returned image.
+Image generateObstructionBitmap(ObstructionMapData map) {
+  final recorder = PictureRecorder();
+  final canvas = Canvas(recorder);
+  final paint = Paint()..isAntiAlias = false;
+  for (var row = 0; row < map.rows; row++) {
+    for (var col = 0; col < map.cols; col++) {
+      paint.color = ObstructionMapPalette.color(
+        map.signal[row * map.cols + col],
+      );
+      canvas.drawRect(
+        Rect.fromLTWH(col.toDouble(), row.toDouble(), 1, 1),
+        paint,
+      );
+    }
+  }
+  final picture = recorder.endRecording();
+  try {
+    return picture.toImageSync(map.cols, map.rows);
+  } finally {
+    picture.dispose();
+  }
+}
+
 /// Raster export uses the same signal colors as the in-app 2D map.
 Future<Uint8List> generateObstructionImgFromMap(
   DishGetObstructionMapResponse resp,

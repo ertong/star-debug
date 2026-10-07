@@ -355,3 +355,38 @@ findings, no errors or new findings. The new test passes formatting checks; the 
 pre-existing formatting differences and CRLF conventions. Diff whitespace and local documentation
 links pass. Independent Astra/high review found no substantive issue. No schema, generated code,
 or UI changes were needed.
+
+
+## R8 bitmap/sector-cache follow-up validation
+
+The widget now shares one unrotated bitmap between the minimap and details and retains the latest
+sector overlay by map/frame/effective UT basis. Age-only updates reuse the image and overlay;
+freshness filtering still removes unusable UT references. Replaced images remain usable through
+the dialog's delayed update, then retire after two frames. The
+[R8 implementation notes](proposals/obstruction_map_refactoring.md#r8--profile-before-caching-or-rasterizing)
+record invalidation, ownership, memory estimates, current rebuild frequency, and checked Flutter
+API references.
+
+Fourteen new cases across [bitmap](../star.debug/test/obstruction_map_bitmap_test.dart),
+[sector cache](../star.debug/test/obstruction_sector_cache_test.dart), and
+[widget cache](../star.debug/test/obstruction_map_cache_test.dart) tests verify palette/row order,
+frame independence, temporary-picture disposal, exact cache keys, cached nulls, bounded eviction,
+shared image identity, repaint decisions, rapid replacements, and exactly-once image disposal.
+The widget tests also remove the source while the dialog still holds a retiring image. Existing
+freshness tests now count image draws instead of cell rectangles; pixel and geometry tests retain
+their previous assertions.
+
+The isolated app copy passed the focused suites (64 tests), cache-widget tests (3 tests), and full
+suite (194 tests), followed by the final sector-cache checks (8 tests). Analyzer output matches
+the R7 baseline: 42 existing findings, no errors or new findings. Scoped formatting checks pass
+for all seven changed/new Dart files. Diff whitespace and local documentation links pass.
+Independent Astra/high implementation and documentation reviews found no substantive issue.
+
+A temporary Linux debug-test probe compared actual painter command recording before and after
+the change. For a synthetic 123×123 map, minimap recording decreased from about 3.95 to 0.15 ms,
+and details from 4.47 to 0.57 ms. At 512×512, recording decreased from about 65 ms to under 0.6 ms.
+New bitmap recording/handle creation/disposal measured about 8.45 and 155.45 ms respectively, once
+per new map. These are small-sample CPU estimates; they exclude GPU rasterization, network, full
+widget rebuilds, and real-device frame timing. The upfront large-map cost and changing UT-basis
+sector scans remain candidates for supported-device profiling. No isolate, dependency, generated
+code, or protocol change was introduced.

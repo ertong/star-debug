@@ -1,4 +1,5 @@
 import 'dart:math' as math;
+import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:star_debug/grpc/starlink/starlink.pb.dart';
@@ -39,6 +40,8 @@ class ObstructionMapWidget extends StatefulWidget {
 
 class _ObstructionMapWidgetState extends State<ObstructionMapWidget> {
   ObstructionMapData? data;
+  ui.Image? bitmap;
+  final sectorCache = ObstructionSectorCache();
   late final ValueNotifier<_MapView> details;
   DialogRoute<void>? detailsRoute;
 
@@ -60,13 +63,30 @@ class _ObstructionMapWidgetState extends State<ObstructionMapWidget> {
   }
 
   void _readMap() {
+    final oldBitmap = bitmap;
+    sectorCache.clear();
     data = widget.map == null
         ? null
         : ObstructionMapData.fromResponse(widget.map!);
+    bitmap = data == null ? null : generateObstructionBitmap(data!);
+    _retireBitmap(oldBitmap);
+  }
+
+  void _retireBitmap(ui.Image? image) {
+    if (image == null) return;
+    // Details receive their new view after this frame. Wait for that overlay
+    // rebuild (or route removal) before releasing its old painter's image.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => image.dispose());
+      WidgetsBinding.instance.scheduleFrame();
+    });
+    WidgetsBinding.instance.ensureVisualUpdate();
   }
 
   _MapView _view() => _MapView(
     data,
+    bitmap,
+    sectorCache,
     widget.map != null,
     widget.stats ??
         (widget.status?.hasObstructionStats() == true
@@ -94,6 +114,8 @@ class _ObstructionMapWidgetState extends State<ObstructionMapWidget> {
       });
     }
     details.dispose();
+    _retireBitmap(bitmap);
+    bitmap = null;
     super.dispose();
   }
 
@@ -239,6 +261,8 @@ class _ObstructionMapWidgetState extends State<ObstructionMapWidget> {
 
 class _MapView {
   final ObstructionMapData? map;
+  final ui.Image? bitmap;
+  final ObstructionSectorCache sectorCache;
   final bool hasResponse;
   final DishObstructionStats? _stats;
   final DishOrientation _orientation;
@@ -246,6 +270,8 @@ class _MapView {
 
   _MapView(
     this.map,
+    this.bitmap,
+    this.sectorCache,
     this.hasResponse,
     this._stats,
     this._orientation,
@@ -291,9 +317,7 @@ class _MapView {
   late final geometry = map == null
       ? null
       : ObstructionMapGeometry(map!.frame, orientation);
-  late final sectors = ready
-      ? ObstructionSectorOverlay.fromMap(map!, geometry!)
-      : null;
+  late final sectors = ready ? sectorCache.get(map!, geometry!) : null;
   bool get northAligned => geometry?.northRotation != null;
 
   bool get ready =>
@@ -823,6 +847,7 @@ class _MapCanvas extends StatelessWidget {
         key: Key(compact ? 'dish-obstruction-minimap' : 'dish-obstruction-map'),
         painter: _ObstructionPainter(
           view.map!,
+          view.bitmap!,
           view.geometry!,
           compact ? null : view.sectors,
           Theme.of(context).colorScheme.onSurface,
@@ -837,6 +862,7 @@ class _MapCanvas extends StatelessWidget {
 
 class _ObstructionPainter extends CustomPainter {
   final ObstructionMapData map;
+  final ui.Image bitmap;
   final ObstructionMapGeometry geometry;
   final ObstructionSectorOverlay? sectors;
   final Color foreground;
@@ -846,6 +872,7 @@ class _ObstructionPainter extends CustomPainter {
 
   _ObstructionPainter(
     this.map,
+    this.bitmap,
     this.geometry,
     this.sectors,
     this.foreground,
@@ -870,8 +897,9 @@ class _ObstructionPainter extends CustomPainter {
     );
     final rect = layout.rawRect;
     final displayRect = layout.displayRect;
-    final scale = layout.cellPitch;
-    final paint = Paint()..isAntiAlias = false;
+    final paint = Paint()
+      ..isAntiAlias = false
+      ..filterQuality = FilterQuality.none;
     canvas.save();
     canvas.clipRRect(
       RRect.fromRectAndRadius(displayRect, Radius.circular(compact ? 9 : 14)),
@@ -883,22 +911,12 @@ class _ObstructionPainter extends CustomPainter {
     canvas.rotate(rotation);
     canvas.translate(-rect.center.dx, -rect.center.dy);
     canvas.clipRect(rect);
-    for (var row = 0; row < map.rows; row++) {
-      for (var col = 0; col < map.cols; col++) {
-        paint.color = ObstructionMapPalette.color(
-          map.signal[row * map.cols + col],
-        );
-        canvas.drawRect(
-          Rect.fromLTWH(
-            rect.left + col * scale,
-            rect.top + row * scale,
-            scale,
-            scale,
-          ),
-          paint,
-        );
-      }
-    }
+    canvas.drawImageRect(
+      bitmap,
+      Rect.fromLTWH(0, 0, bitmap.width.toDouble(), bitmap.height.toDouble()),
+      rect,
+      paint,
+    );
     canvas.restore();
     if (sectors != null) {
       final line = Paint()
@@ -1170,6 +1188,7 @@ class _ObstructionPainter extends CustomPainter {
   @override
   bool shouldRepaint(_ObstructionPainter oldDelegate) =>
       oldDelegate.map != map ||
+      oldDelegate.bitmap != bitmap ||
       oldDelegate.sectors != sectors ||
       oldDelegate.orientation.azimuth != orientation.azimuth ||
       oldDelegate.orientation.elevation != orientation.elevation ||
