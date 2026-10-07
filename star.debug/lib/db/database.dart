@@ -21,7 +21,7 @@ class Database extends _$Database {
   Database.connect(DatabaseConnection super.connection);
 
   @override
-  int get schemaVersion => 5;
+  int get schemaVersion => 6;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -32,11 +32,17 @@ class Database extends _$Database {
         LogUtils.d(_TAG, "Migration from $from to $to");
 
         if (from<3){
-          m.drop(dishes);
-          m.drop(dishLogs);
+          await m.drop(dishes);
+          await m.drop(dishLogs);
         }
 
         await m.createAll(); // create if not exists
+
+        if (from >= 3 && from < 6) {
+          await m.addColumn(dishLogs, dishLogs.dishObstructionMap);
+          await m.addColumn(dishLogs, dishLogs.obstructionMapTs);
+          await m.addColumn(dishLogs, dishLogs.obstructionMapApiVersion);
+        }
 
         if (from < 2) {
           // migrate, if something need to be done before 2

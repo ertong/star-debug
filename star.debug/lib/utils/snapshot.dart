@@ -24,6 +24,10 @@ class Snapshot {
   final Map<String, bool>? routerFeatures;
   final int? routerApiVersion;
 
+  final DishGetObstructionMapResponse? dishGetObstructionMap;
+  final int? obstructionMapTs;
+  final int? obstructionMapApiVersion;
+
   final int? historyTs;
   final DishGetHistoryResponse? dishGetHistory;
   final GetLocationResponse? dishGetLocationGPS;
@@ -44,6 +48,9 @@ class Snapshot {
       this.routerGetStatus,
       this.routerFeatures,
       this.routerApiVersion,
+      this.dishGetObstructionMap,
+      this.obstructionMapTs,
+      this.obstructionMapApiVersion,
       this.historyTs,
       this.dishGetHistory,
       this.dishGetLocationGPS,
@@ -97,6 +104,15 @@ class Snapshot {
       }
     }
 
+    DishGetObstructionMapResponse? obstructionMap;
+    if (row.dishObstructionMap?.isNotEmpty ?? false) {
+      try {
+        obstructionMap = DishGetObstructionMapResponse.fromBuffer(row.dishObstructionMap!);
+      }catch(e,s) {
+        LogUtils.ers(_TAG, "Loading ${row.dishObstructionMap}", e, s);
+      }
+    }
+
     Map<String, dynamic>? onlineJson;
     if (row.onlineJson!=null && row.onlineJson!="null") {
       try {
@@ -110,6 +126,9 @@ class Snapshot {
       timestamp: row.timestamp,
       dishTs: row.timestamp, // todo
       dishGetStatus: dish,
+      dishGetObstructionMap: obstructionMap,
+      obstructionMapTs: obstructionMap == null ? null : row.obstructionMapTs,
+      obstructionMapApiVersion: obstructionMap == null ? null : row.obstructionMapApiVersion,
       routerTs: row.timestamp, // todo
       routerGetStatus: router,
       onlineJson: onlineJson,

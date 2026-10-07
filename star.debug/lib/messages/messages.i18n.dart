@@ -74,6 +74,7 @@ class Messages {
   TabsMessages get tabs => TabsMessages(this);
   OnlineMessages get online => OnlineMessages(this);
   GrpcMessages get grpc => GrpcMessages(this);
+  ObstructionsMessages get obstructions => ObstructionsMessages(this);
 }
 
 class GeneralMessages {
@@ -2859,6 +2860,294 @@ class WifiGetStatusGrpcMessages {
   String get client_index => """client_index""";
 }
 
+class ObstructionsMessages {
+  final Messages _parent;
+  const ObstructionsMessages(this._parent);
+
+  /// ```dart
+  /// "Obstructions"
+  /// ```
+  String get title => """Obstructions""";
+
+  /// ```dart
+  /// "Open obstruction details"
+  /// ```
+  String get open_details => """Open obstruction details""";
+
+  /// ```dart
+  /// "Clear view"
+  /// ```
+  String get clear => """Clear view""";
+
+  /// ```dart
+  /// "Obstructed"
+  /// ```
+  String get blocked => """Obstructed""";
+
+  /// ```dart
+  /// "Reduced signal"
+  /// ```
+  String get reduced_signal => """Reduced signal""";
+
+  /// ```dart
+  /// "Unobserved"
+  /// ```
+  String get no_data => """Unobserved""";
+
+  /// ```dart
+  /// "The dish has not provided a usable map yet."
+  /// ```
+  String get invalid_map => """The dish has not provided a usable map yet.""";
+
+  /// ```dart
+  /// "Waiting for an obstruction map from the dish."
+  /// ```
+  String get waiting => """Waiting for an obstruction map from the dish.""";
+
+  /// ```dart
+  /// "No obstruction map in this snapshot."
+  /// ```
+  String get unavailable => """No obstruction map in this snapshot.""";
+
+  /// ```dart
+  /// "Obstruction map: $observed observed cells, $blocked blocked cells."
+  /// ```
+  String map_semantics(observed, blocked) =>
+      """Obstruction map: $observed observed cells, $blocked blocked cells.""";
+
+  /// ```dart
+  /// "North up · true bearings. White arrow: dish; gold dashed arrow: target. Arrow length does not represent elevation."
+  /// ```
+  String get earth_frame =>
+      """North up · true bearings. White arrow: dish; gold dashed arrow: target. Arrow length does not represent elevation.""";
+
+  /// ```dart
+  /// "Dish-relative view. The arrow points toward the dish heading; this grid is not a geographic compass."
+  /// ```
+  String get dish_frame =>
+      """Dish-relative view. The arrow points toward the dish heading; this grid is not a geographic compass.""";
+
+  /// ```dart
+  /// "The orientation of this map is not available."
+  /// ```
+  String get unknown_frame =>
+      """The orientation of this map is not available.""";
+
+  /// ```dart
+  /// "The map is still gathering data. No usable observations yet."
+  /// ```
+  String get gathering =>
+      """The map is still gathering data. No usable observations yet.""";
+
+  /// ```dart
+  /// "Blocked cells"
+  /// ```
+  String get blocked_cells => """Blocked cells""";
+
+  /// ```dart
+  /// "Zero-signal cells / observed cells. Unobserved cells are excluded. This is not sky area or time obstructed."
+  /// ```
+  String get cells_hint =>
+      """Zero-signal cells / observed cells. Unobserved cells are excluded. This is not sky area or time obstructed.""";
+
+  /// ```dart
+  /// "Map age"
+  /// ```
+  String get map_age => """Map age""";
+
+  /// ```dart
+  /// "Updates delayed"
+  /// ```
+  String get delayed_short => """Updates delayed""";
+
+  /// ```dart
+  /// "Map updates are delayed. Showing the last received map."
+  /// ```
+  String get delayed =>
+      """Map updates are delayed. Showing the last received map.""";
+
+  /// ```dart
+  /// "Signal state"
+  /// ```
+  String get current_signal => """Signal state""";
+
+  /// ```dart
+  /// "Signal obstructed"
+  /// ```
+  String get signal_blocked => """Signal obstructed""";
+
+  /// ```dart
+  /// "Not obstructed"
+  /// ```
+  String get not_blocked => """Not obstructed""";
+
+  /// ```dart
+  /// "Recorded obstructions"
+  /// ```
+  String get recorded_obstructions => """Recorded obstructions""";
+
+  /// ```dart
+  /// "No blocked samples"
+  /// ```
+  String get no_blocked_cells => """No blocked samples""";
+
+  /// ```dart
+  /// "Dish-reported"
+  /// ```
+  String get dish_fraction => """Dish-reported""";
+
+  /// ```dart
+  /// "Avg. prolonged outage"
+  /// ```
+  String get average_duration => """Avg. prolonged outage""";
+
+  /// ```dart
+  /// "Avg. outage interval"
+  /// ```
+  String get average_interval => """Avg. outage interval""";
+
+  /// ```dart
+  /// "Valid observation time"
+  /// ```
+  String get collection_time => """Valid observation time""";
+
+  /// ```dart
+  /// "Largest blocked patch"
+  /// ```
+  String get largest_patch => """Largest blocked patch""";
+
+  /// ```dart
+  /// "cells"
+  /// ```
+  String get cells => """cells""";
+
+  /// ```dart
+  /// "Dish orientation"
+  /// ```
+  String get orientation => """Dish orientation""";
+
+  /// ```dart
+  /// "Dish bearing"
+  /// ```
+  String get dish_bearing => """Dish bearing""";
+
+  /// ```dart
+  /// "Dish heading"
+  /// ```
+  String get dish_heading => """Dish heading""";
+
+  /// ```dart
+  /// "Elevation"
+  /// ```
+  String get elevation => """Elevation""";
+
+  /// ```dart
+  /// "Target bearing"
+  /// ```
+  String get target_bearing => """Target bearing""";
+
+  /// ```dart
+  /// "Target elevation"
+  /// ```
+  String get target_elevation => """Target elevation""";
+
+  /// ```dart
+  /// "Azimuth difference"
+  /// ```
+  String get azimuth_difference => """Azimuth difference""";
+
+  /// ```dart
+  /// "Elevation difference"
+  /// ```
+  String get elevation_difference => """Elevation difference""";
+
+  /// ```dart
+  /// "A nearly level dish has an uncertain heading. Use its reported elevation when assessing alignment."
+  /// ```
+  String get heading_uncertain =>
+      """A nearly level dish has an uncertain heading. Use its reported elevation when assessing alignment.""";
+
+  /// ```dart
+  /// "Blocked sectors"
+  /// ```
+  String get sectors => """Blocked sectors""";
+
+  /// ```dart
+  /// "Blocked fraction by map sector; the right column counts observed cells. Small samples are inconclusive."
+  /// ```
+  String get sectors_hint =>
+      """Blocked fraction by map sector; the right column counts observed cells. Small samples are inconclusive.""";
+
+  /// ```dart
+  /// "Top"
+  /// ```
+  String get top => """Top""";
+
+  /// ```dart
+  /// "Top right"
+  /// ```
+  String get top_right => """Top right""";
+
+  /// ```dart
+  /// "Right"
+  /// ```
+  String get right => """Right""";
+
+  /// ```dart
+  /// "Bottom right"
+  /// ```
+  String get bottom_right => """Bottom right""";
+
+  /// ```dart
+  /// "Bottom"
+  /// ```
+  String get bottom => """Bottom""";
+
+  /// ```dart
+  /// "Bottom left"
+  /// ```
+  String get bottom_left => """Bottom left""";
+
+  /// ```dart
+  /// "Left"
+  /// ```
+  String get left => """Left""";
+
+  /// ```dart
+  /// "Top left"
+  /// ```
+  String get top_left => """Top left""";
+
+  /// ```dart
+  /// "How to read this map"
+  /// ```
+  String get reading_map => """How to read this map""";
+
+  /// ```dart
+  /// "The map accumulates real satellite connections; it is not a live camera view. Gray cells have no observations and do not prove an obstruction."
+  /// ```
+  String get explanation =>
+      """The map accumulates real satellite connections; it is not a live camera view. Gray cells have no observations and do not prove an obstruction.""";
+
+  /// ```dart
+  /// "Unobserved bands may come from satellite scheduling or the geostationary exclusion zone, where Starlink avoids transmitting."
+  /// ```
+  String get exclusion_hint =>
+      """Unobserved bands may come from satellite scheduling or the geostationary exclusion zone, where Starlink avoids transmitting.""";
+
+  /// ```dart
+  /// "Compare persistent blocked sectors when choosing a mounting site. A single map cannot identify trees, buildings, satellites, or predict downtime. Satellite switching can avoid recorded obstructions."
+  /// ```
+  String get patterns_hint =>
+      """Compare persistent blocked sectors when choosing a mounting site. A single map cannot identify trees, buildings, satellites, or predict downtime. Satellite switching can avoid recorded obstructions.""";
+
+  /// ```dart
+  /// "A blocked patch is a connected group of zero-signal cells, not a measured physical obstacle. Sector percentages and cell counts describe the map, not equal areas of sky."
+  /// ```
+  String get patch_hint =>
+      """A blocked patch is a connected group of zero-signal cells, not a measured physical obstacle. Sector percentages and cell counts describe the map, not equal areas of sky.""";
+}
+
 Map<String, String> get messagesMap => {
   """general.lang""": """English""",
   """general.app_name""": """Star Debug""",
@@ -3507,4 +3796,62 @@ starting from approximately January 2023, Starlink routers are able to pick rand
       """Dish ping drop rate, 5m""",
   """grpc.WifiGetStatus.has_client_index""": """has_client_index""",
   """grpc.WifiGetStatus.client_index""": """client_index""",
+  """obstructions.title""": """Obstructions""",
+  """obstructions.open_details""": """Open obstruction details""",
+  """obstructions.clear""": """Clear view""",
+  """obstructions.blocked""": """Obstructed""",
+  """obstructions.reduced_signal""": """Reduced signal""",
+  """obstructions.no_data""": """Unobserved""",
+  """obstructions.invalid_map""":
+      """The dish has not provided a usable map yet.""",
+  """obstructions.waiting""":
+      """Waiting for an obstruction map from the dish.""",
+  """obstructions.unavailable""": """No obstruction map in this snapshot.""",
+  """obstructions.earth_frame""": """North up · true bearings. White arrow: dish; gold dashed arrow: target. Arrow length does not represent elevation.""",
+  """obstructions.dish_frame""": """Dish-relative view. The arrow points toward the dish heading; this grid is not a geographic compass.""",
+  """obstructions.unknown_frame""":
+      """The orientation of this map is not available.""",
+  """obstructions.gathering""":
+      """The map is still gathering data. No usable observations yet.""",
+  """obstructions.blocked_cells""": """Blocked cells""",
+  """obstructions.cells_hint""": """Zero-signal cells / observed cells. Unobserved cells are excluded. This is not sky area or time obstructed.""",
+  """obstructions.map_age""": """Map age""",
+  """obstructions.delayed_short""": """Updates delayed""",
+  """obstructions.delayed""":
+      """Map updates are delayed. Showing the last received map.""",
+  """obstructions.current_signal""": """Signal state""",
+  """obstructions.signal_blocked""": """Signal obstructed""",
+  """obstructions.not_blocked""": """Not obstructed""",
+  """obstructions.recorded_obstructions""": """Recorded obstructions""",
+  """obstructions.no_blocked_cells""": """No blocked samples""",
+  """obstructions.dish_fraction""": """Dish-reported""",
+  """obstructions.average_duration""": """Avg. prolonged outage""",
+  """obstructions.average_interval""": """Avg. outage interval""",
+  """obstructions.collection_time""": """Valid observation time""",
+  """obstructions.largest_patch""": """Largest blocked patch""",
+  """obstructions.cells""": """cells""",
+  """obstructions.orientation""": """Dish orientation""",
+  """obstructions.dish_bearing""": """Dish bearing""",
+  """obstructions.dish_heading""": """Dish heading""",
+  """obstructions.elevation""": """Elevation""",
+  """obstructions.target_bearing""": """Target bearing""",
+  """obstructions.target_elevation""": """Target elevation""",
+  """obstructions.azimuth_difference""": """Azimuth difference""",
+  """obstructions.elevation_difference""": """Elevation difference""",
+  """obstructions.heading_uncertain""": """A nearly level dish has an uncertain heading. Use its reported elevation when assessing alignment.""",
+  """obstructions.sectors""": """Blocked sectors""",
+  """obstructions.sectors_hint""": """Blocked fraction by map sector; the right column counts observed cells. Small samples are inconclusive.""",
+  """obstructions.top""": """Top""",
+  """obstructions.top_right""": """Top right""",
+  """obstructions.right""": """Right""",
+  """obstructions.bottom_right""": """Bottom right""",
+  """obstructions.bottom""": """Bottom""",
+  """obstructions.bottom_left""": """Bottom left""",
+  """obstructions.left""": """Left""",
+  """obstructions.top_left""": """Top left""",
+  """obstructions.reading_map""": """How to read this map""",
+  """obstructions.explanation""": """The map accumulates real satellite connections; it is not a live camera view. Gray cells have no observations and do not prove an obstruction.""",
+  """obstructions.exclusion_hint""": """Unobserved bands may come from satellite scheduling or the geostationary exclusion zone, where Starlink avoids transmitting.""",
+  """obstructions.patterns_hint""": """Compare persistent blocked sectors when choosing a mounting site. A single map cannot identify trees, buildings, satellites, or predict downtime. Satellite switching can avoid recorded obstructions.""",
+  """obstructions.patch_hint""": """A blocked patch is a connected group of zero-signal cells, not a measured physical obstacle. Sector percentages and cell counts describe the map, not equal areas of sky.""",
 };

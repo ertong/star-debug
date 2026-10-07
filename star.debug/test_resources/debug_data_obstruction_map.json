@@ -1,0 +1,19 @@
+{
+  "dish": {
+    "timestamp": 1710000000,
+    "rawStatus": {
+      "deviceInfo": { "id": "fixture-dish", "hardwareVersion": "rev4_prod1" },
+      "obstructionStats": { "fractionObstructed": 0.025, "currentlyObstructed": false }
+    }
+  },
+  "dishObstructionMap": {
+    "timestamp": 1710000000.125,
+    "apiVersion": 42,
+    "rawMap": {
+      "numRows": 2,
+      "numCols": 3,
+      "snrList": [-1, 0, 0.5, 1, 1, 0],
+      "mapReferenceFrame": 1
+    }
+  }
+}

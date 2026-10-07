@@ -95,9 +95,10 @@ The loop guards against stalled resources:
 - stream and channel errors are retained for display and cause the affected resource to reopen.
 
 `DishConnection` sends status and history requests every two seconds. When the dish allows local
-location requests, it also asks for GPS and Starlink-derived locations. `RouterConnection` requests
-Wi-Fi status every two seconds and separately probes the router's HTTP root for its response code
-and redirect location.
+location requests, it also asks for GPS and Starlink-derived locations. Obstruction maps are requested
+every 30 seconds through the same stream and retained with their own receive timestamp.
+`RouterConnection` requests Wi-Fi status every two seconds and separately probes the router's HTTP
+root for its response code and redirect location.
 
 Router and dish addresses come from `SharedPrefs`, falling back to `kDefaultRouterIp` and
 `kDefaultDishIp`. Loading preferences removes blank, invalid, and explicit default overrides and
@@ -149,17 +150,51 @@ both the binary-assisted form and the raw JSON fallback against fixtures from se
 When adding compatibility for a new debug-data layout, normalize it in `SpaceParser` and add a
 sanitized fixture plus round-trip assertions. Avoid teaching UI widgets about format versions.
 
+## Obstruction maps
+
+`Snapshot` carries an optional obstruction map, receive timestamp, and API version. The shared dish
+view shows a compact minimap and opens a responsive details dialog. Negative or nonfinite signal
+values are unobserved, zero is blocked, and 0..1 is normalized signal quality. Blocked-cell ratios
+exclude unobserved cells and are separate from dish-reported obstruction stats. Sector ratios and
+four-connected blocked patch sizes describe samples, not sky area, physical obstacles, or downtime.
+Maps with invalid dimensions, no observed samples, or an explicitly zero `patchesValid` count show
+a state message instead of a canvas. Missing readiness counts do not invalidate older maps.
+
+EARTH grids retain their row order with north at the top. Compass markings and dish/target azimuth
+arrows use reported boresight fields, preferring `alignmentStats` when present. UT grids remain
+dish-relative with the boresight direction at the bottom; simply rotating them cannot account for
+the tilt-dependent projection. Unknown frames receive no inferred bearings. Near-level dishes
+(elevation above 75 degrees) suppress heading arrows and show an uncertainty note. Arrow length
+does not encode elevation. The UI retains maps between polls and marks live updates delayed after
+65 seconds. Dialogs update from their source widget and close when that source disappears.
+
+StarDebug exports maps in a top-level `dishObstructionMap` envelope with `_proto`, `rawMap`,
+`timestamp` (seconds), and `apiVersion`. `SpaceParser` accepts the binary-assisted and JSON-only
+forms independently of device status. Nonfinite signal samples become -1 in the JSON fallback.
+Schema version 6 adds nullable protobuf map, receive timestamp, and API-version columns to dish
+logs. Both automatic logs and manually saved live snapshots populate these columns; older rows
+remain readable without maps. Imported snapshots also retain their maps in debug-data JSON.
+
+The [Starlink obstruction guide](https://starlink.com/mh/support/article/71707228-cea9-52d5-6134-f3de8cc7437f)
+explains accumulated satellite observations, adaptive routing around obstructions, and the
+geostationary exclusion zone. Unobserved bands therefore do not establish an obstruction, and
+blocked cells do not directly predict outages. Signal semantics and raw grid rendering follow the
+[Starlink gRPC tools renderer](https://github.com/sparky8512/starlink-grpc-tools/blob/main/dish_obstruction_map.py).
+Reference-frame conventions follow the author's
+[SatInView documentation](https://github.com/aliahan/SatInView) and
+[measurement study](https://arxiv.org/html/2601.13790v1).
+
 ## Persistence
 
 [`DatabaseHolder`](../star.debug/lib/db/database_holder.dart) resolves the application support or
 documents directory on the main isolate, then starts a background isolate containing the Drift
 `NativeDatabase`. All callers share one `Database` connection backed by `sqlite.db`.
 
-Schema version 5 has three logical tables:
+Schema version 6 has three logical tables:
 
 - `dishes` stores one row per dish and points to its latest log;
 - `dish_logs` stores imported JSON and/or protobuf bytes for dish status, history, router status,
-  and online results;
+  obstruction maps with capture metadata, and online results;
 - `recent_inputs` stores searchable Wi-Fi names and passwords entered through the setup dialog.
 
 `DishLogController` coalesces automatic live updates. It writes at most every five seconds, updates
@@ -168,7 +203,8 @@ boundary, or after a forced log. Imported debug data is de-duplicated by dish ID
 Mutations are serialized by a `Mutex`, and UI deletion invalidates the controller's cached records.
 
 Drift migration behavior is intentionally simple: upgrades from versions below 3 drop `dishes`
-and `dish_logs`, then `createAll()` ensures current objects exist. A schema change must be evaluated
+and `dish_logs`, then `createAll()` ensures current objects exist. Upgrades from versions 3–5 add
+the nullable obstruction-map columns without rebuilding existing logs. A schema change must be evaluated
 against that behavior and accompanied by a schema-version change and regenerated files.
 
 ## Architectural boundaries

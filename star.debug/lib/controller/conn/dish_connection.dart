@@ -15,6 +15,7 @@ class DishConnection extends GrpcConnection {
 
   PooledRequest<DishGetStatusResponse> dishGetStatus = PooledRequest(2000);
   PooledRequest<DishGetHistoryResponse> dishGetHistory = PooledRequest(2000);
+  PooledRequest<DishGetObstructionMapResponse> dishGetObstructionMap = PooledRequest(30000);
 
   PooledRequest<GetLocationResponse> dishGetLocationGPS = PooledRequest(2000);
   PooledRequest<GetLocationResponse> dishGetLocationStarlink = PooledRequest(2000);
@@ -34,6 +35,12 @@ class DishConnection extends GrpcConnection {
           getStatus: GetStatusRequest()
       )));
       dishGetStatus.sentTime = now;
+    }
+    if (dishGetObstructionMap.needSend(now)) {
+      reqStream.add(ToDevice(request: Request(
+          dishGetObstructionMap: DishGetObstructionMapRequest()
+      )));
+      dishGetObstructionMap.sentTime = now;
     }
     if (dishGetHistory.needSend(now)) {
       reqStream.add(ToDevice(request: Request(
@@ -77,6 +84,9 @@ class DishConnection extends GrpcConnection {
           dishGetLocationStarlink.setData(now, resp.getLocation, resp.apiVersion.toInt());
         if (resp.getLocation.source == PositionSource.GPS)
           dishGetLocationGPS.setData(now, resp.getLocation, resp.apiVersion.toInt());
+      }
+      if (resp.hasDishGetObstructionMap()) {
+        dishGetObstructionMap.setData(now, resp.dishGetObstructionMap, resp.apiVersion.toInt());
       }
       if (resp.hasDishGetHistory()) {
         dishGetHistory.setData(now, resp.dishGetHistory, resp.apiVersion.toInt());

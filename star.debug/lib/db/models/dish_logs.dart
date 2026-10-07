@@ -14,6 +14,9 @@ class DishLogs extends Table {
   // from live grpc data
   BlobColumn get dishStatusJson => blob().nullable()();
   BlobColumn get dishHistoryJson => blob().nullable()();
+  BlobColumn get dishObstructionMap => blob().nullable()();
+  IntColumn get obstructionMapTs => integer().nullable()();
+  IntColumn get obstructionMapApiVersion => integer().nullable()();
   BlobColumn get wifiStatusJson => blob().nullable()();
   TextColumn get onlineJson => text().nullable()();
 }

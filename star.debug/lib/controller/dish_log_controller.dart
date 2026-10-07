@@ -90,7 +90,7 @@ class DishLogController {
     var dishId = snap.dishGetStatus?.deviceInfo.id;
     var timestamp = snap.dishTs;
 
-    if (dishId == null || timestamp == null || snap.debug_data == null)
+    if (dishId == null || timestamp == null)
       return;
 
     var rec = await ensureRecord(dishId, snap);
@@ -106,9 +106,12 @@ class DishLogController {
         timestamp: Value(rec.time),
         forceStore: Value(true),
         dishId: Value(rec.dishId),
-        debugDataJson: Value(jsonEncode(snap.debug_data)),
+        debugDataJson: Value(snap.debug_data == null ? null : jsonEncode(snap.debug_data)),
         dishStatusJson: Value(snap.dishGetStatus?.writeToBuffer()),
         dishHistoryJson: Value(snap.dishGetHistory?.writeToBuffer()),
+        dishObstructionMap: Value(snap.dishGetObstructionMap?.writeToBuffer()),
+        obstructionMapTs: Value(snap.obstructionMapTs),
+        obstructionMapApiVersion: Value(snap.obstructionMapApiVersion),
         wifiStatusJson: Value(snap.routerGetStatus?.writeToBuffer()),
         onlineJson: Value(jsonEncode(snap.onlineJson)),
       );
@@ -164,6 +167,9 @@ class DishLogController {
                   debugDataJson: Value(jsonEncode(rec.snap.debug_data)),
                   dishStatusJson: Value(rec.snap.dishGetStatus?.writeToBuffer()),
                   dishHistoryJson: Value(rec.snap.dishGetHistory?.writeToBuffer()),
+                  dishObstructionMap: Value(rec.snap.dishGetObstructionMap?.writeToBuffer()),
+                  obstructionMapTs: Value(rec.snap.obstructionMapTs),
+                  obstructionMapApiVersion: Value(rec.snap.obstructionMapApiVersion),
                   wifiStatusJson: Value(rec.snap.routerGetStatus?.writeToBuffer()),
                   onlineJson: Value(jsonEncode(rec.snap.onlineJson)),
                 );

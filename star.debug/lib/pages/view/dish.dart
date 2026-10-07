@@ -9,6 +9,7 @@ import 'package:star_debug/grpc/starlink/starlink.pbgrpc.dart';
 import 'package:star_debug/grpc/starlink/telemetron.pb.dart';
 import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/pages/view/common.dart';
+import 'package:star_debug/widgets/obstruction_map.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/utils/format.dart';
 import 'package:star_debug/utils/kv_widget.dart';
@@ -415,47 +416,20 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
         b.kv(M.grpc.DishGetStatus.is_snr_persistently_low, status.isSnrPersistentlyLow,
             hint: M.grpc.DishGetStatus.is_snr_persistently_low__hint);
 
-        if (status.hasObstructionStats()) {
-          var stats = status.obstructionStats;
-          if (stats.hasFractionObstructed())
-            b.kv(M.grpc.DishObstructionStats.fraction_obstructed,
-                "${(stats.fractionObstructed * 100).toStringAsFixed(2)} %",
-                hint: M.grpc.DishObstructionStats.fraction_obstructed__hint);
-
-          if (stats.hasValidS())
-            b.kv(M.grpc.DishObstructionStats.valid_s, Format.secD(stats.validS),
-                hint: M.grpc.DishObstructionStats.valid_s__hint);
-
-          b.kv(M.grpc.DishObstructionStats.currently_obstructed, stats.currentlyObstructed,
-              hint: M.grpc.DishObstructionStats.currently_obstructed__hint);
-
-          if (stats.hasAvgProlongedObstructionDurationS())
-            b.kv(M.grpc.DishObstructionStats.avg_prolonged_obstruction_duration_s,
-                Format.secD(stats.avgProlongedObstructionDurationS),
-                hint: M.grpc.DishObstructionStats.avg_prolonged_obstruction_duration_s__hint);
-
-          if (stats.hasAvgProlongedObstructionIntervalS())
-            b.kv(M.grpc.DishObstructionStats.avg_prolonged_obstruction_interval_s,
-                Format.secD(stats.avgProlongedObstructionIntervalS),
-                hint: M.grpc.DishObstructionStats.avg_prolonged_obstruction_interval_s__hint);
-
-          if (stats.hasAvgProlongedObstructionValid())
-            b.kv(M.grpc.DishObstructionStats.avg_prolonged_obstruction_valid, stats.avgProlongedObstructionValid,
-                hint: M.grpc.DishObstructionStats.avg_prolonged_obstruction_valid__hint);
-
-          if (stats.hasTimeObstructed())
-            b.kv(M.grpc.DishObstructionStats.time_obstructed, stats.timeObstructed,
-                hint: M.grpc.DishObstructionStats.time_obstructed__hint);
-
-          if (stats.hasPatchesValid())
-            b.kv(M.grpc.DishObstructionStats.patches_valid, stats.patchesValid,
-                hint: M.grpc.DishObstructionStats.patches_valid__hint);
-        }
 
         if (b.widgets.length > 1) {
           rows.addAll(b.widgets);
         }
       }
+
+      rows.add(ObstructionMapWidget(
+        map: widget.snap.dishGetObstructionMap,
+        receivedTime: widget.snap.obstructionMapTs,
+        timestamp: widget.snap.timestamp,
+        stats: status.hasObstructionStats() ? status.obstructionStats : null,
+        status: status,
+        live: widget.showActions,
+      ));
 
       if (status.hasReadyStates()) {
         var b = KVWidgetBuilder(context, theme);

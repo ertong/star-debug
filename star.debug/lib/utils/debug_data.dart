@@ -219,6 +219,20 @@ class DebugDataHelper {
     return msg;
   }
 
+  static Map<String, dynamic>? obstructionMapData(Snapshot snap) {
+    final map = snap.dishGetObstructionMap;
+    if (map == null) return null;
+    final rawMap = protoToJson(map) as Map<String, dynamic>;
+    rawMap["snrList"] = [for (final value in map.snr) value.isFinite ? value : -1.0];
+    rawMap.removeWhere((key, value) => value is double && !value.isFinite);
+    return {
+      "_proto": base64Encode(map.writeToBuffer()),
+      "rawMap": rawMap,
+      if (snap.obstructionMapTs != null) "timestamp": snap.obstructionMapTs! / 1000,
+      if (snap.obstructionMapApiVersion != null) "apiVersion": snap.obstructionMapApiVersion,
+    };
+  }
+
   static Map<String, dynamic> debugData(Snapshot snap) {
     Map<String, dynamic> res = {};
     int nowS = DateTime.now().millisecondsSinceEpoch ~/ 1000;
@@ -268,6 +282,10 @@ class DebugDataHelper {
         }
       }
     }
+
+    final obstructionMap = obstructionMapData(snap);
+    if (obstructionMap != null)
+      res["dishObstructionMap"] = obstructionMap;
 
     {
       var router = snap.routerGetStatus;

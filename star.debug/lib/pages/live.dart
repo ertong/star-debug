@@ -354,6 +354,9 @@ Snapshot buildLiveSnapshot() {
     routerApiVersion: R.router?.wifiGetStatus.apiVersion,
     historyTs: R.dish?.dishGetHistory.receivedTime,
     dishGetHistory: R.dish?.dishGetHistory.data,
+    dishGetObstructionMap: R.dish?.dishGetObstructionMap.data,
+    obstructionMapTs: R.dish?.dishGetObstructionMap.receivedTime,
+    obstructionMapApiVersion: R.dish?.dishGetObstructionMap.apiVersion,
     dishGetLocationGPS: R.dish?.dishGetLocationGPS.validData(),
     dishGetLocationStarlink: R.dish?.dishGetLocationStarlink.validData(),
   );

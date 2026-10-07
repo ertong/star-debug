@@ -22,6 +22,10 @@ class SpaceParser{
   DishGetStatusResponse? dishGetStatus;
   Map<String, bool> dishFeatures = {};
 
+  DishGetObstructionMapResponse? dishGetObstructionMap;
+  int? obstructionMapTs;
+  int? obstructionMapApiVersion;
+
   int? routerTs;
   int? routerApi;
   WifiGetStatusResponse? routerGetStatus;
@@ -62,6 +66,25 @@ class SpaceParser{
       p.jsonRouter?["config"] = json["wifiConfig"];
 
     p.deviceApp = DeviceApp.of(p.jsonApp);
+
+    final obstructionMap = json["dishObstructionMap"];
+    if (obstructionMap is Map<String, dynamic>) {
+      try {
+        if (obstructionMap["_proto"] is String) {
+          p.dishGetObstructionMap = DishGetObstructionMapResponse.fromBuffer(base64Decode(obstructionMap["_proto"]));
+        } else if (obstructionMap["rawMap"] is Map<String, dynamic>) {
+          p.dishGetObstructionMap = DishGetObstructionMapResponse();
+          DebugDataHelper.jsonToProto(obstructionMap["rawMap"], p.dishGetObstructionMap!);
+        }
+        final ts = obstructionMap["timestamp"];
+        if (ts is num && ts.isFinite) p.obstructionMapTs = (ts * 1000).round();
+        final api = obstructionMap["apiVersion"];
+        if (api is num && api.isFinite) p.obstructionMapApiVersion = api.toInt();
+      } catch (_) {
+        // An optional map must not prevent importing the device status.
+        p.dishGetObstructionMap = null;
+      }
+    }
 
     if (p.jsonDish?["deviceInfo"]!=null) {
       if (p.jsonDish!.containsKey("_proto")) {
@@ -134,6 +157,9 @@ class SpaceParser{
         dishGetStatus: dishGetStatus,
         dishFeatures: dishFeatures,
         dishApiVersion: dishApi,
+        dishGetObstructionMap: dishGetObstructionMap,
+        obstructionMapTs: obstructionMapTs,
+        obstructionMapApiVersion: obstructionMapApiVersion,
         routerTs: routerTs == null ? null : routerTs! * 1000,
         routerGetStatus: routerGetStatus,
         routerFeatures: routerFeatures,
