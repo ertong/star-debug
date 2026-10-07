@@ -194,6 +194,21 @@ class _ObstructionMapWidgetState extends State<ObstructionMapWidget> {
                   ),
                 ],
               ),
+            if (view.ready && !view.map!.northUp) ...[
+              const SizedBox(height: 4),
+              Text(
+                view.map!.frame == ObstructionMapReferenceFrame.FRAME_UT
+                    ? view.orientation.attitude != null
+                          ? M.obstructions.dish_frame_oriented_short
+                          : M.obstructions.dish_frame_short
+                    : M.obstructions.unknown_frame,
+                style: theme.textTheme.bodySmall?.copyWith(fontSize: 11),
+              ),
+            ],
+            if (view.orientation.lookingDownward) ...[
+              const SizedBox(height: 8),
+              const _DownwardWarning(compact: true),
+            ],
           ],
         ),
       ),
@@ -263,6 +278,31 @@ bool _fraction(double value) => value.isFinite && value >= 0 && value <= 1;
 bool _seconds(double value) => value.isFinite && value >= 0;
 String _bearing(double? value) =>
     value == null ? '—' : '${value.toStringAsFixed(1)}°';
+
+class _DownwardWarning extends StatelessWidget {
+  final bool compact;
+  const _DownwardWarning({this.compact = false});
+
+  @override
+  Widget build(BuildContext context) => Row(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Icon(
+        Icons.warning_amber_rounded,
+        size: compact ? 18 : 22,
+        color: Theme.of(context).colorScheme.error,
+      ),
+      const SizedBox(width: 6),
+      Expanded(
+        child: Text(
+          M.obstructions.looking_downward,
+          style: Theme.of(context).textTheme.bodySmall
+              ?.copyWith(color: Theme.of(context).colorScheme.error),
+        ),
+      ),
+    ],
+  );
+}
 
 class _UnavailableMap extends StatelessWidget {
   final _MapView view;
@@ -422,13 +462,27 @@ class _ObstructionDetails extends StatelessWidget {
           view.map!.frame == ObstructionMapReferenceFrame.FRAME_EARTH
               ? M.obstructions.earth_frame
               : view.map!.frame == ObstructionMapReferenceFrame.FRAME_UT
-              ? M.obstructions.dish_frame
+              ? view.orientation.attitude != null
+                    ? M.obstructions.dish_frame_oriented
+                    : M.obstructions.dish_frame
               : M.obstructions.unknown_frame,
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.bodySmall,
         ),
+        if (view.map!.northUp) ...[
+          const SizedBox(height: 4),
+          Text(
+            M.obstructions.arrow_guide,
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
+        ],
       ] else
         _UnavailableMap(view: view),
+      if (view.orientation.lookingDownward) ...[
+        const SizedBox(height: 8),
+        const _DownwardWarning(),
+      ],
     ],
   );
 
@@ -641,7 +695,7 @@ class _SectorChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final earth = map.frame == ObstructionMapReferenceFrame.FRAME_EARTH;
+    final earth = map.northUp;
     final labels = earth
         ? ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW']
         : [
@@ -827,71 +881,107 @@ class _ObstructionPainter extends CustomPainter {
       }
     }
     canvas.restore();
+    _compass(canvas, rect, showDegrees: !compact && map.northUp);
+  }
+
+  void _compass(Canvas canvas, Rect rect, {bool showDegrees = false}) {
     final center = rect.center;
-    final earth = map.frame == ObstructionMapReferenceFrame.FRAME_EARTH;
-    final dish = map.frame == ObstructionMapReferenceFrame.FRAME_UT;
-    if (earth) {
-      _text(canvas, 'N', Offset(center.dx, rect.top - margin / 2));
-      _text(canvas, 'E', Offset(rect.right + margin / 2, center.dy));
-      _text(canvas, 'S', Offset(center.dx, rect.bottom + margin / 2));
-      _text(canvas, 'W', Offset(rect.left - margin / 2, center.dy));
-      if (!compact) {
-        for (var angle = 45; angle < 360; angle += 90) {
-          final radians = angle * math.pi / 180;
-          _text(
-            canvas,
-            '$angle°',
-            center +
-                Offset(
-                  math.sin(radians) * rect.width * 0.44,
-                  -math.cos(radians) * rect.height * 0.44,
-                ),
-            small: true,
+    final margin = compact ? 12.0 : 24.0;
+    final labelRect = rect.inflate(margin / 2);
+    final marks = <({String label, Offset position, Rect bounds})>[];
+    for (final (label, bearing) in [
+      ('N', 0.0),
+      ('E', 90.0),
+      ('S', 180.0),
+      ('W', 270.0),
+    ]) {
+      final direction = map.horizontalDirection(bearing, orientation);
+      if (direction == null) continue;
+      // Intersect the projected direction with the label rectangle. This
+      // preserves its angle without changing or resampling the raw map.
+      final scale =
+          1 /
+          math.max(
+            direction.dx.abs() / (labelRect.width / 2),
+            direction.dy.abs() / (labelRect.height / 2),
           );
+      final position = center + direction * scale;
+      marks.add((
+        label: label,
+        position: position,
+        bounds: _text(canvas, label, position, measureOnly: true),
+      ));
+    }
+    // Near a vertical panel, different horizontal directions can project to
+    // the same edge. Group overlapping labels instead of painting over them.
+    while (marks.isNotEmpty) {
+      final group = [marks.removeAt(0)];
+      var expanded = true;
+      while (expanded) {
+        expanded = false;
+        for (var i = marks.length - 1; i >= 0; i--) {
+          if (group.any((mark) => mark.bounds.overlaps(marks[i].bounds))) {
+            group.add(marks.removeAt(i));
+            expanded = true;
+          }
         }
       }
-      if (orientation.azimuth != null && !orientation.headingUncertain) {
-        _heading(
-          canvas,
-          center,
-          rect,
-          orientation.azimuth!,
-          Colors.white,
-          dashed: false,
-        );
-      }
-      if (!compact &&
-          orientation.desiredAzimuth != null &&
-          !orientation.headingUncertain) {
-        _heading(
-          canvas,
-          center,
-          rect,
-          orientation.desiredAzimuth!,
-          const Color(0xfff4d165),
-          dashed: true,
-        );
-      }
-    } else if (dish) {
-      _heading(canvas, center, rect, 180, Colors.white, dashed: false);
-      if (!compact) {
+      final position =
+          group.fold<Offset>(Offset.zero, (sum, mark) => sum + mark.position) /
+          group.length.toDouble();
+      _text(
+        canvas,
+        group.map((mark) => mark.label).join('/'),
+        position,
+        canvasSize: Size(center.dx * 2, center.dy * 2),
+      );
+    }
+    if (showDegrees) {
+      for (var angle = 45; angle < 360; angle += 90) {
+        final radians = angle * math.pi / 180;
         _text(
           canvas,
-          orientation.azimuth == null || orientation.headingUncertain
-              ? M.obstructions.dish_heading
-              : '${M.obstructions.dish_heading} ${_bearing(orientation.azimuth)}',
-          Offset(center.dx, rect.bottom + 13),
+          '$angle°',
+          center +
+              Offset(
+                math.sin(radians) * rect.width * 0.44,
+                -math.cos(radians) * rect.height * 0.44,
+              ),
           small: true,
         );
       }
     }
+    if (map.northUp && !compact && orientation.hasDesiredProjection) {
+      _heading(
+        canvas,
+        center,
+        rect,
+        orientation.desiredAzimuth ?? 0,
+        const Color(0xfff4d165),
+        elevation: orientation.desiredElevation!,
+        dashed: true,
+      );
+    }
+    if (map.northUp && orientation.hasProjection) {
+      _heading(
+        canvas,
+        center,
+        rect,
+        orientation.azimuth ?? 0,
+        Colors.white,
+        elevation: orientation.elevation!,
+        dashed: false,
+      );
+    }
   }
 
-  void _text(
+  Rect _text(
     Canvas canvas,
     String text,
     Offset position, {
     bool small = false,
+    bool measureOnly = false,
+    Size? canvasSize,
   }) {
     final painter = TextPainter(
       text: TextSpan(
@@ -909,11 +999,17 @@ class _ObstructionPainter extends CustomPainter {
       ),
       textDirection: TextDirection.ltr,
     )..layout();
-    painter.paint(
-      canvas,
-      position - Offset(painter.width / 2, painter.height / 2),
-    );
+    var origin = position - Offset(painter.width / 2, painter.height / 2);
+    if (canvasSize != null) {
+      origin = Offset(
+        origin.dx.clamp(0.0, math.max(0.0, canvasSize.width - painter.width)),
+        origin.dy.clamp(0.0, math.max(0.0, canvasSize.height - painter.height)),
+      );
+    }
+    final bounds = origin & painter.size;
+    if (!measureOnly) painter.paint(canvas, origin);
     painter.dispose();
+    return bounds;
   }
 
   void _heading(
@@ -922,17 +1018,27 @@ class _ObstructionPainter extends CustomPainter {
     Rect rect,
     double bearing,
     Color color, {
+    required double elevation,
     required bool dashed,
   }) {
     final radians = bearing * math.pi / 180;
     final direction = Offset(math.sin(radians), -math.cos(radians));
-    final length = math.min(rect.width, rect.height) * (compact ? 0.29 : 0.36);
+    final length =
+        math.min(rect.width, rect.height) *
+        (compact ? 0.29 : 0.36) *
+        DishOrientation.horizontalFraction(elevation)!;
     final tip = center + direction * length;
     final paint = Paint()
       ..color = color
       ..strokeWidth = compact ? 1.6 : 2.2
       ..isAntiAlias = true;
-    // The arrow indicates azimuth only; its radius is not an elevation marker.
+    // Horizontal projection of the panel normal: vertical is a center dot.
+    final radius = compact ? 2.0 : 3.0;
+    if (length <= radius) {
+      canvas.drawCircle(center, radius + 1, Paint()..color = Colors.black54);
+      canvas.drawCircle(center, radius, paint);
+      return;
+    }
     if (dashed) {
       for (var i = 0; i < 6; i++) {
         canvas.drawLine(
@@ -950,18 +1056,20 @@ class _ObstructionPainter extends CustomPainter {
           ..strokeWidth = paint.strokeWidth + 2,
       );
       canvas.drawLine(center, tip, paint);
-      canvas.drawCircle(center, compact ? 2 : 3, paint);
+      canvas.drawCircle(center, radius, paint);
     }
     final side = Offset(-direction.dy, direction.dx);
+    final headLength = math.min(7.0, length * 0.6);
+    final headWidth = headLength / 2;
     final arrow = Path()
       ..moveTo(tip.dx, tip.dy)
       ..lineTo(
-        (tip - direction * 7 + side * 3.5).dx,
-        (tip - direction * 7 + side * 3.5).dy,
+        (tip - direction * headLength + side * headWidth).dx,
+        (tip - direction * headLength + side * headWidth).dy,
       )
       ..lineTo(
-        (tip - direction * 7 - side * 3.5).dx,
-        (tip - direction * 7 - side * 3.5).dy,
+        (tip - direction * headLength - side * headWidth).dx,
+        (tip - direction * headLength - side * headWidth).dy,
       )
       ..close();
     canvas.drawPath(arrow, paint);
@@ -971,9 +1079,14 @@ class _ObstructionPainter extends CustomPainter {
   bool shouldRepaint(_ObstructionPainter oldDelegate) =>
       oldDelegate.map != map ||
       oldDelegate.orientation.azimuth != orientation.azimuth ||
+      oldDelegate.orientation.elevation != orientation.elevation ||
       oldDelegate.orientation.desiredAzimuth != orientation.desiredAzimuth ||
+      oldDelegate.orientation.desiredElevation !=
+          orientation.desiredElevation ||
       oldDelegate.orientation.headingUncertain !=
           orientation.headingUncertain ||
+      oldDelegate.orientation.attitude?.north != orientation.attitude?.north ||
+      oldDelegate.orientation.attitude?.east != orientation.attitude?.east ||
       oldDelegate.foreground != foreground ||
       oldDelegate.fontFamily != fontFamily ||
       oldDelegate.compact != compact;

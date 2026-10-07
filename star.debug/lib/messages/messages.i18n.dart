@@ -2916,16 +2916,45 @@ class ObstructionsMessages {
       """Obstruction map: $observed observed cells, $blocked blocked cells.""";
 
   /// ```dart
-  /// "North up · true bearings. White arrow: dish; gold dashed arrow: target. Arrow length does not represent elevation."
+  /// "North up · Earth reference frame."
   /// ```
-  String get earth_frame =>
-      """North up · true bearings. White arrow: dish; gold dashed arrow: target. Arrow length does not represent elevation.""";
+  String get earth_frame => """North up · Earth reference frame.""";
 
   /// ```dart
-  /// "Dish-relative view. The arrow points toward the dish heading; this grid is not a geographic compass."
+  /// "Dish-relative grid. Geographic alignment is unavailable; map sectors refer to screen positions."
   /// ```
   String get dish_frame =>
-      """Dish-relative view. The arrow points toward the dish heading; this grid is not a geographic compass.""";
+      """Dish-relative grid. Geographic alignment is unavailable; map sectors refer to screen positions.""";
+
+  /// ```dart
+  /// "Dish-relative grid · north alignment unavailable"
+  /// ```
+  String get dish_frame_short =>
+      """Dish-relative grid · north alignment unavailable""";
+
+  /// ```dart
+  /// "Dish-relative grid. N/S/E/W show horizontal directions projected into the current antenna plane. Earlier observations may have a different orientation if the antenna moved. Sectors refer to screen positions."
+  /// ```
+  String get dish_frame_oriented =>
+      """Dish-relative grid. N/S/E/W show horizontal directions projected into the current antenna plane. Earlier observations may have a different orientation if the antenna moved. Sectors refer to screen positions.""";
+
+  /// ```dart
+  /// "Dish-relative grid · current direction references"
+  /// ```
+  String get dish_frame_oriented_short =>
+      """Dish-relative grid · current direction references""";
+
+  /// ```dart
+  /// "White: antenna; gold dashed: target. Length shows the horizontal projection: vertical is a dot; horizontal is full length. Missing orientation hides the arrow."
+  /// ```
+  String get arrow_guide =>
+      """White: antenna; gold dashed: target. Length shows the horizontal projection: vertical is a dot; horizontal is full length. Missing orientation hides the arrow.""";
+
+  /// ```dart
+  /// "The antenna is looking downward, below the horizon. Check its mounting and orientation."
+  /// ```
+  String get looking_downward =>
+      """The antenna is looking downward, below the horizon. Check its mounting and orientation.""";
 
   /// ```dart
   /// "The orientation of this map is not available."
@@ -3062,10 +3091,10 @@ class ObstructionsMessages {
   String get elevation_difference => """Elevation difference""";
 
   /// ```dart
-  /// "A nearly level dish has an uncertain heading. Use its reported elevation when assessing alignment."
+  /// "A near-vertical antenna direction has an uncertain bearing. Use its reported elevation when assessing alignment."
   /// ```
   String get heading_uncertain =>
-      """A nearly level dish has an uncertain heading. Use its reported elevation when assessing alignment.""";
+      """A near-vertical antenna direction has an uncertain bearing. Use its reported elevation when assessing alignment.""";
 
   /// ```dart
   /// "Blocked sectors"
@@ -3807,8 +3836,15 @@ starting from approximately January 2023, Starlink routers are able to pick rand
   """obstructions.waiting""":
       """Waiting for an obstruction map from the dish.""",
   """obstructions.unavailable""": """No obstruction map in this snapshot.""",
-  """obstructions.earth_frame""": """North up · true bearings. White arrow: dish; gold dashed arrow: target. Arrow length does not represent elevation.""",
-  """obstructions.dish_frame""": """Dish-relative view. The arrow points toward the dish heading; this grid is not a geographic compass.""",
+  """obstructions.earth_frame""": """North up · Earth reference frame.""",
+  """obstructions.dish_frame""": """Dish-relative grid. Geographic alignment is unavailable; map sectors refer to screen positions.""",
+  """obstructions.dish_frame_short""":
+      """Dish-relative grid · north alignment unavailable""",
+  """obstructions.dish_frame_oriented""": """Dish-relative grid. N/S/E/W show horizontal directions projected into the current antenna plane. Earlier observations may have a different orientation if the antenna moved. Sectors refer to screen positions.""",
+  """obstructions.dish_frame_oriented_short""":
+      """Dish-relative grid · current direction references""",
+  """obstructions.arrow_guide""": """White: antenna; gold dashed: target. Length shows the horizontal projection: vertical is a dot; horizontal is full length. Missing orientation hides the arrow.""",
+  """obstructions.looking_downward""": """The antenna is looking downward, below the horizon. Check its mounting and orientation.""",
   """obstructions.unknown_frame""":
       """The orientation of this map is not available.""",
   """obstructions.gathering""":
@@ -3838,7 +3874,7 @@ starting from approximately January 2023, Starlink routers are able to pick rand
   """obstructions.target_elevation""": """Target elevation""",
   """obstructions.azimuth_difference""": """Azimuth difference""",
   """obstructions.elevation_difference""": """Elevation difference""",
-  """obstructions.heading_uncertain""": """A nearly level dish has an uncertain heading. Use its reported elevation when assessing alignment.""",
+  """obstructions.heading_uncertain""": """A near-vertical antenna direction has an uncertain bearing. Use its reported elevation when assessing alignment.""",
   """obstructions.sectors""": """Blocked sectors""",
   """obstructions.sectors_hint""": """Blocked fraction by map sector; the right column counts observed cells. Small samples are inconclusive.""",
   """obstructions.top""": """Top""",

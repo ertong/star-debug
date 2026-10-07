@@ -150,6 +150,25 @@ class ObstructionMapData {
 
   double? get blockedObservedFraction =>
       observed == 0 ? null : blocked / observed;
+
+  /// Only Earth grids have north at the top. UT direction references do not
+  /// rotate the samples or change the meaning of screen-position sectors.
+  bool get northUp => frame == ObstructionMapReferenceFrame.FRAME_EARTH;
+
+  /// A horizontal geographic direction expressed in the displayed plane.
+  /// These are direction references, not geographic bearings of individual
+  /// samples in an accumulated UT map.
+  Offset? horizontalDirection(double bearing, DishOrientation orientation) {
+    if (!bearing.isFinite) return null;
+    if (northUp) {
+      final radians = (bearing % 360) * math.pi / 180;
+      return Offset(math.sin(radians), -math.cos(radians));
+    }
+    if (frame == ObstructionMapReferenceFrame.FRAME_UT) {
+      return orientation.attitude?.horizontalDirection(bearing);
+    }
+    return null;
+  }
 }
 
 class ObstructionSector {
@@ -162,6 +181,57 @@ class ObstructionSector {
   double? get blockedFraction => observed == 0 ? null : blocked / observed;
 }
 
+/// Hamilton quaternion rotating dish axes into North-East-Down coordinates.
+/// Despite the telemetry name, R(q)'s +Z column gives the reported boresight.
+/// Dish +X points right and +Y toward the panel top. Canvas rows increase
+/// downward, so the projected Y coordinate changes sign for display.
+class DishAttitude {
+  final Offset north;
+  final Offset east;
+
+  const DishAttitude._(this.north, this.east);
+
+  static DishAttitude? fromQuaternion(Quaternion quaternion) {
+    if (!quaternion.hasQScalar() ||
+        !quaternion.hasQX() ||
+        !quaternion.hasQY() ||
+        !quaternion.hasQZ())
+      return null;
+    final values = [
+      quaternion.qScalar,
+      quaternion.qX,
+      quaternion.qY,
+      quaternion.qZ,
+    ];
+    if (values.any((value) => !value.isFinite)) return null;
+    final norm = math.sqrt(
+      values.fold<double>(0, (sum, value) => sum + value * value),
+    );
+    // Accept float telemetry rounding, not arbitrary non-unit rotations.
+    if ((norm - 1).abs() > 0.001) return null;
+    final w = values[0] / norm;
+    final x = values[1] / norm;
+    final y = values[2] / norm;
+    final z = values[3] / norm;
+    // R(q)^T maps geographic vectors into the dish frame. Its first two
+    // coordinates are the orthogonal projection onto the displayed plane.
+    return DishAttitude._(
+      Offset(1 - 2 * (y * y + z * z), 2 * (x * y - z * w)),
+      Offset(2 * (x * y + z * w), 1 - 2 * (x * x + z * z)),
+    );
+  }
+
+  Offset? horizontalDirection(double bearing) {
+    if (!bearing.isFinite) return null;
+    final radians = (bearing % 360) * math.pi / 180;
+    final projected = north * math.cos(radians) + east * math.sin(radians);
+    // A direction normal to the panel has no in-plane direction. The bound
+    // only handles floating-point residue at this geometric singularity.
+    if (projected.distanceSquared <= 1e-12) return null;
+    return Offset(projected.dx, -projected.dy) / projected.distance;
+  }
+}
+
 /// Reported orientation only: a dish-relative map cannot be geographically
 /// aligned by simply rotating its grid, because tilt changes its projection.
 class DishOrientation {
@@ -169,18 +239,27 @@ class DishOrientation {
   final double? elevation;
   final double? desiredAzimuth;
   final double? desiredElevation;
+  final DishAttitude? attitude;
 
   const DishOrientation({
     this.azimuth,
     this.elevation,
     this.desiredAzimuth,
     this.desiredElevation,
+    this.attitude,
   });
 
   static DishOrientation fromStatus(DishGetStatusResponse? status) {
     if (status == null) return const DishOrientation();
     final alignment = status.hasAlignmentStats() ? status.alignmentStats : null;
+    final attitudeReady =
+        alignment?.hasAttitudeEstimationState() != true ||
+        alignment!.attitudeEstimationState ==
+            AttitudeEstimationState.FILTER_CONVERGED;
     return DishOrientation(
+      attitude: attitudeReady && status.hasNed2dishQuaternion()
+          ? DishAttitude.fromQuaternion(status.ned2dishQuaternion)
+          : null,
       azimuth: _bearing(
         alignment?.hasBoresightAzimuthDeg() == true
             ? alignment!.boresightAzimuthDeg
@@ -211,11 +290,25 @@ class DishOrientation {
   static double? _bearing(double? value) =>
       value != null && value.isFinite ? value % 360 : null;
   static double? _elevation(double? value) =>
-      value != null && value.isFinite && value >= 0 && value <= 90
+      value != null && value.isFinite && value >= -90 && value <= 90
       ? value
       : null;
 
-  bool get headingUncertain => elevation != null && elevation! > 75;
+  static double? horizontalFraction(double? elevation) {
+    if (_elevation(elevation) == null) return null;
+    final fraction = math.cos(elevation! * math.pi / 180).abs();
+    return elevation.abs() == 90 ? 0 : fraction;
+  }
+
+  static bool canProject(double? azimuth, double? elevation) =>
+      horizontalFraction(elevation) != null &&
+      (_bearing(azimuth) != null || horizontalFraction(elevation) == 0);
+
+  bool get hasProjection => canProject(azimuth, elevation);
+  bool get hasDesiredProjection => canProject(desiredAzimuth, desiredElevation);
+
+  bool get lookingDownward => elevation != null && elevation! < 0;
+  bool get headingUncertain => elevation != null && elevation!.abs() > 75;
   double? get azimuthOffset => azimuth == null || desiredAzimuth == null
       ? null
       : (desiredAzimuth! - azimuth! + 180) % 360 - 180;

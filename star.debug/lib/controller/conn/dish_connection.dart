@@ -16,6 +16,7 @@ class DishConnection extends GrpcConnection {
   PooledRequest<DishGetStatusResponse> dishGetStatus = PooledRequest(2000);
   PooledRequest<DishGetHistoryResponse> dishGetHistory = PooledRequest(2000);
   PooledRequest<DishGetObstructionMapResponse> dishGetObstructionMap = PooledRequest(30000);
+  StreamController<ToDevice>? _obstructionMapStream;
 
   PooledRequest<GetLocationResponse> dishGetLocationGPS = PooledRequest(2000);
   PooledRequest<GetLocationResponse> dishGetLocationStarlink = PooledRequest(2000);
@@ -36,11 +37,8 @@ class DishConnection extends GrpcConnection {
       )));
       dishGetStatus.sentTime = now;
     }
-    if (dishGetObstructionMap.needSend(now)) {
-      reqStream.add(ToDevice(request: Request(
-          dishGetObstructionMap: DishGetObstructionMapRequest()
-      )));
-      dishGetObstructionMap.sentTime = now;
+    if (identical(_obstructionMapStream, reqStream) && dishGetObstructionMap.needSend(now)) {
+      _requestObstructionMap(now);
     }
     if (dishGetHistory.needSend(now)) {
       reqStream.add(ToDevice(request: Request(
@@ -48,6 +46,13 @@ class DishConnection extends GrpcConnection {
       )));
       dishGetHistory.sentTime = now;
     }
+  }
+
+  void _requestObstructionMap(int now) {
+    reqStream.add(ToDevice(request: Request(
+        dishGetObstructionMap: DishGetObstructionMapRequest()
+    )));
+    dishGetObstructionMap.sentTime = now;
   }
 
   @override
@@ -69,6 +74,12 @@ class DishConnection extends GrpcConnection {
 
       if (resp.hasDishGetStatus()) {
         dishGetStatus.setData(now, resp.dishGetStatus, resp.apiVersion.toInt());
+        // A successful status establishes readiness for this stream. Refresh
+        // immediately, even if the previous stream polled less than 30s ago.
+        if (!identical(_obstructionMapStream, reqStream)) {
+          _obstructionMapStream = reqStream;
+          _requestObstructionMap(now);
+        }
         if (resp.dishGetStatus.config.locationRequestMode == DishConfig_LocationRequestMode.LOCAL) {
           reqStream.add(ToDevice(request: Request(
               getLocation: GetLocationRequest(source: PositionSource.GPS)

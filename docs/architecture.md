@@ -95,8 +95,9 @@ The loop guards against stalled resources:
 - stream and channel errors are retained for display and cause the affected resource to reopen.
 
 `DishConnection` sends status and history requests every two seconds. When the dish allows local
-location requests, it also asks for GPS and Starlink-derived locations. Obstruction maps are requested
-every 30 seconds through the same stream and retained with their own receive timestamp.
+location requests, it also asks for GPS and Starlink-derived locations. The first successful dish
+status on each stream immediately requests an obstruction map, including after reconnection.
+Maps then refresh every 30 seconds through that stream and retain their own receive timestamp.
 `RouterConnection` requests Wi-Fi status every two seconds and separately probes the router's HTTP
 root for its response code and redirect location.
 
@@ -160,12 +161,37 @@ four-connected blocked patch sizes describe samples, not sky area, physical obst
 Maps with invalid dimensions, no observed samples, or an explicitly zero `patchesValid` count show
 a state message instead of a canvas. Missing readiness counts do not invalidate older maps.
 
-EARTH grids retain their row order with north at the top. Compass markings and dish/target azimuth
-arrows use reported boresight fields, preferring `alignmentStats` when present. UT grids remain
-dish-relative with the boresight direction at the bottom; simply rotating them cannot account for
-the tilt-dependent projection. Unknown frames receive no inferred bearings. Near-level dishes
-(elevation above 75 degrees) suppress heading arrows and show an uncertainty note. Arrow length
-does not encode elevation. The UI retains maps between polls and marks live updates delayed after
+EARTH grids retain their row order with north at the top and geographic sector labels. UT and
+unknown grids remain unchanged and use screen-position sector labels. On UT grids with a complete,
+finite unit `ned2dishQuaternion`, N/S/E/W references are calculated with the inverse Hamilton
+rotation: geographic horizontal vectors are projected onto the dish's XY plane, with +X to the
+right and +Y toward the panel top. Canvas rows increase downward, so projected Y changes sign
+before placement. Each nonzero projection determines the corresponding label's direction
+from the center to the canvas edge. A direction perpendicular to the panel has no in-plane
+projection and its label is omitted. Overlapping direction labels on a nearly vertical plane
+are grouped (for example, `N/W`) using their measured text bounds. Quaternion normalization
+tolerates float rounding (norm error at most 0.001); non-unit or incomplete quaternions are
+rejected. An explicitly reported attitude-filter state must be converged; older status without
+that field remains supported. Bearing and target bearing are never substituted for missing
+attitude. Quaternion sign does not affect the result.
+
+These are current-attitude direction references, not geographic bearings assigned to accumulated
+samples. Tilt can change their angular spacing and handedness. Current status cannot recover the
+attitudes of earlier observations from a moving antenna; the UT caption explains this limitation.
+No raw pixels are rotated or resampled, and the PNG export is unchanged. Missing or invalid UT
+attitude and unknown frames have no geographic references. Near-vertical boresight bearing does
+not affect the references because they use the full quaternion.
+
+Direction markings share the existing map canvas. Heading arrows remain on EARTH maps, where
+their horizontal geographic projection is defined, and there is no separate compass view.
+Arrows use reported boresight fields, preferring
+`alignmentStats` when present. Both a valid elevation and azimuth are required for an arrow; an
+exactly vertical direction needs only elevation. Missing or invalid angles produce no indicator,
+rather than assuming horizontal elevation or a bearing of zero. Arrow length is proportional to
+the horizontal projection of the panel normal (`cos(elevation)`): vertical is a center dot, and
+horizontal is full length. Near-vertical normals (absolute elevation above 75 degrees) retain an
+uncertainty note. Negative elevations show a downward-facing warning in the summary and details.
+The UI retains maps between polls and marks live updates delayed after
 65 seconds. Dialogs update from their source widget and close when that source disappears.
 
 StarDebug exports maps in a top-level `dishObstructionMap` envelope with `_proto`, `rawMap`,

@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math' as math;
+import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
@@ -30,6 +32,45 @@ Widget _page(Widget child, {double textScale = 1, bool dark = false}) =>
       ),
       home: Scaffold(body: SingleChildScrollView(child: child)),
     );
+
+Future<Uint8List> _paintMinimap(
+  WidgetTester tester, {
+  String key = 'dish-obstruction-minimap',
+}) async {
+  final painter = tester.widget<CustomPaint>(find.byKey(Key(key))).painter!;
+  return (await tester.runAsync(() async {
+    final recorder = ui.PictureRecorder();
+    painter.paint(Canvas(recorder), const Size(108, 108));
+    final picture = recorder.endRecording();
+    try {
+      final image = await picture.toImage(108, 108);
+      try {
+        return (await image.toByteData())!.buffer.asUint8List();
+      } finally {
+        image.dispose();
+      }
+    } finally {
+      picture.dispose();
+    }
+  }))!;
+}
+
+int _whiteExtent(Uint8List pixels) {
+  var extent = 0;
+  for (var y = 12; y < 96; y++) {
+    for (var x = 12; x < 96; x++) {
+      final i = (y * 108 + x) * 4;
+      if (pixels[i] == 255 &&
+          pixels[i + 1] == 255 &&
+          pixels[i + 2] == 255 &&
+          pixels[i + 3] > 0) {
+        final distance = (x - 54).abs();
+        if (distance > extent) extent = distance;
+      }
+    }
+  }
+  return extent;
+}
 
 void main() {
   setUp(() {
@@ -238,6 +279,541 @@ void main() {
     },
   );
 
+  test('signed elevation detects downward and vertical panel normals', () {
+    for (final elevation in [-90.0, -45.0, 0.0, 45.0, 90.0]) {
+      final orientation = DishOrientation.fromStatus(
+        DishGetStatusResponse(
+          alignmentStats: AlignmentStats(boresightElevationDeg: elevation),
+        ),
+      );
+      expect(orientation.elevation, elevation);
+      expect(orientation.lookingDownward, elevation < 0);
+      expect(orientation.headingUncertain, elevation.abs() > 75);
+    }
+    expect(DishOrientation.horizontalFraction(90), 0);
+    expect(DishOrientation.horizontalFraction(-90), 0);
+    expect(DishOrientation.horizontalFraction(0), 1);
+    expect(DishOrientation.horizontalFraction(60), closeTo(0.5, 1e-12));
+    expect(DishOrientation.horizontalFraction(-60), closeTo(0.5, 1e-12));
+    for (final elevation in [null, double.nan, double.infinity, -91.0, 91.0]) {
+      expect(DishOrientation.horizontalFraction(elevation), isNull);
+    }
+  });
+
+  test('geographic bearings require an explicit Earth reference frame', () {
+    for (final frame in ObstructionMapReferenceFrame.values) {
+      final map = ObstructionMapData.fromResponse(
+        _map()..mapReferenceFrame = frame,
+      )!;
+      expect(map.northUp, frame == ObstructionMapReferenceFrame.FRAME_EARTH);
+    }
+    final unspecified = ObstructionMapData.fromResponse(
+      _map()..clearMapReferenceFrame(),
+    )!;
+    expect(unspecified.northUp, isFalse);
+  });
+
+  test(
+    'arrows require valid angles and do not assume horizontal elevation',
+    () {
+      for (final elevation in [
+        null,
+        double.nan,
+        double.infinity,
+        -91.0,
+        91.0,
+      ]) {
+        expect(DishOrientation.canProject(90, elevation), isFalse);
+      }
+      for (final bearing in [null, double.nan, double.infinity]) {
+        expect(DishOrientation.canProject(bearing, 45), isFalse);
+        expect(DishOrientation.canProject(bearing, 90), isTrue);
+        expect(DishOrientation.canProject(bearing, -90), isTrue);
+      }
+      expect(DishOrientation.canProject(90, 0), isTrue);
+      expect(DishOrientation.canProject(-20, -45), isTrue);
+      expect(DishOrientation.canProject(null, 89.99999), isFalse);
+      final orientation = DishOrientation.fromStatus(
+        DishGetStatusResponse(
+          boresightElevationDeg: 45,
+          alignmentStats: AlignmentStats(boresightElevationDeg: double.nan),
+        ),
+      );
+      expect(orientation.elevation, isNull);
+      expect(orientation.hasProjection, isFalse);
+      expect(orientation.hasDesiredProjection, isFalse);
+    },
+  );
+
+  testWidgets('arrow shrinks with elevation and becomes a dot at zenith', (
+    tester,
+  ) async {
+    final extents = <int>[];
+    CustomPainter? previous;
+    final map = DishGetObstructionMapResponse(
+      numRows: 5,
+      numCols: 5,
+      snr: List.filled(25, 1),
+      mapReferenceFrame: ObstructionMapReferenceFrame.FRAME_EARTH,
+    );
+    for (final elevation in [0.0, 60.0, 90.0]) {
+      final status = DishGetStatusResponse(boresightElevationDeg: elevation);
+      if (elevation != 90) status.boresightAzimuthDeg = 90;
+      await tester.pumpWidget(
+        _page(ObstructionMapWidget(map: map, timestamp: 1, status: status)),
+      );
+      final painter = tester
+          .widget<CustomPaint>(
+            find.byKey(const Key('dish-obstruction-minimap')),
+          )
+          .painter!;
+      if (previous != null) expect(painter.shouldRepaint(previous), isTrue);
+      previous = painter;
+      extents.add(_whiteExtent(await _paintMinimap(tester)));
+    }
+    expect(extents[0], greaterThan(20));
+    expect(extents[1], inInclusiveRange(8, 13));
+    expect(extents[2], inInclusiveRange(1, 2));
+    expect(tester.takeException(), isNull);
+  });
+
+  test('UT direction references use full attitude, including handedness', () {
+    final map = ObstructionMapData.fromResponse(
+      _map()..mapReferenceFrame = ObstructionMapReferenceFrame.FRAME_UT,
+    )!;
+    final up = DishOrientation.fromStatus(
+      DishGetStatusResponse(
+        ned2dishQuaternion: Quaternion(qScalar: 0, qX: 0, qY: 1, qZ: 0),
+      ),
+    );
+    expect(map.horizontalDirection(0, up), const Offset(-1, 0));
+    expect(map.horizontalDirection(90, up)!.dx, closeTo(0, 1e-12));
+    expect(map.horizontalDirection(90, up)!.dy, closeTo(-1, 1e-12));
+    // Panel +X faces east, +Y north, and +Z up. Its front view must have
+    // north above the center and east to the right, without modifying cells.
+    final northAligned = DishOrientation.fromStatus(
+      DishGetStatusResponse(
+        ned2dishQuaternion: Quaternion(
+          qScalar: 0,
+          qX: math.sqrt(0.5),
+          qY: math.sqrt(0.5),
+          qZ: 0,
+        ),
+      ),
+    );
+    expect(map.horizontalDirection(0, northAligned)!.dy, closeTo(-1, 1e-12));
+    expect(map.horizontalDirection(90, northAligned)!.dx, closeTo(1, 1e-12));
+    expect(map.horizontalDirection(180, northAligned)!.dy, closeTo(1, 1e-12));
+    expect(map.horizontalDirection(270, northAligned)!.dx, closeTo(-1, 1e-12));
+    final down = DishOrientation.fromStatus(
+      DishGetStatusResponse(
+        ned2dishQuaternion: Quaternion(qScalar: 1, qX: 0, qY: 0, qZ: 0),
+      ),
+    );
+    expect(map.horizontalDirection(0, down), const Offset(1, 0));
+    expect(map.horizontalDirection(90, down)!.dy, closeTo(-1, 1e-12));
+
+    // Rotation of 90 degrees about Y makes north perpendicular to the panel.
+    final vertical = DishOrientation.fromStatus(
+      DishGetStatusResponse(
+        ned2dishQuaternion: Quaternion(
+          qScalar: math.sqrt(0.5),
+          qX: 0,
+          qY: math.sqrt(0.5),
+          qZ: 0,
+        ),
+      ),
+    );
+    expect(map.horizontalDirection(0, vertical), isNull);
+    expect(map.horizontalDirection(180, vertical), isNull);
+    expect(map.horizontalDirection(90, vertical)!.dy, closeTo(-1, 1e-12));
+  });
+
+  test(
+    'UT tilt changes cardinal spacing instead of applying a 2D rotation',
+    () {
+      // A 60-degree pitch followed by a 45-degree yaw. For geographic north,
+      // the projected body vector is (cos(60)*cos(45), -sin(45));
+      // its Y coordinate is reversed when converting to canvas coordinates.
+      final attitude = DishAttitude.fromQuaternion(
+        Quaternion(
+          qScalar: math.cos(math.pi / 8) * math.cos(math.pi / 6),
+          qX: -math.sin(math.pi / 8) * math.sin(math.pi / 6),
+          qY: math.cos(math.pi / 8) * math.sin(math.pi / 6),
+          qZ: math.sin(math.pi / 8) * math.cos(math.pi / 6),
+        ),
+      )!;
+      final north = attitude.horizontalDirection(0)!;
+      final east = attitude.horizontalDirection(90)!;
+      expect(north.dx, closeTo(1 / math.sqrt(5), 1e-12));
+      expect(north.dy, closeTo(2 / math.sqrt(5), 1e-12));
+      expect(east.dx, closeTo(1 / math.sqrt(5), 1e-12));
+      expect(east.dy, closeTo(-2 / math.sqrt(5), 1e-12));
+      expect(north.dx * east.dx + north.dy * east.dy, closeTo(-0.6, 1e-12));
+    },
+  );
+
+  test('captured attitude references are independent of boresight bearing', () {
+    // Orientation only; no device identifiers or personal data from the capture.
+    const values = [
+      -0.005305043421685696,
+      0.04815489798784256,
+      0.9987706542015076,
+      0.01049418281763792,
+    ];
+    Offset? reference;
+    for (final sign in [1.0, -1.0]) {
+      for (final bearing in [0.0, 90.0, 180.0, 270.0]) {
+        final orientation = DishOrientation.fromStatus(
+          DishGetStatusResponse(
+            boresightAzimuthDeg: bearing,
+            boresightElevationDeg: 90,
+            ned2dishQuaternion: Quaternion(
+              qScalar: values[0] * sign,
+              qX: values[1] * sign,
+              qY: values[2] * sign,
+              qZ: values[3] * sign,
+            ),
+          ),
+        );
+        final north = orientation.attitude!.horizontalDirection(0)!;
+        expect(north.dx, closeTo(-0.99535, 0.00001));
+        expect(north.dy, closeTo(-0.096307, 0.00001));
+        // The known west-side building is below the clear patch in the raw
+        // capture. West must point down, east up, with the grid unchanged.
+        final west = orientation.attitude!.horizontalDirection(270)!;
+        final east = orientation.attitude!.horizontalDirection(90)!;
+        expect(west.dy, greaterThan(0.99));
+        expect(east.dy, lessThan(-0.99));
+        if (reference != null) expect(north, reference);
+        reference = north;
+      }
+    }
+  });
+
+  test('invalid attitude cannot be replaced by bearing or target bearing', () {
+    for (final quaternion in [
+      Quaternion(),
+      Quaternion(qScalar: 1),
+      Quaternion(qScalar: 0, qX: 0, qY: 0, qZ: 0),
+      Quaternion(qScalar: 2, qX: 0, qY: 0, qZ: 0),
+      Quaternion(qScalar: double.nan, qX: 0, qY: 0, qZ: 0),
+      Quaternion(qScalar: double.infinity, qX: 0, qY: 0, qZ: 0),
+    ]) {
+      final orientation = DishOrientation.fromStatus(
+        DishGetStatusResponse(
+          ned2dishQuaternion: quaternion,
+          boresightAzimuthDeg: 30,
+          boresightElevationDeg: 60,
+          alignmentStats: AlignmentStats(
+            desiredBoresightAzimuthDeg: 45,
+            desiredBoresightElevationDeg: 70,
+          ),
+        ),
+      );
+      final map = ObstructionMapData.fromResponse(
+        _map()..mapReferenceFrame = ObstructionMapReferenceFrame.FRAME_UT,
+      )!;
+      expect(orientation.attitude, isNull);
+      expect(map.horizontalDirection(0, orientation), isNull);
+    }
+    final unknown = ObstructionMapData.fromResponse(
+      _map()..mapReferenceFrame = ObstructionMapReferenceFrame.FRAME_UNKNOWN,
+    )!;
+    expect(
+      unknown.horizontalDirection(
+        0,
+        DishOrientation(
+          attitude: DishAttitude.fromQuaternion(
+            Quaternion(qScalar: 1, qX: 0, qY: 0, qZ: 0),
+          ),
+        ),
+      ),
+      isNull,
+    );
+  });
+
+  test(
+    'an explicitly unready attitude filter hides UT direction references',
+    () {
+      for (final state in AttitudeEstimationState.values) {
+        final orientation = DishOrientation.fromStatus(
+          DishGetStatusResponse(
+            ned2dishQuaternion: Quaternion(qScalar: 0, qX: 0, qY: 1, qZ: 0),
+            alignmentStats: AlignmentStats(attitudeEstimationState: state),
+          ),
+        );
+        expect(
+          orientation.attitude != null,
+          state == AttitudeEstimationState.FILTER_CONVERGED,
+        );
+      }
+    },
+  );
+
+  testWidgets(
+    'UT references update on the existing canvas without changing cells',
+    (tester) async {
+      final map = DishGetObstructionMapResponse(
+        numRows: 3,
+        numCols: 3,
+        snr: [1, 1, 1, 1, 1, 1, 1, 0, 1],
+        mapReferenceFrame: ObstructionMapReferenceFrame.FRAME_UT,
+      );
+      Uint8List? previous;
+      CustomPainter? previousPainter;
+      for (final angle in [0.0, math.pi / 4]) {
+        // A level, sky-facing panel with changing yaw and identical boresight.
+        final status = DishGetStatusResponse(
+          boresightElevationDeg: 90,
+          ned2dishQuaternion: Quaternion(
+            qScalar: 0,
+            qX: -math.sin(angle / 2),
+            qY: math.cos(angle / 2),
+            qZ: 0,
+          ),
+        );
+        await tester.pumpWidget(
+          _page(ObstructionMapWidget(map: map, timestamp: 1, status: status)),
+        );
+        final painter = tester
+            .widget<CustomPaint>(
+              find.byKey(const Key('dish-obstruction-minimap')),
+            )
+            .painter!;
+        if (previousPainter != null)
+          expect(painter.shouldRepaint(previousPainter), isTrue);
+        previousPainter = painter;
+        final pixels = await _paintMinimap(tester);
+        if (previous != null) {
+          expect(pixels, isNot(orderedEquals(previous)));
+          for (var y = 12; y < 96; y++) {
+            expect(
+              pixels.sublist((y * 108 + 12) * 4, (y * 108 + 96) * 4),
+              orderedEquals(
+                previous.sublist((y * 108 + 12) * 4, (y * 108 + 96) * 4),
+              ),
+            );
+          }
+        }
+        previous = pixels;
+        final sample = (82 * 108 + 64) * 4;
+        expect(pixels.sublist(sample, sample + 3), [0xe3, 0x4b, 0x54]);
+        expect(
+          find.text(M.obstructions.dish_frame_oriented_short),
+          findsOneWidget,
+        );
+        await tester.tap(find.text(M.obstructions.title));
+        await tester.pumpAndSettle();
+        expect(find.text(M.obstructions.dish_frame_oriented), findsOneWidget);
+        expect(find.text(M.obstructions.bottom), findsOneWidget);
+        expect(find.byKey(const Key('dish-orientation-compass')), findsNothing);
+        expect(
+          find.byKey(const Key('dish-orientation-minicompass')),
+          findsNothing,
+        );
+        await tester.tap(find.byTooltip(M.general.close));
+        await tester.pumpAndSettle();
+      }
+      expect(tester.takeException(), isNull);
+    },
+  );
+
+  testWidgets('coincident UT references remain readable on a vertical panel', (
+    tester,
+  ) async {
+    final map = DishGetObstructionMapResponse(
+      numRows: 3,
+      numCols: 3,
+      snr: List.filled(9, 1.0),
+      mapReferenceFrame: ObstructionMapReferenceFrame.FRAME_UT,
+    );
+    final status = DishGetStatusResponse(
+      ned2dishQuaternion: Quaternion(
+        qScalar: math.cos(math.pi / 8) * math.sqrt(0.5),
+        qX: -math.sin(math.pi / 8) * math.sqrt(0.5),
+        qY: math.cos(math.pi / 8) * math.sqrt(0.5),
+        qZ: math.sin(math.pi / 8) * math.sqrt(0.5),
+      ),
+    );
+    await tester.pumpWidget(
+      _page(ObstructionMapWidget(map: map, timestamp: 1, status: status)),
+    );
+    final pixels = await _paintMinimap(tester);
+    // East and south share the top edge. Their grouped label must be wider
+    // than one glyph, rather than both glyphs being painted over one another.
+    final columns = <int>{};
+    for (var y = 0; y < 12; y++) {
+      for (var x = 12; x < 96; x++) {
+        if (pixels[(y * 108 + x) * 4 + 3] != 0) columns.add(x);
+      }
+    }
+    expect(columns.length, greaterThan(18));
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('UT without valid attitude and unknown grids hide references', (
+    tester,
+  ) async {
+    for (final frame in [
+      ObstructionMapReferenceFrame.FRAME_UT,
+      ObstructionMapReferenceFrame.FRAME_UNKNOWN,
+    ]) {
+      final map = DishGetObstructionMapResponse(
+        numRows: 3,
+        numCols: 3,
+        snr: [1, 1, 1, 1, 1, 1, 1, 0, 1],
+        mapReferenceFrame: frame,
+        minElevationDeg: 10,
+        maxThetaDeg: 80,
+      );
+      Uint8List? previous;
+      for (final bearing in [0.0, 90.0, 180.0, 270.0, null]) {
+        final status = DishGetStatusResponse(
+          boresightElevationDeg: 88.65,
+          ned2dishQuaternion: Quaternion(qScalar: 0, qX: 0, qY: 0, qZ: 0),
+        );
+        if (bearing != null) status.boresightAzimuthDeg = bearing;
+        await tester.pumpWidget(
+          _page(ObstructionMapWidget(map: map, timestamp: 1, status: status)),
+        );
+        final pixels = await _paintMinimap(tester);
+        if (previous != null) expect(pixels, orderedEquals(previous));
+        previous = pixels;
+        // Raw bottom-center stays bottom-center despite bearing changes.
+        final sample = (82 * 108 + 64) * 4;
+        expect(pixels.sublist(sample, sample + 3), [0xe3, 0x4b, 0x54]);
+        expect(_whiteExtent(pixels), 0);
+        for (final (left, top) in [(48, 0), (96, 48), (48, 96), (0, 48)]) {
+          var hasMark = false;
+          for (var y = top; y < top + 12; y++) {
+            for (var x = left; x < left + 12; x++) {
+              if (pixels[(y * 108 + x) * 4 + 3] != 0) hasMark = true;
+            }
+          }
+          expect(hasMark, isFalse);
+        }
+        await tester.tap(find.text(M.obstructions.title));
+        await tester.pumpAndSettle();
+        expect(
+          find.text(
+            frame == ObstructionMapReferenceFrame.FRAME_UT
+                ? M.obstructions.dish_frame
+                : M.obstructions.unknown_frame,
+          ),
+          findsAtLeastNWidgets(1),
+        );
+        expect(find.text(M.obstructions.bottom), findsOneWidget);
+        expect(find.text('NE'), findsNothing);
+        expect(find.byKey(const Key('dish-orientation-compass')), findsNothing);
+        expect(
+          find.byKey(const Key('dish-orientation-minicompass')),
+          findsNothing,
+        );
+        expect(find.text(M.obstructions.arrow_guide), findsNothing);
+        expect(find.text('88.7°'), findsOneWidget);
+        await tester.tap(find.byTooltip(M.general.close));
+        await tester.pumpAndSettle();
+      }
+    }
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('missing or invalid elevation never draws a full-length arrow', (
+    tester,
+  ) async {
+    for (final elevation in [null, double.nan, double.infinity, -91.0, 91.0]) {
+      final status = DishGetStatusResponse(boresightAzimuthDeg: 90);
+      if (elevation != null) status.boresightElevationDeg = elevation;
+      await tester.pumpWidget(
+        _page(ObstructionMapWidget(map: _map(), timestamp: 1, status: status)),
+      );
+      expect(_whiteExtent(await _paintMinimap(tester)), 0);
+    }
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('map canvas shows orientation only with a geographic frame', (
+    tester,
+  ) async {
+    for (final frame in ObstructionMapReferenceFrame.values) {
+      final map = DishGetObstructionMapResponse(
+        numRows: 5,
+        numCols: 5,
+        snr: List.filled(25, 1),
+        mapReferenceFrame: frame,
+      );
+      await tester.pumpWidget(
+        _page(
+          ObstructionMapWidget(
+            map: map,
+            timestamp: 1,
+            status: DishGetStatusResponse(
+              boresightAzimuthDeg: 90,
+              boresightElevationDeg: 0,
+            ),
+          ),
+        ),
+      );
+      final geographic = frame == ObstructionMapReferenceFrame.FRAME_EARTH;
+      expect(
+        _whiteExtent(await _paintMinimap(tester)),
+        geographic ? greaterThan(20) : 0,
+      );
+      await tester.tap(find.text(M.obstructions.title));
+      await tester.pumpAndSettle();
+      expect(find.byKey(const Key('dish-obstruction-map')), findsOneWidget);
+      expect(
+        _whiteExtent(await _paintMinimap(tester, key: 'dish-obstruction-map')),
+        geographic ? greaterThan(18) : 0,
+      );
+      expect(find.byKey(const Key('dish-orientation-compass')), findsNothing);
+      expect(
+        find.byKey(const Key('dish-orientation-minicompass')),
+        findsNothing,
+      );
+      expect(
+        find.text(M.obstructions.arrow_guide),
+        geographic ? findsOneWidget : findsNothing,
+      );
+      expect(find.text(M.obstructions.dish_bearing), findsOneWidget);
+      expect(find.text('90.0°'), findsOneWidget);
+      await tester.tap(find.byTooltip(M.general.close));
+      await tester.pumpAndSettle();
+    }
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('downward warning updates in the summary and open dialog', (
+    tester,
+  ) async {
+    final status = ValueNotifier(
+      DishGetStatusResponse(
+        boresightAzimuthDeg: 90,
+        boresightElevationDeg: -10,
+      ),
+    );
+    addTearDown(status.dispose);
+    await tester.pumpWidget(
+      _page(
+        ValueListenableBuilder<DishGetStatusResponse>(
+          valueListenable: status,
+          builder: (context, value, _) =>
+              ObstructionMapWidget(map: _map(), timestamp: 1, status: value),
+        ),
+      ),
+    );
+    expect(find.text(M.obstructions.looking_downward), findsOneWidget);
+    await tester.tap(find.text(M.obstructions.title));
+    await tester.pumpAndSettle();
+    expect(find.text(M.obstructions.looking_downward), findsNWidgets(2));
+    status.value = DishGetStatusResponse(boresightElevationDeg: 10);
+    await tester.pump();
+    await tester.pump();
+    expect(find.text(M.obstructions.looking_downward), findsNothing);
+    expect(tester.takeException(), isNull);
+  });
+
   test('JSON-only exports preserve absent and explicit readiness counts', () {
     for (final patches in [null, 0, 12]) {
       final stats = DishObstructionStats();
@@ -364,6 +940,12 @@ void main() {
                   status: DishGetStatusResponse(
                     boresightAzimuthDeg: 350,
                     boresightElevationDeg: 60,
+                    ned2dishQuaternion: Quaternion(
+                      qScalar: 0,
+                      qX: 0,
+                      qY: 1,
+                      qZ: 0,
+                    ),
                   ),
                   stats: DishObstructionStats(
                     avgProlongedObstructionValid: true,
