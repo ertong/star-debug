@@ -18,7 +18,6 @@ class ObstructionMapData {
   final int reduced;
   final int clear;
   final int largestBlockedPatch;
-  final List<ObstructionSector> sectors;
 
   const ObstructionMapData._(
     this.rows,
@@ -30,7 +29,6 @@ class ObstructionMapData {
     this.reduced,
     this.clear,
     this.largestBlockedPatch,
-    this.sectors,
   );
 
   static ObstructionMapData? fromResponse(DishGetObstructionMapResponse map) {
@@ -50,8 +48,6 @@ class ObstructionMapData {
     var blocked = 0;
     var reduced = 0;
     var clear = 0;
-    final sectorObserved = List<int>.filled(8, 0);
-    final sectorBlocked = List<int>.filled(8, 0);
     for (var i = 0; i < signal.length; i++) {
       final cell = classify(signal[i]);
       if (cell == ObstructionCell.unknown) continue;
@@ -63,14 +59,6 @@ class ObstructionMapData {
       } else {
         clear++;
       }
-      final x = (i % cols + 0.5 - cols / 2) / (cols / 2);
-      final y = (rows / 2 - (i ~/ cols + 0.5)) / (rows / 2);
-      // The center has no azimuth. It remains in whole-map statistics.
-      if (x == 0 && y == 0) continue;
-      final angle = math.atan2(x, y) * 180 / math.pi;
-      final sector = ((angle + 22.5) % 360 / 45).floor();
-      sectorObserved[sector]++;
-      if (cell == ObstructionCell.obstructed) sectorBlocked[sector]++;
     }
     return ObstructionMapData._(
       rows,
@@ -82,10 +70,6 @@ class ObstructionMapData {
       reduced,
       clear,
       _largestPatch(signal, cols),
-      List<ObstructionSector>.unmodifiable([
-        for (var i = 0; i < 8; i++)
-          ObstructionSector(i, sectorObserved[i], sectorBlocked[i]),
-      ]),
     );
   }
 
@@ -151,8 +135,7 @@ class ObstructionMapData {
   double? get blockedObservedFraction =>
       observed == 0 ? null : blocked / observed;
 
-  /// Only Earth grids have north at the top. UT direction references do not
-  /// rotate the samples or change the meaning of screen-position sectors.
+  /// Earth source grids already have north at the top.
   bool get northUp => frame == ObstructionMapReferenceFrame.FRAME_EARTH;
 
   /// A horizontal geographic direction expressed in the displayed plane.
@@ -168,6 +151,61 @@ class ObstructionMapData {
       return orientation.attitude?.horizontalDirection(bearing);
     }
     return null;
+  }
+
+  /// Rotate the displayed grid, keeping north at the top when defined.
+  double? northRotation(DishOrientation orientation) {
+    final north = horizontalDirection(0, orientation);
+    return north == null ? null : -math.atan2(north.dx, -north.dy);
+  }
+
+  /// Eight display-plane wedges cut at geographic bearings 0, 45, ... 315.
+  /// UT cuts follow the current compass projection, not historical sample
+  /// attitudes or a reconstruction of geographic sky area.
+  ObstructionSectorOverlay? sectorOverlay(DishOrientation orientation) {
+    final Offset north;
+    final Offset east;
+    if (northUp) {
+      north = const Offset(0, -1);
+      east = const Offset(1, 0);
+    } else if (frame == ObstructionMapReferenceFrame.FRAME_UT &&
+        orientation.attitude != null) {
+      final attitude = orientation.attitude!;
+      north = Offset(attitude.north.dx, -attitude.north.dy);
+      east = Offset(attitude.east.dx, -attitude.east.dy);
+    } else {
+      return null;
+    }
+    final determinant = north.dx * east.dy - east.dx * north.dy;
+    // A vertical panel collapses horizontal compass directions onto a line.
+    // Avoid dividing by numerical residue at this geometric singularity.
+    if (determinant.abs() <= 1e-6) return null;
+    final observed = List<int>.filled(8, 0);
+    final blocked = List<int>.filled(8, 0);
+    for (var i = 0; i < signal.length; i++) {
+      final cell = classify(signal[i]);
+      if (cell == ObstructionCell.unknown) continue;
+      final x = i % cols + 0.5 - cols / 2;
+      final y = i ~/ cols + 0.5 - rows / 2;
+      if (x == 0 && y == 0) continue;
+      // Invert the projected compass basis to classify the same wedges that
+      // are drawn. Use cell distances: rendering gives both axes equal pitch.
+      final n = (east.dy * x - east.dx * y) / determinant;
+      final e = (north.dx * y - north.dy * x) / determinant;
+      final bearing = (math.atan2(e, n) * 180 / math.pi) % 360;
+      final index = (bearing / 45).floor() % 8;
+      observed[index]++;
+      if (cell == ObstructionCell.obstructed) blocked[index]++;
+    }
+    return ObstructionSectorOverlay(
+      List<Offset>.unmodifiable([
+        for (var i = 0; i < 8; i++) horizontalDirection(i * 45.0, orientation)!,
+      ]),
+      List<ObstructionSector>.unmodifiable([
+        for (var i = 0; i < 8; i++)
+          ObstructionSector(i, observed[i], blocked[i]),
+      ]),
+    );
   }
 
   /// Stylized heading indicator: its direction follows the map references,
@@ -196,6 +234,13 @@ class ObstructionMapData {
     }
     return direction == null ? null : direction * fraction;
   }
+}
+
+class ObstructionSectorOverlay {
+  final List<Offset> boundaries;
+  final List<ObstructionSector> sectors;
+
+  const ObstructionSectorOverlay(this.boundaries, this.sectors);
 }
 
 class ObstructionSector {

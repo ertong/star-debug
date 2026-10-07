@@ -36,14 +36,15 @@ Widget _page(Widget child, {double textScale = 1, bool dark = false}) =>
 Future<Uint8List> _paintMinimap(
   WidgetTester tester, {
   String key = 'dish-obstruction-minimap',
+  int size = 108,
 }) async {
   final painter = tester.widget<CustomPaint>(find.byKey(Key(key))).painter!;
   return (await tester.runAsync(() async {
     final recorder = ui.PictureRecorder();
-    painter.paint(Canvas(recorder), const Size(108, 108));
+    painter.paint(Canvas(recorder), Size(size.toDouble(), size.toDouble()));
     final picture = recorder.endRecording();
     try {
-      final image = await picture.toImage(108, 108);
+      final image = await picture.toImage(size, size);
       try {
         return (await image.toByteData())!.buffer.asUint8List();
       } finally {
@@ -244,18 +245,163 @@ void main() {
       expect(map.blocked, 5);
       expect(map.largestBlockedPatch, 3);
       expect(map.clear, 4);
-      expect(map.sectors.map((s) => s.observed).reduce((a, b) => a + b), 8);
-      expect(map.sectors[0].blocked, 1); // North is the top row.
-      expect(map.sectors[4].blocked, 0); // South is the bottom row.
-      expect(map.sectors[6].blocked, 0);
-      expect(map.sectors[7].blocked, 1);
+      final sectors = map.sectorOverlay(const DishOrientation())!.sectors;
+      expect(sectors.map((s) => s.observed).reduce((a, b) => a + b), 8);
+      expect(sectors[0].blocked, 1); // North is the top row.
+      expect(sectors[4].blocked, 0); // South is the bottom row.
+      expect(sectors[6].blocked, 0);
+      expect(sectors[7].blocked, 1);
       final center = ObstructionMapData.fromResponse(
-        DishGetObstructionMapResponse(numRows: 1, numCols: 1, snr: [0]),
+        DishGetObstructionMapResponse(
+          numRows: 1,
+          numCols: 1,
+          snr: [0],
+          mapReferenceFrame: ObstructionMapReferenceFrame.FRAME_EARTH,
+        ),
       )!;
       expect(center.blocked, 1);
-      expect(center.sectors.every((s) => s.blockedFraction == null), isTrue);
+      expect(
+        center
+            .sectorOverlay(const DishOrientation())!
+            .sectors
+            .every((s) => s.blockedFraction == null),
+        isTrue,
+      );
     },
   );
+
+  test(
+    'sector cuts start at north and counts follow their projected basis',
+    () {
+      final signal = List<double>.filled(49, -1);
+      // North-northeast (26.6 degrees) belongs to the first wedge, not a
+      // north-centered wedge. The center has no direction and is excluded.
+      signal[1 * 7 + 4] = 0;
+      signal[3 * 7 + 3] = 0;
+      final response = DishGetObstructionMapResponse(
+        numRows: 7,
+        numCols: 7,
+        snr: signal,
+        mapReferenceFrame: ObstructionMapReferenceFrame.FRAME_EARTH,
+      );
+      final earth = ObstructionMapData.fromResponse(response)!;
+      final sectors = earth.sectorOverlay(const DishOrientation())!;
+      expect(sectors.boundaries[0], const Offset(0, -1));
+      expect(sectors.boundaries[1].dx, closeTo(math.sqrt(0.5), 1e-12));
+      expect(sectors.boundaries[1].dy, closeTo(-math.sqrt(0.5), 1e-12));
+      expect(sectors.sectors[0].blockedFraction, 1);
+      expect(sectors.sectors.skip(1).every((s) => s.observed == 0), isTrue);
+
+      // In a tilted UT panel, equal geographic bearing steps are not equal
+      // screen angles. Use the full projected basis, including its magnitudes.
+      signal.fillRange(0, signal.length, -1);
+      signal[1 * 7] = 0; // Raw offset (-3, -2); geographic N=3, E=4.
+      final tilted = ObstructionMapData.fromResponse(
+        response
+          ..mapReferenceFrame = ObstructionMapReferenceFrame.FRAME_UT
+          ..snr.setAll(0, signal),
+      )!;
+      final tilt = DishOrientation.fromStatus(_utStatus(30));
+      final projected = tilted.sectorOverlay(tilt)!;
+      expect(projected.sectors[1].blocked, 1); // Bearing 53.1 degrees.
+      expect(projected.sectors[0].observed, 0);
+      expect(
+        projected.sectors.map((s) => s.observed).reduce((a, b) => a + b),
+        1,
+      );
+      expect(tilted.northRotation(tilt), closeTo(math.pi / 2, 1e-12));
+    },
+  );
+
+  test('rectangular grids use equal cell pitch for sector classification', () {
+    final signal = List<double>.filled(15, -1);
+    signal[3] = 0; // Offset (+1, -1): 45 degrees, on the NE cut.
+    final map = ObstructionMapData.fromResponse(
+      DishGetObstructionMapResponse(
+        numRows: 3,
+        numCols: 5,
+        snr: signal,
+        mapReferenceFrame: ObstructionMapReferenceFrame.FRAME_EARTH,
+      ),
+    )!;
+    final sectors = map.sectorOverlay(const DishOrientation())!.sectors;
+    expect(sectors[1].blocked, 1);
+    expect(sectors[0].observed, 0);
+  });
+
+  test(
+    'UT sectors use geographic references and reject unavailable geometry',
+    () {
+      final response = DishGetObstructionMapResponse(
+        numRows: 3,
+        numCols: 3,
+        snr: [-1, -1, -1, -1, 0, -1, -1, 0, -1],
+        mapReferenceFrame: ObstructionMapReferenceFrame.FRAME_UT,
+      );
+      final map = ObstructionMapData.fromResponse(response)!;
+      final up = DishOrientation.fromStatus(_utStatus(90));
+      final sectors = map.sectorOverlay(up)!.sectors;
+      expect(sectors[6].blocked, 1); // Raw bottom is west, not south.
+      expect(sectors[4].observed, 0);
+      expect(map.northRotation(up), closeTo(math.pi / 2, 1e-12));
+      expect(map.sectorOverlay(const DishOrientation()), isNull);
+      expect(map.northRotation(const DishOrientation()), isNull);
+      expect(
+        map.sectorOverlay(DishOrientation.fromStatus(_utStatus(0))),
+        isNull,
+      );
+      final unknown = ObstructionMapData.fromResponse(
+        response
+          ..mapReferenceFrame = ObstructionMapReferenceFrame.FRAME_UNKNOWN,
+      )!;
+      expect(unknown.sectorOverlay(up), isNull);
+      expect(unknown.northRotation(up), isNull);
+    },
+  );
+
+  testWidgets('only the detailed map paints sector statistics', (tester) async {
+    final map = DishGetObstructionMapResponse(
+      numRows: 5,
+      numCols: 5,
+      snr: List.filled(25, 1.0),
+      mapReferenceFrame: ObstructionMapReferenceFrame.FRAME_EARTH,
+    );
+    await tester.pumpWidget(
+      _page(ObstructionMapWidget(map: map, timestamp: 1)),
+    );
+    final mini = await _paintMinimap(tester, size: 310);
+    expect(find.text(M.obstructions.sectors_hint), findsNothing);
+    await tester.tap(find.text(M.obstructions.title));
+    await tester.pumpAndSettle();
+    final full = await _paintMinimap(
+      tester,
+      key: 'dish-obstruction-map',
+      size: 310,
+    );
+    // The first badge sits inside the N-to-NE wedge. Its pale background is
+    // visible here in the detail view, while the minimap remains plain blue.
+    int palePixels(Uint8List pixels) {
+      var count = 0;
+      for (var y = 35; y < 55; y++) {
+        for (var x = 190; x < 210; x++) {
+          final i = (y * 310 + x) * 4;
+          if (pixels[i] > 180 &&
+              pixels[i + 1] > 180 &&
+              pixels[i + 2] > 180 &&
+              pixels[i + 3] > 0)
+            count++;
+        }
+      }
+      return count;
+    }
+
+    expect(palePixels(mini), 0);
+    expect(palePixels(full), greaterThan(0));
+    expect(find.text(M.obstructions.sectors_hint), findsOneWidget);
+    expect(find.text(M.obstructions.sectors), findsNothing);
+    expect(find.byType(LinearProgressIndicator), findsNothing);
+    expect(tester.takeException(), isNull);
+  });
 
   test(
     'orientation normalizes bearings and uses the reported alignment fields',
@@ -495,15 +641,15 @@ void main() {
           _page(ObstructionMapWidget(map: map, timestamp: 1, status: status)),
         );
         final pixels = await _paintMinimap(tester);
-        extents.add(_whiteExtent(pixels, vertical: true));
+        extents.add(_whiteExtent(pixels));
         // The solid white indicator always starts at the map center.
         final center = (54 * 108 + 54) * 4;
         expect(pixels.sublist(center, center + 3), [255, 255, 255]);
         expect(find.byKey(const Key('dish-orientation-compass')), findsNothing);
         if (elevation < 0) {
           expect(find.text(M.obstructions.looking_downward), findsOneWidget);
-          // Below-horizon east projects down on this panel, matching its labels.
-          final tip = (62 * 108 + 54) * 4;
+          // Below-horizon east projects left after aligning north upward.
+          final tip = (54 * 108 + 46) * 4;
           expect(pixels.sublist(tip, tip + 3), [255, 255, 255]);
         }
         await tester.tap(find.text(M.obstructions.title));
@@ -512,7 +658,6 @@ void main() {
         expect(
           _whiteExtent(
             await _paintMinimap(tester, key: 'dish-obstruction-map'),
-            vertical: true,
           ),
           greaterThan(0),
         );
@@ -548,15 +693,15 @@ void main() {
     await tester.pumpAndSettle();
     final pixels = await _paintMinimap(tester, key: 'dish-obstruction-map');
     var hasTarget = false;
-    for (var y = 55; y < 96; y++) {
-      for (var x = 12; x < 96; x++) {
+    for (var y = 12; y < 96; y++) {
+      for (var x = 12; x < 54; x++) {
         final i = (y * 108 + x) * 4;
         if (pixels[i] == 244 && pixels[i + 1] == 209 && pixels[i + 2] == 101)
           hasTarget = true;
       }
     }
     expect(hasTarget, isTrue);
-    expect(_whiteExtent(pixels, vertical: true), greaterThan(8));
+    expect(_whiteExtent(pixels), greaterThan(8));
     expect(find.byKey(const Key('dish-orientation-compass')), findsNothing);
     expect(tester.takeException(), isNull);
   });
@@ -735,73 +880,73 @@ void main() {
     },
   );
 
-  testWidgets(
-    'UT references update on the existing canvas without changing cells',
-    (tester) async {
-      final map = DishGetObstructionMapResponse(
-        numRows: 3,
-        numCols: 3,
-        snr: [1, 1, 1, 1, 1, 1, 1, 0, 1],
-        mapReferenceFrame: ObstructionMapReferenceFrame.FRAME_UT,
+  testWidgets('UT north-up display rotates the grid as attitude updates', (
+    tester,
+  ) async {
+    final map = DishGetObstructionMapResponse(
+      numRows: 3,
+      numCols: 3,
+      snr: [1, 1, 1, 1, 1, 1, 1, 0, 1],
+      mapReferenceFrame: ObstructionMapReferenceFrame.FRAME_UT,
+    );
+    Uint8List? previous;
+    CustomPainter? previousPainter;
+    for (final angle in [0.0, math.pi / 4]) {
+      // A level, sky-facing panel with changing yaw and identical boresight.
+      final status = DishGetStatusResponse(
+        boresightElevationDeg: 90,
+        ned2dishQuaternion: Quaternion(
+          qScalar: 0,
+          qX: -math.sin(angle / 2),
+          qY: math.cos(angle / 2),
+          qZ: 0,
+        ),
       );
-      Uint8List? previous;
-      CustomPainter? previousPainter;
-      for (final angle in [0.0, math.pi / 4]) {
-        // A level, sky-facing panel with changing yaw and identical boresight.
-        final status = DishGetStatusResponse(
-          boresightElevationDeg: 90,
-          ned2dishQuaternion: Quaternion(
-            qScalar: 0,
-            qX: -math.sin(angle / 2),
-            qY: math.cos(angle / 2),
-            qZ: 0,
-          ),
-        );
-        await tester.pumpWidget(
-          _page(ObstructionMapWidget(map: map, timestamp: 1, status: status)),
-        );
-        final painter = tester
-            .widget<CustomPaint>(
-              find.byKey(const Key('dish-obstruction-minimap')),
-            )
-            .painter!;
-        if (previousPainter != null)
-          expect(painter.shouldRepaint(previousPainter), isTrue);
-        previousPainter = painter;
-        final pixels = await _paintMinimap(tester);
-        if (previous != null) {
-          expect(pixels, isNot(orderedEquals(previous)));
-          for (var y = 12; y < 96; y++) {
-            expect(
-              pixels.sublist((y * 108 + 12) * 4, (y * 108 + 96) * 4),
-              orderedEquals(
-                previous.sublist((y * 108 + 12) * 4, (y * 108 + 96) * 4),
-              ),
-            );
-          }
-        }
-        previous = pixels;
-        final sample = (82 * 108 + 64) * 4;
-        expect(pixels.sublist(sample, sample + 3), [0xe3, 0x4b, 0x54]);
-        expect(
-          find.text(M.obstructions.dish_frame_oriented_short),
-          findsOneWidget,
-        );
-        await tester.tap(find.text(M.obstructions.title));
-        await tester.pumpAndSettle();
-        expect(find.text(M.obstructions.dish_frame_oriented), findsOneWidget);
-        expect(find.text(M.obstructions.bottom), findsOneWidget);
-        expect(find.byKey(const Key('dish-orientation-compass')), findsNothing);
-        expect(
-          find.byKey(const Key('dish-orientation-minicompass')),
-          findsNothing,
-        );
-        await tester.tap(find.byTooltip(M.general.close));
-        await tester.pumpAndSettle();
+      await tester.pumpWidget(
+        _page(ObstructionMapWidget(map: map, timestamp: 1, status: status)),
+      );
+      final painter = tester
+          .widget<CustomPaint>(
+            find.byKey(const Key('dish-obstruction-minimap')),
+          )
+          .painter!;
+      if (previousPainter != null)
+        expect(painter.shouldRepaint(previousPainter), isTrue);
+      previousPainter = painter;
+      final pixels = await _paintMinimap(tester);
+      if (previous != null) {
+        expect(pixels, isNot(orderedEquals(previous)));
       }
-      expect(tester.takeException(), isNull);
-    },
-  );
+      previous = pixels;
+      final sample = angle == 0 ? (54 * 108 + 26) * 4 : (40 * 108 + 40) * 4;
+      expect(pixels.sublist(sample, sample + 3), [0xe3, 0x4b, 0x54]);
+      if (angle != 0) {
+        // The rotated grid is padded to an upright rounded rectangle.
+        final padding = (17 * 108 + 17) * 4;
+        expect(pixels.sublist(padding, padding + 4), [0x65, 0x70, 0x80, 255]);
+        final corner = (12 * 108 + 12) * 4;
+        expect(pixels[corner + 3], 0);
+      }
+      expect(map.snr, [1, 1, 1, 1, 1, 1, 1, 0, 1]);
+      expect(
+        find.text(M.obstructions.dish_frame_oriented_short),
+        findsOneWidget,
+      );
+      await tester.tap(find.text(M.obstructions.title));
+      await tester.pumpAndSettle();
+      expect(find.text(M.obstructions.dish_frame_oriented), findsOneWidget);
+      expect(find.text(M.obstructions.bottom), findsNothing);
+      expect(find.text(M.obstructions.sectors), findsNothing);
+      expect(find.byKey(const Key('dish-orientation-compass')), findsNothing);
+      expect(
+        find.byKey(const Key('dish-orientation-minicompass')),
+        findsNothing,
+      );
+      await tester.tap(find.byTooltip(M.general.close));
+      await tester.pumpAndSettle();
+    }
+    expect(tester.takeException(), isNull);
+  });
 
   testWidgets('coincident UT references remain readable on a vertical panel', (
     tester,
@@ -824,7 +969,7 @@ void main() {
       _page(ObstructionMapWidget(map: map, timestamp: 1, status: status)),
     );
     final pixels = await _paintMinimap(tester);
-    // East and south share the top edge. Their grouped label must be wider
+    // North and west share the top edge. Their grouped label must be wider
     // than one glyph, rather than both glyphs being painted over one another.
     final columns = <int>{};
     for (var y = 0; y < 12; y++) {
@@ -887,7 +1032,8 @@ void main() {
           ),
           findsAtLeastNWidgets(1),
         );
-        expect(find.text(M.obstructions.bottom), findsOneWidget);
+        expect(find.text(M.obstructions.bottom), findsNothing);
+        expect(find.text(M.obstructions.sectors), findsNothing);
         expect(find.text('NE'), findsNothing);
         expect(find.byKey(const Key('dish-orientation-compass')), findsNothing);
         expect(

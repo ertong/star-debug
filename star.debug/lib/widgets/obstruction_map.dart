@@ -198,7 +198,7 @@ class _ObstructionMapWidgetState extends State<ObstructionMapWidget> {
               const SizedBox(height: 4),
               Text(
                 view.map!.frame == ObstructionMapReferenceFrame.FRAME_UT
-                    ? view.orientation.attitude != null
+                    ? view.northAligned
                           ? M.obstructions.dish_frame_oriented_short
                           : M.obstructions.dish_frame_short
                     : M.obstructions.unknown_frame,
@@ -225,7 +225,7 @@ class _MapView {
   final int timestamp;
   final bool live;
 
-  const _MapView(
+  _MapView(
     this.map,
     this.hasResponse,
     this.stats,
@@ -234,6 +234,9 @@ class _MapView {
     this.timestamp,
     this.live,
   );
+
+  late final sectors = ready ? map!.sectorOverlay(orientation) : null;
+  bool get northAligned => map?.northRotation(orientation) != null;
 
   bool get ready =>
       map != null &&
@@ -462,7 +465,7 @@ class _ObstructionDetails extends StatelessWidget {
           view.map!.frame == ObstructionMapReferenceFrame.FRAME_EARTH
               ? M.obstructions.earth_frame
               : view.map!.frame == ObstructionMapReferenceFrame.FRAME_UT
-              ? view.orientation.attitude != null
+              ? view.northAligned
                     ? M.obstructions.dish_frame_oriented
                     : M.obstructions.dish_frame
               : M.obstructions.unknown_frame,
@@ -475,6 +478,14 @@ class _ObstructionDetails extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             M.obstructions.arrow_guide,
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
+        ],
+        if (view.sectors != null) ...[
+          const SizedBox(height: 4),
+          Text(
+            M.obstructions.sectors_hint,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodySmall,
           ),
@@ -611,11 +622,6 @@ class _ObstructionDetails extends StatelessWidget {
               style: Theme.of(context).textTheme.bodySmall,
             ),
           ),
-        if (view.ready) ...[
-          const SizedBox(height: 14),
-          _section(context, M.obstructions.sectors),
-          _SectorChart(map: map!),
-        ],
       ],
     );
   }
@@ -691,84 +697,6 @@ class _MetricGrid extends StatelessWidget {
   );
 }
 
-class _SectorChart extends StatelessWidget {
-  final ObstructionMapData map;
-  const _SectorChart({required this.map});
-
-  @override
-  Widget build(BuildContext context) {
-    final earth = map.northUp;
-    final labels = earth
-        ? ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW']
-        : [
-            M.obstructions.top,
-            M.obstructions.top_right,
-            M.obstructions.right,
-            M.obstructions.bottom_right,
-            M.obstructions.bottom,
-            M.obstructions.bottom_left,
-            M.obstructions.left,
-            M.obstructions.top_left,
-          ];
-    return Column(
-      children: [
-        for (final sector in map.sectors)
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 3),
-            child: Row(
-              children: [
-                SizedBox(
-                  width: earth ? 26 : 78,
-                  child: Text(
-                    labels[sector.index],
-                    style: const TextStyle(fontSize: 11),
-                  ),
-                ),
-                Expanded(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(3),
-                    child: LinearProgressIndicator(
-                      value: sector.blockedFraction ?? 0,
-                      minHeight: 5,
-                      backgroundColor: Theme.of(context).colorScheme.onSurface
-                          .withAlpha(25),
-                      color: ObstructionMapData.obstructedColor,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 8),
-                SizedBox(
-                  width: 58,
-                  child: Text(
-                    sector.blockedFraction == null
-                        ? '—'
-                        : '${(sector.blockedFraction! * 100).toStringAsFixed(1)}%',
-                    textAlign: TextAlign.right,
-                    style: const TextStyle(fontSize: 11),
-                  ),
-                ),
-                SizedBox(
-                  width: 44,
-                  child: Text(
-                    '${sector.observed}',
-                    textAlign: TextAlign.right,
-                    style: Theme.of(context).textTheme.bodySmall
-                        ?.copyWith(fontSize: 10),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        const SizedBox(height: 4),
-        Text(
-          M.obstructions.sectors_hint,
-          style: Theme.of(context).textTheme.bodySmall?.copyWith(fontSize: 11),
-        ),
-      ],
-    );
-  }
-}
-
 class _ReadingGuide extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ExpansionTile(
@@ -821,7 +749,9 @@ class _MapCanvas extends StatelessWidget {
         painter: _ObstructionPainter(
           view.map!,
           view.orientation,
+          compact ? null : view.sectors,
           Theme.of(context).colorScheme.onSurface,
+          Theme.of(context).colorScheme.surface,
           compact,
           Theme.of(context).textTheme.bodySmall?.fontFamily,
         ),
@@ -833,16 +763,26 @@ class _MapCanvas extends StatelessWidget {
 class _ObstructionPainter extends CustomPainter {
   final ObstructionMapData map;
   final DishOrientation orientation;
+  final ObstructionSectorOverlay? sectors;
   final Color foreground;
+  final Color surface;
   final bool compact;
   final String? fontFamily;
 
   _ObstructionPainter(
     this.map,
     this.orientation,
+    this.sectors,
     this.foreground,
+    this.surface,
     this.compact,
     this.fontFamily,
+  );
+
+  double get rotation => map.northRotation(orientation) ?? 0;
+  Offset _rotate(Offset direction) => Offset(
+    direction.dx * math.cos(rotation) - direction.dy * math.sin(rotation),
+    direction.dx * math.sin(rotation) + direction.dy * math.cos(rotation),
   );
 
   @override
@@ -852,20 +792,34 @@ class _ObstructionPainter extends CustomPainter {
       math.max(1, size.width - margin * 2),
       math.max(1, size.height - margin * 2),
     );
+    final cosine = math.cos(rotation).abs();
+    final sine = math.sin(rotation).abs();
     final scale = math.min(
-      available.width / map.cols,
-      available.height / map.rows,
+      available.width / (map.cols * cosine + map.rows * sine),
+      available.height / (map.rows * cosine + map.cols * sine),
     );
     final rect = Rect.fromCenter(
       center: size.center(Offset.zero),
       width: map.cols * scale,
       height: map.rows * scale,
     );
+    final displayRect = Rect.fromCenter(
+      center: rect.center,
+      width: rect.width * cosine + rect.height * sine,
+      height: rect.height * cosine + rect.width * sine,
+    );
     final paint = Paint()..isAntiAlias = false;
     canvas.save();
     canvas.clipRRect(
-      RRect.fromRectAndRadius(rect, Radius.circular(compact ? 9 : 14)),
+      RRect.fromRectAndRadius(displayRect, Radius.circular(compact ? 9 : 14)),
     );
+    paint.color = ObstructionMapData.unknownColor;
+    canvas.drawRect(displayRect, paint);
+    canvas.save();
+    canvas.translate(rect.center.dx, rect.center.dy);
+    canvas.rotate(rotation);
+    canvas.translate(-rect.center.dx, -rect.center.dy);
+    canvas.clipRect(rect);
     for (var row = 0; row < map.rows; row++) {
       for (var col = 0; col < map.cols; col++) {
         paint.color = ObstructionMapData.color(
@@ -883,10 +837,81 @@ class _ObstructionPainter extends CustomPainter {
       }
     }
     canvas.restore();
-    _compass(canvas, rect, showDegrees: !compact && map.northUp);
+    if (sectors != null) {
+      final line = Paint()
+        ..color = foreground.withAlpha(80)
+        ..strokeWidth = 0.8;
+      for (final boundary in sectors!.boundaries) {
+        final direction = _rotate(boundary);
+        final distance = math.min(
+          displayRect.width / 2 / direction.dx.abs(),
+          displayRect.height / 2 / direction.dy.abs(),
+        );
+        canvas.drawLine(rect.center, rect.center + direction * distance, line);
+      }
+    }
+    canvas.restore();
+    if (sectors != null) _sectorLabels(canvas, displayRect);
+    _compass(canvas, displayRect, rect, showDegrees: !compact && map.northUp);
   }
 
-  void _compass(Canvas canvas, Rect rect, {bool showDegrees = false}) {
+  void _sectorLabels(Canvas canvas, Rect rect) {
+    final occupied = <Rect>[];
+    final inset = rect.deflate(6);
+    for (var i = 0; i < 8; i++) {
+      final sector = sectors!.sectors[i];
+      final fraction = sector.blockedFraction;
+      final text = fraction == null
+          ? '—'
+          : '${(fraction * 100).toStringAsFixed(1)}%';
+      final painter = TextPainter(
+        text: TextSpan(
+          text: '$text\n${sector.blocked}/${sector.observed}',
+          style: TextStyle(
+            color: foreground,
+            fontFamily: fontFamily,
+            fontWeight: FontWeight.w600,
+            fontSize: 9,
+          ),
+        ),
+        textAlign: TextAlign.center,
+        textDirection: TextDirection.ltr,
+      )..layout();
+      final width = painter.width + 6;
+      final height = painter.height + 6;
+      final bisector =
+          sectors!.boundaries[i] + sectors!.boundaries[(i + 1) % 8];
+      final direction = _rotate(bisector / bisector.distance);
+      final distance = math.min(
+        (inset.width / 2 - width / 2) / direction.dx.abs(),
+        (inset.height / 2 - height / 2) / direction.dy.abs(),
+      );
+      final bounds = Rect.fromCenter(
+        center: rect.center + direction * distance,
+        width: width,
+        height: height,
+      );
+      // Place badges just inside the padded edge, keeping them apart.
+      if (distance > 0 &&
+          !bounds.overlaps(Rect.fromCircle(center: rect.center, radius: 4)) &&
+          !occupied.any((other) => bounds.overlaps(other))) {
+        canvas.drawRRect(
+          RRect.fromRectAndRadius(bounds, const Radius.circular(4)),
+          Paint()..color = surface.withAlpha(235),
+        );
+        painter.paint(canvas, bounds.topLeft + const Offset(3, 3));
+        occupied.add(bounds);
+      }
+      painter.dispose();
+    }
+  }
+
+  void _compass(
+    Canvas canvas,
+    Rect rect,
+    Rect rawRect, {
+    bool showDegrees = false,
+  }) {
     final center = rect.center;
     final margin = compact ? 12.0 : 24.0;
     final labelRect = rect.inflate(margin / 2);
@@ -897,8 +922,9 @@ class _ObstructionPainter extends CustomPainter {
       ('S', 180.0),
       ('W', 270.0),
     ]) {
-      final direction = map.horizontalDirection(bearing, orientation);
-      if (direction == null) continue;
+      final rawDirection = map.horizontalDirection(bearing, orientation);
+      if (rawDirection == null) continue;
+      final direction = _rotate(rawDirection);
       // Intersect the projected direction with the label rectangle. This
       // preserves its angle without changing or resampling the raw map.
       final scale =
@@ -962,8 +988,8 @@ class _ObstructionPainter extends CustomPainter {
       _heading(
         canvas,
         center,
-        rect,
-        target,
+        rawRect,
+        _rotate(target),
         const Color(0xfff4d165),
         dashed: true,
       );
@@ -974,7 +1000,14 @@ class _ObstructionPainter extends CustomPainter {
       orientation,
     );
     if (actual != null) {
-      _heading(canvas, center, rect, actual, Colors.white, dashed: false);
+      _heading(
+        canvas,
+        center,
+        rawRect,
+        _rotate(actual),
+        Colors.white,
+        dashed: false,
+      );
     }
   }
 
@@ -1078,6 +1111,7 @@ class _ObstructionPainter extends CustomPainter {
   @override
   bool shouldRepaint(_ObstructionPainter oldDelegate) =>
       oldDelegate.map != map ||
+      oldDelegate.sectors != sectors ||
       oldDelegate.orientation.azimuth != orientation.azimuth ||
       oldDelegate.orientation.elevation != orientation.elevation ||
       oldDelegate.orientation.desiredAzimuth != orientation.desiredAzimuth ||
@@ -1089,6 +1123,7 @@ class _ObstructionPainter extends CustomPainter {
       oldDelegate.orientation.attitude?.east != orientation.attitude?.east ||
       oldDelegate.orientation.attitude?.down != orientation.attitude?.down ||
       oldDelegate.foreground != foreground ||
+      oldDelegate.surface != surface ||
       oldDelegate.fontFamily != fontFamily ||
       oldDelegate.compact != compact;
 }

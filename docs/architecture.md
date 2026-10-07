@@ -161,9 +161,11 @@ four-connected blocked patch sizes describe samples, not sky area, physical obst
 Maps with invalid dimensions, no observed samples, or an explicitly zero `patchesValid` count show
 a state message instead of a canvas. Missing readiness counts do not invalidate older maps.
 
-EARTH grids retain their row order with north at the top and geographic sector labels. UT and
-unknown grids remain unchanged and use screen-position sector labels. On UT grids with a complete,
-finite unit `ned2dishQuaternion`, N/S/E/W references are calculated with the inverse Hamilton
+EARTH grids have north at the top. UT grids rotate for display so the projected north direction
+points upward in both maps; compass marks, sector cuts, and arrows rotate with the grid.
+The rotated grid is padded with the unobserved-cell color to an upright rounded rectangle;
+sector cuts extend to its outer edge and badges sit just inside it. Padding adds no samples.
+On UT grids with a complete, finite unit `ned2dishQuaternion`, N/S/E/W references are calculated with the inverse Hamilton
 rotation: geographic horizontal vectors are projected onto the dish's XY plane, with +X to the
 right and +Y toward the panel top. Canvas rows increase downward, so projected Y changes sign
 before placement. Each nonzero projection determines the corresponding label's direction
@@ -178,9 +180,18 @@ attitude. Quaternion sign does not affect the result.
 These are current-attitude direction references, not geographic bearings assigned to accumulated
 samples. Tilt can change their angular spacing and handedness. Current status cannot recover the
 attitudes of earlier observations from a moving antenna; the UT caption explains this limitation.
-No raw pixels are rotated or resampled, and the PNG export is unchanged. Missing or invalid UT
-attitude and unknown frames have no geographic references. Near-vertical boresight bearing does
-not affect the references because they use the full quaternion.
+Source grid values and the raw PNG export remain unchanged. Missing or invalid UT attitude and
+unknown frames retain their raw display orientation and have no geographic references.
+Near-vertical boresight bearing does not affect the references because they use the full quaternion.
+
+The detailed canvas shows eight sector cuts at bearings 0, 45, ... 315 degrees, starting at north.
+Each wedge shows its blocked percentage and blocked/observed cell counts; unknown cells and the
+center cell are excluded. UT counts invert the projected North/East basis so the counted wedges
+match the drawn cuts with equal pixel pitch on both axes. These are display-plane statistics
+using the current attitude, not geographic sky-area measurements. A singular horizontal basis
+(vertical panel) cannot define sectors. Small or overlapping badges are omitted rather than
+painted over one another. The minimap has no sector cuts or statistics, and there is no separate
+sector chart.
 
 Direction markings and heading arrows share the existing map canvas. EARTH arrows follow
 geographic bearings; UT arrows use the same quaternion and panel-to-canvas conversion as the
