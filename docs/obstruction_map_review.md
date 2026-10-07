@@ -4,8 +4,8 @@ Review date: 2026-10-07. Reviewed HEAD: `a40fd5f`; baseline: `8effb2c`.
 Three independent reviews used GPT-6 Astra with high reasoning for geometry, integration,
 and UI/UX. Findings were reconciled against source and targeted reproduction probes.
 The original review changed documentation only. The follow-up described under F2 implements
-identity-change invalidation. The R2 follow-up extracts geometry and resolves F3; other suggested
-fixes remain unimplemented.
+identity-change invalidation. The R2 follow-up extracts geometry and resolves F3; R3 separates
+heading policies and resolves F4. Other suggested fixes remain unimplemented.
 
 Read [protocol evidence and interpretation](obstruction_map_sources.md) for external references
 and confidence limits. Architectural proposals have a separate home in
@@ -106,7 +106,13 @@ tests alone cannot catch a mislabeled canvas.
 
 ### F4 — P2: Antiparallel target flips at the horizontal-panel singularity
 
-Evidence: [`ObstructionMapGeometry.headingProjection`](../star.debug/lib/utils/obstruction_map_geometry.dart),
+**Follow-up, 2026-10-07:** fixed by the [R3 arrow policies](proposals/obstruction_map_refactoring.md#r3--make-actual-and-target-arrow-policies-explicit).
+The target indicator is omitted when its horizontal projection is undefined, while desired-angle
+values stay visible. The actual indicator retains its projected-Down limiting convention. Tests
+cover both bearing sides, both target elevation signs, panel elevations around zero, vertical
+targets, and live dialog updates. The evidence below records the reviewed bug.
+
+Evidence: [`ObstructionMapGeometry.actualHeadingProjection`](../star.debug/lib/utils/obstruction_map_geometry.dart),
 originally `ObstructionMapData.headingProjection` in `lib/utils/obstructions.dart`,
 lines 225–234 at reviewed HEAD. Its projected-Down fallback uses only the target elevation's
 sign, so opposite bearings get the same fallback direction when their horizontal projections
@@ -278,3 +284,14 @@ map suite (49 tests) and complete suite (121 tests). `flutter analyze --no-pub` 
 same 42 baseline findings, with no errors or new findings. Formatting checks passed for all eight
 changed/new Dart files without rewriting unrelated code; diff whitespace and local documentation
 link checks also passed. An independent Astra/high review found no substantive regression.
+
+## R3 heading-policy follow-up validation
+
+Four geometry tests and one live-dialog regression cover target suppression for parallel and
+opposite bearings, both elevation signs, projections around zero and within the numerical
+threshold, vertical targets, unavailable geometry, and retained desired-angle values. Existing
+actual-heading assertions still pass. The isolated app copy passed the focused map suite
+(54 tests) and full suite (126 tests). Analyzer output matches the R2 baseline exactly: 42
+existing findings, no errors or new findings. Formatting checks passed for all four changed Dart
+files. Diff whitespace and local documentation links passed; Astra/high review found no
+substantive issue in the final code, tests, or documentation.

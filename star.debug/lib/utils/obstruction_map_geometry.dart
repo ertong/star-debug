@@ -90,9 +90,21 @@ class ObstructionMapGeometry {
     return (bearing / 45).floor() % 8;
   }
 
-  /// Stylized heading indicator: its direction follows the map references,
-  /// while its magnitude is the normal's horizontal component, cos(elevation).
-  Offset? headingProjection(double? bearing, double? elevation) {
+  /// Stylized actual heading: map-reference direction and cos(elevation)
+  /// length, with the projected-Down limit when its direction vanishes.
+  Offset? actualHeadingProjection(double? bearing, double? elevation) =>
+      _headingProjection(bearing, elevation, allowActualFallback: true);
+
+  /// Stylized target heading with the same direction and length convention.
+  /// An undefined nonzero direction is omitted; a vertical target is a dot.
+  Offset? targetHeadingProjection(double? bearing, double? elevation) =>
+      _headingProjection(bearing, elevation, allowActualFallback: false);
+
+  Offset? _headingProjection(
+    double? bearing,
+    double? elevation, {
+    required bool allowActualFallback,
+  }) {
     if (!DishOrientation.canProject(bearing, elevation)) return null;
     final attitude = orientation.attitude;
     if (!northUp &&
@@ -101,7 +113,7 @@ class ObstructionMapGeometry {
     final fraction = DishOrientation.horizontalFraction(elevation)!;
     if (fraction == 0) return Offset.zero;
     var direction = horizontalDirection(bearing!);
-    if (direction == null && attitude != null) {
+    if (direction == null && attitude != null && allowActualFallback) {
       // At a horizontal panel normal, the ground heading is perpendicular to
       // the panel and its projection vanishes. The projected Down vector is
       // the tangent toward lower elevation: use the upward-side limit at zero

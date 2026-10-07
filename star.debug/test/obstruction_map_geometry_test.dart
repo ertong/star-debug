@@ -27,7 +27,142 @@ ObstructionMapGeometry _tiltedGeometry(double tilt) => ObstructionMapGeometry(
   ),
 );
 
+ObstructionMapGeometry _eastFacingGeometry(double elevation) {
+  final tilt = (90 - elevation) * math.pi / 360;
+  return ObstructionMapGeometry(
+    ObstructionMapReferenceFrame.FRAME_UT,
+    DishOrientation.fromStatus(
+      DishGetStatusResponse(
+        boresightAzimuthDeg: 90,
+        boresightElevationDeg: elevation,
+        ned2dishQuaternion: Quaternion(
+          qScalar: 0,
+          qX: 0,
+          qY: math.cos(tilt),
+          qZ: math.sin(tilt),
+        ),
+      ),
+    ),
+  );
+}
+
 void main() {
+  group('actual and target heading policies', () {
+    test(
+      'undefined targets are omitted for parallel and opposite bearings',
+      () {
+        final geometry = _eastFacingGeometry(0);
+        for (final panelElevation in [0.0, 0.00001, -0.00001]) {
+          final singular = _eastFacingGeometry(panelElevation);
+          for (final bearing in [90.0, 270.0]) {
+            for (final elevation in [-40.0, 0.0, 40.0]) {
+              expect(
+                singular.targetHeadingProjection(bearing, elevation),
+                isNull,
+              );
+            }
+          }
+        }
+        // Preserve the actual-panel limit, including the below-horizon convention.
+        _expectOffset(
+          geometry.actualHeadingProjection(90, 0),
+          const Offset(0, -1),
+        );
+        _expectOffset(
+          geometry.actualHeadingProjection(90, -40),
+          Offset(0, math.cos(40 * math.pi / 180)),
+        );
+        // Other bearings still have a direction even though the panel is vertical.
+        _expectOffset(
+          geometry.targetHeadingProjection(0, 0),
+          const Offset(-1, 0),
+        );
+        _expectOffset(
+          geometry.targetHeadingProjection(180, 0),
+          const Offset(1, 0),
+        );
+      },
+    );
+
+    test('targets follow their projected bearing on either side of zero', () {
+      final fraction = math.cos(40 * math.pi / 180);
+      for (final panelElevation in [0.001, -0.001]) {
+        final geometry = _eastFacingGeometry(panelElevation);
+        // Here projected east is (0, -sin(panelElevation)); west is opposite.
+        for (final targetElevation in [40.0, -40.0]) {
+          final eastY = panelElevation > 0 ? -fraction : fraction;
+          _expectOffset(
+            geometry.targetHeadingProjection(90, targetElevation),
+            Offset(0, eastY),
+          );
+          _expectOffset(
+            geometry.targetHeadingProjection(270, targetElevation),
+            Offset(0, -eastY),
+          );
+        }
+      }
+    });
+
+    test('vertical targets are dots without a required bearing', () {
+      for (final geometry in [
+        _eastFacingGeometry(0),
+        ObstructionMapGeometry(
+          ObstructionMapReferenceFrame.FRAME_EARTH,
+          const DishOrientation(),
+        ),
+      ]) {
+        for (final elevation in [-90.0, 90.0]) {
+          expect(
+            geometry.targetHeadingProjection(null, elevation),
+            Offset.zero,
+          );
+          expect(geometry.targetHeadingProjection(270, elevation), Offset.zero);
+        }
+      }
+    });
+
+    test('targets require valid angles, a known frame and UT attitude', () {
+      for (final frame in ObstructionMapReferenceFrame.values) {
+        final geometry = ObstructionMapGeometry(
+          frame,
+          _eastFacingGeometry(60).orientation,
+        );
+        for (final elevation in [
+          null,
+          double.nan,
+          double.infinity,
+          -91.0,
+          91.0,
+        ]) {
+          expect(geometry.targetHeadingProjection(90, elevation), isNull);
+        }
+        expect(geometry.targetHeadingProjection(null, 60), isNull);
+        expect(geometry.targetHeadingProjection(double.nan, 60), isNull);
+        expect(geometry.targetHeadingProjection(double.infinity, 60), isNull);
+        if (frame == ObstructionMapReferenceFrame.FRAME_UNKNOWN) {
+          expect(geometry.targetHeadingProjection(90, 60), isNull);
+          expect(geometry.targetHeadingProjection(null, 90), isNull);
+        }
+      }
+      for (final frame in [
+        ObstructionMapReferenceFrame.FRAME_UNKNOWN,
+        ObstructionMapReferenceFrame.FRAME_UT,
+      ]) {
+        final geometry = ObstructionMapGeometry(frame, const DishOrientation());
+        expect(geometry.targetHeadingProjection(90, 60), isNull);
+        expect(geometry.targetHeadingProjection(null, 90), isNull);
+      }
+      final earth = ObstructionMapGeometry(
+        ObstructionMapReferenceFrame.FRAME_EARTH,
+        const DishOrientation(),
+      );
+      _expectOffset(
+        earth.targetHeadingProjection(90, 60),
+        const Offset(0.5, 0),
+      );
+    });
+  });
+
   group('rectangle ray intersections', () {
     test('wide rectangle uses its nearest edge from a translated center', () {
       const rect = Rect.fromLTWH(10, 20, 120, 60);

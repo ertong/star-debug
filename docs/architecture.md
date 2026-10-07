@@ -223,12 +223,16 @@ sector chart.
 Direction markings and heading arrows share the existing map canvas. EARTH arrows follow
 geographic bearings; UT arrows use the same quaternion and panel-to-canvas conversion as the
 direction references. UT arrows require valid attitude; unknown frames have no arrows. There is
-no separate compass view. Where a heading is perpendicular to a horizontal-pointing panel's
-plane, its in-plane projection is zero: the arrow uses the projected Down tangent as the limit
-from above the horizon, reversed below the horizon. This defines a full-length arrow at exactly
-horizontal elevation without choosing a fixed screen direction. The target arrow uses the same
-projection and appears dashed in gold in the details; the actual arrow is solid white in both
-the summary and details.
+no separate compass view. Actual and desired headings have separate policies in
+`ObstructionMapGeometry.actualHeadingProjection()` and `targetHeadingProjection()`. When the
+actual heading's horizontal direction is perpendicular to a horizontal-pointing panel's plane,
+its projection vanishes: the actual indicator uses the projected Down tangent as the limit from
+above the horizon, reversed below the horizon. This defines a full-length actual arrow at exactly
+horizontal elevation without choosing a fixed screen direction. A target with an undefined
+horizontal projection (squared magnitude at most 1e-12) has no arrow; its numeric desired bearing
+and elevation remain visible. An exactly vertical target still appears as a center dot. Defined
+targets appear dashed in gold in the details; the actual arrow is solid white in both the summary
+and details.
 Arrows use reported boresight fields, preferring
 `alignmentStats` when present. Both a valid elevation and azimuth are required for an arrow; an
 exactly vertical direction needs only elevation. Missing or invalid angles produce no indicator,

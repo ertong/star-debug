@@ -663,7 +663,7 @@ void main() {
         final projection = ObstructionMapGeometry(
           map.frame,
           orientation,
-        ).headingProjection(orientation.azimuth, orientation.elevation)!;
+        ).actualHeadingProjection(orientation.azimuth, orientation.elevation)!;
         final fraction = DishOrientation.horizontalFraction(elevation)!;
         expect(projection.dx, closeTo(0, 1e-12));
         expect(
@@ -676,7 +676,7 @@ void main() {
             ObstructionMapGeometry(
               map.frame,
               orientation,
-            ).headingProjection(null, elevation),
+            ).actualHeadingProjection(null, elevation),
             Offset.zero,
           );
         }
@@ -687,7 +687,7 @@ void main() {
         ObstructionMapGeometry(
           map.frame,
           almostHorizontal,
-        ).headingProjection(90, almostHorizontal.elevation)!.dy,
+        ).actualHeadingProjection(90, almostHorizontal.elevation)!.dy,
         closeTo(-1, 1e-12),
       );
     },
@@ -712,19 +712,22 @@ void main() {
             ObstructionMapGeometry(
               map.frame,
               valid,
-            ).headingProjection(90, elevation),
+            ).actualHeadingProjection(90, elevation),
             isNull,
           );
         }
         expect(
-          ObstructionMapGeometry(map.frame, valid).headingProjection(null, 60),
+          ObstructionMapGeometry(
+            map.frame,
+            valid,
+          ).actualHeadingProjection(null, 60),
           isNull,
         );
         expect(
           ObstructionMapGeometry(
             map.frame,
             valid,
-          ).headingProjection(double.nan, 60),
+          ).actualHeadingProjection(double.nan, 60),
           isNull,
         );
         if (frame != ObstructionMapReferenceFrame.FRAME_EARTH) {
@@ -732,20 +735,23 @@ void main() {
             ObstructionMapGeometry(
               map.frame,
               const DishOrientation(),
-            ).headingProjection(90, 60),
+            ).actualHeadingProjection(90, 60),
             isNull,
           );
         }
         if (frame == ObstructionMapReferenceFrame.FRAME_UNKNOWN) {
           expect(
-            ObstructionMapGeometry(map.frame, valid).headingProjection(90, 60),
+            ObstructionMapGeometry(
+              map.frame,
+              valid,
+            ).actualHeadingProjection(90, 60),
             isNull,
           );
           expect(
             ObstructionMapGeometry(
               map.frame,
               valid,
-            ).headingProjection(null, 90),
+            ).actualHeadingProjection(null, 90),
             isNull,
           );
         }
@@ -762,7 +768,7 @@ void main() {
         ObstructionMapGeometry(
           map.frame,
           orientation,
-        ).headingProjection(90, 60),
+        ).actualHeadingProjection(90, 60),
         isNull,
       );
     },
@@ -848,6 +854,62 @@ void main() {
     expect(_whiteExtent(pixels), greaterThan(8));
     expect(find.byKey(const Key('dish-orientation-compass')), findsNothing);
     expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('singular UT target hides its arrow and retains desired angles', (
+    tester,
+  ) async {
+    final map = DishGetObstructionMapResponse(
+      numRows: 5,
+      numCols: 5,
+      snr: List.filled(25, 1.0),
+      mapReferenceFrame: ObstructionMapReferenceFrame.FRAME_UT,
+    );
+    for (final elevation in [0.001, 0.0, -0.001]) {
+      final status = _utStatus(elevation)
+        ..alignmentStats = AlignmentStats(
+          desiredBoresightAzimuthDeg: 270,
+          desiredBoresightElevationDeg: 40,
+        );
+      await tester.pumpWidget(
+        _page(ObstructionMapWidget(map: map, timestamp: 1, status: status)),
+      );
+      if (elevation == 0.001) {
+        await tester.tap(find.text(M.obstructions.title));
+      }
+      await tester.pumpAndSettle();
+      expect(find.text(M.obstructions.target_bearing), findsOneWidget);
+      expect(find.text(M.obstructions.target_elevation), findsOneWidget);
+      expect(find.text('270.0°'), findsOneWidget);
+      final targetElevation = find
+          .ancestor(
+            of: find.text(M.obstructions.target_elevation),
+            matching: find.byType(Column),
+          )
+          .first;
+      expect(
+        find.descendant(of: targetElevation, matching: find.text('40.0°')),
+        findsOneWidget,
+      );
+      final painter = tester
+          .widget<CustomPaint>(find.byKey(const Key('dish-obstruction-map')))
+          .painter!;
+      final canvas = TestRecordingCanvas();
+      painter.paint(canvas, const Size(310, 310));
+      final colors = canvas.invocations
+          .where((entry) => entry.invocation.memberName == #drawLine)
+          .map(
+            (entry) => (entry.invocation.positionalArguments[2] as Paint).color
+                .toARGB32(),
+          );
+      expect(
+        colors.contains(0xfff4d165),
+        elevation != 0,
+        reason: 'panel elevation $elevation',
+      );
+      expect(colors.contains(0xffffffff), isTrue);
+      expect(tester.takeException(), isNull);
+    }
   });
 
   test('UT direction references use full attitude, including handedness', () {

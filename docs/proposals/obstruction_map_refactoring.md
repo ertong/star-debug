@@ -1,8 +1,8 @@
 # Obstruction map: possible refactors
 
 Proposals recorded 2026-10-07 against `a40fd5f`. The identity-change fix described in R1 has
-since been implemented; the R2 extraction below is also implemented. Other structural refactors
-remain proposed. See the [review](../obstruction_map_review.md) for confirmed findings and
+since been implemented; the R2 extraction and R3 arrow policies below are also implemented.
+Other structural refactors remain proposed. See the [review](../obstruction_map_review.md) for confirmed findings and
 [protocol evidence](../obstruction_map_sources.md) for assumptions that need calibration.
 
 Prefer focused fixes for F1–F7 before a broad restructuring. Existing tests should protect
@@ -59,8 +59,8 @@ unnormalized UT basis inversion, and center exclusion. A recording-canvas widget
 four numeric bearings against the actual sector cuts on wide, tall, and square maps. Existing
 projection, palette, PNG, import/export, and UI tests use the extracted APIs. Raw PNG output stays
 unrotated with the same cell order and signal colors; protobuf exports retain numeric samples.
-The quaternion presence policy and singular target-heading fallback are preserved; F1 and F4
-remain separate fixes.
+R2 preserved the quaternion presence policy and singular target-heading fallback. F1 remains
+open; the R3 follow-up below addresses F4.
 
 Do not turn this extraction into a geographic reprojection. Preserve the explicit distinction
 between the current display-plane model and unverified source-grid calibration. A physical
@@ -68,14 +68,24 @@ calibration model would be a separate feature with independent evidence.
 
 ## R3 — Make actual and target arrow policies explicit
 
-`headingProjection()` accepts both actual and desired angles, but its singular fallback derives
-from an actual-panel limiting convention. That mismatch produces F4.
+**Implemented follow-up, 2026-10-07:**
+[`ObstructionMapGeometry`](../../star.debug/lib/utils/obstruction_map_geometry.dart) now exposes
+`actualHeadingProjection()` and `targetHeadingProjection()`. Shared private code validates angles,
+reference frame, and UT attitude, then computes a map-reference direction with `cos(elevation)`
+length. The actual method retains its projected-Down limit at an undefined horizontal projection.
+The target method omits such a direction, using the existing squared-magnitude threshold of
+1e-12. Both methods retain the vertical center-dot convention when length is zero.
 
-Either separate actual-heading and target-heading policy or provide a general limit definition
-that handles parallel/antiparallel directions, positive/negative elevations, and zero projection.
-Document whether arrows show a projected compass direction with stylized length or an actual
-three-dimensional vector projection. Keep the current horizontal-length legend consistent with
-the chosen policy. Establish expected vectors independently before restructuring the code.
+The [painter](../../star.debug/lib/widgets/obstruction_map.dart) uses the appropriate method for
+each indicator. Desired bearing and elevation stay visible in the details when the target arrow
+is omitted. This resolves F4 without choosing an arbitrary parallel/antiparallel target limit.
+The indicators remain stylized compass directions with elevation-dependent lengths; projecting
+the full three-dimensional desired direction would require a separate model and legend change.
+
+Regression tests cover parallel and opposite bearings, positive/negative target elevation,
+projected directions on either side of horizontal panel elevation, unavailable geometry,
+vertical targets, and unaffected bearings on a singular panel. A dialog test checks target-arrow
+visibility during live status updates and retention of the actual indicator and desired angles.
 
 ## R4 — Share sector data with an accessible presentation
 

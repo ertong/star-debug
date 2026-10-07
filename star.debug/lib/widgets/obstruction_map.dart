@@ -976,7 +976,7 @@ class _ObstructionPainter extends CustomPainter {
         );
       }
     }
-    final target = geometry.headingProjection(
+    final target = geometry.targetHeadingProjection(
       orientation.desiredAzimuth,
       orientation.desiredElevation,
     );
@@ -990,7 +990,7 @@ class _ObstructionPainter extends CustomPainter {
         dashed: true,
       );
     }
-    final actual = geometry.headingProjection(
+    final actual = geometry.actualHeadingProjection(
       orientation.azimuth,
       orientation.elevation,
     );
