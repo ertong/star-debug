@@ -9,6 +9,15 @@ Start with:
 - [Architecture](architecture.md) for startup, connections, snapshots, parsing, and persistence.
 - [Development guide](development.md) for setup, validation, generators, tests, and release tooling.
 
+Focused obstruction-map documents:
+
+- [Protocol evidence and interpretation](obstruction_map_sources.md) for checked external sources,
+  wire contracts, and calibration limits.
+- [Implementation review](obstruction_map_review.md) for the 2026-10-07 commit review, reproduced
+  findings, UI/UX gaps, and validation.
+- [Possible refactors](proposals/obstruction_map_refactoring.md) for unimplemented design ideas
+  and follow-up decisions.
+
 ## Source map
 
 - [`star.debug/lib/main.dart`](../star.debug/lib/main.dart) initializes services and displays the

@@ -12,6 +12,8 @@ Read the focused documentation before changing a central subsystem:
 - [`docs/development.md`](docs/development.md) covers generators, tests, platform tooling, and
   common traps.
 - [`docs/README.md`](docs/README.md) is the documentation index and source map.
+- [`docs/obstruction_map_sources.md`](docs/obstruction_map_sources.md) distinguishes obstruction-map
+  protocol evidence from projection assumptions; read it before changing map geometry.
 
 ## Change scope
 

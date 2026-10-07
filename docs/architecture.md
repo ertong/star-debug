@@ -98,6 +98,9 @@ The loop guards against stalled resources:
 location requests, it also asks for GPS and Starlink-derived locations. The first successful dish
 status on each stream immediately requests an obstruction map, including after reconnection.
 Maps then refresh every 30 seconds through that stream and retain their own receive timestamp.
+If a status reports a different nonempty dish ID, `DishConnection` clears the cached map and its
+receive metadata before notifying listeners, and immediately requests a replacement. The last
+known ID survives statuses with missing IDs; same-device reconnects retain their cached maps.
 `RouterConnection` requests Wi-Fi status every two seconds and separately probes the router's HTTP
 root for its response code and redirect location.
 
@@ -153,6 +156,11 @@ sanitized fixture plus round-trip assertions. Avoid teaching UI widgets about fo
 
 ## Obstruction maps
 
+The [protocol evidence](obstruction_map_sources.md) distinguishes schema contracts from measured
+firmware behavior and records calibration limits. The
+[2026-10-07 review](obstruction_map_review.md) tracks implementation findings; possible changes
+are separated into [refactoring proposals](proposals/obstruction_map_refactoring.md).
+
 `Snapshot` carries an optional obstruction map, receive timestamp, and API version. The shared dish
 view shows a compact minimap and opens a responsive details dialog. Negative or nonfinite signal
 values are unobserved, zero is blocked, and 0..1 is normalized signal quality. Blocked-cell ratios
@@ -176,6 +184,12 @@ tolerates float rounding (norm error at most 0.001); non-unit or incomplete quat
 rejected. An explicitly reported attitude-filter state must be converged; older status without
 that field remains supported. Bearing and target bearing are never substituted for missing
 attitude. Quaternion sign does not affect the result.
+
+Requiring all component presence flags is the current implementation policy, not a proto3
+validity rule: omitted zero components can encode a valid unit quaternion, which this policy
+rejects. The inverse-rotation algebra is internally consistent, but applying the projected
+panel basis to the raw UT grid midpoint remains a calibration assumption. The available
+external sources do not establish a complete vendor pixel-to-angle transform.
 
 These are current-attitude direction references, not geographic bearings assigned to accumulated
 samples. Tilt can change their angular spacing and handedness. Current status cannot recover the
@@ -215,6 +229,8 @@ The UI retains maps between polls and marks live updates delayed after
 StarDebug exports maps in a top-level `dishObstructionMap` envelope with `_proto`, `rawMap`,
 `timestamp` (seconds), and `apiVersion`. `SpaceParser` accepts the binary-assisted and JSON-only
 forms independently of device status. Nonfinite signal samples become -1 in the JSON fallback.
+That parser independence does not extend to standalone viewing: `Snapshot.hasData()` and the
+imported/shared dish UI still require device status to admit or render the map.
 Schema version 6 adds nullable protobuf map, receive timestamp, and API-version columns to dish
 logs. Both automatic logs and manually saved live snapshots populate these columns; older rows
 remain readable without maps. Imported snapshots also retain their maps in debug-data JSON.

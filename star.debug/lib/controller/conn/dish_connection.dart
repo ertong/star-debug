@@ -17,6 +17,7 @@ class DishConnection extends GrpcConnection {
   PooledRequest<DishGetHistoryResponse> dishGetHistory = PooledRequest(2000);
   PooledRequest<DishGetObstructionMapResponse> dishGetObstructionMap = PooledRequest(30000);
   StreamController<ToDevice>? _obstructionMapStream;
+  String? _dishId;
 
   PooledRequest<GetLocationResponse> dishGetLocationGPS = PooledRequest(2000);
   PooledRequest<GetLocationResponse> dishGetLocationStarlink = PooledRequest(2000);
@@ -73,10 +74,19 @@ class DishConnection extends GrpcConnection {
       }
 
       if (resp.hasDishGetStatus()) {
+        final dishId = resp.dishGetStatus.deviceInfo.id;
+        final dishChanged = dishId.isNotEmpty && _dishId != null && dishId != _dishId;
+        if (dishChanged) {
+          dishGetObstructionMap.data = null;
+          dishGetObstructionMap.receivedTime = 0;
+          dishGetObstructionMap.apiVersion = 0;
+        }
+        // Missing IDs must not erase the last known device identity.
+        if (dishId.isNotEmpty) _dishId = dishId;
         dishGetStatus.setData(now, resp.dishGetStatus, resp.apiVersion.toInt());
         // A successful status establishes readiness for this stream. Refresh
-        // immediately, even if the previous stream polled less than 30s ago.
-        if (!identical(_obstructionMapStream, reqStream)) {
+        // immediately after a stream or dish change, regardless of poll age.
+        if (dishChanged || !identical(_obstructionMapStream, reqStream)) {
           _obstructionMapStream = reqStream;
           _requestObstructionMap(now);
         }
