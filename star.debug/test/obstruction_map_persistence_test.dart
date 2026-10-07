@@ -126,7 +126,7 @@ void main() {
     expect(restored.dishTsIsEstimated, false);
   });
 
-  for (final version in [3, 4, 5]) {
+  for (final version in [3, 4, 5, 6]) {
     test('upgrades schema $version without losing existing log data', () async {
       final before = _open(file);
       await before.dishLogs.insertReturning(
@@ -146,14 +146,19 @@ void main() {
           onlineJson: const Value('{"online":true}'),
         ),
       );
+      if (version < 6) {
+        await before.customStatement(
+          'ALTER TABLE dish_logs DROP COLUMN dish_obstruction_map',
+        );
+        await before.customStatement(
+          'ALTER TABLE dish_logs DROP COLUMN obstruction_map_ts',
+        );
+        await before.customStatement(
+          'ALTER TABLE dish_logs DROP COLUMN obstruction_map_api_version',
+        );
+      }
       await before.customStatement(
-        'ALTER TABLE dish_logs DROP COLUMN dish_obstruction_map',
-      );
-      await before.customStatement(
-        'ALTER TABLE dish_logs DROP COLUMN obstruction_map_ts',
-      );
-      await before.customStatement(
-        'ALTER TABLE dish_logs DROP COLUMN obstruction_map_api_version',
+        'ALTER TABLE dishes DROP COLUMN last_automatic_snapshot_ts',
       );
       await before.customStatement('PRAGMA user_version = $version');
       await before.close();

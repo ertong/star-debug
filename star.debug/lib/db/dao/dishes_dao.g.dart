@@ -42,6 +42,31 @@ mixin _$DishesDaoMixin on DatabaseAccessor<Database> {
     );
   }
 
+  Selectable<DishLog> getLatestDishLog(String dishId) {
+    return customSelect(
+      'SELECT * FROM dish_logs WHERE dish_id = ?1 ORDER BY timestamp DESC, id DESC LIMIT 1',
+      variables: [Variable<String>(dishId)],
+      readsFrom: {this.dishLogs},
+    ).asyncMap(this.dishLogs.mapFromRow);
+  }
+
+  Selectable<DishLog> getLatestAutomaticDishLog(String dishId) {
+    return customSelect(
+      'SELECT * FROM dish_logs WHERE dish_id = ?1 AND force_store = 0 ORDER BY timestamp DESC, id DESC LIMIT 1',
+      variables: [Variable<String>(dishId)],
+      readsFrom: {this.dishLogs},
+    ).asyncMap(this.dishLogs.mapFromRow);
+  }
+
+  Future<int> pruneDishLogs(String dishId) {
+    return customUpdate(
+      'DELETE FROM dish_logs WHERE dish_id = ?1 AND force_store = 0 AND id NOT IN (SELECT id FROM dish_logs WHERE dish_id = ?1 AND force_store = 0 ORDER BY timestamp DESC, id DESC LIMIT 50)',
+      variables: [Variable<String>(dishId)],
+      updates: {this.dishLogs},
+      updateKind: UpdateKind.delete,
+    );
+  }
+
   Selectable<DishLog> getDishLog(int id) {
     return customSelect(
       'SELECT * FROM dish_logs WHERE id = ?1',
@@ -76,6 +101,9 @@ mixin _$DishesDaoMixin on DatabaseAccessor<Database> {
         dishId: row.read<String>('dish_id'),
         name: row.readNullable<String>('name'),
         latestLogId: row.readNullable<int>('latest_log_id'),
+        lastAutomaticSnapshotTs: row.readNullable<int>(
+          'last_automatic_snapshot_ts',
+        ),
         latestLogTimestamp: row.read<int>('latest_log_timestamp'),
         id: row.readNullable<int>('id'),
         timestamp: row.readNullable<int>('timestamp'),
@@ -120,6 +148,7 @@ class GetDishesResult {
   final String dishId;
   final String? name;
   final int? latestLogId;
+  final int? lastAutomaticSnapshotTs;
   final int latestLogTimestamp;
   final int? id;
   final int? timestamp;
@@ -134,6 +163,7 @@ class GetDishesResult {
     required this.dishId,
     this.name,
     this.latestLogId,
+    this.lastAutomaticSnapshotTs,
     required this.latestLogTimestamp,
     this.id,
     this.timestamp,

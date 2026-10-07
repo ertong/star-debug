@@ -21,7 +21,7 @@ class Database extends _$Database {
   Database.connect(DatabaseConnection super.connection);
 
   @override
-  int get schemaVersion => 6;
+  int get schemaVersion => 7;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -42,6 +42,24 @@ class Database extends _$Database {
           await m.addColumn(dishLogs, dishLogs.dishObstructionMap);
           await m.addColumn(dishLogs, dishLogs.obstructionMapTs);
           await m.addColumn(dishLogs, dishLogs.obstructionMapApiVersion);
+        }
+
+        if (from >= 3 && from < 7) {
+          await m.addColumn(dishes, dishes.lastAutomaticSnapshotTs);
+        }
+        if (from < 7) {
+          for (var dish in await select(dishes).get()) {
+            var automatic = await dishesDao.getLatestAutomaticDishLog(dish.dishId).getSingleOrNull();
+            await dishesDao.pruneDishLogs(dish.dishId);
+            var latest = await dishesDao.getLatestDishLog(dish.dishId).getSingleOrNull();
+            await (update(dishes)..where((t) => t.dishId.equals(dish.dishId))).write(
+              DishesCompanion(
+                latestLogId: Value(latest?.id),
+                latestLogTimestamp: Value(latest?.timestamp ?? 0),
+                lastAutomaticSnapshotTs: Value(automatic?.timestamp),
+              ),
+            );
+          }
         }
 
         if (from < 2) {

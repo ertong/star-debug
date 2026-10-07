@@ -823,6 +823,17 @@ class $DishesTable extends Dishes with TableInfo<$DishesTable, Dish> {
     type: DriftSqlType.int,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _lastAutomaticSnapshotTsMeta =
+      const VerificationMeta('lastAutomaticSnapshotTs');
+  @override
+  late final GeneratedColumn<int> lastAutomaticSnapshotTs =
+      GeneratedColumn<int>(
+        'last_automatic_snapshot_ts',
+        aliasedName,
+        true,
+        type: DriftSqlType.int,
+        requiredDuringInsert: false,
+      );
   static const VerificationMeta _latestLogTimestampMeta =
       const VerificationMeta('latestLogTimestamp');
   @override
@@ -839,6 +850,7 @@ class $DishesTable extends Dishes with TableInfo<$DishesTable, Dish> {
     dishId,
     name,
     latestLogId,
+    lastAutomaticSnapshotTs,
     latestLogTimestamp,
   ];
   @override
@@ -876,6 +888,15 @@ class $DishesTable extends Dishes with TableInfo<$DishesTable, Dish> {
         ),
       );
     }
+    if (data.containsKey('last_automatic_snapshot_ts')) {
+      context.handle(
+        _lastAutomaticSnapshotTsMeta,
+        lastAutomaticSnapshotTs.isAcceptableOrUnknown(
+          data['last_automatic_snapshot_ts']!,
+          _lastAutomaticSnapshotTsMeta,
+        ),
+      );
+    }
     if (data.containsKey('latest_log_timestamp')) {
       context.handle(
         _latestLogTimestampMeta,
@@ -906,6 +927,10 @@ class $DishesTable extends Dishes with TableInfo<$DishesTable, Dish> {
         DriftSqlType.int,
         data['${effectivePrefix}latest_log_id'],
       ),
+      lastAutomaticSnapshotTs: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}last_automatic_snapshot_ts'],
+      ),
       latestLogTimestamp: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}latest_log_timestamp'],
@@ -923,11 +948,13 @@ class Dish extends DataClass implements Insertable<Dish> {
   final String dishId;
   final String? name;
   final int? latestLogId;
+  final int? lastAutomaticSnapshotTs;
   final int latestLogTimestamp;
   const Dish({
     required this.dishId,
     this.name,
     this.latestLogId,
+    this.lastAutomaticSnapshotTs,
     required this.latestLogTimestamp,
   });
   @override
@@ -940,6 +967,11 @@ class Dish extends DataClass implements Insertable<Dish> {
     if (!nullToAbsent || latestLogId != null) {
       map['latest_log_id'] = Variable<int>(latestLogId);
     }
+    if (!nullToAbsent || lastAutomaticSnapshotTs != null) {
+      map['last_automatic_snapshot_ts'] = Variable<int>(
+        lastAutomaticSnapshotTs,
+      );
+    }
     map['latest_log_timestamp'] = Variable<int>(latestLogTimestamp);
     return map;
   }
@@ -951,6 +983,9 @@ class Dish extends DataClass implements Insertable<Dish> {
       latestLogId: latestLogId == null && nullToAbsent
           ? const Value.absent()
           : Value(latestLogId),
+      lastAutomaticSnapshotTs: lastAutomaticSnapshotTs == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastAutomaticSnapshotTs),
       latestLogTimestamp: Value(latestLogTimestamp),
     );
   }
@@ -964,6 +999,9 @@ class Dish extends DataClass implements Insertable<Dish> {
       dishId: serializer.fromJson<String>(json['dishId']),
       name: serializer.fromJson<String?>(json['name']),
       latestLogId: serializer.fromJson<int?>(json['latestLogId']),
+      lastAutomaticSnapshotTs: serializer.fromJson<int?>(
+        json['lastAutomaticSnapshotTs'],
+      ),
       latestLogTimestamp: serializer.fromJson<int>(json['latestLogTimestamp']),
     );
   }
@@ -974,6 +1012,9 @@ class Dish extends DataClass implements Insertable<Dish> {
       'dishId': serializer.toJson<String>(dishId),
       'name': serializer.toJson<String?>(name),
       'latestLogId': serializer.toJson<int?>(latestLogId),
+      'lastAutomaticSnapshotTs': serializer.toJson<int?>(
+        lastAutomaticSnapshotTs,
+      ),
       'latestLogTimestamp': serializer.toJson<int>(latestLogTimestamp),
     };
   }
@@ -982,11 +1023,15 @@ class Dish extends DataClass implements Insertable<Dish> {
     String? dishId,
     Value<String?> name = const Value.absent(),
     Value<int?> latestLogId = const Value.absent(),
+    Value<int?> lastAutomaticSnapshotTs = const Value.absent(),
     int? latestLogTimestamp,
   }) => Dish(
     dishId: dishId ?? this.dishId,
     name: name.present ? name.value : this.name,
     latestLogId: latestLogId.present ? latestLogId.value : this.latestLogId,
+    lastAutomaticSnapshotTs: lastAutomaticSnapshotTs.present
+        ? lastAutomaticSnapshotTs.value
+        : this.lastAutomaticSnapshotTs,
     latestLogTimestamp: latestLogTimestamp ?? this.latestLogTimestamp,
   );
   Dish copyWithCompanion(DishesCompanion data) {
@@ -996,6 +1041,9 @@ class Dish extends DataClass implements Insertable<Dish> {
       latestLogId: data.latestLogId.present
           ? data.latestLogId.value
           : this.latestLogId,
+      lastAutomaticSnapshotTs: data.lastAutomaticSnapshotTs.present
+          ? data.lastAutomaticSnapshotTs.value
+          : this.lastAutomaticSnapshotTs,
       latestLogTimestamp: data.latestLogTimestamp.present
           ? data.latestLogTimestamp.value
           : this.latestLogTimestamp,
@@ -1008,14 +1056,20 @@ class Dish extends DataClass implements Insertable<Dish> {
           ..write('dishId: $dishId, ')
           ..write('name: $name, ')
           ..write('latestLogId: $latestLogId, ')
+          ..write('lastAutomaticSnapshotTs: $lastAutomaticSnapshotTs, ')
           ..write('latestLogTimestamp: $latestLogTimestamp')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode =>
-      Object.hash(dishId, name, latestLogId, latestLogTimestamp);
+  int get hashCode => Object.hash(
+    dishId,
+    name,
+    latestLogId,
+    lastAutomaticSnapshotTs,
+    latestLogTimestamp,
+  );
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -1023,6 +1077,7 @@ class Dish extends DataClass implements Insertable<Dish> {
           other.dishId == this.dishId &&
           other.name == this.name &&
           other.latestLogId == this.latestLogId &&
+          other.lastAutomaticSnapshotTs == this.lastAutomaticSnapshotTs &&
           other.latestLogTimestamp == this.latestLogTimestamp);
 }
 
@@ -1030,12 +1085,14 @@ class DishesCompanion extends UpdateCompanion<Dish> {
   final Value<String> dishId;
   final Value<String?> name;
   final Value<int?> latestLogId;
+  final Value<int?> lastAutomaticSnapshotTs;
   final Value<int> latestLogTimestamp;
   final Value<int> rowid;
   const DishesCompanion({
     this.dishId = const Value.absent(),
     this.name = const Value.absent(),
     this.latestLogId = const Value.absent(),
+    this.lastAutomaticSnapshotTs = const Value.absent(),
     this.latestLogTimestamp = const Value.absent(),
     this.rowid = const Value.absent(),
   });
@@ -1043,6 +1100,7 @@ class DishesCompanion extends UpdateCompanion<Dish> {
     required String dishId,
     this.name = const Value.absent(),
     this.latestLogId = const Value.absent(),
+    this.lastAutomaticSnapshotTs = const Value.absent(),
     this.latestLogTimestamp = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : dishId = Value(dishId);
@@ -1050,6 +1108,7 @@ class DishesCompanion extends UpdateCompanion<Dish> {
     Expression<String>? dishId,
     Expression<String>? name,
     Expression<int>? latestLogId,
+    Expression<int>? lastAutomaticSnapshotTs,
     Expression<int>? latestLogTimestamp,
     Expression<int>? rowid,
   }) {
@@ -1057,6 +1116,8 @@ class DishesCompanion extends UpdateCompanion<Dish> {
       if (dishId != null) 'dish_id': dishId,
       if (name != null) 'name': name,
       if (latestLogId != null) 'latest_log_id': latestLogId,
+      if (lastAutomaticSnapshotTs != null)
+        'last_automatic_snapshot_ts': lastAutomaticSnapshotTs,
       if (latestLogTimestamp != null)
         'latest_log_timestamp': latestLogTimestamp,
       if (rowid != null) 'rowid': rowid,
@@ -1067,6 +1128,7 @@ class DishesCompanion extends UpdateCompanion<Dish> {
     Value<String>? dishId,
     Value<String?>? name,
     Value<int?>? latestLogId,
+    Value<int?>? lastAutomaticSnapshotTs,
     Value<int>? latestLogTimestamp,
     Value<int>? rowid,
   }) {
@@ -1074,6 +1136,8 @@ class DishesCompanion extends UpdateCompanion<Dish> {
       dishId: dishId ?? this.dishId,
       name: name ?? this.name,
       latestLogId: latestLogId ?? this.latestLogId,
+      lastAutomaticSnapshotTs:
+          lastAutomaticSnapshotTs ?? this.lastAutomaticSnapshotTs,
       latestLogTimestamp: latestLogTimestamp ?? this.latestLogTimestamp,
       rowid: rowid ?? this.rowid,
     );
@@ -1091,6 +1155,11 @@ class DishesCompanion extends UpdateCompanion<Dish> {
     if (latestLogId.present) {
       map['latest_log_id'] = Variable<int>(latestLogId.value);
     }
+    if (lastAutomaticSnapshotTs.present) {
+      map['last_automatic_snapshot_ts'] = Variable<int>(
+        lastAutomaticSnapshotTs.value,
+      );
+    }
     if (latestLogTimestamp.present) {
       map['latest_log_timestamp'] = Variable<int>(latestLogTimestamp.value);
     }
@@ -1106,6 +1175,7 @@ class DishesCompanion extends UpdateCompanion<Dish> {
           ..write('dishId: $dishId, ')
           ..write('name: $name, ')
           ..write('latestLogId: $latestLogId, ')
+          ..write('lastAutomaticSnapshotTs: $lastAutomaticSnapshotTs, ')
           ..write('latestLogTimestamp: $latestLogTimestamp, ')
           ..write('rowid: $rowid')
           ..write(')'))
@@ -1842,6 +1912,7 @@ typedef $$DishesTableCreateCompanionBuilder = DishesCompanion Function({
   required String dishId,
   Value<String?> name,
   Value<int?> latestLogId,
+  Value<int?> lastAutomaticSnapshotTs,
   Value<int> latestLogTimestamp,
   Value<int> rowid,
 });
@@ -1849,6 +1920,7 @@ typedef $$DishesTableUpdateCompanionBuilder = DishesCompanion Function({
   Value<String> dishId,
   Value<String?> name,
   Value<int?> latestLogId,
+  Value<int?> lastAutomaticSnapshotTs,
   Value<int> latestLogTimestamp,
   Value<int> rowid,
 });
@@ -1873,6 +1945,11 @@ class $$DishesTableFilterComposer extends Composer<_$Database, $DishesTable> {
 
   ColumnFilters<int> get latestLogId => $composableBuilder(
     column: $table.latestLogId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get lastAutomaticSnapshotTs => $composableBuilder(
+    column: $table.lastAutomaticSnapshotTs,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -1905,6 +1982,11 @@ class $$DishesTableOrderingComposer extends Composer<_$Database, $DishesTable> {
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<int> get lastAutomaticSnapshotTs => $composableBuilder(
+    column: $table.lastAutomaticSnapshotTs,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<int> get latestLogTimestamp => $composableBuilder(
     column: $table.latestLogTimestamp,
     builder: (column) => ColumnOrderings(column),
@@ -1928,6 +2010,11 @@ class $$DishesTableAnnotationComposer
 
   GeneratedColumn<int> get latestLogId => $composableBuilder(
     column: $table.latestLogId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get lastAutomaticSnapshotTs => $composableBuilder(
+    column: $table.lastAutomaticSnapshotTs,
     builder: (column) => column,
   );
 
@@ -1968,12 +2055,14 @@ class $$DishesTableTableManager
                 Value<String> dishId = const Value.absent(),
                 Value<String?> name = const Value.absent(),
                 Value<int?> latestLogId = const Value.absent(),
+                Value<int?> lastAutomaticSnapshotTs = const Value.absent(),
                 Value<int> latestLogTimestamp = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => DishesCompanion(
                 dishId: dishId,
                 name: name,
                 latestLogId: latestLogId,
+                lastAutomaticSnapshotTs: lastAutomaticSnapshotTs,
                 latestLogTimestamp: latestLogTimestamp,
                 rowid: rowid,
               ),
@@ -1982,12 +2071,14 @@ class $$DishesTableTableManager
                 required String dishId,
                 Value<String?> name = const Value.absent(),
                 Value<int?> latestLogId = const Value.absent(),
+                Value<int?> lastAutomaticSnapshotTs = const Value.absent(),
                 Value<int> latestLogTimestamp = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => DishesCompanion.insert(
                 dishId: dishId,
                 name: name,
                 latestLogId: latestLogId,
+                lastAutomaticSnapshotTs: lastAutomaticSnapshotTs,
                 latestLogTimestamp: latestLogTimestamp,
                 rowid: rowid,
               ),

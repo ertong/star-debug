@@ -331,16 +331,34 @@ Reference-frame conventions follow the author's
 documents directory on the main isolate, then starts a background isolate containing the Drift
 `NativeDatabase`. All callers share one `Database` connection backed by `sqlite.db`.
 
-Schema version 6 has three logical tables:
+Schema version 7 has three logical tables:
 
-- `dishes` stores one row per dish and points to its latest log;
+- `dishes` stores one row per dish, points to its latest log, and retains the last automatic
+  snapshot creation time independently of subsequent log updates;
 - `dish_logs` stores imported JSON and/or protobuf bytes for dish status, history, router status,
   obstruction maps with capture metadata, and online results;
 - `recent_inputs` stores searchable Wi-Fi names and passwords entered through the setup dialog.
 
-`DishLogController` coalesces automatic live updates. It writes at most every five seconds, updates
-the current log during a session, and starts a new automatic log after six hours, on an epoch-day
-boundary, or after a forced log. Imported debug data is de-duplicated by dish ID and timestamp.
+`DishLogController` coalesces automatic live updates. It writes at most every five seconds and
+updates the current automatic log during a session. A new automatic log is requested when no log
+exists, after a six-hour gap, on a UTC day boundary, after a forced log, or when uptime decreases
+in a newer dish status response. Missing uptime and repeated or older status timestamps do not
+trigger reboot detection. The initial live uptime is also compared with the latest saved status;
+a reboot whose new uptime already exceeds the previous uptime cannot be inferred this way.
+
+New automatic entries are limited to one per five minutes per dish, using a persisted creation
+time so replacing the current entry or restarting the app does not reset the timer. Reboots
+observed during this interval coalesce into one pending trigger: the current automatic log is
+updated, and a new entry is created on the next eligible live update. Forced logs remain intact
+while automatic creation is throttled. Day-boundary triggers are deferred in the same way.
+Pending triggers are held in memory.
+
+Manual saves retain their separate rule: replace a current automatic log saved within the last
+minute, otherwise insert a forced log. Imported debug data is de-duplicated by dish ID and
+timestamp and uses the forced-save path. Every save retains the newest 50 automatic logs per dish,
+ordered by timestamp and then ID. Forced logs (manual and imported saves) are excluded from both
+the count and automatic pruning, including older imports. Saving, pruning, and repairing the
+latest-log pointer form one transaction.
 Mutations are serialized by a `Mutex`, and UI deletion invalidates the controller's cached records.
 
 Forced and automatic writes share `DishLogController._snapshotToCompanion()` for protobuf payloads,
@@ -351,8 +369,12 @@ updates. The helper does not change scheduling or the imported-JSON precedence i
 
 Drift migration behavior is intentionally simple: upgrades from versions below 3 drop `dishes`
 and `dish_logs`, then `createAll()` ensures current objects exist. Upgrades from versions 3–5 add
-the nullable obstruction-map columns without rebuilding existing logs. A schema change must be evaluated
-against that behavior and accompanied by a schema-version change and regenerated files.
+the nullable obstruction-map columns without rebuilding existing logs. Upgrades from versions 3–6
+also add the automatic creation timestamp. Because previous creation times are unavailable, it is
+initialized from each dish's latest automatic log timestamp. The migration enforces the 50-log cap
+on automatic entries in existing histories, preserves forced logs, and repairs their latest-log
+pointers. A schema change must be evaluated against that behavior and accompanied by a
+schema-version change and regenerated files.
 
 ## Architectural boundaries
 
