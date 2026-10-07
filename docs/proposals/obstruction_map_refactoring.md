@@ -2,7 +2,7 @@
 
 Proposals recorded 2026-10-07 against `a40fd5f`. The identity-change fix described in R1 has
 since been implemented; R2 extraction, R3 arrow policies, and R5 source/freshness context are
-also implemented. R6 now centralizes logging serialization.
+also implemented. R6 centralizes logging serialization, and R7 isolates optional map parsing.
 Other structural refactors remain proposed. See the [review](../obstruction_map_review.md) for confirmed findings and
 [protocol evidence](../obstruction_map_sources.md) for assumptions that need calibration.
 
@@ -142,15 +142,26 @@ The [serialization tests](../../star.debug/test/dish_log_serialization_test.dart
 
 ## R7 — Isolate map-envelope parsing and define standalone support
 
-`SpaceParser` reads optional map bytes/JSON and metadata in one exception boundary. Consider
-decoding payload separately from timestamp/API metadata so a malformed optional value does
-not discard a valid payload. Keep the current choice to prefer `_proto` explicit; silently
-falling back after corrupt binary data is a separate compatibility decision, not a cleanup.
+**Implemented follow-up:**
+[`SpaceParser._readObstructionMap()`](../../star.debug/lib/space/space_parser.dart) separates payload
+decoding from optional reception timestamp/API metadata validation. Invalid metadata becomes
+unknown without discarding a decoded map or the other valid metadata field. Reception timestamps
+reuse the bounded conversion introduced for capture timing in R5. API versions must be nonnegative
+integers representable by native Dart/SQLite signed 64-bit storage; fractional, nonfinite, or
+out-of-range numeric values are rejected before conversion can clamp them. Integer zero is valid.
 
-Resolve F8 before changing `hasData()`: a standalone viewer needs navigation, map timestamp,
-missing status/attitude behavior, and a storage identity policy. Alternatively retain the
-current parser-only independence and document it. Do not invent a device identity merely to
-satisfy the existing dish-log schema.
+A string `_proto` still takes precedence over `rawMap`, including when the binary is corrupt;
+there is no fallback after corrupt binary data. A missing or non-string `_proto` permits the JSON
+path. Metadata is attached only to a successfully decoded payload. Absent/corrupt maps cannot block
+device-status import. JSON field-conversion tolerance and canvas-level map validation remain as
+before. The [map envelope tests](../../star.debug/test/obstruction_map_envelope_test.dart) cover these
+policies independently of the existing round-trip and legacy-format tests.
+
+**Standalone policy:** retain parser-only map independence. `hasData()` and imported/shared UI
+admission remain unchanged, so map-only input is not admitted as a snapshot. A future viewer still
+needs navigation, capture timing, missing-status/attitude presentation, and a storage identity
+policy. No dish identity is invented to satisfy the existing log schema. This keeps the documented
+F8 restriction explicit without introducing a standalone viewer in this parser change.
 
 ## R8 — Profile before caching or rasterizing
 

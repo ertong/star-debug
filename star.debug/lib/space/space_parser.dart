@@ -45,6 +45,40 @@ class SpaceParser{
     return rounded > 0 ? rounded : null;
   }
 
+  // API metadata must fit the native integer/SQLite representation. Reject
+  // doubles outside that range before toInt() can clamp them.
+  static int? _mapApiVersion(dynamic value) {
+    if (value is! num || !value.isFinite || value < 0) return null;
+    if (value is int) return value;
+    if (value >= 9223372036854775808.0 || value != value.truncateToDouble())
+      return null;
+    return value.toInt();
+  }
+
+  void _readObstructionMap(dynamic envelope) {
+    if (envelope is! Map<String, dynamic>) return;
+    DishGetObstructionMapResponse? map;
+    try {
+      if (envelope["_proto"] is String) {
+        // A supplied binary map takes precedence; corruption does not select rawMap.
+        map = DishGetObstructionMapResponse.fromBuffer(
+          base64Decode(envelope["_proto"]),
+        );
+      } else if (envelope["rawMap"] is Map<String, dynamic>) {
+        map = DishGetObstructionMapResponse();
+        DebugDataHelper.jsonToProto(envelope["rawMap"], map);
+      }
+    } catch (_) {
+      // An optional map must not prevent importing the device status.
+      return;
+    }
+    if (map == null) return;
+    dishGetObstructionMap = map;
+    // Metadata is optional and validated independently of the decoded payload.
+    obstructionMapTs = _timestampMillis(envelope["timestamp"]);
+    obstructionMapApiVersion = _mapApiVersion(envelope["apiVersion"]);
+  }
+
   static SpaceParser ofJsonStr(String json) {
     return ofJson(jsonDecode(json));
   }
@@ -89,24 +123,7 @@ class SpaceParser{
 
     p.deviceApp = DeviceApp.of(p.jsonApp);
 
-    final obstructionMap = json["dishObstructionMap"];
-    if (obstructionMap is Map<String, dynamic>) {
-      try {
-        if (obstructionMap["_proto"] is String) {
-          p.dishGetObstructionMap = DishGetObstructionMapResponse.fromBuffer(base64Decode(obstructionMap["_proto"]));
-        } else if (obstructionMap["rawMap"] is Map<String, dynamic>) {
-          p.dishGetObstructionMap = DishGetObstructionMapResponse();
-          DebugDataHelper.jsonToProto(obstructionMap["rawMap"], p.dishGetObstructionMap!);
-        }
-        final ts = obstructionMap["timestamp"];
-        if (ts is num && ts.isFinite) p.obstructionMapTs = (ts * 1000).round();
-        final api = obstructionMap["apiVersion"];
-        if (api is num && api.isFinite) p.obstructionMapApiVersion = api.toInt();
-      } catch (_) {
-        // An optional map must not prevent importing the device status.
-        p.dishGetObstructionMap = null;
-      }
-    }
+    p._readObstructionMap(json["dishObstructionMap"]);
 
     if (p.jsonDish?["deviceInfo"]!=null) {
       if (p.jsonDish!.containsKey("_proto")) {

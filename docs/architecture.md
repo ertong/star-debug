@@ -274,6 +274,15 @@ The UI retains maps between polls and marks live updates delayed after
 StarDebug exports maps in a top-level `dishObstructionMap` envelope with `_proto`, `rawMap`,
 `timestamp` (seconds), and `apiVersion`. `SpaceParser` accepts the binary-assisted and JSON-only
 forms independently of device status. Nonfinite signal samples become -1 in the JSON fallback.
+
+`SpaceParser._readObstructionMap()` isolates payload decoding from optional metadata validation.
+A string `_proto` takes precedence, with no JSON fallback after corrupt binary data. Missing or
+non-string `_proto` permits `rawMap`. A decoded payload survives invalid metadata; invalid timestamps
+or API versions become unknown independently. Timestamps use the R5 bounded seconds-to-milliseconds
+conversion; API versions must be nonnegative integral values fitting native Dart/SQLite signed
+64-bit storage. Metadata is attached only to decoded payloads. Optional-map failures preserve the
+device-status import, while existing JSON-field tolerance and canvas-level validity checks remain.
+
 That parser independence does not extend to standalone viewing: `Snapshot.hasData()` and the
 imported/shared dish UI still require device status to admit or render the map.
 Schema version 6 adds nullable protobuf map, receive timestamp, and API-version columns to dish

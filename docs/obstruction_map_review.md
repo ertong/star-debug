@@ -186,6 +186,8 @@ even for users who do not use a screen reader.
   produces `hasData()==false` and no map widget. Either implement a status-independent viewer
   with a timestamp/identity policy or document the narrower UI contract. Parser independence
   alone does not promise standalone viewing; the architecture now states that distinction.
+  **R7 follow-up:** parser isolation retains this admission policy; standalone viewing remains a
+  separate feature requiring navigation, timing, and storage-identity decisions.
 - **F9 — P3, frozen snapshot wording:** `_MapView.unavailable` uses live-progress phrases for
   all-unobserved or unready imported maps, and unusable maps say the dish has not provided one
   "yet." An immutable snapshot cannot continue collecting. Use capture-time wording for
@@ -333,3 +335,23 @@ suite (160 tests). Analyzer output matches the R5 baseline: 42 existing findings
 findings. The new test passes formatting checks; the controller retains its pre-existing formatting
 and CRLF conventions. Diff whitespace and local documentation links pass. Independent Astra/high
 review found no substantive issue. No schema, generated code, or UI changes were needed.
+
+
+## R7 optional-map parsing follow-up validation
+
+`SpaceParser._readObstructionMap()` now isolates payload decoding from independently validated
+reception timestamp/API metadata. Invalid metadata no longer discards a usable payload; corrupt
+binary data still does not fall back to JSON. Metadata is attached only to decoded payloads.
+Standalone map parsing remains supported, while the existing device-status admission policy is
+unchanged. The [R7 notes](proposals/obstruction_map_refactoring.md#r7--isolate-map-envelope-parsing-and-define-standalone-support)
+record the supported numeric ranges and standalone policy.
+
+Twenty new [map envelope tests](../star.debug/test/obstruction_map_envelope_test.dart) cover both
+protobuf and JSON payloads, independently invalid metadata, timestamp rounding/range boundaries,
+API zero and signed-64 limits, payload precedence, corrupt base64/protobuf, absent payloads, existing
+JSON-field tolerance, and standalone admission. The isolated app copy passed the focused parser/map
+suite (74 tests) and complete suite (180 tests). Analyzer findings match the R6 baseline: 42 existing
+findings, no errors or new findings. The new test passes formatting checks; the parser retains its
+pre-existing formatting differences and CRLF conventions. Diff whitespace and local documentation
+links pass. Independent Astra/high review found no substantive issue. No schema, generated code,
+or UI changes were needed.
