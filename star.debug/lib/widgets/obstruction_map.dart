@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:star_debug/grpc/starlink/starlink.pb.dart';
 import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/utils/format.dart';
+import 'package:star_debug/utils/obstruction_map_analysis.dart';
+import 'package:star_debug/utils/obstruction_map_geometry.dart';
+import 'package:star_debug/utils/obstruction_map_rendering.dart';
 import 'package:star_debug/utils/obstructions.dart';
 import 'package:star_debug/widgets/app_surface.dart';
 
@@ -235,8 +238,13 @@ class _MapView {
     this.live,
   );
 
-  late final sectors = ready ? map!.sectorOverlay(orientation) : null;
-  bool get northAligned => map?.northRotation(orientation) != null;
+  late final geometry = map == null
+      ? null
+      : ObstructionMapGeometry(map!.frame, orientation);
+  late final sectors = ready
+      ? ObstructionSectorOverlay.fromMap(map!, geometry!)
+      : null;
+  bool get northAligned => geometry?.northRotation != null;
 
   bool get ready =>
       map != null &&
@@ -269,10 +277,10 @@ class _MapView {
       : M.obstructions.no_blocked_cells;
   Color get stateColor =>
       stats?.hasCurrentlyObstructed() == true && stats!.currentlyObstructed
-      ? ObstructionMapData.obstructedColor
+      ? ObstructionMapPalette.obstructedColor
       : map!.blocked > 0 || map!.reduced > 0
-      ? ObstructionMapData.reducedSignalColor
-      : ObstructionMapData.clearColor;
+      ? ObstructionMapPalette.reducedSignalColor
+      : ObstructionMapPalette.clearColor;
 }
 
 String _percent(double? value) =>
@@ -451,13 +459,16 @@ class _ObstructionDetails extends StatelessWidget {
           runSpacing: 5,
           alignment: WrapAlignment.center,
           children: [
-            _legend(ObstructionMapData.clearColor, M.obstructions.clear),
+            _legend(ObstructionMapPalette.clearColor, M.obstructions.clear),
             _legend(
-              ObstructionMapData.reducedSignalColor,
+              ObstructionMapPalette.reducedSignalColor,
               M.obstructions.reduced_signal,
             ),
-            _legend(ObstructionMapData.obstructedColor, M.obstructions.blocked),
-            _legend(ObstructionMapData.unknownColor, M.obstructions.no_data),
+            _legend(
+              ObstructionMapPalette.obstructedColor,
+              M.obstructions.blocked,
+            ),
+            _legend(ObstructionMapPalette.unknownColor, M.obstructions.no_data),
           ],
         ),
         const SizedBox(height: 8),
@@ -748,7 +759,7 @@ class _MapCanvas extends StatelessWidget {
         key: Key(compact ? 'dish-obstruction-minimap' : 'dish-obstruction-map'),
         painter: _ObstructionPainter(
           view.map!,
-          view.orientation,
+          view.geometry!,
           compact ? null : view.sectors,
           Theme.of(context).colorScheme.onSurface,
           Theme.of(context).colorScheme.surface,
@@ -762,7 +773,7 @@ class _MapCanvas extends StatelessWidget {
 
 class _ObstructionPainter extends CustomPainter {
   final ObstructionMapData map;
-  final DishOrientation orientation;
+  final ObstructionMapGeometry geometry;
   final ObstructionSectorOverlay? sectors;
   final Color foreground;
   final Color surface;
@@ -771,7 +782,7 @@ class _ObstructionPainter extends CustomPainter {
 
   _ObstructionPainter(
     this.map,
-    this.orientation,
+    this.geometry,
     this.sectors,
     this.foreground,
     this.surface,
@@ -779,41 +790,29 @@ class _ObstructionPainter extends CustomPainter {
     this.fontFamily,
   );
 
-  double get rotation => map.northRotation(orientation) ?? 0;
-  Offset _rotate(Offset direction) => Offset(
-    direction.dx * math.cos(rotation) - direction.dy * math.sin(rotation),
-    direction.dx * math.sin(rotation) + direction.dy * math.cos(rotation),
-  );
+  DishOrientation get orientation => geometry.orientation;
+  double get rotation => geometry.rotation;
+  Offset _rotate(Offset direction) => geometry.rotate(direction);
 
   @override
   void paint(Canvas canvas, Size size) {
     final margin = compact ? 12.0 : 24.0;
-    final available = Size(
-      math.max(1, size.width - margin * 2),
-      math.max(1, size.height - margin * 2),
+    final layout = ObstructionMapLayout.fit(
+      rows: map.rows,
+      cols: map.cols,
+      size: size,
+      rotation: rotation,
+      margin: margin,
     );
-    final cosine = math.cos(rotation).abs();
-    final sine = math.sin(rotation).abs();
-    final scale = math.min(
-      available.width / (map.cols * cosine + map.rows * sine),
-      available.height / (map.rows * cosine + map.cols * sine),
-    );
-    final rect = Rect.fromCenter(
-      center: size.center(Offset.zero),
-      width: map.cols * scale,
-      height: map.rows * scale,
-    );
-    final displayRect = Rect.fromCenter(
-      center: rect.center,
-      width: rect.width * cosine + rect.height * sine,
-      height: rect.height * cosine + rect.width * sine,
-    );
+    final rect = layout.rawRect;
+    final displayRect = layout.displayRect;
+    final scale = layout.cellPitch;
     final paint = Paint()..isAntiAlias = false;
     canvas.save();
     canvas.clipRRect(
       RRect.fromRectAndRadius(displayRect, Radius.circular(compact ? 9 : 14)),
     );
-    paint.color = ObstructionMapData.unknownColor;
+    paint.color = ObstructionMapPalette.unknownColor;
     canvas.drawRect(displayRect, paint);
     canvas.save();
     canvas.translate(rect.center.dx, rect.center.dy);
@@ -822,7 +821,7 @@ class _ObstructionPainter extends CustomPainter {
     canvas.clipRect(rect);
     for (var row = 0; row < map.rows; row++) {
       for (var col = 0; col < map.cols; col++) {
-        paint.color = ObstructionMapData.color(
+        paint.color = ObstructionMapPalette.color(
           map.signal[row * map.cols + col],
         );
         canvas.drawRect(
@@ -843,11 +842,8 @@ class _ObstructionPainter extends CustomPainter {
         ..strokeWidth = 0.8;
       for (final boundary in sectors!.boundaries) {
         final direction = _rotate(boundary);
-        final distance = math.min(
-          displayRect.width / 2 / direction.dx.abs(),
-          displayRect.height / 2 / direction.dy.abs(),
-        );
-        canvas.drawLine(rect.center, rect.center + direction * distance, line);
+        final end = ObstructionMapLayout.rayToRect(displayRect, direction);
+        if (end != null) canvas.drawLine(rect.center, end, line);
       }
     }
     canvas.restore();
@@ -882,18 +878,25 @@ class _ObstructionPainter extends CustomPainter {
       final bisector =
           sectors!.boundaries[i] + sectors!.boundaries[(i + 1) % 8];
       final direction = _rotate(bisector / bisector.distance);
-      final distance = math.min(
-        (inset.width / 2 - width / 2) / direction.dx.abs(),
-        (inset.height / 2 - height / 2) / direction.dy.abs(),
+      final position = ObstructionMapLayout.rayToRect(
+        Rect.fromCenter(
+          center: inset.center,
+          width: inset.width - width,
+          height: inset.height - height,
+        ),
+        direction,
       );
+      if (position == null) {
+        painter.dispose();
+        continue;
+      }
       final bounds = Rect.fromCenter(
-        center: rect.center + direction * distance,
+        center: position,
         width: width,
         height: height,
       );
       // Place badges just inside the padded edge, keeping them apart.
-      if (distance > 0 &&
-          !bounds.overlaps(Rect.fromCircle(center: rect.center, radius: 4)) &&
+      if (!bounds.overlaps(Rect.fromCircle(center: rect.center, radius: 4)) &&
           !occupied.any((other) => bounds.overlaps(other))) {
         canvas.drawRRect(
           RRect.fromRectAndRadius(bounds, const Radius.circular(4)),
@@ -922,18 +925,11 @@ class _ObstructionPainter extends CustomPainter {
       ('S', 180.0),
       ('W', 270.0),
     ]) {
-      final rawDirection = map.horizontalDirection(bearing, orientation);
+      final rawDirection = geometry.horizontalDirection(bearing);
       if (rawDirection == null) continue;
       final direction = _rotate(rawDirection);
-      // Intersect the projected direction with the label rectangle. This
-      // preserves its angle without changing or resampling the raw map.
-      final scale =
-          1 /
-          math.max(
-            direction.dx.abs() / (labelRect.width / 2),
-            direction.dy.abs() / (labelRect.height / 2),
-          );
-      final position = center + direction * scale;
+      final position = ObstructionMapLayout.rayToRect(labelRect, direction);
+      if (position == null) continue;
       marks.add((
         label: label,
         position: position,
@@ -966,23 +962,23 @@ class _ObstructionPainter extends CustomPainter {
     }
     if (showDegrees) {
       for (var angle = 45; angle < 360; angle += 90) {
-        final radians = angle * math.pi / 180;
+        final direction = _rotate(
+          geometry.horizontalDirection(angle.toDouble())!,
+        );
+        final edge = ObstructionMapLayout.rayToRect(rect, direction);
+        if (edge == null) continue;
         _text(
           canvas,
           '$angle°',
-          center +
-              Offset(
-                math.sin(radians) * rect.width * 0.44,
-                -math.cos(radians) * rect.height * 0.44,
-              ),
+          // Preserve the square-map inset while following the sector-cut ray.
+          center + (edge - center) * (0.44 * math.sqrt2),
           small: true,
         );
       }
     }
-    final target = map.headingProjection(
+    final target = geometry.headingProjection(
       orientation.desiredAzimuth,
       orientation.desiredElevation,
-      orientation,
     );
     if (!compact && target != null) {
       _heading(
@@ -994,10 +990,9 @@ class _ObstructionPainter extends CustomPainter {
         dashed: true,
       );
     }
-    final actual = map.headingProjection(
+    final actual = geometry.headingProjection(
       orientation.azimuth,
       orientation.elevation,
-      orientation,
     );
     if (actual != null) {
       _heading(

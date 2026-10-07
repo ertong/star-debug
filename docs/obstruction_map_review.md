@@ -4,7 +4,8 @@ Review date: 2026-10-07. Reviewed HEAD: `a40fd5f`; baseline: `8effb2c`.
 Three independent reviews used GPT-6 Astra with high reasoning for geometry, integration,
 and UI/UX. Findings were reconciled against source and targeted reproduction probes.
 The original review changed documentation only. The follow-up described under F2 implements
-identity-change invalidation; other suggested fixes remain unimplemented.
+identity-change invalidation. The R2 follow-up extracts geometry and resolves F3; other suggested
+fixes remain unimplemented.
 
 Read [protocol evidence and interpretation](obstruction_map_sources.md) for external references
 and confidence limits. Architectural proposals have a separate home in
@@ -39,8 +40,9 @@ Geographic calibration uncertainty is tracked separately from confirmed bugs.
 
 ### F1 — P2: Valid quaternions with omitted zero fields lose UT overlays
 
-Evidence: [`DishAttitude.fromQuaternion`](../star.debug/lib/utils/obstructions.dart),
-lines 267–272 at reviewed HEAD; [`Quaternion` schema](../_misc/starlink.proto).
+Evidence: [`DishAttitude.fromQuaternion`](../star.debug/lib/utils/obstruction_map_geometry.dart),
+originally in `lib/utils/obstructions.dart`, lines 267–272 at reviewed HEAD;
+[`Quaternion` schema](../_misc/starlink.proto).
 The schema has ordinary proto3 floats, but the reader requires all four `hasQ*()` flags.
 Numeric zero may be omitted by a standard producer, even though Dart exposes presence methods;
 see the [protobuf presence specification](https://protobuf.dev/programming-guides/field_presence/).
@@ -58,7 +60,7 @@ Add sparse wire and JSON compatibility tests. Introduced by `64c545c`.
 
 ### F2 — P2: A changed dish identity can inherit and persist the old dish's map
 
-**Follow-up, 2026-10-07:** fixed in the current working tree. On a different nonempty status ID,
+**Follow-up, 2026-10-07:** fixed by `8769bc9`. On a different nonempty status ID,
 `DishConnection` clears map data, receive time, and API version before notifying listeners, then
 requests a map immediately. The last known ID survives missing-ID statuses. Regression tests
 cover changes with and without stream replacement, same-device retention, cleared notification
@@ -84,6 +86,11 @@ The existing reconnect test checks retention using empty status messages, so it 
 
 ### F3 — P2: Numeric bearings disagree with cuts on rectangular EARTH grids
 
+**Follow-up, 2026-10-07:** fixed by the [R2 extraction](proposals/obstruction_map_refactoring.md#r2--separate-measurements-from-presentation-geometry).
+Numeric marks use the same ray/rectangle intersection as sector cuts, then move inward along
+that ray. A recording-canvas regression checks all four degree marks on wide, tall, and square
+EARTH maps. The evidence below records the reviewed bug.
+
 Evidence: [`_ObstructionPainter._compass`](../star.debug/lib/widgets/obstruction_map.dart),
 lines 968–976 at reviewed HEAD. Numeric marks scale X by rectangle width and Y by height,
 whereas the sector lines use equal pixel pitch and preserve the direction angle.
@@ -99,7 +106,8 @@ tests alone cannot catch a mislabeled canvas.
 
 ### F4 — P2: Antiparallel target flips at the horizontal-panel singularity
 
-Evidence: [`ObstructionMapData.headingProjection`](../star.debug/lib/utils/obstructions.dart),
+Evidence: [`ObstructionMapGeometry.headingProjection`](../star.debug/lib/utils/obstruction_map_geometry.dart),
+originally `ObstructionMapData.headingProjection` in `lib/utils/obstructions.dart`,
 lines 225–234 at reviewed HEAD. Its projected-Down fallback uses only the target elevation's
 sign, so opposite bearings get the same fallback direction when their horizontal projections
 vanish. The actual-heading limiting rule is applied to targets without distinguishing sides.
@@ -247,7 +255,7 @@ flutter analyze --no-pub
   from the final run. No findings target the new map utility/widget or their committed tests;
   warnings in surrounding files remain outside this documentation-only task.
 
-Coverage still needed includes real map/status calibration pairs, changed identity with failed
+At reviewed HEAD, remaining coverage included real map/status calibration pairs, changed identity with failed
 map refresh, automatic logging with maps, the import UI's standalone-map policy, sparse
 proto3 default fields, numeric label geometry, screen-reader sector results, actual app themes,
 larger text scaling, and realistic 123×123 rendering/performance. Migration tests construct
@@ -261,3 +269,12 @@ the full suite (110 tests). Analyzer findings remained unchanged at 42, with no 
 findings in the changed source/test. The scoped test formatting check passed; the connection
 file still fails formatting as its HEAD baseline does, and its existing style/CRLF was retained.
 Diff whitespace validation passed with `core.whitespace=cr-at-eol` for that file's line endings.
+
+## R2 extraction follow-up validation
+
+The extraction adds ten geometry/analysis tests and one painter regression covering all four
+numeric bearings on wide, tall, and square EARTH grids. The isolated app copy passed the focused
+map suite (49 tests) and complete suite (121 tests). `flutter analyze --no-pub` still reports the
+same 42 baseline findings, with no errors or new findings. Formatting checks passed for all eight
+changed/new Dart files without rewriting unrelated code; diff whitespace and local documentation
+link checks also passed. An independent Astra/high review found no substantive regression.

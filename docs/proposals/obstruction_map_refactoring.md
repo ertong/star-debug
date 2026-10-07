@@ -1,8 +1,8 @@
 # Obstruction map: possible refactors
 
 Proposals recorded 2026-10-07 against `a40fd5f`. The identity-change fix described in R1 has
-since been implemented in the working tree; structural refactors remain proposed. See the
-[review](../obstruction_map_review.md) for confirmed findings and
+since been implemented; the R2 extraction below is also implemented. Other structural refactors
+remain proposed. See the [review](../obstruction_map_review.md) for confirmed findings and
 [protocol evidence](../obstruction_map_sources.md) for assumptions that need calibration.
 
 Prefer focused fixes for F1–F7 before a broad restructuring. Existing tests should protect
@@ -35,20 +35,32 @@ unsupported map requests, and forced/automatic storage.
 
 ## R2 — Separate measurements from presentation geometry
 
-`ObstructionMapData` currently owns sample classification, connected patches, sector counting,
-reference projection, and stylized heading policy. `_MapView` recreates attitude-dependent
-sectors, while `_ObstructionPainter` contains rotation and several label-placement rules.
+**Implemented follow-up, 2026-10-07:** samples, geometry, directional analysis, and rendering
+now have separate modules:
 
-Consider three small responsibilities:
+- [`obstructions.dart`](../../star.debug/lib/utils/obstructions.dart) retains immutable dimensions,
+  sample values, reference frame, classification, totals, and connected patches.
+- [`obstruction_map_geometry.dart`](../../star.debug/lib/utils/obstruction_map_geometry.dart)
+  owns reported orientation, projected North/East basis, north rotation, sector boundaries and
+  cell classification, equal-pitch layout, and ray/rectangle intersections.
+- [`obstruction_map_analysis.dart`](../../star.debug/lib/utils/obstruction_map_analysis.dart)
+  produces immutable directional sample counts using the geometry, outside painting.
+- [`obstruction_map_rendering.dart`](../../star.debug/lib/utils/obstruction_map_rendering.dart)
+  shares the signal palette between the widget and unrotated PNG export.
 
-- Immutable map measurements: dimensions, values, counts, patches, frame.
-- Attitude/display geometry: projected basis, rotation, wedge boundaries, ray intersections.
-- Presentation policy: labels, colors, arrow styles, uncertainty and state wording.
+The [widget](../../star.debug/lib/widgets/obstruction_map.dart) keeps text measurement, collision
+handling, colors for indicators, badges, arrow styles, uncertainty, and state wording. It creates
+geometry per view and uses one intersection helper for cardinal marks, numeric bearings, sector
+cuts, and badge placement. Numeric bearings now align with their cuts on rectangular EARTH grids,
+resolving F3 while preserving the former square-map inset.
 
-A shared direction-to-rectangle helper would directly prevent F3 by keeping cardinal marks,
-numeric bearings, sector cuts, and badge placement consistent. Give it rectangular and
-degenerate-input tests. Keep the raw PNG export unrotated, preserving cell order and the existing
-signal-color mapping. Numeric samples remain preserved separately in the protobuf export.
+Focused tests cover wide/tall/square intersections, invalid rays, rotated equal-pitch layout,
+unnormalized UT basis inversion, and center exclusion. A recording-canvas widget test checks all
+four numeric bearings against the actual sector cuts on wide, tall, and square maps. Existing
+projection, palette, PNG, import/export, and UI tests use the extracted APIs. Raw PNG output stays
+unrotated with the same cell order and signal colors; protobuf exports retain numeric samples.
+The quaternion presence policy and singular target-heading fallback are preserved; F1 and F4
+remain separate fixes.
 
 Do not turn this extraction into a geographic reprojection. Preserve the explicit distinction
 between the current display-plane model and unverified source-grid calibration. A physical

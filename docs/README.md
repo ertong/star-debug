@@ -15,8 +15,8 @@ Focused obstruction-map documents:
   wire contracts, and calibration limits.
 - [Implementation review](obstruction_map_review.md) for the 2026-10-07 commit review, reproduced
   findings, UI/UX gaps, and validation.
-- [Possible refactors](proposals/obstruction_map_refactoring.md) for unimplemented design ideas
-  and follow-up decisions.
+- [Possible refactors](proposals/obstruction_map_refactoring.md) for design ideas
+  and implemented follow-ups.
 
 ## Source map
 

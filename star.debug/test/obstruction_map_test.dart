@@ -11,6 +11,9 @@ import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/space/space_parser.dart';
 import 'package:star_debug/utils/debug_data.dart';
+import 'package:star_debug/utils/obstruction_map_analysis.dart';
+import 'package:star_debug/utils/obstruction_map_geometry.dart';
+import 'package:star_debug/utils/obstruction_map_rendering.dart';
 import 'package:star_debug/utils/obstructions.dart';
 import 'package:star_debug/utils/snapshot.dart';
 import 'package:star_debug/widgets/obstruction_map.dart';
@@ -90,6 +93,18 @@ DishGetStatusResponse _utStatus(double elevation, {double bearing = 90}) {
   );
 }
 
+class _TextCenterCanvas extends TestRecordingCanvas {
+  final centers = <Offset>[];
+
+  @override
+  void drawParagraph(ui.Paragraph paragraph, Offset offset) {
+    // Capture dimensions before TextPainter disposes the paragraph.
+    centers.add(
+      offset + Offset(paragraph.maxIntrinsicWidth / 2, paragraph.height / 2),
+    );
+  }
+}
+
 void main() {
   setUp(() {
     R = Preloaded();
@@ -120,13 +135,16 @@ void main() {
     expect(ObstructionMapData.classify(0), ObstructionCell.obstructed);
     expect(ObstructionMapData.classify(0.01), ObstructionCell.reducedSignal);
     expect(ObstructionMapData.classify(1), ObstructionCell.clear);
-    expect(ObstructionMapData.color(-1), ObstructionMapData.unknownColor);
-    expect(ObstructionMapData.color(0), ObstructionMapData.obstructedColor);
+    expect(ObstructionMapPalette.color(-1), ObstructionMapPalette.unknownColor);
     expect(
-      ObstructionMapData.color(0.5),
-      ObstructionMapData.reducedSignalColor,
+      ObstructionMapPalette.color(0),
+      ObstructionMapPalette.obstructedColor,
     );
-    expect(ObstructionMapData.color(2), ObstructionMapData.clearColor);
+    expect(
+      ObstructionMapPalette.color(0.5),
+      ObstructionMapPalette.reducedSignalColor,
+    );
+    expect(ObstructionMapPalette.color(2), ObstructionMapPalette.clearColor);
   });
 
   test('rectangular row-major data is retained for every reference frame', () {
@@ -245,7 +263,10 @@ void main() {
       expect(map.blocked, 5);
       expect(map.largestBlockedPatch, 3);
       expect(map.clear, 4);
-      final sectors = map.sectorOverlay(const DishOrientation())!.sectors;
+      final sectors = ObstructionSectorOverlay.fromMap(
+        map,
+        ObstructionMapGeometry(map.frame, const DishOrientation()),
+      )!.sectors;
       expect(sectors.map((s) => s.observed).reduce((a, b) => a + b), 8);
       expect(sectors[0].blocked, 1); // North is the top row.
       expect(sectors[4].blocked, 0); // South is the bottom row.
@@ -261,10 +282,10 @@ void main() {
       )!;
       expect(center.blocked, 1);
       expect(
-        center
-            .sectorOverlay(const DishOrientation())!
-            .sectors
-            .every((s) => s.blockedFraction == null),
+        ObstructionSectorOverlay.fromMap(
+          center,
+          ObstructionMapGeometry(center.frame, const DishOrientation()),
+        )!.sectors.every((s) => s.blockedFraction == null),
         isTrue,
       );
     },
@@ -285,7 +306,10 @@ void main() {
         mapReferenceFrame: ObstructionMapReferenceFrame.FRAME_EARTH,
       );
       final earth = ObstructionMapData.fromResponse(response)!;
-      final sectors = earth.sectorOverlay(const DishOrientation())!;
+      final sectors = ObstructionSectorOverlay.fromMap(
+        earth,
+        ObstructionMapGeometry(earth.frame, const DishOrientation()),
+      )!;
       expect(sectors.boundaries[0], const Offset(0, -1));
       expect(sectors.boundaries[1].dx, closeTo(math.sqrt(0.5), 1e-12));
       expect(sectors.boundaries[1].dy, closeTo(-math.sqrt(0.5), 1e-12));
@@ -302,14 +326,20 @@ void main() {
           ..snr.setAll(0, signal),
       )!;
       final tilt = DishOrientation.fromStatus(_utStatus(30));
-      final projected = tilted.sectorOverlay(tilt)!;
+      final projected = ObstructionSectorOverlay.fromMap(
+        tilted,
+        ObstructionMapGeometry(tilted.frame, tilt),
+      )!;
       expect(projected.sectors[1].blocked, 1); // Bearing 53.1 degrees.
       expect(projected.sectors[0].observed, 0);
       expect(
         projected.sectors.map((s) => s.observed).reduce((a, b) => a + b),
         1,
       );
-      expect(tilted.northRotation(tilt), closeTo(math.pi / 2, 1e-12));
+      expect(
+        ObstructionMapGeometry(tilted.frame, tilt).northRotation,
+        closeTo(math.pi / 2, 1e-12),
+      );
     },
   );
 
@@ -324,7 +354,10 @@ void main() {
         mapReferenceFrame: ObstructionMapReferenceFrame.FRAME_EARTH,
       ),
     )!;
-    final sectors = map.sectorOverlay(const DishOrientation())!.sectors;
+    final sectors = ObstructionSectorOverlay.fromMap(
+      map,
+      ObstructionMapGeometry(map.frame, const DishOrientation()),
+    )!.sectors;
     expect(sectors[1].blocked, 1);
     expect(sectors[0].observed, 0);
   });
@@ -340,24 +373,103 @@ void main() {
       );
       final map = ObstructionMapData.fromResponse(response)!;
       final up = DishOrientation.fromStatus(_utStatus(90));
-      final sectors = map.sectorOverlay(up)!.sectors;
+      final sectors = ObstructionSectorOverlay.fromMap(
+        map,
+        ObstructionMapGeometry(map.frame, up),
+      )!.sectors;
       expect(sectors[6].blocked, 1); // Raw bottom is west, not south.
       expect(sectors[4].observed, 0);
-      expect(map.northRotation(up), closeTo(math.pi / 2, 1e-12));
-      expect(map.sectorOverlay(const DishOrientation()), isNull);
-      expect(map.northRotation(const DishOrientation()), isNull);
       expect(
-        map.sectorOverlay(DishOrientation.fromStatus(_utStatus(0))),
+        ObstructionMapGeometry(map.frame, up).northRotation,
+        closeTo(math.pi / 2, 1e-12),
+      );
+      expect(
+        ObstructionSectorOverlay.fromMap(
+          map,
+          ObstructionMapGeometry(map.frame, const DishOrientation()),
+        ),
+        isNull,
+      );
+      expect(
+        ObstructionMapGeometry(
+          map.frame,
+          const DishOrientation(),
+        ).northRotation,
+        isNull,
+      );
+      expect(
+        ObstructionSectorOverlay.fromMap(
+          map,
+          ObstructionMapGeometry(
+            map.frame,
+            DishOrientation.fromStatus(_utStatus(0)),
+          ),
+        ),
         isNull,
       );
       final unknown = ObstructionMapData.fromResponse(
         response
           ..mapReferenceFrame = ObstructionMapReferenceFrame.FRAME_UNKNOWN,
       )!;
-      expect(unknown.sectorOverlay(up), isNull);
-      expect(unknown.northRotation(up), isNull);
+      expect(
+        ObstructionSectorOverlay.fromMap(
+          unknown,
+          ObstructionMapGeometry(unknown.frame, up),
+        ),
+        isNull,
+      );
+      expect(ObstructionMapGeometry(unknown.frame, up).northRotation, isNull);
     },
   );
+
+  testWidgets('EARTH numeric bearings align with cuts for every aspect ratio', (
+    tester,
+  ) async {
+    for (final (rows, cols) in [(2, 3), (3, 2), (3, 3)]) {
+      await tester.pumpWidget(
+        _page(
+          ObstructionMapWidget(
+            map: DishGetObstructionMapResponse(
+              numRows: rows,
+              numCols: cols,
+              snr: List.filled(rows * cols, 1.0),
+              mapReferenceFrame: ObstructionMapReferenceFrame.FRAME_EARTH,
+            ),
+            timestamp: 1,
+          ),
+        ),
+      );
+      await tester.tap(find.text(M.obstructions.title));
+      await tester.pumpAndSettle();
+      final painter = tester
+          .widget<CustomPaint>(find.byKey(const Key('dish-obstruction-map')))
+          .painter!;
+      final canvas = _TextCenterCanvas();
+      painter.paint(canvas, const Size(310, 310));
+      // Degree labels are the last four paragraphs; status has no heading.
+      final labels = canvas.centers.sublist(canvas.centers.length - 4);
+      final cuts = canvas.invocations
+          .where((entry) => entry.invocation.memberName == #drawLine)
+          .toList();
+      expect(cuts, hasLength(8));
+      for (var i = 0; i < 4; i++) {
+        final label = labels[i] - const Offset(155, 155);
+        final cut =
+            (cuts[i * 2 + 1].invocation.positionalArguments[1] as Offset) -
+            const Offset(155, 155);
+        final bearing = (math.atan2(label.dx, -label.dy) * 180 / math.pi) % 360;
+        expect(bearing, closeTo(45 + i * 90, 1e-8));
+        expect(label.dx * cut.dy - label.dy * cut.dx, closeTo(0, 1e-8));
+        expect(label.distance, lessThan(cut.distance));
+      }
+      // Reopen with the next map without leaving a dialog in the overlay.
+      Navigator.of(
+        tester.element(find.byKey(const Key('dish-obstruction-map'))),
+      ).pop();
+      await tester.pumpAndSettle();
+      expect(tester.takeException(), isNull);
+    }
+  });
 
   testWidgets('only the detailed map paints sector statistics', (tester) async {
     final map = DishGetObstructionMapResponse(
@@ -548,11 +660,10 @@ void main() {
       )!;
       for (final elevation in [0.0, 60.0, 90.0, -60.0, -90.0]) {
         final orientation = DishOrientation.fromStatus(_utStatus(elevation));
-        final projection = map.headingProjection(
-          orientation.azimuth,
-          orientation.elevation,
+        final projection = ObstructionMapGeometry(
+          map.frame,
           orientation,
-        )!;
+        ).headingProjection(orientation.azimuth, orientation.elevation)!;
         final fraction = DishOrientation.horizontalFraction(elevation)!;
         expect(projection.dx, closeTo(0, 1e-12));
         expect(
@@ -562,7 +673,10 @@ void main() {
         expect(projection.distance, closeTo(fraction, 1e-12));
         if (elevation.abs() == 90) {
           expect(
-            map.headingProjection(null, elevation, orientation),
+            ObstructionMapGeometry(
+              map.frame,
+              orientation,
+            ).headingProjection(null, elevation),
             Offset.zero,
           );
         }
@@ -570,13 +684,10 @@ void main() {
       // The exact horizontal case agrees with the limit from above the horizon.
       final almostHorizontal = DishOrientation.fromStatus(_utStatus(0.0000001));
       expect(
-        map
-            .headingProjection(
-              90,
-              almostHorizontal.elevation,
-              almostHorizontal,
-            )!
-            .dy,
+        ObstructionMapGeometry(
+          map.frame,
+          almostHorizontal,
+        ).headingProjection(90, almostHorizontal.elevation)!.dy,
         closeTo(-1, 1e-12),
       );
     },
@@ -597,19 +708,46 @@ void main() {
           -91.0,
           91.0,
         ]) {
-          expect(map.headingProjection(90, elevation, valid), isNull);
+          expect(
+            ObstructionMapGeometry(
+              map.frame,
+              valid,
+            ).headingProjection(90, elevation),
+            isNull,
+          );
         }
-        expect(map.headingProjection(null, 60, valid), isNull);
-        expect(map.headingProjection(double.nan, 60, valid), isNull);
+        expect(
+          ObstructionMapGeometry(map.frame, valid).headingProjection(null, 60),
+          isNull,
+        );
+        expect(
+          ObstructionMapGeometry(
+            map.frame,
+            valid,
+          ).headingProjection(double.nan, 60),
+          isNull,
+        );
         if (frame != ObstructionMapReferenceFrame.FRAME_EARTH) {
           expect(
-            map.headingProjection(90, 60, const DishOrientation()),
+            ObstructionMapGeometry(
+              map.frame,
+              const DishOrientation(),
+            ).headingProjection(90, 60),
             isNull,
           );
         }
         if (frame == ObstructionMapReferenceFrame.FRAME_UNKNOWN) {
-          expect(map.headingProjection(90, 60, valid), isNull);
-          expect(map.headingProjection(null, 90, valid), isNull);
+          expect(
+            ObstructionMapGeometry(map.frame, valid).headingProjection(90, 60),
+            isNull,
+          );
+          expect(
+            ObstructionMapGeometry(
+              map.frame,
+              valid,
+            ).headingProjection(null, 90),
+            isNull,
+          );
         }
       }
       final faulted = _utStatus(60)
@@ -620,7 +758,13 @@ void main() {
       final map = ObstructionMapData.fromResponse(
         _map()..mapReferenceFrame = ObstructionMapReferenceFrame.FRAME_UT,
       )!;
-      expect(map.headingProjection(90, 60, orientation), isNull);
+      expect(
+        ObstructionMapGeometry(
+          map.frame,
+          orientation,
+        ).headingProjection(90, 60),
+        isNull,
+      );
     },
   );
 
@@ -715,9 +859,18 @@ void main() {
         ned2dishQuaternion: Quaternion(qScalar: 0, qX: 0, qY: 1, qZ: 0),
       ),
     );
-    expect(map.horizontalDirection(0, up), const Offset(-1, 0));
-    expect(map.horizontalDirection(90, up)!.dx, closeTo(0, 1e-12));
-    expect(map.horizontalDirection(90, up)!.dy, closeTo(-1, 1e-12));
+    expect(
+      ObstructionMapGeometry(map.frame, up).horizontalDirection(0),
+      const Offset(-1, 0),
+    );
+    expect(
+      ObstructionMapGeometry(map.frame, up).horizontalDirection(90)!.dx,
+      closeTo(0, 1e-12),
+    );
+    expect(
+      ObstructionMapGeometry(map.frame, up).horizontalDirection(90)!.dy,
+      closeTo(-1, 1e-12),
+    );
     // Panel +X faces east, +Y north, and +Z up. Its front view must have
     // north above the center and east to the right, without modifying cells.
     final northAligned = DishOrientation.fromStatus(
@@ -730,17 +883,47 @@ void main() {
         ),
       ),
     );
-    expect(map.horizontalDirection(0, northAligned)!.dy, closeTo(-1, 1e-12));
-    expect(map.horizontalDirection(90, northAligned)!.dx, closeTo(1, 1e-12));
-    expect(map.horizontalDirection(180, northAligned)!.dy, closeTo(1, 1e-12));
-    expect(map.horizontalDirection(270, northAligned)!.dx, closeTo(-1, 1e-12));
+    expect(
+      ObstructionMapGeometry(
+        map.frame,
+        northAligned,
+      ).horizontalDirection(0)!.dy,
+      closeTo(-1, 1e-12),
+    );
+    expect(
+      ObstructionMapGeometry(
+        map.frame,
+        northAligned,
+      ).horizontalDirection(90)!.dx,
+      closeTo(1, 1e-12),
+    );
+    expect(
+      ObstructionMapGeometry(
+        map.frame,
+        northAligned,
+      ).horizontalDirection(180)!.dy,
+      closeTo(1, 1e-12),
+    );
+    expect(
+      ObstructionMapGeometry(
+        map.frame,
+        northAligned,
+      ).horizontalDirection(270)!.dx,
+      closeTo(-1, 1e-12),
+    );
     final down = DishOrientation.fromStatus(
       DishGetStatusResponse(
         ned2dishQuaternion: Quaternion(qScalar: 1, qX: 0, qY: 0, qZ: 0),
       ),
     );
-    expect(map.horizontalDirection(0, down), const Offset(1, 0));
-    expect(map.horizontalDirection(90, down)!.dy, closeTo(-1, 1e-12));
+    expect(
+      ObstructionMapGeometry(map.frame, down).horizontalDirection(0),
+      const Offset(1, 0),
+    );
+    expect(
+      ObstructionMapGeometry(map.frame, down).horizontalDirection(90)!.dy,
+      closeTo(-1, 1e-12),
+    );
 
     // Rotation of 90 degrees about Y makes north perpendicular to the panel.
     final vertical = DishOrientation.fromStatus(
@@ -753,9 +936,18 @@ void main() {
         ),
       ),
     );
-    expect(map.horizontalDirection(0, vertical), isNull);
-    expect(map.horizontalDirection(180, vertical), isNull);
-    expect(map.horizontalDirection(90, vertical)!.dy, closeTo(-1, 1e-12));
+    expect(
+      ObstructionMapGeometry(map.frame, vertical).horizontalDirection(0),
+      isNull,
+    );
+    expect(
+      ObstructionMapGeometry(map.frame, vertical).horizontalDirection(180),
+      isNull,
+    );
+    expect(
+      ObstructionMapGeometry(map.frame, vertical).horizontalDirection(90)!.dy,
+      closeTo(-1, 1e-12),
+    );
   });
 
   test(
@@ -844,20 +1036,23 @@ void main() {
         _map()..mapReferenceFrame = ObstructionMapReferenceFrame.FRAME_UT,
       )!;
       expect(orientation.attitude, isNull);
-      expect(map.horizontalDirection(0, orientation), isNull);
+      expect(
+        ObstructionMapGeometry(map.frame, orientation).horizontalDirection(0),
+        isNull,
+      );
     }
     final unknown = ObstructionMapData.fromResponse(
       _map()..mapReferenceFrame = ObstructionMapReferenceFrame.FRAME_UNKNOWN,
     )!;
     expect(
-      unknown.horizontalDirection(
-        0,
+      ObstructionMapGeometry(
+        unknown.frame,
         DishOrientation(
           attitude: DishAttitude.fromQuaternion(
             Quaternion(qScalar: 1, qX: 0, qY: 0, qZ: 0),
           ),
         ),
-      ),
+      ).horizontalDirection(0),
       isNull,
     );
   });

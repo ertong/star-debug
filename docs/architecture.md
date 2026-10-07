@@ -169,6 +169,19 @@ four-connected blocked patch sizes describe samples, not sky area, physical obst
 Maps with invalid dimensions, no observed samples, or an explicitly zero `patchesValid` count show
 a state message instead of a canvas. Missing readiness counts do not invalidate older maps.
 
+Implementation responsibilities are separated into
+[`ObstructionMapData`](../star.debug/lib/utils/obstructions.dart) for immutable samples,
+classification, totals, and connected patches;
+[`ObstructionMapGeometry` and `ObstructionMapLayout`](../star.debug/lib/utils/obstruction_map_geometry.dart)
+for current attitude references, rotation, sector classification, equal cell pitch, and ray/rectangle
+intersections;
+[`ObstructionSectorOverlay`](../star.debug/lib/utils/obstruction_map_analysis.dart) for sample counts
+using that geometry; and
+[`ObstructionMapPalette` and PNG export](../star.debug/lib/utils/obstruction_map_rendering.dart) for
+shared signal colors and unrotated raster output. The widget owns text measurement, badges,
+arrow styling, and collision handling. Sector cuts, cardinal marks, numeric bearings, and badge
+centers use the same ray intersection, preserving bearing angles on rectangular grids.
+
 EARTH grids have north at the top. UT grids rotate for display so the projected north direction
 points upward in both maps; compass marks, sector cuts, and arrows rotate with the grid.
 The rotated grid is padded with the unobserved-cell color to an upright rounded rectangle;
