@@ -7,11 +7,16 @@ commands from that directory. Repository-level protocol and CI tooling lives bes
 
 Read the focused documentation before changing a central subsystem:
 
+- [`docs/stack.md`](docs/stack.md) describes components and technologies; recheck it against code
+  and configuration when component boundaries or technology choices change.
 - [`docs/architecture.md`](docs/architecture.md) explains startup, connection lifetimes, snapshots,
   debug-data compatibility, and persistence.
 - [`docs/development.md`](docs/development.md) covers generators, tests, platform tooling, and
   common traps.
 - [`docs/README.md`](docs/README.md) is the documentation index and source map.
+- [`docs/obstruction_maps.md`](docs/obstruction_maps.md) covers current map behavior and limitations.
+- [`docs/obstruction_map_sources.md`](docs/obstruction_map_sources.md) distinguishes obstruction-map
+  protocol evidence from projection assumptions; read it before changing map geometry.
 
 ## Change scope
 

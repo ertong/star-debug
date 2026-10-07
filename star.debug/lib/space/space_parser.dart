@@ -18,14 +18,66 @@ class SpaceParser{
 
   /// seconds
   int? dishTs;
+  // Optional StarDebug timing uses milliseconds here; dishTs remains source seconds.
+  bool _hasCaptureTiming = false;
+  int? _captureTimestampMs;
+  int? _dishStatusTimestampMs;
+  bool _dishStatusTimestampEstimated = false;
+
   int? dishApi;
   DishGetStatusResponse? dishGetStatus;
   Map<String, bool> dishFeatures = {};
+
+  DishGetObstructionMapResponse? dishGetObstructionMap;
+  int? obstructionMapTs;
+  int? obstructionMapApiVersion;
 
   int? routerTs;
   int? routerApi;
   WifiGetStatusResponse? routerGetStatus;
   Map<String, bool> routerFeatures = {};
+
+  static int? _timestampMillis(dynamic value) {
+    if (value is! num || !value.isFinite || value <= 0) return null;
+    final millis = value.toDouble() * 1000;
+    if (!millis.isFinite || millis > 8640000000000000) return null;
+    final rounded = millis.round();
+    return rounded > 0 ? rounded : null;
+  }
+
+  // API metadata must fit the native integer/SQLite representation. Reject
+  // doubles outside that range before toInt() can clamp them.
+  static int? _mapApiVersion(dynamic value) {
+    if (value is! num || !value.isFinite || value < 0) return null;
+    if (value is int) return value;
+    if (value >= 9223372036854775808.0 || value != value.truncateToDouble())
+      return null;
+    return value.toInt();
+  }
+
+  void _readObstructionMap(dynamic envelope) {
+    if (envelope is! Map<String, dynamic>) return;
+    DishGetObstructionMapResponse? map;
+    try {
+      if (envelope["_proto"] is String) {
+        // A supplied binary map takes precedence; corruption does not select rawMap.
+        map = DishGetObstructionMapResponse.fromBuffer(
+          base64Decode(envelope["_proto"]),
+        );
+      } else if (envelope["rawMap"] is Map<String, dynamic>) {
+        map = DishGetObstructionMapResponse();
+        DebugDataHelper.jsonToProto(envelope["rawMap"], map);
+      }
+    } catch (_) {
+      // An optional map must not prevent importing the device status.
+      return;
+    }
+    if (map == null) return;
+    dishGetObstructionMap = map;
+    // Metadata is optional and validated independently of the decoded payload.
+    obstructionMapTs = _timestampMillis(envelope["timestamp"]);
+    obstructionMapApiVersion = _mapApiVersion(envelope["apiVersion"]);
+  }
 
   static SpaceParser ofJsonStr(String json) {
     return ofJson(jsonDecode(json));
@@ -35,6 +87,14 @@ class SpaceParser{
     SpaceParser p = SpaceParser();
 
     p.json = json;
+
+    p._hasCaptureTiming = json.containsKey("capture");
+    final capture = json["capture"];
+    if (capture is Map<String, dynamic>) {
+      p._captureTimestampMs = _timestampMillis(capture["timestamp"]);
+      p._dishStatusTimestampMs = _timestampMillis(capture["dishStatusTimestamp"]);
+      p._dishStatusTimestampEstimated = capture["dishStatusTimestampEstimated"] == true;
+    }
 
     if (json["dish"]!=null)
       p.jsonDish = Map<String, dynamic>.from(json["dish"]);
@@ -62,6 +122,8 @@ class SpaceParser{
       p.jsonRouter?["config"] = json["wifiConfig"];
 
     p.deviceApp = DeviceApp.of(p.jsonApp);
+
+    p._readObstructionMap(json["dishObstructionMap"]);
 
     if (p.jsonDish?["deviceInfo"]!=null) {
       if (p.jsonDish!.containsKey("_proto")) {
@@ -129,11 +191,15 @@ class SpaceParser{
 
   Snapshot toSnapshot() {
     return Snapshot(
-        timestamp: (dishTs ?? 0) * 1000,
-        dishTs: dishTs == null ? null : dishTs! * 1000,
+        timestamp: _hasCaptureTiming ? (_captureTimestampMs ?? 0) : (dishTs ?? 0) * 1000,
+        dishTs: _hasCaptureTiming ? _dishStatusTimestampMs : (dishTs == null ? null : dishTs! * 1000),
+        dishTsIsEstimated: _hasCaptureTiming && _dishStatusTimestampEstimated,
         dishGetStatus: dishGetStatus,
         dishFeatures: dishFeatures,
         dishApiVersion: dishApi,
+        dishGetObstructionMap: dishGetObstructionMap,
+        obstructionMapTs: obstructionMapTs,
+        obstructionMapApiVersion: obstructionMapApiVersion,
         routerTs: routerTs == null ? null : routerTs! * 1000,
         routerGetStatus: routerGetStatus,
         routerFeatures: routerFeatures,

@@ -90,6 +90,39 @@ class $DishLogsTable extends DishLogs with TableInfo<$DishLogsTable, DishLog> {
         type: DriftSqlType.blob,
         requiredDuringInsert: false,
       );
+  static const VerificationMeta _dishObstructionMapMeta =
+      const VerificationMeta('dishObstructionMap');
+  @override
+  late final GeneratedColumn<Uint8List> dishObstructionMap =
+      GeneratedColumn<Uint8List>(
+        'dish_obstruction_map',
+        aliasedName,
+        true,
+        type: DriftSqlType.blob,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _obstructionMapTsMeta = const VerificationMeta(
+    'obstructionMapTs',
+  );
+  @override
+  late final GeneratedColumn<int> obstructionMapTs = GeneratedColumn<int>(
+    'obstruction_map_ts',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _obstructionMapApiVersionMeta =
+      const VerificationMeta('obstructionMapApiVersion');
+  @override
+  late final GeneratedColumn<int> obstructionMapApiVersion =
+      GeneratedColumn<int>(
+        'obstruction_map_api_version',
+        aliasedName,
+        true,
+        type: DriftSqlType.int,
+        requiredDuringInsert: false,
+      );
   static const VerificationMeta _wifiStatusJsonMeta = const VerificationMeta(
     'wifiStatusJson',
   );
@@ -122,6 +155,9 @@ class $DishLogsTable extends DishLogs with TableInfo<$DishLogsTable, DishLog> {
     debugDataJson,
     dishStatusJson,
     dishHistoryJson,
+    dishObstructionMap,
+    obstructionMapTs,
+    obstructionMapApiVersion,
     wifiStatusJson,
     onlineJson,
   ];
@@ -191,6 +227,33 @@ class $DishLogsTable extends DishLogs with TableInfo<$DishLogsTable, DishLog> {
         ),
       );
     }
+    if (data.containsKey('dish_obstruction_map')) {
+      context.handle(
+        _dishObstructionMapMeta,
+        dishObstructionMap.isAcceptableOrUnknown(
+          data['dish_obstruction_map']!,
+          _dishObstructionMapMeta,
+        ),
+      );
+    }
+    if (data.containsKey('obstruction_map_ts')) {
+      context.handle(
+        _obstructionMapTsMeta,
+        obstructionMapTs.isAcceptableOrUnknown(
+          data['obstruction_map_ts']!,
+          _obstructionMapTsMeta,
+        ),
+      );
+    }
+    if (data.containsKey('obstruction_map_api_version')) {
+      context.handle(
+        _obstructionMapApiVersionMeta,
+        obstructionMapApiVersion.isAcceptableOrUnknown(
+          data['obstruction_map_api_version']!,
+          _obstructionMapApiVersionMeta,
+        ),
+      );
+    }
     if (data.containsKey('wifi_status_json')) {
       context.handle(
         _wifiStatusJsonMeta,
@@ -243,6 +306,18 @@ class $DishLogsTable extends DishLogs with TableInfo<$DishLogsTable, DishLog> {
         DriftSqlType.blob,
         data['${effectivePrefix}dish_history_json'],
       ),
+      dishObstructionMap: attachedDatabase.typeMapping.read(
+        DriftSqlType.blob,
+        data['${effectivePrefix}dish_obstruction_map'],
+      ),
+      obstructionMapTs: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}obstruction_map_ts'],
+      ),
+      obstructionMapApiVersion: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}obstruction_map_api_version'],
+      ),
       wifiStatusJson: attachedDatabase.typeMapping.read(
         DriftSqlType.blob,
         data['${effectivePrefix}wifi_status_json'],
@@ -268,6 +343,9 @@ class DishLog extends DataClass implements Insertable<DishLog> {
   final String? debugDataJson;
   final Uint8List? dishStatusJson;
   final Uint8List? dishHistoryJson;
+  final Uint8List? dishObstructionMap;
+  final int? obstructionMapTs;
+  final int? obstructionMapApiVersion;
   final Uint8List? wifiStatusJson;
   final String? onlineJson;
   const DishLog({
@@ -278,6 +356,9 @@ class DishLog extends DataClass implements Insertable<DishLog> {
     this.debugDataJson,
     this.dishStatusJson,
     this.dishHistoryJson,
+    this.dishObstructionMap,
+    this.obstructionMapTs,
+    this.obstructionMapApiVersion,
     this.wifiStatusJson,
     this.onlineJson,
   });
@@ -296,6 +377,17 @@ class DishLog extends DataClass implements Insertable<DishLog> {
     }
     if (!nullToAbsent || dishHistoryJson != null) {
       map['dish_history_json'] = Variable<Uint8List>(dishHistoryJson);
+    }
+    if (!nullToAbsent || dishObstructionMap != null) {
+      map['dish_obstruction_map'] = Variable<Uint8List>(dishObstructionMap);
+    }
+    if (!nullToAbsent || obstructionMapTs != null) {
+      map['obstruction_map_ts'] = Variable<int>(obstructionMapTs);
+    }
+    if (!nullToAbsent || obstructionMapApiVersion != null) {
+      map['obstruction_map_api_version'] = Variable<int>(
+        obstructionMapApiVersion,
+      );
     }
     if (!nullToAbsent || wifiStatusJson != null) {
       map['wifi_status_json'] = Variable<Uint8List>(wifiStatusJson);
@@ -321,6 +413,15 @@ class DishLog extends DataClass implements Insertable<DishLog> {
       dishHistoryJson: dishHistoryJson == null && nullToAbsent
           ? const Value.absent()
           : Value(dishHistoryJson),
+      dishObstructionMap: dishObstructionMap == null && nullToAbsent
+          ? const Value.absent()
+          : Value(dishObstructionMap),
+      obstructionMapTs: obstructionMapTs == null && nullToAbsent
+          ? const Value.absent()
+          : Value(obstructionMapTs),
+      obstructionMapApiVersion: obstructionMapApiVersion == null && nullToAbsent
+          ? const Value.absent()
+          : Value(obstructionMapApiVersion),
       wifiStatusJson: wifiStatusJson == null && nullToAbsent
           ? const Value.absent()
           : Value(wifiStatusJson),
@@ -343,6 +444,13 @@ class DishLog extends DataClass implements Insertable<DishLog> {
       debugDataJson: serializer.fromJson<String?>(json['debugDataJson']),
       dishStatusJson: serializer.fromJson<Uint8List?>(json['dishStatusJson']),
       dishHistoryJson: serializer.fromJson<Uint8List?>(json['dishHistoryJson']),
+      dishObstructionMap: serializer.fromJson<Uint8List?>(
+        json['dishObstructionMap'],
+      ),
+      obstructionMapTs: serializer.fromJson<int?>(json['obstructionMapTs']),
+      obstructionMapApiVersion: serializer.fromJson<int?>(
+        json['obstructionMapApiVersion'],
+      ),
       wifiStatusJson: serializer.fromJson<Uint8List?>(json['wifiStatusJson']),
       onlineJson: serializer.fromJson<String?>(json['onlineJson']),
     );
@@ -358,6 +466,11 @@ class DishLog extends DataClass implements Insertable<DishLog> {
       'debugDataJson': serializer.toJson<String?>(debugDataJson),
       'dishStatusJson': serializer.toJson<Uint8List?>(dishStatusJson),
       'dishHistoryJson': serializer.toJson<Uint8List?>(dishHistoryJson),
+      'dishObstructionMap': serializer.toJson<Uint8List?>(dishObstructionMap),
+      'obstructionMapTs': serializer.toJson<int?>(obstructionMapTs),
+      'obstructionMapApiVersion': serializer.toJson<int?>(
+        obstructionMapApiVersion,
+      ),
       'wifiStatusJson': serializer.toJson<Uint8List?>(wifiStatusJson),
       'onlineJson': serializer.toJson<String?>(onlineJson),
     };
@@ -371,6 +484,9 @@ class DishLog extends DataClass implements Insertable<DishLog> {
     Value<String?> debugDataJson = const Value.absent(),
     Value<Uint8List?> dishStatusJson = const Value.absent(),
     Value<Uint8List?> dishHistoryJson = const Value.absent(),
+    Value<Uint8List?> dishObstructionMap = const Value.absent(),
+    Value<int?> obstructionMapTs = const Value.absent(),
+    Value<int?> obstructionMapApiVersion = const Value.absent(),
     Value<Uint8List?> wifiStatusJson = const Value.absent(),
     Value<String?> onlineJson = const Value.absent(),
   }) => DishLog(
@@ -387,6 +503,15 @@ class DishLog extends DataClass implements Insertable<DishLog> {
     dishHistoryJson: dishHistoryJson.present
         ? dishHistoryJson.value
         : this.dishHistoryJson,
+    dishObstructionMap: dishObstructionMap.present
+        ? dishObstructionMap.value
+        : this.dishObstructionMap,
+    obstructionMapTs: obstructionMapTs.present
+        ? obstructionMapTs.value
+        : this.obstructionMapTs,
+    obstructionMapApiVersion: obstructionMapApiVersion.present
+        ? obstructionMapApiVersion.value
+        : this.obstructionMapApiVersion,
     wifiStatusJson: wifiStatusJson.present
         ? wifiStatusJson.value
         : this.wifiStatusJson,
@@ -409,6 +534,15 @@ class DishLog extends DataClass implements Insertable<DishLog> {
       dishHistoryJson: data.dishHistoryJson.present
           ? data.dishHistoryJson.value
           : this.dishHistoryJson,
+      dishObstructionMap: data.dishObstructionMap.present
+          ? data.dishObstructionMap.value
+          : this.dishObstructionMap,
+      obstructionMapTs: data.obstructionMapTs.present
+          ? data.obstructionMapTs.value
+          : this.obstructionMapTs,
+      obstructionMapApiVersion: data.obstructionMapApiVersion.present
+          ? data.obstructionMapApiVersion.value
+          : this.obstructionMapApiVersion,
       wifiStatusJson: data.wifiStatusJson.present
           ? data.wifiStatusJson.value
           : this.wifiStatusJson,
@@ -428,6 +562,9 @@ class DishLog extends DataClass implements Insertable<DishLog> {
           ..write('debugDataJson: $debugDataJson, ')
           ..write('dishStatusJson: $dishStatusJson, ')
           ..write('dishHistoryJson: $dishHistoryJson, ')
+          ..write('dishObstructionMap: $dishObstructionMap, ')
+          ..write('obstructionMapTs: $obstructionMapTs, ')
+          ..write('obstructionMapApiVersion: $obstructionMapApiVersion, ')
           ..write('wifiStatusJson: $wifiStatusJson, ')
           ..write('onlineJson: $onlineJson')
           ..write(')'))
@@ -443,6 +580,9 @@ class DishLog extends DataClass implements Insertable<DishLog> {
     debugDataJson,
     $driftBlobEquality.hash(dishStatusJson),
     $driftBlobEquality.hash(dishHistoryJson),
+    $driftBlobEquality.hash(dishObstructionMap),
+    obstructionMapTs,
+    obstructionMapApiVersion,
     $driftBlobEquality.hash(wifiStatusJson),
     onlineJson,
   );
@@ -464,6 +604,12 @@ class DishLog extends DataClass implements Insertable<DishLog> {
             this.dishHistoryJson,
           ) &&
           $driftBlobEquality.equals(
+            other.dishObstructionMap,
+            this.dishObstructionMap,
+          ) &&
+          other.obstructionMapTs == this.obstructionMapTs &&
+          other.obstructionMapApiVersion == this.obstructionMapApiVersion &&
+          $driftBlobEquality.equals(
             other.wifiStatusJson,
             this.wifiStatusJson,
           ) &&
@@ -478,6 +624,9 @@ class DishLogsCompanion extends UpdateCompanion<DishLog> {
   final Value<String?> debugDataJson;
   final Value<Uint8List?> dishStatusJson;
   final Value<Uint8List?> dishHistoryJson;
+  final Value<Uint8List?> dishObstructionMap;
+  final Value<int?> obstructionMapTs;
+  final Value<int?> obstructionMapApiVersion;
   final Value<Uint8List?> wifiStatusJson;
   final Value<String?> onlineJson;
   const DishLogsCompanion({
@@ -488,6 +637,9 @@ class DishLogsCompanion extends UpdateCompanion<DishLog> {
     this.debugDataJson = const Value.absent(),
     this.dishStatusJson = const Value.absent(),
     this.dishHistoryJson = const Value.absent(),
+    this.dishObstructionMap = const Value.absent(),
+    this.obstructionMapTs = const Value.absent(),
+    this.obstructionMapApiVersion = const Value.absent(),
     this.wifiStatusJson = const Value.absent(),
     this.onlineJson = const Value.absent(),
   });
@@ -499,6 +651,9 @@ class DishLogsCompanion extends UpdateCompanion<DishLog> {
     this.debugDataJson = const Value.absent(),
     this.dishStatusJson = const Value.absent(),
     this.dishHistoryJson = const Value.absent(),
+    this.dishObstructionMap = const Value.absent(),
+    this.obstructionMapTs = const Value.absent(),
+    this.obstructionMapApiVersion = const Value.absent(),
     this.wifiStatusJson = const Value.absent(),
     this.onlineJson = const Value.absent(),
   }) : timestamp = Value(timestamp),
@@ -512,6 +667,9 @@ class DishLogsCompanion extends UpdateCompanion<DishLog> {
     Expression<String>? debugDataJson,
     Expression<Uint8List>? dishStatusJson,
     Expression<Uint8List>? dishHistoryJson,
+    Expression<Uint8List>? dishObstructionMap,
+    Expression<int>? obstructionMapTs,
+    Expression<int>? obstructionMapApiVersion,
     Expression<Uint8List>? wifiStatusJson,
     Expression<String>? onlineJson,
   }) {
@@ -523,6 +681,11 @@ class DishLogsCompanion extends UpdateCompanion<DishLog> {
       if (debugDataJson != null) 'debug_data_json': debugDataJson,
       if (dishStatusJson != null) 'dish_status_json': dishStatusJson,
       if (dishHistoryJson != null) 'dish_history_json': dishHistoryJson,
+      if (dishObstructionMap != null)
+        'dish_obstruction_map': dishObstructionMap,
+      if (obstructionMapTs != null) 'obstruction_map_ts': obstructionMapTs,
+      if (obstructionMapApiVersion != null)
+        'obstruction_map_api_version': obstructionMapApiVersion,
       if (wifiStatusJson != null) 'wifi_status_json': wifiStatusJson,
       if (onlineJson != null) 'online_json': onlineJson,
     });
@@ -536,6 +699,9 @@ class DishLogsCompanion extends UpdateCompanion<DishLog> {
     Value<String?>? debugDataJson,
     Value<Uint8List?>? dishStatusJson,
     Value<Uint8List?>? dishHistoryJson,
+    Value<Uint8List?>? dishObstructionMap,
+    Value<int?>? obstructionMapTs,
+    Value<int?>? obstructionMapApiVersion,
     Value<Uint8List?>? wifiStatusJson,
     Value<String?>? onlineJson,
   }) {
@@ -547,6 +713,10 @@ class DishLogsCompanion extends UpdateCompanion<DishLog> {
       debugDataJson: debugDataJson ?? this.debugDataJson,
       dishStatusJson: dishStatusJson ?? this.dishStatusJson,
       dishHistoryJson: dishHistoryJson ?? this.dishHistoryJson,
+      dishObstructionMap: dishObstructionMap ?? this.dishObstructionMap,
+      obstructionMapTs: obstructionMapTs ?? this.obstructionMapTs,
+      obstructionMapApiVersion:
+          obstructionMapApiVersion ?? this.obstructionMapApiVersion,
       wifiStatusJson: wifiStatusJson ?? this.wifiStatusJson,
       onlineJson: onlineJson ?? this.onlineJson,
     );
@@ -576,6 +746,19 @@ class DishLogsCompanion extends UpdateCompanion<DishLog> {
     if (dishHistoryJson.present) {
       map['dish_history_json'] = Variable<Uint8List>(dishHistoryJson.value);
     }
+    if (dishObstructionMap.present) {
+      map['dish_obstruction_map'] = Variable<Uint8List>(
+        dishObstructionMap.value,
+      );
+    }
+    if (obstructionMapTs.present) {
+      map['obstruction_map_ts'] = Variable<int>(obstructionMapTs.value);
+    }
+    if (obstructionMapApiVersion.present) {
+      map['obstruction_map_api_version'] = Variable<int>(
+        obstructionMapApiVersion.value,
+      );
+    }
     if (wifiStatusJson.present) {
       map['wifi_status_json'] = Variable<Uint8List>(wifiStatusJson.value);
     }
@@ -595,6 +778,9 @@ class DishLogsCompanion extends UpdateCompanion<DishLog> {
           ..write('debugDataJson: $debugDataJson, ')
           ..write('dishStatusJson: $dishStatusJson, ')
           ..write('dishHistoryJson: $dishHistoryJson, ')
+          ..write('dishObstructionMap: $dishObstructionMap, ')
+          ..write('obstructionMapTs: $obstructionMapTs, ')
+          ..write('obstructionMapApiVersion: $obstructionMapApiVersion, ')
           ..write('wifiStatusJson: $wifiStatusJson, ')
           ..write('onlineJson: $onlineJson')
           ..write(')'))
@@ -637,6 +823,17 @@ class $DishesTable extends Dishes with TableInfo<$DishesTable, Dish> {
     type: DriftSqlType.int,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _lastAutomaticSnapshotTsMeta =
+      const VerificationMeta('lastAutomaticSnapshotTs');
+  @override
+  late final GeneratedColumn<int> lastAutomaticSnapshotTs =
+      GeneratedColumn<int>(
+        'last_automatic_snapshot_ts',
+        aliasedName,
+        true,
+        type: DriftSqlType.int,
+        requiredDuringInsert: false,
+      );
   static const VerificationMeta _latestLogTimestampMeta =
       const VerificationMeta('latestLogTimestamp');
   @override
@@ -653,6 +850,7 @@ class $DishesTable extends Dishes with TableInfo<$DishesTable, Dish> {
     dishId,
     name,
     latestLogId,
+    lastAutomaticSnapshotTs,
     latestLogTimestamp,
   ];
   @override
@@ -690,6 +888,15 @@ class $DishesTable extends Dishes with TableInfo<$DishesTable, Dish> {
         ),
       );
     }
+    if (data.containsKey('last_automatic_snapshot_ts')) {
+      context.handle(
+        _lastAutomaticSnapshotTsMeta,
+        lastAutomaticSnapshotTs.isAcceptableOrUnknown(
+          data['last_automatic_snapshot_ts']!,
+          _lastAutomaticSnapshotTsMeta,
+        ),
+      );
+    }
     if (data.containsKey('latest_log_timestamp')) {
       context.handle(
         _latestLogTimestampMeta,
@@ -720,6 +927,10 @@ class $DishesTable extends Dishes with TableInfo<$DishesTable, Dish> {
         DriftSqlType.int,
         data['${effectivePrefix}latest_log_id'],
       ),
+      lastAutomaticSnapshotTs: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}last_automatic_snapshot_ts'],
+      ),
       latestLogTimestamp: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}latest_log_timestamp'],
@@ -737,11 +948,13 @@ class Dish extends DataClass implements Insertable<Dish> {
   final String dishId;
   final String? name;
   final int? latestLogId;
+  final int? lastAutomaticSnapshotTs;
   final int latestLogTimestamp;
   const Dish({
     required this.dishId,
     this.name,
     this.latestLogId,
+    this.lastAutomaticSnapshotTs,
     required this.latestLogTimestamp,
   });
   @override
@@ -754,6 +967,11 @@ class Dish extends DataClass implements Insertable<Dish> {
     if (!nullToAbsent || latestLogId != null) {
       map['latest_log_id'] = Variable<int>(latestLogId);
     }
+    if (!nullToAbsent || lastAutomaticSnapshotTs != null) {
+      map['last_automatic_snapshot_ts'] = Variable<int>(
+        lastAutomaticSnapshotTs,
+      );
+    }
     map['latest_log_timestamp'] = Variable<int>(latestLogTimestamp);
     return map;
   }
@@ -765,6 +983,9 @@ class Dish extends DataClass implements Insertable<Dish> {
       latestLogId: latestLogId == null && nullToAbsent
           ? const Value.absent()
           : Value(latestLogId),
+      lastAutomaticSnapshotTs: lastAutomaticSnapshotTs == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastAutomaticSnapshotTs),
       latestLogTimestamp: Value(latestLogTimestamp),
     );
   }
@@ -778,6 +999,9 @@ class Dish extends DataClass implements Insertable<Dish> {
       dishId: serializer.fromJson<String>(json['dishId']),
       name: serializer.fromJson<String?>(json['name']),
       latestLogId: serializer.fromJson<int?>(json['latestLogId']),
+      lastAutomaticSnapshotTs: serializer.fromJson<int?>(
+        json['lastAutomaticSnapshotTs'],
+      ),
       latestLogTimestamp: serializer.fromJson<int>(json['latestLogTimestamp']),
     );
   }
@@ -788,6 +1012,9 @@ class Dish extends DataClass implements Insertable<Dish> {
       'dishId': serializer.toJson<String>(dishId),
       'name': serializer.toJson<String?>(name),
       'latestLogId': serializer.toJson<int?>(latestLogId),
+      'lastAutomaticSnapshotTs': serializer.toJson<int?>(
+        lastAutomaticSnapshotTs,
+      ),
       'latestLogTimestamp': serializer.toJson<int>(latestLogTimestamp),
     };
   }
@@ -796,11 +1023,15 @@ class Dish extends DataClass implements Insertable<Dish> {
     String? dishId,
     Value<String?> name = const Value.absent(),
     Value<int?> latestLogId = const Value.absent(),
+    Value<int?> lastAutomaticSnapshotTs = const Value.absent(),
     int? latestLogTimestamp,
   }) => Dish(
     dishId: dishId ?? this.dishId,
     name: name.present ? name.value : this.name,
     latestLogId: latestLogId.present ? latestLogId.value : this.latestLogId,
+    lastAutomaticSnapshotTs: lastAutomaticSnapshotTs.present
+        ? lastAutomaticSnapshotTs.value
+        : this.lastAutomaticSnapshotTs,
     latestLogTimestamp: latestLogTimestamp ?? this.latestLogTimestamp,
   );
   Dish copyWithCompanion(DishesCompanion data) {
@@ -810,6 +1041,9 @@ class Dish extends DataClass implements Insertable<Dish> {
       latestLogId: data.latestLogId.present
           ? data.latestLogId.value
           : this.latestLogId,
+      lastAutomaticSnapshotTs: data.lastAutomaticSnapshotTs.present
+          ? data.lastAutomaticSnapshotTs.value
+          : this.lastAutomaticSnapshotTs,
       latestLogTimestamp: data.latestLogTimestamp.present
           ? data.latestLogTimestamp.value
           : this.latestLogTimestamp,
@@ -822,14 +1056,20 @@ class Dish extends DataClass implements Insertable<Dish> {
           ..write('dishId: $dishId, ')
           ..write('name: $name, ')
           ..write('latestLogId: $latestLogId, ')
+          ..write('lastAutomaticSnapshotTs: $lastAutomaticSnapshotTs, ')
           ..write('latestLogTimestamp: $latestLogTimestamp')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode =>
-      Object.hash(dishId, name, latestLogId, latestLogTimestamp);
+  int get hashCode => Object.hash(
+    dishId,
+    name,
+    latestLogId,
+    lastAutomaticSnapshotTs,
+    latestLogTimestamp,
+  );
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -837,6 +1077,7 @@ class Dish extends DataClass implements Insertable<Dish> {
           other.dishId == this.dishId &&
           other.name == this.name &&
           other.latestLogId == this.latestLogId &&
+          other.lastAutomaticSnapshotTs == this.lastAutomaticSnapshotTs &&
           other.latestLogTimestamp == this.latestLogTimestamp);
 }
 
@@ -844,12 +1085,14 @@ class DishesCompanion extends UpdateCompanion<Dish> {
   final Value<String> dishId;
   final Value<String?> name;
   final Value<int?> latestLogId;
+  final Value<int?> lastAutomaticSnapshotTs;
   final Value<int> latestLogTimestamp;
   final Value<int> rowid;
   const DishesCompanion({
     this.dishId = const Value.absent(),
     this.name = const Value.absent(),
     this.latestLogId = const Value.absent(),
+    this.lastAutomaticSnapshotTs = const Value.absent(),
     this.latestLogTimestamp = const Value.absent(),
     this.rowid = const Value.absent(),
   });
@@ -857,6 +1100,7 @@ class DishesCompanion extends UpdateCompanion<Dish> {
     required String dishId,
     this.name = const Value.absent(),
     this.latestLogId = const Value.absent(),
+    this.lastAutomaticSnapshotTs = const Value.absent(),
     this.latestLogTimestamp = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : dishId = Value(dishId);
@@ -864,6 +1108,7 @@ class DishesCompanion extends UpdateCompanion<Dish> {
     Expression<String>? dishId,
     Expression<String>? name,
     Expression<int>? latestLogId,
+    Expression<int>? lastAutomaticSnapshotTs,
     Expression<int>? latestLogTimestamp,
     Expression<int>? rowid,
   }) {
@@ -871,6 +1116,8 @@ class DishesCompanion extends UpdateCompanion<Dish> {
       if (dishId != null) 'dish_id': dishId,
       if (name != null) 'name': name,
       if (latestLogId != null) 'latest_log_id': latestLogId,
+      if (lastAutomaticSnapshotTs != null)
+        'last_automatic_snapshot_ts': lastAutomaticSnapshotTs,
       if (latestLogTimestamp != null)
         'latest_log_timestamp': latestLogTimestamp,
       if (rowid != null) 'rowid': rowid,
@@ -881,6 +1128,7 @@ class DishesCompanion extends UpdateCompanion<Dish> {
     Value<String>? dishId,
     Value<String?>? name,
     Value<int?>? latestLogId,
+    Value<int?>? lastAutomaticSnapshotTs,
     Value<int>? latestLogTimestamp,
     Value<int>? rowid,
   }) {
@@ -888,6 +1136,8 @@ class DishesCompanion extends UpdateCompanion<Dish> {
       dishId: dishId ?? this.dishId,
       name: name ?? this.name,
       latestLogId: latestLogId ?? this.latestLogId,
+      lastAutomaticSnapshotTs:
+          lastAutomaticSnapshotTs ?? this.lastAutomaticSnapshotTs,
       latestLogTimestamp: latestLogTimestamp ?? this.latestLogTimestamp,
       rowid: rowid ?? this.rowid,
     );
@@ -905,6 +1155,11 @@ class DishesCompanion extends UpdateCompanion<Dish> {
     if (latestLogId.present) {
       map['latest_log_id'] = Variable<int>(latestLogId.value);
     }
+    if (lastAutomaticSnapshotTs.present) {
+      map['last_automatic_snapshot_ts'] = Variable<int>(
+        lastAutomaticSnapshotTs.value,
+      );
+    }
     if (latestLogTimestamp.present) {
       map['latest_log_timestamp'] = Variable<int>(latestLogTimestamp.value);
     }
@@ -920,6 +1175,7 @@ class DishesCompanion extends UpdateCompanion<Dish> {
           ..write('dishId: $dishId, ')
           ..write('name: $name, ')
           ..write('latestLogId: $latestLogId, ')
+          ..write('lastAutomaticSnapshotTs: $lastAutomaticSnapshotTs, ')
           ..write('latestLogTimestamp: $latestLogTimestamp, ')
           ..write('rowid: $rowid')
           ..write(')'))
@@ -1314,6 +1570,9 @@ typedef $$DishLogsTableCreateCompanionBuilder = DishLogsCompanion Function({
   Value<String?> debugDataJson,
   Value<Uint8List?> dishStatusJson,
   Value<Uint8List?> dishHistoryJson,
+  Value<Uint8List?> dishObstructionMap,
+  Value<int?> obstructionMapTs,
+  Value<int?> obstructionMapApiVersion,
   Value<Uint8List?> wifiStatusJson,
   Value<String?> onlineJson,
 });
@@ -1325,6 +1584,9 @@ typedef $$DishLogsTableUpdateCompanionBuilder = DishLogsCompanion Function({
   Value<String?> debugDataJson,
   Value<Uint8List?> dishStatusJson,
   Value<Uint8List?> dishHistoryJson,
+  Value<Uint8List?> dishObstructionMap,
+  Value<int?> obstructionMapTs,
+  Value<int?> obstructionMapApiVersion,
   Value<Uint8List?> wifiStatusJson,
   Value<String?> onlineJson,
 });
@@ -1370,6 +1632,21 @@ class $$DishLogsTableFilterComposer
 
   ColumnFilters<Uint8List> get dishHistoryJson => $composableBuilder(
     column: $table.dishHistoryJson,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<Uint8List> get dishObstructionMap => $composableBuilder(
+    column: $table.dishObstructionMap,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get obstructionMapTs => $composableBuilder(
+    column: $table.obstructionMapTs,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get obstructionMapApiVersion => $composableBuilder(
+    column: $table.obstructionMapApiVersion,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -1428,6 +1705,21 @@ class $$DishLogsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<Uint8List> get dishObstructionMap => $composableBuilder(
+    column: $table.dishObstructionMap,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get obstructionMapTs => $composableBuilder(
+    column: $table.obstructionMapTs,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get obstructionMapApiVersion => $composableBuilder(
+    column: $table.obstructionMapApiVersion,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<Uint8List> get wifiStatusJson => $composableBuilder(
     column: $table.wifiStatusJson,
     builder: (column) => ColumnOrderings(column),
@@ -1477,6 +1769,21 @@ class $$DishLogsTableAnnotationComposer
     builder: (column) => column,
   );
 
+  GeneratedColumn<Uint8List> get dishObstructionMap => $composableBuilder(
+    column: $table.dishObstructionMap,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get obstructionMapTs => $composableBuilder(
+    column: $table.obstructionMapTs,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get obstructionMapApiVersion => $composableBuilder(
+    column: $table.obstructionMapApiVersion,
+    builder: (column) => column,
+  );
+
   GeneratedColumn<Uint8List> get wifiStatusJson => $composableBuilder(
     column: $table.wifiStatusJson,
     builder: (column) => column,
@@ -1523,6 +1830,9 @@ class $$DishLogsTableTableManager
                 Value<String?> debugDataJson = const Value.absent(),
                 Value<Uint8List?> dishStatusJson = const Value.absent(),
                 Value<Uint8List?> dishHistoryJson = const Value.absent(),
+                Value<Uint8List?> dishObstructionMap = const Value.absent(),
+                Value<int?> obstructionMapTs = const Value.absent(),
+                Value<int?> obstructionMapApiVersion = const Value.absent(),
                 Value<Uint8List?> wifiStatusJson = const Value.absent(),
                 Value<String?> onlineJson = const Value.absent(),
               }) => DishLogsCompanion(
@@ -1533,6 +1843,9 @@ class $$DishLogsTableTableManager
                 debugDataJson: debugDataJson,
                 dishStatusJson: dishStatusJson,
                 dishHistoryJson: dishHistoryJson,
+                dishObstructionMap: dishObstructionMap,
+                obstructionMapTs: obstructionMapTs,
+                obstructionMapApiVersion: obstructionMapApiVersion,
                 wifiStatusJson: wifiStatusJson,
                 onlineJson: onlineJson,
               ),
@@ -1545,6 +1858,9 @@ class $$DishLogsTableTableManager
                 Value<String?> debugDataJson = const Value.absent(),
                 Value<Uint8List?> dishStatusJson = const Value.absent(),
                 Value<Uint8List?> dishHistoryJson = const Value.absent(),
+                Value<Uint8List?> dishObstructionMap = const Value.absent(),
+                Value<int?> obstructionMapTs = const Value.absent(),
+                Value<int?> obstructionMapApiVersion = const Value.absent(),
                 Value<Uint8List?> wifiStatusJson = const Value.absent(),
                 Value<String?> onlineJson = const Value.absent(),
               }) => DishLogsCompanion.insert(
@@ -1555,6 +1871,9 @@ class $$DishLogsTableTableManager
                 debugDataJson: debugDataJson,
                 dishStatusJson: dishStatusJson,
                 dishHistoryJson: dishHistoryJson,
+                dishObstructionMap: dishObstructionMap,
+                obstructionMapTs: obstructionMapTs,
+                obstructionMapApiVersion: obstructionMapApiVersion,
                 wifiStatusJson: wifiStatusJson,
                 onlineJson: onlineJson,
               ),
@@ -1593,6 +1912,7 @@ typedef $$DishesTableCreateCompanionBuilder = DishesCompanion Function({
   required String dishId,
   Value<String?> name,
   Value<int?> latestLogId,
+  Value<int?> lastAutomaticSnapshotTs,
   Value<int> latestLogTimestamp,
   Value<int> rowid,
 });
@@ -1600,6 +1920,7 @@ typedef $$DishesTableUpdateCompanionBuilder = DishesCompanion Function({
   Value<String> dishId,
   Value<String?> name,
   Value<int?> latestLogId,
+  Value<int?> lastAutomaticSnapshotTs,
   Value<int> latestLogTimestamp,
   Value<int> rowid,
 });
@@ -1624,6 +1945,11 @@ class $$DishesTableFilterComposer extends Composer<_$Database, $DishesTable> {
 
   ColumnFilters<int> get latestLogId => $composableBuilder(
     column: $table.latestLogId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get lastAutomaticSnapshotTs => $composableBuilder(
+    column: $table.lastAutomaticSnapshotTs,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -1656,6 +1982,11 @@ class $$DishesTableOrderingComposer extends Composer<_$Database, $DishesTable> {
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<int> get lastAutomaticSnapshotTs => $composableBuilder(
+    column: $table.lastAutomaticSnapshotTs,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<int> get latestLogTimestamp => $composableBuilder(
     column: $table.latestLogTimestamp,
     builder: (column) => ColumnOrderings(column),
@@ -1679,6 +2010,11 @@ class $$DishesTableAnnotationComposer
 
   GeneratedColumn<int> get latestLogId => $composableBuilder(
     column: $table.latestLogId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get lastAutomaticSnapshotTs => $composableBuilder(
+    column: $table.lastAutomaticSnapshotTs,
     builder: (column) => column,
   );
 
@@ -1719,12 +2055,14 @@ class $$DishesTableTableManager
                 Value<String> dishId = const Value.absent(),
                 Value<String?> name = const Value.absent(),
                 Value<int?> latestLogId = const Value.absent(),
+                Value<int?> lastAutomaticSnapshotTs = const Value.absent(),
                 Value<int> latestLogTimestamp = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => DishesCompanion(
                 dishId: dishId,
                 name: name,
                 latestLogId: latestLogId,
+                lastAutomaticSnapshotTs: lastAutomaticSnapshotTs,
                 latestLogTimestamp: latestLogTimestamp,
                 rowid: rowid,
               ),
@@ -1733,12 +2071,14 @@ class $$DishesTableTableManager
                 required String dishId,
                 Value<String?> name = const Value.absent(),
                 Value<int?> latestLogId = const Value.absent(),
+                Value<int?> lastAutomaticSnapshotTs = const Value.absent(),
                 Value<int> latestLogTimestamp = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => DishesCompanion.insert(
                 dishId: dishId,
                 name: name,
                 latestLogId: latestLogId,
+                lastAutomaticSnapshotTs: lastAutomaticSnapshotTs,
                 latestLogTimestamp: latestLogTimestamp,
                 rowid: rowid,
               ),

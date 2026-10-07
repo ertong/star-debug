@@ -74,6 +74,7 @@ class Messages {
   TabsMessages get tabs => TabsMessages(this);
   OnlineMessages get online => OnlineMessages(this);
   GrpcMessages get grpc => GrpcMessages(this);
+  ObstructionsMessages get obstructions => ObstructionsMessages(this);
 }
 
 class GeneralMessages {
@@ -1510,10 +1511,10 @@ class DishObstructionStatsGrpcMessages {
   String get fraction_obstructed => """Fraction obstructed""";
 
   /// ```dart
-  /// "Percentage of the sky obstructed from the dish's view. Lower is better."
+  /// "Obstruction fraction reported by the dish. Its calculation is not specified here; do not interpret it as measured sky area or as the map's blocked-cell percentage."
   /// ```
   String get fraction_obstructed__hint =>
-      """Percentage of the sky obstructed from the dish's view. Lower is better.""";
+      """Obstruction fraction reported by the dish. Its calculation is not specified here; do not interpret it as measured sky area or as the map's blocked-cell percentage.""";
 
   /// ```dart
   /// "Time valid"
@@ -2859,6 +2860,469 @@ class WifiGetStatusGrpcMessages {
   String get client_index => """client_index""";
 }
 
+class ObstructionsMessages {
+  final Messages _parent;
+  const ObstructionsMessages(this._parent);
+
+  /// ```dart
+  /// "Obstruction map"
+  /// ```
+  String get title => """Obstruction map""";
+
+  /// ```dart
+  /// "Open obstruction details"
+  /// ```
+  String get open_details => """Open obstruction details""";
+
+  /// ```dart
+  /// "Good signal"
+  /// ```
+  String get clear => """Good signal""";
+
+  /// ```dart
+  /// "No signal"
+  /// ```
+  String get blocked => """No signal""";
+
+  /// ```dart
+  /// "Reduced signal"
+  /// ```
+  String get reduced_signal => """Reduced signal""";
+
+  /// ```dart
+  /// "Unobserved"
+  /// ```
+  String get no_data => """Unobserved""";
+
+  /// ```dart
+  /// "Received an invalid obstruction map."
+  /// ```
+  String get invalid_map => """Received an invalid obstruction map.""";
+
+  /// ```dart
+  /// "This capture contains an invalid obstruction map."
+  /// ```
+  String get invalid_map_capture =>
+      """This capture contains an invalid obstruction map.""";
+
+  /// ```dart
+  /// "Waiting for an obstruction map from the dish."
+  /// ```
+  String get waiting => """Waiting for an obstruction map from the dish.""";
+
+  /// ```dart
+  /// "No obstruction map in this snapshot."
+  /// ```
+  String get unavailable => """No obstruction map in this snapshot.""";
+
+  /// ```dart
+  /// "Obstruction map: $observed observed cells, $blocked blocked cells."
+  /// ```
+  String map_semantics(observed, blocked) =>
+      """Obstruction map: $observed observed cells, $blocked blocked cells.""";
+
+  /// ```dart
+  /// "True north up · Earth-relative map."
+  /// ```
+  String get earth_frame => """True north up · Earth-relative map.""";
+
+  /// ```dart
+  /// "Dish-relative map. Compass directions are unavailable."
+  /// ```
+  String get dish_frame =>
+      """Dish-relative map. Compass directions are unavailable.""";
+
+  /// ```dart
+  /// "Dish-relative map · compass unavailable"
+  /// ```
+  String get dish_frame_short => """Dish-relative map · compass unavailable""";
+
+  /// ```dart
+  /// "Projected north up · dish-relative map. Compass and sectors are approximate references based on the supplied dish orientation. They cannot recover past bearings if the dish moved."
+  /// ```
+  String get dish_frame_oriented =>
+      """Projected north up · dish-relative map. Compass and sectors are approximate references based on the supplied dish orientation. They cannot recover past bearings if the dish moved.""";
+
+  /// ```dart
+  /// "Projected north up · dish-relative map"
+  /// ```
+  String get dish_frame_oriented_short =>
+      """Projected north up · dish-relative map""";
+
+  /// ```dart
+  /// "White: dish direction. Dashed gold: target direction. Shorter arrows point closer to vertical; a dot is near vertical. Unavailable directions are hidden. Arrows do not show satellite positions."
+  /// ```
+  String get arrow_guide =>
+      """White: dish direction. Dashed gold: target direction. Shorter arrows point closer to vertical; a dot is near vertical. Unavailable directions are hidden. Arrows do not show satellite positions.""";
+
+  /// ```dart
+  /// "The antenna is looking downward, below the horizon. Check its mounting and orientation."
+  /// ```
+  String get looking_downward =>
+      """The antenna is looking downward, below the horizon. Check its mounting and orientation.""";
+
+  /// ```dart
+  /// "Map reference frame unknown. Compass directions and arrows are unavailable."
+  /// ```
+  String get unknown_frame =>
+      """Map reference frame unknown. Compass directions and arrows are unavailable.""";
+
+  /// ```dart
+  /// "No usable map observations to display yet. The dish may still be building its map."
+  /// ```
+  String get gathering =>
+      """No usable map observations to display yet. The dish may still be building its map.""";
+
+  /// ```dart
+  /// "Map observations were unavailable or not ready to display at capture."
+  /// ```
+  String get gathering_capture =>
+      """Map observations were unavailable or not ready to display at capture.""";
+
+  /// ```dart
+  /// "Blocked cells (% of observed)"
+  /// ```
+  String get blocked_cells => """Blocked cells (% of observed)""";
+
+  /// ```dart
+  /// "Blocked percentage = no-signal cells ÷ all observed cells. Reduced-signal cells count as observed, not blocked. Unobserved cells are excluded. This is not a percentage of sky area or time obstructed."
+  /// ```
+  String get cells_hint =>
+      """Blocked percentage = no-signal cells ÷ all observed cells. Reduced-signal cells count as observed, not blocked. Unobserved cells are excluded. This is not a percentage of sky area or time obstructed.""";
+
+  /// ```dart
+  /// "Source"
+  /// ```
+  String get source => """Source""";
+
+  /// ```dart
+  /// "Live"
+  /// ```
+  String get source_live => """Live""";
+
+  /// ```dart
+  /// "Imported capture"
+  /// ```
+  String get source_imported => """Imported capture""";
+
+  /// ```dart
+  /// "Snapshot"
+  /// ```
+  String get source_stored => """Snapshot""";
+
+  /// ```dart
+  /// "$age ago"
+  /// ```
+  String received_ago(age) => """$age ago""";
+
+  /// ```dart
+  /// "Last map received"
+  /// ```
+  String get last_received => """Last map received""";
+
+  /// ```dart
+  /// "Map received before capture"
+  /// ```
+  String get capture_map_age => """Map received before capture""";
+
+  /// ```dart
+  /// "Last status received"
+  /// ```
+  String get status_received => """Last status received""";
+
+  /// ```dart
+  /// "Status received before capture"
+  /// ```
+  String get capture_status_age => """Status received before capture""";
+
+  /// ```dart
+  /// "Timing unavailable"
+  /// ```
+  String get timing_unknown => """Timing unavailable""";
+
+  /// ```dart
+  /// "Time since map reception"
+  /// ```
+  String get map_age => """Time since map reception""";
+
+  /// ```dart
+  /// "Updates delayed"
+  /// ```
+  String get delayed_short => """Updates delayed""";
+
+  /// ```dart
+  /// "Map updates are delayed. Showing the last received map."
+  /// ```
+  String get delayed =>
+      """Map updates are delayed. Showing the last received map.""";
+
+  /// ```dart
+  /// "Status outdated"
+  /// ```
+  String get status_delayed_short => """Status outdated""";
+
+  /// ```dart
+  /// "Status timing unavailable"
+  /// ```
+  String get status_unknown_short => """Status timing unavailable""";
+
+  /// ```dart
+  /// "Dish status is outdated. Orientation and status statistics are hidden; map samples remain available."
+  /// ```
+  String get status_delayed =>
+      """Dish status is outdated. Orientation and status statistics are hidden; map samples remain available.""";
+
+  /// ```dart
+  /// "Status was already outdated at capture. Orientation and status statistics are hidden."
+  /// ```
+  String get status_delayed_capture =>
+      """Status was already outdated at capture. Orientation and status statistics are hidden.""";
+
+  /// ```dart
+  /// "Status reception time is unavailable. Live orientation and status statistics are hidden."
+  /// ```
+  String get status_unknown =>
+      """Status reception time is unavailable. Live orientation and status statistics are hidden.""";
+
+  /// ```dart
+  /// "Status timing is unavailable or approximate. Orientation and statistics reflect the supplied capture."
+  /// ```
+  String get status_unknown_capture =>
+      """Status timing is unavailable or approximate. Orientation and statistics reflect the supplied capture.""";
+
+  /// ```dart
+  /// "Current obstruction status"
+  /// ```
+  String get current_signal => """Current obstruction status""";
+
+  /// ```dart
+  /// "Obstruction status at capture"
+  /// ```
+  String get captured_signal => """Obstruction status at capture""";
+
+  /// ```dart
+  /// "Dish reports an obstruction"
+  /// ```
+  String get signal_blocked => """Dish reports an obstruction""";
+
+  /// ```dart
+  /// "No obstruction reported"
+  /// ```
+  String get not_blocked => """No obstruction reported""";
+
+  /// ```dart
+  /// "No-signal cells recorded"
+  /// ```
+  String get recorded_obstructions => """No-signal cells recorded""";
+
+  /// ```dart
+  /// "No blocked cells recorded"
+  /// ```
+  String get no_blocked_cells => """No blocked cells recorded""";
+
+  /// ```dart
+  /// "Dish obstruction fraction"
+  /// ```
+  String get dish_fraction => """Dish obstruction fraction""";
+
+  /// ```dart
+  /// "Avg. prolonged obstruction"
+  /// ```
+  String get average_duration => """Avg. prolonged obstruction""";
+
+  /// ```dart
+  /// "Avg. time between prolonged obstructions"
+  /// ```
+  String get average_interval => """Avg. time between prolonged obstructions""";
+
+  /// ```dart
+  /// "Valid data duration (dish)"
+  /// ```
+  String get collection_time => """Valid data duration (dish)""";
+
+  /// ```dart
+  /// "Largest no-signal patch"
+  /// ```
+  String get largest_patch => """Largest no-signal patch""";
+
+  /// ```dart
+  /// "cells"
+  /// ```
+  String get cells => """cells""";
+
+  /// ```dart
+  /// "Dish orientation"
+  /// ```
+  String get orientation => """Dish orientation""";
+
+  /// ```dart
+  /// "Dish azimuth"
+  /// ```
+  String get dish_bearing => """Dish azimuth""";
+
+  /// ```dart
+  /// "Dish heading"
+  /// ```
+  String get dish_heading => """Dish heading""";
+
+  /// ```dart
+  /// "Dish elevation"
+  /// ```
+  String get elevation => """Dish elevation""";
+
+  /// ```dart
+  /// "Target azimuth"
+  /// ```
+  String get target_bearing => """Target azimuth""";
+
+  /// ```dart
+  /// "Target elevation"
+  /// ```
+  String get target_elevation => """Target elevation""";
+
+  /// ```dart
+  /// "Azimuth difference"
+  /// ```
+  String get azimuth_difference => """Azimuth difference""";
+
+  /// ```dart
+  /// "Elevation difference"
+  /// ```
+  String get elevation_difference => """Elevation difference""";
+
+  /// ```dart
+  /// "When the dish points nearly straight up or down, its azimuth is poorly defined. Check elevation when assessing alignment."
+  /// ```
+  String get heading_uncertain =>
+      """When the dish points nearly straight up or down, its azimuth is poorly defined. Check elevation when assessing alignment.""";
+
+  /// ```dart
+  /// "Blocked sectors"
+  /// ```
+  String get sectors => """Blocked sectors""";
+
+  /// ```dart
+  /// "Labels show blocked % and blocked / observed cells in 45° bearing wedges, starting at north. Unobserved cells and the center are excluded; small samples are inconclusive."
+  /// ```
+  String get sectors_hint =>
+      """Labels show blocked % and blocked / observed cells in 45° bearing wedges, starting at north. Unobserved cells and the center are excluded; small samples are inconclusive.""";
+
+  /// ```dart
+  /// "Top"
+  /// ```
+  String get top => """Top""";
+
+  /// ```dart
+  /// "Top right"
+  /// ```
+  String get top_right => """Top right""";
+
+  /// ```dart
+  /// "Right"
+  /// ```
+  String get right => """Right""";
+
+  /// ```dart
+  /// "Bottom right"
+  /// ```
+  String get bottom_right => """Bottom right""";
+
+  /// ```dart
+  /// "Bottom"
+  /// ```
+  String get bottom => """Bottom""";
+
+  /// ```dart
+  /// "Bottom left"
+  /// ```
+  String get bottom_left => """Bottom left""";
+
+  /// ```dart
+  /// "Left"
+  /// ```
+  String get left => """Left""";
+
+  /// ```dart
+  /// "Top left"
+  /// ```
+  String get top_left => """Top left""";
+
+  /// ```dart
+  /// "How to read this map"
+  /// ```
+  String get reading_map => """How to read this map""";
+
+  /// ```dart
+  /// "Colors show signal recorded during satellite connections over time. Blue is good signal; red is no signal. Shades between red, amber and blue show reduced signal. Gray means no usable observations, not an obstruction."
+  /// ```
+  String get explanation =>
+      """Colors show signal recorded during satellite connections over time. Blue is good signal; red is no signal. Shades between red, amber and blue show reduced signal. Gray means no usable observations, not an obstruction.""";
+
+  /// ```dart
+  /// "An unobserved band may be the geostationary exclusion zone, where Starlink avoids transmitting and receiving to prevent interference. Other gaps may be directions the dish has not sampled."
+  /// ```
+  String get exclusion_hint =>
+      """An unobserved band may be the geostationary exclusion zone, where Starlink avoids transmitting and receiving to prevent interference. Other gaps may be directions the dish has not sampled.""";
+
+  /// ```dart
+  /// "Persistent no-signal regions can help compare mounting locations. The map alone cannot identify what caused a no-signal region or predict downtime. Starlink can switch to satellites in unobstructed directions when available."
+  /// ```
+  String get patterns_hint =>
+      """Persistent no-signal regions can help compare mounting locations. The map alone cannot identify what caused a no-signal region or predict downtime. Starlink can switch to satellites in unobstructed directions when available.""";
+
+  /// ```dart
+  /// "A patch groups no-signal cells that touch along an edge. Its cell count does not measure a physical obstacle. Map and sector percentages do not represent equal areas of sky."
+  /// ```
+  String get patch_hint =>
+      """A patch groups no-signal cells that touch along an edge. Its cell count does not measure a physical obstacle. Map and sector percentages do not represent equal areas of sky.""";
+
+  /// ```dart
+  /// "Reported separately by the dish. Its calculation may differ from the map’s blocked-cell percentage."
+  /// ```
+  String get dish_fraction_hint =>
+      """Reported separately by the dish. Its calculation may differ from the map’s blocked-cell percentage.""";
+
+  /// ```dart
+  /// "Azimuth is clockwise from true north (0°); east is 90°. Elevation is above the horizon: 0° is horizontal, 90° straight up. Target angles are the dish-reported alignment goal. Differences are target minus dish, with azimuth wrapped to ±180°."
+  /// ```
+  String get orientation_hint =>
+      """Azimuth is clockwise from true north (0°); east is 90°. Elevation is above the horizon: 0° is horizontal, 90° straight up. Target angles are the dish-reported alignment goal. Differences are target minus dish, with azimuth wrapped to ±180°.""";
+
+  /// ```dart
+  /// "Reception times date the map and status responses, not individual observations in the accumulated map."
+  /// ```
+  String get reception_hint =>
+      """Reception times date the map and status responses, not individual observations in the accumulated map.""";
+
+  /// ```dart
+  /// "The map fills as the dish communicates with satellites and continues to update. Initial collection can take hours; gaps alone do not show an obstruction."
+  /// ```
+  String get collection_hint =>
+      """The map fills as the dish communicates with satellites and continues to update. Initial collection can take hours; gaps alone do not show an obstruction.""";
+
+  /// ```dart
+  /// "Projected north up · dish-relative map · approximate compass"
+  /// ```
+  String get dish_frame_image =>
+      """Projected north up · dish-relative map · approximate compass""";
+
+  /// ```dart
+  /// "White: dish · dashed gold: target"
+  /// ```
+  String get arrow_legend => """White: dish · dashed gold: target""";
+
+  /// ```dart
+  /// "Sectors: blocked % · blocked / observed"
+  /// ```
+  String get sector_legend => """Sectors: blocked % · blocked / observed""";
+
+  /// ```dart
+  /// "Dish azimuth is uncertain near vertical."
+  /// ```
+  String get heading_uncertain_short =>
+      """Dish azimuth is uncertain near vertical.""";
+}
+
 Map<String, String> get messagesMap => {
   """general.lang""": """English""",
   """general.app_name""": """Star Debug""",
@@ -3162,7 +3626,7 @@ with internet access and dish access. You can find this setting in
   """grpc.DishConfig.power_save_mode__hint""": """You can set a sleep mode for your Starlink. Starlink won't provide Internet or melt snow while sleeping.""",
   """grpc.DishObstructionStats.fraction_obstructed""":
       """Fraction obstructed""",
-  """grpc.DishObstructionStats.fraction_obstructed__hint""": """Percentage of the sky obstructed from the dish's view. Lower is better.""",
+  """grpc.DishObstructionStats.fraction_obstructed__hint""": """Obstruction fraction reported by the dish. Its calculation is not specified here; do not interpret it as measured sky area or as the map's blocked-cell percentage.""",
   """grpc.DishObstructionStats.valid_s""": """Time valid""",
   """grpc.DishObstructionStats.valid_s__hint""": """Duration for which obstruction data has been collected and is considered valid.""",
   """grpc.DishObstructionStats.currently_obstructed""":
@@ -3507,4 +3971,98 @@ starting from approximately January 2023, Starlink routers are able to pick rand
       """Dish ping drop rate, 5m""",
   """grpc.WifiGetStatus.has_client_index""": """has_client_index""",
   """grpc.WifiGetStatus.client_index""": """client_index""",
+  """obstructions.title""": """Obstruction map""",
+  """obstructions.open_details""": """Open obstruction details""",
+  """obstructions.clear""": """Good signal""",
+  """obstructions.blocked""": """No signal""",
+  """obstructions.reduced_signal""": """Reduced signal""",
+  """obstructions.no_data""": """Unobserved""",
+  """obstructions.invalid_map""": """Received an invalid obstruction map.""",
+  """obstructions.invalid_map_capture""":
+      """This capture contains an invalid obstruction map.""",
+  """obstructions.waiting""":
+      """Waiting for an obstruction map from the dish.""",
+  """obstructions.unavailable""": """No obstruction map in this snapshot.""",
+  """obstructions.earth_frame""": """True north up · Earth-relative map.""",
+  """obstructions.dish_frame""":
+      """Dish-relative map. Compass directions are unavailable.""",
+  """obstructions.dish_frame_short""":
+      """Dish-relative map · compass unavailable""",
+  """obstructions.dish_frame_oriented""": """Projected north up · dish-relative map. Compass and sectors are approximate references based on the supplied dish orientation. They cannot recover past bearings if the dish moved.""",
+  """obstructions.dish_frame_oriented_short""":
+      """Projected north up · dish-relative map""",
+  """obstructions.arrow_guide""": """White: dish direction. Dashed gold: target direction. Shorter arrows point closer to vertical; a dot is near vertical. Unavailable directions are hidden. Arrows do not show satellite positions.""",
+  """obstructions.looking_downward""": """The antenna is looking downward, below the horizon. Check its mounting and orientation.""",
+  """obstructions.unknown_frame""": """Map reference frame unknown. Compass directions and arrows are unavailable.""",
+  """obstructions.gathering""": """No usable map observations to display yet. The dish may still be building its map.""",
+  """obstructions.gathering_capture""": """Map observations were unavailable or not ready to display at capture.""",
+  """obstructions.blocked_cells""": """Blocked cells (% of observed)""",
+  """obstructions.cells_hint""": """Blocked percentage = no-signal cells ÷ all observed cells. Reduced-signal cells count as observed, not blocked. Unobserved cells are excluded. This is not a percentage of sky area or time obstructed.""",
+  """obstructions.source""": """Source""",
+  """obstructions.source_live""": """Live""",
+  """obstructions.source_imported""": """Imported capture""",
+  """obstructions.source_stored""": """Snapshot""",
+  """obstructions.last_received""": """Last map received""",
+  """obstructions.capture_map_age""": """Map received before capture""",
+  """obstructions.status_received""": """Last status received""",
+  """obstructions.capture_status_age""": """Status received before capture""",
+  """obstructions.timing_unknown""": """Timing unavailable""",
+  """obstructions.map_age""": """Time since map reception""",
+  """obstructions.delayed_short""": """Updates delayed""",
+  """obstructions.delayed""":
+      """Map updates are delayed. Showing the last received map.""",
+  """obstructions.status_delayed_short""": """Status outdated""",
+  """obstructions.status_unknown_short""": """Status timing unavailable""",
+  """obstructions.status_delayed""": """Dish status is outdated. Orientation and status statistics are hidden; map samples remain available.""",
+  """obstructions.status_delayed_capture""": """Status was already outdated at capture. Orientation and status statistics are hidden.""",
+  """obstructions.status_unknown""": """Status reception time is unavailable. Live orientation and status statistics are hidden.""",
+  """obstructions.status_unknown_capture""": """Status timing is unavailable or approximate. Orientation and statistics reflect the supplied capture.""",
+  """obstructions.current_signal""": """Current obstruction status""",
+  """obstructions.captured_signal""": """Obstruction status at capture""",
+  """obstructions.signal_blocked""": """Dish reports an obstruction""",
+  """obstructions.not_blocked""": """No obstruction reported""",
+  """obstructions.recorded_obstructions""": """No-signal cells recorded""",
+  """obstructions.no_blocked_cells""": """No blocked cells recorded""",
+  """obstructions.dish_fraction""": """Dish obstruction fraction""",
+  """obstructions.average_duration""": """Avg. prolonged obstruction""",
+  """obstructions.average_interval""":
+      """Avg. time between prolonged obstructions""",
+  """obstructions.collection_time""": """Valid data duration (dish)""",
+  """obstructions.largest_patch""": """Largest no-signal patch""",
+  """obstructions.cells""": """cells""",
+  """obstructions.orientation""": """Dish orientation""",
+  """obstructions.dish_bearing""": """Dish azimuth""",
+  """obstructions.dish_heading""": """Dish heading""",
+  """obstructions.elevation""": """Dish elevation""",
+  """obstructions.target_bearing""": """Target azimuth""",
+  """obstructions.target_elevation""": """Target elevation""",
+  """obstructions.azimuth_difference""": """Azimuth difference""",
+  """obstructions.elevation_difference""": """Elevation difference""",
+  """obstructions.heading_uncertain""": """When the dish points nearly straight up or down, its azimuth is poorly defined. Check elevation when assessing alignment.""",
+  """obstructions.sectors""": """Blocked sectors""",
+  """obstructions.sectors_hint""": """Labels show blocked % and blocked / observed cells in 45° bearing wedges, starting at north. Unobserved cells and the center are excluded; small samples are inconclusive.""",
+  """obstructions.top""": """Top""",
+  """obstructions.top_right""": """Top right""",
+  """obstructions.right""": """Right""",
+  """obstructions.bottom_right""": """Bottom right""",
+  """obstructions.bottom""": """Bottom""",
+  """obstructions.bottom_left""": """Bottom left""",
+  """obstructions.left""": """Left""",
+  """obstructions.top_left""": """Top left""",
+  """obstructions.reading_map""": """How to read this map""",
+  """obstructions.explanation""": """Colors show signal recorded during satellite connections over time. Blue is good signal; red is no signal. Shades between red, amber and blue show reduced signal. Gray means no usable observations, not an obstruction.""",
+  """obstructions.exclusion_hint""": """An unobserved band may be the geostationary exclusion zone, where Starlink avoids transmitting and receiving to prevent interference. Other gaps may be directions the dish has not sampled.""",
+  """obstructions.patterns_hint""": """Persistent no-signal regions can help compare mounting locations. The map alone cannot identify what caused a no-signal region or predict downtime. Starlink can switch to satellites in unobstructed directions when available.""",
+  """obstructions.patch_hint""": """A patch groups no-signal cells that touch along an edge. Its cell count does not measure a physical obstacle. Map and sector percentages do not represent equal areas of sky.""",
+  """obstructions.dish_fraction_hint""": """Reported separately by the dish. Its calculation may differ from the map’s blocked-cell percentage.""",
+  """obstructions.orientation_hint""": """Azimuth is clockwise from true north (0°); east is 90°. Elevation is above the horizon: 0° is horizontal, 90° straight up. Target angles are the dish-reported alignment goal. Differences are target minus dish, with azimuth wrapped to ±180°.""",
+  """obstructions.reception_hint""": """Reception times date the map and status responses, not individual observations in the accumulated map.""",
+  """obstructions.collection_hint""": """The map fills as the dish communicates with satellites and continues to update. Initial collection can take hours; gaps alone do not show an obstruction.""",
+  """obstructions.dish_frame_image""":
+      """Projected north up · dish-relative map · approximate compass""",
+  """obstructions.arrow_legend""": """White: dish · dashed gold: target""",
+  """obstructions.sector_legend""":
+      """Sectors: blocked % · blocked / observed""",
+  """obstructions.heading_uncertain_short""":
+      """Dish azimuth is uncertain near vertical.""",
 };

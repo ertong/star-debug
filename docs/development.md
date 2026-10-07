@@ -20,19 +20,8 @@ network access to the Starlink subnets. The defaults are `192.168.100.1` for the
 Firebase initializes only on Android and iOS. Desktop development does not require Firebase
 startup, but platform plugin availability can still differ. iOS builds require iOS 16.0 or later.
 
-## Scope of changes
-
-Follow the [Change scope rules in AGENTS.md](../AGENTS.md#change-scope). Keep each edit tied to the
-requested behavior, its tests, or the configuration and documentation needed to support it.
-Nearby code and other parts of a touched file are not an invitation to refactor or restyle.
-
-Match the surrounding style when adding or changing code. Preserve existing quotes, braces,
-`const`/`final`, `this.`, naming, import order, wrapping, whitespace, and line endings unless the
-user explicitly requests a style change. Leave unrelated lint fixes, dependency updates, and
-documentation cleanup for a separate task. Preserve pre-existing user changes.
-
-Review the final diff hunk by hunk for task relevance. When a formatter introduces unrelated
-changes, remove only those incidental edits you introduced and retain the intended changes.
+Follow the [Change scope rules](../AGENTS.md#change-scope): preserve surrounding style and
+pre-existing changes, and review each diff hunk for task relevance.
 
 ## Validation
 
@@ -74,15 +63,16 @@ Generated files are committed. Edit their inputs and regenerate; do not patch ge
 - Protocol sources are the repository-root `_misc/*.proto` files. From the repository root,
   `bash _misc/protoc.sh` generates `star.debug/lib/grpc/starlink/*.pb*.dart`.
 
-The protobuf script creates a repository-root `.venv` if necessary from `requirements.txt`. It also
-requires `protoc-gen-dart` on `PATH`:
+The protobuf script requires Python 3 with `venv` support and `uv` to bootstrap a repository-root
+`.venv` from `requirements.txt` when absent. It also requires `protoc-gen-dart` on `PATH`:
 
 ```sh
 dart pub global activate protoc_plugin
 ```
 
-After generation, review generated diffs together with their source changes. The analyzer excludes
-protobuf and localization output but does not exclude Drift `*.g.dart` files.
+After generation, review generated diffs together with their source changes.
+[`analysis_options.yaml`](../star.debug/analysis_options.yaml) excludes generated Drift,
+protobuf, and localization output from analysis.
 
 For active work on Drift or localization sources, continuous generation is available:
 
@@ -112,7 +102,8 @@ It fails with setup guidance if the project virtual environment does not exist. 
 aligns non-English keys with English. Missing strings are retained as marked entries for
 translation, and removed English keys are preserved as obsolete entries rather than silently
 discarded. Its optional `--auto` mode calls an external translation service, so use it only when
-network access and external data submission are appropriate.
+network access and external data submission are appropriate. The optional translator currently
+embeds key-like strings and prints the selected token; their validity was not checked.
 
 The wrapper shares the project virtual environment used by `_misc/protoc.sh`. Its dependencies are
 listed in the repository-root `requirements.txt`.
@@ -159,10 +150,9 @@ NDK `28.2.13676358`, and Java 17 or later. The project uses AGP `9.1.1`, Gradle 
 and built-in Kotlin with compiler `2.3.20`. Compile SDK 37.0 is required by
 `permission_handler_android` 14.x; the app targets API 36.
 
-Android CI uses `ertong/flutter:3.47.6-api37-jdk17`, which includes the pinned Flutter
-release and the Android SDK packages above. macOS CI uses asdf; Windows CI installs
-the pinned Flutter release in the job workspace. The dependency lockfile keeps
-transitive versions reproducible.
+Android CI selects `ertong/flutter:3.47.6-api37-jdk17`; its image contents are external to this
+repository. macOS CI uses asdf; Windows CI installs the pinned Flutter release in the job
+workspace. The dependency lockfile keeps transitive versions reproducible.
 The clipboard dependency retains its Git pin because published version 3.0.14 lacks the
 Windows include-path fix.
 
@@ -178,25 +168,19 @@ The iOS bundle is locked by `ios/Gemfile.lock`. Install it with `bundle install`
 CocoaPods, or signing profiles only as a deliberate release-maintenance change and review their
 lockfile and project diffs.
 
-The GitLab pipeline includes Android tests and builds, an unsigned iOS branch build, Windows release
-archives, Play publishing, and TestFlight publishing. `ci-parse-tag.sh` derives Flutter build name
-and number options from release tags.
+The GitLab pipeline defines Android tests/builds, an unsigned iOS branch build, Windows release
+archives, Play publishing, and TestFlight publishing. The Windows job is conditional on
+`DIAWI_TOKEN`. `ci-parse-tag.sh` derives Flutter build name and number options from release tags.
 
 Release credentials, signing material, service-account JSON, and generated environment files are
 CI or developer-machine inputs. Do not add new secrets or personal provisioning data to fixtures,
 documentation, or source control.
 
-## Common traps
+## Environment gotchas
 
 - Run Flutter, Dart, and fixture-based tests from `star.debug/`, not the repository root.
-- `PooledRequest.data` can be stale; use timestamps, `hasRecentData()`, or `validData()` when
-  freshness is part of the contract.
-- A connection captures its host when constructed. Calling `close()` does not clear its holder's
-  reference or guarantee immediate reconstruction. Use `ConnectionHolder.reconnect()` when changing
-  addresses; blank address settings restore defaults, and preferences repair invalid saved overrides
-  on load without clearing other user data.
-- Debug-data timestamps are seconds; runtime and database timestamps are milliseconds.
-- Imported debug data may contain either embedded protobuf bytes or only JSON-shaped protobuf data.
-  Maintain both paths and the round-trip tests.
-- Android internet probes are not the same implementation as desktop and iOS probes.
-- Avoid formatting generated files by hand; regenerate them from their source definitions.
+- After switching host operating systems, regenerate ignored package configuration with
+  `flutter pub get`; cached paths from another host can fail before tests execute.
+- `msg.sh` needs the existing root `.venv`; unlike `_misc/protoc.sh`, it does not bootstrap it.
+- Check [Architecture](architecture.md) for connection freshness, captured hosts, timestamp units,
+  and import compatibility contracts before changing those paths.

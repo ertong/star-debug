@@ -17,6 +17,7 @@ import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:star_debug/utils/format.dart';
 import 'package:star_debug/utils/kv_widget.dart';
 import 'package:star_debug/utils/log_utils.dart';
+import 'package:star_debug/utils/obstruction_map_context.dart';
 import 'package:star_debug/utils/snapshot.dart';
 import 'package:star_debug/utils/utils.dart';
 import 'package:star_debug/utils/view_options.dart';
@@ -29,7 +30,8 @@ const String _TAG="ShareScreenshot";
 class ShareScreenshot<TItem> extends StatefulWidget
 {
   final Snapshot snap;
-  const ShareScreenshot({super.key, required this.snap});
+  final MapSourceMode sourceMode;
+  const ShareScreenshot({super.key, required this.snap, required this.sourceMode});
 
   @override
   State createState() => _ShareScreenshotState<TItem>();
@@ -132,6 +134,8 @@ class _ShareScreenshotState<TItem> extends State<ShareScreenshot<TItem>>
                   width: 380,
                   child: DishWidget(
                     snap: widget.snap,
+                    sourceMode: widget.sourceMode,
+                    forSnapshotImage: true,
                     viewOptions: viewOptions,
                   ),
                 ),

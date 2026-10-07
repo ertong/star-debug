@@ -9,9 +9,11 @@ import 'package:star_debug/grpc/starlink/starlink.pbgrpc.dart';
 import 'package:star_debug/grpc/starlink/telemetron.pb.dart';
 import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/pages/view/common.dart';
+import 'package:star_debug/widgets/obstruction_map.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/utils/format.dart';
 import 'package:star_debug/utils/kv_widget.dart';
+import 'package:star_debug/utils/obstruction_map_context.dart';
 import 'package:star_debug/utils/snapshot.dart';
 import 'package:star_debug/utils/view_options.dart';
 import 'package:time_machine2/time_machine2.dart';
@@ -26,7 +28,10 @@ class DishWidget extends StatefulWidget {
   final ViewOptions viewOptions;
   final Snapshot snap;
   final bool showActions;
-  const DishWidget({super.key, required this.viewOptions, required this.snap, this.showActions = false});
+  final bool forSnapshotImage;
+  final bool statusVisible;
+  final MapSourceMode sourceMode;
+  const DishWidget({super.key, required this.viewOptions, required this.snap, required this.sourceMode, this.showActions = false, this.statusVisible = true, this.forSnapshotImage = false});
 
   @override
   State createState() => _DishWidgetState();
@@ -141,7 +146,26 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
     return b.widgets;
   }
 
+  Widget _buildObstructionMap(){
+    final status = widget.snap.dishGetStatus;
+    return ObstructionMapWidget(
+      key: Key('dish-obstruction-source'),
+      map: widget.snap.dishGetObstructionMap,
+      receivedTime: widget.snap.obstructionMapTs,
+      timestamp: widget.snap.timestamp,
+      stats: status != null && status.hasObstructionStats() ? status.obstructionStats : null,
+      status: status,
+      sourceMode: widget.sourceMode,
+      forSnapshotImage: widget.forSnapshotImage,
+      statusReceivedTime: widget.snap.dishTs,
+      statusTimestampIsEstimated: widget.snap.dishTsIsEstimated,
+    );
+  }
+
   List<Widget> _buildBody(){
+    if (!widget.statusVisible)
+      return [_buildObstructionMap()];
+
     List<Widget> rows = [];
 
     DishGetStatusResponse? status = widget.snap.dishGetStatus;
@@ -415,47 +439,13 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
         b.kv(M.grpc.DishGetStatus.is_snr_persistently_low, status.isSnrPersistentlyLow,
             hint: M.grpc.DishGetStatus.is_snr_persistently_low__hint);
 
-        if (status.hasObstructionStats()) {
-          var stats = status.obstructionStats;
-          if (stats.hasFractionObstructed())
-            b.kv(M.grpc.DishObstructionStats.fraction_obstructed,
-                "${(stats.fractionObstructed * 100).toStringAsFixed(2)} %",
-                hint: M.grpc.DishObstructionStats.fraction_obstructed__hint);
-
-          if (stats.hasValidS())
-            b.kv(M.grpc.DishObstructionStats.valid_s, Format.secD(stats.validS),
-                hint: M.grpc.DishObstructionStats.valid_s__hint);
-
-          b.kv(M.grpc.DishObstructionStats.currently_obstructed, stats.currentlyObstructed,
-              hint: M.grpc.DishObstructionStats.currently_obstructed__hint);
-
-          if (stats.hasAvgProlongedObstructionDurationS())
-            b.kv(M.grpc.DishObstructionStats.avg_prolonged_obstruction_duration_s,
-                Format.secD(stats.avgProlongedObstructionDurationS),
-                hint: M.grpc.DishObstructionStats.avg_prolonged_obstruction_duration_s__hint);
-
-          if (stats.hasAvgProlongedObstructionIntervalS())
-            b.kv(M.grpc.DishObstructionStats.avg_prolonged_obstruction_interval_s,
-                Format.secD(stats.avgProlongedObstructionIntervalS),
-                hint: M.grpc.DishObstructionStats.avg_prolonged_obstruction_interval_s__hint);
-
-          if (stats.hasAvgProlongedObstructionValid())
-            b.kv(M.grpc.DishObstructionStats.avg_prolonged_obstruction_valid, stats.avgProlongedObstructionValid,
-                hint: M.grpc.DishObstructionStats.avg_prolonged_obstruction_valid__hint);
-
-          if (stats.hasTimeObstructed())
-            b.kv(M.grpc.DishObstructionStats.time_obstructed, stats.timeObstructed,
-                hint: M.grpc.DishObstructionStats.time_obstructed__hint);
-
-          if (stats.hasPatchesValid())
-            b.kv(M.grpc.DishObstructionStats.patches_valid, stats.patchesValid,
-                hint: M.grpc.DishObstructionStats.patches_valid__hint);
-        }
 
         if (b.widgets.length > 1) {
           rows.addAll(b.widgets);
         }
       }
+
+      rows.add(_buildObstructionMap());
 
       if (status.hasReadyStates()) {
         var b = KVWidgetBuilder(context, theme);

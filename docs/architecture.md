@@ -49,8 +49,9 @@ holders, logging controllers, localization, navigation keys, and platform integr
 constructs objects depending on `R`, including `Prefs` and the connection implementations, must do
 so after the relevant fields have initialized.
 
-Initialization failures are logged, the loading callback waits five seconds, and then the process
-exits. Uncaught Dart-zone errors are logged and are also sent to Crashlytics on Android and iOS.
+Timezone initialization errors are logged and tolerated. Other initialization failures are logged;
+the loading callback waits five seconds, then the process exits. Uncaught Dart-zone errors are
+logged and are also sent to Crashlytics on Android and iOS.
 Analytics and Crashlytics collection are disabled in assert-enabled builds.
 
 ## Listener-driven connections
@@ -95,9 +96,14 @@ The loop guards against stalled resources:
 - stream and channel errors are retained for display and cause the affected resource to reopen.
 
 `DishConnection` sends status and history requests every two seconds. When the dish allows local
-location requests, it also asks for GPS and Starlink-derived locations. `RouterConnection` requests
-Wi-Fi status every two seconds and separately probes the router's HTTP root for its response code
-and redirect location.
+location requests, it also asks for GPS and Starlink-derived locations. The first successful dish
+status on each stream immediately requests an obstruction map, including after reconnection.
+Maps then refresh every 30 seconds through that stream and retain their own receive timestamp.
+If a status reports a different nonempty dish ID, `DishConnection` clears the cached map and its
+receive metadata before notifying listeners, and immediately requests a replacement. The last
+known ID survives statuses with missing IDs; same-device reconnects retain their cached maps.
+`RouterConnection` requests Wi-Fi status every two seconds and separately probes the router's HTTP
+root for its response code and redirect location.
 
 Router and dish addresses come from `SharedPrefs`, falling back to `kDefaultRouterIp` and
 `kDefaultDishIp`. Loading preferences removes blank, invalid, and explicit default overrides and
@@ -146,8 +152,24 @@ sharing. Repeated protobuf fields gain a `List` suffix and maps become lists of 
 a `Map` suffix so the representation can round-trip through JSON. The debug-data tests validate
 both the binary-assisted form and the raw JSON fallback against fixtures from several versions.
 
+StarDebug exports also contain an optional top-level `capture` envelope with `timestamp`,
+`dishStatusTimestamp`, and `dishStatusTimestampEstimated`. The two timestamps use seconds with
+millisecond precision and preserve capture/status reception times separately from export time.
+`SpaceParser.toSnapshot()` prefers this envelope when present; missing or invalid values become
+unknown rather than borrowing the vendor export timestamp. Nonfinite and out-of-range times are
+rejected before conversion. External data without this envelope retains the legacy timestamp rules.
+See the [capture timing tests](../star.debug/test/obstruction_map_capture_timing_test.dart).
+
 When adding compatibility for a new debug-data layout, normalize it in `SpaceParser` and add a
 sanitized fixture plus round-trip assertions. Avoid teaching UI widgets about format versions.
+
+## Obstruction maps
+
+Maps are polled separately from status and carried by `Snapshot` through live views, export,
+import, and storage. The shared widget renders a minimap, details dialog, or snapshot image.
+See [Obstruction maps](obstruction_maps.md) for ownership, freshness, geometry, serialization,
+rendering caches, and known limitations; [protocol evidence](obstruction_map_sources.md) records
+what is established by schemas and external observations.
 
 ## Persistence
 
@@ -155,21 +177,55 @@ sanitized fixture plus round-trip assertions. Avoid teaching UI widgets about fo
 documents directory on the main isolate, then starts a background isolate containing the Drift
 `NativeDatabase`. All callers share one `Database` connection backed by `sqlite.db`.
 
-Schema version 5 has three logical tables:
+Schema version 7 has three logical tables:
 
-- `dishes` stores one row per dish and points to its latest log;
+- `dishes` stores one row per dish, points to its latest log, and retains the last automatic
+  snapshot creation time independently of subsequent log updates;
 - `dish_logs` stores imported JSON and/or protobuf bytes for dish status, history, router status,
-  and online results;
+  obstruction maps with reception metadata, and an optional online JSON column;
 - `recent_inputs` stores searchable Wi-Fi names and passwords entered through the setup dialog.
 
-`DishLogController` coalesces automatic live updates. It writes at most every five seconds, updates
-the current log during a session, and starts a new automatic log after six hours, on an epoch-day
-boundary, or after a forced log. Imported debug data is de-duplicated by dish ID and timestamp.
+`Snapshot.ofRow()` prefers non-null imported debug JSON over all native columns. Import parsing
+reconstructs status and maps, not history, locations, or online results. Live snapshots currently
+do not populate `onlineJson`, so the online storage column does not retain live probe results.
+
+Automatic logging is driven by holder notifications and requires enabled logging, a dish ID,
+and a status timestamp. `DishLogController` coalesces automatic live updates. It writes at most
+every five seconds and updates the current automatic log during a session. A new automatic log is requested when no log
+exists, after a six-hour gap, on a UTC day boundary, after a forced log, or when uptime decreases
+in a newer dish status response. Missing uptime and repeated or older status timestamps do not
+trigger reboot detection. The initial live uptime is also compared with the latest saved status;
+a reboot whose new uptime already exceeds the previous uptime cannot be inferred this way.
+
+New automatic entries are limited to one per five minutes per dish, using a persisted creation
+time so replacing the current entry or restarting the app does not reset the timer. Reboots
+observed during this interval coalesce into one pending trigger: the current automatic log is
+updated, and a new entry is created on the next eligible live update. Forced logs remain intact
+while automatic creation is throttled. Day-boundary triggers are deferred in the same way.
+Pending triggers are held in memory.
+
+Manual saves retain their separate rule: replace a current automatic log saved within the last
+minute, otherwise insert a forced log. Imported debug data is de-duplicated by dish ID and
+timestamp and uses the forced-save path. Every save retains the newest 50 automatic logs per dish,
+ordered by timestamp and then ID. Forced logs (manual and imported saves) are excluded from both
+the count and automatic pruning, including older imports. Saving, pruning, and repairing the
+latest-log pointer form one transaction.
 Mutations are serialized by a `Mutex`, and UI deletion invalidates the controller's cached records.
 
+Forced and automatic writes share `DishLogController._snapshotToCompanion()` for protobuf payloads,
+map reception metadata, and online JSON. Each caller supplies its own row timestamp and write flags,
+and preserves its imported-JSON representation: absent debug JSON is SQL `NULL` for forced saves
+and JSON `"null"` for automatic writes. Explicit nullable Drift values clear old map fields during
+updates. The helper does not change scheduling or the imported-JSON precedence in `Snapshot.ofRow()`.
+
 Drift migration behavior is intentionally simple: upgrades from versions below 3 drop `dishes`
-and `dish_logs`, then `createAll()` ensures current objects exist. A schema change must be evaluated
-against that behavior and accompanied by a schema-version change and regenerated files.
+and `dish_logs`, then `createAll()` ensures current objects exist. Upgrades from versions 3–5 add
+the nullable obstruction-map columns without rebuilding existing logs. Upgrades from versions 3–6
+also add the automatic creation timestamp. Because previous creation times are unavailable, it is
+initialized from each dish's latest automatic log timestamp. The migration enforces the 50-log cap
+on automatic entries in existing histories, preserves forced logs, and repairs their latest-log
+pointers. A schema change must be evaluated against that behavior and accompanied by a
+schema-version change and regenerated files.
 
 ## Architectural boundaries
 

@@ -10,6 +10,7 @@ import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/routes.dart';
 import 'package:star_debug/space/space_parser.dart';
 import 'package:star_debug/utils/log_utils.dart';
+import 'package:star_debug/utils/obstruction_map_context.dart';
 import 'package:star_debug/utils/snapshot.dart';
 import 'package:star_debug/widgets/app_surface.dart';
 import 'package:star_debug/widgets/app_drawer_pop_scope.dart';
@@ -48,6 +49,7 @@ class _DebugDataPageState extends State<DebugDataPage>
     if (snap != null)
       return SnapshotPage(
         snap: snap!,
+        sourceMode: MapSourceMode.imported,
         onClose: () {
           obstructions = null;
           snap = null;

@@ -17,6 +17,7 @@ import 'package:star_debug/routes.dart';
 import 'package:star_debug/utils/api_helper.dart';
 import 'package:star_debug/utils/debug_data.dart';
 import 'package:star_debug/utils/log_utils.dart';
+import 'package:star_debug/utils/obstruction_map_context.dart';
 import 'package:star_debug/utils/snapshot.dart';
 import 'package:star_debug/utils/tab_index.dart';
 import 'package:star_debug/widgets/app_drawer_pop_scope.dart';
@@ -337,7 +338,7 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
     await showDialog<String>(
       context: context,
       builder: (c) {
-        return ShareScreenshot(snap: snap);
+        return ShareScreenshot(snap: snap, sourceMode: MapSourceMode.stored);
       },
     );
   }
@@ -354,6 +355,9 @@ Snapshot buildLiveSnapshot() {
     routerApiVersion: R.router?.wifiGetStatus.apiVersion,
     historyTs: R.dish?.dishGetHistory.receivedTime,
     dishGetHistory: R.dish?.dishGetHistory.data,
+    dishGetObstructionMap: R.dish?.dishGetObstructionMap.data,
+    obstructionMapTs: R.dish?.dishGetObstructionMap.receivedTime,
+    obstructionMapApiVersion: R.dish?.dishGetObstructionMap.apiVersion,
     dishGetLocationGPS: R.dish?.dishGetLocationGPS.validData(),
     dishGetLocationStarlink: R.dish?.dishGetLocationStarlink.validData(),
   );

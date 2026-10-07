@@ -7,6 +7,15 @@ deleteDishLogs: DELETE FROM dish_logs WHERE dish_id=:dishId;
 deleteDishLogsButLast: DELETE FROM dish_logs WHERE dish_id=:dishId
     AND timestamp!=(SELECT MAX(timestamp) FROM dish_logs WHERE dish_id=:dishId);
 
+getLatestDishLog: SELECT * FROM dish_logs WHERE dish_id=:dishId
+    ORDER BY timestamp DESC, id DESC LIMIT 1;
+getLatestAutomaticDishLog: SELECT * FROM dish_logs WHERE dish_id=:dishId AND force_store=0
+    ORDER BY timestamp DESC, id DESC LIMIT 1;
+pruneDishLogs: DELETE FROM dish_logs WHERE dish_id=:dishId AND force_store=0 AND id NOT IN (
+    SELECT id FROM dish_logs WHERE dish_id=:dishId AND force_store=0
+    ORDER BY timestamp DESC, id DESC LIMIT 50
+);
+
 getDishLog: SELECT * FROM dish_logs WHERE id=:id;
 hasDishLog: SELECT 1 FROM dish_logs WHERE dish_id=:dishId AND timestamp=:timestamp;
 getDishes(:fromDishTimestamp AS INTEGER OR NULL, :fromDishId AS TEXT OR NULL):

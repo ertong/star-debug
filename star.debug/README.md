@@ -7,6 +7,7 @@ in a local Drift database.
 The repository documentation lives one level above the Flutter package:
 
 - [Documentation index](../docs/README.md)
+- [Repository stack](../docs/stack.md)
 - [Architecture](../docs/architecture.md)
 - [Development guide](../docs/development.md)
 
@@ -24,8 +25,7 @@ Validate a change with:
 ```sh
 flutter test
 flutter analyze
-dart format --output=none --set-exit-if-changed lib test
 ```
 
-Generator commands and platform release workflows are documented in the
-[development guide](../docs/development.md).
+Check formatting only for the changed Dart files. Formatting, generators, and platform release
+workflows are documented in the [development guide](../docs/development.md).

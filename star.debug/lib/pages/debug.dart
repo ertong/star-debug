@@ -12,7 +12,7 @@ import 'package:star_debug/grpc/starlink/starlink.pbgrpc.dart' as pbgrpc;
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/routes.dart';
 import 'package:star_debug/utils/log_utils.dart';
-import 'package:star_debug/utils/obstructions.dart';
+import 'package:star_debug/utils/obstruction_map_rendering.dart';
 import 'package:star_debug/widgets/app_drawer_pop_scope.dart';
 
 const String _TAG = "DebugPage";

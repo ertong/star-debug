@@ -15,6 +15,7 @@ class Snapshot {
   final int timestamp;
 
   final int? dishTs;
+  final bool dishTsIsEstimated;
   final DishGetStatusResponse? dishGetStatus;
   final Map<String, bool>? dishFeatures;
   final int? dishApiVersion;
@@ -23,6 +24,10 @@ class Snapshot {
   final WifiGetStatusResponse? routerGetStatus;
   final Map<String, bool>? routerFeatures;
   final int? routerApiVersion;
+
+  final DishGetObstructionMapResponse? dishGetObstructionMap;
+  final int? obstructionMapTs;
+  final int? obstructionMapApiVersion;
 
   final int? historyTs;
   final DishGetHistoryResponse? dishGetHistory;
@@ -37,6 +42,7 @@ class Snapshot {
   Snapshot(
       {required this.timestamp,
       this.dishTs,
+      this.dishTsIsEstimated = false,
       this.dishGetStatus,
       this.dishFeatures,
       this.dishApiVersion,
@@ -44,6 +50,9 @@ class Snapshot {
       this.routerGetStatus,
       this.routerFeatures,
       this.routerApiVersion,
+      this.dishGetObstructionMap,
+      this.obstructionMapTs,
+      this.obstructionMapApiVersion,
       this.historyTs,
       this.dishGetHistory,
       this.dishGetLocationGPS,
@@ -97,6 +106,15 @@ class Snapshot {
       }
     }
 
+    DishGetObstructionMapResponse? obstructionMap;
+    if (row.dishObstructionMap?.isNotEmpty ?? false) {
+      try {
+        obstructionMap = DishGetObstructionMapResponse.fromBuffer(row.dishObstructionMap!);
+      }catch(e,s) {
+        LogUtils.ers(_TAG, "Loading ${row.dishObstructionMap}", e, s);
+      }
+    }
+
     Map<String, dynamic>? onlineJson;
     if (row.onlineJson!=null && row.onlineJson!="null") {
       try {
@@ -108,8 +126,12 @@ class Snapshot {
 
     return Snapshot(
       timestamp: row.timestamp,
-      dishTs: row.timestamp, // todo
+      dishTs: row.timestamp,
+      dishTsIsEstimated: true, // Native rows retain the save time, not status receive time.
       dishGetStatus: dish,
+      dishGetObstructionMap: obstructionMap,
+      obstructionMapTs: obstructionMap == null ? null : row.obstructionMapTs,
+      obstructionMapApiVersion: obstructionMap == null ? null : row.obstructionMapApiVersion,
       routerTs: row.timestamp, // todo
       routerGetStatus: router,
       onlineJson: onlineJson,

@@ -8,6 +8,7 @@ import 'package:star_debug/pages/dialogs/confirm.dart';
 import 'package:star_debug/pages/snapshot.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/utils/format.dart';
+import 'package:star_debug/utils/obstruction_map_context.dart';
 import 'package:star_debug/utils/snapshot.dart';
 import 'package:star_debug/widgets/load_more.dart';
 import 'package:star_debug/widgets/load_more_styled.dart';
@@ -177,7 +178,7 @@ class _SnapshotsPageState extends State<SnapshotsPage>
             context,
             MaterialPageRoute(
               builder: (context) {
-                return SnapshotPage(snap: log.snap);
+                return SnapshotPage(snap: log.snap, sourceMode: MapSourceMode.stored);
               },
             ),
           );
