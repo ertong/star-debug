@@ -49,8 +49,9 @@ holders, logging controllers, localization, navigation keys, and platform integr
 constructs objects depending on `R`, including `Prefs` and the connection implementations, must do
 so after the relevant fields have initialized.
 
-Initialization failures are logged, the loading callback waits five seconds, and then the process
-exits. Uncaught Dart-zone errors are logged and are also sent to Crashlytics on Android and iOS.
+Timezone initialization errors are logged and tolerated. Other initialization failures are logged;
+the loading callback waits five seconds, then the process exits. Uncaught Dart-zone errors are
+logged and are also sent to Crashlytics on Android and iOS.
 Analytics and Crashlytics collection are disabled in assert-enabled builds.
 
 ## Listener-driven connections
@@ -164,166 +165,11 @@ sanitized fixture plus round-trip assertions. Avoid teaching UI widgets about fo
 
 ## Obstruction maps
 
-The [protocol evidence](obstruction_map_sources.md) distinguishes schema contracts from measured
-firmware behavior and records calibration limits. The
-[2026-10-07 review](obstruction_map_review.md) tracks implementation findings; possible changes
-are separated into [refactoring proposals](proposals/obstruction_map_refactoring.md).
-
-`Snapshot` carries an optional obstruction map, receive timestamp, and API version. The shared dish
-view shows a compact minimap and opens a responsive details dialog. Negative or nonfinite signal
-values are unobserved, zero is blocked, and 0..1 is normalized signal quality. Blocked-cell ratios
-exclude unobserved cells and are separate from dish-reported obstruction stats. Sector ratios and
-four-connected blocked patch sizes describe samples, not sky area, physical obstacles, or downtime.
-Maps with invalid dimensions or no observed samples show a state message instead of a canvas.
-An explicitly zero `patchesValid` count also suppresses the canvas when its status is usable under
-the freshness policy below. Missing readiness counts do not invalidate older maps.
-
-Rendered snapshot images pass `forSnapshotImage` through `DishWidget` to the shared map widget.
-This presentation uses the detailed canvas and compact statistics/orientation grids, with legends
-and brief status warnings instead of popup explanations or controls. It shares the popup's data,
-geometry, and freshness filtering; reception ages are relative to the capture time.
-
-Implementation responsibilities are separated into
-[`ObstructionMapData`](../star.debug/lib/utils/obstructions.dart) for immutable samples,
-classification, totals, and connected patches;
-[`ObstructionMapGeometry` and `ObstructionMapLayout`](../star.debug/lib/utils/obstruction_map_geometry.dart)
-for current attitude references, rotation, sector classification, equal cell pitch, and ray/rectangle
-intersections;
-[`ObstructionSectorOverlay`](../star.debug/lib/utils/obstruction_map_analysis.dart) for sample counts
-using that geometry; and
-[`ObstructionMapPalette` and PNG export](../star.debug/lib/utils/obstruction_map_rendering.dart) for
-shared signal colors and unrotated raster output. The widget owns text measurement, badges,
-arrow styling, and collision handling. Sector cuts, cardinal marks, numeric bearings, and badge
-centers use the same ray intersection, preserving bearing angles on rectangular grids.
-
-Each mounted `ObstructionMapWidget` normalizes the response and creates one unrotated bitmap when
-the protobuf map object changes. The bitmap has one pixel per source cell and is shared by the
-minimap and its details dialog. Age, status, heading, theme, and size updates reuse it. Painting
-scales it with nearest-neighbor sampling under the existing rotation, clipping, and unknown-color
-padding; compass marks, arrows, sector badges, and text remain separate. PNG sharing still creates
-its own unrotated two-pixels-per-cell export.
-
-The widget also owns a one-entry `ObstructionSectorCache`, populated when details need sectors.
-Its key is the normalized map, reference frame, and effective unnormalized North/East basis for
-UT maps. EARTH sectors ignore attitude. A missing overlay is cached too. Map replacement clears
-the entry; UT basis changes or freshness filtering recompute it, while age-only and heading-only
-updates retain the overlay identity. With other painter inputs unchanged, age-only updates can
-avoid painting. Layout and text remain per-view work.
-
-`generateObstructionBitmap()` returns an image handle synchronously using `Picture.toImageSync()`;
-Flutter rasterizes it asynchronously, with GPU residency when available. The temporary picture
-is disposed immediately. The widget retires old image handles after two post-frame callbacks so
-the separately updated dialog can replace its painter or close first; retirement also runs after
-source disposal. New map creation still records every cell once. See the
-[R8 measurements and API references](proposals/obstruction_map_refactoring.md#r8--profile-before-caching-or-rasterizing)
-for costs and remaining device-profiling limits.
-
-[`ObstructionMapContext`](../star.debug/lib/utils/obstruction_map_context.dart) keeps explicit
-live/imported/stored source modes and independent map/status reception ages. Live ages use the
-current snapshot timestamp; frozen views use the capture timestamp, so opening an old capture
-does not make it age further. Unknown, nonpositive, or future reception times have unknown ages.
-Map reception is delayed strictly after 65 seconds; status expires at five seconds. Live status
-must be fresh before it controls readiness, signal state, reported obstruction metrics, attitude,
-UT references, or heading arrows. Raw samples remain available when status expires, and EARTH
-references remain valid without attitude. Known stale captured status is suppressed too; unknown
-captured status is shown with a timing qualification.
-
-`DishTab` refreshes the mounted live view once per second, including during stream silence, and
-cancels that timer on disposal. Stable dish/map keys retain the map and its open dialog as status
-rows disappear and recover. Source labels and English/Ukrainian state text distinguish live updates
-from frozen captures. Screenshot sharing uses a frozen source mode even when initiated from live.
-Native database rows have only the save time for status; `Snapshot.dishTsIsEstimated` marks this
-approximation and the map UI reports its status reception timing as unknown. Imported JSON preserves
-its recorded timing provenance. Neither reception age nor source mode establishes map ownership or
-the historical attitude of accumulated samples.
-
-EARTH grids have north at the top. UT grids rotate for display so the projected north direction
-points upward in both maps; compass marks, sector cuts, and arrows rotate with the grid.
-The rotated grid is padded with the unobserved-cell color to an upright rounded rectangle;
-sector cuts extend to its outer edge and badges sit just inside it. Padding adds no samples.
-On UT grids with a complete, finite unit `ned2dishQuaternion`, N/S/E/W references are calculated with the inverse Hamilton
-rotation: geographic horizontal vectors are projected onto the dish's XY plane, with +X to the
-right and +Y toward the panel top. Canvas rows increase downward, so projected Y changes sign
-before placement. Each nonzero projection determines the corresponding label's direction
-from the center to the canvas edge. A direction perpendicular to the panel has no in-plane
-projection and its label is omitted. Overlapping direction labels on a nearly vertical plane
-are grouped (for example, `N/W`) using their measured text bounds. Quaternion normalization
-tolerates float rounding (norm error at most 0.001); non-unit or incomplete quaternions are
-rejected. An explicitly reported attitude-filter state must be converged; older status without
-that field remains supported. Bearing and target bearing are never substituted for missing
-attitude. Quaternion sign does not affect the result.
-
-Requiring all component presence flags is the current implementation policy, not a proto3
-validity rule: omitted zero components can encode a valid unit quaternion, which this policy
-rejects. The inverse-rotation algebra is internally consistent, but applying the projected
-panel basis to the raw UT grid midpoint remains a calibration assumption. The available
-external sources do not establish a complete vendor pixel-to-angle transform.
-
-These are current-attitude direction references, not geographic bearings assigned to accumulated
-samples. Tilt can change their angular spacing and handedness. Current status cannot recover the
-attitudes of earlier observations from a moving antenna; the UT caption explains this limitation.
-Source grid values and the raw PNG export remain unchanged. Missing or invalid UT attitude and
-unknown frames retain their raw display orientation and have no geographic references.
-Near-vertical boresight bearing does not affect the references because they use the full quaternion.
-
-The detailed canvas shows eight sector cuts at bearings 0, 45, ... 315 degrees, starting at north.
-Each wedge shows its blocked percentage and blocked/observed cell counts; unknown cells and the
-center cell are excluded. UT counts invert the projected North/East basis so the counted wedges
-match the drawn cuts with equal pixel pitch on both axes. These are display-plane statistics
-using the current attitude, not geographic sky-area measurements. A singular horizontal basis
-(vertical panel) cannot define sectors. Small or overlapping badges are omitted rather than
-painted over one another. The minimap has no sector cuts or statistics, and there is no separate
-sector chart.
-
-Direction markings and heading arrows share the existing map canvas. EARTH arrows follow
-geographic bearings; UT arrows use the same quaternion and panel-to-canvas conversion as the
-direction references. UT arrows require valid attitude; unknown frames have no arrows. There is
-no separate compass view. Actual and desired headings have separate policies in
-`ObstructionMapGeometry.actualHeadingProjection()` and `targetHeadingProjection()`. When the
-actual heading's horizontal direction is perpendicular to a horizontal-pointing panel's plane,
-its projection vanishes: the actual indicator uses the projected Down tangent as the limit from
-above the horizon, reversed below the horizon. This defines a full-length actual arrow at exactly
-horizontal elevation without choosing a fixed screen direction. A target with an undefined
-horizontal projection (squared magnitude at most 1e-12) has no arrow; its numeric desired bearing
-and elevation remain visible. An exactly vertical target still appears as a center dot. Defined
-targets appear dashed in gold in the details; the actual arrow is solid white in both the summary
-and details.
-Arrows use reported boresight fields, preferring
-`alignmentStats` when present. Both a valid elevation and azimuth are required for an arrow; an
-exactly vertical direction needs only elevation. Missing or invalid angles produce no indicator,
-rather than assuming horizontal elevation or a bearing of zero. Arrow length is proportional to
-the horizontal projection of the panel normal (`cos(elevation)`): vertical is a center dot, and
-horizontal is full length. Near-vertical normals (absolute elevation above 75 degrees) retain an
-uncertainty note. Negative elevations show a downward-facing warning in the summary and details.
-The UI retains maps between polls and marks live updates delayed after
-65 seconds. Dialogs update from their source widget and close when that source disappears.
-
-StarDebug exports maps in a top-level `dishObstructionMap` envelope with `_proto`, `rawMap`,
-`timestamp` (seconds), and `apiVersion`. `SpaceParser` accepts the binary-assisted and JSON-only
-forms independently of device status. Nonfinite signal samples become -1 in the JSON fallback.
-
-`SpaceParser._readObstructionMap()` isolates payload decoding from optional metadata validation.
-A string `_proto` takes precedence, with no JSON fallback after corrupt binary data. Missing or
-non-string `_proto` permits `rawMap`. A decoded payload survives invalid metadata; invalid timestamps
-or API versions become unknown independently. Timestamps use the R5 bounded seconds-to-milliseconds
-conversion; API versions must be nonnegative integral values fitting native Dart/SQLite signed
-64-bit storage. Metadata is attached only to decoded payloads. Optional-map failures preserve the
-device-status import, while existing JSON-field tolerance and canvas-level validity checks remain.
-
-That parser independence does not extend to standalone viewing: `Snapshot.hasData()` and the
-imported/shared dish UI still require device status to admit or render the map.
-Schema version 6 adds nullable protobuf map, receive timestamp, and API-version columns to dish
-logs. Both automatic logs and manually saved live snapshots populate these columns; older rows
-remain readable without maps. Imported snapshots also retain their maps in debug-data JSON.
-
-The [Starlink obstruction guide](https://starlink.com/mh/support/article/71707228-cea9-52d5-6134-f3de8cc7437f)
-explains accumulated satellite observations, adaptive routing around obstructions, and the
-geostationary exclusion zone. Unobserved bands therefore do not establish an obstruction, and
-blocked cells do not directly predict outages. Signal semantics and raw grid rendering follow the
-[Starlink gRPC tools renderer](https://github.com/sparky8512/starlink-grpc-tools/blob/main/dish_obstruction_map.py).
-Reference-frame conventions follow the author's
-[SatInView documentation](https://github.com/aliahan/SatInView) and
-[measurement study](https://arxiv.org/html/2601.13790v1).
+Maps are polled separately from status and carried by `Snapshot` through live views, export,
+import, and storage. The shared widget renders a minimap, details dialog, or snapshot image.
+See [Obstruction maps](obstruction_maps.md) for ownership, freshness, geometry, serialization,
+rendering caches, and known limitations; [protocol evidence](obstruction_map_sources.md) records
+what is established by schemas and external observations.
 
 ## Persistence
 
@@ -336,11 +182,16 @@ Schema version 7 has three logical tables:
 - `dishes` stores one row per dish, points to its latest log, and retains the last automatic
   snapshot creation time independently of subsequent log updates;
 - `dish_logs` stores imported JSON and/or protobuf bytes for dish status, history, router status,
-  obstruction maps with capture metadata, and online results;
+  obstruction maps with reception metadata, and an optional online JSON column;
 - `recent_inputs` stores searchable Wi-Fi names and passwords entered through the setup dialog.
 
-`DishLogController` coalesces automatic live updates. It writes at most every five seconds and
-updates the current automatic log during a session. A new automatic log is requested when no log
+`Snapshot.ofRow()` prefers non-null imported debug JSON over all native columns. Import parsing
+reconstructs status and maps, not history, locations, or online results. Live snapshots currently
+do not populate `onlineJson`, so the online storage column does not retain live probe results.
+
+Automatic logging is driven by holder notifications and requires enabled logging, a dish ID,
+and a status timestamp. `DishLogController` coalesces automatic live updates. It writes at most
+every five seconds and updates the current automatic log during a session. A new automatic log is requested when no log
 exists, after a six-hour gap, on a UTC day boundary, after a forced log, or when uptime decreases
 in a newer dish status response. Missing uptime and repeated or older status timestamps do not
 trigger reboot detection. The initial live uptime is also compared with the latest saved status;

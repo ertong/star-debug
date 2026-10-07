@@ -4,19 +4,15 @@ StarDebug is a Flutter application for inspecting Starlink dish, router, and int
 It can read live data from the local Starlink network, import debug-data JSON produced by
 Starlink applications, and retain snapshots in a local SQLite database.
 
-Start with:
+## Reading paths
 
-- [Architecture](architecture.md) for startup, connections, snapshots, parsing, and persistence.
-- [Development guide](development.md) for setup, validation, generators, tests, and release tooling.
-
-Focused obstruction-map documents:
-
-- [Protocol evidence and interpretation](obstruction_map_sources.md) for checked external sources,
-  wire contracts, and calibration limits.
-- [Implementation review](obstruction_map_review.md) for the 2026-10-07 commit review, reproduced
-  findings, UI/UX gaps, and validation.
-- [Possible refactors](proposals/obstruction_map_refactoring.md) for design ideas
-  and implemented follow-ups.
+- [Stack](stack.md): repository components, entry points, frameworks, and build tooling.
+- [Architecture](architecture.md): startup, connection lifetimes, snapshots, parsing, and persistence.
+- [Development](development.md): setup, validation, generators, fixtures, and release tooling.
+- [Obstruction maps](obstruction_maps.md): current map behavior, caches, measurements, and limitations.
+- [Map protocol evidence](obstruction_map_sources.md): schema contracts, external sources, and
+  geographic calibration limits. Read this before changing map geometry.
+- [Agent guidance](../AGENTS.md): change scope, ownership, conventions, and operational commands.
 
 ## Source map
 
