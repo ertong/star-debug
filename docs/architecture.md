@@ -307,6 +307,12 @@ the current log during a session, and starts a new automatic log after six hours
 boundary, or after a forced log. Imported debug data is de-duplicated by dish ID and timestamp.
 Mutations are serialized by a `Mutex`, and UI deletion invalidates the controller's cached records.
 
+Forced and automatic writes share `DishLogController._snapshotToCompanion()` for protobuf payloads,
+map reception metadata, and online JSON. Each caller supplies its own row timestamp and write flags,
+and preserves its imported-JSON representation: absent debug JSON is SQL `NULL` for forced saves
+and JSON `"null"` for automatic writes. Explicit nullable Drift values clear old map fields during
+updates. The helper does not change scheduling or the imported-JSON precedence in `Snapshot.ofRow()`.
+
 Drift migration behavior is intentionally simple: upgrades from versions below 3 drop `dishes`
 and `dish_logs`, then `createAll()` ensures current objects exist. Upgrades from versions 3–5 add
 the nullable obstruction-map columns without rebuilding existing logs. A schema change must be evaluated

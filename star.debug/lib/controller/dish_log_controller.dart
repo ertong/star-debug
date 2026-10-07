@@ -86,6 +86,30 @@ class DishLogController {
     }
   }
 
+  /// Serialize payload fields without choosing logging timestamps or write policy.
+  /// Callers preserve SQL NULL versus JSON "null" for absent imported debug data.
+  DishLogsCompanion _snapshotToCompanion(
+    Snapshot snap, {
+    required int timestamp,
+    required bool forceStore,
+    required String dishId,
+    required String? debugDataJson,
+  }) {
+    return DishLogsCompanion(
+      timestamp: Value(timestamp),
+      forceStore: Value(forceStore),
+      dishId: Value(dishId),
+      debugDataJson: Value(debugDataJson),
+      dishStatusJson: Value(snap.dishGetStatus?.writeToBuffer()),
+      dishHistoryJson: Value(snap.dishGetHistory?.writeToBuffer()),
+      dishObstructionMap: Value(snap.dishGetObstructionMap?.writeToBuffer()),
+      obstructionMapTs: Value(snap.obstructionMapTs),
+      obstructionMapApiVersion: Value(snap.obstructionMapApiVersion),
+      wifiStatusJson: Value(snap.routerGetStatus?.writeToBuffer()),
+      onlineJson: Value(jsonEncode(snap.onlineJson)),
+    );
+  }
+
   Future<void> forceStore(Snapshot snap) async {
     var dishId = snap.dishGetStatus?.deviceInfo.id;
     var timestamp = snap.dishTs;
@@ -102,18 +126,14 @@ class DishLogController {
       rec.time = timestamp;
       rec.stored = false;
 
-      var logToWrite = DishLogsCompanion(
-        timestamp: Value(rec.time),
-        forceStore: Value(true),
-        dishId: Value(rec.dishId),
-        debugDataJson: Value(snap.debug_data == null ? null : jsonEncode(snap.debug_data)),
-        dishStatusJson: Value(snap.dishGetStatus?.writeToBuffer()),
-        dishHistoryJson: Value(snap.dishGetHistory?.writeToBuffer()),
-        dishObstructionMap: Value(snap.dishGetObstructionMap?.writeToBuffer()),
-        obstructionMapTs: Value(snap.obstructionMapTs),
-        obstructionMapApiVersion: Value(snap.obstructionMapApiVersion),
-        wifiStatusJson: Value(snap.routerGetStatus?.writeToBuffer()),
-        onlineJson: Value(jsonEncode(snap.onlineJson)),
+      var logToWrite = _snapshotToCompanion(
+        snap,
+        timestamp: rec.time,
+        forceStore: true,
+        dishId: rec.dishId,
+        debugDataJson: snap.debug_data == null
+            ? null
+            : jsonEncode(snap.debug_data),
       );
 
       int now = DateTime.now().millisecondsSinceEpoch;
@@ -160,18 +180,12 @@ class DishLogController {
           for (var rec in list){
             if (!rec.stored && now-rec.timeLastStore>5000) {
               mutex.protect(() async {
-                var logToWrite = DishLogsCompanion(
-                  timestamp: Value(rec.time),
-                  forceStore: Value(false),
-                  dishId: Value(rec.dishId),
-                  debugDataJson: Value(jsonEncode(rec.snap.debug_data)),
-                  dishStatusJson: Value(rec.snap.dishGetStatus?.writeToBuffer()),
-                  dishHistoryJson: Value(rec.snap.dishGetHistory?.writeToBuffer()),
-                  dishObstructionMap: Value(rec.snap.dishGetObstructionMap?.writeToBuffer()),
-                  obstructionMapTs: Value(rec.snap.obstructionMapTs),
-                  obstructionMapApiVersion: Value(rec.snap.obstructionMapApiVersion),
-                  wifiStatusJson: Value(rec.snap.routerGetStatus?.writeToBuffer()),
-                  onlineJson: Value(jsonEncode(rec.snap.onlineJson)),
+                var logToWrite = _snapshotToCompanion(
+                  rec.snap,
+                  timestamp: rec.time,
+                  forceStore: false,
+                  dishId: rec.dishId,
+                  debugDataJson: jsonEncode(rec.snap.debug_data),
                 );
 
                 if (rec.dish==null) {

@@ -2,7 +2,7 @@
 
 Proposals recorded 2026-10-07 against `a40fd5f`. The identity-change fix described in R1 has
 since been implemented; R2 extraction, R3 arrow policies, and R5 source/freshness context are
-also implemented.
+also implemented. R6 now centralizes logging serialization.
 Other structural refactors remain proposed. See the [review](../obstruction_map_review.md) for confirmed findings and
 [protocol evidence](../obstruction_map_sources.md) for assumptions that need calibration.
 
@@ -125,14 +125,20 @@ timestamp metadata. The [architecture](../architecture.md#obstruction-maps) reco
 
 ## R6 — Centralize snapshot serialization for logging
 
-Forced and automatic paths duplicate map bytes and metadata assignments in
-[`DishLogController`](../../star.debug/lib/controller/dish_log_controller.dart). A small
-snapshot-to-companion helper could keep field additions consistent without changing scheduling,
-mutex ownership, coalescing, import de-duplication, or forced-log semantics.
+**Implemented follow-up:**
+[`DishLogController._snapshotToCompanion()`](../../star.debug/lib/controller/dish_log_controller.dart)
+maps snapshot payloads
+and map reception metadata to a `DishLogsCompanion` for both forced and automatic writes. Callers
+supply the row timestamp, dish ID, forced flag, and serialized imported JSON. This preserves the
+existing difference between SQL `NULL` on forced saves and JSON `"null"` on automatic writes when
+imported JSON is absent. Nullable fields use explicit `Value(null)` so updates clear old payloads
+and map metadata.
 
-Test both callers and null-map metadata. Preserve `Snapshot.ofRow()`'s imported-JSON precedence
-and older rows without maps. Avoid a generic persistence abstraction unless another concrete
-use needs it.
+Scheduling, mutex ownership, coalescing, rollover, import de-duplication, latest-log pointers, and
+forced-log insert/update rules remain in their existing callers. `Snapshot.ofRow()` still prefers
+imported JSON and supports older rows without maps. The private helper needs no generic persistence
+abstraction or database schema change.
+The [serialization tests](../../star.debug/test/dish_log_serialization_test.dart) exercise both write paths and updates that remove map fields.
 
 ## R7 — Isolate map-envelope parsing and define standalone support
 

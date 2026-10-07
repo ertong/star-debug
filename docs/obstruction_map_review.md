@@ -317,3 +317,19 @@ whose HEAD baseline passes. Nine surrounding files retain their existing formatt
 no unrelated formatting was applied. CRLF-aware diff whitespace and local documentation links
 pass. Independent Astra/high review identified timestamp overflow and silent-stream aging gaps;
 both are fixed and covered by regression tests, with no substantive issues in the final review.
+
+
+## R6 logging-serialization follow-up validation
+
+Forced and automatic writes now share the private snapshot-to-companion conversion in
+[`DishLogController`](../star.debug/lib/controller/dish_log_controller.dart). Four new
+[writer integration tests](../star.debug/test/dish_log_serialization_test.dart) cover all payload
+columns, caller-specific timestamps and flags, imported-JSON precedence, same-row replacement,
+and clearing absent map bytes/metadata. They also preserve SQL `NULL` versus JSON `"null"` for
+absent imported JSON. Scheduling, mutex boundaries, and row-selection policies were not changed.
+
+The isolated app copy passed the focused persistence/compatibility suite (15 tests) and complete
+suite (160 tests). Analyzer output matches the R5 baseline: 42 existing findings, no errors or new
+findings. The new test passes formatting checks; the controller retains its pre-existing formatting
+and CRLF conventions. Diff whitespace and local documentation links pass. Independent Astra/high
+review found no substantive issue. No schema, generated code, or UI changes were needed.
