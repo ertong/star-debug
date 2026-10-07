@@ -5,6 +5,7 @@ import 'package:star_debug/grpc/starlink/starlink.pb.dart';
 import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/utils/format.dart';
 import 'package:star_debug/utils/obstruction_map_analysis.dart';
+import 'package:star_debug/utils/obstruction_map_context.dart';
 import 'package:star_debug/utils/obstruction_map_geometry.dart';
 import 'package:star_debug/utils/obstruction_map_rendering.dart';
 import 'package:star_debug/utils/obstructions.dart';
@@ -16,7 +17,9 @@ class ObstructionMapWidget extends StatefulWidget {
   final DishGetStatusResponse? status;
   final int? receivedTime;
   final int timestamp;
-  final bool live;
+  final MapSourceMode sourceMode;
+  final int? statusReceivedTime;
+  final bool statusTimestampIsEstimated;
 
   const ObstructionMapWidget({
     super.key,
@@ -25,7 +28,9 @@ class ObstructionMapWidget extends StatefulWidget {
     this.stats,
     this.status,
     this.receivedTime,
-    this.live = false,
+    this.sourceMode = MapSourceMode.stored,
+    this.statusReceivedTime,
+    this.statusTimestampIsEstimated = false,
   });
 
   @override
@@ -68,9 +73,13 @@ class _ObstructionMapWidgetState extends State<ObstructionMapWidget> {
             ? widget.status!.obstructionStats
             : null),
     DishOrientation.fromStatus(widget.status),
-    widget.receivedTime,
-    widget.timestamp,
-    widget.live,
+    ObstructionMapContext(
+      sourceMode: widget.sourceMode,
+      referenceTime: widget.timestamp,
+      mapReceivedTime: widget.receivedTime,
+      statusReceivedTime: widget.statusReceivedTime,
+      statusTimestampIsEstimated: widget.statusTimestampIsEstimated,
+    ),
   );
 
   @override
@@ -141,6 +150,11 @@ class _ObstructionMapWidgetState extends State<ObstructionMapWidget> {
                 ),
               ],
             ),
+            const SizedBox(height: 4),
+            Text(
+              '${M.obstructions.source}: ${view.sourceLabel}',
+              style: theme.textTheme.bodySmall,
+            ),
             const SizedBox(height: 9),
             if (!view.ready)
               _UnavailableMap(view: view, compact: true)
@@ -208,6 +222,10 @@ class _ObstructionMapWidgetState extends State<ObstructionMapWidget> {
                 style: theme.textTheme.bodySmall?.copyWith(fontSize: 11),
               ),
             ],
+            if (view.statusWarningShort != null) ...[
+              const SizedBox(height: 4),
+              Text(view.statusWarningShort!, style: theme.textTheme.bodySmall),
+            ],
             if (view.orientation.lookingDownward) ...[
               const SizedBox(height: 8),
               const _DownwardWarning(compact: true),
@@ -222,21 +240,53 @@ class _ObstructionMapWidgetState extends State<ObstructionMapWidget> {
 class _MapView {
   final ObstructionMapData? map;
   final bool hasResponse;
-  final DishObstructionStats? stats;
-  final DishOrientation orientation;
-  final int? receivedTime;
-  final int timestamp;
-  final bool live;
+  final DishObstructionStats? _stats;
+  final DishOrientation _orientation;
+  final ObstructionMapContext timing;
 
   _MapView(
     this.map,
     this.hasResponse,
-    this.stats,
-    this.orientation,
-    this.receivedTime,
-    this.timestamp,
-    this.live,
+    this._stats,
+    this._orientation,
+    this.timing,
   );
+
+  bool get live => timing.sourceMode == MapSourceMode.live;
+  DishObstructionStats? get stats => timing.useStatus ? _stats : null;
+  DishOrientation get orientation =>
+      timing.useStatus ? _orientation : const DishOrientation();
+
+  String get sourceLabel => switch (timing.sourceMode) {
+    MapSourceMode.live => M.obstructions.source_live,
+    MapSourceMode.imported => M.obstructions.source_imported,
+    MapSourceMode.stored => M.obstructions.source_stored,
+  };
+  String get mapTimingLabel =>
+      live ? M.obstructions.last_received : M.obstructions.capture_map_age;
+  String get statusTimingLabel =>
+      live ? M.obstructions.status_received : M.obstructions.capture_status_age;
+  String timingValue(int? age) => age == null
+      ? M.obstructions.timing_unknown
+      : live
+      ? M.obstructions.received_ago(Format.sec(age))
+      : Format.sec(age);
+  String? get statusWarning => switch (timing.statusFreshness) {
+    MapDataFreshness.fresh => null,
+    MapDataFreshness.delayed =>
+      live
+          ? M.obstructions.status_delayed
+          : M.obstructions.status_delayed_capture,
+    MapDataFreshness.unknown =>
+      live
+          ? M.obstructions.status_unknown
+          : M.obstructions.status_unknown_capture,
+  };
+  String? get statusWarningShort => switch (timing.statusFreshness) {
+    MapDataFreshness.fresh => null,
+    MapDataFreshness.delayed => M.obstructions.status_delayed_short,
+    MapDataFreshness.unknown => M.obstructions.status_unknown_short,
+  };
 
   late final geometry = map == null
       ? null
@@ -250,10 +300,7 @@ class _MapView {
       map != null &&
       map!.observed > 0 &&
       !(stats?.hasPatchesValid() == true && stats!.patchesValid == 0);
-  int? get age => receivedTime == null || receivedTime! <= 0
-      ? null
-      : math.max(0, timestamp - receivedTime!) ~/ 1000;
-  bool get delayed => live && age != null && age! > 65;
+  bool get delayed => live && timing.mapFreshness == MapDataFreshness.delayed;
   double? get dishFraction =>
       stats?.hasFractionObstructed() == true &&
           _fraction(stats!.fractionObstructed)
@@ -265,8 +312,12 @@ class _MapView {
             ? M.obstructions.waiting
             : M.obstructions.unavailable
       : map == null
-      ? M.obstructions.invalid_map
-      : M.obstructions.gathering;
+      ? live
+            ? M.obstructions.invalid_map
+            : M.obstructions.invalid_map_capture
+      : live
+      ? M.obstructions.gathering
+      : M.obstructions.gathering_capture;
   String get signalState =>
       stats?.hasCurrentlyObstructed() == true && stats!.currentlyObstructed
       ? M.obstructions.signal_blocked
@@ -377,9 +428,13 @@ class _ObstructionDetails extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          if (view.age != null)
+                          Text(
+                            '${M.obstructions.source}: ${view.sourceLabel}',
+                            style: theme.textTheme.bodySmall,
+                          ),
+                          if (view.hasResponse)
                             Text(
-                              '${M.obstructions.map_age}: ${Format.sec(view.age!)}',
+                              '${view.mapTimingLabel}: ${view.timingValue(view.timing.mapAge)}',
                               style: theme.textTheme.bodySmall,
                             ),
                         ],
@@ -413,6 +468,11 @@ class _ObstructionDetails extends StatelessWidget {
                                     color: theme.colorScheme.error,
                                   ),
                                 ),
+                              ),
+                            if (view.statusWarning != null)
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 8),
+                                child: Text(view.statusWarning!),
                               ),
                             if (constraints.maxWidth >= 620)
                               Row(
@@ -523,7 +583,9 @@ class _ObstructionDetails extends StatelessWidget {
     final map = view.map;
     final stats = view.stats;
     final orientation = view.orientation;
-    final cells = <_Metric>[];
+    final cells = <_Metric>[
+      _Metric(view.statusTimingLabel, view.timingValue(view.timing.statusAge)),
+    ];
     if (view.dishFraction != null)
       cells.add(
         _Metric(M.obstructions.dish_fraction, _percent(view.dishFraction)),
@@ -531,7 +593,9 @@ class _ObstructionDetails extends StatelessWidget {
     if (stats?.hasCurrentlyObstructed() == true) {
       cells.add(
         _Metric(
-          M.obstructions.current_signal,
+          view.live
+              ? M.obstructions.current_signal
+              : M.obstructions.captured_signal,
           stats!.currentlyObstructed
               ? M.obstructions.blocked
               : M.obstructions.not_blocked,

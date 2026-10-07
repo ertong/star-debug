@@ -24,6 +24,10 @@ class _Dish implements DishConnection {
   final dishGetStatus = PooledRequest<DishGetStatusResponse>(2000);
   @override
   final dishGetHistory = PooledRequest<DishGetHistoryResponse>(2000);
+  @override
+  final dishGetObstructionMap = PooledRequest<DishGetObstructionMapResponse>(
+    30000,
+  );
 
   @override
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);

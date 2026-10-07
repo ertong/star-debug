@@ -13,6 +13,7 @@ import 'package:star_debug/widgets/obstruction_map.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/utils/format.dart';
 import 'package:star_debug/utils/kv_widget.dart';
+import 'package:star_debug/utils/obstruction_map_context.dart';
 import 'package:star_debug/utils/snapshot.dart';
 import 'package:star_debug/utils/view_options.dart';
 import 'package:time_machine2/time_machine2.dart';
@@ -27,7 +28,9 @@ class DishWidget extends StatefulWidget {
   final ViewOptions viewOptions;
   final Snapshot snap;
   final bool showActions;
-  const DishWidget({super.key, required this.viewOptions, required this.snap, this.showActions = false});
+  final bool statusVisible;
+  final MapSourceMode sourceMode;
+  const DishWidget({super.key, required this.viewOptions, required this.snap, required this.sourceMode, this.showActions = false, this.statusVisible = true});
 
   @override
   State createState() => _DishWidgetState();
@@ -142,7 +145,25 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
     return b.widgets;
   }
 
+  Widget _buildObstructionMap(){
+    final status = widget.snap.dishGetStatus;
+    return ObstructionMapWidget(
+      key: Key('dish-obstruction-source'),
+      map: widget.snap.dishGetObstructionMap,
+      receivedTime: widget.snap.obstructionMapTs,
+      timestamp: widget.snap.timestamp,
+      stats: status != null && status.hasObstructionStats() ? status.obstructionStats : null,
+      status: status,
+      sourceMode: widget.sourceMode,
+      statusReceivedTime: widget.snap.dishTs,
+      statusTimestampIsEstimated: widget.snap.dishTsIsEstimated,
+    );
+  }
+
   List<Widget> _buildBody(){
+    if (!widget.statusVisible)
+      return [_buildObstructionMap()];
+
     List<Widget> rows = [];
 
     DishGetStatusResponse? status = widget.snap.dishGetStatus;
@@ -422,14 +443,7 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
         }
       }
 
-      rows.add(ObstructionMapWidget(
-        map: widget.snap.dishGetObstructionMap,
-        receivedTime: widget.snap.obstructionMapTs,
-        timestamp: widget.snap.timestamp,
-        stats: status.hasObstructionStats() ? status.obstructionStats : null,
-        status: status,
-        live: widget.showActions,
-      ));
+      rows.add(_buildObstructionMap());
 
       if (status.hasReadyStates()) {
         var b = KVWidgetBuilder(context, theme);

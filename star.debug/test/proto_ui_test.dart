@@ -5,6 +5,7 @@ import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/pages/view/common.dart';
 import 'package:star_debug/pages/view/dish.dart';
 import 'package:star_debug/pages/view/router.dart';
+import 'package:star_debug/utils/obstruction_map_context.dart';
 import 'package:star_debug/utils/snapshot.dart';
 import 'package:star_debug/utils/view_options.dart';
 
@@ -28,6 +29,7 @@ void main() {
     await tester.pumpWidget(
       _testPage(
         DishWidget(
+          sourceMode: MapSourceMode.stored,
           snap: Snapshot(timestamp: 1, dishGetStatus: emptyStatus),
           viewOptions: ViewOptions(),
         ),
@@ -59,6 +61,7 @@ void main() {
     await tester.pumpWidget(
       _testPage(
         DishWidget(
+          sourceMode: MapSourceMode.stored,
           snap: Snapshot(timestamp: 1, dishGetStatus: populatedStatus),
           viewOptions: ViewOptions(),
         ),
@@ -86,6 +89,7 @@ void main() {
     await tester.pumpWidget(
       _testPage(
         DishWidget(
+          sourceMode: MapSourceMode.stored,
           snap: Snapshot(
             timestamp: 1,
             dishGetStatus: DishGetStatusResponse(

@@ -11,6 +11,7 @@ import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/routes.dart';
 import 'package:star_debug/space/entity.dart';
 import 'package:star_debug/utils/api_helper.dart';
+import 'package:star_debug/utils/obstruction_map_context.dart';
 import 'package:star_debug/utils/snapshot.dart';
 import 'package:star_debug/utils/view_options.dart';
 import 'package:star_debug/widgets/app_drawer_pop_scope.dart';
@@ -21,9 +22,15 @@ const String _TAG = "MainPage";
 
 class SnapshotPage extends StatefulWidget {
   final Snapshot snap;
+  final MapSourceMode sourceMode;
   final void Function()? onClose;
 
-  const SnapshotPage({super.key, required this.snap, this.onClose});
+  const SnapshotPage({
+    super.key,
+    required this.snap,
+    required this.sourceMode,
+    this.onClose,
+  });
 
   @override
   State createState() => _SnapshotPageState();
@@ -193,7 +200,13 @@ class _SnapshotPageState extends State<SnapshotPage>
               );
               rows.addAll(b.widgets);
             }
-            rows.add(DishWidget(snap: snap, viewOptions: ViewOptions()));
+            rows.add(
+              DishWidget(
+                snap: snap,
+                viewOptions: ViewOptions(),
+                sourceMode: widget.sourceMode,
+              ),
+            );
 
             rows.addAll(charts);
 
@@ -352,7 +365,10 @@ class _SnapshotPageState extends State<SnapshotPage>
     await showDialog<String>(
       context: context,
       builder: (c) {
-        return ShareScreenshot(snap: widget.snap);
+        return ShareScreenshot(
+          snap: widget.snap,
+          sourceMode: widget.sourceMode,
+        );
       },
     );
   }

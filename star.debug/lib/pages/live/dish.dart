@@ -7,6 +7,7 @@ import 'package:star_debug/pages/view/dish.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:grpc/grpc.dart';
 import 'package:star_debug/utils/kv_widget.dart';
+import 'package:star_debug/utils/obstruction_map_context.dart';
 import 'package:star_debug/utils/view_options.dart';
 import 'package:star_debug/widgets/connection_error_log.dart';
 import '../view/common.dart';
@@ -25,6 +26,7 @@ class DishTab extends StatefulWidget {
 class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
 
   StreamSubscription? grpcSubs;
+  Timer? freshnessTimer;
   int lastGraphTime = 0;
 
   List<Widget> charts = [];
@@ -37,6 +39,11 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
     grpcSubs = R.dishHolder.stream.listen((event) {
       buildCharts();
       setState(() {});
+    });
+    freshnessTimer = Timer.periodic(Duration(seconds: 1), (_) {
+      final conn = R.dish;
+      if (conn?.dishGetStatus.data!=null || conn?.dishGetObstructionMap.data!=null)
+        setState(() {});
     });
   }
 
@@ -66,6 +73,7 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
 
   @override
   void dispose() {
+    freshnessTimer?.cancel();
     grpcSubs?.cancel();
     super.dispose();
   }
@@ -96,14 +104,19 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
       rows.add(Text("Channel: ${conn.connState}\n(${conn.host})", textAlign: TextAlign.center));
     }
 
-    if (conn.dishGetStatus.data!=null && now-conn.dishGetStatus.receivedTime<5000) {
-
+    final statusFresh = conn.dishGetStatus.data!=null && now-conn.dishGetStatus.receivedTime<5000;
+    if (conn.dishGetStatus.data!=null || conn.dishGetObstructionMap.data!=null) {
       rows.add(DishWidget(
+        key: Key('live-dish-view'),
         snap: buildLiveSnapshot(),
         viewOptions: ViewOptions(),
-        showActions: true,
+        sourceMode: MapSourceMode.live,
+        statusVisible: statusFresh,
+        showActions: statusFresh,
       ));
+    }
 
+    if (statusFresh) {
       buildEventLogs(context, theme, conn.dishGetHistory.data, rows, 10, expanded: eventLogExpand, setExpanded: (log) {
         setState(() { eventLogExpand = log; });
       },);

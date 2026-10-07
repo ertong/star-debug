@@ -15,6 +15,7 @@ class Snapshot {
   final int timestamp;
 
   final int? dishTs;
+  final bool dishTsIsEstimated;
   final DishGetStatusResponse? dishGetStatus;
   final Map<String, bool>? dishFeatures;
   final int? dishApiVersion;
@@ -41,6 +42,7 @@ class Snapshot {
   Snapshot(
       {required this.timestamp,
       this.dishTs,
+      this.dishTsIsEstimated = false,
       this.dishGetStatus,
       this.dishFeatures,
       this.dishApiVersion,
@@ -124,7 +126,8 @@ class Snapshot {
 
     return Snapshot(
       timestamp: row.timestamp,
-      dishTs: row.timestamp, // todo
+      dishTs: row.timestamp,
+      dishTsIsEstimated: true, // Native rows retain the save time, not status receive time.
       dishGetStatus: dish,
       dishGetObstructionMap: obstructionMap,
       obstructionMapTs: obstructionMap == null ? null : row.obstructionMapTs,

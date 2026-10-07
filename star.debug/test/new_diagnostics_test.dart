@@ -8,6 +8,7 @@ import 'package:star_debug/messages/messages_uk.i18n.dart';
 import 'package:star_debug/pages/dialogs/hint.dart';
 import 'package:star_debug/pages/view/dish.dart';
 import 'package:star_debug/pages/view/router.dart';
+import 'package:star_debug/utils/obstruction_map_context.dart';
 import 'package:star_debug/utils/snapshot.dart';
 import 'package:star_debug/utils/view_options.dart';
 
@@ -17,6 +18,7 @@ Widget _page(Widget child) => MaterialApp(
 
 Widget _dish(DishGetStatusResponse status) => _page(
   DishWidget(
+    sourceMode: MapSourceMode.stored,
     snap: Snapshot(timestamp: 1, dishGetStatus: status),
     viewOptions: ViewOptions(),
   ),

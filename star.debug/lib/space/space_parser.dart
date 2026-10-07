@@ -18,6 +18,12 @@ class SpaceParser{
 
   /// seconds
   int? dishTs;
+  // Optional StarDebug timing uses milliseconds here; dishTs remains source seconds.
+  bool _hasCaptureTiming = false;
+  int? _captureTimestampMs;
+  int? _dishStatusTimestampMs;
+  bool _dishStatusTimestampEstimated = false;
+
   int? dishApi;
   DishGetStatusResponse? dishGetStatus;
   Map<String, bool> dishFeatures = {};
@@ -31,6 +37,14 @@ class SpaceParser{
   WifiGetStatusResponse? routerGetStatus;
   Map<String, bool> routerFeatures = {};
 
+  static int? _timestampMillis(dynamic value) {
+    if (value is! num || !value.isFinite || value <= 0) return null;
+    final millis = value.toDouble() * 1000;
+    if (!millis.isFinite || millis > 8640000000000000) return null;
+    final rounded = millis.round();
+    return rounded > 0 ? rounded : null;
+  }
+
   static SpaceParser ofJsonStr(String json) {
     return ofJson(jsonDecode(json));
   }
@@ -39,6 +53,14 @@ class SpaceParser{
     SpaceParser p = SpaceParser();
 
     p.json = json;
+
+    p._hasCaptureTiming = json.containsKey("capture");
+    final capture = json["capture"];
+    if (capture is Map<String, dynamic>) {
+      p._captureTimestampMs = _timestampMillis(capture["timestamp"]);
+      p._dishStatusTimestampMs = _timestampMillis(capture["dishStatusTimestamp"]);
+      p._dishStatusTimestampEstimated = capture["dishStatusTimestampEstimated"] == true;
+    }
 
     if (json["dish"]!=null)
       p.jsonDish = Map<String, dynamic>.from(json["dish"]);
@@ -152,8 +174,9 @@ class SpaceParser{
 
   Snapshot toSnapshot() {
     return Snapshot(
-        timestamp: (dishTs ?? 0) * 1000,
-        dishTs: dishTs == null ? null : dishTs! * 1000,
+        timestamp: _hasCaptureTiming ? (_captureTimestampMs ?? 0) : (dishTs ?? 0) * 1000,
+        dishTs: _hasCaptureTiming ? _dishStatusTimestampMs : (dishTs == null ? null : dishTs! * 1000),
+        dishTsIsEstimated: _hasCaptureTiming && _dishStatusTimestampEstimated,
         dishGetStatus: dishGetStatus,
         dishFeatures: dishFeatures,
         dishApiVersion: dishApi,

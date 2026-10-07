@@ -12,6 +12,7 @@ import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/space/space_parser.dart';
 import 'package:star_debug/utils/debug_data.dart';
 import 'package:star_debug/utils/obstruction_map_analysis.dart';
+import 'package:star_debug/utils/obstruction_map_context.dart';
 import 'package:star_debug/utils/obstruction_map_geometry.dart';
 import 'package:star_debug/utils/obstruction_map_rendering.dart';
 import 'package:star_debug/utils/obstructions.dart';
@@ -1440,7 +1441,8 @@ void main() {
               map: response,
               timestamp: 100000,
               receivedTime: 10000,
-              live: true,
+              statusReceivedTime: 100000,
+              sourceMode: MapSourceMode.live,
               stats: DishObstructionStats(
                 fractionObstructed: 0.025,
                 avgProlongedObstructionValid: false,
@@ -1482,7 +1484,11 @@ void main() {
         ValueListenableBuilder<bool>(
           valueListenable: connected,
           builder: (context, active, _) => active
-              ? ObstructionMapWidget(map: _map(), timestamp: 1, live: true)
+              ? ObstructionMapWidget(
+                  map: _map(),
+                  timestamp: 1,
+                  sourceMode: MapSourceMode.live,
+                )
               : const Text('Disconnected'),
         ),
       ),
@@ -1592,16 +1598,20 @@ void main() {
     (tester) async {
       final cases = [
         (null, null, M.obstructions.unavailable),
-        (DishGetObstructionMapResponse(), null, M.obstructions.invalid_map),
+        (
+          DishGetObstructionMapResponse(),
+          null,
+          M.obstructions.invalid_map_capture,
+        ),
         (
           DishGetObstructionMapResponse(numRows: 1, numCols: 1, snr: [-1]),
           null,
-          M.obstructions.gathering,
+          M.obstructions.gathering_capture,
         ),
         (
           _map(),
           DishObstructionStats(patchesValid: 0),
-          M.obstructions.gathering,
+          M.obstructions.gathering_capture,
         ),
       ];
       for (final (map, stats, message) in cases) {

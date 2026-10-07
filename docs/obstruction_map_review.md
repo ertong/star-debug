@@ -5,7 +5,8 @@ Three independent reviews used GPT-6 Astra with high reasoning for geometry, int
 and UI/UX. Findings were reconciled against source and targeted reproduction probes.
 The original review changed documentation only. The follow-up described under F2 implements
 identity-change invalidation. The R2 follow-up extracts geometry and resolves F3; R3 separates
-heading policies and resolves F4. Other suggested fixes remain unimplemented.
+heading policies and resolves F4. R5 separates source mode and freshness, preserves capture timing,
+and resolves F9. Other suggested fixes remain unimplemented.
 
 Read [protocol evidence and interpretation](obstruction_map_sources.md) for external references
 and confidence limits. Architectural proposals have a separate home in
@@ -188,7 +189,9 @@ even for users who do not use a screen reader.
 - **F9 — P3, frozen snapshot wording:** `_MapView.unavailable` uses live-progress phrases for
   all-unobserved or unready imported maps, and unusable maps say the dish has not provided one
   "yet." An immutable snapshot cannot continue collecting. Use capture-time wording for
-  `live=false`; review the English and Ukrainian catalogs together.
+  `live=false`; review the English and Ukrainian catalogs together. **Follow-up, 2026-10-07:**
+  R5 adds explicit source modes and capture-specific wording in both catalogs; frozen ages refer
+  to capture time and status reception is qualified independently.
 - **F10 — P3, lost diagnostics:** `291bd35` removed the old obstruction rows. The replacement
   details restore most fields, but `timeObstructed`, numeric `patchesValid`, and
   `avgProlongedObstructionValid` are no longer visible. The latter two still gate display.
@@ -295,3 +298,22 @@ actual-heading assertions still pass. The isolated app copy passed the focused m
 existing findings, no errors or new findings. Formatting checks passed for all four changed Dart
 files. Diff whitespace and local documentation links passed; Astra/high review found no
 substantive issue in the final code, tests, or documentation.
+
+
+## R5 source/freshness follow-up validation
+
+Thirty new regression cases cover independent map/status ages and exact expiry boundaries,
+missing/future/estimated timing, stale status filtering, EARTH/UT references, frozen wording and
+ages, binary/JSON capture metadata round trips, invalid timestamp bounds, native/imported
+persistence provenance, and retained map/dialog state. An actual `DishTab` test ages silent data
+without stream notifications and verifies its periodic refresh and disposal.
+
+In the isolated app copy, the focused map/parser/persistence suites passed (79 tests), then the
+final live-tab/lifecycle tests passed (11 tests). The complete suite passed (156 tests). Analyzer
+findings match the previous baseline: 42 existing findings, no errors or new findings. Localization
+YAML was synchronized and generated using `msg.sh` and `build_runner`; only the two localization
+Dart outputs were copied back. Formatting checks pass for all new Dart files and changed files
+whose HEAD baseline passes. Nine surrounding files retain their existing formatting differences;
+no unrelated formatting was applied. CRLF-aware diff whitespace and local documentation links
+pass. Independent Astra/high review identified timestamp overflow and silent-stream aging gaps;
+both are fixed and covered by regression tests, with no substantive issues in the final review.

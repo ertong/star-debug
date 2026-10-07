@@ -1,7 +1,8 @@
 # Obstruction map: possible refactors
 
 Proposals recorded 2026-10-07 against `a40fd5f`. The identity-change fix described in R1 has
-since been implemented; the R2 extraction and R3 arrow policies below are also implemented.
+since been implemented; R2 extraction, R3 arrow policies, and R5 source/freshness context are
+also implemented.
 Other structural refactors remain proposed. See the [review](../obstruction_map_review.md) for confirmed findings and
 [protocol evidence](../obstruction_map_sources.md) for assumptions that need calibration.
 
@@ -102,19 +103,25 @@ Validate semantics and scaling separately from pixel geometry.
 
 ## R5 — Represent source mode and freshness explicitly
 
-`DishWidget` currently maps `showActions` to the map's `live` flag. `_MapView` receives a status,
-map, map reception time, and parent timestamp, but no status reception time or identity match.
+**Implemented follow-up:** `DishWidget` receives an explicit `MapSourceMode` independent of
+`showActions`. [`ObstructionMapContext`](../../star.debug/lib/utils/obstruction_map_context.dart)
+computes map and status freshness separately. Maps retain the 30-second polling policy and warn
+only after 65 seconds. Live status expires at five seconds; expired or unknown live status cannot
+supply orientation, readiness, current signal, or reported obstruction metrics. The map and its
+open dialog survive the removal of stale status rows. A cancellable live-tab timer reevaluates
+ages once per second even if the stream is silent.
 
-Consider an explicit source mode such as live/imported/stored plus independent status/map
-freshness. Use it for state wording, age presentation, unavailable values, and warnings; this
-would also make F9 easier to fix. Keep live map retention across 30-second polls. Do not apply
-the generic five-second `validData()` rule to maps whose successful normal poll interval is
-30 seconds.
+Imported/stored views measure reception ages against capture time and use capture-specific wording,
+resolving F9. Known stale captured status is suppressed; unknown captured timing is qualified while
+retaining the available status. Native rows mark their approximate status save time as estimated.
+A custom optional JSON `capture` envelope preserves exact capture/status times and the estimate flag
+through sharing and reimport; old external formats remain compatible. Generated English and
+Ukrainian messages cover the new labels and qualifications.
 
-Showing a map's age cannot validate ownership or current attitude. If timestamps are added to
-the widget, define when stale attitude hides overlays versus shows a qualification. Test a
-fresh map with stale status and the reverse. Do not imply that synchronized receipt recovers
-historical attitudes for cumulative mobile samples.
+Source mode and reception ages do not prove ownership or recover historical attitudes for cumulative
+mobile samples. The R1 identity policy remains separate. Tests cover fresh map/stale status and the
+reverse, missing/estimated timing, frozen ages, dialog continuity, export round trips, and malformed
+timestamp metadata. The [architecture](../architecture.md#obstruction-maps) records the current policy.
 
 ## R6 — Centralize snapshot serialization for logging
 

@@ -2895,9 +2895,15 @@ class ObstructionsMessages {
   String get no_data => """Unobserved""";
 
   /// ```dart
-  /// "The dish has not provided a usable map yet."
+  /// "Received an invalid obstruction map."
   /// ```
-  String get invalid_map => """The dish has not provided a usable map yet.""";
+  String get invalid_map => """Received an invalid obstruction map.""";
+
+  /// ```dart
+  /// "This capture contains an invalid obstruction map."
+  /// ```
+  String get invalid_map_capture =>
+      """This capture contains an invalid obstruction map.""";
 
   /// ```dart
   /// "Waiting for an obstruction map from the dish."
@@ -2968,6 +2974,12 @@ class ObstructionsMessages {
       """The map is still gathering data. No usable observations yet.""";
 
   /// ```dart
+  /// "No usable map observations were recorded in this capture."
+  /// ```
+  String get gathering_capture =>
+      """No usable map observations were recorded in this capture.""";
+
+  /// ```dart
   /// "Blocked cells"
   /// ```
   String get blocked_cells => """Blocked cells""";
@@ -2979,9 +2991,59 @@ class ObstructionsMessages {
       """Zero-signal cells / observed cells. Unobserved cells are excluded. This is not sky area or time obstructed.""";
 
   /// ```dart
-  /// "Map age"
+  /// "Source"
   /// ```
-  String get map_age => """Map age""";
+  String get source => """Source""";
+
+  /// ```dart
+  /// "Live"
+  /// ```
+  String get source_live => """Live""";
+
+  /// ```dart
+  /// "Imported capture"
+  /// ```
+  String get source_imported => """Imported capture""";
+
+  /// ```dart
+  /// "Snapshot"
+  /// ```
+  String get source_stored => """Snapshot""";
+
+  /// ```dart
+  /// "$age ago"
+  /// ```
+  String received_ago(age) => """$age ago""";
+
+  /// ```dart
+  /// "Last map received"
+  /// ```
+  String get last_received => """Last map received""";
+
+  /// ```dart
+  /// "Map received before capture"
+  /// ```
+  String get capture_map_age => """Map received before capture""";
+
+  /// ```dart
+  /// "Last status received"
+  /// ```
+  String get status_received => """Last status received""";
+
+  /// ```dart
+  /// "Status received before capture"
+  /// ```
+  String get capture_status_age => """Status received before capture""";
+
+  /// ```dart
+  /// "Timing unavailable"
+  /// ```
+  String get timing_unknown => """Timing unavailable""";
+
+  /// ```dart
+  /// "Time since map reception"
+  /// ```
+  String get map_age => """Time since map reception""";
 
   /// ```dart
   /// "Updates delayed"
@@ -2995,9 +3057,48 @@ class ObstructionsMessages {
       """Map updates are delayed. Showing the last received map.""";
 
   /// ```dart
+  /// "Status outdated"
+  /// ```
+  String get status_delayed_short => """Status outdated""";
+
+  /// ```dart
+  /// "Status timing unavailable"
+  /// ```
+  String get status_unknown_short => """Status timing unavailable""";
+
+  /// ```dart
+  /// "Dish status is outdated. Orientation and status statistics are hidden; map samples remain available."
+  /// ```
+  String get status_delayed =>
+      """Dish status is outdated. Orientation and status statistics are hidden; map samples remain available.""";
+
+  /// ```dart
+  /// "Status was already outdated at capture. Orientation and status statistics are hidden."
+  /// ```
+  String get status_delayed_capture =>
+      """Status was already outdated at capture. Orientation and status statistics are hidden.""";
+
+  /// ```dart
+  /// "Status reception time is unavailable. Live orientation and status statistics are hidden."
+  /// ```
+  String get status_unknown =>
+      """Status reception time is unavailable. Live orientation and status statistics are hidden.""";
+
+  /// ```dart
+  /// "Status timing is unavailable or approximate. Orientation and statistics reflect the supplied capture."
+  /// ```
+  String get status_unknown_capture =>
+      """Status timing is unavailable or approximate. Orientation and statistics reflect the supplied capture.""";
+
+  /// ```dart
   /// "Signal state"
   /// ```
   String get current_signal => """Signal state""";
+
+  /// ```dart
+  /// "Signal state at capture"
+  /// ```
+  String get captured_signal => """Signal state at capture""";
 
   /// ```dart
   /// "Signal obstructed"
@@ -3830,8 +3931,9 @@ starting from approximately January 2023, Starlink routers are able to pick rand
   """obstructions.blocked""": """Obstructed""",
   """obstructions.reduced_signal""": """Reduced signal""",
   """obstructions.no_data""": """Unobserved""",
-  """obstructions.invalid_map""":
-      """The dish has not provided a usable map yet.""",
+  """obstructions.invalid_map""": """Received an invalid obstruction map.""",
+  """obstructions.invalid_map_capture""":
+      """This capture contains an invalid obstruction map.""",
   """obstructions.waiting""":
       """Waiting for an obstruction map from the dish.""",
   """obstructions.unavailable""": """No obstruction map in this snapshot.""",
@@ -3849,13 +3951,31 @@ starting from approximately January 2023, Starlink routers are able to pick rand
       """The orientation of this map is not available.""",
   """obstructions.gathering""":
       """The map is still gathering data. No usable observations yet.""",
+  """obstructions.gathering_capture""":
+      """No usable map observations were recorded in this capture.""",
   """obstructions.blocked_cells""": """Blocked cells""",
   """obstructions.cells_hint""": """Zero-signal cells / observed cells. Unobserved cells are excluded. This is not sky area or time obstructed.""",
-  """obstructions.map_age""": """Map age""",
+  """obstructions.source""": """Source""",
+  """obstructions.source_live""": """Live""",
+  """obstructions.source_imported""": """Imported capture""",
+  """obstructions.source_stored""": """Snapshot""",
+  """obstructions.last_received""": """Last map received""",
+  """obstructions.capture_map_age""": """Map received before capture""",
+  """obstructions.status_received""": """Last status received""",
+  """obstructions.capture_status_age""": """Status received before capture""",
+  """obstructions.timing_unknown""": """Timing unavailable""",
+  """obstructions.map_age""": """Time since map reception""",
   """obstructions.delayed_short""": """Updates delayed""",
   """obstructions.delayed""":
       """Map updates are delayed. Showing the last received map.""",
+  """obstructions.status_delayed_short""": """Status outdated""",
+  """obstructions.status_unknown_short""": """Status timing unavailable""",
+  """obstructions.status_delayed""": """Dish status is outdated. Orientation and status statistics are hidden; map samples remain available.""",
+  """obstructions.status_delayed_capture""": """Status was already outdated at capture. Orientation and status statistics are hidden.""",
+  """obstructions.status_unknown""": """Status reception time is unavailable. Live orientation and status statistics are hidden.""",
+  """obstructions.status_unknown_capture""": """Status timing is unavailable or approximate. Orientation and statistics reflect the supplied capture.""",
   """obstructions.current_signal""": """Signal state""",
+  """obstructions.captured_signal""": """Signal state at capture""",
   """obstructions.signal_blocked""": """Signal obstructed""",
   """obstructions.not_blocked""": """Not obstructed""",
   """obstructions.recorded_obstructions""": """Recorded obstructions""",

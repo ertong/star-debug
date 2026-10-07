@@ -151,6 +151,14 @@ sharing. Repeated protobuf fields gain a `List` suffix and maps become lists of 
 a `Map` suffix so the representation can round-trip through JSON. The debug-data tests validate
 both the binary-assisted form and the raw JSON fallback against fixtures from several versions.
 
+StarDebug exports also contain an optional top-level `capture` envelope with `timestamp`,
+`dishStatusTimestamp`, and `dishStatusTimestampEstimated`. The two timestamps use seconds with
+millisecond precision and preserve capture/status reception times separately from export time.
+`SpaceParser.toSnapshot()` prefers this envelope when present; missing or invalid values become
+unknown rather than borrowing the vendor export timestamp. Nonfinite and out-of-range times are
+rejected before conversion. External data without this envelope retains the legacy timestamp rules.
+See the [capture timing tests](../star.debug/test/obstruction_map_capture_timing_test.dart).
+
 When adding compatibility for a new debug-data layout, normalize it in `SpaceParser` and add a
 sanitized fixture plus round-trip assertions. Avoid teaching UI widgets about format versions.
 
@@ -166,8 +174,9 @@ view shows a compact minimap and opens a responsive details dialog. Negative or 
 values are unobserved, zero is blocked, and 0..1 is normalized signal quality. Blocked-cell ratios
 exclude unobserved cells and are separate from dish-reported obstruction stats. Sector ratios and
 four-connected blocked patch sizes describe samples, not sky area, physical obstacles, or downtime.
-Maps with invalid dimensions, no observed samples, or an explicitly zero `patchesValid` count show
-a state message instead of a canvas. Missing readiness counts do not invalidate older maps.
+Maps with invalid dimensions or no observed samples show a state message instead of a canvas.
+An explicitly zero `patchesValid` count also suppresses the canvas when its status is usable under
+the freshness policy below. Missing readiness counts do not invalidate older maps.
 
 Implementation responsibilities are separated into
 [`ObstructionMapData`](../star.debug/lib/utils/obstructions.dart) for immutable samples,
@@ -181,6 +190,25 @@ using that geometry; and
 shared signal colors and unrotated raster output. The widget owns text measurement, badges,
 arrow styling, and collision handling. Sector cuts, cardinal marks, numeric bearings, and badge
 centers use the same ray intersection, preserving bearing angles on rectangular grids.
+
+[`ObstructionMapContext`](../star.debug/lib/utils/obstruction_map_context.dart) keeps explicit
+live/imported/stored source modes and independent map/status reception ages. Live ages use the
+current snapshot timestamp; frozen views use the capture timestamp, so opening an old capture
+does not make it age further. Unknown, nonpositive, or future reception times have unknown ages.
+Map reception is delayed strictly after 65 seconds; status expires at five seconds. Live status
+must be fresh before it controls readiness, signal state, reported obstruction metrics, attitude,
+UT references, or heading arrows. Raw samples remain available when status expires, and EARTH
+references remain valid without attitude. Known stale captured status is suppressed too; unknown
+captured status is shown with a timing qualification.
+
+`DishTab` refreshes the mounted live view once per second, including during stream silence, and
+cancels that timer on disposal. Stable dish/map keys retain the map and its open dialog as status
+rows disappear and recover. Source labels and English/Ukrainian state text distinguish live updates
+from frozen captures. Screenshot sharing uses a frozen source mode even when initiated from live.
+Native database rows have only the save time for status; `Snapshot.dishTsIsEstimated` marks this
+approximation and the map UI reports its status reception timing as unknown. Imported JSON preserves
+its recorded timing provenance. Neither reception age nor source mode establishes map ownership or
+the historical attitude of accumulated samples.
 
 EARTH grids have north at the top. UT grids rotate for display so the projected north direction
 points upward in both maps; compass marks, sector cuts, and arrows rotate with the grid.

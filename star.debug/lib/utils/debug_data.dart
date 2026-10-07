@@ -237,6 +237,13 @@ class DebugDataHelper {
     Map<String, dynamic> res = {};
     int nowS = DateTime.now().millisecondsSinceEpoch ~/ 1000;
 
+    // StarDebug capture times are independent of the vendor export timestamp.
+    res["capture"] = {
+      "timestamp": snap.timestamp / 1000,
+      if (snap.dishTs != null) "dishStatusTimestamp": snap.dishTs! / 1000,
+      "dishStatusTimestampEstimated": snap.dishTsIsEstimated,
+    };
+
     res["app"] = {
       "app": {
         "version": "star-debug-${R.versionName}",

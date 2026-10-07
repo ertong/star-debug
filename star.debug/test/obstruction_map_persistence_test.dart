@@ -88,6 +88,7 @@ void main() {
       obstructionMapApiVersion: 18,
     );
 
+    expect(snap.dishTsIsEstimated, false);
     await DishLogController().forceStore(snap);
 
     final rows = await db.select(db.dishLogs).get();
@@ -101,6 +102,28 @@ void main() {
     );
     expect(restored.obstructionMapTs, 1700000001000);
     expect(restored.obstructionMapApiVersion, 18);
+    expect(restored.dishTs, rows.single.timestamp);
+    expect(restored.dishTsIsEstimated, true);
+  });
+
+  test('stored imported data retains the parsed status timestamp', () async {
+    final db = _open(file);
+    addTearDown(db.close);
+    final row = await db.dishLogs.insertReturning(
+      DishLogsCompanion.insert(
+        timestamp: 1700000040000,
+        dishId: 'dish-imported',
+        forceStore: false,
+        debugDataJson: const Value(
+          '{"dish":{"timestamp":1700000002,'
+          '"rawStatus":{"deviceInfo":{"id":"dish-imported"}}}}',
+        ),
+      ),
+    );
+
+    final restored = Snapshot.ofRow(row);
+    expect(restored.dishTs, 1700000002000);
+    expect(restored.dishTsIsEstimated, false);
   });
 
   for (final version in [3, 4, 5]) {
