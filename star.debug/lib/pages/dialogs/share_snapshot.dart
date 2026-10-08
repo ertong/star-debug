@@ -106,7 +106,12 @@ class _ShareSnapshotDialogState extends State<ShareSnapshotDialog> {
       image = bytes;
       payload = SharePayload(
         text: '',
-        filename: 'starlink-${widget.snap.timestamp}-screenshot.png',
+        filename: ShareExport.filename(
+          widget.snap,
+          options,
+          'screenshot',
+          'png',
+        ),
         mimeType: 'image/png',
         subject: M.sharing.screenshot,
       );

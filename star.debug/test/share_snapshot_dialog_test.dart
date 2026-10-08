@@ -299,7 +299,8 @@ void main() {
       expect(utf8.decode(picker.bytes!), expected);
       expect(picker.mime, 'text/markdown');
       expect(picker.filename, endsWith('.md'));
-      expect(picker.filename, isNot(contains('01234567')));
+      expect(picker.filename, contains(_id));
+      expect(picker.filename, contains('19700101T000140000Z'));
       final saveButton = find.byWidgetPredicate(
         (widget) => widget is IconButton && widget.tooltip == M.general.save_as,
       );

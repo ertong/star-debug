@@ -185,6 +185,8 @@ reports use Markdown: diagnostics have section headings and nested field lists, 
 uses a compact field list that is readable without a Markdown viewer. Saved reports use `.md` and `text/markdown`; clipboard and native
 text sharing deliver the same Markdown source. Data values are escaped to preserve formatting.
 
+JSON files use `.json` and `application/json`. Export filenames include the capture time in
+compact UTC form and the dish ID when available and not hidden.
 “View in the app” opens an ephemeral snapshot without importing it into storage. Persistence
 entry points reject blank dish IDs; ordinary file and clipboard imports retain their save behavior.
 

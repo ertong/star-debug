@@ -79,12 +79,22 @@ class ShareExport {
           dishSources.add(source['deviceInfo'] as Map);
       }
     }
+    final routerSources = <Map>[];
+    final router = raw?['router'];
+    if (router is Map) {
+      routerSources.add(router);
+      for (final key in ['status', 'rawStatus']) {
+        if (router[key] is Map) routerSources.add(router[key] as Map);
+      }
+    }
     String supplement(String manual, String imported) =>
         manual.trim().isNotEmpty ? manual.trim() : imported;
     final candidates = [
       snap.dishGetStatus?.deviceInfo.id.trim() ?? '',
       snap.routerGetStatus?.dishId.trim() ?? '',
       find(metadata, {'utid', 'userterminalid'}),
+      find(dishSources, {'id', 'utid', 'userterminalid'}),
+      find(routerSources, {'dishid', 'utid', 'userterminalid'}),
     ];
     final valid = RegExp(
       r'^(?:ut)?[0-9a-f]{8}-[0-9a-f]{8}-[0-9a-f]{8}$',
@@ -131,6 +141,48 @@ class ShareExport {
         ),
       ),
     );
+  }
+
+  static String filename(
+    Snapshot snap,
+    ViewOptions options,
+    String name,
+    String extension,
+  ) {
+    String safe(String value) => value
+        .trim()
+        .replaceAll(RegExp(r'[^a-zA-Z0-9._-]+'), '-')
+        .replaceAll(RegExp(r'^[.-]+|[.-]+$'), '');
+    final parts = ['starlink'];
+    if (!options.hideIds) {
+      var id = snap.dishGetStatus?.deviceInfo.id.trim() ?? '';
+      if (id.isEmpty) id = snap.routerGetStatus?.dishId.trim() ?? '';
+      if (id.isEmpty) {
+        final utid = identifiersFor(snap).utid;
+        if (utid.isNotEmpty) id = 'ut$utid';
+      }
+      final sanitized = safe(id);
+      if (sanitized.isNotEmpty)
+        parts.add(
+          sanitized.length > 128 ? sanitized.substring(0, 128) : sanitized,
+        );
+    }
+    var timestamp = 'unknown';
+    if (snap.timestamp > 0 && snap.timestamp <= 8640000000000000) {
+      final time = DateTime.fromMillisecondsSinceEpoch(
+        snap.timestamp,
+        isUtc: true,
+      );
+      String digits(int value, int width) => '$value'.padLeft(width, '0');
+      timestamp =
+          '${digits(time.year, 4)}${digits(time.month, 2)}'
+          '${digits(time.day, 2)}T${digits(time.hour, 2)}'
+          '${digits(time.minute, 2)}${digits(time.second, 2)}'
+          '${digits(time.millisecond, 3)}Z';
+    }
+    parts.add(timestamp);
+    parts.add(safe(name));
+    return '${parts.join('-')}.${safe(extension)}';
   }
 
   static SharePayload build(
@@ -323,8 +375,12 @@ class ShareExport {
     }
     return SharePayload(
       text: text,
-      filename:
-          'starlink-$name.${format == ShareFormat.json ? 'json.txt' : 'md'}',
+      filename: filename(
+        snap,
+        options,
+        name,
+        format == ShareFormat.json ? 'json' : 'md',
+      ),
       mimeType: format == ShareFormat.json
           ? 'application/json'
           : 'text/markdown',

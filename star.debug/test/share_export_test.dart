@@ -129,6 +129,116 @@ void main() {
   );
 
   test(
+    'filenames include visible terminal ID and compact UTC capture time',
+    () {
+      final timestamp = DateTime.parse('2026-10-08T20:14:35.123+02:00')
+          .millisecondsSinceEpoch;
+      final snap = Snapshot(
+        timestamp: timestamp,
+        dishGetStatus: DishGetStatusResponse(
+          deviceInfo: DeviceInfo(id: terminalId),
+        ),
+      );
+      for (final format in [
+        ShareFormat.json,
+        ShareFormat.diagnosticText,
+        ShareFormat.inventoryText,
+      ]) {
+        final payload = export(snap, ViewOptions(), format);
+        expect(
+          payload.filename,
+          contains('starlink-$terminalId-20261008T181435123Z-'),
+        );
+        expect(
+          export(snap, ViewOptions()..hideIds = true, format).filename,
+          isNot(contains(terminalId)),
+        );
+      }
+      expect(
+        ShareExport.filename(snap, ViewOptions(), 'report', 'png'),
+        'starlink-$terminalId-20261008T181435123Z-report.png',
+      );
+      expect(
+        ShareExport.filename(
+          Snapshot(
+            timestamp: timestamp,
+            routerGetStatus: WifiGetStatusResponse(dishId: terminalId),
+          ),
+          ViewOptions(),
+          'report',
+          'png',
+        ),
+        'starlink-$terminalId-20261008T181435123Z-report.png',
+      );
+      for (final imported in [
+        {
+          'registration': {'utid': terminalId},
+        },
+        {
+          'dish': {
+            'rawStatus': {
+              'deviceInfo': {'id': terminalId},
+            },
+          },
+        },
+      ]) {
+        expect(
+          ShareExport.filename(
+            Snapshot(timestamp: timestamp, debug_data: imported),
+            ViewOptions(),
+            'debug-data',
+            'json',
+          ),
+          'starlink-$terminalId-20261008T181435123Z-debug-data.json',
+        );
+      }
+      expect(
+        ShareExport.filename(
+          Snapshot(timestamp: 0),
+          ViewOptions(),
+          'inventory',
+          'md',
+        ),
+        'starlink-unknown-inventory.md',
+      );
+      final unsafe = ShareExport.filename(
+        Snapshot(
+          timestamp: timestamp,
+          dishGetStatus: DishGetStatusResponse(
+            deviceInfo: DeviceInfo(id: r'../ut/test\unsafe:*?"<>|'),
+          ),
+        ),
+        ViewOptions(),
+        'debug-data',
+        'json',
+      );
+      expect(unsafe, matches(RegExp(r'^[a-zA-Z0-9._-]+$')));
+      expect(unsafe, contains('20261008T181435123Z'));
+    },
+  );
+
+  test('filename bounds malformed long device identifiers', () {
+    for (final length in [128, 129, 10000]) {
+      final payload = ShareExport.filename(
+        Snapshot(
+          timestamp: 1000,
+          dishGetStatus: DishGetStatusResponse(
+            deviceInfo: DeviceInfo(id: 'x' * length),
+          ),
+        ),
+        ViewOptions(),
+        'debug-data',
+        'json',
+      );
+      expect(
+        payload,
+        'starlink-${'x' * 128}-19700101T000001000Z-debug-data.json',
+      );
+      expect(payload.length, lessThan(255));
+    }
+  });
+
+  test(
     'typed DHCP clients are hidden while server health and config remain',
     () {
       final snap = Snapshot(
@@ -672,7 +782,10 @@ void main() {
           .password,
       'synthetic-password',
     );
-    expect(payload.filename, isNot(contains(terminalId)));
+    expect(payload.filename, contains(terminalId));
+    expect(payload.filename, endsWith('.json'));
+    expect(payload.filename, isNot(endsWith('.json.txt')));
+    expect(payload.mimeType, 'application/json');
     expect(payload.subject, isNot(contains(terminalId)));
   });
 
