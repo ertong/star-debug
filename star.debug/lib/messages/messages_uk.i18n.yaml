@@ -896,7 +896,7 @@ obstructions:
 
 sharing:
   format: Формат
-  json: Діагностичні дані JSON
+  json: Дані JSON
   screenshot: Зображення
   full_text: Повний діагностичний текст
   compact_text: Стислий текст для обліку
@@ -919,16 +919,21 @@ sharing:
   ip: IP-адреси приховано
   location: Місцезнаходження приховано
   clients: Клієнтів роутера приховано
-  inventory_details: Реєстраційні ідентифікатори
-  inventory_hint: UTID зчитується з антени, якщо доступний. Додайте KIT-номер із коробки,
-    Dish ID з етикетки антени та номер облікового запису Starlink. Відсутні значення
-    позначаються у звіті.
-  utid: UTID
-  kit_number: KIT-номер
-  dish_serial: Dish ID (етикетка антени)
-  account_number: Номер облікового запису Starlink
-  inventory_hidden: Реєстраційні ідентифікатори приховано в цьому експорті. Вимкніть
-    приховування ідентифікаторів, щоб додати їх.
-  prepare: Створити зображення
+  prepare: Перегляд зображення
   retry: Спробувати знову
   saved(path): Збережено до $path
+  choose_format: Оберіть формат
+  image: Зображення
+  diagnostics: Діагностика
+  inventory: Облік
+  preview: Попередній перегляд
+  copy: Копіювати
+  hidden_count(n): 'Приховано категорій: $n'
+  hide_fields: Натисніть категорію, щоб приховати або включити її в усіх форматах.
+  identifiers: ID
+  location_label: Місце
+  clients_label: Клієнти роутера
+  hidden: Приховано
+  included: Включено
+  field_visibility(field, state): '$field: $state'
+  include_field(field): Включити $field до експорту

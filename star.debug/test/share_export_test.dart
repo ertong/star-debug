@@ -437,31 +437,23 @@ void main() {
     );
   });
 
-  test(
-    'compact inventory explicitly marks unavailable values and honors hiding',
-    () {
-      final visible = export(
-        capture(),
-        ViewOptions(),
-        ShareFormat.inventoryText,
-      );
-      expect(visible.text, contains('KIT number: [not available'));
-      expect(visible.text, contains('UTID: 01234567-89abcdef-01234567'));
-      expect(
-        visible.text,
-        contains('Dish ID / physical serial: [not available'),
-      );
-      expect(visible.text, contains('Starlink account number: [not available'));
-      expect(visible.text, contains('does not confirm'));
-      final hidden = export(
-        capture(),
-        ViewOptions()..hideIds = true,
-        ShareFormat.inventoryText,
-      );
-      expect(hidden.text, isNot(contains('01234567')));
-      expect(hidden.text, contains('UTID: [hidden]'));
-    },
-  );
+  test('compact inventory omits unavailable identifiers and honors hiding', () {
+    final visible = export(capture(), ViewOptions(), ShareFormat.inventoryText);
+    expect(visible.text, isNot(contains('KIT number:')));
+    expect(visible.text, contains('UTID: 01234567-89abcdef-01234567'));
+    expect(visible.text, isNot(contains('Dish ID / physical serial:')));
+    expect(visible.text, isNot(contains('Starlink account number:')));
+    expect(visible.text, isNot(contains('enter manually')));
+    expect(visible.text, isNot(contains('Prepared for')));
+    expect(visible.text, isNot(contains('does not confirm')));
+    final hidden = export(
+      capture(),
+      ViewOptions()..hideIds = true,
+      ShareFormat.inventoryText,
+    );
+    expect(hidden.text, isNot(contains('01234567')));
+    expect(hidden.text, contains('UTID: [hidden]'));
+  });
 
   test('full report covers diagnostic sources and names enum values', () {
     final payload = ShareExport.build(

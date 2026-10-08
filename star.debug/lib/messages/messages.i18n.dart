@@ -3360,9 +3360,9 @@ class SharingMessages {
   String get format => """Format""";
 
   /// ```dart
-  /// "Debug-data JSON"
+  /// "Debug JSON"
   /// ```
-  String get json => """Debug-data JSON""";
+  String get json => """Debug JSON""";
 
   /// ```dart
   /// "Screenshot"
@@ -3470,46 +3470,9 @@ class SharingMessages {
   String get clients => """Router clients hidden""";
 
   /// ```dart
-  /// "Registration identifiers"
+  /// "Preview image"
   /// ```
-  String get inventory_details => """Registration identifiers""";
-
-  /// ```dart
-  /// "UTID is read from the terminal when available. Add the KIT number from the box, Dish ID from the terminal label, and account number from your Starlink account. Missing values are marked in the report."
-  /// ```
-  String get inventory_hint =>
-      """UTID is read from the terminal when available. Add the KIT number from the box, Dish ID from the terminal label, and account number from your Starlink account. Missing values are marked in the report.""";
-
-  /// ```dart
-  /// "UTID"
-  /// ```
-  String get utid => """UTID""";
-
-  /// ```dart
-  /// "KIT number"
-  /// ```
-  String get kit_number => """KIT number""";
-
-  /// ```dart
-  /// "Dish ID (terminal label)"
-  /// ```
-  String get dish_serial => """Dish ID (terminal label)""";
-
-  /// ```dart
-  /// "Starlink account number"
-  /// ```
-  String get account_number => """Starlink account number""";
-
-  /// ```dart
-  /// "Registration identifiers are hidden in this export. Disable hiding IDs to include them."
-  /// ```
-  String get inventory_hidden =>
-      """Registration identifiers are hidden in this export. Disable hiding IDs to include them.""";
-
-  /// ```dart
-  /// "Build screenshot"
-  /// ```
-  String get prepare => """Build screenshot""";
+  String get prepare => """Preview image""";
 
   /// ```dart
   /// "Retry"
@@ -3520,6 +3483,82 @@ class SharingMessages {
   /// "Saved to $path"
   /// ```
   String saved(path) => """Saved to $path""";
+
+  /// ```dart
+  /// "Choose a format"
+  /// ```
+  String get choose_format => """Choose a format""";
+
+  /// ```dart
+  /// "Image"
+  /// ```
+  String get image => """Image""";
+
+  /// ```dart
+  /// "Diagnostics"
+  /// ```
+  String get diagnostics => """Diagnostics""";
+
+  /// ```dart
+  /// "Inventory"
+  /// ```
+  String get inventory => """Inventory""";
+
+  /// ```dart
+  /// "Preview"
+  /// ```
+  String get preview => """Preview""";
+
+  /// ```dart
+  /// "Copy"
+  /// ```
+  String get copy => """Copy""";
+
+  /// ```dart
+  /// "$n categories hidden"
+  /// ```
+  String hidden_count(n) => """$n categories hidden""";
+
+  /// ```dart
+  /// "Tap a category to hide or include it in every format."
+  /// ```
+  String get hide_fields =>
+      """Tap a category to hide or include it in every format.""";
+
+  /// ```dart
+  /// "IDs"
+  /// ```
+  String get identifiers => """IDs""";
+
+  /// ```dart
+  /// "Location"
+  /// ```
+  String get location_label => """Location""";
+
+  /// ```dart
+  /// "Router clients"
+  /// ```
+  String get clients_label => """Router clients""";
+
+  /// ```dart
+  /// "Hidden"
+  /// ```
+  String get hidden => """Hidden""";
+
+  /// ```dart
+  /// "Included"
+  /// ```
+  String get included => """Included""";
+
+  /// ```dart
+  /// "$field: $state"
+  /// ```
+  String field_visibility(field, state) => """$field: $state""";
+
+  /// ```dart
+  /// "Include $field in exports"
+  /// ```
+  String include_field(field) => """Include $field in exports""";
 }
 
 Map<String, String> get messagesMap => {
@@ -4271,7 +4310,7 @@ starting from approximately January 2023, Starlink routers are able to pick rand
   """obstructions.heading_uncertain_short""":
       """Dish azimuth is uncertain near vertical.""",
   """sharing.format""": """Format""",
-  """sharing.json""": """Debug-data JSON""",
+  """sharing.json""": """Debug JSON""",
   """sharing.screenshot""": """Screenshot""",
   """sharing.full_text""": """Full diagnostic text""",
   """sharing.compact_text""": """Compact inventory text""",
@@ -4294,13 +4333,19 @@ starting from approximately January 2023, Starlink routers are able to pick rand
   """sharing.ip""": """IP addresses hidden""",
   """sharing.location""": """Location hidden""",
   """sharing.clients""": """Router clients hidden""",
-  """sharing.inventory_details""": """Registration identifiers""",
-  """sharing.inventory_hint""": """UTID is read from the terminal when available. Add the KIT number from the box, Dish ID from the terminal label, and account number from your Starlink account. Missing values are marked in the report.""",
-  """sharing.utid""": """UTID""",
-  """sharing.kit_number""": """KIT number""",
-  """sharing.dish_serial""": """Dish ID (terminal label)""",
-  """sharing.account_number""": """Starlink account number""",
-  """sharing.inventory_hidden""": """Registration identifiers are hidden in this export. Disable hiding IDs to include them.""",
-  """sharing.prepare""": """Build screenshot""",
+  """sharing.prepare""": """Preview image""",
   """sharing.retry""": """Retry""",
+  """sharing.choose_format""": """Choose a format""",
+  """sharing.image""": """Image""",
+  """sharing.diagnostics""": """Diagnostics""",
+  """sharing.inventory""": """Inventory""",
+  """sharing.preview""": """Preview""",
+  """sharing.copy""": """Copy""",
+  """sharing.hide_fields""":
+      """Tap a category to hide or include it in every format.""",
+  """sharing.identifiers""": """IDs""",
+  """sharing.location_label""": """Location""",
+  """sharing.clients_label""": """Router clients""",
+  """sharing.hidden""": """Hidden""",
+  """sharing.included""": """Included""",
 };

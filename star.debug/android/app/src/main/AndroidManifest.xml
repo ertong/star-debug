@@ -13,6 +13,15 @@
         android:name="${applicationName}"
         android:enableOnBackInvokedCallback="true"
         android:icon="@mipmap/ic_launcher">
+        <provider
+            android:name=".ImageClipboardProvider"
+            android:authorities="${applicationId}.imageclipboard"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/image_clipboard_paths" />
+        </provider>
         <activity
             android:name=".MainActivity"
             android:exported="true"

@@ -1,8 +1,12 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:image/image.dart' as img;
 import 'package:star_debug/grpc/starlink/starlink.pb.dart';
+import 'package:star_debug/channel/image_clipboard.dart';
 import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/pages/dialogs/share_snapshot.dart';
 import 'package:star_debug/utils/share_export.dart';
@@ -11,6 +15,28 @@ import 'package:star_debug/theme.dart';
 import 'package:star_debug/utils/obstruction_map_context.dart';
 import 'package:star_debug/utils/snapshot.dart';
 import 'package:time_machine2/time_machine2.dart';
+
+class _ImagePicker extends FilePickerPlatform {
+  final images = <Uint8List>[];
+
+  @override
+  Future<Uri?> saveFile({
+    required String fileName,
+    required Uint8List bytes,
+    required String mimeType,
+    String? dialogTitle,
+    String? initialDirectory,
+    Function(FilePickerStatus)? onFileSaving,
+    WindowsOptions windowsOptions = const WindowsOptions(),
+    LinuxOptions linuxOptions = const LinuxOptions(),
+    WebOptions webOptions = const WebOptions(),
+  }) async {
+    expect(fileName, endsWith('.png'));
+    expect(mimeType, 'image/png');
+    images.add(bytes);
+    return null;
+  }
+}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -28,69 +54,174 @@ void main() {
     ('dish and router', true, false, 1520),
     ('dish, router and history', true, true, 2280),
   ]) {
-    testWidgets('screenshot captures $name with obstruction report', (
+    testWidgets('image actions capture $name with obstruction report', (
       tester,
     ) async {
+      final copiedImages = <Uint8List>[];
+      final sharedImages = <Uint8List>[];
+      final picker = _ImagePicker();
+      final originalPicker = FilePickerPlatform.instance;
+      FilePickerPlatform.instance = picker;
+      addTearDown(() => FilePickerPlatform.instance = originalPicker);
+      const shareChannel = MethodChannel('dev.fluttercommunity.plus/share');
+      const pathChannel = MethodChannel('plugins.flutter.io/path_provider');
+      tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+        pathChannel,
+        (_) async => Directory.systemTemp.path,
+      );
+      tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+        shareChannel,
+        (call) async {
+          expect(call.arguments['mimeTypes'], ['image/png']);
+          final path = (call.arguments['paths'] as List).single as String;
+          sharedImages.add(await File(path).readAsBytes());
+          addTearDown(
+            () => Directory(File(path).parent.path).delete(recursive: true),
+          );
+          return 'dev.fluttercommunity.plus/share/dismissed';
+        },
+      );
+      addTearDown(() {
+        tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+          shareChannel,
+          null,
+        );
+        tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+          pathChannel,
+          null,
+        );
+      });
+      for (final channel in [
+        ImageClipboard.channel,
+        const MethodChannel('net.cubiclab.clipboard/methods'),
+      ]) {
+        tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+          channel,
+          (call) async {
+            final bytes =
+                call.arguments['bytes'] ?? call.arguments['imageBytes'];
+            copiedImages.add(Uint8List.fromList(List<int>.from(bytes)));
+            return true;
+          },
+        );
+        addTearDown(
+          () => tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+            channel,
+            null,
+          ),
+        );
+      }
       final theme = StarDebugTheme.build(Brightness.light);
       await tester.pumpWidget(
         MaterialApp(
+          scaffoldMessengerKey: R.scaffoldMessengerKey,
           // Ahem's square glyphs need smaller text for existing dish labels.
           theme: theme.copyWith(
             textTheme: theme.textTheme.copyWith(
               bodyMedium: theme.textTheme.bodyMedium!.copyWith(fontSize: 11),
             ),
           ),
-          home: ShareSnapshotDialog(
-            initialFormat: ShareFormat.screenshot,
-            sourceMode: MapSourceMode.stored,
-            snap: Snapshot(
-              timestamp: 100000,
-              dishTs: 100000,
-              obstructionMapTs: 100000,
-              dishGetStatus: DishGetStatusResponse(),
-              dishGetObstructionMap: DishGetObstructionMapResponse(
-                numRows: 2,
-                numCols: 2,
-                snr: [0, 1, 1, 1],
-                mapReferenceFrame: ObstructionMapReferenceFrame.FRAME_EARTH,
+          home: Scaffold(
+            body: ShareSnapshotDialog(
+              initialFormat: ShareFormat.screenshot,
+              sourceMode: MapSourceMode.stored,
+              snap: Snapshot(
+                timestamp: 100000,
+                dishTs: 100000,
+                obstructionMapTs: 100000,
+                dishGetStatus: DishGetStatusResponse(
+                  deviceInfo: DeviceInfo(id: 'test-dish'),
+                ),
+                dishGetObstructionMap: DishGetObstructionMapResponse(
+                  numRows: 2,
+                  numCols: 2,
+                  snr: [0, 1, 1, 1],
+                  mapReferenceFrame: ObstructionMapReferenceFrame.FRAME_EARTH,
+                ),
+                routerGetStatus: router ? WifiGetStatusResponse() : null,
+                dishGetHistory: history
+                    ? DishGetHistoryResponse(
+                        popPingLatencyMs: List.filled(2, 10),
+                        popPingDropRate: List.filled(2, 0),
+                        uplinkThroughputBps: List.filled(2, 1000),
+                        downlinkThroughputBps: List.filled(2, 2000),
+                        powerIn: List.filled(2, 40),
+                      )
+                    : null,
               ),
-              routerGetStatus: router ? WifiGetStatusResponse() : null,
-              dishGetHistory: history
-                  ? DishGetHistoryResponse(
-                      popPingLatencyMs: List.filled(2, 10),
-                      popPingDropRate: List.filled(2, 0),
-                      uplinkThroughputBps: List.filled(2, 1000),
-                      downlinkThroughputBps: List.filled(2, 2000),
-                      powerIn: List.filled(2, 40),
-                    )
-                  : null,
             ),
           ),
         ),
       );
 
-      // Exercise the production off-screen layout and JPEG conversion.
+      // Copy, Save and Share build on demand without requiring preview first.
       final dynamic state = tester.state(find.byType(ShareSnapshotDialog));
-      await tester.runAsync(() async => await state.prepare());
+      expect(find.byType(Image), findsNothing);
+      expect(
+        tester.widget<FilledButton>(find.byType(FilledButton).last).onPressed,
+        isNotNull,
+      );
+      Future<void> action() => history
+          ? state.share()
+          : router
+          ? state.save()
+          : state.copy();
+      await tester.runAsync(() async {
+        final Future<void> delivery = action();
+        await action(); // A second tap during capture must not deliver twice.
+        await delivery;
+      });
       await tester.pumpAndSettle();
 
       expect(tester.takeException(), isNull);
       expect(find.text('Error'), findsNothing);
-      expect(find.text('Share'), findsOneWidget);
+      expect(find.text('Share'), findsWidgets);
+      final delivered = history
+          ? sharedImages
+          : router
+          ? picker.images
+          : copiedImages;
+      expect(delivered, hasLength(1));
+      final initialImage = delivered.single;
       final preview = tester.widget<Image>(find.byType(Image));
-      final jpeg = img.decodeJpg((preview.image as MemoryImage).bytes);
-      expect(jpeg, isNotNull);
-      expect(jpeg!.width, width);
-      expect(jpeg.height, greaterThan(620));
+      expect(initialImage, (preview.image as MemoryImage).bytes);
+      final png = img.decodePng((preview.image as MemoryImage).bytes);
+      expect(png, isNotNull);
+      expect(png!.width, width);
+      expect(png.height, greaterThan(620));
+
+      // Selecting the active format keeps the prepared image ready to share.
+      await tester.tap(find.text(M.sharing.image));
+      await tester.pumpAndSettle();
+      expect(find.byType(Image), findsOneWidget);
 
       // A privacy change must discard the already prepared image.
       await tester.tap(find.text(M.sharing.privacy));
       await tester.pumpAndSettle();
-      await tester.ensureVisible(find.text(M.sharing.hide_ids));
-      await tester.tap(find.text(M.sharing.hide_ids));
+      await tester.ensureVisible(
+        find.widgetWithText(FilterChip, M.sharing.identifiers),
+      );
+      await tester.tap(find.widgetWithText(FilterChip, M.sharing.identifiers));
       await tester.pumpAndSettle();
       expect(find.byType(Image), findsNothing);
       expect(find.text(M.sharing.prepare), findsOneWidget);
+      expect(tester.takeException(), isNull);
+      await tester.runAsync(() async => await state.copy());
+      await tester.pumpAndSettle();
+      expect(copiedImages, hasLength(router ? 1 : 2));
+      expect(copiedImages.last, isNot(orderedEquals(initialImage)));
+      if (!router) {
+        await tester.ensureVisible(find.widgetWithText(FilterChip, 'MAC'));
+        await tester.tap(find.widgetWithText(FilterChip, 'MAC'));
+        await tester.pumpAndSettle();
+        expect(find.byType(Image), findsNothing);
+        await tester.runAsync(() async {
+          final Future<void> delivery = state.copy();
+          await tester.pumpWidget(const SizedBox());
+          await delivery;
+        });
+        expect(copiedImages, hasLength(2));
+      }
       expect(tester.takeException(), isNull);
     });
   }

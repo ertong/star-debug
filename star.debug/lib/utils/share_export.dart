@@ -159,18 +159,17 @@ class ShareExport {
           .convert(_jsonData(redacted, appVersion));
       name = 'debug-data';
     } else if (format == ShareFormat.inventoryText) {
-      String identifier(String value) => options.hideIds
-          ? '[hidden]'
-          : value.isEmpty
-          ? '[not available — enter manually]'
-          : value;
+      String identifier(String value) => options.hideIds ? '[hidden]' : value;
       text = [
         'Starlink inventory',
         'Capture: $timestamp',
-        'KIT number: ${identifier(ids.kitNumber)}',
-        'UTID: ${identifier(ids.utid)}',
-        'Dish ID / physical serial: ${identifier(ids.dishSerialNumber)}',
-        'Starlink account number: ${identifier(ids.accountNumber)}',
+        if (ids.kitNumber.isNotEmpty)
+          'KIT number: ${identifier(ids.kitNumber)}',
+        if (ids.utid.isNotEmpty) 'UTID: ${identifier(ids.utid)}',
+        if (ids.dishSerialNumber.isNotEmpty)
+          'Dish ID / physical serial: ${identifier(ids.dishSerialNumber)}',
+        if (ids.accountNumber.isNotEmpty)
+          'Starlink account number: ${identifier(ids.accountNumber)}',
         if (redacted.dishGetStatus?.deviceInfo.hardwareVersion.isNotEmpty ??
             false)
           'Terminal hardware: ${redacted.dishGetStatus!.deviceInfo.hardwareVersion}',
@@ -186,8 +185,6 @@ class ShareExport {
         if (!options.hideIds &&
             (redacted.routerGetStatus?.deviceInfo.id.isNotEmpty ?? false))
           'Router ID: ${redacted.routerGetStatus!.deviceInfo.id}',
-        'Prepared for inventory / Ukraine Starlink verification submission.',
-        'This report does not confirm registration or whitelist status.',
       ].join('\n');
       name = 'inventory';
     } else {

@@ -3364,9 +3364,9 @@ class SharingMessagesUk extends SharingMessages {
   String get format => """Формат""";
 
   /// ```dart
-  /// "Діагностичні дані JSON"
+  /// "Дані JSON"
   /// ```
-  String get json => """Діагностичні дані JSON""";
+  String get json => """Дані JSON""";
 
   /// ```dart
   /// "Зображення"
@@ -3475,46 +3475,9 @@ class SharingMessagesUk extends SharingMessages {
   String get clients => """Клієнтів роутера приховано""";
 
   /// ```dart
-  /// "Реєстраційні ідентифікатори"
+  /// "Перегляд зображення"
   /// ```
-  String get inventory_details => """Реєстраційні ідентифікатори""";
-
-  /// ```dart
-  /// "UTID зчитується з антени, якщо доступний. Додайте KIT-номер із коробки, Dish ID з етикетки антени та номер облікового запису Starlink. Відсутні значення позначаються у звіті."
-  /// ```
-  String get inventory_hint =>
-      """UTID зчитується з антени, якщо доступний. Додайте KIT-номер із коробки, Dish ID з етикетки антени та номер облікового запису Starlink. Відсутні значення позначаються у звіті.""";
-
-  /// ```dart
-  /// "UTID"
-  /// ```
-  String get utid => """UTID""";
-
-  /// ```dart
-  /// "KIT-номер"
-  /// ```
-  String get kit_number => """KIT-номер""";
-
-  /// ```dart
-  /// "Dish ID (етикетка антени)"
-  /// ```
-  String get dish_serial => """Dish ID (етикетка антени)""";
-
-  /// ```dart
-  /// "Номер облікового запису Starlink"
-  /// ```
-  String get account_number => """Номер облікового запису Starlink""";
-
-  /// ```dart
-  /// "Реєстраційні ідентифікатори приховано в цьому експорті. Вимкніть приховування ідентифікаторів, щоб додати їх."
-  /// ```
-  String get inventory_hidden =>
-      """Реєстраційні ідентифікатори приховано в цьому експорті. Вимкніть приховування ідентифікаторів, щоб додати їх.""";
-
-  /// ```dart
-  /// "Створити зображення"
-  /// ```
-  String get prepare => """Створити зображення""";
+  String get prepare => """Перегляд зображення""";
 
   /// ```dart
   /// "Спробувати знову"
@@ -3525,6 +3488,82 @@ class SharingMessagesUk extends SharingMessages {
   /// "Збережено до $path"
   /// ```
   String saved(path) => """Збережено до $path""";
+
+  /// ```dart
+  /// "Оберіть формат"
+  /// ```
+  String get choose_format => """Оберіть формат""";
+
+  /// ```dart
+  /// "Зображення"
+  /// ```
+  String get image => """Зображення""";
+
+  /// ```dart
+  /// "Діагностика"
+  /// ```
+  String get diagnostics => """Діагностика""";
+
+  /// ```dart
+  /// "Облік"
+  /// ```
+  String get inventory => """Облік""";
+
+  /// ```dart
+  /// "Попередній перегляд"
+  /// ```
+  String get preview => """Попередній перегляд""";
+
+  /// ```dart
+  /// "Копіювати"
+  /// ```
+  String get copy => """Копіювати""";
+
+  /// ```dart
+  /// "Приховано категорій: $n"
+  /// ```
+  String hidden_count(n) => """Приховано категорій: $n""";
+
+  /// ```dart
+  /// "Натисніть категорію, щоб приховати або включити її в усіх форматах."
+  /// ```
+  String get hide_fields =>
+      """Натисніть категорію, щоб приховати або включити її в усіх форматах.""";
+
+  /// ```dart
+  /// "ID"
+  /// ```
+  String get identifiers => """ID""";
+
+  /// ```dart
+  /// "Місце"
+  /// ```
+  String get location_label => """Місце""";
+
+  /// ```dart
+  /// "Клієнти роутера"
+  /// ```
+  String get clients_label => """Клієнти роутера""";
+
+  /// ```dart
+  /// "Приховано"
+  /// ```
+  String get hidden => """Приховано""";
+
+  /// ```dart
+  /// "Включено"
+  /// ```
+  String get included => """Включено""";
+
+  /// ```dart
+  /// "$field: $state"
+  /// ```
+  String field_visibility(field, state) => """$field: $state""";
+
+  /// ```dart
+  /// "Включити $field до експорту"
+  /// ```
+  String include_field(field) => """Включити $field до експорту""";
 }
 
 Map<String, String> get messagesUkMap => {
@@ -4281,7 +4320,7 @@ Map<String, String> get messagesUkMap => {
   """obstructions.heading_uncertain_short""":
       """Біля вертикалі азимут антени невизначений.""",
   """sharing.format""": """Формат""",
-  """sharing.json""": """Діагностичні дані JSON""",
+  """sharing.json""": """Дані JSON""",
   """sharing.screenshot""": """Зображення""",
   """sharing.full_text""": """Повний діагностичний текст""",
   """sharing.compact_text""": """Стислий текст для обліку""",
@@ -4305,13 +4344,19 @@ Map<String, String> get messagesUkMap => {
   """sharing.ip""": """IP-адреси приховано""",
   """sharing.location""": """Місцезнаходження приховано""",
   """sharing.clients""": """Клієнтів роутера приховано""",
-  """sharing.inventory_details""": """Реєстраційні ідентифікатори""",
-  """sharing.inventory_hint""": """UTID зчитується з антени, якщо доступний. Додайте KIT-номер із коробки, Dish ID з етикетки антени та номер облікового запису Starlink. Відсутні значення позначаються у звіті.""",
-  """sharing.utid""": """UTID""",
-  """sharing.kit_number""": """KIT-номер""",
-  """sharing.dish_serial""": """Dish ID (етикетка антени)""",
-  """sharing.account_number""": """Номер облікового запису Starlink""",
-  """sharing.inventory_hidden""": """Реєстраційні ідентифікатори приховано в цьому експорті. Вимкніть приховування ідентифікаторів, щоб додати їх.""",
-  """sharing.prepare""": """Створити зображення""",
+  """sharing.prepare""": """Перегляд зображення""",
   """sharing.retry""": """Спробувати знову""",
+  """sharing.choose_format""": """Оберіть формат""",
+  """sharing.image""": """Зображення""",
+  """sharing.diagnostics""": """Діагностика""",
+  """sharing.inventory""": """Облік""",
+  """sharing.preview""": """Попередній перегляд""",
+  """sharing.copy""": """Копіювати""",
+  """sharing.hide_fields""":
+      """Натисніть категорію, щоб приховати або включити її в усіх форматах.""",
+  """sharing.identifiers""": """ID""",
+  """sharing.location_label""": """Місце""",
+  """sharing.clients_label""": """Клієнти роутера""",
+  """sharing.hidden""": """Приховано""",
+  """sharing.included""": """Включено""",
 };

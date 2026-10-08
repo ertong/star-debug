@@ -167,7 +167,8 @@ sanitized fixture plus round-trip assertions. Avoid teaching UI widgets about fo
 
 Live and stored views open one [`ShareSnapshotDialog`](../star.debug/lib/pages/dialogs/share_snapshot.dart).
 It freezes the selected snapshot and offers debug-data JSON, a report image, full diagnostic text,
-or compact inventory text. [`ShareExport`](../star.debug/lib/utils/share_export.dart) prepares copies
+or compact inventory text. Image is selected by default, with JSON as the fallback when image
+sharing is disabled. [`ShareExport`](../star.debug/lib/utils/share_export.dart) prepares copies
 without accessing live services. The image renderer uses the same redacted copy and fixed-width
 columns, avoiding intrinsic measurement of widgets containing `LayoutBuilder`.
 
@@ -178,17 +179,28 @@ is retained where possible, and the original snapshot is never modified. Diagnos
 status, configuration, history summaries, obstruction-map context, and online results.
 
 Inventory text separates UTID from the KIT number, physical terminal-label Dish ID, and Starlink
-account number. A valid terminal UTID is prefilled without its `ut` prefix; explicitly named
-imported registration fields may also be prefilled. Other values can be entered in the dialog and
-are used only for that inventory export. Missing values remain marked as unavailable, and hiding
-IDs also hides manually entered values. These fields follow the current
+account number. A valid terminal UTID is exported without its `ut` prefix; explicitly named
+imported registration fields are included when available. Missing identifiers are omitted,
+and the dialog does not request manual entry. These fields follow the current
 [Diia terminal verification service](https://diia.gov.ua/services/povidomlennia-pro-vykorystannia-terminaliv-starlink)
 (checked 2026-10-08); the report does not establish whitelist status. Applicant identity and
 organization information remain outside terminal telemetry.
 
-Text and JSON can be copied, all formats can be saved through the platform file picker, and mobile
-and macOS users can use the native share sheet. File shares use a separate temporary directory per
-export and await the plugin result without deleting files while recipients may still read them.
+All formats can be copied or saved through the platform file picker, and mobile and macOS users
+can use the native share sheet. Image actions generate a PNG on demand; the optional preview is
+not required. The same cached PNG is reused until privacy choices change. File shares use a separate
+temporary directory per export and await the plugin result without deleting files while recipients
+may still read them.
+
+[`ImageClipboard`](../star.debug/lib/channel/image_clipboard.dart) copies PNG bytes through the
+existing clipboard plugin on iOS, macOS, and Windows. Android and Linux implement the
+`com.stardebug/image_clipboard` channel with `copyImage` and binary `bytes`. Android writes a
+unique file under its dedicated `clipboard/` cache directory and publishes a clipboard content
+URI through a scoped, non-exported FileProvider; it does not write to the gallery or require storage
+permission. Cached files remain available after closing the dialog so other apps can paste later.
+Linux decodes the PNG with GdkPixbuf and places the image on the GTK clipboard, requesting
+clipboard-manager persistence. Generation and delivery share one busy guard; closing the dialog
+before generation finishes cancels delivery.
 
 ## Obstruction maps
 

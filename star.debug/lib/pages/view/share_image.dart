@@ -2,7 +2,6 @@ import 'dart:typed_data';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:image/image.dart' as img;
 import 'package:screenshot/screenshot.dart';
 import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/preloaded.dart';
@@ -37,13 +36,7 @@ Future<Uint8List> captureShareImage(
     ),
     pixelRatio: 2,
   );
-  final jpeg =
-      await (img.Command()
-            ..decodePng(png)
-            ..encodeJpg(quality: 85))
-          .getBytes();
-  if (jpeg == null) throw StateError('Screenshot encoding failed');
-  return jpeg;
+  return png;
 }
 
 class ShareImage extends StatelessWidget {

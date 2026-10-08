@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:star_debug/messages/i18n.dart';
+import 'package:star_debug/channel/image_clipboard.dart';
 import 'package:star_debug/pages/debug_data.dart';
 import 'package:star_debug/pages/view/share_image.dart';
 import 'package:star_debug/preloaded.dart';
@@ -28,7 +29,7 @@ class ShareSnapshotDialog extends StatefulWidget {
     super.key,
     required this.snap,
     required this.sourceMode,
-    this.initialFormat = ShareFormat.json,
+    this.initialFormat = ShareFormat.screenshot,
     this.allowScreenshot = true,
     this.showInApp = true,
   });
@@ -43,10 +44,6 @@ class _ShareSnapshotDialogState extends State<ShareSnapshotDialog> {
     ..hideRouterClients = true;
   final shareButtonKey = GlobalKey();
   late ShareFormat format;
-  late final TextEditingController kit;
-  late final TextEditingController utid;
-  late final TextEditingController serial;
-  late final TextEditingController account;
   SharePayload? payload;
   Uint8List? image;
   bool busy = false;
@@ -60,31 +57,10 @@ class _ShareSnapshotDialogState extends State<ShareSnapshotDialog> {
             widget.initialFormat == ShareFormat.screenshot
         ? ShareFormat.json
         : widget.initialFormat;
-    final identifiers = ShareExport.identifiersFor(widget.snap);
-    kit = TextEditingController(text: identifiers.kitNumber);
-    utid = TextEditingController(text: identifiers.utid);
-    serial = TextEditingController(text: identifiers.dishSerialNumber);
-    account = TextEditingController(text: identifiers.accountNumber);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted && format != ShareFormat.screenshot) prepare();
     });
   }
-
-  @override
-  void dispose() {
-    kit.dispose();
-    utid.dispose();
-    serial.dispose();
-    account.dispose();
-    super.dispose();
-  }
-
-  ShareIdentifiers get identifiers => ShareIdentifiers(
-    kitNumber: kit.text,
-    utid: utid.text,
-    dishSerialNumber: serial.text,
-    accountNumber: account.text,
-  );
 
   void change(VoidCallback update) {
     setState(() {
@@ -105,31 +81,7 @@ class _ShareSnapshotDialogState extends State<ShareSnapshotDialog> {
       error = null;
     });
     try {
-      if (format == ShareFormat.screenshot) {
-        final bytes = await captureShareImage(
-          context,
-          ShareExport.redactedSnapshot(widget.snap, options),
-          widget.sourceMode,
-          options,
-        );
-        if (!mounted) return;
-        image = bytes;
-        payload = SharePayload(
-          text: '',
-          filename: 'starlink-${widget.snap.timestamp}-screenshot.jpg',
-          mimeType: 'image/jpeg',
-          subject: M.sharing.screenshot,
-        );
-      } else {
-        payload = ShareExport.build(
-          widget.snap,
-          format: format,
-          options: options,
-          identifiers: identifiers,
-          appVersion: R.versionName,
-          sourceMode: widget.sourceMode,
-        );
-      }
+      await buildPayload();
     } catch (e, s) {
       LogUtils.ers('ShareSnapshot', 'Preparing export', e, s);
       if (mounted) error = '$e';
@@ -138,16 +90,45 @@ class _ShareSnapshotDialogState extends State<ShareSnapshotDialog> {
     }
   }
 
+  Future<void> buildPayload() async {
+    if (format == ShareFormat.screenshot) {
+      final bytes = await captureShareImage(
+        context,
+        ShareExport.redactedSnapshot(widget.snap, options),
+        widget.sourceMode,
+        options,
+      );
+      if (!mounted) return;
+      image = bytes;
+      payload = SharePayload(
+        text: '',
+        filename: 'starlink-${widget.snap.timestamp}-screenshot.png',
+        mimeType: 'image/png',
+        subject: M.sharing.screenshot,
+      );
+    } else {
+      payload = ShareExport.build(
+        widget.snap,
+        format: format,
+        options: options,
+        appVersion: R.versionName,
+        sourceMode: widget.sourceMode,
+      );
+    }
+  }
+
   Uint8List get bytes =>
       image ?? Uint8List.fromList(utf8.encode(payload!.text));
 
   Future<void> deliver(Future<void> Function() action) async {
-    if (busy || payload == null) return;
+    if (busy || !mounted) return;
     setState(() {
       busy = true;
       error = null;
     });
     try {
+      if (payload == null) await buildPayload();
+      if (!mounted || payload == null) return;
       await action();
     } catch (e, s) {
       LogUtils.ers('ShareSnapshot', 'Delivering export', e, s);
@@ -162,7 +143,11 @@ class _ShareSnapshotDialogState extends State<ShareSnapshotDialog> {
   }
 
   Future<void> copy() => deliver(() async {
-    await Clipboard.setData(ClipboardData(text: payload!.text));
+    if (format == ShareFormat.screenshot) {
+      await ImageClipboard.copyPng(image!);
+    } else {
+      await Clipboard.setData(ClipboardData(text: payload!.text));
+    }
     message(M.general.copied_to_clipboard);
   });
 
@@ -197,10 +182,10 @@ class _ShareSnapshotDialogState extends State<ShareSnapshotDialog> {
       );
     } else {
       final root = await getTemporaryDirectory();
-      final directory = await Directory('${root.path}/star-debug-share-')
-          .createTemp();
+      final directory = await root.createTemp('star-debug-share-');
       final path = '${directory.path}/${payload!.filename}';
       await File(path).writeAsBytes(bytes, flush: true);
+      if (!mounted) return;
       await SharePlus.instance.share(
         ShareParams(
           files: [XFile(path, mimeType: payload!.mimeType)],
@@ -220,11 +205,18 @@ class _ShareSnapshotDialogState extends State<ShareSnapshotDialog> {
     );
   });
 
+  IconData formatIcon(ShareFormat value) => switch (value) {
+    ShareFormat.json => Icons.data_object,
+    ShareFormat.screenshot => Icons.image_outlined,
+    ShareFormat.diagnosticText => Icons.article_outlined,
+    ShareFormat.inventoryText => Icons.inventory_2_outlined,
+  };
+
   String label(ShareFormat value) => switch (value) {
     ShareFormat.json => M.sharing.json,
-    ShareFormat.screenshot => M.sharing.screenshot,
-    ShareFormat.diagnosticText => M.sharing.full_text,
-    ShareFormat.inventoryText => M.sharing.compact_text,
+    ShareFormat.screenshot => M.sharing.image,
+    ShareFormat.diagnosticText => M.sharing.diagnostics,
+    ShareFormat.inventoryText => M.sharing.inventory,
   };
 
   String get description => switch (format) {
@@ -234,188 +226,397 @@ class _ShareSnapshotDialogState extends State<ShareSnapshotDialog> {
     ShareFormat.inventoryText => M.sharing.compact_description,
   };
 
-  Widget checkbox(String label, bool value, void Function(bool) update) =>
-      CheckboxListTile(
-        dense: true,
-        contentPadding: EdgeInsets.zero,
-        controlAffinity: ListTileControlAffinity.leading,
-        title: Text(label),
-        value: value,
-        onChanged: busy ? null : (value) => change(() => update(value!)),
-      );
+  Widget formatTile(ShareFormat value) {
+    final colors = Theme.of(context).colorScheme;
+    final selected = value == format;
+    return Semantics(
+      selected: selected,
+      child: Material(
+        color: selected ? colors.primaryContainer : colors.surface,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+          side: BorderSide(
+            color: selected ? colors.primary : colors.outlineVariant,
+            width: selected ? 1.5 : 1,
+          ),
+        ),
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: busy
+              ? null
+              : () {
+                  if (value != format) change(() => format = value);
+                },
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Icon(formatIcon(value), size: 22, color: colors.primary),
+                    const Spacer(),
+                    if (selected)
+                      Icon(Icons.check_circle, size: 18, color: colors.primary)
+                    else
+                      Text(
+                        value == ShareFormat.json
+                            ? 'JSON'
+                            : value == ShareFormat.screenshot
+                            ? 'PNG'
+                            : 'TXT',
+                        style: Theme.of(context).textTheme.labelSmall
+                            ?.copyWith(color: colors.onSurfaceVariant),
+                      ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  label(value),
+                  style: Theme.of(context).textTheme.bodyMedium
+                      ?.copyWith(fontWeight: FontWeight.w600),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 
-  Widget field(String label, TextEditingController controller) => Padding(
-    padding: const EdgeInsets.only(bottom: 10),
-    child: TextField(
-      controller: controller,
-      enabled: !busy,
-      autocorrect: false,
-      enableSuggestions: false,
-      decoration: InputDecoration(labelText: label),
-      onChanged: (_) => change(() {}),
+  Widget privacyChip(
+    String label,
+    String tooltip,
+    bool value,
+    void Function(bool) update,
+  ) => Tooltip(
+    message: value ? M.sharing.include_field(label) : tooltip,
+    child: FilterChip(
+      avatar: Icon(
+        value ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+        size: 18,
+      ),
+      label: Text(
+        label,
+        semanticsLabel: M.sharing.field_visibility(
+          label,
+          value ? M.sharing.hidden : M.sharing.included,
+        ),
+      ),
+      showCheckmark: false,
+      selected: value,
+      onSelected: busy ? null : (value) => change(() => update(value)),
     ),
   );
 
-  @override
-  Widget build(BuildContext context) {
-    final hidden = [
-      if (options.hideIds) M.sharing.ids,
-      if (options.hideMac) M.sharing.mac,
-      if (options.hideIp) M.sharing.ip,
-      if (options.hideLocation) M.sharing.location,
-      if (options.hideRouterClients) M.sharing.clients,
-    ];
-    return AlertDialog(
-      scrollable: true,
-      title: Row(
-        children: [
-          Expanded(child: Text(M.general.share)),
-          IconButton(
-            tooltip: M.general.close,
-            onPressed: () => Navigator.of(context).pop(),
-            icon: const Icon(Icons.close),
-          ),
-        ],
+  Widget preview(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+    return Container(
+      height: MediaQuery.sizeOf(context).height < 720 ? 180 : 220,
+      clipBehavior: Clip.antiAlias,
+      decoration: BoxDecoration(
+        color: colors.onSurface.withAlpha(5),
+        border: Border.all(color: colors.outlineVariant),
+        borderRadius: BorderRadius.circular(12),
       ),
-      content: SizedBox(
-        width: 560,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            DropdownButtonFormField<ShareFormat>(
-              key: ValueKey(format),
-              initialValue: format,
-              isExpanded: true,
-              decoration: InputDecoration(labelText: M.sharing.format),
-              items: [
-                for (final value in ShareFormat.values)
-                  if (value != ShareFormat.screenshot || widget.allowScreenshot)
-                    DropdownMenuItem(value: value, child: Text(label(value))),
-              ],
-              onChanged: busy ? null : (value) => change(() => format = value!),
-            ),
-            const SizedBox(height: 8),
-            Text(description, style: Theme.of(context).textTheme.bodySmall),
-            ExpansionTile(
-              key: const PageStorageKey('share-privacy'),
-              tilePadding: EdgeInsets.zero,
-              title: Text(M.sharing.privacy),
-              subtitle: Text(
-                hidden.isEmpty ? M.sharing.privacy_hint : hidden.join(' · '),
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          if (image != null)
+            InteractiveViewer(child: Image.memory(image!, fit: BoxFit.contain))
+          else if (payload != null)
+            SingleChildScrollView(
+              padding: const EdgeInsets.all(14),
+              child: SelectableText(
+                payload!.text,
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  fontFamily: format == ShareFormat.json ? 'monospace' : null,
+                  height: 1.5,
+                  color: colors.onSurface,
+                ),
               ),
-              children: [
-                checkbox(
-                  M.sharing.hide_ids,
-                  options.hideIds,
-                  (v) => options.hideIds = v,
-                ),
-                checkbox(
-                  M.sharing.hide_mac,
-                  options.hideMac,
-                  (v) => options.hideMac = v,
-                ),
-                checkbox(
-                  M.sharing.hide_ip,
-                  options.hideIp,
-                  (v) => options.hideIp = v,
-                ),
-                checkbox(
-                  M.sharing.hide_location,
-                  options.hideLocation,
-                  (v) => options.hideLocation = v,
-                ),
-                checkbox(
-                  M.sharing.hide_clients,
-                  options.hideRouterClients,
-                  (v) => options.hideRouterClients = v,
-                ),
-                Text(
-                  M.sharing.credentials_hint,
-                  style: Theme.of(context).textTheme.bodySmall,
-                ),
-              ],
-            ),
-            if (format == ShareFormat.inventoryText)
-              ExpansionTile(
-                key: const PageStorageKey('share-inventory'),
-                tilePadding: EdgeInsets.zero,
-                initiallyExpanded: true,
-                title: Text(M.sharing.inventory_details),
-                children: [
-                  Text(
-                    M.sharing.inventory_hint,
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
-                  const SizedBox(height: 10),
-                  field(M.sharing.utid, utid),
-                  field(M.sharing.kit_number, kit),
-                  field(M.sharing.dish_serial, serial),
-                  field(M.sharing.account_number, account),
-                  if (options.hideIds) Text(M.sharing.inventory_hidden),
-                ],
-              ),
-            if (busy)
-              const Padding(
-                padding: EdgeInsets.all(16),
-                child: Center(child: CircularProgressIndicator()),
-              )
-            else if (format == ShareFormat.screenshot && image == null)
-              OutlinedButton.icon(
+            )
+          else if (busy)
+            const Center(child: CircularProgressIndicator())
+          else if (format == ShareFormat.screenshot)
+            Center(
+              child: FilledButton.tonalIcon(
                 onPressed: prepare,
-                icon: const Icon(Icons.preview_outlined),
+                icon: const Icon(Icons.image_outlined),
                 label: Text(M.sharing.prepare),
               ),
-            if (image != null)
-              Image.memory(image!, height: 200)
-            else if (payload != null)
-              Container(
-                height: 180,
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Theme.of(context).dividerColor),
-                  borderRadius: BorderRadius.circular(8),
+            )
+          else if (error != null)
+            Center(child: Icon(Icons.error_outline, color: colors.error)),
+          if (busy && payload != null)
+            const Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              child: LinearProgressIndicator(),
+            ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colors = theme.colorScheme;
+    final hidden = [
+      options.hideIds,
+      options.hideMac,
+      options.hideIp,
+      options.hideLocation,
+      options.hideRouterClients,
+    ].where((value) => value).length;
+    final formats = [
+      ShareFormat.json,
+      if (widget.allowScreenshot) ShareFormat.screenshot,
+      ShareFormat.diagnosticText,
+      ShareFormat.inventoryText,
+    ];
+    final nativeShare =
+        Platform.isAndroid || Platform.isIOS || Platform.isMacOS;
+    final enabled =
+        !busy && (payload != null || format == ShareFormat.screenshot);
+    return Dialog(
+      backgroundColor: colors.surface,
+      insetPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      clipBehavior: Clip.antiAlias,
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          maxWidth: 560,
+          maxHeight: MediaQuery.sizeOf(context).height - 48,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 16, 12, 16),
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: colors.primaryContainer,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Icon(
+                      Icons.share_outlined,
+                      color: colors.primary,
+                      size: 22,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          M.general.share,
+                          style: theme.textTheme.titleLarge?.copyWith(
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          M.sharing.choose_format,
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: colors.onSurfaceVariant,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  IconButton(
+                    tooltip: M.general.close,
+                    onPressed: () => Navigator.of(context).pop(),
+                    icon: const Icon(Icons.close),
+                  ),
+                ],
+              ),
+            ),
+            Flexible(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    for (var i = 0; i < formats.length; i += 2)
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: IntrinsicHeight(
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Expanded(child: formatTile(formats[i])),
+                              const SizedBox(width: 10),
+                              Expanded(
+                                child: i + 1 < formats.length
+                                    ? formatTile(formats[i + 1])
+                                    : const SizedBox(),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    Text(
+                      description,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: colors.onSurfaceVariant,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Theme(
+                      data: theme.copyWith(dividerColor: Colors.transparent),
+                      child: ExpansionTile(
+                        key: const PageStorageKey('share-privacy'),
+                        tilePadding: EdgeInsets.zero,
+                        leading: Icon(
+                          Icons.shield_outlined,
+                          size: 20,
+                          color: colors.onSurfaceVariant,
+                        ),
+                        title: Text(
+                          M.sharing.privacy,
+                          style: theme.textTheme.bodyMedium,
+                        ),
+                        subtitle: Text(M.sharing.hidden_count(hidden)),
+                        childrenPadding: const EdgeInsets.only(bottom: 12),
+                        expandedCrossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            M.sharing.hide_fields,
+                            style: theme.textTheme.bodySmall,
+                          ),
+                          const SizedBox(height: 6),
+                          Wrap(
+                            spacing: 8,
+                            runSpacing: 4,
+                            children: [
+                              privacyChip(
+                                M.sharing.identifiers,
+                                M.sharing.hide_ids,
+                                options.hideIds,
+                                (v) => options.hideIds = v,
+                              ),
+                              privacyChip(
+                                'MAC',
+                                M.sharing.hide_mac,
+                                options.hideMac,
+                                (v) => options.hideMac = v,
+                              ),
+                              privacyChip(
+                                'IP',
+                                M.sharing.hide_ip,
+                                options.hideIp,
+                                (v) => options.hideIp = v,
+                              ),
+                              privacyChip(
+                                M.sharing.location_label,
+                                M.sharing.hide_location,
+                                options.hideLocation,
+                                (v) => options.hideLocation = v,
+                              ),
+                              privacyChip(
+                                M.sharing.clients_label,
+                                M.sharing.hide_clients,
+                                options.hideRouterClients,
+                                (v) => options.hideRouterClients = v,
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            M.sharing.credentials_hint,
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: colors.onSurfaceVariant,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            M.sharing.preview,
+                            style: theme.textTheme.titleSmall?.copyWith(
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                        if (widget.showInApp && format == ShareFormat.json)
+                          IconButton(
+                            tooltip: M.general.view_in_app,
+                            onPressed: enabled ? viewInApp : null,
+                            icon: const Icon(Icons.open_in_new, size: 18),
+                          ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    preview(context),
+                    if (error != null) ...[
+                      const SizedBox(height: 12),
+                      Text(error!, style: TextStyle(color: colors.error)),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: TextButton(
+                          onPressed: busy ? null : prepare,
+                          child: Text(M.sharing.retry),
+                        ),
+                      ),
+                    ],
+                  ],
                 ),
-                child: SingleChildScrollView(
-                  child: SelectableText(payload!.text),
-                ),
               ),
-            if (error != null) ...[
-              Text(
-                error!,
-                style: TextStyle(color: Theme.of(context).colorScheme.error),
+            ),
+            Divider(height: 1, color: colors.outlineVariant),
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                children: [
+                  IconButton.outlined(
+                    tooltip: M.general.save_as,
+                    onPressed: enabled ? save : null,
+                    icon: const Icon(Icons.file_download_outlined),
+                  ),
+                  if (nativeShare) ...[
+                    const SizedBox(width: 8),
+                    IconButton.outlined(
+                      tooltip: M.sharing.copy,
+                      onPressed: enabled ? copy : null,
+                      icon: const Icon(Icons.copy_outlined),
+                    ),
+                  ],
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: FilledButton.icon(
+                      key: shareButtonKey,
+                      onPressed: !enabled
+                          ? null
+                          : nativeShare
+                          ? share
+                          : copy,
+                      icon: Icon(
+                        nativeShare
+                            ? Icons.share_outlined
+                            : Icons.copy_outlined,
+                      ),
+                      label: Text(
+                        nativeShare ? M.general.share : M.sharing.copy,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              TextButton(
-                onPressed: busy ? null : prepare,
-                child: Text(M.sharing.retry),
-              ),
-            ],
+            ),
           ],
         ),
       ),
-      actions: [
-        if (format != ShareFormat.screenshot)
-          TextButton(
-            onPressed: busy || payload == null ? null : copy,
-            child: Text(M.general.to_clipboard),
-          ),
-        TextButton(
-          onPressed: busy || payload == null ? null : save,
-          child: Text(M.general.save_as),
-        ),
-        if (Platform.isAndroid || Platform.isIOS || Platform.isMacOS)
-          FilledButton.icon(
-            key: shareButtonKey,
-            onPressed: busy || payload == null ? null : share,
-            icon: const Icon(Icons.share),
-            label: Text(M.general.share),
-          ),
-        if (widget.showInApp && format == ShareFormat.json)
-          TextButton(
-            onPressed: busy || payload == null ? null : viewInApp,
-            child: Text(M.general.view_in_app),
-          ),
-      ],
     );
   }
 }

@@ -14,6 +14,49 @@ struct _MyApplication {
 
 G_DEFINE_TYPE(MyApplication, my_application, GTK_TYPE_APPLICATION)
 
+// Copies PNG image data without going through text clipboard formats.
+static void image_clipboard_method_call(FlMethodChannel* channel,
+                                        FlMethodCall* call,
+                                        gpointer user_data) {
+  if (g_strcmp0(fl_method_call_get_name(call), "copyImage") != 0) {
+    fl_method_call_respond_not_implemented(call, nullptr);
+    return;
+  }
+  FlValue* args = fl_method_call_get_args(call);
+  FlValue* bytes = args && fl_value_get_type(args) == FL_VALUE_TYPE_MAP
+                      ? fl_value_lookup_string(args, "bytes")
+                      : nullptr;
+  if (!bytes || fl_value_get_type(bytes) != FL_VALUE_TYPE_UINT8_LIST ||
+      fl_value_get_length(bytes) == 0) {
+    fl_method_call_respond_error(call, "EMPTY_IMAGE", "PNG bytes are required",
+                                 nullptr, nullptr);
+    return;
+  }
+  g_autoptr(GError) error = nullptr;
+  g_autoptr(GdkPixbufLoader) loader = gdk_pixbuf_loader_new_with_type("png", &error);
+  if (!loader || !gdk_pixbuf_loader_write(loader, fl_value_get_uint8_list(bytes),
+                                         fl_value_get_length(bytes), &error) ||
+      !gdk_pixbuf_loader_close(loader, &error)) {
+    // A loader must be closed even after a failed write.
+    if (loader) gdk_pixbuf_loader_close(loader, nullptr);
+    fl_method_call_respond_error(call, "INVALID_IMAGE",
+                                 error ? error->message : "Invalid PNG image",
+                                 nullptr, nullptr);
+    return;
+  }
+  GdkPixbuf* image = gdk_pixbuf_loader_get_pixbuf(loader);
+  if (!image) {
+    fl_method_call_respond_error(call, "INVALID_IMAGE", "Invalid PNG image",
+                                 nullptr, nullptr);
+    return;
+  }
+  GtkClipboard* clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
+  gtk_clipboard_set_image(clipboard, image);
+  gtk_clipboard_store(clipboard);
+  g_autoptr(FlValue) success = fl_value_new_bool(TRUE);
+  fl_method_call_respond_success(call, success, nullptr);
+}
+
 // Implements GApplication::activate.
 static void my_application_activate(GApplication* application) {
   MyApplication* self = MY_APPLICATION(application);
@@ -58,6 +101,14 @@ static void my_application_activate(GApplication* application) {
   gtk_container_add(GTK_CONTAINER(window), GTK_WIDGET(view));
 
   fl_register_plugins(FL_PLUGIN_REGISTRY(view));
+
+  g_autoptr(FlStandardMethodCodec) clipboard_codec = fl_standard_method_codec_new();
+  g_autoptr(FlMethodChannel) clipboard_channel = fl_method_channel_new(
+      fl_engine_get_binary_messenger(fl_view_get_engine(view)),
+      "com.stardebug/image_clipboard", FL_METHOD_CODEC(clipboard_codec));
+  fl_method_channel_set_method_call_handler(clipboard_channel,
+                                            image_clipboard_method_call,
+                                            nullptr, nullptr);
 
   gtk_widget_grab_focus(GTK_WIDGET(view));
 }

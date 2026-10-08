@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:star_debug/grpc/starlink/starlink.pb.dart';
 import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/pages/dialogs/share_snapshot.dart';
 import 'package:star_debug/preloaded.dart';
+import 'package:star_debug/theme.dart';
 import 'package:star_debug/utils/obstruction_map_context.dart';
 import 'package:star_debug/utils/snapshot.dart';
 import 'package:star_debug/utils/share_export.dart';
@@ -50,13 +52,18 @@ Snapshot _snapshot() => Snapshot(
   ),
 );
 
-Future<void> _open(WidgetTester tester, {bool allowScreenshot = true}) async {
+Future<void> _open(
+  WidgetTester tester, {
+  bool allowScreenshot = true,
+  Snapshot? snap,
+}) async {
   await tester.pumpWidget(
     MaterialApp(
       scaffoldMessengerKey: R.scaffoldMessengerKey,
       home: Scaffold(
         body: ShareSnapshotDialog(
-          snap: _snapshot(),
+          initialFormat: ShareFormat.json,
+          snap: snap ?? _snapshot(),
           sourceMode: MapSourceMode.stored,
           allowScreenshot: allowScreenshot,
           showInApp: false,
@@ -68,17 +75,64 @@ Future<void> _open(WidgetTester tester, {bool allowScreenshot = true}) async {
 }
 
 Future<void> _format(WidgetTester tester, String label) async {
-  await tester.tap(find.byType(DropdownButtonFormField<ShareFormat>));
-  await tester.pumpAndSettle();
-  await tester.tap(find.text(label).last);
+  await tester.ensureVisible(find.text(label));
+  await tester.tap(find.text(label));
   await tester.pumpAndSettle();
 }
+
+Finder _copyButton() => Platform.isAndroid || Platform.isIOS || Platform.isMacOS
+    ? find.byTooltip(M.sharing.copy)
+    : find.widgetWithText(FilledButton, M.sharing.copy);
 
 String _preview(WidgetTester tester) =>
     tester.widget<SelectableText>(find.byType(SelectableText)).data!;
 
 void main() {
   setUp(() => R = Preloaded()..versionName = 'test');
+
+  for (final allowImage in [true, false]) {
+    testWidgets(
+      allowImage
+          ? 'share opens with Image selected'
+          : 'share falls back to JSON when Image is disabled',
+      (tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: ShareSnapshotDialog(
+                snap: _snapshot(),
+                sourceMode: MapSourceMode.stored,
+                allowScreenshot: allowImage,
+                showInApp: false,
+              ),
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
+        if (allowImage) {
+          expect(find.text(M.sharing.prepare), findsOneWidget);
+          expect(find.byType(SelectableText), findsNothing);
+          expect(_copyButton(), findsOneWidget);
+          expect(
+            tester
+                .widget<FilledButton>(find.byType(FilledButton).last)
+                .onPressed,
+            isNotNull,
+          );
+        } else {
+          expect(find.text(M.sharing.prepare), findsNothing);
+          expect(
+            jsonDecode(
+              _preview(tester),
+            )['dish']['rawStatus']['deviceInfo']['id'],
+            _id,
+          );
+          expect(_copyButton(), findsOneWidget);
+        }
+        expect(tester.takeException(), isNull);
+      },
+    );
+  }
 
   testWidgets('one dialog switches representations and keeps privacy choices', (
     tester,
@@ -90,77 +144,77 @@ void main() {
     );
     await tester.tap(find.text(M.sharing.privacy));
     await tester.pumpAndSettle();
-    await tester.ensureVisible(find.text(M.sharing.hide_ids));
-    await tester.tap(find.text(M.sharing.hide_ids));
+    await tester.ensureVisible(
+      find.widgetWithText(FilterChip, M.sharing.identifiers),
+    );
+    await tester.tap(find.widgetWithText(FilterChip, M.sharing.identifiers));
     await tester.pumpAndSettle();
     expect(_preview(tester), isNot(contains('01234567')));
-
-    await tester.ensureVisible(
-      find.byType(DropdownButtonFormField<ShareFormat>),
+    final idChip = find.widgetWithText(FilterChip, M.sharing.identifiers);
+    final hiddenChip = tester.widget<FilterChip>(idChip);
+    expect(hiddenChip.selected, isTrue);
+    expect(hiddenChip.showCheckmark, isFalse);
+    expect((hiddenChip.avatar as Icon).icon, Icons.visibility_off_outlined);
+    expect(find.text(M.sharing.hidden_count(3)), findsOneWidget);
+    await tester.tap(idChip);
+    await tester.pumpAndSettle();
+    final includedChip = tester.widget<FilterChip>(
+      find.widgetWithText(FilterChip, M.sharing.identifiers),
     );
-    await _format(tester, M.sharing.full_text);
+    expect(includedChip.selected, isFalse);
+    expect(includedChip.showCheckmark, isFalse);
+    expect((includedChip.avatar as Icon).icon, Icons.visibility_outlined);
+    expect(_preview(tester), contains('01234567'));
+    await tester.tap(find.widgetWithText(FilterChip, M.sharing.identifiers));
+    await tester.pumpAndSettle();
+
+    await _format(tester, M.sharing.diagnostics);
     expect(_preview(tester), contains('Starlink diagnostic report'));
     expect(_preview(tester), isNot(contains('01234567')));
-    await tester.ensureVisible(
-      find.byType(DropdownButtonFormField<ShareFormat>),
-    );
-    await _format(tester, M.sharing.compact_text);
+    await _format(tester, M.sharing.inventory);
     expect(_preview(tester), contains('UTID: [hidden]'));
-    expect(find.text(M.sharing.inventory_hidden), findsOneWidget);
+    expect(find.byType(TextField), findsNothing);
 
-    await tester.ensureVisible(
-      find.byType(DropdownButtonFormField<ShareFormat>),
-    );
-    await _format(tester, M.sharing.screenshot);
+    await _format(tester, M.sharing.image);
     expect(find.byType(SelectableText), findsNothing);
     expect(find.text(M.sharing.prepare), findsOneWidget);
-    expect(find.text(M.general.to_clipboard), findsNothing);
+    expect(_copyButton(), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('compact copy includes supplemented registration identifiers', (
-    tester,
-  ) async {
-    String? copied;
-    tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
-      SystemChannels.platform,
-      (call) async {
-        if (call.method == 'Clipboard.setData') {
-          copied = (call.arguments as Map)['text'] as String;
-        }
-        return null;
-      },
-    );
-    addTearDown(
-      () => tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+  testWidgets(
+    'compact copy uses captured identifiers without requesting missing fields',
+    (tester) async {
+      String? copied;
+      tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
         SystemChannels.platform,
-        null,
-      ),
-    );
-    await _open(tester);
-    await _format(tester, M.sharing.compact_text);
-    for (final (label, value) in [
-      (M.sharing.kit_number, 'KIT-SYNTHETIC'),
-      (M.sharing.dish_serial, 'SERIAL-SYNTHETIC'),
-      (M.sharing.account_number, 'ACCOUNT-SYNTHETIC'),
-    ]) {
-      final field = find.byWidgetPredicate(
-        (widget) =>
-            widget is TextField && widget.decoration?.labelText == label,
+        (call) async {
+          if (call.method == 'Clipboard.setData') {
+            copied = (call.arguments as Map)['text'] as String;
+          }
+          return null;
+        },
       );
-      await tester.ensureVisible(field);
-      await tester.enterText(field, value);
+      addTearDown(
+        () => tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+          SystemChannels.platform,
+          null,
+        ),
+      );
+      await _open(tester);
+      await _format(tester, M.sharing.inventory);
+      await tester.tap(_copyButton());
       await tester.pumpAndSettle();
-    }
-    await tester.tap(find.text(M.general.to_clipboard));
-    await tester.pumpAndSettle();
-    expect(copied, contains('KIT-SYNTHETIC'));
-    expect(copied, contains('UTID: 01234567-89abcdef-01234567'));
-    expect(copied, contains('SERIAL-SYNTHETIC'));
-    expect(copied, contains('ACCOUNT-SYNTHETIC'));
-    expect(find.text(M.general.copied_to_clipboard), findsOneWidget);
-    expect(tester.takeException(), isNull);
-  });
+      expect(copied, isNot(contains('KIT number:')));
+      expect(copied, contains('UTID: 01234567-89abcdef-01234567'));
+      expect(copied, isNot(contains('Dish ID / physical serial:')));
+      expect(copied, isNot(contains('Starlink account number:')));
+      expect(copied, isNot(contains('enter manually')));
+      expect(find.byType(TextField), findsNothing);
+      expect(find.text(M.general.copied_to_clipboard), findsOneWidget);
+      expect(tester.takeException(), isNull);
+    },
+  );
 
   testWidgets(
     'save passes bytes and MIME to picker and prevents duplicate saves',
@@ -170,24 +224,26 @@ void main() {
       FilePickerPlatform.instance = picker;
       addTearDown(() => FilePickerPlatform.instance = originalPicker);
       await _open(tester);
-      await _format(tester, M.sharing.full_text);
+      await _format(tester, M.sharing.diagnostics);
       final expected = _preview(tester);
-      await tester.tap(find.text(M.general.save_as));
+      await tester.tap(find.byTooltip(M.general.save_as));
       await tester.pump();
       expect(picker.calls, 1);
       expect(utf8.decode(picker.bytes!), expected);
       expect(picker.mime, 'text/plain');
       expect(picker.filename, endsWith('.txt'));
       expect(picker.filename, isNot(contains('01234567')));
-      final saveButton = find.widgetWithText(TextButton, M.general.save_as);
-      expect(tester.widget<TextButton>(saveButton).onPressed, isNull);
+      final saveButton = find.byWidgetPredicate(
+        (widget) => widget is IconButton && widget.tooltip == M.general.save_as,
+      );
+      expect(tester.widget<IconButton>(saveButton).onPressed, isNull);
       picker.result.complete(Uri.parse('content://test/report.txt'));
       await tester.pumpAndSettle();
       expect(
         find.text(M.sharing.saved('content://test/report.txt')),
         findsOneWidget,
       );
-      expect(tester.widget<TextButton>(saveButton).onPressed, isNotNull);
+      expect(tester.widget<IconButton>(saveButton).onPressed, isNotNull);
       expect(tester.takeException(), isNull);
     },
   );
@@ -200,12 +256,10 @@ void main() {
       FilePickerPlatform.instance = picker;
       addTearDown(() => FilePickerPlatform.instance = originalPicker);
       await _open(tester, allowScreenshot: false);
-      await tester.tap(find.byType(DropdownButtonFormField<ShareFormat>));
+      expect(find.text(M.sharing.image), findsNothing);
+      await _format(tester, M.sharing.diagnostics);
       await tester.pumpAndSettle();
-      expect(find.text(M.sharing.screenshot), findsNothing);
-      await tester.tap(find.text(M.sharing.full_text).last);
-      await tester.pumpAndSettle();
-      await tester.tap(find.text(M.general.save_as));
+      await tester.tap(find.byTooltip(M.general.save_as));
       await tester.pump();
       picker.result.complete(null);
       await tester.pumpAndSettle();
@@ -236,7 +290,7 @@ void main() {
         ),
       );
       await _open(tester);
-      await _format(tester, M.sharing.full_text);
+      await _format(tester, M.sharing.diagnostics);
       final expected = _preview(tester);
       final dynamic state = tester.state(find.byType(ShareSnapshotDialog));
       final Future<void> delivery = state.share();
@@ -249,8 +303,11 @@ void main() {
       expect(calls, 1);
       expect(
         tester
-            .widget<TextButton>(
-              find.widgetWithText(TextButton, M.general.save_as),
+            .widget<IconButton>(
+              find.byWidgetPredicate(
+                (widget) =>
+                    widget is IconButton && widget.tooltip == M.general.save_as,
+              ),
             )
             .onPressed,
         isNull,
@@ -260,8 +317,11 @@ void main() {
       await tester.pumpAndSettle();
       expect(
         tester
-            .widget<TextButton>(
-              find.widgetWithText(TextButton, M.general.save_as),
+            .widget<IconButton>(
+              find.byWidgetPredicate(
+                (widget) =>
+                    widget is IconButton && widget.tooltip == M.general.save_as,
+              ),
             )
             .onPressed,
         isNotNull,
@@ -278,12 +338,97 @@ void main() {
     FilePickerPlatform.instance = picker;
     addTearDown(() => FilePickerPlatform.instance = originalPicker);
     await _open(tester);
-    await tester.tap(find.text(M.general.save_as));
+    await tester.tap(find.byTooltip(M.general.save_as));
     await tester.pump();
     expect(picker.calls, 1);
     await tester.pumpWidget(const SizedBox());
     picker.result.complete(Uri.parse('content://test/report.json'));
     await tester.pumpAndSettle();
     expect(tester.takeException(), isNull);
+  });
+  testWidgets('inventory retains available registration data without editing', (
+    tester,
+  ) async {
+    await _open(
+      tester,
+      snap: Snapshot(
+        timestamp: 100000,
+        dishGetStatus: _snapshot().dishGetStatus,
+        debug_data: {
+          'registration': {
+            'kitNumber': 'KIT-SYNTHETIC',
+            'dishSerialNumber': 'SERIAL-SYNTHETIC',
+            'accountNumber': 'ACCOUNT-SYNTHETIC',
+          },
+        },
+      ),
+    );
+    await _format(tester, M.sharing.inventory);
+    expect(_preview(tester), contains('KIT-SYNTHETIC'));
+    expect(_preview(tester), contains('SERIAL-SYNTHETIC'));
+    expect(_preview(tester), contains('ACCOUNT-SYNTHETIC'));
+    expect(find.byType(TextField), findsNothing);
+  });
+
+  testWidgets('popup fits narrow and landscape screens with larger text', (
+    tester,
+  ) async {
+    addTearDown(() async {
+      await I18n.instance.setLang('en');
+      await tester.binding.setSurfaceSize(null);
+    });
+    for (final language in ['en', 'uk']) {
+      await I18n.instance.setLang(language);
+      for (final size in [const Size(320, 568), const Size(640, 360)]) {
+        for (final brightness in [Brightness.light, Brightness.dark]) {
+          await tester.binding.setSurfaceSize(size);
+          await tester.pumpWidget(
+            MaterialApp(
+              theme: StarDebugTheme.build(brightness),
+              builder: (context, child) => MediaQuery(
+                data: MediaQuery.of(context)
+                    .copyWith(textScaler: const TextScaler.linear(1.5)),
+                child: child!,
+              ),
+              home: Scaffold(
+                body: ShareSnapshotDialog(
+                  snap: _snapshot(),
+                  sourceMode: MapSourceMode.stored,
+                ),
+              ),
+            ),
+          );
+          await tester.pumpAndSettle();
+          for (final label in [
+            M.sharing.json,
+            M.sharing.image,
+            M.sharing.diagnostics,
+            M.sharing.inventory,
+          ]) {
+            await _format(tester, label);
+            expect(tester.takeException(), isNull);
+          }
+          expect(find.byType(TextField), findsNothing);
+          final copy = find.byType(FilledButton).last;
+          final rect = tester.getRect(copy);
+          expect(rect.left, greaterThanOrEqualTo(0));
+          expect(rect.right, lessThanOrEqualTo(size.width));
+          expect(rect.bottom, lessThanOrEqualTo(size.height));
+          await tester.ensureVisible(find.text(M.sharing.privacy));
+          await tester.tap(find.text(M.sharing.privacy));
+          await tester.pumpAndSettle();
+          await tester.ensureVisible(
+            find.widgetWithText(FilterChip, M.sharing.identifiers),
+          );
+          await tester.tap(
+            find.widgetWithText(FilterChip, M.sharing.identifiers),
+          );
+          await tester.pumpAndSettle();
+          expect(_preview(tester), contains('UTID: [hidden]'));
+          expect(tester.takeException(), isNull);
+          await tester.pumpWidget(const SizedBox());
+        }
+      }
+    }
   });
 }

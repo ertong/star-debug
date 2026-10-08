@@ -28,7 +28,9 @@ HTTP server. [Architecture](architecture.md) explains initialization and runtime
   interfaces live in [`lib/grpc/starlink/`](../star.debug/lib/grpc/starlink/).
 - `Dio` handles router HTTP probes on all platforms and internet probes on iOS/desktop.
   Android internet probes use a Dart method channel to Java/OkHttp, including DNS-over-HTTPS;
-  [`lib/channel/`](../star.debug/lib/channel/) is the Dart boundary.
+  [`lib/channel/`](../star.debug/lib/channel/) is the Dart boundary. Image clipboard writes use
+  the existing `clipboard` plugin on iOS/macOS/Windows and a small app channel on Android/Linux
+  for cache-backed content URIs and the GTK image clipboard respectively.
 - `Drift` provides generated tables/DAOs over native SQLite. `DatabaseHolder` moves execution
   to a background isolate; [`lib/db/`](../star.debug/lib/db/) contains source and generated output.
 - `i18n` and `build_runner` generate localization from English/Ukrainian YAML catalogs.
