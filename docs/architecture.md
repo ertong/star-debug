@@ -171,6 +171,8 @@ or compact inventory text. Image is selected by default, with JSON as the fallba
 sharing is disabled. [`ShareExport`](../star.debug/lib/utils/share_export.dart) prepares copies
 without accessing live services. The image renderer uses the same redacted copy and fixed-width
 columns, avoiding intrinsic measurement of widgets containing `LayoutBuilder`.
+Export provenance is separate from the frozen map source mode, so
+live captures are labelled live without changing capture-time freshness calculations.
 
 All formats retain the ID, MAC, IP, location, and router-client hide options; location and clients
 are hidden by default. Client hiding removes DHCP leases and known per-client event metadata

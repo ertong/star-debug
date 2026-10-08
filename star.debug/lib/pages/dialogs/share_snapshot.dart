@@ -21,6 +21,9 @@ import 'package:star_debug/utils/view_options.dart';
 class ShareSnapshotDialog extends StatefulWidget {
   final Snapshot snap;
   final MapSourceMode sourceMode;
+
+  /// Report provenance can differ from the frozen image's map source mode.
+  final MapSourceMode? exportOrigin;
   final ShareFormat initialFormat;
   final bool allowScreenshot;
   final bool showInApp;
@@ -29,6 +32,7 @@ class ShareSnapshotDialog extends StatefulWidget {
     super.key,
     required this.snap,
     required this.sourceMode,
+    this.exportOrigin,
     this.initialFormat = ShareFormat.screenshot,
     this.allowScreenshot = true,
     this.showInApp = true,
@@ -112,7 +116,7 @@ class _ShareSnapshotDialogState extends State<ShareSnapshotDialog> {
         format: format,
         options: options,
         appVersion: R.versionName,
-        sourceMode: widget.sourceMode,
+        sourceMode: widget.exportOrigin ?? widget.sourceMode,
       );
     }
   }

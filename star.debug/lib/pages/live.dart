@@ -304,6 +304,7 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
         builder: (c) => ShareSnapshotDialog(
           snap: snap,
           sourceMode: MapSourceMode.stored,
+          exportOrigin: MapSourceMode.live,
           allowScreenshot: R.features.shareScreenshot,
         ),
       );

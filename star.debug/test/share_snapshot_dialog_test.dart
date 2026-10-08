@@ -56,6 +56,7 @@ Future<void> _open(
   WidgetTester tester, {
   bool allowScreenshot = true,
   Snapshot? snap,
+  MapSourceMode? exportOrigin,
 }) async {
   await tester.pumpWidget(
     MaterialApp(
@@ -65,6 +66,7 @@ Future<void> _open(
           initialFormat: ShareFormat.json,
           snap: snap ?? _snapshot(),
           sourceMode: MapSourceMode.stored,
+          exportOrigin: exportOrigin,
           allowScreenshot: allowScreenshot,
           showInApp: false,
         ),
@@ -215,6 +217,18 @@ void main() {
       expect(tester.takeException(), isNull);
     },
   );
+
+  testWidgets('live export provenance is independent of frozen map timing', (
+    tester,
+  ) async {
+    await _open(tester, exportOrigin: MapSourceMode.live);
+    await _format(tester, M.sharing.diagnostics);
+    expect(_preview(tester), contains('- Source: live'));
+    final dialog = tester.widget<ShareSnapshotDialog>(
+      find.byType(ShareSnapshotDialog),
+    );
+    expect(dialog.sourceMode, MapSourceMode.stored);
+  });
 
   testWidgets(
     'save passes bytes and MIME to picker and prevents duplicate saves',
