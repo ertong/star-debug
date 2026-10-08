@@ -134,10 +134,10 @@ void main() {
     snap.routerGetStatus!.deviceInfo.hardwareVersion = 'router-test-hardware';
     snap.routerGetStatus!.deviceInfo.softwareVersion = 'router-test-version';
     final report = export(snap, ViewOptions(), ShareFormat.inventoryText).text;
-    expect(report, contains('- **Terminal software:** dish-test-version'));
-    expect(report, contains('- **Router software:** router-test-version'));
-    expect(report, contains('- **Terminal hardware:** rev4\\_test'));
-    expect(report, contains('- **Router hardware:** router-test-hardware'));
+    expect(report, contains('- Terminal software: dish-test-version'));
+    expect(report, contains('- Router software: router-test-version'));
+    expect(report, contains('- Terminal hardware: rev4\\_test'));
+    expect(report, contains('- Router hardware: router-test-hardware'));
   });
 
   test('Markdown inventory lists fields and escapes values without losing identifiers', () {
@@ -149,16 +149,14 @@ void main() {
     snap.dishGetStatus!.deviceInfo.hardwareVersion = r'rev_*`<test>\';
     final payload = export(snap, ViewOptions(), ShareFormat.inventoryText);
     expect(payload.text, startsWith('# Starlink inventory\n\n'));
+    expect(payload.text, isNot(contains('**')));
     expect(payload.text, isNot(contains('| --- |')));
-    expect(payload.text, contains('- **Capture:** '));
+    expect(payload.text, contains('- Capture: '));
     expect(
       payload.text,
-      contains(r'- **KIT number:** KIT\|\[test\]<br>second line'),
+      contains(r'- KIT number: KIT\|\[test\]<br>second line'),
     );
-    expect(
-      payload.text,
-      contains(r'- **Terminal hardware:** rev\_\*\`\<test\>\\'),
-    );
+    expect(payload.text, contains(r'- Terminal hardware: rev\_\*\`\<test\>\\'));
     expect(payload.filename, endsWith('.md'));
     expect(payload.mimeType, 'text/markdown');
     expect(
@@ -171,7 +169,7 @@ void main() {
       ShareFormat.inventoryText,
     ).text;
     expect(hidden, isNot(contains('second line')));
-    expect(hidden, contains(r'- **KIT number:** \[hidden\]'));
+    expect(hidden, contains(r'- KIT number: \[hidden\]'));
   });
 
   test(
@@ -191,17 +189,16 @@ void main() {
       );
       final payload = export(snap, ViewOptions(), ShareFormat.diagnosticText);
       expect(payload.text, startsWith('# Starlink diagnostic report\n\n'));
+      expect(payload.text, isNot(contains('**')));
       expect(payload.text, contains('\n\n## Terminal status\n\n'));
-      expect(payload.text, contains(r'- **Custom\*field:**'));
+      expect(payload.text, contains(r'- Custom\*field:'));
       expect(
         payload.text,
-        contains(
-          r'    - **Note:** \[link\](https://example.invalid)<br># heading',
-        ),
+        contains(r'    - Note: \[link\](https://example.invalid)<br># heading'),
       );
       expect(
         payload.text,
-        contains('        - **Item 1:**\n            - **Value:** '),
+        contains('        - Item 1:\n            - Value: '),
       );
       expect(payload.text, contains(r'\*\*literal\*\*'));
       expect(payload.text, contains('                - _No fields available_'));
@@ -237,10 +234,10 @@ void main() {
         ShareFormat.diagnosticText,
       ).text;
       expect(report, contains('900 samples; 1 nonfinite; min 10'));
-      expect(report, contains('**Unobserved Samples:** 6'));
-      expect(report, contains('**Blocked Samples:** 6'));
-      expect(report, contains('**Reduced Signal Samples:** 6'));
-      expect(report, contains('**Clear Samples:** 12'));
+      expect(report, contains('Unobserved Samples: 6'));
+      expect(report, contains('Blocked Samples: 6'));
+      expect(report, contains('Reduced Signal Samples: 6'));
+      expect(report, contains('Clear Samples: 12'));
       expect(report, contains('Sample counts, not sky area or downtime'));
     },
   );
@@ -315,7 +312,7 @@ void main() {
       expect(hidden, isNot(contains('192.0.2.5')));
       expect(hidden, isNot(contains('02:00:00')));
       expect(hidden, isNot(contains('12.25')));
-      expect(hidden, contains('**Gps Valid:** true'));
+      expect(hidden, contains('Gps Valid: true'));
       expect(app.wifi_ip, '192.0.2.50');
     },
   );
@@ -511,10 +508,10 @@ void main() {
 
   test('compact inventory omits unavailable identifiers and honors hiding', () {
     final visible = export(capture(), ViewOptions(), ShareFormat.inventoryText);
-    expect(visible.text, isNot(contains('- **KIT number:**')));
-    expect(visible.text, contains('- **UTID:** 01234567-89abcdef-01234567'));
-    expect(visible.text, isNot(contains('- **Dish ID / physical serial:**')));
-    expect(visible.text, isNot(contains('- **Starlink account number:**')));
+    expect(visible.text, isNot(contains('- KIT number:')));
+    expect(visible.text, contains('- UTID: 01234567-89abcdef-01234567'));
+    expect(visible.text, isNot(contains('- Dish ID / physical serial:')));
+    expect(visible.text, isNot(contains('- Starlink account number:')));
     expect(visible.text, isNot(contains('enter manually')));
     expect(visible.text, isNot(contains('Prepared for')));
     expect(visible.text, isNot(contains('does not confirm')));
@@ -524,7 +521,7 @@ void main() {
       ShareFormat.inventoryText,
     );
     expect(hidden.text, isNot(contains('01234567')));
-    expect(hidden.text, contains(r'- **UTID:** \[hidden\]'));
+    expect(hidden.text, contains(r'- UTID: \[hidden\]'));
   });
 
   test('full report covers diagnostic sources and names enum values', () {
@@ -552,11 +549,11 @@ void main() {
       'Imported debug data',
       r'ALWAYS\_ON',
       'test-phone',
-      '**Source:** imported',
+      'Source: imported',
     ]) {
       expect(payload.text, contains(section));
     }
     expect(payload.text, isNot(contains('synthetic-password')));
-    expect(payload.text, contains('**Pop Ping Latency Ms:** 0'));
+    expect(payload.text, contains('Pop Ping Latency Ms: 0'));
   });
 }

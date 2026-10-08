@@ -172,7 +172,7 @@ void main() {
     expect(_preview(tester), contains('Starlink diagnostic report'));
     expect(_preview(tester), isNot(contains('01234567')));
     await _format(tester, M.sharing.inventory);
-    expect(_preview(tester), contains(r'- **UTID:** \[hidden\]'));
+    expect(_preview(tester), contains(r'- UTID: \[hidden\]'));
     expect(find.byType(TextField), findsNothing);
 
     await _format(tester, M.sharing.image);
@@ -205,10 +205,10 @@ void main() {
       await _format(tester, M.sharing.inventory);
       await tester.tap(_copyButton());
       await tester.pumpAndSettle();
-      expect(copied, isNot(contains('- **KIT number:**')));
-      expect(copied, contains('- **UTID:** 01234567-89abcdef-01234567'));
-      expect(copied, isNot(contains('- **Dish ID / physical serial:**')));
-      expect(copied, isNot(contains('- **Starlink account number:**')));
+      expect(copied, isNot(contains('- KIT number:')));
+      expect(copied, contains('- UTID: 01234567-89abcdef-01234567'));
+      expect(copied, isNot(contains('- Dish ID / physical serial:')));
+      expect(copied, isNot(contains('- Starlink account number:')));
       expect(copied, isNot(contains('enter manually')));
       expect(find.byType(TextField), findsNothing);
       expect(find.text(M.general.copied_to_clipboard), findsOneWidget);
@@ -424,7 +424,7 @@ void main() {
             find.widgetWithText(FilterChip, M.sharing.identifiers),
           );
           await tester.pumpAndSettle();
-          expect(_preview(tester), contains(r'- **UTID:** \[hidden\]'));
+          expect(_preview(tester), contains(r'- UTID: \[hidden\]'));
           expect(tester.takeException(), isNull);
           await tester.pumpWidget(const SizedBox());
         }

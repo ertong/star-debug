@@ -198,11 +198,11 @@ class ShareExport {
       final output = StringBuffer()
         ..writeln('# Starlink diagnostic report')
         ..writeln()
-        ..writeln('- **StarDebug:** ${_markdownText(appVersion)}')
-        ..writeln('- **Capture:** $timestamp')
-        ..writeln('- **Source:** ${sourceMode.name}');
+        ..writeln('- StarDebug: ${_markdownText(appVersion)}')
+        ..writeln('- Capture: $timestamp')
+        ..writeln('- Source: ${sourceMode.name}');
       final privacy = _privacyDescription(options);
-      if (privacy.isNotEmpty) output.writeln('- **Privacy:** $privacy');
+      if (privacy.isNotEmpty) output.writeln('- Privacy: $privacy');
       void section(String title, Object? value) {
         if (value == null) return;
         output.writeln('\n## $title\n');
@@ -689,13 +689,11 @@ class ShareExport {
       if (value.isEmpty) output.writeln('$indent- _No fields available_');
       for (final entry in value.entries) {
         if (entry.value is Map || entry.value is List) {
-          output.writeln(
-            '$indent- **${_markdownText(_label('${entry.key}'))}:**',
-          );
+          output.writeln('$indent- ${_markdownText(_label('${entry.key}'))}:');
           _writeMarkdown(output, entry.value, depth + 1);
         } else {
           output.writeln(
-            '$indent- **${_markdownText(_label('${entry.key}'))}:** ${_markdownText(entry.value)}',
+            '$indent- ${_markdownText(_label('${entry.key}'))}: ${_markdownText(entry.value)}',
           );
         }
       }
@@ -723,7 +721,7 @@ class ShareExport {
       } else {
         for (var i = 0; i < value.length; i++) {
           if (value[i] is Map || value[i] is List) {
-            output.writeln('$indent- **Item ${i + 1}:**');
+            output.writeln('$indent- Item ${i + 1}:');
             _writeMarkdown(output, value[i], depth + 1);
           } else {
             output.writeln('$indent- ${_markdownText(value[i])}');
