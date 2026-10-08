@@ -510,7 +510,7 @@ void main() {
 
     expect(palePixels(mini), 0);
     expect(palePixels(full), greaterThan(0));
-    expect(find.text(M.obstructions.sectors_hint), findsOneWidget);
+    expect(find.text(M.obstructions.sector_legend), findsOneWidget);
     expect(find.text(M.obstructions.sectors), findsNothing);
     expect(find.byType(LinearProgressIndicator), findsNothing);
     expect(tester.takeException(), isNull);
@@ -805,7 +805,7 @@ void main() {
         }
         await tester.tap(find.text(M.obstructions.title));
         await tester.pumpAndSettle();
-        expect(find.text(M.obstructions.arrow_guide), findsOneWidget);
+        expect(find.text(M.obstructions.arrow_legend), findsOneWidget);
         expect(
           _whiteExtent(
             await _paintMinimap(tester, key: 'dish-obstruction-map'),
@@ -1361,7 +1361,7 @@ void main() {
         findsNothing,
       );
       expect(
-        find.text(M.obstructions.arrow_guide),
+        find.text(M.obstructions.arrow_legend),
         geographic ? findsOneWidget : findsNothing,
       );
       expect(find.text(M.obstructions.dish_bearing), findsOneWidget);
@@ -1469,8 +1469,8 @@ void main() {
       expect(find.text(M.obstructions.orientation), findsOneWidget);
       expect(find.text(M.obstructions.average_duration), findsNothing);
       expect(find.text(M.obstructions.delayed), findsOneWidget);
-      expect(find.text(M.obstructions.cells_hint), findsOneWidget);
-      expect(find.text(M.obstructions.dish_fraction_hint), findsOneWidget);
+      expect(find.text(M.obstructions.cells_hint), findsNothing);
+      expect(find.text(M.obstructions.dish_fraction_hint), findsNothing);
       expect(find.text('40.00%'), findsNWidgets(2));
       expect(find.text('2.50%'), findsOneWidget);
       map.value = _map()..snr.setAll(0, [1, 1, 1, 1, 1, 1]);
@@ -1512,6 +1512,78 @@ void main() {
     expect(find.text('Disconnected'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
+
+  testWidgets(
+    'reading guide groups hints while legends and warnings stay visible',
+    (tester) async {
+      final originalMessages = M;
+      addTearDown(() => M = originalMessages);
+      for (final language in ['en', 'uk']) {
+        M = I18n.instance.langs[language]!();
+        await tester.pumpWidget(
+          _page(
+            ObstructionMapWidget(
+              map: _map(),
+              timestamp: 100000,
+              receivedTime: 10000,
+              statusReceivedTime: 100000,
+              sourceMode: MapSourceMode.live,
+              status: DishGetStatusResponse(
+                boresightAzimuthDeg: 90,
+                boresightElevationDeg: 85,
+                obstructionStats: DishObstructionStats(
+                  fractionObstructed: 0.025,
+                ),
+              ),
+            ),
+          ),
+        );
+        await tester.tap(find.text(M.obstructions.title));
+        await tester.pumpAndSettle();
+        final guide = find.byType(ExpansionTile);
+        expect(guide, findsOneWidget);
+        expect(find.text(M.obstructions.arrow_legend), findsOneWidget);
+        expect(find.text(M.obstructions.sector_legend), findsOneWidget);
+        expect(find.text(M.obstructions.delayed), findsOneWidget);
+        expect(find.text(M.obstructions.heading_uncertain), findsOneWidget);
+        final hints = [
+          M.obstructions.cells_hint,
+          M.obstructions.dish_fraction_hint,
+          M.obstructions.arrow_guide,
+          M.obstructions.sectors_hint,
+          M.obstructions.orientation_hint,
+        ];
+        for (final text in hints) {
+          expect(find.text(text), findsNothing);
+        }
+        await tester.ensureVisible(find.text(M.obstructions.reading_map));
+        await tester.tap(find.text(M.obstructions.reading_map));
+        await tester.pumpAndSettle();
+        final headings = [
+          M.obstructions.guide_signal,
+          M.obstructions.guide_statistics,
+          M.obstructions.guide_directions,
+          M.obstructions.guide_collection,
+        ];
+        for (final text in [...headings, ...hints]) {
+          expect(
+            find.descendant(of: guide, matching: find.text(text)),
+            findsOneWidget,
+          );
+        }
+        for (var i = 1; i < headings.length; i++) {
+          expect(
+            tester.getTopLeft(find.text(headings[i])).dy,
+            greaterThan(tester.getTopLeft(find.text(headings[i - 1])).dy),
+          );
+        }
+        expect(tester.takeException(), isNull, reason: language);
+        await tester.tap(find.byTooltip(M.general.close));
+        await tester.pumpAndSettle();
+        await tester.pumpWidget(const SizedBox());
+      }
+    },
+  );
 
   testWidgets(
     'popup fits portrait, landscape, themes, text scales and languages',
@@ -1574,6 +1646,14 @@ void main() {
             await tester.pumpAndSettle();
             expect(find.text(M.obstructions.collection_hint), findsOneWidget);
             expect(find.text(M.obstructions.reception_hint), findsOneWidget);
+            expect(find.text(M.obstructions.cells_hint), findsOneWidget);
+            expect(find.text(M.obstructions.orientation_hint), findsOneWidget);
+            expect(
+              find.text(M.obstructions.dish_frame_hint),
+              frame == ObstructionMapReferenceFrame.FRAME_UT
+                  ? findsOneWidget
+                  : findsNothing,
+            );
             expect(
               tester.takeException(),
               isNull,

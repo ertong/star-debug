@@ -119,6 +119,12 @@ void main() {
     await tester.tap(find.byIcon(Icons.open_in_full));
     await tester.pumpAndSettle();
     expect(find.byType(Dialog), findsOneWidget);
+    expect(find.text(M.obstructions.cells_hint), findsNothing);
+    expect(find.text(M.obstructions.dish_fraction_hint), findsNothing);
+    expect(find.text(M.obstructions.orientation_hint), findsNothing);
+    await tester.ensureVisible(find.text(M.obstructions.reading_map));
+    await tester.tap(find.text(M.obstructions.reading_map));
+    await tester.pumpAndSettle();
     expect(find.text(M.obstructions.cells_hint), findsOneWidget);
     expect(find.text(M.obstructions.dish_fraction_hint), findsOneWidget);
     expect(find.text(M.obstructions.orientation_hint), findsOneWidget);
@@ -179,7 +185,7 @@ void main() {
     expect(find.text(M.obstructions.dish_frame_image), findsOneWidget);
     expect(find.text(M.obstructions.heading_uncertain_short), findsOneWidget);
     expect(find.text(M.obstructions.azimuth_difference), findsNothing);
-    expect(find.text(M.obstructions.dish_frame_oriented), findsNothing);
+    expect(find.text(M.obstructions.dish_frame_hint), findsNothing);
     expect(find.text(M.obstructions.heading_uncertain), findsNothing);
     expect(tester.takeException(), isNull);
   });

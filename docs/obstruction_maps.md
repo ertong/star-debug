@@ -26,6 +26,12 @@ and storage lifetimes are in [Architecture](architecture.md).
   closes its dialog. `forSnapshotImage` uses a detailed canvas and compact statistics/orientation
   grids, with legends and warnings instead of popup controls.
 
+The details dialog keeps short color, arrow, and sector legends beside the map. Its collapsed
+“How to read this map” guide groups explanations into colors/observations, statistics,
+directions/alignment, and collection/timing. Sector, dish-fraction, and projected-compass hints
+follow the available data. Freshness, downward-pointing, and uncertain-azimuth warnings remain
+visible with the affected map or metrics.
+
 ## Samples and readiness
 
 Dimensions must be positive, at most 1024 on either axis, with at most 262,144 cells and exactly

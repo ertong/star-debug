@@ -2938,10 +2938,16 @@ class ObstructionsMessages {
   String get dish_frame_short => """Dish-relative map · compass unavailable""";
 
   /// ```dart
-  /// "Projected north up · dish-relative map. Compass and sectors are approximate references based on the supplied dish orientation. They cannot recover past bearings if the dish moved."
+  /// "Projected north up · dish-relative map · approximate compass"
   /// ```
   String get dish_frame_oriented =>
-      """Projected north up · dish-relative map. Compass and sectors are approximate references based on the supplied dish orientation. They cannot recover past bearings if the dish moved.""";
+      """Projected north up · dish-relative map · approximate compass""";
+
+  /// ```dart
+  /// "Compass and sectors are approximate references based on the supplied dish orientation. They cannot recover past bearings if the dish moved."
+  /// ```
+  String get dish_frame_hint =>
+      """Compass and sectors are approximate references based on the supplied dish orientation. They cannot recover past bearings if the dish moved.""";
 
   /// ```dart
   /// "Projected north up · dish-relative map"
@@ -3253,6 +3259,26 @@ class ObstructionsMessages {
   String get reading_map => """How to read this map""";
 
   /// ```dart
+  /// "Colors and observations"
+  /// ```
+  String get guide_signal => """Colors and observations""";
+
+  /// ```dart
+  /// "Statistics"
+  /// ```
+  String get guide_statistics => """Statistics""";
+
+  /// ```dart
+  /// "Directions and alignment"
+  /// ```
+  String get guide_directions => """Directions and alignment""";
+
+  /// ```dart
+  /// "Collection and timing"
+  /// ```
+  String get guide_collection => """Collection and timing""";
+
+  /// ```dart
   /// "Colors show signal recorded during satellite connections over time. Blue is good signal; red is no signal. Shades between red, amber and blue show reduced signal. Gray means no usable observations, not an obstruction."
   /// ```
   String get explanation =>
@@ -3277,10 +3303,10 @@ class ObstructionsMessages {
       """A patch groups no-signal cells that touch along an edge. Its cell count does not measure a physical obstacle. Map and sector percentages do not represent equal areas of sky.""";
 
   /// ```dart
-  /// "Reported separately by the dish. Its calculation may differ from the map’s blocked-cell percentage."
+  /// "The dish obstruction fraction is reported separately by the dish. Its calculation may differ from the map’s blocked-cell percentage."
   /// ```
   String get dish_fraction_hint =>
-      """Reported separately by the dish. Its calculation may differ from the map’s blocked-cell percentage.""";
+      """The dish obstruction fraction is reported separately by the dish. Its calculation may differ from the map’s blocked-cell percentage.""";
 
   /// ```dart
   /// "Azimuth is clockwise from true north (0°); east is 90°. Elevation is above the horizon: 0° is horizontal, 90° straight up. Target angles are the dish-reported alignment goal. Differences are target minus dish, with azimuth wrapped to ±180°."
@@ -3988,7 +4014,9 @@ starting from approximately January 2023, Starlink routers are able to pick rand
       """Dish-relative map. Compass directions are unavailable.""",
   """obstructions.dish_frame_short""":
       """Dish-relative map · compass unavailable""",
-  """obstructions.dish_frame_oriented""": """Projected north up · dish-relative map. Compass and sectors are approximate references based on the supplied dish orientation. They cannot recover past bearings if the dish moved.""",
+  """obstructions.dish_frame_oriented""":
+      """Projected north up · dish-relative map · approximate compass""",
+  """obstructions.dish_frame_hint""": """Compass and sectors are approximate references based on the supplied dish orientation. They cannot recover past bearings if the dish moved.""",
   """obstructions.dish_frame_oriented_short""":
       """Projected north up · dish-relative map""",
   """obstructions.arrow_guide""": """White: dish direction. Dashed gold: target direction. Shorter arrows point closer to vertical; a dot is near vertical. Unavailable directions are hidden. Arrows do not show satellite positions.""",
@@ -4050,11 +4078,15 @@ starting from approximately January 2023, Starlink routers are able to pick rand
   """obstructions.left""": """Left""",
   """obstructions.top_left""": """Top left""",
   """obstructions.reading_map""": """How to read this map""",
+  """obstructions.guide_signal""": """Colors and observations""",
+  """obstructions.guide_statistics""": """Statistics""",
+  """obstructions.guide_directions""": """Directions and alignment""",
+  """obstructions.guide_collection""": """Collection and timing""",
   """obstructions.explanation""": """Colors show signal recorded during satellite connections over time. Blue is good signal; red is no signal. Shades between red, amber and blue show reduced signal. Gray means no usable observations, not an obstruction.""",
   """obstructions.exclusion_hint""": """An unobserved band may be the geostationary exclusion zone, where Starlink avoids transmitting and receiving to prevent interference. Other gaps may be directions the dish has not sampled.""",
   """obstructions.patterns_hint""": """Persistent no-signal regions can help compare mounting locations. The map alone cannot identify what caused a no-signal region or predict downtime. Starlink can switch to satellites in unobstructed directions when available.""",
   """obstructions.patch_hint""": """A patch groups no-signal cells that touch along an edge. Its cell count does not measure a physical obstacle. Map and sector percentages do not represent equal areas of sky.""",
-  """obstructions.dish_fraction_hint""": """Reported separately by the dish. Its calculation may differ from the map’s blocked-cell percentage.""",
+  """obstructions.dish_fraction_hint""": """The dish obstruction fraction is reported separately by the dish. Its calculation may differ from the map’s blocked-cell percentage.""",
   """obstructions.orientation_hint""": """Azimuth is clockwise from true north (0°); east is 90°. Elevation is above the horizon: 0° is horizontal, 90° straight up. Target angles are the dish-reported alignment goal. Differences are target minus dish, with azimuth wrapped to ±180°.""",
   """obstructions.reception_hint""": """Reception times date the map and status responses, not individual observations in the accumulated map.""",
   """obstructions.collection_hint""": """The map fills as the dish communicates with satellites and continues to update. Initial collection can take hours; gaps alone do not show an obstruction.""",

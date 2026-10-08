@@ -531,7 +531,7 @@ class _ObstructionDetails extends StatelessWidget {
                               metrics,
                             ],
                             const SizedBox(height: 8),
-                            _ReadingGuide(),
+                            _ReadingGuide(view: view),
                           ],
                         );
                       },
@@ -632,9 +632,7 @@ class _ObstructionDetails extends StatelessWidget {
                 view.orientation.attitude != null)) ...[
           const SizedBox(height: 4),
           Text(
-            forSnapshotImage
-                ? M.obstructions.arrow_legend
-                : M.obstructions.arrow_guide,
+            M.obstructions.arrow_legend,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodySmall,
           ),
@@ -642,9 +640,7 @@ class _ObstructionDetails extends StatelessWidget {
         if (view.sectors != null) ...[
           const SizedBox(height: 4),
           Text(
-            forSnapshotImage
-                ? M.obstructions.sector_legend
-                : M.obstructions.sectors_hint,
+            M.obstructions.sector_legend,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodySmall,
           ),
@@ -756,21 +752,6 @@ class _ObstructionDetails extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _MetricGrid(metrics: cells, compact: forSnapshotImage),
-        if (view.ready && !forSnapshotImage) ...[
-          const SizedBox(height: 7),
-          Text(
-            M.obstructions.cells_hint,
-            style: Theme.of(context).textTheme.bodySmall
-                ?.copyWith(fontSize: 11),
-          ),
-        ],
-        if (view.dishFraction != null && !forSnapshotImage) ...[
-          const SizedBox(height: 7),
-          Text(
-            M.obstructions.dish_fraction_hint,
-            style: Theme.of(context).textTheme.bodySmall,
-          ),
-        ],
         if (!forSnapshotImage ||
             orientation.azimuth != null ||
             orientation.elevation != null ||
@@ -812,13 +793,6 @@ class _ObstructionDetails extends StatelessWidget {
                 ),
             ],
           ),
-          if (!forSnapshotImage) ...[
-            const SizedBox(height: 5),
-            Text(
-              M.obstructions.orientation_hint,
-              style: Theme.of(context).textTheme.bodySmall,
-            ),
-          ],
           if (orientation.headingUncertain)
             Padding(
               padding: const EdgeInsets.only(top: 5),
@@ -910,6 +884,25 @@ class _MetricGrid extends StatelessWidget {
 }
 
 class _ReadingGuide extends StatelessWidget {
+  final _MapView view;
+  const _ReadingGuide({required this.view});
+
+  Widget _topic(BuildContext context, String title, List<String> paragraphs) =>
+      Padding(
+        padding: const EdgeInsets.only(bottom: 8),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _section(context, title),
+            for (final text in paragraphs)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 7),
+                child: Text(text, style: Theme.of(context).textTheme.bodySmall),
+              ),
+          ],
+        ),
+      );
+
   @override
   Widget build(BuildContext context) => ExpansionTile(
     tilePadding: EdgeInsets.zero,
@@ -920,31 +913,33 @@ class _ReadingGuide extends StatelessWidget {
       style: const TextStyle(fontSize: 12),
     ),
     children: [
-      for (final text in [
+      _topic(context, M.obstructions.guide_signal, [
         M.obstructions.explanation,
-        M.obstructions.collection_hint,
         M.obstructions.exclusion_hint,
         M.obstructions.patterns_hint,
+      ]),
+      _topic(context, M.obstructions.guide_statistics, [
+        M.obstructions.cells_hint,
         M.obstructions.patch_hint,
+        if (view.sectors != null) M.obstructions.sectors_hint,
+        if (view.dishFraction != null) M.obstructions.dish_fraction_hint,
+      ]),
+      _topic(context, M.obstructions.guide_directions, [
+        if (view.ready &&
+            view.map!.frame == ObstructionMapReferenceFrame.FRAME_UT &&
+            view.northAligned)
+          M.obstructions.dish_frame_hint,
+        if (view.ready &&
+            (view.map!.northUp ||
+                (view.map!.frame == ObstructionMapReferenceFrame.FRAME_UT &&
+                    view.orientation.attitude != null)))
+          M.obstructions.arrow_guide,
+        M.obstructions.orientation_hint,
+      ]),
+      _topic(context, M.obstructions.guide_collection, [
+        M.obstructions.collection_hint,
         M.obstructions.reception_hint,
-      ])
-        Padding(
-          padding: const EdgeInsets.only(bottom: 7),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Icon(
-                Icons.info_outline,
-                size: 14,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-              const SizedBox(width: 7),
-              Expanded(
-                child: Text(text, style: Theme.of(context).textTheme.bodySmall),
-              ),
-            ],
-          ),
-        ),
+      ]),
     ],
   );
 }
