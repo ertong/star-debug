@@ -155,7 +155,7 @@ class _ShareSnapshotDialogState extends State<ShareSnapshotDialog> {
     if (format == ShareFormat.screenshot) {
       await ImageClipboard.copyPng(image!);
     } else {
-      await Clipboard.setData(ClipboardData(text: payload!.text));
+      await Clipboard.setData(ClipboardData(text: payload!.displayText));
     }
     message(M.general.copied_to_clipboard);
   });
@@ -184,7 +184,7 @@ class _ShareSnapshotDialogState extends State<ShareSnapshotDialog> {
         format == ShareFormat.diagnosticText) {
       await SharePlus.instance.share(
         ShareParams(
-          text: payload!.text,
+          text: payload!.displayText,
           subject: payload!.subject,
           sharePositionOrigin: origin,
         ),
@@ -343,7 +343,7 @@ class _ShareSnapshotDialogState extends State<ShareSnapshotDialog> {
             SingleChildScrollView(
               padding: const EdgeInsets.all(14),
               child: SelectableText(
-                payload!.text,
+                payload!.displayText,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   fontFamily: format == ShareFormat.json ? 'monospace' : null,
                   height: 1.5,

@@ -175,7 +175,7 @@ void main() {
     expect(_preview(tester), contains('Starlink diagnostic report'));
     expect(_preview(tester), isNot(contains('01234567')));
     await _format(tester, M.sharing.inventory);
-    expect(_preview(tester), contains(r'- UTID: \[hidden\]'));
+    expect(_preview(tester), contains('- UTID: [hidden]'));
     expect(find.byType(TextField), findsNothing);
 
     await _format(tester, M.sharing.image);
@@ -229,6 +229,44 @@ void main() {
       find.byType(ShareSnapshotDialog),
     );
     expect(dialog.sourceMode, MapSourceMode.stored);
+  });
+
+  testWidgets('readable preview and copy preserve literal hardware names', (
+    tester,
+  ) async {
+    String? copied;
+    tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+      SystemChannels.platform,
+      (call) async {
+        if (call.method == 'Clipboard.setData') {
+          copied = (call.arguments as Map)['text'] as String;
+        }
+        return null;
+      },
+    );
+    addTearDown(
+      () => tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+        SystemChannels.platform,
+        null,
+      ),
+    );
+    await _open(
+      tester,
+      snap: Snapshot(
+        timestamp: 100000,
+        dishGetStatus: DishGetStatusResponse(
+          deviceInfo: DeviceInfo(id: _id, hardwareVersion: 'mini1_panda_prod1'),
+        ),
+      ),
+    );
+    await _format(tester, M.sharing.inventory);
+    expect(_preview(tester), contains('mini1_panda_prod1'));
+    await tester.tap(_copyButton());
+    await tester.pumpAndSettle();
+    expect(copied, contains('mini1_panda_prod1'));
+    expect(copied, isNot(contains(r'mini1\_panda\_prod1')));
+    final dynamic state = tester.state(find.byType(ShareSnapshotDialog));
+    expect(state.payload.text, contains(r'mini1\_panda\_prod1'));
   });
 
   testWidgets('viewing redacted JSON opens a snapshot without import storage', (
@@ -292,7 +330,8 @@ void main() {
       addTearDown(() => FilePickerPlatform.instance = originalPicker);
       await _open(tester);
       await _format(tester, M.sharing.diagnostics);
-      final expected = _preview(tester);
+      final dynamic state = tester.state(find.byType(ShareSnapshotDialog));
+      final String expected = state.payload.text;
       await tester.tap(find.byTooltip(M.general.save_as));
       await tester.pump();
       expect(picker.calls, 1);
@@ -492,7 +531,7 @@ void main() {
             find.widgetWithText(FilterChip, M.sharing.identifiers),
           );
           await tester.pumpAndSettle();
-          expect(_preview(tester), contains(r'- UTID: \[hidden\]'));
+          expect(_preview(tester), contains('- UTID: [hidden]'));
           expect(tester.takeException(), isNull);
           await tester.pumpWidget(const SizedBox());
         }

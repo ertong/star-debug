@@ -182,8 +182,9 @@ protobufs before removing `_proto`, so binary payloads cannot bypass redaction. 
 is retained where possible, and the original snapshot is never modified. Diagnostic text includes
 status, configuration, history summaries, obstruction-map context, and online results. Both text
 reports use Markdown: diagnostics have section headings and nested field lists, while inventory
-uses a compact field list that is readable without a Markdown viewer. Saved reports use `.md` and `text/markdown`; clipboard and native
-text sharing deliver the same Markdown source. Data values are escaped to preserve formatting.
+uses a compact field list. Saved reports use `.md` and `text/markdown`, with escaped values to
+preserve formatting. Preview, clipboard, and native text sharing use plain text rendered from
+the same redacted fields, preserving literal hardware names and multiline values.
 
 JSON files use `.json` and `application/json`. Export filenames include the capture time in
 compact UTC form and the dish ID when available and not hidden.

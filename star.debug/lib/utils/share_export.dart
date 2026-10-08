@@ -28,16 +28,20 @@ class ShareIdentifiers {
 
 class SharePayload {
   final String text;
+  final String? plainText;
   final String filename;
   final String mimeType;
   final String subject;
 
   const SharePayload({
     required this.text,
+    this.plainText,
     required this.filename,
     required this.mimeType,
     required this.subject,
   });
+
+  String get displayText => plainText ?? text;
 }
 
 /// Export preparation is independent of navigation, platform plugins and live
@@ -205,6 +209,7 @@ class ShareExport {
           ).toIso8601String()
         : 'Unknown';
     final String text;
+    String? plainText;
     final String name;
     if (format == ShareFormat.json) {
       text = const JsonEncoder.withIndent('  ')
@@ -240,26 +245,21 @@ class ShareExport {
             (redacted.routerGetStatus?.deviceInfo.id.isNotEmpty ?? false))
           'Router ID': redacted.routerGetStatus!.deviceInfo.id,
       };
-      final output = StringBuffer()
-        ..writeln('# Starlink inventory')
-        ..writeln();
-      _writeMarkdown(output, fields, 0);
-      text = output.toString().trimRight();
+      final report = _ShareReport('Starlink inventory');
+      report.fields(fields);
+      text = report.markdown.toString().trimRight();
+      plainText = report.plain.toString().trimRight();
       name = 'inventory';
     } else {
-      final output = StringBuffer()
-        ..writeln('# Starlink diagnostic report')
-        ..writeln()
-        ..writeln('- StarDebug: ${_markdownText(appVersion)}')
-        ..writeln('- Capture: $timestamp')
-        ..writeln('- Source: ${sourceMode.name}');
-      final privacy = _privacyDescription(options);
-      if (privacy.isNotEmpty) output.writeln('- Privacy: $privacy');
-      void section(String title, Object? value) {
-        if (value == null) return;
-        output.writeln('\n## $title\n');
-        _writeMarkdown(output, value, 0);
-      }
+      final report = _ShareReport('Starlink diagnostic report');
+      report.preamble({
+        'StarDebug': appVersion,
+        'Capture': timestamp,
+        'Source': sourceMode.name,
+        if (_privacyDescription(options).isNotEmpty)
+          'Privacy': _privacyDescription(options),
+      });
+      void section(String title, Object? value) => report.section(title, value);
 
       section('Capture metadata', {
         'dishStatusTimestamp': _time(redacted.dishTs),
@@ -370,11 +370,13 @@ class ShareExport {
         'Imported debug data and application metadata',
         redacted.debug_data,
       );
-      text = output.toString().trimRight();
+      text = report.markdown.toString().trimRight();
+      plainText = report.plain.toString().trimRight();
       name = 'diagnostics';
     }
     return SharePayload(
       text: text,
+      plainText: plainText,
       filename: filename(
         snap,
         options,
@@ -765,22 +767,31 @@ class ShareExport {
       .replaceAllMapped(RegExp(r'([\\`*_\[\]<>|])'), (m) => '\\${m[0]}')
       .replaceAll(RegExp(r'\r\n|\r|\n'), '<br>');
 
-  static void _writeMarkdown(StringBuffer output, dynamic value, int depth) {
+  static void _writeReport(
+    StringBuffer output,
+    dynamic value,
+    int depth, {
+    required bool markdown,
+  }) {
+    String text(Object? value) =>
+        markdown ? _markdownText(value) : '${value ?? 'Unknown'}';
+    String empty(String value) => markdown ? '_${value}_' : value;
     final indent = '    ' * depth;
     if (value is Map) {
-      if (value.isEmpty) output.writeln('$indent- _No fields available_');
+      if (value.isEmpty)
+        output.writeln('$indent- ${empty('No fields available')}');
       for (final entry in value.entries) {
         if (entry.value is Map || entry.value is List) {
-          output.writeln('$indent- ${_markdownText(_label('${entry.key}'))}:');
-          _writeMarkdown(output, entry.value, depth + 1);
+          output.writeln('$indent- ${text(_label('${entry.key}'))}:');
+          _writeReport(output, entry.value, depth + 1, markdown: markdown);
         } else {
           output.writeln(
-            '$indent- ${_markdownText(_label('${entry.key}'))}: ${_markdownText(entry.value)}',
+            '$indent- ${text(_label('${entry.key}'))}: ${text(entry.value)}',
           );
         }
       }
     } else if (value is List) {
-      if (value.isEmpty) output.writeln('$indent- _None_');
+      if (value.isEmpty) output.writeln('$indent- ${empty('None')}');
       if (value.length > 24 &&
           value.every(
             (v) =>
@@ -804,14 +815,45 @@ class ShareExport {
         for (var i = 0; i < value.length; i++) {
           if (value[i] is Map || value[i] is List) {
             output.writeln('$indent- Item ${i + 1}:');
-            _writeMarkdown(output, value[i], depth + 1);
+            _writeReport(output, value[i], depth + 1, markdown: markdown);
           } else {
-            output.writeln('$indent- ${_markdownText(value[i])}');
+            output.writeln('$indent- ${text(value[i])}');
           }
         }
       }
     } else {
-      output.writeln('$indent- ${_markdownText(value)}');
+      output.writeln('$indent- ${text(value)}');
     }
+  }
+}
+
+class _ShareReport {
+  final markdown = StringBuffer();
+  final plain = StringBuffer();
+
+  _ShareReport(String title) {
+    markdown.writeln('# $title\n');
+    plain.writeln('$title\n');
+  }
+
+  void preamble(Map<String, Object?> values) {
+    for (final entry in values.entries) {
+      markdown.writeln(
+        '- ${entry.key}: ${ShareExport._markdownText(entry.value)}',
+      );
+      plain.writeln('- ${entry.key}: ${entry.value}');
+    }
+  }
+
+  void fields(Object? value) {
+    ShareExport._writeReport(markdown, value, 0, markdown: true);
+    ShareExport._writeReport(plain, value, 0, markdown: false);
+  }
+
+  void section(String title, Object? value) {
+    if (value == null) return;
+    markdown.writeln('\n## $title\n');
+    plain.writeln('\n$title\n');
+    fields(value);
   }
 }

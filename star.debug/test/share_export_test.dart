@@ -238,6 +238,46 @@ void main() {
     }
   });
 
+  test('plain report renders original values beside saved Markdown', () {
+    final snap = capture(
+      imported: {
+        'registration': {'kitNumber': 'KIT|[test]\nsecond line'},
+        'custom*field': {'note': r'**literal**_<test>\', 'empty': []},
+      },
+    );
+    snap.dishGetStatus!.deviceInfo.hardwareVersion = r'rev_*`<test>\';
+    final inventory = export(snap, ViewOptions(), ShareFormat.inventoryText);
+    expect(inventory.plainText, startsWith('Starlink inventory\n\n'));
+    expect(inventory.displayText, inventory.plainText);
+    expect(
+      inventory.plainText,
+      contains('- KIT number: KIT|[test]\nsecond line'),
+    );
+    expect(
+      inventory.plainText,
+      contains(r'- Terminal hardware: rev_*`<test>\'),
+    );
+    expect(inventory.plainText, isNot(contains('<br>')));
+    expect(inventory.text, contains(r'KIT\|\[test\]<br>second line'));
+    final diagnostics = export(snap, ViewOptions(), ShareFormat.diagnosticText);
+    expect(diagnostics.plainText, startsWith('Starlink diagnostic report\n\n'));
+    expect(diagnostics.plainText, contains('\n\nTerminal status\n\n'));
+    expect(diagnostics.plainText, contains('- Custom*field:'));
+    expect(diagnostics.plainText, contains(r'**literal**_<test>\'));
+    expect(diagnostics.plainText, contains('- None'));
+    expect(diagnostics.plainText, isNot(contains('- _None_')));
+    final hidden = export(
+      snap,
+      ViewOptions()..hideIds = true,
+      ShareFormat.inventoryText,
+    );
+    expect(hidden.plainText, contains('- KIT number: [hidden]'));
+    expect(hidden.plainText, isNot(contains('second line')));
+    final json = export(snap, ViewOptions());
+    expect(json.plainText, isNull);
+    expect(json.displayText, json.text);
+  });
+
   test(
     'typed DHCP clients are hidden while server health and config remain',
     () {
@@ -293,8 +333,8 @@ void main() {
           ViewOptions()..hideRouterClients = true,
           format,
         );
-        expect(payload.text, isNot(contains('synthetic-lease-client')));
-        expect(payload.text, contains('diagnostic.example'));
+        expect(payload.displayText, isNot(contains('synthetic-lease-client')));
+        expect(payload.displayText, contains('diagnostic.example'));
       }
     },
   );
@@ -351,10 +391,10 @@ void main() {
       ViewOptions()..hideRouterClients = true,
       ShareFormat.diagnosticText,
     );
-    expect(report.text, contains(r'EVENT\_REASON\_OUTAGE\_OBSTRUCTED'));
-    expect(report.text, isNot(contains('synthetic-private-band')));
+    expect(report.displayText, contains('EVENT_REASON_OUTAGE_OBSTRUCTED'));
+    expect(report.displayText, isNot(contains('synthetic-private-band')));
     expect(
-      report.text,
+      report.displayText,
       isNot(contains('Client Reconnecting Often Metadata')),
     );
   });
@@ -396,9 +436,9 @@ void main() {
     );
     for (final format in [ShareFormat.json, ShareFormat.diagnosticText]) {
       final payload = export(snap, ViewOptions(), format);
-      expect(payload.text, isNot(contains('synthetic-http-secret')));
-      expect(payload.text, isNot(contains('synthetic-radius-secret')));
-      expect(payload.text, contains('synthetic-http-cert'));
+      expect(payload.displayText, isNot(contains('synthetic-http-secret')));
+      expect(payload.displayText, isNot(contains('synthetic-radius-secret')));
+      expect(payload.displayText, contains('synthetic-http-cert'));
     }
     expect(snap.routerGetStatus!.writeToBuffer(), before);
   });
@@ -476,20 +516,20 @@ void main() {
               format,
             );
             expect(
-              payload.text,
+              payload.displayText,
               isNot(contains('synthetic-hidden-host')),
             );
             expect(
-              payload.text,
+              payload.displayText,
               isNot(contains('synthetic-client-event')),
             );
-            expect(payload.text, contains('diagnostic-reason'));
-            expect(payload.text, contains('safe-cert'));
-            expect(payload.text, contains('old-cert'));
-            expect(payload.text, contains('safe.example'));
-            expect(payload.text, contains('safe-hostname'));
-            expect(payload.text, contains('safe-generic-key'));
-            expect(payload.text, contains('safe-resource-lease'));
+            expect(payload.displayText, contains('diagnostic-reason'));
+            expect(payload.displayText, contains('safe-cert'));
+            expect(payload.displayText, contains('old-cert'));
+            expect(payload.displayText, contains('safe.example'));
+            expect(payload.displayText, contains('safe-hostname'));
+            expect(payload.displayText, contains('safe-generic-key'));
+            expect(payload.displayText, contains('safe-resource-lease'));
           }
           expect(jsonEncode(raw), before);
         }
