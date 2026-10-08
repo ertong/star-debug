@@ -9,6 +9,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:star_debug/grpc/starlink/starlink.pb.dart';
 import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/pages/dialogs/share_snapshot.dart';
+import 'package:star_debug/pages/snapshot.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/theme.dart';
 import 'package:star_debug/utils/obstruction_map_context.dart';
@@ -228,6 +229,58 @@ void main() {
       find.byType(ShareSnapshotDialog),
     );
     expect(dialog.sourceMode, MapSourceMode.stored);
+  });
+
+  testWidgets('viewing redacted JSON opens a snapshot without import storage', (
+    tester,
+  ) async {
+    // No database is initialized: the viewer must not enter the import/save path.
+    await tester.pumpWidget(
+      MaterialApp(
+        scaffoldMessengerKey: R.scaffoldMessengerKey,
+        home: Scaffold(
+          body: Builder(
+            builder: (context) => TextButton(
+              onPressed: () => showDialog<void>(
+                context: context,
+                builder: (_) => ShareSnapshotDialog(
+                  initialFormat: ShareFormat.json,
+                  sourceMode: MapSourceMode.stored,
+                  snap: Snapshot(
+                    timestamp: 100000,
+                    dishTs: 100000,
+                    dishGetStatus: _snapshot().dishGetStatus,
+                    routerGetStatus: WifiGetStatusResponse(),
+                  ),
+                ),
+              ),
+              child: const Text('Open sharing'),
+            ),
+          ),
+        ),
+      ),
+    );
+    await tester.tap(find.text('Open sharing'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text(M.sharing.privacy));
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(
+      find.widgetWithText(FilterChip, M.sharing.identifiers),
+    );
+    await tester.tap(find.widgetWithText(FilterChip, M.sharing.identifiers));
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(find.byTooltip(M.general.view_in_app));
+    await tester.tap(find.byTooltip(M.general.view_in_app));
+    await tester.pumpAndSettle();
+    expect(find.byType(ShareSnapshotDialog), findsNothing);
+    final page = tester.widget<SnapshotPage>(find.byType(SnapshotPage));
+    expect(page.snap.dishGetStatus!.deviceInfo.id, isEmpty);
+    expect(page.sourceMode, MapSourceMode.imported);
+    expect(tester.takeException(), isNull);
+    await tester.tap(find.byIcon(Icons.clear));
+    await tester.pumpAndSettle();
+    expect(find.text('Open sharing'), findsOneWidget);
+    expect(tester.takeException(), isNull);
   });
 
   testWidgets(

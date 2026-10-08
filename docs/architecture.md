@@ -185,6 +185,9 @@ reports use Markdown: diagnostics have section headings and nested field lists, 
 uses a compact field list that is readable without a Markdown viewer. Saved reports use `.md` and `text/markdown`; clipboard and native
 text sharing deliver the same Markdown source. Data values are escaped to preserve formatting.
 
+“View in the app” opens an ephemeral snapshot without importing it into storage. Persistence
+entry points reject blank dish IDs; ordinary file and clipboard imports retain their save behavior.
+
 Inventory text separates UTID from the KIT number, physical terminal-label Dish ID, and Starlink
 account number. A valid terminal UTID is exported without its `ut` prefix; explicitly named
 imported registration fields are included when available. Missing identifiers are omitted,

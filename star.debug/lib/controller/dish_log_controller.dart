@@ -29,7 +29,7 @@ class DishLogController {
       return;
     var dishId = snap.dishGetStatus?.deviceInfo.id;
     var timestamp = snap.dishTs;
-    if (dishId == null || timestamp == null)
+    if (dishId == null || dishId.trim().isEmpty || timestamp == null)
       return;
 
     Record? rec = latestRecord[dishId];
@@ -81,7 +81,10 @@ class DishLogController {
     var dishId = snap.dishGetStatus?.deviceInfo.id;
     var timestamp = snap.dishTs;
 
-    if (dishId == null || timestamp == null || snap.debug_data == null)
+    if (dishId == null ||
+        dishId.trim().isEmpty ||
+        timestamp == null ||
+        snap.debug_data == null)
       return;
 
     var res = await R.db.dishesDao.hasDishLog(dishId, timestamp).getSingleOrNull();
@@ -121,7 +124,7 @@ class DishLogController {
     var dishId = snap.dishGetStatus?.deviceInfo.id;
     var timestamp = snap.dishTs;
 
-    if (dishId == null || timestamp == null)
+    if (dishId == null || dishId.trim().isEmpty || timestamp == null)
       return;
 
     var rec = await ensureRecord(dishId, snap);

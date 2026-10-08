@@ -8,7 +8,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/channel/image_clipboard.dart';
-import 'package:star_debug/pages/debug_data.dart';
+import 'package:star_debug/pages/snapshot.dart';
 import 'package:star_debug/pages/view/share_image.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/space/space_parser.dart';
@@ -205,7 +205,13 @@ class _ShareSnapshotDialogState extends State<ShareSnapshotDialog> {
     final navigator = Navigator.of(context);
     navigator.pop();
     await navigator.push(
-      MaterialPageRoute(builder: (_) => DebugDataPage(snap: snap)),
+      MaterialPageRoute(
+        builder: (_) => SnapshotPage(
+          snap: snap,
+          sourceMode: MapSourceMode.imported,
+          onClose: navigator.pop,
+        ),
+      ),
     );
   });
 

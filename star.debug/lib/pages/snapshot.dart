@@ -93,7 +93,7 @@ class _SnapshotPageState extends State<SnapshotPage>
     ];
     if (_selectedIndex >= items.length) _selectedIndex = 0;
 
-    if (items.isNotEmpty)
+    if (items.length > 1)
       bar = BottomNavigationBar(
         items: <BottomNavigationBarItem>[
           for (var p in pages)
