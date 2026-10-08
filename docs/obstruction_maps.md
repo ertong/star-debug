@@ -56,6 +56,9 @@ arrows. Raw samples remain available when status expires; EARTH references do no
 Known stale captured status is suppressed; unknown captured timing is qualified while retaining
 available status.
 
+Timing rows and freshness warnings appear only when the map is ready to display: missing,
+invalid, unobserved, or dish-reported unready maps show their unavailable state without timing.
+
 `DishTab` refreshes once per second even during stream silence and cancels its timer on disposal.
 Stable dish/map keys retain the map and dialog as status rows disappear and recover. Screenshot
 sharing uses frozen source mode. Native rows have only save time for status;

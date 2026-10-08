@@ -329,6 +329,52 @@ void main() {
     }
   });
 
+  testWidgets('unavailable maps hide timing in summaries and dialogs', (
+    tester,
+  ) async {
+    for (final mode in MapSourceMode.values) {
+      for (final (map, stats) in [
+        (null, null),
+        (DishGetObstructionMapResponse(), null),
+        (
+          DishGetObstructionMapResponse(numRows: 1, numCols: 1, snr: [-1]),
+          null,
+        ),
+        (_map(), DishObstructionStats(patchesValid: 0)),
+      ]) {
+        await tester.pumpWidget(
+          _page(
+            ObstructionMapWidget(
+              map: map,
+              status: _status(stats: stats),
+              sourceMode: mode,
+              timestamp: _reference,
+              statusReceivedTime: stats == null ? null : _reference,
+            ),
+          ),
+        );
+        expect(find.byKey(const Key('dish-obstruction-minimap')), findsNothing);
+        expect(find.text(M.obstructions.status_unknown_short), findsNothing);
+        await tester.tap(find.text(M.obstructions.title));
+        await tester.pumpAndSettle();
+        expect(find.byKey(const Key('dish-obstruction-map')), findsNothing);
+        for (final message in [
+          M.obstructions.status_unknown,
+          M.obstructions.status_unknown_capture,
+          M.obstructions.status_unknown_short,
+          M.obstructions.timing_unknown,
+        ]) {
+          expect(find.textContaining(message), findsNothing);
+        }
+        expect(find.text(M.obstructions.status_received), findsNothing);
+        expect(find.text(M.obstructions.capture_status_age), findsNothing);
+        await tester.tap(find.byTooltip(M.general.close));
+        await tester.pumpAndSettle();
+      }
+    }
+    expect(tester.takeException(), isNull);
+  });
+
   testWidgets('invalid and unobserved captures do not promise live progress', (
     tester,
   ) async {

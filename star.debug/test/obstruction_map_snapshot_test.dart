@@ -215,7 +215,7 @@ void main() {
                 map: map,
                 status: status,
                 timestamp: _time,
-                statusReceivedTime: _time,
+                statusReceivedTime: status == null ? null : _time,
               ),
             ),
           ),
@@ -224,6 +224,12 @@ void main() {
         expect(find.byKey(const Key('dish-obstruction-map')), findsNothing);
         expect(find.text(M.obstructions.no_blocked_cells), findsNothing);
         expect(find.text(M.obstructions.blocked_cells), findsNothing);
+        expect(find.text(M.obstructions.status_unknown_short), findsNothing);
+        expect(
+          find.textContaining(M.obstructions.timing_unknown),
+          findsNothing,
+        );
+        expect(find.text(M.obstructions.capture_status_age), findsNothing);
         expect(tester.takeException(), isNull);
       }
     },
@@ -242,7 +248,8 @@ void main() {
             Theme(
               data: StarDebugTheme.build(brightness),
               child: Material(
-                child: IntrinsicWidth(
+                child: SizedBox(
+                  width: 760,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
