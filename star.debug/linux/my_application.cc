@@ -14,7 +14,7 @@ struct _MyApplication {
 
 G_DEFINE_TYPE(MyApplication, my_application, GTK_TYPE_APPLICATION)
 
-// Copies PNG image data without going through text clipboard formats.
+// Copies encoded image data without going through text clipboard formats.
 static void image_clipboard_method_call(FlMethodChannel* channel,
                                         FlMethodCall* call,
                                         gpointer user_data) {
@@ -28,25 +28,25 @@ static void image_clipboard_method_call(FlMethodChannel* channel,
                       : nullptr;
   if (!bytes || fl_value_get_type(bytes) != FL_VALUE_TYPE_UINT8_LIST ||
       fl_value_get_length(bytes) == 0) {
-    fl_method_call_respond_error(call, "EMPTY_IMAGE", "PNG bytes are required",
+    fl_method_call_respond_error(call, "EMPTY_IMAGE", "Image bytes are required",
                                  nullptr, nullptr);
     return;
   }
   g_autoptr(GError) error = nullptr;
-  g_autoptr(GdkPixbufLoader) loader = gdk_pixbuf_loader_new_with_type("png", &error);
+  g_autoptr(GdkPixbufLoader) loader = gdk_pixbuf_loader_new();
   if (!loader || !gdk_pixbuf_loader_write(loader, fl_value_get_uint8_list(bytes),
                                          fl_value_get_length(bytes), &error) ||
       !gdk_pixbuf_loader_close(loader, &error)) {
     // A loader must be closed even after a failed write.
     if (loader) gdk_pixbuf_loader_close(loader, nullptr);
     fl_method_call_respond_error(call, "INVALID_IMAGE",
-                                 error ? error->message : "Invalid PNG image",
+                                 error ? error->message : "Invalid image",
                                  nullptr, nullptr);
     return;
   }
   GdkPixbuf* image = gdk_pixbuf_loader_get_pixbuf(loader);
   if (!image) {
-    fl_method_call_respond_error(call, "INVALID_IMAGE", "Invalid PNG image",
+    fl_method_call_respond_error(call, "INVALID_IMAGE", "Invalid image",
                                  nullptr, nullptr);
     return;
   }

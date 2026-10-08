@@ -96,23 +96,23 @@ class _ShareSnapshotDialogState extends State<ShareSnapshotDialog> {
 
   Future<void> buildPayload() async {
     if (format == ShareFormat.screenshot) {
-      final bytes = await captureShareImage(
+      final captured = await captureShareImage(
         context,
         ShareExport.redactedSnapshot(widget.snap, options),
         widget.sourceMode,
         options,
       );
       if (!mounted) return;
-      image = bytes;
+      image = captured.bytes;
       payload = SharePayload(
         text: '',
         filename: ShareExport.filename(
           widget.snap,
           options,
           'screenshot',
-          'png',
+          captured.extension,
         ),
-        mimeType: 'image/png',
+        mimeType: captured.mimeType,
         subject: M.sharing.screenshot,
       );
     } else {
@@ -153,7 +153,7 @@ class _ShareSnapshotDialogState extends State<ShareSnapshotDialog> {
 
   Future<void> copy() => deliver(() async {
     if (format == ShareFormat.screenshot) {
-      await ImageClipboard.copyPng(image!);
+      await ImageClipboard.copyImage(image!, mimeType: payload!.mimeType);
     } else {
       await Clipboard.setData(ClipboardData(text: payload!.displayText));
     }
@@ -278,7 +278,7 @@ class _ShareSnapshotDialogState extends State<ShareSnapshotDialog> {
                         value == ShareFormat.json
                             ? 'JSON'
                             : value == ShareFormat.screenshot
-                            ? 'PNG'
+                            ? (payload?.mimeType == 'image/png' ? 'PNG' : 'JPG')
                             : 'MD',
                         style: Theme.of(context).textTheme.labelSmall
                             ?.copyWith(color: colors.onSurfaceVariant),

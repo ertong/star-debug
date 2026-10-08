@@ -201,18 +201,20 @@ and the dialog does not request manual entry. These fields follow the current
 organization information remain outside terminal telemetry.
 
 All formats can be copied or saved through the platform file picker, and mobile and macOS users
-can use the native share sheet. Image actions generate a PNG on demand; the optional preview is
-not required. The same cached PNG is reused until privacy choices change. File shares use a separate
+can use the native share sheet. Image actions generate JPEG on demand at the existing 2× resolution,
+with PNG fallback when JPEG encoding is unavailable. JPEG encoding runs in a separate isolate.
+The optional preview is not required. The same cached image is reused until privacy choices change. File shares use a separate
 temporary directory per export and await the plugin result without deleting files while recipients
 may still read them.
 
-[`ImageClipboard`](../star.debug/lib/channel/image_clipboard.dart) copies PNG bytes through the
+[`ImageClipboard`](../star.debug/lib/channel/image_clipboard.dart) copies JPEG or PNG bytes through the
 existing clipboard plugin on iOS, macOS, and Windows. Android and Linux implement the
-`com.stardebug/image_clipboard` channel with `copyImage` and binary `bytes`. Android writes a
-unique file under its dedicated `clipboard/` cache directory and publishes a clipboard content
+`com.stardebug/image_clipboard` channel with `copyImage`, binary `bytes`, and `mimeType` (legacy
+calls default to PNG). Android writes a unique file with the matching `.jpg` or `.png` extension
+under its dedicated `clipboard/` cache directory and publishes a clipboard content
 URI through a scoped, non-exported FileProvider; it does not write to the gallery or require storage
 permission. Cached files remain available after closing the dialog so other apps can paste later.
-Linux decodes the PNG with GdkPixbuf and places the image on the GTK clipboard, requesting
+Linux decodes the image with GdkPixbuf and places the image on the GTK clipboard, requesting
 clipboard-manager persistence. Generation and delivery share one busy guard; closing the dialog
 before generation finishes cancels delivery.
 

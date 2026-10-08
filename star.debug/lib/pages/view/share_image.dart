@@ -1,7 +1,9 @@
-import 'dart:typed_data';
+import 'dart:ui' as ui;
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:image/image.dart' as img;
 import 'package:screenshot/screenshot.dart';
 import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/preloaded.dart';
@@ -14,13 +16,75 @@ import 'common.dart';
 import 'dish.dart';
 import 'router.dart';
 
-Future<Uint8List> captureShareImage(
+class ShareImageData {
+  final Uint8List bytes;
+  final String mimeType;
+  final String extension;
+
+  const ShareImageData({
+    required this.bytes,
+    required this.mimeType,
+    required this.extension,
+  });
+}
+
+Uint8List _encodeJpeg((Uint8List, int, int) pixels) {
+  final (bytes, width, height) = pixels;
+  return img.encodeJpg(
+    img.Image.fromBytes(
+      width: width,
+      height: height,
+      bytes: bytes.buffer,
+      bytesOffset: bytes.offsetInBytes,
+      order: img.ChannelOrder.rgba,
+    ),
+    quality: 90,
+  );
+}
+
+@visibleForTesting
+Future<ShareImageData> encodeShareImage(
+  ui.Image image, {
+  Future<Uint8List?> Function(Uint8List, int, int)? jpegEncoder,
+}) async {
+  final pixels = await image.toByteData(format: ui.ImageByteFormat.rawRgba);
+  if (pixels != null) {
+    final bytes = pixels.buffer.asUint8List(
+      pixels.offsetInBytes,
+      pixels.lengthInBytes,
+    );
+    Uint8List? jpeg;
+    try {
+      jpeg = jpegEncoder == null
+          ? await compute(_encodeJpeg, (bytes, image.width, image.height))
+          : await jpegEncoder(bytes, image.width, image.height);
+    } on UnsupportedError {
+      // Use PNG when JPEG encoding is unavailable.
+    }
+    if (jpeg != null) {
+      return ShareImageData(
+        bytes: jpeg,
+        mimeType: 'image/jpeg',
+        extension: 'jpg',
+      );
+    }
+  }
+  final png = await image.toByteData(format: ui.ImageByteFormat.png);
+  if (png == null) throw StateError('Image encoding failed');
+  return ShareImageData(
+    bytes: png.buffer.asUint8List(png.offsetInBytes, png.lengthInBytes),
+    mimeType: 'image/png',
+    extension: 'png',
+  );
+}
+
+Future<ShareImageData> captureShareImage(
   BuildContext context,
   Snapshot snap,
   MapSourceMode sourceMode,
   ViewOptions options,
 ) async {
-  final png = await ScreenshotController().captureFromLongWidget(
+  final image = await ScreenshotController().longWidgetToUiImage(
     InheritedTheme.captureAll(
       context,
       MediaQuery(
@@ -36,7 +100,11 @@ Future<Uint8List> captureShareImage(
     ),
     pixelRatio: 2,
   );
-  return png;
+  try {
+    return await encodeShareImage(image);
+  } finally {
+    image.dispose();
+  }
 }
 
 class ShareImage extends StatelessWidget {

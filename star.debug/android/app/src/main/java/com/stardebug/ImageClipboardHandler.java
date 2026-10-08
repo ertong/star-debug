@@ -30,6 +30,17 @@ public class ImageClipboardHandler implements MethodChannel.MethodCallHandler {
             result.error("EMPTY_IMAGE", "Image bytes are required", null);
             return;
         }
+        String mimeType = call.argument("mimeType");
+        if (mimeType == null) mimeType = "image/png";
+        final String extension;
+        if (mimeType.equals("image/jpeg")) {
+            extension = ".jpg";
+        } else if (mimeType.equals("image/png")) {
+            extension = ".png";
+        } else {
+            result.error("INVALID_IMAGE_TYPE", "JPEG or PNG image bytes are required", null);
+            return;
+        }
         MainActivity.executor.submit(() -> {
             File image = null;
             try {
@@ -37,7 +48,7 @@ public class ImageClipboardHandler implements MethodChannel.MethodCallHandler {
                 if (!directory.isDirectory() && !directory.mkdirs()) {
                     throw new IOException("Could not create image clipboard directory");
                 }
-                image = File.createTempFile("starlink-", ".png", directory);
+                image = File.createTempFile("starlink-", extension, directory);
                 try (FileOutputStream output = new FileOutputStream(image)) {
                     output.write(bytes);
                 }

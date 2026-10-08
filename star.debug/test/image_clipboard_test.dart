@@ -1,6 +1,7 @@
 import 'package:clipboard/clipboard.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:image/image.dart' as img;
 import 'package:star_debug/channel/image_clipboard.dart';
 
 const _channels = [
@@ -35,7 +36,41 @@ void main() {
     );
     if (received!.arguments['bytes'] != null) {
       expect(received!.arguments['bytes'], isA<Uint8List>());
+      expect(received!.arguments['mimeType'], 'image/png');
     }
+  });
+
+  test('image clipboard delivers JPEG without transcoding', () async {
+    final bytes = img.encodeJpg(img.Image(width: 2, height: 2));
+    MethodCall? received;
+    _mock((call) async {
+      received = call;
+      return true;
+    });
+    await ImageClipboard.copyImage(bytes, mimeType: 'image/jpeg');
+    final delivered = Uint8List.fromList(
+      List<int>.from(
+        received!.arguments['bytes'] ?? received!.arguments['imageBytes'],
+      ),
+    );
+    expect(delivered, orderedEquals(bytes));
+    expect(img.decodeJpg(delivered), isNotNull);
+    if (received!.arguments['bytes'] != null) {
+      expect(received!.arguments['mimeType'], 'image/jpeg');
+    }
+  });
+
+  test('image clipboard rejects unsupported MIME types', () async {
+    int calls = 0;
+    _mock((_) async {
+      calls++;
+      return true;
+    });
+    await expectLater(
+      ImageClipboard.copyImage(Uint8List.fromList([1]), mimeType: 'image/gif'),
+      throwsArgumentError,
+    );
+    expect(calls, 0);
   });
 
   test(

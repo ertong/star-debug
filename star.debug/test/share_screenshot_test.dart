@@ -9,13 +9,13 @@ import 'package:star_debug/grpc/starlink/starlink.pb.dart';
 import 'package:star_debug/channel/image_clipboard.dart';
 import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/pages/dialogs/share_snapshot.dart';
+import 'package:star_debug/pages/view/dish.dart';
+import 'package:star_debug/pages/view/share_image.dart';
 import 'package:star_debug/utils/share_export.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/theme.dart';
 import 'package:star_debug/utils/obstruction_map_context.dart';
 import 'package:star_debug/utils/snapshot.dart';
-import 'package:star_debug/pages/view/dish.dart';
-import 'package:star_debug/pages/view/share_image.dart';
 import 'package:star_debug/utils/view_options.dart';
 import 'package:star_debug/widgets/obstruction_map.dart';
 import 'package:time_machine2/time_machine2.dart';
@@ -35,8 +35,8 @@ class _ImagePicker extends FilePickerPlatform {
     LinuxOptions linuxOptions = const LinuxOptions(),
     WebOptions webOptions = const WebOptions(),
   }) async {
-    expect(fileName, endsWith('.png'));
-    expect(mimeType, 'image/png');
+    expect(fileName, endsWith('.jpg'));
+    expect(mimeType, 'image/jpeg');
     images.add(bytes);
     return null;
   }
@@ -141,7 +141,7 @@ void main() {
       tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
         shareChannel,
         (call) async {
-          expect(call.arguments['mimeTypes'], ['image/png']);
+          expect(call.arguments['mimeTypes'], ['image/jpeg']);
           final path = (call.arguments['paths'] as List).single as String;
           sharedImages.add(await File(path).readAsBytes());
           addTearDown(
@@ -254,10 +254,16 @@ void main() {
       final initialImage = delivered.single;
       final preview = tester.widget<Image>(find.byType(Image));
       expect(initialImage, (preview.image as MemoryImage).bytes);
-      final png = img.decodePng((preview.image as MemoryImage).bytes);
-      expect(png, isNotNull);
-      expect(png!.width, width);
-      expect(png.height, greaterThan(620));
+      expect(initialImage.take(3), [0xff, 0xd8, 0xff]);
+      final jpeg = img.decodeJpg((preview.image as MemoryImage).bytes);
+      expect(jpeg, isNotNull);
+      expect(jpeg!.width, width);
+      expect(jpeg.height, greaterThan(620));
+
+      // Every action reuses the same JPEG until privacy choices change.
+      await tester.runAsync(() async => await state.save());
+      expect(picker.images.last, orderedEquals(initialImage));
+      await tester.pumpAndSettle();
 
       // Selecting the active format keeps the prepared image ready to share.
       await tester.tap(find.text(M.sharing.image));
