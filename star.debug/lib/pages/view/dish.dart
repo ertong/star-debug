@@ -546,7 +546,7 @@ Widget buildGraph(String name, String unit, int current, int ts, List<double> da
   return SizedBox(
     height: 120,
     child: SfCartesianChart(
-        title: ChartTitle(text: "$name, ${data[900-1].toStringAsFixed(2)} $unit", textStyle: TextStyle(fontSize: 10)),
+        title: ChartTitle(text: "$name, ${data.last.toStringAsFixed(2)} $unit", textStyle: TextStyle(fontSize: 10)),
         primaryXAxis: CategoryAxis(),
         primaryYAxis: NumericAxis(minimum: 0, maximum: max),
         enableAxisAnimation: false,

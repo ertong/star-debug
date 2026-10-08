@@ -75,6 +75,7 @@ class Messages {
   OnlineMessages get online => OnlineMessages(this);
   GrpcMessages get grpc => GrpcMessages(this);
   ObstructionsMessages get obstructions => ObstructionsMessages(this);
+  SharingMessages get sharing => SharingMessages(this);
 }
 
 class GeneralMessages {
@@ -3349,6 +3350,178 @@ class ObstructionsMessages {
       """Dish azimuth is uncertain near vertical.""";
 }
 
+class SharingMessages {
+  final Messages _parent;
+  const SharingMessages(this._parent);
+
+  /// ```dart
+  /// "Format"
+  /// ```
+  String get format => """Format""";
+
+  /// ```dart
+  /// "Debug-data JSON"
+  /// ```
+  String get json => """Debug-data JSON""";
+
+  /// ```dart
+  /// "Screenshot"
+  /// ```
+  String get screenshot => """Screenshot""";
+
+  /// ```dart
+  /// "Full diagnostic text"
+  /// ```
+  String get full_text => """Full diagnostic text""";
+
+  /// ```dart
+  /// "Compact inventory text"
+  /// ```
+  String get compact_text => """Compact inventory text""";
+
+  /// ```dart
+  /// "Structured debug data for importing into StarDebug or diagnostic tools."
+  /// ```
+  String get json_description =>
+      """Structured debug data for importing into StarDebug or diagnostic tools.""";
+
+  /// ```dart
+  /// "Dish, router, obstruction map and history in one shareable image."
+  /// ```
+  String get screenshot_description =>
+      """Dish, router, obstruction map and history in one shareable image.""";
+
+  /// ```dart
+  /// "Readable device status, configuration, events and diagnostic measurements."
+  /// ```
+  String get full_description =>
+      """Readable device status, configuration, events and diagnostic measurements.""";
+
+  /// ```dart
+  /// "A short equipment record with the identifiers used for Starlink registration in Ukraine."
+  /// ```
+  String get compact_description =>
+      """A short equipment record with the identifiers used for Starlink registration in Ukraine.""";
+
+  /// ```dart
+  /// "Privacy options"
+  /// ```
+  String get privacy => """Privacy options""";
+
+  /// ```dart
+  /// "Choose what to hide in every format."
+  /// ```
+  String get privacy_hint => """Choose what to hide in every format.""";
+
+  /// ```dart
+  /// "Passwords and access credentials are excluded from exports."
+  /// ```
+  String get credentials_hint =>
+      """Passwords and access credentials are excluded from exports.""";
+
+  /// ```dart
+  /// "Hide terminal, router and registration IDs"
+  /// ```
+  String get hide_ids => """Hide terminal, router and registration IDs""";
+
+  /// ```dart
+  /// "Hide MAC addresses"
+  /// ```
+  String get hide_mac => """Hide MAC addresses""";
+
+  /// ```dart
+  /// "Hide IP addresses"
+  /// ```
+  String get hide_ip => """Hide IP addresses""";
+
+  /// ```dart
+  /// "Hide location"
+  /// ```
+  String get hide_location => """Hide location""";
+
+  /// ```dart
+  /// "Hide router clients"
+  /// ```
+  String get hide_clients => """Hide router clients""";
+
+  /// ```dart
+  /// "IDs hidden"
+  /// ```
+  String get ids => """IDs hidden""";
+
+  /// ```dart
+  /// "MAC addresses hidden"
+  /// ```
+  String get mac => """MAC addresses hidden""";
+
+  /// ```dart
+  /// "IP addresses hidden"
+  /// ```
+  String get ip => """IP addresses hidden""";
+
+  /// ```dart
+  /// "Location hidden"
+  /// ```
+  String get location => """Location hidden""";
+
+  /// ```dart
+  /// "Router clients hidden"
+  /// ```
+  String get clients => """Router clients hidden""";
+
+  /// ```dart
+  /// "Registration identifiers"
+  /// ```
+  String get inventory_details => """Registration identifiers""";
+
+  /// ```dart
+  /// "UTID is read from the terminal when available. Add the KIT number from the box, Dish ID from the terminal label, and account number from your Starlink account. Missing values are marked in the report."
+  /// ```
+  String get inventory_hint =>
+      """UTID is read from the terminal when available. Add the KIT number from the box, Dish ID from the terminal label, and account number from your Starlink account. Missing values are marked in the report.""";
+
+  /// ```dart
+  /// "UTID"
+  /// ```
+  String get utid => """UTID""";
+
+  /// ```dart
+  /// "KIT number"
+  /// ```
+  String get kit_number => """KIT number""";
+
+  /// ```dart
+  /// "Dish ID (terminal label)"
+  /// ```
+  String get dish_serial => """Dish ID (terminal label)""";
+
+  /// ```dart
+  /// "Starlink account number"
+  /// ```
+  String get account_number => """Starlink account number""";
+
+  /// ```dart
+  /// "Registration identifiers are hidden in this export. Disable hiding IDs to include them."
+  /// ```
+  String get inventory_hidden =>
+      """Registration identifiers are hidden in this export. Disable hiding IDs to include them.""";
+
+  /// ```dart
+  /// "Build screenshot"
+  /// ```
+  String get prepare => """Build screenshot""";
+
+  /// ```dart
+  /// "Retry"
+  /// ```
+  String get retry => """Retry""";
+
+  /// ```dart
+  /// "Saved to $path"
+  /// ```
+  String saved(path) => """Saved to $path""";
+}
+
 Map<String, String> get messagesMap => {
   """general.lang""": """English""",
   """general.app_name""": """Star Debug""",
@@ -4097,4 +4270,37 @@ starting from approximately January 2023, Starlink routers are able to pick rand
       """Sectors: blocked % · blocked / observed""",
   """obstructions.heading_uncertain_short""":
       """Dish azimuth is uncertain near vertical.""",
+  """sharing.format""": """Format""",
+  """sharing.json""": """Debug-data JSON""",
+  """sharing.screenshot""": """Screenshot""",
+  """sharing.full_text""": """Full diagnostic text""",
+  """sharing.compact_text""": """Compact inventory text""",
+  """sharing.json_description""": """Structured debug data for importing into StarDebug or diagnostic tools.""",
+  """sharing.screenshot_description""":
+      """Dish, router, obstruction map and history in one shareable image.""",
+  """sharing.full_description""": """Readable device status, configuration, events and diagnostic measurements.""",
+  """sharing.compact_description""": """A short equipment record with the identifiers used for Starlink registration in Ukraine.""",
+  """sharing.privacy""": """Privacy options""",
+  """sharing.privacy_hint""": """Choose what to hide in every format.""",
+  """sharing.credentials_hint""":
+      """Passwords and access credentials are excluded from exports.""",
+  """sharing.hide_ids""": """Hide terminal, router and registration IDs""",
+  """sharing.hide_mac""": """Hide MAC addresses""",
+  """sharing.hide_ip""": """Hide IP addresses""",
+  """sharing.hide_location""": """Hide location""",
+  """sharing.hide_clients""": """Hide router clients""",
+  """sharing.ids""": """IDs hidden""",
+  """sharing.mac""": """MAC addresses hidden""",
+  """sharing.ip""": """IP addresses hidden""",
+  """sharing.location""": """Location hidden""",
+  """sharing.clients""": """Router clients hidden""",
+  """sharing.inventory_details""": """Registration identifiers""",
+  """sharing.inventory_hint""": """UTID is read from the terminal when available. Add the KIT number from the box, Dish ID from the terminal label, and account number from your Starlink account. Missing values are marked in the report.""",
+  """sharing.utid""": """UTID""",
+  """sharing.kit_number""": """KIT number""",
+  """sharing.dish_serial""": """Dish ID (terminal label)""",
+  """sharing.account_number""": """Starlink account number""",
+  """sharing.inventory_hidden""": """Registration identifiers are hidden in this export. Disable hiding IDs to include them.""",
+  """sharing.prepare""": """Build screenshot""",
+  """sharing.retry""": """Retry""",
 };

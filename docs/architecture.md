@@ -147,8 +147,8 @@ Dish and router protobuf messages are reconstructed in two ways:
 - otherwise `DebugDataHelper.jsonToProto()` maps the JSON-shaped representation into generated
   protobuf fields.
 
-[`DebugDataHelper`](../star.debug/lib/utils/debug_data.dart) performs the reverse conversion for
-sharing. Repeated protobuf fields gain a `List` suffix and maps become lists of key/value pairs with
+[`DebugDataHelper`](../star.debug/lib/utils/debug_data.dart) performs protobuf/JSON conversion for
+exports. Repeated protobuf fields gain a `List` suffix and maps become lists of key/value pairs with
 a `Map` suffix so the representation can round-trip through JSON. The debug-data tests validate
 both the binary-assisted form and the raw JSON fallback against fixtures from several versions.
 
@@ -162,6 +162,33 @@ See the [capture timing tests](../star.debug/test/obstruction_map_capture_timing
 
 When adding compatibility for a new debug-data layout, normalize it in `SpaceParser` and add a
 sanitized fixture plus round-trip assertions. Avoid teaching UI widgets about format versions.
+
+## Sharing snapshots
+
+Live and stored views open one [`ShareSnapshotDialog`](../star.debug/lib/pages/dialogs/share_snapshot.dart).
+It freezes the selected snapshot and offers debug-data JSON, a report image, full diagnostic text,
+or compact inventory text. [`ShareExport`](../star.debug/lib/utils/share_export.dart) prepares copies
+without accessing live services. The image renderer uses the same redacted copy and fixed-width
+columns, avoiding intrinsic measurement of widgets containing `LayoutBuilder`.
+
+All formats retain the ID, MAC, IP, location, and router-client hide options; location and clients
+are hidden by default. Credentials are always removed. JSON exports decode recognized embedded
+protobufs before removing `_proto`, so binary payloads cannot bypass redaction. Imported metadata
+is retained where possible, and the original snapshot is never modified. Diagnostic text includes
+status, configuration, history summaries, obstruction-map context, and online results.
+
+Inventory text separates UTID from the KIT number, physical terminal-label Dish ID, and Starlink
+account number. A valid terminal UTID is prefilled without its `ut` prefix; explicitly named
+imported registration fields may also be prefilled. Other values can be entered in the dialog and
+are used only for that inventory export. Missing values remain marked as unavailable, and hiding
+IDs also hides manually entered values. These fields follow the current
+[Diia terminal verification service](https://diia.gov.ua/services/povidomlennia-pro-vykorystannia-terminaliv-starlink)
+(checked 2026-10-08); the report does not establish whitelist status. Applicant identity and
+organization information remain outside terminal telemetry.
+
+Text and JSON can be copied, all formats can be saved through the platform file picker, and mobile
+and macOS users can use the native share sheet. File shares use a separate temporary directory per
+export and await the plugin result without deleting files while recipients may still read them.
 
 ## Obstruction maps
 

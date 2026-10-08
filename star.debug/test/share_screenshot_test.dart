@@ -3,7 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:image/image.dart' as img;
 import 'package:star_debug/grpc/starlink/starlink.pb.dart';
-import 'package:star_debug/pages/dialogs/share_screenshot.dart';
+import 'package:star_debug/messages/i18n.dart';
+import 'package:star_debug/pages/dialogs/share_snapshot.dart';
+import 'package:star_debug/utils/share_export.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/theme.dart';
 import 'package:star_debug/utils/obstruction_map_context.dart';
@@ -38,7 +40,8 @@ void main() {
               bodyMedium: theme.textTheme.bodyMedium!.copyWith(fontSize: 11),
             ),
           ),
-          home: ShareScreenshot(
+          home: ShareSnapshotDialog(
+            initialFormat: ShareFormat.screenshot,
             sourceMode: MapSourceMode.stored,
             snap: Snapshot(
               timestamp: 100000,
@@ -54,11 +57,11 @@ void main() {
               routerGetStatus: router ? WifiGetStatusResponse() : null,
               dishGetHistory: history
                   ? DishGetHistoryResponse(
-                      popPingLatencyMs: List.filled(900, 10),
-                      popPingDropRate: List.filled(900, 0),
-                      uplinkThroughputBps: List.filled(900, 1000),
-                      downlinkThroughputBps: List.filled(900, 2000),
-                      powerIn: List.filled(900, 40),
+                      popPingLatencyMs: List.filled(2, 10),
+                      popPingDropRate: List.filled(2, 0),
+                      uplinkThroughputBps: List.filled(2, 1000),
+                      downlinkThroughputBps: List.filled(2, 2000),
+                      powerIn: List.filled(2, 40),
                     )
                   : null,
             ),
@@ -67,8 +70,8 @@ void main() {
       );
 
       // Exercise the production off-screen layout and JPEG conversion.
-      final dynamic state = tester.state(find.byType(ShareScreenshot));
-      await tester.runAsync(() async => await state.run());
+      final dynamic state = tester.state(find.byType(ShareSnapshotDialog));
+      await tester.runAsync(() async => await state.prepare());
       await tester.pumpAndSettle();
 
       expect(tester.takeException(), isNull);
@@ -79,6 +82,16 @@ void main() {
       expect(jpeg, isNotNull);
       expect(jpeg!.width, width);
       expect(jpeg.height, greaterThan(620));
+
+      // A privacy change must discard the already prepared image.
+      await tester.tap(find.text(M.sharing.privacy));
+      await tester.pumpAndSettle();
+      await tester.ensureVisible(find.text(M.sharing.hide_ids));
+      await tester.tap(find.text(M.sharing.hide_ids));
+      await tester.pumpAndSettle();
+      expect(find.byType(Image), findsNothing);
+      expect(find.text(M.sharing.prepare), findsOneWidget);
+      expect(tester.takeException(), isNull);
     });
   }
 }

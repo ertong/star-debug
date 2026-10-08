@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:flutter/material.dart' hide Notification, Card, ConnectionState;
 import 'package:star_debug/controller/conn/connection.dart';
@@ -7,15 +6,13 @@ import 'package:star_debug/controller/conn/grpc_connection.dart';
 import 'package:star_debug/drawer.dart';
 import 'package:star_debug/grpc/starlink/starlink.pb.dart';
 import 'package:star_debug/messages/i18n.dart';
-import 'package:star_debug/pages/dialogs/save_debug_data.dart';
-import 'package:star_debug/pages/dialogs/share_screenshot.dart';
+import 'package:star_debug/pages/dialogs/share_snapshot.dart';
 import 'package:star_debug/pages/live/dish.dart';
 import 'package:star_debug/pages/live/general.dart';
 import 'package:star_debug/pages/live/online.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/routes.dart';
 import 'package:star_debug/utils/api_helper.dart';
-import 'package:star_debug/utils/debug_data.dart';
 import 'package:star_debug/utils/log_utils.dart';
 import 'package:star_debug/utils/obstruction_map_context.dart';
 import 'package:star_debug/utils/snapshot.dart';
@@ -268,14 +265,6 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
             onPressed: onShare,
             icon: Icon(Icons.share),
           ),
-        if (R.features.shareScreenshot &&
-            (R.dish?.dishGetStatus.data != null ||
-                R.router?.wifiGetStatus.data != null))
-          IconButton(
-            tooltip: 'Screenshot',
-            onPressed: onScreenshot,
-            icon: Icon(Icons.photo_camera_outlined),
-          ),
       ],
       title: Row(
         children: [
@@ -310,37 +299,18 @@ class _LivePageState extends State<LivePage> with TickerProviderStateMixin {
     var snap = buildLiveSnapshot();
     if (snap.dishGetStatus == null && snap.routerGetStatus == null) return;
     try {
-      var data = DebugDataHelper.debugData(snap);
-      await showDialog<String>(
+      await showDialog<void>(
         context: context,
-        builder: (c) {
-          return SaveDebugDataDialog(
-            data: JsonEncoder.withIndent("  ").convert(data),
-            uid:
-                data["dish"]?["deviceInfo"]?["id"] ??
-                data["router"]?["deviceInfo"]?["id"],
-          );
-        },
+        builder: (c) => ShareSnapshotDialog(
+          snap: snap,
+          sourceMode: MapSourceMode.stored,
+          allowScreenshot: R.features.shareScreenshot,
+        ),
       );
     } catch (e, s) {
       LogUtils.ers(_TAG, "", e, s);
       R.showSnackBarText("$e");
     }
-  }
-
-  Future onScreenshot() async {
-    var snap = buildLiveSnapshot();
-    if (snap.dishGetStatus?.deviceInfo.id == null) {
-      R.showSnackBarText("No data available");
-      return;
-    }
-
-    await showDialog<String>(
-      context: context,
-      builder: (c) {
-        return ShareScreenshot(snap: snap, sourceMode: MapSourceMode.stored);
-      },
-    );
   }
 }
 
