@@ -14,6 +14,10 @@ import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/theme.dart';
 import 'package:star_debug/utils/obstruction_map_context.dart';
 import 'package:star_debug/utils/snapshot.dart';
+import 'package:star_debug/pages/view/dish.dart';
+import 'package:star_debug/pages/view/share_image.dart';
+import 'package:star_debug/utils/view_options.dart';
+import 'package:star_debug/widgets/obstruction_map.dart';
 import 'package:time_machine2/time_machine2.dart';
 
 class _ImagePicker extends FilePickerPlatform {
@@ -49,9 +53,74 @@ void main() {
     R = Preloaded()..versionName = 'test';
   });
 
+  for (final history in [false, true]) {
+    for (final hasMap in [false, true]) {
+      testWidgets(
+        'image puts obstruction ${hasMap ? 'map' : 'unavailable state'} in graphs column ${history ? 'with' : 'without'} history',
+        (tester) async {
+          tester.view.physicalSize = const Size(1500, 2000);
+          tester.view.devicePixelRatio = 1;
+          addTearDown(tester.view.resetPhysicalSize);
+          addTearDown(tester.view.resetDevicePixelRatio);
+          final theme = StarDebugTheme.build(Brightness.light);
+          await tester.pumpWidget(
+            MaterialApp(
+              // Match the capture tests' font size for Ahem's square glyphs.
+              theme: theme.copyWith(
+                textTheme: theme.textTheme.copyWith(
+                  bodyMedium: theme.textTheme.bodyMedium!.copyWith(
+                    fontSize: 11,
+                  ),
+                ),
+              ),
+              home: Scaffold(
+                body: SingleChildScrollView(
+                  child: ShareImage(
+                    sourceMode: MapSourceMode.stored,
+                    viewOptions: ViewOptions(),
+                    snap: Snapshot(
+                      timestamp: 100000,
+                      dishTs: 100000,
+                      obstructionMapTs: 100000,
+                      dishGetStatus: DishGetStatusResponse(),
+                      routerGetStatus: WifiGetStatusResponse(),
+                      dishGetHistory: history ? DishGetHistoryResponse() : null,
+                      dishGetObstructionMap: hasMap
+                          ? DishGetObstructionMapResponse(
+                              numRows: 1,
+                              numCols: 1,
+                              snr: [1],
+                            )
+                          : null,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
+          final dishes = tester
+              .widgetList<DishWidget>(find.byType(DishWidget))
+              .toList();
+          expect(dishes, hasLength(2));
+          expect(dishes.first.statusVisible, isTrue);
+          expect(dishes.first.showObstructionMap, isFalse);
+          expect(dishes.last.statusVisible, isFalse);
+          expect(dishes.last.forSnapshotImage, isTrue);
+          expect(find.byType(ObstructionMapWidget), findsOneWidget);
+          expect(tester.getTopLeft(find.byType(ObstructionMapWidget)).dx, 770);
+          expect(tester.getSize(find.byType(ShareImage)).width, 1140);
+          if (!hasMap) {
+            expect(find.text(M.obstructions.unavailable), findsOneWidget);
+          }
+          expect(tester.takeException(), isNull);
+        },
+      );
+    }
+  }
+
   for (final (name, router, history, width) in [
-    ('dish', false, false, 760),
-    ('dish and router', true, false, 1520),
+    ('dish', false, false, 1520),
+    ('dish and router', true, false, 2280),
     ('dish, router and history', true, true, 2280),
   ]) {
     testWidgets('image actions capture $name with obstruction report', (

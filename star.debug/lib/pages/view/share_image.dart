@@ -64,11 +64,14 @@ class ShareImage extends StatelessWidget {
       viewOptions: viewOptions,
     );
 
+    final showObstructionMap =
+        snap.dishGetStatus != null || snap.dishGetObstructionMap != null;
+    final showGraphsColumn = snap.dishGetHistory != null || showObstructionMap;
     var columnCount = [
-      snap.dishGetStatus,
-      snap.routerGetStatus,
-      snap.dishGetHistory,
-    ].where((data) => data != null).length;
+      snap.dishGetStatus != null,
+      snap.routerGetStatus != null,
+      showGraphsColumn,
+    ].where((visible) => visible).length;
 
     // Long-widget capture is unbounded; avoid intrinsic layout of report contents.
     return SizedBox(
@@ -88,6 +91,7 @@ class ShareImage extends StatelessWidget {
                     snap: snap,
                     sourceMode: sourceMode,
                     forSnapshotImage: true,
+                    showObstructionMap: false,
                     viewOptions: viewOptions,
                   ),
                 ),
@@ -97,7 +101,7 @@ class ShareImage extends StatelessWidget {
                   width: 380,
                   child: RouterWidget(snap: snap, viewOptions: viewOptions),
                 ),
-              if (snap.dishGetHistory != null)
+              if (showGraphsColumn)
                 MediaQuery(
                   data: MediaQueryData(
                     gestureSettings: const DeviceGestureSettings(
@@ -107,7 +111,20 @@ class ShareImage extends StatelessWidget {
                   child: Container(
                     padding: EdgeInsets.all(10),
                     width: 380,
-                    child: Column(children: [..._buildCharts(), ...rows]),
+                    child: Column(
+                      children: [
+                        ..._buildCharts(),
+                        ...rows,
+                        if (showObstructionMap)
+                          DishWidget(
+                            snap: snap,
+                            sourceMode: sourceMode,
+                            forSnapshotImage: true,
+                            statusVisible: false,
+                            viewOptions: viewOptions,
+                          ),
+                      ],
+                    ),
                   ),
                 ),
             ],
