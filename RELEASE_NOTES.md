@@ -1,3 +1,15 @@
+## 1.2b82
+
+### New Features:
+- Add obstruction maps to live, imported, and stored dish views.
+- Add full diagnostic and compact inventory text reports alongside Debug JSON and screenshot exports in a unified sharing dialog.
+- Add privacy options for IDs, MAC and IP addresses, location, and router clients across export formats.
+
+### Enhancements:
+- Preserve obstruction maps and capture timing in saved snapshots and Debug JSON imports and exports.
+- Improve shareable images with obstruction details
+- Create automatic snapshots when dish reboots are detected.
+
 ## 1.2b81
 
 ### Enhancements:
