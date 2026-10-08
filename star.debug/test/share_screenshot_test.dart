@@ -53,6 +53,91 @@ void main() {
     R = Preloaded()..versionName = 'test';
   });
 
+  for (final cancelDuringCapture in [false, true]) {
+    testWidgets(
+      cancelDuringCapture
+          ? 'preview capture cannot reopen a dismissed dialog during its reverse animation'
+          : 'header preview opens the cached JPEG fullscreen',
+      (tester) async {
+        late BuildContext homeContext;
+        final theme = StarDebugTheme.build(Brightness.light);
+        await tester.pumpWidget(
+          MaterialApp(
+            theme: theme.copyWith(
+              textTheme: theme.textTheme.copyWith(
+                bodyMedium: theme.textTheme.bodyMedium!.copyWith(fontSize: 11),
+              ),
+            ),
+            home: Builder(
+              builder: (context) {
+                homeContext = context;
+                return Scaffold(
+                  body: TextButton(
+                    onPressed: () => showDialog<void>(
+                      context: context,
+                      builder: (_) => ShareSnapshotDialog(
+                        snap: Snapshot(
+                          timestamp: 100000,
+                          routerGetStatus: WifiGetStatusResponse(),
+                        ),
+                        sourceMode: MapSourceMode.stored,
+                      ),
+                    ),
+                    child: const Text('Home'),
+                  ),
+                );
+              },
+            ),
+          ),
+        );
+        await tester.tap(find.text('Home'));
+        await tester.pumpAndSettle();
+        final dynamic state = tester.state(find.byType(ShareSnapshotDialog));
+        if (cancelDuringCapture) {
+          await tester.runAsync(() async {
+            final Future<void> preview = state.enlargePreview();
+            Navigator.of(homeContext).pop();
+            await tester.pump(const Duration(milliseconds: 1));
+            expect(state.mounted, isTrue);
+            // Rendering finishes while the original route is still mounted.
+            await preview.timeout(const Duration(seconds: 15));
+            expect(state.mounted, isTrue);
+            expect(state.image, isNotNull);
+            expect(state.error, isNull);
+          });
+          await tester.pumpAndSettle();
+          expect(find.byType(ShareSnapshotDialog), findsNothing);
+          expect(find.byType(InteractiveViewer), findsNothing);
+          expect(find.text('Home'), findsOneWidget);
+        } else {
+          await tester.runAsync(() async => await state.prepare());
+          await tester.pumpAndSettle();
+          final Uint8List cachedImage = state.image;
+          expect(cachedImage.take(3), [0xff, 0xd8, 0xff]);
+          expect(state.payload.mimeType, 'image/jpeg');
+          await tester.tap(find.byTooltip(M.sharing.preview));
+          await tester.pumpAndSettle();
+          final fullscreenImage = tester.widget<Image>(
+            find.descendant(
+              of: find.byType(InteractiveViewer).last,
+              matching: find.byType(Image),
+            ),
+          );
+          expect(
+            (fullscreenImage.image as MemoryImage).bytes,
+            same(cachedImage),
+          );
+          expect(img.decodeJpg(cachedImage), isNotNull);
+          Navigator.of(homeContext).pop();
+          await tester.pumpAndSettle();
+          expect(find.byType(ShareSnapshotDialog), findsOneWidget);
+          expect(state.image, same(cachedImage));
+        }
+        expect(tester.takeException(), isNull);
+      },
+    );
+  }
+
   for (final history in [false, true]) {
     for (final hasMap in [false, true]) {
       testWidgets(

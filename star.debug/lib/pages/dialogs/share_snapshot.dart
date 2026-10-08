@@ -137,7 +137,10 @@ class _ShareSnapshotDialogState extends State<ShareSnapshotDialog> {
     });
     try {
       if (payload == null) await buildPayload();
-      if (!mounted || payload == null) return;
+      if (!mounted ||
+          ModalRoute.of(context)?.isCurrent != true ||
+          payload == null)
+        return;
       await action();
     } catch (e, s) {
       LogUtils.ers('ShareSnapshot', 'Delivering export', e, s);
@@ -219,6 +222,27 @@ class _ShareSnapshotDialogState extends State<ShareSnapshotDialog> {
       ),
     );
   });
+
+  Future<void> enlargePreview() async {
+    if (busy) return;
+    if (image == null) await prepare();
+    if (!mounted || ModalRoute.of(context)?.isCurrent != true || image == null)
+      return;
+    final previewImage = image!;
+    await showDialog<void>(
+      context: context,
+      builder: (context) => Dialog.fullscreen(
+        child: Scaffold(
+          appBar: AppBar(title: Text(M.sharing.preview)),
+          body: Center(
+            child: InteractiveViewer(
+              child: Image.memory(previewImage, fit: BoxFit.contain),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 
   IconData formatIcon(ShareFormat value) => switch (value) {
     ShareFormat.json => Icons.data_object,
@@ -446,6 +470,12 @@ class _ShareSnapshotDialogState extends State<ShareSnapshotDialog> {
                       ],
                     ),
                   ),
+                  if (format == ShareFormat.screenshot)
+                    IconButton(
+                      tooltip: M.sharing.preview,
+                      onPressed: busy ? null : enlargePreview,
+                      icon: const Icon(Icons.fullscreen),
+                    ),
                   IconButton(
                     tooltip: M.general.close,
                     onPressed: () => Navigator.of(context).pop(),

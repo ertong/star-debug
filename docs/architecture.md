@@ -186,7 +186,6 @@ reports use Markdown: diagnostics have section headings and nested field lists, 
 uses a compact field list. Saved reports use `.md` and `text/markdown`, with escaped values to
 preserve formatting. Preview, clipboard, and native text sharing use plain text rendered from
 the same redacted fields, preserving literal hardware names and multiline values.
-
 JSON files use `.json` and `application/json`. Export filenames include the capture time in
 compact UTC form and the dish ID when available and not hidden.
 “View in the app” opens an ephemeral snapshot without importing it into storage. Persistence
@@ -203,7 +202,8 @@ organization information remain outside terminal telemetry.
 All formats can be copied or saved through the platform file picker, and mobile and macOS users
 can use the native share sheet. Image actions generate JPEG on demand at the existing 2× resolution,
 with PNG fallback when JPEG encoding is unavailable. JPEG encoding runs in a separate isolate.
-The optional preview is not required. The same cached image is reused until privacy choices change. File shares use a separate
+The optional preview is not required; a header action opens an enlarged preview.
+The same cached image is reused until privacy choices change. File shares use a separate
 temporary directory per export and await the plugin result without deleting files while recipients
 may still read them.
 
@@ -214,7 +214,7 @@ calls default to PNG). Android writes a unique file with the matching `.jpg` or 
 under its dedicated `clipboard/` cache directory and publishes a clipboard content
 URI through a scoped, non-exported FileProvider; it does not write to the gallery or require storage
 permission. Cached files remain available after closing the dialog so other apps can paste later.
-Linux decodes the image with GdkPixbuf and places the image on the GTK clipboard, requesting
+Linux decodes the image with GdkPixbuf and places it on the GTK clipboard, requesting
 clipboard-manager persistence. Generation and delivery share one busy guard; closing the dialog
 before generation finishes cancels delivery.
 
