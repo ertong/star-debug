@@ -1,10 +1,7 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart' hide Notification, Card;
 import 'package:star_debug/drawer.dart';
 import 'package:star_debug/messages/i18n.dart';
-import 'package:star_debug/pages/dialogs/save_debug_data.dart';
-import 'package:star_debug/pages/dialogs/share_screenshot.dart';
+import 'package:star_debug/pages/dialogs/share_snapshot.dart';
 import 'package:star_debug/pages/view/dish.dart';
 import 'package:star_debug/pages/view/router.dart';
 import 'package:star_debug/preloaded.dart';
@@ -96,7 +93,7 @@ class _SnapshotPageState extends State<SnapshotPage>
     ];
     if (_selectedIndex >= items.length) _selectedIndex = 0;
 
-    if (items.isNotEmpty)
+    if (items.length > 1)
       bar = BottomNavigationBar(
         items: <BottomNavigationBarItem>[
           for (var p in pages)
@@ -319,36 +316,26 @@ class _SnapshotPageState extends State<SnapshotPage>
   }
 
   Widget _buildBar(BuildContext context) {
-    String? uid =
-        widget.snap.dishGetStatus?.deviceInfo.id ??
-        widget.snap.routerGetStatus?.deviceInfo.id;
-
     return AppBar(
       title: Text(M.general.debug_data_viewer),
       centerTitle: true,
       actions: [
         IconButton(
-          onPressed: uid == null
-              ? null
-              : () async {
-                  await showDialog<String>(
-                    context: context,
-                    builder: (c) {
-                      return SaveDebugDataDialog(
-                        data: widget.snap.toDebugDataJson(),
-                        uid: uid,
-                        showInApp: false,
-                      );
-                    },
-                  );
-                },
+          tooltip: M.general.share,
+          onPressed: () async {
+            await showDialog<void>(
+              context: context,
+              builder: (c) => ShareSnapshotDialog(
+                snap: widget.snap,
+                sourceMode: widget.sourceMode,
+                allowScreenshot:
+                    R.features.shareScreenshot && widget.snap.hasData(),
+                showInApp: false,
+              ),
+            );
+          },
           icon: Icon(Icons.share, color: Colors.white),
         ),
-        if (R.features.shareScreenshot)
-          IconButton(
-            onPressed: onScreenshot,
-            icon: Icon(Icons.photo_camera_outlined, color: Colors.white),
-          ),
         if (widget.onClose != null)
           IconButton(
             onPressed: () {
@@ -358,18 +345,6 @@ class _SnapshotPageState extends State<SnapshotPage>
             icon: Icon(Icons.clear, color: Colors.white),
           ),
       ],
-    );
-  }
-
-  Future onScreenshot() async {
-    await showDialog<String>(
-      context: context,
-      builder: (c) {
-        return ShareScreenshot(
-          snap: widget.snap,
-          sourceMode: widget.sourceMode,
-        );
-      },
     );
   }
 }

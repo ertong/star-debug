@@ -75,6 +75,7 @@ class Messages {
   OnlineMessages get online => OnlineMessages(this);
   GrpcMessages get grpc => GrpcMessages(this);
   ObstructionsMessages get obstructions => ObstructionsMessages(this);
+  SharingMessages get sharing => SharingMessages(this);
 }
 
 class GeneralMessages {
@@ -2938,10 +2939,16 @@ class ObstructionsMessages {
   String get dish_frame_short => """Dish-relative map · compass unavailable""";
 
   /// ```dart
-  /// "Projected north up · dish-relative map. Compass and sectors are approximate references based on the supplied dish orientation. They cannot recover past bearings if the dish moved."
+  /// "Projected north up · dish-relative map · approximate compass"
   /// ```
   String get dish_frame_oriented =>
-      """Projected north up · dish-relative map. Compass and sectors are approximate references based on the supplied dish orientation. They cannot recover past bearings if the dish moved.""";
+      """Projected north up · dish-relative map · approximate compass""";
+
+  /// ```dart
+  /// "Compass and sectors are approximate references based on the supplied dish orientation. They cannot recover past bearings if the dish moved."
+  /// ```
+  String get dish_frame_hint =>
+      """Compass and sectors are approximate references based on the supplied dish orientation. They cannot recover past bearings if the dish moved.""";
 
   /// ```dart
   /// "Projected north up · dish-relative map"
@@ -3253,6 +3260,26 @@ class ObstructionsMessages {
   String get reading_map => """How to read this map""";
 
   /// ```dart
+  /// "Colors and observations"
+  /// ```
+  String get guide_signal => """Colors and observations""";
+
+  /// ```dart
+  /// "Statistics"
+  /// ```
+  String get guide_statistics => """Statistics""";
+
+  /// ```dart
+  /// "Directions and alignment"
+  /// ```
+  String get guide_directions => """Directions and alignment""";
+
+  /// ```dart
+  /// "Collection and timing"
+  /// ```
+  String get guide_collection => """Collection and timing""";
+
+  /// ```dart
   /// "Colors show signal recorded during satellite connections over time. Blue is good signal; red is no signal. Shades between red, amber and blue show reduced signal. Gray means no usable observations, not an obstruction."
   /// ```
   String get explanation =>
@@ -3277,10 +3304,10 @@ class ObstructionsMessages {
       """A patch groups no-signal cells that touch along an edge. Its cell count does not measure a physical obstacle. Map and sector percentages do not represent equal areas of sky.""";
 
   /// ```dart
-  /// "Reported separately by the dish. Its calculation may differ from the map’s blocked-cell percentage."
+  /// "The dish obstruction fraction is reported separately by the dish. Its calculation may differ from the map’s blocked-cell percentage."
   /// ```
   String get dish_fraction_hint =>
-      """Reported separately by the dish. Its calculation may differ from the map’s blocked-cell percentage.""";
+      """The dish obstruction fraction is reported separately by the dish. Its calculation may differ from the map’s blocked-cell percentage.""";
 
   /// ```dart
   /// "Azimuth is clockwise from true north (0°); east is 90°. Elevation is above the horizon: 0° is horizontal, 90° straight up. Target angles are the dish-reported alignment goal. Differences are target minus dish, with azimuth wrapped to ±180°."
@@ -3321,6 +3348,217 @@ class ObstructionsMessages {
   /// ```
   String get heading_uncertain_short =>
       """Dish azimuth is uncertain near vertical.""";
+}
+
+class SharingMessages {
+  final Messages _parent;
+  const SharingMessages(this._parent);
+
+  /// ```dart
+  /// "Format"
+  /// ```
+  String get format => """Format""";
+
+  /// ```dart
+  /// "Debug JSON"
+  /// ```
+  String get json => """Debug JSON""";
+
+  /// ```dart
+  /// "Screenshot"
+  /// ```
+  String get screenshot => """Screenshot""";
+
+  /// ```dart
+  /// "Full diagnostic text"
+  /// ```
+  String get full_text => """Full diagnostic text""";
+
+  /// ```dart
+  /// "Compact inventory text"
+  /// ```
+  String get compact_text => """Compact inventory text""";
+
+  /// ```dart
+  /// "Structured debug data for importing into StarDebug or diagnostic tools."
+  /// ```
+  String get json_description =>
+      """Structured debug data for importing into StarDebug or diagnostic tools.""";
+
+  /// ```dart
+  /// "Dish, router, obstruction map and history in one shareable image."
+  /// ```
+  String get screenshot_description =>
+      """Dish, router, obstruction map and history in one shareable image.""";
+
+  /// ```dart
+  /// "Readable device status, configuration, events and diagnostic measurements."
+  /// ```
+  String get full_description =>
+      """Readable device status, configuration, events and diagnostic measurements.""";
+
+  /// ```dart
+  /// "A short equipment record with the identifiers used for Starlink registration in Ukraine."
+  /// ```
+  String get compact_description =>
+      """A short equipment record with the identifiers used for Starlink registration in Ukraine.""";
+
+  /// ```dart
+  /// "Privacy options"
+  /// ```
+  String get privacy => """Privacy options""";
+
+  /// ```dart
+  /// "Choose what to hide in every format."
+  /// ```
+  String get privacy_hint => """Choose what to hide in every format.""";
+
+  /// ```dart
+  /// "Passwords and access credentials are excluded from exports."
+  /// ```
+  String get credentials_hint =>
+      """Passwords and access credentials are excluded from exports.""";
+
+  /// ```dart
+  /// "Hide terminal, router and registration IDs"
+  /// ```
+  String get hide_ids => """Hide terminal, router and registration IDs""";
+
+  /// ```dart
+  /// "Hide MAC addresses"
+  /// ```
+  String get hide_mac => """Hide MAC addresses""";
+
+  /// ```dart
+  /// "Hide IP addresses"
+  /// ```
+  String get hide_ip => """Hide IP addresses""";
+
+  /// ```dart
+  /// "Hide location"
+  /// ```
+  String get hide_location => """Hide location""";
+
+  /// ```dart
+  /// "Hide router clients"
+  /// ```
+  String get hide_clients => """Hide router clients""";
+
+  /// ```dart
+  /// "IDs hidden"
+  /// ```
+  String get ids => """IDs hidden""";
+
+  /// ```dart
+  /// "MAC addresses hidden"
+  /// ```
+  String get mac => """MAC addresses hidden""";
+
+  /// ```dart
+  /// "IP addresses hidden"
+  /// ```
+  String get ip => """IP addresses hidden""";
+
+  /// ```dart
+  /// "Location hidden"
+  /// ```
+  String get location => """Location hidden""";
+
+  /// ```dart
+  /// "Router clients hidden"
+  /// ```
+  String get clients => """Router clients hidden""";
+
+  /// ```dart
+  /// "Preview image"
+  /// ```
+  String get prepare => """Preview image""";
+
+  /// ```dart
+  /// "Retry"
+  /// ```
+  String get retry => """Retry""";
+
+  /// ```dart
+  /// "Saved to $path"
+  /// ```
+  String saved(path) => """Saved to $path""";
+
+  /// ```dart
+  /// "Choose a format"
+  /// ```
+  String get choose_format => """Choose a format""";
+
+  /// ```dart
+  /// "Image"
+  /// ```
+  String get image => """Image""";
+
+  /// ```dart
+  /// "Diagnostics"
+  /// ```
+  String get diagnostics => """Diagnostics""";
+
+  /// ```dart
+  /// "Inventory"
+  /// ```
+  String get inventory => """Inventory""";
+
+  /// ```dart
+  /// "Preview"
+  /// ```
+  String get preview => """Preview""";
+
+  /// ```dart
+  /// "Copy"
+  /// ```
+  String get copy => """Copy""";
+
+  /// ```dart
+  /// "$n categories hidden"
+  /// ```
+  String hidden_count(n) => """$n categories hidden""";
+
+  /// ```dart
+  /// "Tap a category to hide or include it in every format."
+  /// ```
+  String get hide_fields =>
+      """Tap a category to hide or include it in every format.""";
+
+  /// ```dart
+  /// "IDs"
+  /// ```
+  String get identifiers => """IDs""";
+
+  /// ```dart
+  /// "Location"
+  /// ```
+  String get location_label => """Location""";
+
+  /// ```dart
+  /// "Router clients"
+  /// ```
+  String get clients_label => """Router clients""";
+
+  /// ```dart
+  /// "Hidden"
+  /// ```
+  String get hidden => """Hidden""";
+
+  /// ```dart
+  /// "Included"
+  /// ```
+  String get included => """Included""";
+
+  /// ```dart
+  /// "$field: $state"
+  /// ```
+  String field_visibility(field, state) => """$field: $state""";
+
+  /// ```dart
+  /// "Include $field in exports"
+  /// ```
+  String include_field(field) => """Include $field in exports""";
 }
 
 Map<String, String> get messagesMap => {
@@ -3988,7 +4226,9 @@ starting from approximately January 2023, Starlink routers are able to pick rand
       """Dish-relative map. Compass directions are unavailable.""",
   """obstructions.dish_frame_short""":
       """Dish-relative map · compass unavailable""",
-  """obstructions.dish_frame_oriented""": """Projected north up · dish-relative map. Compass and sectors are approximate references based on the supplied dish orientation. They cannot recover past bearings if the dish moved.""",
+  """obstructions.dish_frame_oriented""":
+      """Projected north up · dish-relative map · approximate compass""",
+  """obstructions.dish_frame_hint""": """Compass and sectors are approximate references based on the supplied dish orientation. They cannot recover past bearings if the dish moved.""",
   """obstructions.dish_frame_oriented_short""":
       """Projected north up · dish-relative map""",
   """obstructions.arrow_guide""": """White: dish direction. Dashed gold: target direction. Shorter arrows point closer to vertical; a dot is near vertical. Unavailable directions are hidden. Arrows do not show satellite positions.""",
@@ -4050,11 +4290,15 @@ starting from approximately January 2023, Starlink routers are able to pick rand
   """obstructions.left""": """Left""",
   """obstructions.top_left""": """Top left""",
   """obstructions.reading_map""": """How to read this map""",
+  """obstructions.guide_signal""": """Colors and observations""",
+  """obstructions.guide_statistics""": """Statistics""",
+  """obstructions.guide_directions""": """Directions and alignment""",
+  """obstructions.guide_collection""": """Collection and timing""",
   """obstructions.explanation""": """Colors show signal recorded during satellite connections over time. Blue is good signal; red is no signal. Shades between red, amber and blue show reduced signal. Gray means no usable observations, not an obstruction.""",
   """obstructions.exclusion_hint""": """An unobserved band may be the geostationary exclusion zone, where Starlink avoids transmitting and receiving to prevent interference. Other gaps may be directions the dish has not sampled.""",
   """obstructions.patterns_hint""": """Persistent no-signal regions can help compare mounting locations. The map alone cannot identify what caused a no-signal region or predict downtime. Starlink can switch to satellites in unobstructed directions when available.""",
   """obstructions.patch_hint""": """A patch groups no-signal cells that touch along an edge. Its cell count does not measure a physical obstacle. Map and sector percentages do not represent equal areas of sky.""",
-  """obstructions.dish_fraction_hint""": """Reported separately by the dish. Its calculation may differ from the map’s blocked-cell percentage.""",
+  """obstructions.dish_fraction_hint""": """The dish obstruction fraction is reported separately by the dish. Its calculation may differ from the map’s blocked-cell percentage.""",
   """obstructions.orientation_hint""": """Azimuth is clockwise from true north (0°); east is 90°. Elevation is above the horizon: 0° is horizontal, 90° straight up. Target angles are the dish-reported alignment goal. Differences are target minus dish, with azimuth wrapped to ±180°.""",
   """obstructions.reception_hint""": """Reception times date the map and status responses, not individual observations in the accumulated map.""",
   """obstructions.collection_hint""": """The map fills as the dish communicates with satellites and continues to update. Initial collection can take hours; gaps alone do not show an obstruction.""",
@@ -4065,4 +4309,43 @@ starting from approximately January 2023, Starlink routers are able to pick rand
       """Sectors: blocked % · blocked / observed""",
   """obstructions.heading_uncertain_short""":
       """Dish azimuth is uncertain near vertical.""",
+  """sharing.format""": """Format""",
+  """sharing.json""": """Debug JSON""",
+  """sharing.screenshot""": """Screenshot""",
+  """sharing.full_text""": """Full diagnostic text""",
+  """sharing.compact_text""": """Compact inventory text""",
+  """sharing.json_description""": """Structured debug data for importing into StarDebug or diagnostic tools.""",
+  """sharing.screenshot_description""":
+      """Dish, router, obstruction map and history in one shareable image.""",
+  """sharing.full_description""": """Readable device status, configuration, events and diagnostic measurements.""",
+  """sharing.compact_description""": """A short equipment record with the identifiers used for Starlink registration in Ukraine.""",
+  """sharing.privacy""": """Privacy options""",
+  """sharing.privacy_hint""": """Choose what to hide in every format.""",
+  """sharing.credentials_hint""":
+      """Passwords and access credentials are excluded from exports.""",
+  """sharing.hide_ids""": """Hide terminal, router and registration IDs""",
+  """sharing.hide_mac""": """Hide MAC addresses""",
+  """sharing.hide_ip""": """Hide IP addresses""",
+  """sharing.hide_location""": """Hide location""",
+  """sharing.hide_clients""": """Hide router clients""",
+  """sharing.ids""": """IDs hidden""",
+  """sharing.mac""": """MAC addresses hidden""",
+  """sharing.ip""": """IP addresses hidden""",
+  """sharing.location""": """Location hidden""",
+  """sharing.clients""": """Router clients hidden""",
+  """sharing.prepare""": """Preview image""",
+  """sharing.retry""": """Retry""",
+  """sharing.choose_format""": """Choose a format""",
+  """sharing.image""": """Image""",
+  """sharing.diagnostics""": """Diagnostics""",
+  """sharing.inventory""": """Inventory""",
+  """sharing.preview""": """Preview""",
+  """sharing.copy""": """Copy""",
+  """sharing.hide_fields""":
+      """Tap a category to hide or include it in every format.""",
+  """sharing.identifiers""": """IDs""",
+  """sharing.location_label""": """Location""",
+  """sharing.clients_label""": """Router clients""",
+  """sharing.hidden""": """Hidden""",
+  """sharing.included""": """Included""",
 };

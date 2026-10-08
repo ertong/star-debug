@@ -88,6 +88,21 @@ void main() {
     await db.close();
   });
 
+  test(
+    'redacted or blank dish identifiers never create stored devices',
+    () async {
+      for (final id in ['', '   ']) {
+        final snap = snapshot(dishId: id, imported: true);
+        controller.notify(snap);
+        await controller.storeDebugData(snap);
+        await controller.forceStore(snap);
+      }
+      expect(controller.latestRecord, isEmpty);
+      expect(await db.select(db.dishes).get(), isEmpty);
+      expect(await db.select(db.dishLogs).get(), isEmpty);
+    },
+  );
+
   test('ordinary live updates replace the same automatic entry', () async {
     await automatic(snapshot());
     final first = (await logs()).single;

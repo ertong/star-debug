@@ -119,6 +119,12 @@ void main() {
     await tester.tap(find.byIcon(Icons.open_in_full));
     await tester.pumpAndSettle();
     expect(find.byType(Dialog), findsOneWidget);
+    expect(find.text(M.obstructions.cells_hint), findsNothing);
+    expect(find.text(M.obstructions.dish_fraction_hint), findsNothing);
+    expect(find.text(M.obstructions.orientation_hint), findsNothing);
+    await tester.ensureVisible(find.text(M.obstructions.reading_map));
+    await tester.tap(find.text(M.obstructions.reading_map));
+    await tester.pumpAndSettle();
     expect(find.text(M.obstructions.cells_hint), findsOneWidget);
     expect(find.text(M.obstructions.dish_fraction_hint), findsOneWidget);
     expect(find.text(M.obstructions.orientation_hint), findsOneWidget);
@@ -179,7 +185,7 @@ void main() {
     expect(find.text(M.obstructions.dish_frame_image), findsOneWidget);
     expect(find.text(M.obstructions.heading_uncertain_short), findsOneWidget);
     expect(find.text(M.obstructions.azimuth_difference), findsNothing);
-    expect(find.text(M.obstructions.dish_frame_oriented), findsNothing);
+    expect(find.text(M.obstructions.dish_frame_hint), findsNothing);
     expect(find.text(M.obstructions.heading_uncertain), findsNothing);
     expect(tester.takeException(), isNull);
   });
@@ -215,7 +221,7 @@ void main() {
                 map: map,
                 status: status,
                 timestamp: _time,
-                statusReceivedTime: _time,
+                statusReceivedTime: status == null ? null : _time,
               ),
             ),
           ),
@@ -224,6 +230,12 @@ void main() {
         expect(find.byKey(const Key('dish-obstruction-map')), findsNothing);
         expect(find.text(M.obstructions.no_blocked_cells), findsNothing);
         expect(find.text(M.obstructions.blocked_cells), findsNothing);
+        expect(find.text(M.obstructions.status_unknown_short), findsNothing);
+        expect(
+          find.textContaining(M.obstructions.timing_unknown),
+          findsNothing,
+        );
+        expect(find.text(M.obstructions.capture_status_age), findsNothing);
         expect(tester.takeException(), isNull);
       }
     },
@@ -242,7 +254,8 @@ void main() {
             Theme(
               data: StarDebugTheme.build(brightness),
               child: Material(
-                child: IntrinsicWidth(
+                child: SizedBox(
+                  width: 760,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

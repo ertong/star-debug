@@ -147,8 +147,8 @@ Dish and router protobuf messages are reconstructed in two ways:
 - otherwise `DebugDataHelper.jsonToProto()` maps the JSON-shaped representation into generated
   protobuf fields.
 
-[`DebugDataHelper`](../star.debug/lib/utils/debug_data.dart) performs the reverse conversion for
-sharing. Repeated protobuf fields gain a `List` suffix and maps become lists of key/value pairs with
+[`DebugDataHelper`](../star.debug/lib/utils/debug_data.dart) performs protobuf/JSON conversion for
+exports. Repeated protobuf fields gain a `List` suffix and maps become lists of key/value pairs with
 a `Map` suffix so the representation can round-trip through JSON. The debug-data tests validate
 both the binary-assisted form and the raw JSON fallback against fixtures from several versions.
 
@@ -162,6 +162,61 @@ See the [capture timing tests](../star.debug/test/obstruction_map_capture_timing
 
 When adding compatibility for a new debug-data layout, normalize it in `SpaceParser` and add a
 sanitized fixture plus round-trip assertions. Avoid teaching UI widgets about format versions.
+
+## Sharing snapshots
+
+Live and stored views open one [`ShareSnapshotDialog`](../star.debug/lib/pages/dialogs/share_snapshot.dart).
+It freezes the selected snapshot and offers debug-data JSON, a report image, full diagnostic text,
+or compact inventory text. Image is selected by default, with JSON as the fallback when image
+sharing is disabled. [`ShareExport`](../star.debug/lib/utils/share_export.dart) prepares copies
+without accessing live services. The image renderer uses the same redacted copy and fixed-width
+columns, avoiding intrinsic measurement of widgets containing `LayoutBuilder`.
+The dish and router retain their columns; obstruction details sit with the graphs and events
+in the third content column. Export provenance is separate from the frozen map source mode, so
+live captures are labelled live without changing capture-time freshness calculations.
+
+All formats retain the ID, MAC, IP, location, and router-client hide options; location and clients
+are hidden by default. Client hiding removes DHCP leases and known per-client event metadata
+as well as client lists. Recognized credential fields, including TLS private keys, are always removed.
+JSON exports decode recognized embedded
+protobufs before removing `_proto`, so binary payloads cannot bypass redaction. Imported metadata
+is retained where possible, and the original snapshot is never modified. Diagnostic text includes
+status, configuration, history summaries, obstruction-map context, and online results. Both text
+reports use Markdown: diagnostics have section headings and nested field lists, while inventory
+uses a compact field list. Saved reports use `.md` and `text/markdown`, with escaped values to
+preserve formatting. Preview, clipboard, and native text sharing use plain text rendered from
+the same redacted fields, preserving literal hardware names and multiline values.
+JSON files use `.json` and `application/json`. Export filenames include the capture time in
+compact UTC form and the dish ID when available and not hidden.
+“View in the app” opens an ephemeral snapshot without importing it into storage. Persistence
+entry points reject blank dish IDs; ordinary file and clipboard imports retain their save behavior.
+
+Inventory text separates UTID from the KIT number, physical terminal-label Dish ID, and Starlink
+account number. A valid terminal UTID is exported without its `ut` prefix; explicitly named
+imported registration fields are included when available. Missing identifiers are omitted,
+and the dialog does not request manual entry. These fields follow the current
+[Diia terminal verification service](https://diia.gov.ua/services/povidomlennia-pro-vykorystannia-terminaliv-starlink)
+(checked 2026-10-08); the report does not establish whitelist status. Applicant identity and
+organization information remain outside terminal telemetry.
+
+All formats can be copied or saved through the platform file picker, and mobile and macOS users
+can use the native share sheet. Image actions generate JPEG on demand at the existing 2× resolution,
+with PNG fallback when JPEG encoding is unavailable. JPEG encoding runs in a separate isolate.
+The optional preview is not required; a header action opens an enlarged preview.
+The same cached image is reused until privacy choices change. File shares use a separate
+temporary directory per export and await the plugin result without deleting files while recipients
+may still read them.
+
+[`ImageClipboard`](../star.debug/lib/channel/image_clipboard.dart) copies JPEG or PNG bytes through the
+existing clipboard plugin on iOS, macOS, and Windows. Android and Linux implement the
+`com.stardebug/image_clipboard` channel with `copyImage`, binary `bytes`, and `mimeType` (legacy
+calls default to PNG). Android writes a unique file with the matching `.jpg` or `.png` extension
+under its dedicated `clipboard/` cache directory and publishes a clipboard content
+URI through a scoped, non-exported FileProvider; it does not write to the gallery or require storage
+permission. Cached files remain available after closing the dialog so other apps can paste later.
+Linux decodes the image with GdkPixbuf and places it on the GTK clipboard, requesting
+clipboard-manager persistence. Generation and delivery share one busy guard; closing the dialog
+before generation finishes cancels delivery.
 
 ## Obstruction maps
 

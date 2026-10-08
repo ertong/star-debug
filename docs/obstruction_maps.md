@@ -26,6 +26,12 @@ and storage lifetimes are in [Architecture](architecture.md).
   closes its dialog. `forSnapshotImage` uses a detailed canvas and compact statistics/orientation
   grids, with legends and warnings instead of popup controls.
 
+The details dialog keeps short color, arrow, and sector legends beside the map. Its collapsed
+“How to read this map” guide groups explanations into colors/observations, statistics,
+directions/alignment, and collection/timing. Sector, dish-fraction, and projected-compass hints
+follow the available data. Freshness, downward-pointing, and uncertain-azimuth warnings remain
+visible with the affected map or metrics.
+
 ## Samples and readiness
 
 Dimensions must be positive, at most 1024 on either axis, with at most 262,144 cells and exactly
@@ -55,6 +61,9 @@ must be fresh to control readiness, signal state, reported metrics, attitude, UT
 arrows. Raw samples remain available when status expires; EARTH references do not need attitude.
 Known stale captured status is suppressed; unknown captured timing is qualified while retaining
 available status.
+
+Timing rows and freshness warnings appear only when the map is ready to display: missing,
+invalid, unobserved, or dish-reported unready maps show their unavailable state without timing.
 
 `DishTab` refreshes once per second even during stream silence and cancels its timer on disposal.
 Stable dish/map keys retain the map and dialog as status rows disappear and recover. Screenshot

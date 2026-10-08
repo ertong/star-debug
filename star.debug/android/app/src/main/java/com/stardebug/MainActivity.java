@@ -19,6 +19,8 @@ public class MainActivity extends FlutterActivity {
         super.configureFlutterEngine(engine);
         MethodChannel channel = new MethodChannel(engine.getDartExecutor().getBinaryMessenger(), "com.stardebug/channel");
         channel.setMethodCallHandler(new Handler());
+        new MethodChannel(engine.getDartExecutor().getBinaryMessenger(), "com.stardebug/image_clipboard")
+                .setMethodCallHandler(new ImageClipboardHandler(this));
     }
 
     public class Handler implements MethodChannel.MethodCallHandler{

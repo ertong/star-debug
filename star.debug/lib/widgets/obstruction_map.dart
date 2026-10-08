@@ -252,7 +252,7 @@ class _ObstructionMapWidgetState extends State<ObstructionMapWidget> {
                 style: theme.textTheme.bodySmall?.copyWith(fontSize: 11),
               ),
             ],
-            if (view.statusWarningShort != null) ...[
+            if (view.ready && view.statusWarningShort != null) ...[
               const SizedBox(height: 4),
               Text(view.statusWarningShort!, style: theme.textTheme.bodySmall),
             ],
@@ -474,7 +474,7 @@ class _ObstructionDetails extends StatelessWidget {
                             '${M.obstructions.source}: ${view.sourceLabel}',
                             style: theme.textTheme.bodySmall,
                           ),
-                          if (view.hasResponse)
+                          if (view.ready)
                             Text(
                               '${view.mapTimingLabel}: ${view.timingValue(view.timing.mapAge)}',
                               style: theme.textTheme.bodySmall,
@@ -501,7 +501,7 @@ class _ObstructionDetails extends StatelessWidget {
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            if (view.delayed)
+                            if (view.ready && view.delayed)
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 8),
                                 child: Text(
@@ -511,7 +511,7 @@ class _ObstructionDetails extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                            if (view.statusWarning != null)
+                            if (view.ready && view.statusWarning != null)
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 8),
                                 child: Text(view.statusWarning!),
@@ -531,7 +531,7 @@ class _ObstructionDetails extends StatelessWidget {
                               metrics,
                             ],
                             const SizedBox(height: 8),
-                            _ReadingGuide(),
+                            _ReadingGuide(view: view),
                           ],
                         );
                       },
@@ -562,7 +562,7 @@ class _ObstructionDetails extends StatelessWidget {
           '${M.obstructions.source}: ${view.sourceLabel}',
           style: Theme.of(context).textTheme.bodySmall,
         ),
-        if (view.hasResponse)
+        if (view.ready)
           Text(
             '${M.obstructions.capture_map_age}: ${_timingValue(view.timing.mapAge)}',
             style: Theme.of(context).textTheme.bodySmall,
@@ -577,8 +577,9 @@ class _ObstructionDetails extends StatelessWidget {
                 ?.copyWith(fontWeight: FontWeight.w600),
           ),
         ],
-        if (view.delayed) Text(M.obstructions.delayed_short),
-        if (view.statusWarningShort != null) Text(view.statusWarningShort!),
+        if (view.ready && view.delayed) Text(M.obstructions.delayed_short),
+        if (view.ready && view.statusWarningShort != null)
+          Text(view.statusWarningShort!),
         const SizedBox(height: 6),
         _information(context),
       ],
@@ -631,9 +632,7 @@ class _ObstructionDetails extends StatelessWidget {
                 view.orientation.attitude != null)) ...[
           const SizedBox(height: 4),
           Text(
-            forSnapshotImage
-                ? M.obstructions.arrow_legend
-                : M.obstructions.arrow_guide,
+            M.obstructions.arrow_legend,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodySmall,
           ),
@@ -641,9 +640,7 @@ class _ObstructionDetails extends StatelessWidget {
         if (view.sectors != null) ...[
           const SizedBox(height: 4),
           Text(
-            forSnapshotImage
-                ? M.obstructions.sector_legend
-                : M.obstructions.sectors_hint,
+            M.obstructions.sector_legend,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodySmall,
           ),
@@ -681,12 +678,13 @@ class _ObstructionDetails extends StatelessWidget {
     final stats = view.stats;
     final orientation = view.orientation;
     final cells = <_Metric>[
-      _Metric(
-        forSnapshotImage
-            ? M.obstructions.capture_status_age
-            : view.statusTimingLabel,
-        _timingValue(view.timing.statusAge),
-      ),
+      if (view.ready)
+        _Metric(
+          forSnapshotImage
+              ? M.obstructions.capture_status_age
+              : view.statusTimingLabel,
+          _timingValue(view.timing.statusAge),
+        ),
     ];
     if (view.dishFraction != null)
       cells.add(
@@ -754,21 +752,6 @@ class _ObstructionDetails extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _MetricGrid(metrics: cells, compact: forSnapshotImage),
-        if (view.ready && !forSnapshotImage) ...[
-          const SizedBox(height: 7),
-          Text(
-            M.obstructions.cells_hint,
-            style: Theme.of(context).textTheme.bodySmall
-                ?.copyWith(fontSize: 11),
-          ),
-        ],
-        if (view.dishFraction != null && !forSnapshotImage) ...[
-          const SizedBox(height: 7),
-          Text(
-            M.obstructions.dish_fraction_hint,
-            style: Theme.of(context).textTheme.bodySmall,
-          ),
-        ],
         if (!forSnapshotImage ||
             orientation.azimuth != null ||
             orientation.elevation != null ||
@@ -810,13 +793,6 @@ class _ObstructionDetails extends StatelessWidget {
                 ),
             ],
           ),
-          if (!forSnapshotImage) ...[
-            const SizedBox(height: 5),
-            Text(
-              M.obstructions.orientation_hint,
-              style: Theme.of(context).textTheme.bodySmall,
-            ),
-          ],
           if (orientation.headingUncertain)
             Padding(
               padding: const EdgeInsets.only(top: 5),
@@ -908,6 +884,25 @@ class _MetricGrid extends StatelessWidget {
 }
 
 class _ReadingGuide extends StatelessWidget {
+  final _MapView view;
+  const _ReadingGuide({required this.view});
+
+  Widget _topic(BuildContext context, String title, List<String> paragraphs) =>
+      Padding(
+        padding: const EdgeInsets.only(bottom: 8),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _section(context, title),
+            for (final text in paragraphs)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 7),
+                child: Text(text, style: Theme.of(context).textTheme.bodySmall),
+              ),
+          ],
+        ),
+      );
+
   @override
   Widget build(BuildContext context) => ExpansionTile(
     tilePadding: EdgeInsets.zero,
@@ -918,31 +913,33 @@ class _ReadingGuide extends StatelessWidget {
       style: const TextStyle(fontSize: 12),
     ),
     children: [
-      for (final text in [
+      _topic(context, M.obstructions.guide_signal, [
         M.obstructions.explanation,
-        M.obstructions.collection_hint,
         M.obstructions.exclusion_hint,
         M.obstructions.patterns_hint,
+      ]),
+      _topic(context, M.obstructions.guide_statistics, [
+        M.obstructions.cells_hint,
         M.obstructions.patch_hint,
+        if (view.sectors != null) M.obstructions.sectors_hint,
+        if (view.dishFraction != null) M.obstructions.dish_fraction_hint,
+      ]),
+      _topic(context, M.obstructions.guide_directions, [
+        if (view.ready &&
+            view.map!.frame == ObstructionMapReferenceFrame.FRAME_UT &&
+            view.northAligned)
+          M.obstructions.dish_frame_hint,
+        if (view.ready &&
+            (view.map!.northUp ||
+                (view.map!.frame == ObstructionMapReferenceFrame.FRAME_UT &&
+                    view.orientation.attitude != null)))
+          M.obstructions.arrow_guide,
+        M.obstructions.orientation_hint,
+      ]),
+      _topic(context, M.obstructions.guide_collection, [
+        M.obstructions.collection_hint,
         M.obstructions.reception_hint,
-      ])
-        Padding(
-          padding: const EdgeInsets.only(bottom: 7),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Icon(
-                Icons.info_outline,
-                size: 14,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-              const SizedBox(width: 7),
-              Expanded(
-                child: Text(text, style: Theme.of(context).textTheme.bodySmall),
-              ),
-            ],
-          ),
-        ),
+      ]),
     ],
   );
 }

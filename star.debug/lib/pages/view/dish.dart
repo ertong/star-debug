@@ -30,8 +30,9 @@ class DishWidget extends StatefulWidget {
   final bool showActions;
   final bool forSnapshotImage;
   final bool statusVisible;
+  final bool showObstructionMap;
   final MapSourceMode sourceMode;
-  const DishWidget({super.key, required this.viewOptions, required this.snap, required this.sourceMode, this.showActions = false, this.statusVisible = true, this.forSnapshotImage = false});
+  const DishWidget({super.key, required this.viewOptions, required this.snap, required this.sourceMode, this.showActions = false, this.statusVisible = true, this.forSnapshotImage = false, this.showObstructionMap = true});
 
   @override
   State createState() => _DishWidgetState();
@@ -164,7 +165,7 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
 
   List<Widget> _buildBody(){
     if (!widget.statusVisible)
-      return [_buildObstructionMap()];
+      return [if (widget.showObstructionMap) _buildObstructionMap()];
 
     List<Widget> rows = [];
 
@@ -445,7 +446,8 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
         }
       }
 
-      rows.add(_buildObstructionMap());
+      if (widget.showObstructionMap)
+        rows.add(_buildObstructionMap());
 
       if (status.hasReadyStates()) {
         var b = KVWidgetBuilder(context, theme);
@@ -546,7 +548,7 @@ Widget buildGraph(String name, String unit, int current, int ts, List<double> da
   return SizedBox(
     height: 120,
     child: SfCartesianChart(
-        title: ChartTitle(text: "$name, ${data[900-1].toStringAsFixed(2)} $unit", textStyle: TextStyle(fontSize: 10)),
+        title: ChartTitle(text: "$name, ${data.last.toStringAsFixed(2)} $unit", textStyle: TextStyle(fontSize: 10)),
         primaryXAxis: CategoryAxis(),
         primaryYAxis: NumericAxis(minimum: 0, maximum: max),
         enableAxisAnimation: false,
