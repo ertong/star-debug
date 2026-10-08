@@ -473,8 +473,22 @@ class ShareExport {
   static String _key(String key) =>
       key.toLowerCase().replaceAll(RegExp(r'[^a-z0-9]'), '');
 
-  static bool _omit(String key, ViewOptions options) {
-    final k = _key(key).replaceFirst(RegExp(r'(list|map)$'), '');
+  static String _fieldKey(String key) =>
+      _key(key).replaceFirst(RegExp(r'(list|map)$'), '');
+
+  static bool _omit(String key, ViewOptions options, String context) {
+    final k = _fieldKey(key);
+    if (k == 'key' &&
+        {
+          'tls',
+          'onboardradiustlsconfig',
+          'onboardradiustlsconfigold',
+        }.contains(context))
+      return true;
+    if (options.hideRouterClients &&
+        k == 'leases' &&
+        {'dhcpservers', 'dhcpserver'}.contains(context))
+      return true;
     if (k.contains('password') ||
         k.contains('passphrase') ||
         k.contains('secret') ||
@@ -499,7 +513,11 @@ class ShareExport {
             k == 'clientconfigs' ||
             k == 'clienthistory' ||
             k == 'clientconfig' ||
-            k == 'clientname'))
+            k == 'clientname' ||
+            k == 'clientreconnectingoftenmetadata' ||
+            k == 'clientswitchingbandmetadata' ||
+            k == 'clientswitchingupstreammacmetadata' ||
+            k == 'clientexcessivenetworkconnectionsmetadata'))
       return true;
     if (options.hideIds &&
         (k == 'id' ||
@@ -585,20 +603,28 @@ class ShareExport {
     return false;
   }
 
-  static dynamic _sanitize(dynamic value, ViewOptions options) {
+  static dynamic _sanitize(
+    dynamic value,
+    ViewOptions options, [
+    String context = '',
+  ]) {
     if (value is Map) {
       return <String, dynamic>{
         for (final entry in value.entries)
-          if (!_omit('${entry.key}', options) &&
+          if (!_omit('${entry.key}', options, context) &&
               !_sensitiveValue('${entry.key}', options))
-            '${entry.key}': _sanitize(entry.value, options),
+            '${entry.key}': _sanitize(
+              entry.value,
+              options,
+              _fieldKey('${entry.key}'),
+            ),
       };
     }
     if (value is List) {
       return [
         for (final item in value)
           if (!(item is String && _sensitiveValue(item, options)))
-            _sanitize(item, options),
+            _sanitize(item, options, context),
       ];
     }
     if (value is String && _sensitiveValue(value, options)) return '';

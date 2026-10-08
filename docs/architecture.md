@@ -173,7 +173,9 @@ without accessing live services. The image renderer uses the same redacted copy 
 columns, avoiding intrinsic measurement of widgets containing `LayoutBuilder`.
 
 All formats retain the ID, MAC, IP, location, and router-client hide options; location and clients
-are hidden by default. Credentials are always removed. JSON exports decode recognized embedded
+are hidden by default. Client hiding removes DHCP leases and known per-client event metadata
+as well as client lists. Recognized credential fields, including TLS private keys, are always removed.
+JSON exports decode recognized embedded
 protobufs before removing `_proto`, so binary payloads cannot bypass redaction. Imported metadata
 is retained where possible, and the original snapshot is never modified. Diagnostic text includes
 status, configuration, history summaries, obstruction-map context, and online results. Both text

@@ -128,6 +128,331 @@ void main() {
     },
   );
 
+  test(
+    'typed DHCP clients are hidden while server health and config remain',
+    () {
+      final snap = Snapshot(
+        timestamp: 1000,
+        routerGetStatus: WifiGetStatusResponse(
+          pingLatencyMs: 3,
+          dhcpServers: [
+            DhcpServer(
+              domain: 'diagnostic.example',
+              subnet: '192.0.2.0/24',
+              ipExhausted: true,
+              leases: [
+                DhcpLease(
+                  hostname: 'synthetic-lease-client',
+                  ipAddress: '192.0.2.22',
+                  macAddress: '02:00:00:00:00:22',
+                  clientId: 123,
+                ),
+              ],
+            ),
+          ],
+          config: WifiConfig(
+            networks: [WifiConfig_Network(dhcpv4LeaseDurationS: 900)],
+          ),
+        ),
+      );
+      final before = snap.routerGetStatus!.writeToBuffer();
+      final copy = ShareExport.redactedSnapshot(
+        snap,
+        ViewOptions()..hideRouterClients = true,
+      );
+      expect(copy.routerGetStatus!.dhcpServers.single.leases, isEmpty);
+      expect(
+        copy.routerGetStatus!.dhcpServers.single.domain,
+        'diagnostic.example',
+      );
+      expect(copy.routerGetStatus!.dhcpServers.single.subnet, '192.0.2.0/24');
+      expect(copy.routerGetStatus!.dhcpServers.single.ipExhausted, isTrue);
+      expect(
+        copy.routerGetStatus!.config.networks.single.dhcpv4LeaseDurationS,
+        900,
+      );
+      expect(copy.routerGetStatus!.pingLatencyMs, 3);
+      expect(snap.routerGetStatus!.writeToBuffer(), before);
+      expect(
+        export(snap, ViewOptions()).text,
+        contains('synthetic-lease-client'),
+      );
+      for (final format in [ShareFormat.json, ShareFormat.diagnosticText]) {
+        final payload = export(
+          snap,
+          ViewOptions()..hideRouterClients = true,
+          format,
+        );
+        expect(payload.text, isNot(contains('synthetic-lease-client')));
+        expect(payload.text, contains('diagnostic.example'));
+      }
+    },
+  );
+
+  test('typed client event metadata is hidden while event health remains', () {
+    final events = [
+      UXEvent(
+        clientReconnectingOftenMetadata: ClientReconnectingOftenMetadata(
+          clientId: 701,
+        ),
+      ),
+      UXEvent(
+        clientSwitchingBandMetadata: ClientSwitchingBandMetadata(
+          clientId: 702,
+          fromBand: 'synthetic-private-band',
+        ),
+      ),
+      UXEvent(
+        clientSwitchingUpstreamMacMetadata: ClientSwitchingUpstreamMacMetadata(
+          clientId: 703,
+        ),
+      ),
+      UXEvent(
+        clientExcessiveNetworkConnectionsMetadata:
+            ClientExcessiveNetworkConnectionsMetadata(clientId: 704),
+      ),
+    ];
+    for (final event in events) {
+      event.severity = EventSeverity.EVENT_SEVERITY_WARNING;
+      event.reason = EventReason.EVENT_REASON_OUTAGE_OBSTRUCTED;
+    }
+    final snap = Snapshot(
+      timestamp: 1000,
+      dishGetHistory: DishGetHistoryResponse(
+        popPingLatencyMs: [1, 2, 3],
+        eventLog: EventLog(events: events),
+      ),
+    );
+    final before = snap.dishGetHistory!.writeToBuffer();
+    final hidden = ShareExport.redactedSnapshot(
+      snap,
+      ViewOptions()..hideRouterClients = true,
+    );
+    expect(hidden.dishGetHistory!.eventLog.events, hasLength(4));
+    for (final event in hidden.dishGetHistory!.eventLog.events) {
+      expect(event.whichMetadata(), UXEvent_Metadata.notSet);
+      expect(event.reason, EventReason.EVENT_REASON_OUTAGE_OBSTRUCTED);
+      expect(event.severity, EventSeverity.EVENT_SEVERITY_WARNING);
+    }
+    expect(hidden.dishGetHistory!.popPingLatencyMs, [1, 2, 3]);
+    expect(snap.dishGetHistory!.writeToBuffer(), before);
+    final report = export(
+      snap,
+      ViewOptions()..hideRouterClients = true,
+      ShareFormat.diagnosticText,
+    );
+    expect(report.text, contains(r'EVENT\_REASON\_OUTAGE\_OBSTRUCTED'));
+    expect(report.text, isNot(contains('synthetic-private-band')));
+    expect(
+      report.text,
+      isNot(contains('Client Reconnecting Often Metadata')),
+    );
+  });
+
+  test('typed TLS secrets always disappear while certificates remain', () {
+    final snap = Snapshot(
+      timestamp: 1000,
+      routerGetStatus: WifiGetStatusResponse(
+        config: WifiConfig(
+          httpServer: HttpServer(
+            domainName: 'safe.example',
+            tls: TlsConfig(
+              key: 'synthetic-http-secret',
+              cert: 'synthetic-http-cert',
+            ),
+          ),
+          networks: [
+            WifiConfig_Network(
+              onboardRadiusTlsConfig: TlsConfig(
+                key: 'synthetic-radius-secret',
+                cert: 'synthetic-radius-cert',
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+    final before = snap.routerGetStatus!.writeToBuffer();
+    final copy = ShareExport.redactedSnapshot(snap, ViewOptions());
+    expect(copy.routerGetStatus!.config.httpServer.tls.hasKey(), isFalse);
+    expect(
+      copy.routerGetStatus!.config.httpServer.tls.cert,
+      'synthetic-http-cert',
+    );
+    expect(
+      copy.routerGetStatus!.config.networks.single.onboardRadiusTlsConfig
+          .hasKey(),
+      isFalse,
+    );
+    for (final format in [ShareFormat.json, ShareFormat.diagnosticText]) {
+      final payload = export(snap, ViewOptions(), format);
+      expect(payload.text, isNot(contains('synthetic-http-secret')));
+      expect(payload.text, isNot(contains('synthetic-radius-secret')));
+      expect(payload.text, contains('synthetic-http-cert'));
+    }
+    expect(snap.routerGetStatus!.writeToBuffer(), before);
+  });
+
+  test(
+    'JSON layouts redact DHCP aliases, client events and contextual TLS keys',
+    () {
+      for (final layout in ['direct', 'status', 'rawStatus']) {
+        for (final suffix in ['', 'List']) {
+          final status = <String, dynamic>{
+            'dhcpServers$suffix': [
+              {
+                'domain': 'safe.example',
+                'ipExhausted': true,
+                'leases$suffix': [
+                  {'hostname': 'synthetic-hidden-host', 'clientId': 123},
+                ],
+              },
+            ],
+            'eventLog': {
+              'events$suffix': [
+                for (final metadata in [
+                  'clientReconnectingOftenMetadata',
+                  'clientSwitchingBandMetadata',
+                  'clientSwitchingUpstreamMacMetadata',
+                  'clientExcessiveNetworkConnectionsMetadata',
+                ])
+                  {
+                    'reason': 'diagnostic-reason',
+                    metadata: {'name': 'synthetic-client-event'},
+                  },
+              ],
+            },
+            'config': {
+              'networks$suffix': [
+                {
+                  'dhcpv4LeaseDurationS': 900,
+                  'onboardRadiusTlsConfig': {
+                    'key': 'synthetic-radius-secret',
+                    'cert': 'safe-cert',
+                  },
+                  'onboardRadiusTlsConfigOld': {
+                    'key': 'synthetic-old-secret',
+                    'cert': 'old-cert',
+                  },
+                },
+              ],
+              'httpServer': {
+                'tls': {'key': 'synthetic-http-secret', 'cert': 'http-cert'},
+              },
+            },
+          };
+          final raw = <String, dynamic>{
+            'router': layout == 'direct' ? status : {layout: status},
+            'diagnostics': {
+              'key': 'safe-generic-key',
+              'hostname': 'safe-hostname',
+              'leases': [
+                {'label': 'safe-resource-lease'},
+              ],
+            },
+          };
+          final before = jsonEncode(raw);
+          final snap = Snapshot(timestamp: 1000, debug_data: raw);
+          final visible = export(snap, ViewOptions()).text;
+          expect(visible, contains('synthetic-hidden-host'));
+          expect(visible, contains('synthetic-client-event'));
+          expect(visible, isNot(contains('synthetic-radius-secret')));
+          expect(visible, isNot(contains('synthetic-old-secret')));
+          expect(visible, isNot(contains('synthetic-http-secret')));
+          for (final format in [ShareFormat.json, ShareFormat.diagnosticText]) {
+            final payload = export(
+              snap,
+              ViewOptions()..hideRouterClients = true,
+              format,
+            );
+            expect(
+              payload.text,
+              isNot(contains('synthetic-hidden-host')),
+            );
+            expect(
+              payload.text,
+              isNot(contains('synthetic-client-event')),
+            );
+            expect(payload.text, contains('diagnostic-reason'));
+            expect(payload.text, contains('safe-cert'));
+            expect(payload.text, contains('old-cert'));
+            expect(payload.text, contains('safe.example'));
+            expect(payload.text, contains('safe-hostname'));
+            expect(payload.text, contains('safe-generic-key'));
+            expect(payload.text, contains('safe-resource-lease'));
+          }
+          expect(jsonEncode(raw), before);
+        }
+      }
+    },
+  );
+
+  test(
+    'binary and mixed router envelopes cannot bypass client or TLS privacy',
+    () {
+      final status = WifiGetStatusResponse(
+        deviceInfo: DeviceInfo(hardwareVersion: 'safe-router-hardware'),
+        pingLatencyMs: 3,
+        dhcpServers: [
+          DhcpServer(
+            domain: 'safe.example',
+            ipExhausted: true,
+            leases: [DhcpLease(hostname: 'synthetic-binary-client')],
+          ),
+        ],
+        config: WifiConfig(
+          httpServer: HttpServer(
+            tls: TlsConfig(
+              key: 'synthetic-binary-secret',
+              cert: 'safe-binary-cert',
+            ),
+          ),
+        ),
+      );
+      for (final mixed in [false, true]) {
+        final raw = <String, dynamic>{
+          'router': {
+            '_proto': base64Encode(status.writeToBuffer()),
+            if (mixed)
+              'rawStatus': {
+                'customHealthCounter': 7,
+                'dhcpServers': [
+                  {
+                    'leases': [
+                      {'hostname': 'synthetic-json-client'},
+                    ],
+                  },
+                ],
+                'config': {
+                  'httpServer': {
+                    'tls': {'key': 'synthetic-json-secret'},
+                  },
+                },
+              },
+          },
+        };
+        final before = jsonEncode(raw);
+        final payload = export(
+          Snapshot(timestamp: 1000, debug_data: raw),
+          ViewOptions()..hideRouterClients = true,
+        );
+        expect(payload.text, isNot(contains('synthetic-binary-client')));
+        expect(payload.text, isNot(contains('synthetic-json-client')));
+        expect(payload.text, isNot(contains('synthetic-binary-secret')));
+        expect(payload.text, isNot(contains('synthetic-json-secret')));
+        expect(payload.text, isNot(contains('_proto')));
+        expect(payload.text, contains('safe-binary-cert'));
+        expect(payload.text, contains('safe.example'));
+        if (mixed) expect(payload.text, contains('customHealthCounter'));
+        final parsed = SpaceParser.ofJsonStr(payload.text).toSnapshot();
+        expect(parsed.routerGetStatus!.dhcpServers.single.leases, isEmpty);
+        expect(parsed.routerGetStatus!.dhcpServers.single.ipExhausted, isTrue);
+        expect(parsed.routerGetStatus!.config.httpServer.tls.hasKey(), isFalse);
+        expect(jsonEncode(raw), before);
+      }
+    },
+  );
+
   test('compact inventory includes hardware and software versions', () {
     final snap = capture();
     snap.dishGetStatus!.deviceInfo.softwareVersion = 'dish-test-version';
