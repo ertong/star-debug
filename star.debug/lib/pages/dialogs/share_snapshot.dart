@@ -264,7 +264,7 @@ class _ShareSnapshotDialogState extends State<ShareSnapshotDialog> {
                             ? 'JSON'
                             : value == ShareFormat.screenshot
                             ? 'PNG'
-                            : 'TXT',
+                            : 'MD',
                         style: Theme.of(context).textTheme.labelSmall
                             ?.copyWith(color: colors.onSurfaceVariant),
                       ),
