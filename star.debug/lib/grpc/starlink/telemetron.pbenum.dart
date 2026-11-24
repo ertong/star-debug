@@ -46,5 +46,31 @@ class RateLimitReason extends $pb.ProtobufEnum {
   const RateLimitReason._(super.value, super.name);
 }
 
+class UserPowerSource_AutoEnum extends $pb.ProtobufEnum {
+  static const UserPowerSource_AutoEnum unknown =
+      UserPowerSource_AutoEnum._(0, _omitEnumNames ? '' : 'unknown');
+  static const UserPowerSource_AutoEnum usbc =
+      UserPowerSource_AutoEnum._(1, _omitEnumNames ? '' : 'usbc');
+  static const UserPowerSource_AutoEnum battery =
+      UserPowerSource_AutoEnum._(2, _omitEnumNames ? '' : 'battery');
+  static const UserPowerSource_AutoEnum usbc_and_battery =
+      UserPowerSource_AutoEnum._(3, _omitEnumNames ? '' : 'usbc_and_battery');
+
+  static const $core.List<UserPowerSource_AutoEnum> values =
+      <UserPowerSource_AutoEnum>[
+    unknown,
+    usbc,
+    battery,
+    usbc_and_battery,
+  ];
+
+  static final $core.List<UserPowerSource_AutoEnum?> _byValue =
+      $pb.ProtobufEnum.$_initByValueList(values, 3);
+  static UserPowerSource_AutoEnum? valueOf($core.int value) =>
+      value < 0 || value >= _byValue.length ? null : _byValue[value];
+
+  const UserPowerSource_AutoEnum._(super.value, super.name);
+}
+
 const $core.bool _omitEnumNames =
     $core.bool.fromEnvironment('protobuf.omit_enum_names');

@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:star_debug/grpc/starlink/network.pbenum.dart';
 import 'package:star_debug/grpc/starlink/starlink.pb.dart';
+import 'package:star_debug/grpc/starlink/telemetron.pb.dart';
 import 'package:star_debug/grpc/starlink/unlock.pb.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/space/space_parser.dart';
@@ -75,6 +76,55 @@ void main() {
       diagnostics.disablementCode,
       DishGetDiagnosticsResponse_DisablementCode.OUTSIDE_HOME_REGION,
     );
+  });
+
+  test('dish power-source fields decode with the dump wire tags', () {
+    // power_source_stats: tag 1059 {battery_stats: tag 2 {state_of_charge 80,
+    // battery_attached true}, power_source: tag 4 usbc_and_battery};
+    // battery_ut_power_off_rf_idle_active: tag 1060;
+    // legacy battery_stats: tag 1054 {state_of_charge 55}, still sent by
+    // firmware that predates power_source_stats.
+    var status = DishGetStatusResponse.fromBuffer([
+      0x9a, 0x42, 0x08, 0x12, 0x04, 0x08, 0x50, 0x20, 0x01, 0x20, 0x03, //
+      0xa0, 0x42, 0x01, //
+      0xf2, 0x41, 0x02, 0x08, 0x37,
+    ]);
+    expect(status.powerSourceStats.batteryStats.stateOfCharge, 80);
+    expect(status.powerSourceStats.batteryStats.batteryAttached, isTrue);
+    expect(
+      status.powerSourceStats.powerSource,
+      UserPowerSource_AutoEnum.usbc_and_battery,
+    );
+    expect(status.batteryUtPowerOffRfIdleActive, isTrue);
+    expect(status.batteryStats.stateOfCharge, 55);
+    expect(status.unknownFields.isEmpty, isTrue);
+  });
+
+  test('wifi channel lists decode with the dump wire tags', () {
+    // channels_5ghz: tag 2 {current_channel 100, channels: tag 6
+    // {dfs_nop_info: map tag 4 {52: {1500, 1800}}, acs_selected: tag 6 {36}}}.
+    var channels = WifiGetChannelsResponse.fromBuffer([
+      0x12, 0x14, 0x20, 0x64, 0x32, 0x10, 0x22, 0x0a, 0x08, 0x34, 0x12, //
+      0x06, 0x08, 0xdc, 0x0b, 0x10, 0x88, 0x0e, 0x32, 0x02, 0x08, 0x24,
+    ]);
+    var radio = channels.channels5ghz;
+    expect(radio.currentChannel, 100);
+    expect(radio.channels.dfsNopInfo[52]!.remainingSeconds, 1500);
+    expect(radio.channels.dfsNopInfo[52]!.totalSeconds, 1800);
+    expect(radio.channels.hasAcsSelected(), isTrue);
+    expect(radio.channels.acsSelected.value, 36);
+
+    // wifi_get_channels request: tag 3038.
+    var request = Request.fromBuffer([0xf2, 0xbd, 0x01, 0x00]);
+    expect(request.whichRequest(), Request_Request.wifiGetChannels);
+
+    // toggle_mode_status response: tag 7002 {current 2, allowed 3}.
+    var response = Response.fromBuffer([
+      0xd2, 0xb5, 0x03, 0x04, 0x08, 0x02, 0x10, 0x03, //
+    ]);
+    expect(response.whichResponse(), Response_Response.toggleModeStatus);
+    expect(response.toggleModeStatus.currentNetwork, 2);
+    expect(response.toggleModeStatus.allowedNetwork, 3);
   });
 
   test('legacy roaming alert bytes remain unknown and survive re-encoding', () {

@@ -800,8 +800,22 @@ class RebootReason extends $pb.ProtobufEnum {
   @$core.Deprecated('This enum value is deprecated')
   static const RebootReason REBOOT_REASON_MINI2_AUTO_OFF =
       RebootReason._(18, _omitEnumNames ? '' : 'REBOOT_REASON_MINI2_AUTO_OFF');
+  @$core.Deprecated('This enum value is deprecated')
   static const RebootReason REBOOT_REASON_BATTERY_AUTO_OFF = RebootReason._(
       19, _omitEnumNames ? '' : 'REBOOT_REASON_BATTERY_AUTO_OFF');
+  static const RebootReason REBOOT_REASON_BATTERY_LOSS_OF_EXT_POWER_AUTO_OFF =
+      RebootReason._(
+          20,
+          _omitEnumNames
+              ? ''
+              : 'REBOOT_REASON_BATTERY_LOSS_OF_EXT_POWER_AUTO_OFF');
+  static const RebootReason REBOOT_REASON_BATTERY_NO_BURST_AUTO_OFF =
+      RebootReason._(
+          21, _omitEnumNames ? '' : 'REBOOT_REASON_BATTERY_NO_BURST_AUTO_OFF');
+  static const RebootReason REBOOT_REASON_BUTTON_POWER_OFF = RebootReason._(
+      22, _omitEnumNames ? '' : 'REBOOT_REASON_BUTTON_POWER_OFF');
+  static const RebootReason REBOOT_REASON_MCU_BUTTON_POWER_OFF = RebootReason._(
+      23, _omitEnumNames ? '' : 'REBOOT_REASON_MCU_BUTTON_POWER_OFF');
   static const RebootReason REBOOT_REASON_HARD_POWER_DOWN = RebootReason._(
       100, _omitEnumNames ? '' : 'REBOOT_REASON_HARD_POWER_DOWN');
   static const RebootReason REBOOT_REASON_ERROR_FILE_MISSING = RebootReason._(
@@ -838,6 +852,10 @@ class RebootReason extends $pb.ProtobufEnum {
     REBOOT_REASON_KERNEL_TAINTED,
     REBOOT_REASON_MINI2_AUTO_OFF,
     REBOOT_REASON_BATTERY_AUTO_OFF,
+    REBOOT_REASON_BATTERY_LOSS_OF_EXT_POWER_AUTO_OFF,
+    REBOOT_REASON_BATTERY_NO_BURST_AUTO_OFF,
+    REBOOT_REASON_BUTTON_POWER_OFF,
+    REBOOT_REASON_MCU_BUTTON_POWER_OFF,
     REBOOT_REASON_HARD_POWER_DOWN,
     REBOOT_REASON_ERROR_FILE_MISSING,
     REBOOT_REASON_ERROR_CRC_MISMATCH,
@@ -1121,6 +1139,24 @@ class EventReason extends $pb.ProtobufEnum {
   static const EventReason EVENT_REASON_ROUTER_WAN_ETH_DOWN_FDIR =
       EventReason._(
           53, _omitEnumNames ? '' : 'EVENT_REASON_ROUTER_WAN_ETH_DOWN_FDIR');
+  static const EventReason EVENT_REASON_UT_ALERT_BATTERY_NEAR_TEMP_SHUTDOWN =
+      EventReason._(
+          54,
+          _omitEnumNames
+              ? ''
+              : 'EVENT_REASON_UT_ALERT_BATTERY_NEAR_TEMP_SHUTDOWN');
+  static const EventReason
+      EVENT_REASON_UT_ALERT_BATTERY_TEMP_CHARGING_DISABLED = EventReason._(
+          55,
+          _omitEnumNames
+              ? ''
+              : 'EVENT_REASON_UT_ALERT_BATTERY_TEMP_CHARGING_DISABLED');
+  static const EventReason EVENT_REASON_UT_ALERT_BATTERY_TEMP_CHARGING_CAPPED =
+      EventReason._(
+          56,
+          _omitEnumNames
+              ? ''
+              : 'EVENT_REASON_UT_ALERT_BATTERY_TEMP_CHARGING_CAPPED');
 
   static const $core.List<EventReason> values = <EventReason>[
     EVENT_REASON_UNKNOWN,
@@ -1177,10 +1213,13 @@ class EventReason extends $pb.ProtobufEnum {
     EVENT_REASON_ROUTER_MESH_BACKHAUL_FLAPPING,
     EVENT_REASON_UT_ALERT_USER_REPORTED_ISSUE,
     EVENT_REASON_ROUTER_WAN_ETH_DOWN_FDIR,
+    EVENT_REASON_UT_ALERT_BATTERY_NEAR_TEMP_SHUTDOWN,
+    EVENT_REASON_UT_ALERT_BATTERY_TEMP_CHARGING_DISABLED,
+    EVENT_REASON_UT_ALERT_BATTERY_TEMP_CHARGING_CAPPED,
   ];
 
   static final $core.List<EventReason?> _byValue =
-      $pb.ProtobufEnum.$_initByValueList(values, 53);
+      $pb.ProtobufEnum.$_initByValueList(values, 56);
   static EventReason? valueOf($core.int value) =>
       value < 0 || value >= _byValue.length ? null : _byValue[value];
 
@@ -1958,6 +1997,32 @@ class WifiConfig_HTBandwidth extends $pb.ProtobufEnum {
   const WifiConfig_HTBandwidth._(super.value, super.name);
 }
 
+class WifiConfig_MultiTenantRole extends $pb.ProtobufEnum {
+  static const WifiConfig_MultiTenantRole MULTI_TENANT_ROLE_NONE =
+      WifiConfig_MultiTenantRole._(
+          0, _omitEnumNames ? '' : 'MULTI_TENANT_ROLE_NONE');
+  static const WifiConfig_MultiTenantRole MULTI_TENANT_ROLE_HOST =
+      WifiConfig_MultiTenantRole._(
+          1, _omitEnumNames ? '' : 'MULTI_TENANT_ROLE_HOST');
+  static const WifiConfig_MultiTenantRole MULTI_TENANT_ROLE_TENANT =
+      WifiConfig_MultiTenantRole._(
+          2, _omitEnumNames ? '' : 'MULTI_TENANT_ROLE_TENANT');
+
+  static const $core.List<WifiConfig_MultiTenantRole> values =
+      <WifiConfig_MultiTenantRole>[
+    MULTI_TENANT_ROLE_NONE,
+    MULTI_TENANT_ROLE_HOST,
+    MULTI_TENANT_ROLE_TENANT,
+  ];
+
+  static final $core.List<WifiConfig_MultiTenantRole?> _byValue =
+      $pb.ProtobufEnum.$_initByValueList(values, 2);
+  static WifiConfig_MultiTenantRole? valueOf($core.int value) =>
+      value < 0 || value >= _byValue.length ? null : _byValue[value];
+
+  const WifiConfig_MultiTenantRole._(super.value, super.name);
+}
+
 class WifiConfig_Security extends $pb.ProtobufEnum {
   static const WifiConfig_Security UNKNOWN =
       WifiConfig_Security._(0, _omitEnumNames ? '' : 'UNKNOWN');
@@ -2618,6 +2683,9 @@ class DishGetDiagnosticsResponse_TestResultCode extends $pb.ProtobufEnum {
   static const DishGetDiagnosticsResponse_TestResultCode VTSENS =
       DishGetDiagnosticsResponse_TestResultCode._(
           19, _omitEnumNames ? '' : 'VTSENS');
+  static const DishGetDiagnosticsResponse_TestResultCode PERIPHERAL =
+      DishGetDiagnosticsResponse_TestResultCode._(
+          20, _omitEnumNames ? '' : 'PERIPHERAL');
 
   static const $core.List<DishGetDiagnosticsResponse_TestResultCode> values =
       <DishGetDiagnosticsResponse_TestResultCode>[
@@ -2641,10 +2709,11 @@ class DishGetDiagnosticsResponse_TestResultCode extends $pb.ProtobufEnum {
     SCP_ERROR,
     TEMPERATURE,
     VTSENS,
+    PERIPHERAL,
   ];
 
   static final $core.List<DishGetDiagnosticsResponse_TestResultCode?> _byValue =
-      $pb.ProtobufEnum.$_initByValueList(values, 19);
+      $pb.ProtobufEnum.$_initByValueList(values, 20);
   static DishGetDiagnosticsResponse_TestResultCode? valueOf($core.int value) =>
       value < 0 || value >= _byValue.length ? null : _byValue[value];
 

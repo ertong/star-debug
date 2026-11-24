@@ -13,3 +13,13 @@ enum RateLimitReason {
   reserved 4;
   reserved "HIGH_HOURLY_AVG_LIMIT";
 }
+
+//SpaceX.API.Telemetron.Public.Integrations.UserPowerSource is a message:
+message UserPowerSource {
+  enum AutoEnum {
+    unknown = 0;
+    usbc = 1;
+    battery = 2;
+    usbc_and_battery = 3;
+  }
+}
