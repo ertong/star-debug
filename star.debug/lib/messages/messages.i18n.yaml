@@ -129,6 +129,11 @@ live:
   event_repeater_ids: Repeater IDs
   event_change: Change
   event_overlapping_bss: Overlapping networks
+  status: Status
+  connecting: connecting
+  battery_full_in(t): full in $t
+  battery_time_left(t): $t left
+  signal_quality_details: Open signal quality details
 
 header:
   general: General
@@ -291,6 +296,29 @@ grpc:
     state_of_charge: Battery charge
     is_charging: Charging
     power_source: Power source
+    power_source__hint: |
+      The possible options are:
+
+      - **usbc** - The dish is powered through its USB-C port.
+      - **battery** - The dish is running on its battery.
+      - **usbc_and_battery** - USB-C power and the battery are both in use.
+    battery_attached: Battery attached
+    battery_attached__hint: Whether a battery is attached. Starlink Mini 2 can also run without it.
+    power_w: Battery power, W
+    power_w__hint: Current battery power reported by the dish. The protocol does not document whether the sign differs between charging and discharging.
+    time_to_charge_minutes: Time to full charge
+    time_to_empty_minutes: Time to empty
+    temperature_c: Battery temperature, °C
+
+  DishUsbcStats:
+    power_w: USB-C power, W
+    power_w__hint: Current power on the dish USB-C port.
+    max_power_w: USB-C max power, W
+    max_power_w__hint: Maximum power the connected USB-C power supply can deliver. Starlink recommends a 100 W (20 V / 5 A) USB-PD source for Starlink Mini.
+    source_detected: USB-C power source detected
+    source_detected__hint: A power supply connected to the USB-C port is charging or powering the dish.
+    sink_detected: Powering a USB-C device
+    sink_detected__hint: The dish supplies power through its USB-C port to a connected device, working as a power bank (Starlink Mini 2).
 
   DishReadyStates:
     cady: Clock generator
@@ -351,6 +379,12 @@ grpc:
     power_save_mode: Power save mode
     power_save_mode__hint: |-
       You can set a sleep mode for your Starlink. Starlink won't provide Internet or melt snow while sleeping.
+    swupdate_reboot_hour: Software update reboot time
+    swupdate_reboot_hour__hint: Hour, in the dish's local time, at which the dish reboots to install downloaded software updates. You can select it in the Starlink app; the default is around 3:00.
+    loss_of_ext_power_auto_off: Auto-off after losing external power
+    loss_of_ext_power_auto_off__hint: When enabled, a dish running on its battery turns off after external power has been lost for the shown time. The behavior is inferred from the protocol; the reboot reason after such a shutdown is BATTERY_LOSS_OF_EXT_POWER_AUTO_OFF.
+    no_burst_auto_off: Auto-off without satellite signal
+    no_burst_auto_off__hint: When enabled, a dish running on its battery turns off after receiving no satellite bursts for the shown time, saving battery when there is no service. The behavior is inferred from the protocol; the reboot reason after such a shutdown is BATTERY_NO_BURST_AUTO_OFF.
 
   DishObstructionStats:
     fraction_obstructed: Fraction obstructed
@@ -373,7 +407,10 @@ grpc:
   DishGetStatus:
     uptime_s: Uptime
     signal_quality: Signal quality
-    signal_quality__hint: Signal quality reported by the dish.
+    signal_quality__hint: |
+      Signal quality reported by the dish, shown as a percentage: 0 % means no signal and 100 % an ideal signal. The dish sends a value from 0 to 1. It is not a raw SNR value, and how the dish calculates it is not documented.
+
+      Colors are the app's own estimate: green from 80 %, amber from 25 %, red below 25 %. For example, a Starlink Mini under trees reports about 50–70 %.
     uptime_s__hint: Time the dish has been running since the last reboot.
     seconds_to_first_nonempty_slot: Seconds to first non-empty slot
     seconds_to_first_nonempty_slot__hint: Time until the dish has its next scheduled communication slot with a satellite.
@@ -391,6 +428,10 @@ grpc:
     nat_flag: NAT
     user_debug_mode_enabled: User debug mode
     treat_as_metered: Metered connection
+    battery_ut_power_off_rf_idle_active: Radio idle before power-off
+    battery_ut_power_off_rf_idle_active__hint: The dish has idled its radio, presumably as part of a battery auto power-off. The meaning is inferred from the field name.
+    battery_ut_insufficient_power_rf_idle_active: Radio idle, insufficient power
+    battery_ut_insufficient_power_rf_idle_active__hint: The dish has idled its radio because the available power is insufficient, for example a weak USB-C source or a low battery. The meaning is inferred from the field name.
 
     downlink_throughput_bps: Downlink Throughput
     uplink_throughput_bps: Uplink Throughput
@@ -447,6 +488,8 @@ grpc:
       - **REBOOT_REQUIRED** - Update is ready, reboot is needed to apply.
       - **DISABLED** - Software updates are disabled.
       - **FAULTED** - Software update process has faulted.
+    seconds_until_swupdate_reboot_possible: Update reboot possible in
+    seconds_until_swupdate_reboot_possible__hint: Time until the dish may reboot to install a software update. The dish reports -1 when no such reboot is pending. The meaning is inferred from the field name.
     is_snr_persistently_low: SNR persistently low
     is_snr_persistently_low__hint: Whether the Signal-to-Noise Ratio has been consistently below acceptable levels. May indicate obstructions or hardware issues.
     has_actuators: Actuators
@@ -509,7 +552,11 @@ grpc:
       - **INE_FAILED** - Initial network entry failed.
       - **KERNEL_TAINTED** - The kernel was tainted (e.g. by a module error).
       - **MINI2_AUTO_OFF** - Legacy automatic power-off reason (deprecated).
-      - **BATTERY_AUTO_OFF** - Automatic power-off related to battery operation.
+      - **BATTERY_AUTO_OFF** - Legacy automatic power-off related to battery operation (deprecated; replaced by the two reasons below).
+      - **BATTERY_LOSS_OF_EXT_POWER_AUTO_OFF** - The dish turned itself off while running on battery after losing external power. See *Auto-off after losing external power* in Config.
+      - **BATTERY_NO_BURST_AUTO_OFF** - The dish turned itself off while running on battery after receiving no satellite signal. See *Auto-off without satellite signal* in Config.
+      - **BUTTON_POWER_OFF** - The dish was turned off with its power button.
+      - **MCU_BUTTON_POWER_OFF** - Power-off by button, handled by the dish's power-management microcontroller (MCU). The difference from BUTTON_POWER_OFF is not documented.
   AlignmentStats:
     has_actuators: has_actuators
     actuator_state: actuator_state
@@ -756,6 +803,10 @@ obstructions:
   recorded_obstructions: "No-signal cells recorded"
   no_blocked_cells: "No blocked cells recorded"
   dish_fraction: "Dish obstruction fraction"
+  time_obstructed: "Time obstructed (dish)"
+  map_validity: "Map validity (dish)"
+  map_valid: "Valid"
+  map_not_valid: "Not valid"
   average_duration: "Avg. prolonged obstruction"
   average_interval: "Avg. time between prolonged obstructions"
   collection_time: "Valid data duration (dish)"
@@ -790,6 +841,8 @@ obstructions:
   patterns_hint: "Persistent no-signal regions can help compare mounting locations. The map alone cannot identify what caused a no-signal region or predict downtime. Starlink can switch to satellites in unobstructed directions when available."
   patch_hint: "A patch groups no-signal cells that touch along an edge. Its cell count does not measure a physical obstacle. Map and sector percentages do not represent equal areas of sky."
   dish_fraction_hint: "The dish obstruction fraction is reported separately by the dish. Its calculation may differ from the map’s blocked-cell percentage."
+  time_obstructed_hint: "Time obstructed is the dish-reported fraction of time its signal was obstructed. It is reported separately from the obstruction fraction and the map’s blocked-cell percentage."
+  map_validity_hint: "Map validity is the dish’s own flag for its obstruction map. It is shown only when the dish reports it; older firmware does not."
   orientation_hint: "Azimuth is clockwise from true north (0°); east is 90°. Elevation is above the horizon: 0° is horizontal, 90° straight up. Target angles are the dish-reported alignment goal. Differences are target minus dish, with azimuth wrapped to ±180°."
   reception_hint: "Reception times date the map and status responses, not individual observations in the accumulated map."
   collection_hint: "The map fills as the dish communicates with satellites and continues to update. Initial collection can take hours; gaps alone do not show an obstruction."

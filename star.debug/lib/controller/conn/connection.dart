@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:star_debug/utils/log_utils.dart';
 
+// ignore: unused_element
 const String _TAG = "ConnectionHolder";
 
 class BaseConnection {
@@ -90,6 +91,14 @@ class PooledRequest <T> {
 
   bool hasRecentData(){
     return data!=null && DateTime.now().millisecondsSinceEpoch-receivedTime<5000;
+  }
+
+  /// Forget the response and its timing so a new session starts empty.
+  void clear() {
+    apiVersion = 0;
+    data = null;
+    receivedTime = 0;
+    sentTime = 0;
   }
 
   void setData(int now, T data, int apiVersion) {

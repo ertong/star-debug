@@ -35,7 +35,7 @@ class _SilentDishConnection extends Fake implements DishConnection {
   @override
   String get host => '192.0.2.1';
   @override
-  grpc.ConnectionState get connState => grpc.ConnectionState.ready;
+  grpc.ConnectionState connState = grpc.ConnectionState.ready;
 }
 
 DishGetObstructionMapResponse _map() => DishGetObstructionMapResponse(
@@ -110,6 +110,47 @@ void main() {
     await tester.pumpWidget(const MaterialApp(home: SizedBox()));
     await tester.pump(const Duration(seconds: 3));
     expect(R.dishHolder.listened, 0);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('DishTab shows the live map only while connected', (
+    tester,
+  ) async {
+    final connection = _SilentDishConnection()
+      ..connState = grpc.ConnectionState.connecting;
+    final received = DateTime.now().millisecondsSinceEpoch;
+    connection.dishGetStatus.setData(
+      received,
+      DishGetStatusResponse(signalQuality: 0.75),
+      1,
+    );
+    connection.dishGetObstructionMap.setData(received, _map(), 1);
+    R.dishHolder = ConnectionHolder<DishConnection>(
+      (_) => throw StateError('No connection should be started'),
+      () {},
+    )..conn = connection;
+    R.routerHolder = ConnectionHolder(
+      (_) => throw StateError('No router should be started'),
+      () {},
+    );
+    await tester.pumpWidget(const MaterialApp(home: Scaffold(body: DishTab())));
+    final source = find.byKey(const Key('dish-obstruction-source'));
+    expect(source, findsNothing);
+
+    connection.connState = grpc.ConnectionState.ready;
+    await tester.pump(const Duration(seconds: 1));
+    expect(source, findsOneWidget);
+    await _openDetails(tester);
+
+    // Losing the channel removes the map and its open details dialog.
+    connection.connState = grpc.ConnectionState.connecting;
+    await tester.pump(const Duration(seconds: 1));
+    await tester.pumpAndSettle();
+    expect(source, findsNothing);
+    expect(find.byType(Dialog), findsNothing);
+
+    await tester.pumpWidget(const MaterialApp(home: SizedBox()));
+    await tester.pump(const Duration(seconds: 3));
     expect(tester.takeException(), isNull);
   });
 

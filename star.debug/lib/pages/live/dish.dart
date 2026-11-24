@@ -4,6 +4,7 @@ import 'package:material_ui/material_ui.dart' hide Notification, Card, Connectio
 import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/pages/live.dart';
 import 'package:star_debug/pages/view/dish.dart';
+import 'package:star_debug/pages/view/status_series_graph.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:grpc/grpc.dart';
 import 'package:star_debug/utils/kv_widget.dart';
@@ -12,6 +13,7 @@ import 'package:star_debug/utils/view_options.dart';
 import 'package:star_debug/widgets/connection_error_log.dart';
 import '../view/common.dart';
 
+// ignore: unused_element
 const String _TAG="DishTab";
 
 class DishTab extends StatefulWidget {
@@ -30,6 +32,7 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
   int lastGraphTime = 0;
 
   List<Widget> charts = [];
+  final seriesGraph = LiveSeriesGraph();
 
   bool eventLogExpand = false;
 
@@ -48,6 +51,8 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
   }
 
   void buildCharts(){
+    seriesGraph.update(R.dish?.dishGetStatus.data?.deviceInfo.id);
+
     var history = R.dish?.dishGetHistory.data;
     var time = R.dish?.dishGetHistory.receivedTime ?? 0;
     var now = DateTime.now().millisecondsSinceEpoch;
@@ -105,7 +110,8 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
     }
 
     final statusFresh = conn.dishGetStatus.data!=null && now-conn.dishGetStatus.receivedTime<5000;
-    if (conn.dishGetStatus.data!=null || conn.dishGetObstructionMap.data!=null) {
+    final connected = conn.connState==ConnectionState.ready;
+    if (connected && (conn.dishGetStatus.data!=null || conn.dishGetObstructionMap.data!=null)) {
       rows.add(DishWidget(
         key: Key('live-dish-view'),
         snap: buildLiveSnapshot(),
@@ -121,10 +127,13 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
         setState(() { eventLogExpand = log; });
       },);
 
-      if (charts.isNotEmpty) {
+      var seriesChart = seriesGraph.chart;
+      if (charts.isNotEmpty || seriesChart!=null) {
         var b = KVWidgetBuilder(context, theme);
         b.header(M.general.charts);
 
+        if (seriesChart!=null)
+          b.widgets.add(seriesChart);
         b.widgets.addAll(charts);
 
         rows.addAll(b.widgets);

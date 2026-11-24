@@ -8,7 +8,10 @@ import 'package:star_debug/space/device_app.dart';
 import 'package:star_debug/space/space_parser.dart';
 import 'package:star_debug/utils/debug_data.dart';
 import 'package:star_debug/utils/log_utils.dart';
+import 'package:star_debug/utils/status_series.dart';
+import 'package:star_debug/utils/status_series_codec.dart';
 
+// ignore: unused_element
 const String _TAG = "Snapshot";
 
 class Snapshot {
@@ -34,6 +37,9 @@ class Snapshot {
   final GetLocationResponse? dishGetLocationGPS;
   final GetLocationResponse? dishGetLocationStarlink;
 
+  /// App-sampled status values; see [StatusSeries]. Absent for external debug data.
+  final StatusSeries? statusSeries;
+
   final Map<String, dynamic>? onlineJson;
   final DeviceApp? deviceApp;
 
@@ -57,6 +63,7 @@ class Snapshot {
       this.dishGetHistory,
       this.dishGetLocationGPS,
       this.dishGetLocationStarlink,
+      this.statusSeries,
       this.deviceApp,
       this.debug_data,
       this.onlineJson
@@ -137,6 +144,7 @@ class Snapshot {
       onlineJson: onlineJson,
       historyTs: row.timestamp, // todo
       dishGetHistory: history,
+      statusSeries: StatusSeriesCodec.fromMsgPack(row.statusSeries),
     );
 
   }

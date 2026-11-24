@@ -15,6 +15,7 @@ import 'package:star_debug/utils/log_utils.dart';
 import 'package:star_debug/utils/obstruction_map_rendering.dart';
 import 'package:star_debug/widgets/app_drawer_pop_scope.dart';
 
+// ignore: unused_element
 const String _TAG = "DebugPage";
 
 class DebugPage extends StatefulWidget {
@@ -372,7 +373,7 @@ class _DebugPageState extends State<DebugPage> with TickerProviderStateMixin {
     bool router = false,
   }) async {
     final channel = ClientChannel(
-      router ? '192.168.1.1' : '192.168.100.1',
+      router ? R.prefs.data.effectiveRouterIp : R.prefs.data.effectiveDishIp,
       port: router ? 9000 : 9200,
       options: ChannelOptions(
         credentials: ChannelCredentials.insecure(),

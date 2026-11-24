@@ -1,6 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:star_debug/utils/log_utils.dart';
 
+// ignore: unused_element
 const String _TAG = "StarChannel";
 
 class StarChannel {

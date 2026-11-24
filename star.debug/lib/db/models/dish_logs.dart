@@ -19,4 +19,7 @@ class DishLogs extends Table {
   IntColumn get obstructionMapApiVersion => integer().nullable()();
   BlobColumn get wifiStatusJson => blob().nullable()();
   TextColumn get onlineJson => text().nullable()();
+
+  // app-sampled status values, MessagePack (StatusSeriesCodec)
+  BlobColumn get statusSeries => blob().nullable()();
 }

@@ -158,6 +158,9 @@ void main() {
         );
       }
       await before.customStatement(
+        'ALTER TABLE dish_logs DROP COLUMN status_series',
+      );
+      await before.customStatement(
         'ALTER TABLE dishes DROP COLUMN last_automatic_snapshot_ts',
       );
       await before.customStatement('PRAGMA user_version = $version');

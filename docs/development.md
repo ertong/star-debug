@@ -20,6 +20,26 @@ network access to the Starlink subnets. The defaults are `192.168.100.1` for the
 Firebase initializes only on Android and iOS. Desktop development does not require Firebase
 startup, but platform plugin availability can still differ. iOS builds require iOS 16.0 or later.
 
+### One checkout from WSL and Windows
+
+Flutter and Gradle write absolute SDK and pub-cache paths into ignored files such as
+`.dart_tool/package_config.json`, `.flutter-plugins-dependencies`, `android/local.properties`, and
+desktop `ephemeral` directories. On a checkout stored on a Windows drive, a Linux SDK in WSL and a
+Windows SDK in Android Studio would overwrite each other's paths.
+
+[`star.debug/wsl_mounts.sh`](../star.debug/wsl_mounts.sh) gives WSL its own copies: it bind-mounts
+each of these paths, inside WSL only, from the git-ignored `star.debug/.cache/wsl/`. Windows keeps
+seeing its own files at the same paths. Run it from WSL as root or with sudo:
+
+```sh
+star.debug/wsl_mounts.sh install   # systemd service: mount now and at every WSL start
+star.debug/wsl_mounts.sh           # or mount once; repeat after each WSL restart
+star.debug/wsl_mounts.sh status
+```
+
+`build-wsl` shares WSL's `build` copy, because `flutter test` reads test assets from
+`build/unit_test_assets` even when `flutter config --build-dir` names another directory.
+
 Follow the [Change scope rules](../AGENTS.md#change-scope): preserve surrounding style and
 pre-existing changes, and review each diff hunk for task relevance.
 
@@ -86,6 +106,20 @@ icons from `star.debug/` with:
 ```sh
 flutter pub run flutter_launcher_icons
 ```
+
+## Deprecated gRPC fields
+
+Code and tests that use a protobuf field, enum value, or message that Starlink firmware deprecated
+or reserved carry a `grpc-deprecated(<when>)` comment. It names the field and the firmware, API
+version, or proto dump that first deprecated it. Fields that a newer dump reserves but an older
+device dump still serves stay in `_misc/starlink.proto` with the same tag. To drop support,
+search for `grpc-deprecated`, remove the fallback code and its tests, and mark the field `reserved`
+in the proto.
+
+The analyzer does not report uses of deprecated generated members from this package by default.
+To list them, temporarily enable the `deprecated_member_use_from_same_package` lint in
+`analysis_options.yaml` and run `flutter analyze`. Fields kept only by a `grpc-deprecated` proto
+comment are not marked deprecated, so search for those by name.
 
 ## Localization workflow
 
@@ -181,7 +215,8 @@ documentation, or source control.
 
 - Run Flutter, Dart, and fixture-based tests from `star.debug/`, not the repository root.
 - After switching host operating systems, regenerate ignored package configuration with
-  `flutter pub get`; cached paths from another host can fail before tests execute.
+  `flutter pub get`; cached paths from another host can fail before tests execute. For WSL and
+  Windows on one checkout, use [`wsl_mounts.sh`](#one-checkout-from-wsl-and-windows) instead.
 - `msg.sh` needs the existing root `.venv`; unlike `_misc/protoc.sh`, it does not bootstrap it.
 - Import `package:material_ui/material_ui.dart`, not the deprecated
   `package:flutter/material.dart`. Their `ThemeData` types differ, so a package API that takes

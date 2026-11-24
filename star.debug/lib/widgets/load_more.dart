@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:material_ui/material_ui.dart';
 import 'package:star_debug/utils/log_utils.dart';
 
+// ignore: unused_element
 const String _TAG="LoadMore";
 
 class LoadMore<TItem> extends StatefulWidget {

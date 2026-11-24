@@ -667,6 +667,31 @@ class LiveMessages {
   /// "Overlapping networks"
   /// ```
   String get event_overlapping_bss => """Overlapping networks""";
+
+  /// ```dart
+  /// "Status"
+  /// ```
+  String get status => """Status""";
+
+  /// ```dart
+  /// "connecting"
+  /// ```
+  String get connecting => """connecting""";
+
+  /// ```dart
+  /// "full in $t"
+  /// ```
+  String battery_full_in(t) => """full in $t""";
+
+  /// ```dart
+  /// "$t left"
+  /// ```
+  String battery_time_left(t) => """$t left""";
+
+  /// ```dart
+  /// "Open signal quality details"
+  /// ```
+  String get signal_quality_details => """Open signal quality details""";
 }
 
 class HeaderMessages {
@@ -966,6 +991,8 @@ class GrpcMessages {
   DishGpsStatsGrpcMessages get DishGpsStats => DishGpsStatsGrpcMessages(this);
   DishBatteryStatsGrpcMessages get DishBatteryStats =>
       DishBatteryStatsGrpcMessages(this);
+  DishUsbcStatsGrpcMessages get DishUsbcStats =>
+      DishUsbcStatsGrpcMessages(this);
   DishReadyStatesGrpcMessages get DishReadyStates =>
       DishReadyStatesGrpcMessages(this);
   DishInitDurationGrpcMessages get DishInitDuration =>
@@ -1259,6 +1286,107 @@ class DishBatteryStatsGrpcMessages {
   /// "Power source"
   /// ```
   String get power_source => """Power source""";
+
+  /// ```dart
+  /// """
+  /// The possible options are:
+  ///
+  /// - **usbc** - The dish is powered through its USB-C port.
+  /// - **battery** - The dish is running on its battery.
+  /// - **usbc_and_battery** - USB-C power and the battery are both in use.
+  /// """
+  /// ```
+  String get power_source__hint => """The possible options are:
+
+- **usbc** - The dish is powered through its USB-C port.
+- **battery** - The dish is running on its battery.
+- **usbc_and_battery** - USB-C power and the battery are both in use.
+""";
+
+  /// ```dart
+  /// "Battery attached"
+  /// ```
+  String get battery_attached => """Battery attached""";
+
+  /// ```dart
+  /// "Whether a battery is attached. Starlink Mini 2 can also run without it."
+  /// ```
+  String get battery_attached__hint =>
+      """Whether a battery is attached. Starlink Mini 2 can also run without it.""";
+
+  /// ```dart
+  /// "Battery power, W"
+  /// ```
+  String get power_w => """Battery power, W""";
+
+  /// ```dart
+  /// "Current battery power reported by the dish. The protocol does not document whether the sign differs between charging and discharging."
+  /// ```
+  String get power_w__hint =>
+      """Current battery power reported by the dish. The protocol does not document whether the sign differs between charging and discharging.""";
+
+  /// ```dart
+  /// "Time to full charge"
+  /// ```
+  String get time_to_charge_minutes => """Time to full charge""";
+
+  /// ```dart
+  /// "Time to empty"
+  /// ```
+  String get time_to_empty_minutes => """Time to empty""";
+
+  /// ```dart
+  /// "Battery temperature, °C"
+  /// ```
+  String get temperature_c => """Battery temperature, °C""";
+}
+
+class DishUsbcStatsGrpcMessages {
+  final GrpcMessages _parent;
+  const DishUsbcStatsGrpcMessages(this._parent);
+
+  /// ```dart
+  /// "USB-C power, W"
+  /// ```
+  String get power_w => """USB-C power, W""";
+
+  /// ```dart
+  /// "Current power on the dish USB-C port."
+  /// ```
+  String get power_w__hint => """Current power on the dish USB-C port.""";
+
+  /// ```dart
+  /// "USB-C max power, W"
+  /// ```
+  String get max_power_w => """USB-C max power, W""";
+
+  /// ```dart
+  /// "Maximum power the connected USB-C power supply can deliver. Starlink recommends a 100 W (20 V / 5 A) USB-PD source for Starlink Mini."
+  /// ```
+  String get max_power_w__hint =>
+      """Maximum power the connected USB-C power supply can deliver. Starlink recommends a 100 W (20 V / 5 A) USB-PD source for Starlink Mini.""";
+
+  /// ```dart
+  /// "USB-C power source detected"
+  /// ```
+  String get source_detected => """USB-C power source detected""";
+
+  /// ```dart
+  /// "A power supply connected to the USB-C port is charging or powering the dish."
+  /// ```
+  String get source_detected__hint =>
+      """A power supply connected to the USB-C port is charging or powering the dish.""";
+
+  /// ```dart
+  /// "Powering a USB-C device"
+  /// ```
+  String get sink_detected => """Powering a USB-C device""";
+
+  /// ```dart
+  /// "The dish supplies power through its USB-C port to a connected device, working as a power bank (Starlink Mini 2)."
+  /// ```
+  String get sink_detected__hint =>
+      """The dish supplies power through its USB-C port to a connected device, working as a power bank (Starlink Mini 2).""";
 }
 
 class DishReadyStatesGrpcMessages {
@@ -1500,6 +1628,40 @@ with internet access and dish access. You can find this setting in
   /// ```
   String get power_save_mode__hint =>
       """You can set a sleep mode for your Starlink. Starlink won't provide Internet or melt snow while sleeping.""";
+
+  /// ```dart
+  /// "Software update reboot time"
+  /// ```
+  String get swupdate_reboot_hour => """Software update reboot time""";
+
+  /// ```dart
+  /// "Hour, in the dish's local time, at which the dish reboots to install downloaded software updates. You can select it in the Starlink app; the default is around 3:00."
+  /// ```
+  String get swupdate_reboot_hour__hint =>
+      """Hour, in the dish's local time, at which the dish reboots to install downloaded software updates. You can select it in the Starlink app; the default is around 3:00.""";
+
+  /// ```dart
+  /// "Auto-off after losing external power"
+  /// ```
+  String get loss_of_ext_power_auto_off =>
+      """Auto-off after losing external power""";
+
+  /// ```dart
+  /// "When enabled, a dish running on its battery turns off after external power has been lost for the shown time. The behavior is inferred from the protocol; the reboot reason after such a shutdown is BATTERY_LOSS_OF_EXT_POWER_AUTO_OFF."
+  /// ```
+  String get loss_of_ext_power_auto_off__hint =>
+      """When enabled, a dish running on its battery turns off after external power has been lost for the shown time. The behavior is inferred from the protocol; the reboot reason after such a shutdown is BATTERY_LOSS_OF_EXT_POWER_AUTO_OFF.""";
+
+  /// ```dart
+  /// "Auto-off without satellite signal"
+  /// ```
+  String get no_burst_auto_off => """Auto-off without satellite signal""";
+
+  /// ```dart
+  /// "When enabled, a dish running on its battery turns off after receiving no satellite bursts for the shown time, saving battery when there is no service. The behavior is inferred from the protocol; the reboot reason after such a shutdown is BATTERY_NO_BURST_AUTO_OFF."
+  /// ```
+  String get no_burst_auto_off__hint =>
+      """When enabled, a dish running on its battery turns off after receiving no satellite bursts for the shown time, saving battery when there is no service. The behavior is inferred from the protocol; the reboot reason after such a shutdown is BATTERY_NO_BURST_AUTO_OFF.""";
 }
 
 class DishObstructionStatsGrpcMessages {
@@ -1613,9 +1775,16 @@ class DishGetStatusGrpcMessages {
   String get signal_quality => """Signal quality""";
 
   /// ```dart
-  /// "Signal quality reported by the dish."
+  /// """
+  /// Signal quality reported by the dish, shown as a percentage: 0 % means no signal and 100 % an ideal signal. The dish sends a value from 0 to 1. It is not a raw SNR value, and how the dish calculates it is not documented.
+  ///
+  /// Colors are the app's own estimate: green from 80 %, amber from 25 %, red below 25 %. For example, a Starlink Mini under trees reports about 50–70 %.
+  /// """
   /// ```
-  String get signal_quality__hint => """Signal quality reported by the dish.""";
+  String get signal_quality__hint => """Signal quality reported by the dish, shown as a percentage: 0 % means no signal and 100 % an ideal signal. The dish sends a value from 0 to 1. It is not a raw SNR value, and how the dish calculates it is not documented.
+
+Colors are the app's own estimate: green from 80 %, amber from 25 %, red below 25 %. For example, a Starlink Mini under trees reports about 50–70 %.
+""";
 
   /// ```dart
   /// "Time the dish has been running since the last reboot."
@@ -1709,6 +1878,30 @@ class DishGetStatusGrpcMessages {
   /// "Metered connection"
   /// ```
   String get treat_as_metered => """Metered connection""";
+
+  /// ```dart
+  /// "Radio idle before power-off"
+  /// ```
+  String get battery_ut_power_off_rf_idle_active =>
+      """Radio idle before power-off""";
+
+  /// ```dart
+  /// "The dish has idled its radio, presumably as part of a battery auto power-off. The meaning is inferred from the field name."
+  /// ```
+  String get battery_ut_power_off_rf_idle_active__hint =>
+      """The dish has idled its radio, presumably as part of a battery auto power-off. The meaning is inferred from the field name.""";
+
+  /// ```dart
+  /// "Radio idle, insufficient power"
+  /// ```
+  String get battery_ut_insufficient_power_rf_idle_active =>
+      """Radio idle, insufficient power""";
+
+  /// ```dart
+  /// "The dish has idled its radio because the available power is insufficient, for example a weak USB-C source or a low battery. The meaning is inferred from the field name."
+  /// ```
+  String get battery_ut_insufficient_power_rf_idle_active__hint =>
+      """The dish has idled its radio because the available power is insufficient, for example a weak USB-C source or a low battery. The meaning is inferred from the field name.""";
 
   /// ```dart
   /// "Downlink Throughput"
@@ -1885,6 +2078,18 @@ class DishGetStatusGrpcMessages {
 """;
 
   /// ```dart
+  /// "Update reboot possible in"
+  /// ```
+  String get seconds_until_swupdate_reboot_possible =>
+      """Update reboot possible in""";
+
+  /// ```dart
+  /// "Time until the dish may reboot to install a software update. The dish reports -1 when no such reboot is pending. The meaning is inferred from the field name."
+  /// ```
+  String get seconds_until_swupdate_reboot_possible__hint =>
+      """Time until the dish may reboot to install a software update. The dish reports -1 when no such reboot is pending. The meaning is inferred from the field name.""";
+
+  /// ```dart
   /// "SNR persistently low"
   /// ```
   String get is_snr_persistently_low => """SNR persistently low""";
@@ -2018,7 +2223,11 @@ class DishGetStatusGrpcMessages {
   /// - **INE_FAILED** - Initial network entry failed.
   /// - **KERNEL_TAINTED** - The kernel was tainted (e.g. by a module error).
   /// - **MINI2_AUTO_OFF** - Legacy automatic power-off reason (deprecated).
-  /// - **BATTERY_AUTO_OFF** - Automatic power-off related to battery operation.
+  /// - **BATTERY_AUTO_OFF** - Legacy automatic power-off related to battery operation (deprecated; replaced by the two reasons below).
+  /// - **BATTERY_LOSS_OF_EXT_POWER_AUTO_OFF** - The dish turned itself off while running on battery after losing external power. See *Auto-off after losing external power* in Config.
+  /// - **BATTERY_NO_BURST_AUTO_OFF** - The dish turned itself off while running on battery after receiving no satellite signal. See *Auto-off without satellite signal* in Config.
+  /// - **BUTTON_POWER_OFF** - The dish was turned off with its power button.
+  /// - **MCU_BUTTON_POWER_OFF** - Power-off by button, handled by the dish's power-management microcontroller (MCU). The difference from BUTTON_POWER_OFF is not documented.
   /// """
   /// ```
   String get reboot_reason__hint => """The possible options are:
@@ -2042,7 +2251,11 @@ class DishGetStatusGrpcMessages {
 - **INE_FAILED** - Initial network entry failed.
 - **KERNEL_TAINTED** - The kernel was tainted (e.g. by a module error).
 - **MINI2_AUTO_OFF** - Legacy automatic power-off reason (deprecated).
-- **BATTERY_AUTO_OFF** - Automatic power-off related to battery operation.
+- **BATTERY_AUTO_OFF** - Legacy automatic power-off related to battery operation (deprecated; replaced by the two reasons below).
+- **BATTERY_LOSS_OF_EXT_POWER_AUTO_OFF** - The dish turned itself off while running on battery after losing external power. See *Auto-off after losing external power* in Config.
+- **BATTERY_NO_BURST_AUTO_OFF** - The dish turned itself off while running on battery after receiving no satellite signal. See *Auto-off without satellite signal* in Config.
+- **BUTTON_POWER_OFF** - The dish was turned off with its power button.
+- **MCU_BUTTON_POWER_OFF** - Power-off by button, handled by the dish's power-management microcontroller (MCU). The difference from BUTTON_POWER_OFF is not documented.
 """;
 }
 
@@ -3133,6 +3346,26 @@ class ObstructionsMessages {
   String get dish_fraction => """Dish obstruction fraction""";
 
   /// ```dart
+  /// "Time obstructed (dish)"
+  /// ```
+  String get time_obstructed => """Time obstructed (dish)""";
+
+  /// ```dart
+  /// "Map validity (dish)"
+  /// ```
+  String get map_validity => """Map validity (dish)""";
+
+  /// ```dart
+  /// "Valid"
+  /// ```
+  String get map_valid => """Valid""";
+
+  /// ```dart
+  /// "Not valid"
+  /// ```
+  String get map_not_valid => """Not valid""";
+
+  /// ```dart
   /// "Avg. prolonged obstruction"
   /// ```
   String get average_duration => """Avg. prolonged obstruction""";
@@ -3308,6 +3541,18 @@ class ObstructionsMessages {
   /// ```
   String get dish_fraction_hint =>
       """The dish obstruction fraction is reported separately by the dish. Its calculation may differ from the map’s blocked-cell percentage.""";
+
+  /// ```dart
+  /// "Time obstructed is the dish-reported fraction of time its signal was obstructed. It is reported separately from the obstruction fraction and the map’s blocked-cell percentage."
+  /// ```
+  String get time_obstructed_hint =>
+      """Time obstructed is the dish-reported fraction of time its signal was obstructed. It is reported separately from the obstruction fraction and the map’s blocked-cell percentage.""";
+
+  /// ```dart
+  /// "Map validity is the dish’s own flag for its obstruction map. It is shown only when the dish reports it; older firmware does not."
+  /// ```
+  String get map_validity_hint =>
+      """Map validity is the dish’s own flag for its obstruction map. It is shown only when the dish reports it; older firmware does not.""";
 
   /// ```dart
   /// "Azimuth is clockwise from true north (0°); east is 90°. Elevation is above the horizon: 0° is horizontal, 90° straight up. Target angles are the dish-reported alignment goal. Differences are target minus dish, with azimuth wrapped to ±180°."
@@ -3672,6 +3917,9 @@ Moreover, in the case of a moving router, its route can be followed.
   """live.event_repeater_ids""": """Repeater IDs""",
   """live.event_change""": """Change""",
   """live.event_overlapping_bss""": """Overlapping networks""",
+  """live.status""": """Status""",
+  """live.connecting""": """connecting""",
+  """live.signal_quality_details""": """Open signal quality details""",
   """header.general""": """General""",
   """header.signal""": """Signal""",
   """header.network""": """Network""",
@@ -3803,6 +4051,28 @@ Moreover, in the case of a moving router, its route can be followed.
   """grpc.DishBatteryStats.state_of_charge""": """Battery charge""",
   """grpc.DishBatteryStats.is_charging""": """Charging""",
   """grpc.DishBatteryStats.power_source""": """Power source""",
+  """grpc.DishBatteryStats.power_source__hint""": """The possible options are:
+
+- **usbc** - The dish is powered through its USB-C port.
+- **battery** - The dish is running on its battery.
+- **usbc_and_battery** - USB-C power and the battery are both in use.
+""",
+  """grpc.DishBatteryStats.battery_attached""": """Battery attached""",
+  """grpc.DishBatteryStats.battery_attached__hint""": """Whether a battery is attached. Starlink Mini 2 can also run without it.""",
+  """grpc.DishBatteryStats.power_w""": """Battery power, W""",
+  """grpc.DishBatteryStats.power_w__hint""": """Current battery power reported by the dish. The protocol does not document whether the sign differs between charging and discharging.""",
+  """grpc.DishBatteryStats.time_to_charge_minutes""": """Time to full charge""",
+  """grpc.DishBatteryStats.time_to_empty_minutes""": """Time to empty""",
+  """grpc.DishBatteryStats.temperature_c""": """Battery temperature, °C""",
+  """grpc.DishUsbcStats.power_w""": """USB-C power, W""",
+  """grpc.DishUsbcStats.power_w__hint""":
+      """Current power on the dish USB-C port.""",
+  """grpc.DishUsbcStats.max_power_w""": """USB-C max power, W""",
+  """grpc.DishUsbcStats.max_power_w__hint""": """Maximum power the connected USB-C power supply can deliver. Starlink recommends a 100 W (20 V / 5 A) USB-PD source for Starlink Mini.""",
+  """grpc.DishUsbcStats.source_detected""": """USB-C power source detected""",
+  """grpc.DishUsbcStats.source_detected__hint""": """A power supply connected to the USB-C port is charging or powering the dish.""",
+  """grpc.DishUsbcStats.sink_detected""": """Powering a USB-C device""",
+  """grpc.DishUsbcStats.sink_detected__hint""": """The dish supplies power through its USB-C port to a connected device, working as a power bank (Starlink Mini 2).""",
   """grpc.DishReadyStates.cady""": """Clock generator""",
   """grpc.DishReadyStates.scp""": """RFFE bus interface""",
   """grpc.DishReadyStates.l1l2""": """Modem L1L2""",
@@ -3862,6 +4132,14 @@ with internet access and dish access. You can find this setting in
       """Power save duration minutes""",
   """grpc.DishConfig.power_save_mode""": """Power save mode""",
   """grpc.DishConfig.power_save_mode__hint""": """You can set a sleep mode for your Starlink. Starlink won't provide Internet or melt snow while sleeping.""",
+  """grpc.DishConfig.swupdate_reboot_hour""": """Software update reboot time""",
+  """grpc.DishConfig.swupdate_reboot_hour__hint""": """Hour, in the dish's local time, at which the dish reboots to install downloaded software updates. You can select it in the Starlink app; the default is around 3:00.""",
+  """grpc.DishConfig.loss_of_ext_power_auto_off""":
+      """Auto-off after losing external power""",
+  """grpc.DishConfig.loss_of_ext_power_auto_off__hint""": """When enabled, a dish running on its battery turns off after external power has been lost for the shown time. The behavior is inferred from the protocol; the reboot reason after such a shutdown is BATTERY_LOSS_OF_EXT_POWER_AUTO_OFF.""",
+  """grpc.DishConfig.no_burst_auto_off""":
+      """Auto-off without satellite signal""",
+  """grpc.DishConfig.no_burst_auto_off__hint""": """When enabled, a dish running on its battery turns off after receiving no satellite bursts for the shown time, saving battery when there is no service. The behavior is inferred from the protocol; the reboot reason after such a shutdown is BATTERY_NO_BURST_AUTO_OFF.""",
   """grpc.DishObstructionStats.fraction_obstructed""":
       """Fraction obstructed""",
   """grpc.DishObstructionStats.fraction_obstructed__hint""": """Obstruction fraction reported by the dish. Its calculation is not specified here; do not interpret it as measured sky area or as the map's blocked-cell percentage.""",
@@ -3890,8 +4168,10 @@ with internet access and dish access. You can find this setting in
       """Whether the obstruction map patches contain valid data.""",
   """grpc.DishGetStatus.uptime_s""": """Uptime""",
   """grpc.DishGetStatus.signal_quality""": """Signal quality""",
-  """grpc.DishGetStatus.signal_quality__hint""":
-      """Signal quality reported by the dish.""",
+  """grpc.DishGetStatus.signal_quality__hint""": """Signal quality reported by the dish, shown as a percentage: 0 % means no signal and 100 % an ideal signal. The dish sends a value from 0 to 1. It is not a raw SNR value, and how the dish calculates it is not documented.
+
+Colors are the app's own estimate: green from 80 %, amber from 25 %, red below 25 %. For example, a Starlink Mini under trees reports about 50–70 %.
+""",
   """grpc.DishGetStatus.uptime_s__hint""":
       """Time the dish has been running since the last reboot.""",
   """grpc.DishGetStatus.seconds_to_first_nonempty_slot""":
@@ -3916,6 +4196,12 @@ with internet access and dish access. You can find this setting in
   """grpc.DishGetStatus.nat_flag""": """NAT""",
   """grpc.DishGetStatus.user_debug_mode_enabled""": """User debug mode""",
   """grpc.DishGetStatus.treat_as_metered""": """Metered connection""",
+  """grpc.DishGetStatus.battery_ut_power_off_rf_idle_active""":
+      """Radio idle before power-off""",
+  """grpc.DishGetStatus.battery_ut_power_off_rf_idle_active__hint""": """The dish has idled its radio, presumably as part of a battery auto power-off. The meaning is inferred from the field name.""",
+  """grpc.DishGetStatus.battery_ut_insufficient_power_rf_idle_active""":
+      """Radio idle, insufficient power""",
+  """grpc.DishGetStatus.battery_ut_insufficient_power_rf_idle_active__hint""": """The dish has idled its radio because the available power is insufficient, for example a weak USB-C source or a low battery. The meaning is inferred from the field name.""",
   """grpc.DishGetStatus.downlink_throughput_bps""": """Downlink Throughput""",
   """grpc.DishGetStatus.uplink_throughput_bps""": """Uplink Throughput""",
   """grpc.DishGetStatus.pop_ping_drop_rate""": """PoP ping drop rate""",
@@ -3973,6 +4259,9 @@ with internet access and dish access. You can find this setting in
 - **DISABLED** - Software updates are disabled.
 - **FAULTED** - Software update process has faulted.
 """,
+  """grpc.DishGetStatus.seconds_until_swupdate_reboot_possible""":
+      """Update reboot possible in""",
+  """grpc.DishGetStatus.seconds_until_swupdate_reboot_possible__hint""": """Time until the dish may reboot to install a software update. The dish reports -1 when no such reboot is pending. The meaning is inferred from the field name.""",
   """grpc.DishGetStatus.is_snr_persistently_low""": """SNR persistently low""",
   """grpc.DishGetStatus.is_snr_persistently_low__hint""": """Whether the Signal-to-Noise Ratio has been consistently below acceptable levels. May indicate obstructions or hardware issues.""",
   """grpc.DishGetStatus.has_actuators""": """Actuators""",
@@ -4035,7 +4324,11 @@ with internet access and dish access. You can find this setting in
 - **INE_FAILED** - Initial network entry failed.
 - **KERNEL_TAINTED** - The kernel was tainted (e.g. by a module error).
 - **MINI2_AUTO_OFF** - Legacy automatic power-off reason (deprecated).
-- **BATTERY_AUTO_OFF** - Automatic power-off related to battery operation.
+- **BATTERY_AUTO_OFF** - Legacy automatic power-off related to battery operation (deprecated; replaced by the two reasons below).
+- **BATTERY_LOSS_OF_EXT_POWER_AUTO_OFF** - The dish turned itself off while running on battery after losing external power. See *Auto-off after losing external power* in Config.
+- **BATTERY_NO_BURST_AUTO_OFF** - The dish turned itself off while running on battery after receiving no satellite signal. See *Auto-off without satellite signal* in Config.
+- **BUTTON_POWER_OFF** - The dish was turned off with its power button.
+- **MCU_BUTTON_POWER_OFF** - Power-off by button, handled by the dish's power-management microcontroller (MCU). The difference from BUTTON_POWER_OFF is not documented.
 """,
   """grpc.AlignmentStats.has_actuators""": """has_actuators""",
   """grpc.AlignmentStats.actuator_state""": """actuator_state""",
@@ -4264,6 +4557,10 @@ starting from approximately January 2023, Starlink routers are able to pick rand
   """obstructions.recorded_obstructions""": """No-signal cells recorded""",
   """obstructions.no_blocked_cells""": """No blocked cells recorded""",
   """obstructions.dish_fraction""": """Dish obstruction fraction""",
+  """obstructions.time_obstructed""": """Time obstructed (dish)""",
+  """obstructions.map_validity""": """Map validity (dish)""",
+  """obstructions.map_valid""": """Valid""",
+  """obstructions.map_not_valid""": """Not valid""",
   """obstructions.average_duration""": """Avg. prolonged obstruction""",
   """obstructions.average_interval""":
       """Avg. time between prolonged obstructions""",
@@ -4299,6 +4596,8 @@ starting from approximately January 2023, Starlink routers are able to pick rand
   """obstructions.patterns_hint""": """Persistent no-signal regions can help compare mounting locations. The map alone cannot identify what caused a no-signal region or predict downtime. Starlink can switch to satellites in unobstructed directions when available.""",
   """obstructions.patch_hint""": """A patch groups no-signal cells that touch along an edge. Its cell count does not measure a physical obstacle. Map and sector percentages do not represent equal areas of sky.""",
   """obstructions.dish_fraction_hint""": """The dish obstruction fraction is reported separately by the dish. Its calculation may differ from the map’s blocked-cell percentage.""",
+  """obstructions.time_obstructed_hint""": """Time obstructed is the dish-reported fraction of time its signal was obstructed. It is reported separately from the obstruction fraction and the map’s blocked-cell percentage.""",
+  """obstructions.map_validity_hint""": """Map validity is the dish’s own flag for its obstruction map. It is shown only when the dish reports it; older firmware does not.""",
   """obstructions.orientation_hint""": """Azimuth is clockwise from true north (0°); east is 90°. Elevation is above the horizon: 0° is horizontal, 90° straight up. Target angles are the dish-reported alignment goal. Differences are target minus dish, with azimuth wrapped to ±180°.""",
   """obstructions.reception_hint""": """Reception times date the map and status responses, not individual observations in the accumulated map.""",
   """obstructions.collection_hint""": """The map fills as the dish communicates with satellites and continues to update. Initial collection can take hours; gaps alone do not show an obstruction.""",

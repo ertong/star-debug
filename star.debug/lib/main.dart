@@ -11,6 +11,7 @@ import 'messages/i18n.dart';
 import 'preloaded.dart';
 import 'utils/log_utils.dart';
 
+// ignore: unused_element
 const String _TAG = "Main";
 
 void main() async {

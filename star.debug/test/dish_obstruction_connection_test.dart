@@ -21,7 +21,7 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   test(
-    'map polling uses the existing stream and retains independently timed data',
+    'map polling uses the existing stream and resets data on a new stream',
     () async {
       TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
           .setMockMethodCallHandler(
@@ -116,10 +116,15 @@ void main() {
       connection.dishGetObstructionMap.receivedTime -= 20000;
       expect(connection.dishGetObstructionMap.data, same(map));
 
-      // A replacement stream must refresh immediately, even while the last
-      // map poll is recent. Cached data remains available until the response.
-      final mapTime = connection.dishGetObstructionMap.receivedTime;
+      // A replacement stream starts a new session: data cached from the
+      // previous stream is dropped, and the map is fetched on first status.
       connection.reqStream = StreamController<ToDevice>();
+      connection.resetSessionData();
+      expect(connection.dishGetStatus.data, isNull);
+      expect(connection.dishGetHistory.data, isNull);
+      expect(connection.dishGetObstructionMap.data, isNull);
+      expect(connection.dishGetObstructionMap.receivedTime, 0);
+      expect(connection.dishGetObstructionMap.apiVersion, 0);
       requestStreams.add(connection.reqStream);
       listeners.add(connection.reqStream.stream.listen(requests.add));
       await connection.tickConnected(channel, stub);
@@ -134,8 +139,8 @@ void main() {
         requests.where((r) => r.request.hasDishGetObstructionMap()),
         hasLength(3),
       );
-      expect(connection.dishGetObstructionMap.data, same(map));
-      expect(connection.dishGetObstructionMap.receivedTime, mapTime);
+      expect(connection.dishGetObstructionMap.data, isNull);
+      expect(connection.dishGetObstructionMap.receivedTime, 0);
       await connection.onReceived(status);
       await connection.tickConnected(channel, stub);
       await Future<void>.delayed(Duration.zero);

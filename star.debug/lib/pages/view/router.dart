@@ -10,6 +10,7 @@ import 'package:star_debug/utils/kv_widget.dart';
 import 'package:star_debug/utils/snapshot.dart';
 import 'package:star_debug/utils/view_options.dart';
 
+// ignore: unused_element
 const String _TAG="RouterWidget";
 
 class RouterWidget extends StatefulWidget {
@@ -71,6 +72,8 @@ class _RouterWidgetState extends State<RouterWidget> with TickerProviderStateMix
         if (status.hasPopPingLatencyMs())
           b.kv(M.grpc.WifiGetStatus.pop_ping_latency_ms, status.popPingLatencyMs);
 
+        // grpc-deprecated(dish API 28, proto dump 2024-11-06): WifiGetStatusResponse
+        // captive_portal_enabled. Remove this row.
         if (status.hasCaptivePortalEnabled())
           b.kv(M.grpc.WifiGetStatus.captive_portal_enabled, status.captivePortalEnabled);
 

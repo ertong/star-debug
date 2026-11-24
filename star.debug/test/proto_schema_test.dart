@@ -4,14 +4,17 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:star_debug/grpc/starlink/network.pbenum.dart';
 import 'package:star_debug/grpc/starlink/starlink.pb.dart';
+import 'package:star_debug/grpc/starlink/telemetron.pb.dart';
 import 'package:star_debug/grpc/starlink/unlock.pb.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/space/space_parser.dart';
+import 'package:star_debug/utils/api_helper.dart';
 import 'package:star_debug/utils/debug_data.dart';
 
 void _validateStatus(DishGetStatusResponse dish, WifiGetStatusResponse router) {
   expect(dish.signalQuality, closeTo(0.75, 1e-6));
   expect(dish.disablementCode, UtDisablementCode.OUTSIDE_HOME_REGION);
+  // grpc-deprecated(dish firmware 2026.11.16, API 45): REBOOT_REASON_BATTERY_AUTO_OFF.
   expect(dish.rebootReason, RebootReason.REBOOT_REASON_BATTERY_AUTO_OFF);
   expect(dish.alerts.installPending, isTrue);
   expect(router.publicIpv4, '203.0.113.42');
@@ -68,6 +71,7 @@ void main() {
     ]);
     expect(status.signalQuality, closeTo(0.75, 1e-6));
     expect(status.disablementCode, UtDisablementCode.OUTSIDE_HOME_REGION);
+    // grpc-deprecated(dish firmware 2026.11.16, API 45): REBOOT_REASON_BATTERY_AUTO_OFF.
     expect(status.rebootReason, RebootReason.REBOOT_REASON_BATTERY_AUTO_OFF);
 
     var diagnostics = DishGetDiagnosticsResponse.fromBuffer([0x30, 0x11]);
@@ -75,6 +79,80 @@ void main() {
       diagnostics.disablementCode,
       DishGetDiagnosticsResponse_DisablementCode.OUTSIDE_HOME_REGION,
     );
+  });
+
+  test('dish power-source fields decode with the dump wire tags', () {
+    // power_source_stats: tag 1059 {battery_stats: tag 2 {state_of_charge 80,
+    // battery_attached true}, power_source: tag 4 usbc_and_battery};
+    // battery_ut_power_off_rf_idle_active: tag 1060;
+    // legacy battery_stats: tag 1054 {state_of_charge 55}, still sent by
+    // firmware that predates power_source_stats.
+    // grpc-deprecated(dish firmware 2026.11.16, API 45): top-level battery_stats (1054).
+    var status = DishGetStatusResponse.fromBuffer([
+      0x9a, 0x42, 0x08, 0x12, 0x04, 0x08, 0x50, 0x20, 0x01, 0x20, 0x03, //
+      0xa0, 0x42, 0x01, //
+      0xf2, 0x41, 0x02, 0x08, 0x37,
+    ]);
+    expect(status.powerSourceStats.batteryStats.stateOfCharge, 80);
+    expect(status.powerSourceStats.batteryStats.batteryAttached, isTrue);
+    expect(
+      status.powerSourceStats.powerSource,
+      UserPowerSource_AutoEnum.usbc_and_battery,
+    );
+    expect(status.batteryUtPowerOffRfIdleActive, isTrue);
+    expect(status.batteryStats.stateOfCharge, 55);
+    expect(status.unknownFields.isEmpty, isTrue);
+    expect(status.effectiveBatteryStats.stateOfCharge, 80);
+  });
+
+  test('legacy top-level power fields are used only as a fallback', () {
+    // grpc-deprecated(dish firmware 2026.11.16, API 45): top-level usbc_stats
+    // (1058) {power_w 12.5, source_detected true} and battery_stats (1054)
+    // {state_of_charge 55}.
+    var legacy = DishGetStatusResponse.fromBuffer([
+      0x92, 0x42, 0x07, 0x0d, 0x00, 0x00, 0x48, 0x41, 0x18, 0x01, //
+      0xf2, 0x41, 0x02, 0x08, 0x37,
+    ]);
+    expect(legacy.unknownFields.isEmpty, isTrue);
+    expect(legacy.effectiveUsbcStats.powerW, 12.5);
+    expect(legacy.effectiveUsbcStats.sourceDetected, isTrue);
+    expect(legacy.effectiveBatteryStats.stateOfCharge, 55);
+
+    var both = legacy.deepCopy()
+      ..powerSourceStats = PowerSourceStats(
+        batteryStats: DishBatteryStats(stateOfCharge: 80),
+        usbcStats: DishUsbcStats(sinkDetected: true),
+      );
+    expect(both.effectiveUsbcStats.sinkDetected, isTrue);
+    expect(both.effectiveUsbcStats.sourceDetected, isFalse);
+    expect(both.effectiveBatteryStats.stateOfCharge, 80);
+  });
+
+  test('wifi channel lists decode with the dump wire tags', () {
+    // channels_5ghz: tag 2 {current_channel 100, channels: tag 6
+    // {dfs_nop_info: map tag 4 {52: {1500, 1800}}, acs_selected: tag 6 {36}}}.
+    var channels = WifiGetChannelsResponse.fromBuffer([
+      0x12, 0x14, 0x20, 0x64, 0x32, 0x10, 0x22, 0x0a, 0x08, 0x34, 0x12, //
+      0x06, 0x08, 0xdc, 0x0b, 0x10, 0x88, 0x0e, 0x32, 0x02, 0x08, 0x24,
+    ]);
+    var radio = channels.channels5ghz;
+    expect(radio.currentChannel, 100);
+    expect(radio.channels.dfsNopInfo[52]!.remainingSeconds, 1500);
+    expect(radio.channels.dfsNopInfo[52]!.totalSeconds, 1800);
+    expect(radio.channels.hasAcsSelected(), isTrue);
+    expect(radio.channels.acsSelected.value, 36);
+
+    // wifi_get_channels request: tag 3038.
+    var request = Request.fromBuffer([0xf2, 0xbd, 0x01, 0x00]);
+    expect(request.whichRequest(), Request_Request.wifiGetChannels);
+
+    // toggle_mode_status response: tag 7002 {current 2, allowed 3}.
+    var response = Response.fromBuffer([
+      0xd2, 0xb5, 0x03, 0x04, 0x08, 0x02, 0x10, 0x03, //
+    ]);
+    expect(response.whichResponse(), Response_Response.toggleModeStatus);
+    expect(response.toggleModeStatus.currentNetwork, 2);
+    expect(response.toggleModeStatus.allowedNetwork, 3);
   });
 
   test('legacy roaming alert bytes remain unknown and survive re-encoding', () {

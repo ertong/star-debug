@@ -30,6 +30,17 @@ class DishConnection extends GrpcConnection {
   }
 
   @override
+  void resetSessionData() {
+    dishGetStatus.clear();
+    dishGetHistory.clear();
+    dishGetObstructionMap.clear();
+    dishGetLocationGPS.clear();
+    dishGetLocationStarlink.clear();
+    _obstructionMapStream = null;
+    _dishId = null;
+  }
+
+  @override
   Future tickConnected(ClientChannel channel, DeviceClient stub) async {
     int now = DateTime.now().millisecondsSinceEpoch;
     if (dishGetStatus.needSend(now)) {
@@ -84,6 +95,7 @@ class DishConnection extends GrpcConnection {
         // Missing IDs must not erase the last known device identity.
         if (dishId.isNotEmpty) _dishId = dishId;
         dishGetStatus.setData(now, resp.dishGetStatus, resp.apiVersion.toInt());
+        R.statusSeries.add(now, resp.dishGetStatus);
         // A successful status establishes readiness for this stream. Refresh
         // immediately after a stream or dish change, regardless of poll age.
         if (dishChanged || !identical(_obstructionMapStream, reqStream)) {

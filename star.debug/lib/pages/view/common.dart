@@ -98,6 +98,8 @@ List<String> formatEventMetadata(UXEvent event, {bool hideIds = false}) {
       break;
     case UXEvent_Metadata.clientSwitchingUpstreamMacMetadata:
       break;
+    // grpc-deprecated(proto dump 2026-02-07; not deprecated in 2025-12-12): UXEvent
+    // mesh_connection_changing_metadata with its repeaterId and change fields. Remove this case.
     case UXEvent_Metadata.meshConnectionChangingMetadata:
       var value = event.meshConnectionChangingMetadata;
       if (!hideIds && value.hasRepeaterId() && value.repeaterId.isNotEmpty)

@@ -1,6 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:star_debug/grpc/starlink/starlink.pb.dart';
+import 'package:star_debug/grpc/starlink/telemetron.pb.dart';
 import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/pages/view/common.dart';
 import 'package:star_debug/pages/view/dish.dart';
@@ -46,6 +47,8 @@ void main() {
     var populatedStatus = DishGetStatusResponse(
       accountShard: AccountShard.ACCOUNT_SHARD_DEFAULT,
       natFlag: NatFlag.NAT_ENABLED,
+      // grpc-deprecated(dish firmware 2026.11.16, API 45): top-level battery_stats and
+      // DishBatteryStats.power_source.
       batteryStats: DishBatteryStats(
         stateOfCharge: 72,
         isCharging: false,
@@ -83,6 +86,183 @@ void main() {
       find.text('${M.grpc.DishGpsStats.pnt_filter_convergence_state}:'),
       findsOneWidget,
     );
+  });
+
+  testWidgets('power section prefers power source stats over legacy battery', (
+    tester,
+  ) async {
+    Future<void> pump(DishGetStatusResponse status) => tester.pumpWidget(
+      _testPage(
+        DishWidget(
+          sourceMode: MapSourceMode.stored,
+          snap: Snapshot(timestamp: 1, dishGetStatus: status),
+          viewOptions: ViewOptions(),
+        ),
+      ),
+    );
+
+    await pump(
+      DishGetStatusResponse(
+        powerSourceStats: PowerSourceStats(
+          batteryStats: DishBatteryStats(),
+          usbcStats: DishUsbcStats(),
+        ),
+      ),
+    );
+    expect(find.text(M.header.power), findsNothing);
+
+    await pump(
+      DishGetStatusResponse(
+        batteryStats: DishBatteryStats(stateOfCharge: 10),
+        powerSourceStats: PowerSourceStats(
+          batteryStats: DishBatteryStats(
+            stateOfCharge: 80,
+            batteryAttached: true,
+            timeToEmptyMinutes: 90,
+            temperatureC: 31.5,
+          ),
+          usbcStats: DishUsbcStats(
+            powerW: 24.25,
+            maxPowerW: 100,
+            sourceDetected: true,
+          ),
+          powerSource: UserPowerSource_AutoEnum.usbc_and_battery,
+        ),
+        batteryUtInsufficientPowerRfIdleActive: true,
+      ),
+    );
+    expect(find.text(M.header.power), findsOneWidget);
+    expect(find.text('80 %'), findsOneWidget);
+    expect(find.text('10 %'), findsNothing);
+    expect(find.text('usbc_and_battery'), findsOneWidget);
+    expect(find.text('90 m 0 s'), findsOneWidget);
+    expect(find.text('31.5'), findsOneWidget);
+    expect(find.text('24.3'), findsOneWidget);
+    expect(
+      find.text('${M.grpc.DishUsbcStats.source_detected}:'),
+      findsOneWidget,
+    );
+    expect(find.text('${M.grpc.DishUsbcStats.sink_detected}:'), findsNothing);
+    expect(
+      find.text(
+        '${M.grpc.DishGetStatus.battery_ut_insufficient_power_rf_idle_active}:',
+      ),
+      findsOneWidget,
+    );
+
+    // Older firmware: only the top-level battery and USB-C stats.
+    // grpc-deprecated(dish firmware 2026.11.16, API 45): top-level battery_stats,
+    // usbc_stats and DishBatteryStats.power_source.
+    await pump(
+      DishGetStatusResponse(
+        batteryStats: DishBatteryStats(
+          stateOfCharge: 55,
+          powerSource: PowerSource.BATTERY,
+        ),
+        usbcStats: DishUsbcStats(sourceDetected: true),
+      ),
+    );
+    expect(find.text('55 %'), findsOneWidget);
+    expect(find.text('BATTERY'), findsOneWidget);
+    expect(
+      find.text('${M.grpc.DishUsbcStats.source_detected}:'),
+      findsOneWidget,
+    );
+  });
+
+  testWidgets('config shows auto-off and update reboot settings', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      _testPage(
+        DishWidget(
+          sourceMode: MapSourceMode.stored,
+          snap: Snapshot(
+            timestamp: 1,
+            dishGetStatus: DishGetStatusResponse(
+              secondsUntilSwupdateRebootPossible: 125,
+              config: DishConfig(
+                swupdateRebootHour: 3,
+                noBurstAutoOffEnabled: true,
+                noBurstAutoOffTimeoutSeconds: 900,
+                lossOfExtPowerAutoOffTimeoutSeconds: 300,
+              ),
+            ),
+          ),
+          viewOptions: ViewOptions(),
+        ),
+      ),
+    );
+
+    expect(find.text('03:00'), findsOneWidget);
+    expect(find.text('${M.general.yes}, 15 m 0 s'), findsOneWidget);
+    expect(
+      find.text('${M.grpc.DishConfig.loss_of_ext_power_auto_off}:'),
+      findsOneWidget,
+    );
+    expect(find.text('2 m 5 s'), findsOneWidget);
+
+    await tester.pumpWidget(
+      _testPage(
+        DishWidget(
+          sourceMode: MapSourceMode.stored,
+          snap: Snapshot(
+            timestamp: 1,
+            dishGetStatus: DishGetStatusResponse(
+              secondsUntilSwupdateRebootPossible: -1,
+              config: DishConfig(snowMeltMode: DishConfig_SnowMeltMode.AUTO),
+            ),
+          ),
+          viewOptions: ViewOptions(),
+        ),
+      ),
+    );
+
+    expect(
+      find.text('${M.grpc.DishConfig.swupdate_reboot_hour}:'),
+      findsNothing,
+    );
+    expect(find.text('${M.grpc.DishConfig.no_burst_auto_off}:'), findsNothing);
+    expect(
+      find.text(
+        '${M.grpc.DishGetStatus.seconds_until_swupdate_reboot_possible}:',
+      ),
+      findsNothing,
+    );
+  });
+
+  testWidgets('signal quality is shown as a percentage and colored by band', (
+    tester,
+  ) async {
+    Future<Color?> qualityDot(double quality) async {
+      await tester.pumpWidget(
+        _testPage(
+          DishWidget(
+            sourceMode: MapSourceMode.stored,
+            snap: Snapshot(
+              timestamp: 1,
+              dishGetStatus: DishGetStatusResponse.fromBuffer(
+                DishGetStatusResponse(signalQuality: quality).writeToBuffer(),
+              ),
+            ),
+            viewOptions: ViewOptions(),
+          ),
+        ),
+      );
+      var row = find.ancestor(
+        of: find.text('${(quality * 100).round()} %'),
+        matching: find.byType(InkWell),
+      );
+      expect(row, findsOneWidget);
+      var dot = find.descendant(of: row, matching: find.byIcon(Icons.circle));
+      return tester.widget<Icon>(dot).color;
+    }
+
+    // 0.52 is stored as float32 (0.5199999809265137) and must show as 52 %.
+    expect(await qualityDot(0.52), Colors.amber);
+    expect(await qualityDot(1), Colors.green);
+    expect(await qualityDot(0.25), Colors.amber);
+    expect(await qualityDot(0.2), Colors.red);
   });
 
   testWidgets('RF action follows the inhibit RF outage cause', (tester) async {

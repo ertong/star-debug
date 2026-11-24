@@ -14,6 +14,7 @@ import 'package:star_debug/utils/log_utils.dart';
 import 'package:star_debug/widgets/app_drawer_pop_scope.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+// ignore: unused_element
 const String _TAG = "AboutPage";
 
 class AboutPage extends StatefulWidget {

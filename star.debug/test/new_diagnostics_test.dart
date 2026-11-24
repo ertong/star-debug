@@ -80,13 +80,13 @@ void main() {
         find.text('${M.grpc.DishGetStatus.signal_quality}:'),
         findsOneWidget,
       );
-      expect(find.text('0.0'), findsOneWidget);
+      expect(find.text('0 %'), findsOneWidget);
 
       await tester.pumpWidget(
         _dish(DishGetStatusResponse(signalQuality: 0.75)),
       );
-      expect(find.text('0.75'), findsOneWidget);
-      expect(find.text('75 %'), findsNothing);
+      expect(find.text('75 %'), findsOneWidget);
+      expect(find.text('0.75'), findsNothing);
       await tester.ensureVisible(
         find.text('${M.grpc.DishGetStatus.signal_quality}:'),
       );
@@ -194,6 +194,7 @@ void main() {
         _dish(
           DishGetStatusResponse(
             disablementCode: UtDisablementCode.OUTSIDE_HOME_REGION,
+            // grpc-deprecated(dish firmware 2026.11.16, API 45): REBOOT_REASON_BATTERY_AUTO_OFF.
             rebootReason: RebootReason.REBOOT_REASON_BATTERY_AUTO_OFF,
           ),
         ),

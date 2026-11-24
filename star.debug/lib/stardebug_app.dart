@@ -10,6 +10,7 @@ import 'routes.dart';
 import 'theme.dart';
 import 'utils/log_utils.dart';
 
+// ignore: unused_element
 const String _TAG = "StarDebugApp";
 
 class StarDebugApp extends StatefulWidget {

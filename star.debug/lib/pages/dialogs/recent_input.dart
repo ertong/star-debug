@@ -52,11 +52,9 @@ class _RecentInputDialogState extends State<RecentInputDialog>
           return;
         _searchingWithQuery = text;
 
-        print("AAAAAAAAA ${widget.type} '$text'");
         var newOptions =
             await R.db.recentInputsDao.find(widget.type, text.trim().toLowerCase()).get();
             // await _FakeAPI.search(_searchingWithQuery!);
-        print("BBBBBBBBB ${newOptions.length}");
 
         // If another search happened after this one, throw away these options.
         // Use the previous options intead and wait for the newer request to
@@ -66,8 +64,6 @@ class _RecentInputDialogState extends State<RecentInputDialog>
           _listKey = GlobalKey<AnimatedListState>();
           setState(() {});
         }
-        else
-          print("CHANGED $_searchingWithQuery ${tecInput.text}");
   }
 
   @override

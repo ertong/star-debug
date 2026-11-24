@@ -7,6 +7,7 @@ import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/utils/kv_widget.dart';
 import 'package:star_debug/utils/log_utils.dart';
 
+// ignore: unused_element
 const String _TAG = "ValkyrieController";
 
 class ValkyrieController {

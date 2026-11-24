@@ -132,6 +132,47 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
+  testWidgets('dish time obstructed and map validity appear when reported', (
+    tester,
+  ) async {
+    Widget widget(DishObstructionStats stats) => _page(
+      SizedBox(
+        width: 380,
+        child: ObstructionMapWidget(
+          sourceMode: MapSourceMode.live,
+          map: _map(),
+          stats: stats,
+          timestamp: _time,
+          receivedTime: _time - 7000,
+          statusReceivedTime: _time - 1000,
+        ),
+      ),
+    );
+
+    await tester.pumpWidget(
+      widget(_status().obstructionStats..timeObstructed = 0.0012),
+    );
+    await tester.tap(find.byIcon(Icons.open_in_full));
+    await tester.pumpAndSettle();
+    expect(find.text(M.obstructions.time_obstructed), findsOneWidget);
+    expect(find.text('0.12%'), findsOneWidget);
+    expect(find.text(M.obstructions.map_validity), findsNothing);
+    await tester.ensureVisible(find.text(M.obstructions.reading_map));
+    await tester.tap(find.text(M.obstructions.reading_map));
+    await tester.pumpAndSettle();
+    expect(find.text(M.obstructions.time_obstructed_hint), findsOneWidget);
+    expect(find.text(M.obstructions.map_validity_hint), findsNothing);
+
+    await tester.pumpWidget(
+      widget(DishObstructionStats.fromBuffer([0x58, 0x01])),
+    );
+    await tester.pumpAndSettle();
+    expect(find.text(M.obstructions.time_obstructed), findsNothing);
+    expect(find.text(M.obstructions.map_validity), findsOneWidget);
+    expect(find.text(M.obstructions.map_valid), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
   testWidgets('snapshot preserves stale-status filtering and brief warnings', (
     tester,
   ) async {

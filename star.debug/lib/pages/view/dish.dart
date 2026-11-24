@@ -11,18 +11,48 @@ import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/pages/view/common.dart';
 import 'package:star_debug/widgets/obstruction_map.dart';
 import 'package:star_debug/preloaded.dart';
+import 'package:star_debug/utils/api_helper.dart';
 import 'package:star_debug/utils/format.dart';
 import 'package:star_debug/utils/kv_widget.dart';
 import 'package:star_debug/utils/obstruction_map_context.dart';
 import 'package:star_debug/utils/snapshot.dart';
+import 'package:star_debug/utils/status_series.dart';
+import 'package:star_debug/utils/status_series_detail.dart';
 import 'package:star_debug/utils/view_options.dart';
 import 'package:time_machine2/time_machine2.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:intl/intl.dart';
 
 import '../../utils/log_utils.dart';
 import '../../utils/starlink_model.dart';
 
+// ignore: unused_element
 const String _TAG="DishWidget";
+
+/// Adds the signal_quality row as a percentage, colored by band, when the dish reports a finite value.
+/// Shared by the dish view and the live General tab so both use the same bands.
+void addSignalQualityRow(KVWidgetBuilder b, DishGetStatusResponse status) {
+  if (!status.hasSignalQuality() || !status.signalQuality.isFinite)
+    return;
+  // Banding the rounded percentage keeps the color consistent with the number shown.
+  var quality = signalQualityPercent(status.signalQuality);
+  var key = M.grpc.DishGetStatus.signal_quality;
+  var value = "$quality %";
+  var hint = M.grpc.DishGetStatus.signal_quality__hint;
+  if (quality >= kSignalQualityGood)
+    b.kv(key, value, ok: true, hint: hint);
+  else if (quality < kSignalQualityFair)
+    b.kv(key, value, ok: false, hint: hint);
+  else
+    b.kvs(key, value, hint: hint, kw: Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(Icons.circle, color: Colors.amber, size: 15),
+        SizedBox(width: 4),
+        Text("$key:", style: TextStyle(fontWeight: FontWeight.bold)),
+      ],
+    ));
+}
 
 class DishWidget extends StatefulWidget {
   final ViewOptions viewOptions;
@@ -72,7 +102,7 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
 
   Future<T?> withConnected<T>(Future<T> Function(DeviceClient stub, ClientChannel channel) callback, {bool router = false} ) async {
     final channel = ClientChannel(
-      router ? '192.168.1.1' : '192.168.100.1',
+      router ? R.prefs.data.effectiveRouterIp : R.prefs.data.effectiveDishIp,
       port: router ? 9000 : 9200,
       options: ChannelOptions(
         credentials: ChannelCredentials.insecure(),
@@ -256,6 +286,11 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
           );
         }
 
+        if (status.secondsUntilSwupdateRebootPossible > 0)
+          b.kv(M.grpc.DishGetStatus.seconds_until_swupdate_reboot_possible,
+              Format.sec(status.secondsUntilSwupdateRebootPossible),
+              hint: M.grpc.DishGetStatus.seconds_until_swupdate_reboot_possible__hint);
+
         rows.addAll(b.widgets);
       }
 
@@ -293,17 +328,60 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
         rows.addAll(b.widgets);
       }
 
-      if (status.hasBatteryStats()) {
-        var stats = status.batteryStats;
+      // grpc-deprecated(dish firmware 2026.11.16, API 45): hasBatteryStats() and hasUsbcStats()
+      // check the reserved top-level fields; remove them with effectiveBatteryStats/UsbcStats.
+      if (status.hasPowerSourceStats() || status.hasBatteryStats() || status.hasUsbcStats()
+          || status.batteryUtPowerOffRfIdleActive || status.batteryUtInsufficientPowerRfIdleActive) {
+        var power = status.powerSourceStats;
+        var stats = status.effectiveBatteryStats;
+        var usbc = status.effectiveUsbcStats;
         var b = KVWidgetBuilder(context, theme);
         b.header(M.header.power);
 
+        var powerSourceHint = Format.formatEnumHint(M.grpc.DishBatteryStats.power_source__hint, UserPowerSource_AutoEnum.values);
+        if (power.hasPowerSource() && power.powerSource != UserPowerSource_AutoEnum.unknown)
+          b.kv(M.grpc.DishBatteryStats.power_source, power.powerSource, hint: powerSourceHint);
+        // grpc-deprecated(dish firmware 2026.11.16, API 45): DishBatteryStats power_source (3) is
+        // reserved and enum PowerSource is gone; PowerSourceStats.power_source replaces them.
+        else if (stats.hasPowerSource() && stats.powerSource != PowerSource.POWER_SOURCE_UNKNOWN)
+          b.kv(M.grpc.DishBatteryStats.power_source, stats.powerSource);
+
+        if (status.batteryUtPowerOffRfIdleActive)
+          b.kv(M.grpc.DishGetStatus.battery_ut_power_off_rf_idle_active, true, ok: false,
+              hint: M.grpc.DishGetStatus.battery_ut_power_off_rf_idle_active__hint);
+        if (status.batteryUtInsufficientPowerRfIdleActive)
+          b.kv(M.grpc.DishGetStatus.battery_ut_insufficient_power_rf_idle_active, true, ok: false,
+              hint: M.grpc.DishGetStatus.battery_ut_insufficient_power_rf_idle_active__hint);
+
+        if (stats.hasBatteryAttached())
+          b.kv(M.grpc.DishBatteryStats.battery_attached, stats.batteryAttached,
+              hint: M.grpc.DishBatteryStats.battery_attached__hint);
         if (stats.hasStateOfCharge())
           b.kv(M.grpc.DishBatteryStats.state_of_charge, "${stats.stateOfCharge} %");
         if (stats.hasIsCharging())
           b.kv(M.grpc.DishBatteryStats.is_charging, stats.isCharging);
-        if (stats.hasPowerSource() && stats.powerSource != PowerSource.POWER_SOURCE_UNKNOWN)
-          b.kv(M.grpc.DishBatteryStats.power_source, stats.powerSource);
+        if (stats.hasPowerW() && stats.powerW.isFinite)
+          b.kv(M.grpc.DishBatteryStats.power_w, stats.powerW.toStringAsFixed(1),
+              hint: M.grpc.DishBatteryStats.power_w__hint);
+        if (stats.hasTimeToChargeMinutes())
+          b.kv(M.grpc.DishBatteryStats.time_to_charge_minutes, Format.sec(stats.timeToChargeMinutes * 60));
+        if (stats.hasTimeToEmptyMinutes())
+          b.kv(M.grpc.DishBatteryStats.time_to_empty_minutes, Format.sec(stats.timeToEmptyMinutes * 60));
+        if (stats.hasTemperatureC() && stats.temperatureC.isFinite)
+          b.kv(M.grpc.DishBatteryStats.temperature_c, stats.temperatureC.toStringAsFixed(1));
+
+        if (usbc.hasPowerW() && usbc.powerW.isFinite)
+          b.kv(M.grpc.DishUsbcStats.power_w, usbc.powerW.toStringAsFixed(1),
+              hint: M.grpc.DishUsbcStats.power_w__hint);
+        if (usbc.hasMaxPowerW() && usbc.maxPowerW.isFinite)
+          b.kv(M.grpc.DishUsbcStats.max_power_w, usbc.maxPowerW.toStringAsFixed(1),
+              hint: M.grpc.DishUsbcStats.max_power_w__hint);
+        if (usbc.sourceDetected)
+          b.kv(M.grpc.DishUsbcStats.source_detected, true,
+              hint: M.grpc.DishUsbcStats.source_detected__hint);
+        if (usbc.sinkDetected)
+          b.kv(M.grpc.DishUsbcStats.sink_detected, true,
+              hint: M.grpc.DishUsbcStats.sink_detected__hint);
 
         if (b.widgets.length > 1)
           rows.addAll(b.widgets);
@@ -326,7 +404,7 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
           rows.addAll(b.widgets);
       }
 
-      final String hw = status.deviceInfo.hardwareVersion ?? "";
+      final String hw = status.deviceInfo.hardwareVersion;
 
       if (status.hasDeviceInfo())
         rows.addAll(buildDeviceInfoWidget(context, theme, status.deviceInfo, apiVersion: widget.snap.dishApiVersion, opts: opts));
@@ -369,6 +447,21 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
               hint: M.grpc.DishConfig.power_save_mode__hint);
         }
 
+        if (config.hasSwupdateRebootHour() || config.applySwupdateRebootHour)
+          b.kv(M.grpc.DishConfig.swupdate_reboot_hour, "${config.swupdateRebootHour.toString().padLeft(2, "0")}:00",
+              hint: M.grpc.DishConfig.swupdate_reboot_hour__hint);
+
+        String autoOff(bool enabled, int timeoutSeconds) =>
+            enabled ? "${M.general.yes}, ${Format.sec(timeoutSeconds)}" : M.general.no;
+        if (config.hasLossOfExtPowerAutoOffEnabled() || config.hasLossOfExtPowerAutoOffTimeoutSeconds())
+          b.kv(M.grpc.DishConfig.loss_of_ext_power_auto_off,
+              autoOff(config.lossOfExtPowerAutoOffEnabled, config.lossOfExtPowerAutoOffTimeoutSeconds),
+              hint: M.grpc.DishConfig.loss_of_ext_power_auto_off__hint);
+        if (config.hasNoBurstAutoOffEnabled() || config.hasNoBurstAutoOffTimeoutSeconds())
+          b.kv(M.grpc.DishConfig.no_burst_auto_off,
+              autoOff(config.noBurstAutoOffEnabled, config.noBurstAutoOffTimeoutSeconds),
+              hint: M.grpc.DishConfig.no_burst_auto_off__hint);
+
         rows.addAll(b.widgets);
       }
 
@@ -410,9 +503,7 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
         var b = KVWidgetBuilder(context, theme);
         b.header(M.header.antenna);
 
-        if (status.hasSignalQuality() && status.signalQuality.isFinite)
-          b.kv(M.grpc.DishGetStatus.signal_quality, status.signalQuality,
-              hint: M.grpc.DishGetStatus.signal_quality__hint);
+        addSignalQualityRow(b, status);
 
         if (status.hasBoresightAzimuthDeg())
           b.kv(M.grpc.DishGetStatus.boresight_azimuth_deg, status.boresightAzimuthDeg.toStringAsFixed(2),
@@ -543,13 +634,16 @@ Widget buildGraph(String name, String unit, int current, int ts, List<double> da
   A.sort();
   double max = A[A.length*95~/100]*1.2;
 
-  var now = Instant.fromEpochMilliseconds(ts).inLocalZone();
-
   return SizedBox(
     height: 120,
     child: SfCartesianChart(
         title: ChartTitle(text: "$name, ${data.last.toStringAsFixed(2)} $unit", textStyle: TextStyle(fontSize: 10)),
-        primaryXAxis: CategoryAxis(),
+        // Sample i of the rotated buffer is ts - (n - 1 - i) seconds, on the time axis of the signal quality graph.
+        primaryXAxis: DateTimeAxis(
+          minimum: DateTime.fromMillisecondsSinceEpoch(ts - data.length*1000),
+          maximum: DateTime.fromMillisecondsSinceEpoch(ts),
+          dateFormat: DateFormat("HH:mm:ss"),
+        ),
         primaryYAxis: NumericAxis(minimum: 0, maximum: max),
         enableAxisAnimation: false,
         // crosshairBehavior: CrosshairBehavior(
@@ -564,14 +658,14 @@ Widget buildGraph(String name, String unit, int current, int ts, List<double> da
           activationMode: ActivationMode.singleTap
         ),
         series: <CartesianSeries>[
-          LineSeries<_GraphPoint, String>(
+          LineSeries<_GraphPoint, DateTime>(
               dataSource:  <_GraphPoint>[
                 for (var i=0; i<data.length; ++i)
                   _GraphPoint(i, data[i]),
               ],
               animationDuration: 0,
               // xValueMapper: (_GraphPoint pt, _) => "${data.length-pt.t}",
-              xValueMapper: (_GraphPoint pt, _) => "${now.subtract(Time(seconds: data.length-pt.t)).toString("HH:mm:ss")}",
+              xValueMapper: (_GraphPoint pt, _) => DateTime.fromMillisecondsSinceEpoch(historySampleTimeMs(ts, data.length, pt.t)),
               yValueMapper: (_GraphPoint pt, _) => pt.value
           )
         ]

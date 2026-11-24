@@ -37,3 +37,25 @@ final $typed_data.Uint8List rateLimitReasonDescriptor = $convert.base64Decode(
     'Cg9SYXRlTGltaXRSZWFzb24SCwoHVU5LTk9XThAAEgwKCE5PX0xJTUlUEAESEAoMUE9MSUNZX0'
     'xJTUlUEAISFQoRVVNFUl9DVVNUT01fTElNSVQQAxIRCg1PVkVSQUdFX0xJTUlUEAUSGgoWTE9X'
     'X1NQRUVEX1BPTElDWV9MSU1JVBAGIgQIBBAEKhVISUdIX0hPVVJMWV9BVkdfTElNSVQ=');
+
+@$core.Deprecated('Use userPowerSourceDescriptor instead')
+const UserPowerSource$json = {
+  '1': 'UserPowerSource',
+  '4': [UserPowerSource_AutoEnum$json],
+};
+
+@$core.Deprecated('Use userPowerSourceDescriptor instead')
+const UserPowerSource_AutoEnum$json = {
+  '1': 'AutoEnum',
+  '2': [
+    {'1': 'unknown', '2': 0},
+    {'1': 'usbc', '2': 1},
+    {'1': 'battery', '2': 2},
+    {'1': 'usbc_and_battery', '2': 3},
+  ],
+};
+
+/// Descriptor for `UserPowerSource`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List userPowerSourceDescriptor = $convert.base64Decode(
+    'Cg9Vc2VyUG93ZXJTb3VyY2UiRAoIQXV0b0VudW0SCwoHdW5rbm93bhAAEggKBHVzYmMQARILCg'
+    'diYXR0ZXJ5EAISFAoQdXNiY19hbmRfYmF0dGVyeRAD');

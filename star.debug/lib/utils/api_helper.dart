@@ -13,7 +13,7 @@ extension DishGetStatusExt on DishGetStatusResponse {
     if (this.hasOutage() && this.outage.hasCause())
       alerts++;
 
-    final String hw = deviceInfo.hardwareVersion ?? "";
+    final String hw = deviceInfo.hardwareVersion;
 
     if (hasReadyStates()) {
       for (var e in (readyStates.info_.byName).entries) {
@@ -42,6 +42,17 @@ extension DishGetStatusExt on DishGetStatusResponse {
 
     return alerts;
   }
+
+  // Newer firmware reports battery and USB-C stats inside power_source_stats.
+  // grpc-deprecated(dish firmware 2026.11.16, API 45): top-level battery_stats (1054) is reserved.
+  // Remove this fallback with older firmware support.
+  DishBatteryStats get effectiveBatteryStats =>
+      powerSourceStats.hasBatteryStats() ? powerSourceStats.batteryStats : batteryStats;
+
+  // grpc-deprecated(dish firmware 2026.11.16, API 45): top-level usbc_stats (1058) is reserved and
+  // seen in no captured dump; its DishUsbcStats type is assumed. Remove this fallback with it.
+  DishUsbcStats get effectiveUsbcStats =>
+      powerSourceStats.hasUsbcStats() ? powerSourceStats.usbcStats : usbcStats;
 }
 
 extension WifiGetStatusExt on WifiGetStatusResponse {

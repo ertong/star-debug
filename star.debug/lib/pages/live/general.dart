@@ -11,12 +11,30 @@ import 'package:star_debug/grpc/starlink/starlink.pbgrpc.dart';
 import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/pages/dialogs/wifi_setup.dart';
 import 'package:star_debug/pages/view/dish.dart';
+import 'package:star_debug/pages/view/status_series_graph.dart';
 import 'package:star_debug/preloaded.dart';
+import 'package:star_debug/utils/api_helper.dart';
+import 'package:star_debug/utils/format.dart';
 import 'package:star_debug/utils/kv_widget.dart';
 import 'package:star_debug/utils/log_utils.dart';
 import 'package:time_machine2/time_machine2.dart';
 
+// ignore: unused_element
 const String _TAG="GeneralTab";
+
+/// Battery charge with charging state and, when the dish reports one, the time estimate
+/// that matches it: time to full while charging, otherwise time to empty.
+@visibleForTesting
+String batterySummary(DishBatteryStats battery) {
+  var charge = "${battery.stateOfCharge} %";
+  if (battery.isCharging) {
+    charge = "$charge · ${M.grpc.DishBatteryStats.is_charging}";
+    if (battery.timeToChargeMinutes > 0)
+      charge = "$charge · ${M.live.battery_full_in(Format.minutes(battery.timeToChargeMinutes))}";
+  } else if (battery.timeToEmptyMinutes > 0)
+    charge = "$charge · ${M.live.battery_time_left(Format.minutes(battery.timeToEmptyMinutes))}";
+  return charge;
+}
 
 class GeneralTab extends StatefulWidget {
   const GeneralTab({super.key});
@@ -37,6 +55,7 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
   int lastGraphTime = 0;
 
   List<Widget> charts = [];
+  final seriesGraph = LiveSeriesGraph(requireMinute: true);
 
   @override
   void initState() {
@@ -66,6 +85,8 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
   }
 
   void buildCharts(){
+    seriesGraph.update(R.dish?.dishGetStatus.data?.deviceInfo.id);
+
     var history = R.dish?.dishGetHistory.data;
     var time = R.dish?.dishGetHistory.receivedTime ?? 0;
     var now = DateTime.now().millisecondsSinceEpoch;
@@ -95,7 +116,7 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
       var status = R.dish?.dishGetStatus.data;
       b.header(M.general.dish);
       if (dish==null || status==null || dish.isClosed)
-        b.kv("Status", "connecting");
+        b.kv(M.live.status, M.live.connecting);
       else {
         var b1 = KVWidgetBuilder(context, theme);
         b1.kv(M.grpc.DeviceInfo.id, status.deviceInfo.id);
@@ -113,6 +134,12 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
           }
           b1.kv(M.grpc.DishGetStatus.disablement_code, code, ok: ok);
         }
+
+        addSignalQualityRow(b1, status);
+
+        var battery = status.effectiveBatteryStats;
+        if (battery.hasStateOfCharge() || battery.batteryAttached)
+          b1.kv(M.grpc.DishBatteryStats.state_of_charge, batterySummary(battery));
 
         b.widgets.add(Row(crossAxisAlignment: CrossAxisAlignment.start,children: [
           ClipRRect(
@@ -148,13 +175,13 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
       bt.header(M.general.router);
       if (router==null || status==null || router.isClosed) {
         if (!R.features.routerOptional)
-          bt.kv("Status", "connecting");
+          bt.kv(M.live.status, M.live.connecting);
       } else {
         var b1 = KVWidgetBuilder(context, theme);
         b1.kv(M.grpc.DeviceInfo.id, status.deviceInfo.id);
         b1.kv(M.general.version, status.deviceInfo.softwareVersion);
         if (status.hasPingLatencyMs())
-          b1.kv(M.grpc.WifiGetStatus.ping_latency_ms, status.pingLatencyMs, ok: status.pingLatencyMs<200);
+          b1.kv(M.grpc.WifiGetStatus.ping_latency_ms, status.pingLatencyMs.toStringAsFixed(2), ok: status.pingLatencyMs<200);
         // b1.widgets.add(Text(status.deviceInfo.id));
 
         bt.widgets.add(Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -192,7 +219,7 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
       var online = R.online;
       b.header(M.general.online);
       if (online==null)
-        b.kv("Status", "connecting");
+        b.kv(M.live.status, M.live.connecting);
       else {
         b.kv(
           M.online.internet,
@@ -222,9 +249,12 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
         b.widgets.addAll(bt.widgets);
     }
 
-    if (charts.isNotEmpty)
+    var seriesChart = seriesGraph.chart;
+    if (charts.isNotEmpty || seriesChart!=null)
     {
       b.header(M.general.charts);
+      if (seriesChart!=null)
+        b.widgets.add(seriesChart);
       b.widgets.addAll(charts);
     }
 
@@ -264,7 +294,7 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
 
   Future<T?> withConnected<T>(Future<T> Function(DeviceClient stub, ClientChannel channel) callback, {bool router = false} ) async {
     final channel = ClientChannel(
-      router ? '192.168.1.1' : '192.168.100.1',
+      router ? R.prefs.data.effectiveRouterIp : R.prefs.data.effectiveDishIp,
       port: router ? 9000 : 9200,
       options: ChannelOptions(
         credentials: ChannelCredentials.insecure(),
@@ -299,7 +329,7 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
       if (res.result==WifiSetupResult.RES_BYPASS) {
         final dio = Dio();
         var token = CancelToken();
-        var resp = await dio.request("http://192.168.1.1/bypass",
+        var resp = await dio.request("http://${R.prefs.data.effectiveRouterIp}/bypass",
             cancelToken: token,
             options: Options(
                 sendTimeout: Duration(seconds: 2),

@@ -16,11 +16,13 @@ import 'package:star_debug/utils/api_helper.dart';
 import 'package:star_debug/utils/log_utils.dart';
 import 'package:star_debug/utils/obstruction_map_context.dart';
 import 'package:star_debug/utils/snapshot.dart';
+import 'package:star_debug/utils/status_series.dart';
 import 'package:star_debug/utils/tab_index.dart';
 import 'package:star_debug/widgets/app_drawer_pop_scope.dart';
 
 import 'live/router.dart';
 
+// ignore: unused_element
 const String _TAG = "LivePage";
 
 class LivePage extends StatefulWidget {
@@ -331,5 +333,15 @@ Snapshot buildLiveSnapshot() {
     obstructionMapApiVersion: R.dish?.dishGetObstructionMap.apiVersion,
     dishGetLocationGPS: R.dish?.dishGetLocationGPS.validData(),
     dishGetLocationStarlink: R.dish?.dishGetLocationStarlink.validData(),
+    statusSeries: _liveStatusSeries(),
+  );
+}
+
+/// The last [kStatusSeriesWindowMs] of samples for the dish whose status the snapshot shows.
+StatusSeries? _liveStatusSeries() {
+  var now = DateTime.now().millisecondsSinceEpoch;
+  return R.statusSeries.series(
+    dishId: R.dish?.dishGetStatus.data?.deviceInfo.id,
+    sinceMs: now - kStatusSeriesWindowMs,
   );
 }
