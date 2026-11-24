@@ -3295,6 +3295,26 @@ class ObstructionsMessages {
   String get dish_fraction => """Dish obstruction fraction""";
 
   /// ```dart
+  /// "Time obstructed (dish)"
+  /// ```
+  String get time_obstructed => """Time obstructed (dish)""";
+
+  /// ```dart
+  /// "Map validity (dish)"
+  /// ```
+  String get map_validity => """Map validity (dish)""";
+
+  /// ```dart
+  /// "Valid"
+  /// ```
+  String get map_valid => """Valid""";
+
+  /// ```dart
+  /// "Not valid"
+  /// ```
+  String get map_not_valid => """Not valid""";
+
+  /// ```dart
   /// "Avg. prolonged obstruction"
   /// ```
   String get average_duration => """Avg. prolonged obstruction""";
@@ -3470,6 +3490,18 @@ class ObstructionsMessages {
   /// ```
   String get dish_fraction_hint =>
       """The dish obstruction fraction is reported separately by the dish. Its calculation may differ from the map’s blocked-cell percentage.""";
+
+  /// ```dart
+  /// "Time obstructed is the dish-reported fraction of time its signal was obstructed. It is reported separately from the obstruction fraction and the map’s blocked-cell percentage."
+  /// ```
+  String get time_obstructed_hint =>
+      """Time obstructed is the dish-reported fraction of time its signal was obstructed. It is reported separately from the obstruction fraction and the map’s blocked-cell percentage.""";
+
+  /// ```dart
+  /// "Map validity is the dish’s own flag for its obstruction map. It is shown only when the dish reports it; older firmware does not."
+  /// ```
+  String get map_validity_hint =>
+      """Map validity is the dish’s own flag for its obstruction map. It is shown only when the dish reports it; older firmware does not.""";
 
   /// ```dart
   /// "Azimuth is clockwise from true north (0°); east is 90°. Elevation is above the horizon: 0° is horizontal, 90° straight up. Target angles are the dish-reported alignment goal. Differences are target minus dish, with azimuth wrapped to ±180°."
@@ -4463,6 +4495,10 @@ starting from approximately January 2023, Starlink routers are able to pick rand
   """obstructions.recorded_obstructions""": """No-signal cells recorded""",
   """obstructions.no_blocked_cells""": """No blocked cells recorded""",
   """obstructions.dish_fraction""": """Dish obstruction fraction""",
+  """obstructions.time_obstructed""": """Time obstructed (dish)""",
+  """obstructions.map_validity""": """Map validity (dish)""",
+  """obstructions.map_valid""": """Valid""",
+  """obstructions.map_not_valid""": """Not valid""",
   """obstructions.average_duration""": """Avg. prolonged obstruction""",
   """obstructions.average_interval""":
       """Avg. time between prolonged obstructions""",
@@ -4498,6 +4534,8 @@ starting from approximately January 2023, Starlink routers are able to pick rand
   """obstructions.patterns_hint""": """Persistent no-signal regions can help compare mounting locations. The map alone cannot identify what caused a no-signal region or predict downtime. Starlink can switch to satellites in unobstructed directions when available.""",
   """obstructions.patch_hint""": """A patch groups no-signal cells that touch along an edge. Its cell count does not measure a physical obstacle. Map and sector percentages do not represent equal areas of sky.""",
   """obstructions.dish_fraction_hint""": """The dish obstruction fraction is reported separately by the dish. Its calculation may differ from the map’s blocked-cell percentage.""",
+  """obstructions.time_obstructed_hint""": """Time obstructed is the dish-reported fraction of time its signal was obstructed. It is reported separately from the obstruction fraction and the map’s blocked-cell percentage.""",
+  """obstructions.map_validity_hint""": """Map validity is the dish’s own flag for its obstruction map. It is shown only when the dish reports it; older firmware does not.""",
   """obstructions.orientation_hint""": """Azimuth is clockwise from true north (0°); east is 90°. Elevation is above the horizon: 0° is horizontal, 90° straight up. Target angles are the dish-reported alignment goal. Differences are target minus dish, with azimuth wrapped to ±180°.""",
   """obstructions.reception_hint""": """Reception times date the map and status responses, not individual observations in the accumulated map.""",
   """obstructions.collection_hint""": """The map fills as the dish communicates with satellites and continues to update. Initial collection can take hours; gaps alone do not show an obstruction.""",

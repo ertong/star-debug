@@ -45,9 +45,10 @@ recorded signal quality, not measured SNR in dB. Gray means unobserved. Near-zer
 can look blocked even though only exact zero enters the blocked count.
 
 `blocked / observed` excludes unobserved cells, includes reduced-signal cells, and stays separate
-from dish-reported `fractionObstructed`. Patch sizes and sector ratios count samples; they do not
-measure sky area, physical obstacle size, or downtime. An unobserved band can be a satellite
-exclusion region. Recorded blocked cells do not directly predict interruptions.
+from dish-reported `fractionObstructed` and `timeObstructed`, which are shown as separate metrics.
+Patch sizes and sector ratios count samples; they do not measure sky area, physical obstacle size,
+or downtime. An unobserved band can be a satellite exclusion region. Recorded blocked cells do not
+directly predict interruptions.
 
 ## Source mode and freshness
 
@@ -177,8 +178,10 @@ establish command-recording costs in that environment, not supported-device perf
 - **Accessibility:** canvas semantics expose aggregate counts only; individual sector results
   exist only as painted labels. Canvas `TextPainter` labels use fixed sizes without the platform
   text scaler, even though ordinary dialog text scales.
-- **Diagnostic visibility:** `timeObstructed`, numeric `patchesValid`, and
-  `avgProlongedObstructionValid` are not shown; the latter two still affect presentation.
+- **Diagnostic visibility:** numeric `patchesValid` and `avgProlongedObstructionValid` are not
+  shown; both still affect presentation. Dish-reported `mapValid` is shown but does not gate the
+  map. Proto3 omits `false` on the wire, so live data can confirm a valid map but cannot
+  distinguish an invalid map from firmware that does not report the flag.
 - **Calibration:** synthetic tests and a captured quaternion do not establish a vendor
   pixel-to-angle transform. No complete simultaneous real map/status calibration fixture exists.
 

@@ -338,6 +338,10 @@ class _MapView {
           _fraction(stats!.fractionObstructed)
       ? stats!.fractionObstructed
       : null;
+  double? get dishTimeObstructed =>
+      stats?.hasTimeObstructed() == true && _fraction(stats!.timeObstructed)
+      ? stats!.timeObstructed
+      : null;
 
   String get unavailable => !hasResponse
       ? live
@@ -690,6 +694,22 @@ class _ObstructionDetails extends StatelessWidget {
       cells.add(
         _Metric(M.obstructions.dish_fraction, _percent(view.dishFraction)),
       );
+    if (view.dishTimeObstructed != null)
+      cells.add(
+        _Metric(
+          M.obstructions.time_obstructed,
+          _percent(view.dishTimeObstructed),
+        ),
+      );
+    if (stats?.hasMapValid() == true)
+      cells.add(
+        _Metric(
+          M.obstructions.map_validity,
+          stats!.mapValid
+              ? M.obstructions.map_valid
+              : M.obstructions.map_not_valid,
+        ),
+      );
     if (stats?.hasCurrentlyObstructed() == true) {
       cells.add(
         _Metric(
@@ -923,6 +943,9 @@ class _ReadingGuide extends StatelessWidget {
         M.obstructions.patch_hint,
         if (view.sectors != null) M.obstructions.sectors_hint,
         if (view.dishFraction != null) M.obstructions.dish_fraction_hint,
+        if (view.dishTimeObstructed != null)
+          M.obstructions.time_obstructed_hint,
+        if (view.stats?.hasMapValid() == true) M.obstructions.map_validity_hint,
       ]),
       _topic(context, M.obstructions.guide_directions, [
         if (view.ready &&
