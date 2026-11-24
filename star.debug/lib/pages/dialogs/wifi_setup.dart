@@ -74,6 +74,16 @@ class _WifiSetupDialogState extends State<WifiSetupDialog>
     setState(() {});
   }
 
+  /// Closes the dialog with [result] after the user confirms [text].
+  Future<void> _confirmAndClose(String text, WifiSetupResult Function() result) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (c) => ConfirmDialog(text: text, title: M.general.confirmation),
+    );
+    if (!mounted || confirmed != true) return;
+    Navigator.pop(context, result());
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -171,17 +181,12 @@ class _WifiSetupDialogState extends State<WifiSetupDialog>
                         padding: EdgeInsets.fromLTRB(2, 5, 2, 5),
                         fixedSize: Size(80, 70)
                     ),
-                    onPressed: () async {
-                      if (formKey.currentState!.validate()) {
-                        var res = await showDialog<bool>(context: context,
-                            builder: (c) { return ConfirmDialog(
-                                text: M.wifi.setup_ssid_pass(tecName.text, tecPassword.text),
-                                title: M.general.confirmation);
-                            }
+                    onPressed: () {
+                      if (formKey.currentState!.validate())
+                        _confirmAndClose(
+                          M.wifi.setup_ssid_pass(tecName.text, tecPassword.text),
+                          () => WifiSetupResult(WifiSetupResult.RES_WIFI, name: tecName.text, pass: tecPassword.text),
                         );
-                        if (mounted && res==true)
-                          Navigator.pop(context, WifiSetupResult(WifiSetupResult.RES_WIFI, name:tecName.text, pass:tecPassword.text));
-                      }
                     },
                     child: Text(M.wifi.setup_ssid_and_password, textAlign: TextAlign.center,),
                   ),
@@ -190,16 +195,10 @@ class _WifiSetupDialogState extends State<WifiSetupDialog>
                         padding: EdgeInsets.fromLTRB(2, 5, 2, 5),
                         fixedSize: Size(80, 70)
                     ),
-                    onPressed: () async {
-                      var res = await showDialog<bool>(context: context,
-                          builder: (c) { return ConfirmDialog(
-                              text: M.wifi.setup_default,
-                              title: M.general.confirmation);
-                          }
-                      );
-                      if (mounted && res==true)
-                        Navigator.pop(context, WifiSetupResult(WifiSetupResult.RES_SKIP));
-                    },
+                    onPressed: () => _confirmAndClose(
+                      M.wifi.setup_default,
+                      () => WifiSetupResult(WifiSetupResult.RES_SKIP),
+                    ),
                     child: Text(M.wifi.keep_default_wifi_settings, textAlign: TextAlign.center),
                   ),
                   ElevatedButton(
@@ -207,16 +206,10 @@ class _WifiSetupDialogState extends State<WifiSetupDialog>
                         padding: EdgeInsets.fromLTRB(2, 5, 2, 5),
                         fixedSize: Size(80, 70)
                     ),
-                    onPressed: () async {
-                      var res = await showDialog<bool>(context: context,
-                          builder: (c) { return ConfirmDialog(
-                              text: M.wifi.setup_bypass,
-                              title: M.general.confirmation);
-                          }
-                      );
-                      if (mounted && res==true)
-                        Navigator.pop(context, WifiSetupResult(WifiSetupResult.RES_BYPASS));
-                    },
+                    onPressed: () => _confirmAndClose(
+                      M.wifi.setup_bypass,
+                      () => WifiSetupResult(WifiSetupResult.RES_BYPASS),
+                    ),
                     child: Text(M.wifi.enable_bypass_mode, textAlign: TextAlign.center),
                   ),
                 ],
