@@ -542,7 +542,11 @@ grpc:
       - **INE_FAILED** - Initial network entry failed.
       - **KERNEL_TAINTED** - The kernel was tainted (e.g. by a module error).
       - **MINI2_AUTO_OFF** - Legacy automatic power-off reason (deprecated).
-      - **BATTERY_AUTO_OFF** - Automatic power-off related to battery operation.
+      - **BATTERY_AUTO_OFF** - Legacy automatic power-off related to battery operation (deprecated; replaced by the two reasons below).
+      - **BATTERY_LOSS_OF_EXT_POWER_AUTO_OFF** - The dish turned itself off while running on battery after losing external power. See *Auto-off after losing external power* in Config.
+      - **BATTERY_NO_BURST_AUTO_OFF** - The dish turned itself off while running on battery after receiving no satellite signal. See *Auto-off without satellite signal* in Config.
+      - **BUTTON_POWER_OFF** - The dish was turned off with its power button.
+      - **MCU_BUTTON_POWER_OFF** - Power-off by button, handled by the dish's power-management microcontroller (MCU). The difference from BUTTON_POWER_OFF is not documented.
   AlignmentStats:
     has_actuators: has_actuators
     actuator_state: actuator_state
