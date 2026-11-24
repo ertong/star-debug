@@ -78,7 +78,7 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
 
   Future<T?> withConnected<T>(Future<T> Function(DeviceClient stub, ClientChannel channel) callback, {bool router = false} ) async {
     final channel = ClientChannel(
-      router ? '192.168.1.1' : '192.168.100.1',
+      router ? R.prefs.data.effectiveRouterIp : R.prefs.data.effectiveDishIp,
       port: router ? 9000 : 9200,
       options: ChannelOptions(
         credentials: ChannelCredentials.insecure(),

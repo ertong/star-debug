@@ -101,4 +101,17 @@ void main() {
     expect(restarted.data.dishIp ?? kDefaultDishIp, kDefaultDishIp);
     expect(restarted.data.routerIp ?? kDefaultRouterIp, kDefaultRouterIp);
   });
+
+  test('effective addresses resolve overrides and defaults', () async {
+    final custom = await _load({
+      'dishIp': '192.168.100.2',
+      'routerIp': '10.1.0.1',
+    });
+    expect(custom.data.effectiveDishIp, '192.168.100.2');
+    expect(custom.data.effectiveRouterIp, '10.1.0.1');
+
+    final defaults = await _load({});
+    expect(defaults.data.effectiveDishIp, kDefaultDishIp);
+    expect(defaults.data.effectiveRouterIp, kDefaultRouterIp);
+  });
 }

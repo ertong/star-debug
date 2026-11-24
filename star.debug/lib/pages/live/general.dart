@@ -274,7 +274,7 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
 
   Future<T?> withConnected<T>(Future<T> Function(DeviceClient stub, ClientChannel channel) callback, {bool router = false} ) async {
     final channel = ClientChannel(
-      router ? '192.168.1.1' : '192.168.100.1',
+      router ? R.prefs.data.effectiveRouterIp : R.prefs.data.effectiveDishIp,
       port: router ? 9000 : 9200,
       options: ChannelOptions(
         credentials: ChannelCredentials.insecure(),
@@ -309,7 +309,7 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
       if (res.result==WifiSetupResult.RES_BYPASS) {
         final dio = Dio();
         var token = CancelToken();
-        var resp = await dio.request("http://192.168.1.1/bypass",
+        var resp = await dio.request("http://${R.prefs.data.effectiveRouterIp}/bypass",
             cancelToken: token,
             options: Options(
                 sendTimeout: Duration(seconds: 2),

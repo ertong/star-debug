@@ -18,6 +18,9 @@ class Prefs{
   String? routerIp;  // default: 192.168.1.1
   String? dishIp;    // default: 192.168.100.1
 
+  String get effectiveRouterIp => normalizeIpv4Override(routerIp, kDefaultRouterIp) ?? kDefaultRouterIp;
+  String get effectiveDishIp => normalizeIpv4Override(dishIp, kDefaultDishIp) ?? kDefaultDishIp;
+
   Prefs();
 }
 
