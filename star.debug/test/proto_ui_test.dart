@@ -47,6 +47,8 @@ void main() {
     var populatedStatus = DishGetStatusResponse(
       accountShard: AccountShard.ACCOUNT_SHARD_DEFAULT,
       natFlag: NatFlag.NAT_ENABLED,
+      // grpc-deprecated(dish firmware 2026.11.16, API 45): top-level battery_stats and
+      // DishBatteryStats.power_source.
       batteryStats: DishBatteryStats(
         stateOfCharge: 72,
         isCharging: false,
@@ -149,6 +151,8 @@ void main() {
     );
 
     // Older firmware: only the top-level battery stats.
+    // grpc-deprecated(dish firmware 2026.11.16, API 45): top-level battery_stats and
+    // DishBatteryStats.power_source.
     await pump(
       DishGetStatusResponse(
         batteryStats: DishBatteryStats(

@@ -194,6 +194,7 @@ void main() {
         _dish(
           DishGetStatusResponse(
             disablementCode: UtDisablementCode.OUTSIDE_HOME_REGION,
+            // grpc-deprecated(dish firmware 2026.11.16, API 45): REBOOT_REASON_BATTERY_AUTO_OFF.
             rebootReason: RebootReason.REBOOT_REASON_BATTERY_AUTO_OFF,
           ),
         ),

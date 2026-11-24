@@ -45,7 +45,7 @@ message Request {
     .SpaceX.API.Device.PingHostRequest ping_host = 1016;
     .SpaceX.API.Device.GetLocationRequest get_location = 1017;
     .SpaceX.API.Device.GetHeapDumpRequest get_heap_dump = 1019;
-    .SpaceX.API.Device.RestartControlRequest restart_control = 1020; // kept: still in router dump; reserved in dish dump
+    .SpaceX.API.Device.RestartControlRequest restart_control = 1020; // grpc-deprecated(dish firmware 2026.11.16, API 45): reserved in dish dump; kept while the router dump still has it
     .SpaceX.API.Device.FuseRequest fuse = 1021;
     .SpaceX.API.Device.GetPersistentStatsRequest get_persistent_stats = 1022;
     .SpaceX.API.Device.GetConnectionsRequest get_connections = 1023 [deprecated = true];
@@ -678,7 +678,7 @@ message WifiConfig {
   bool disable_mesh_onboarding = 52;
   bool pin_country_code = 53;
   bool custom_power_table = 54;
-  bool use_public_services = 55 [deprecated = true]; // kept: still in router dump; reserved in dish dump
+  bool use_public_services = 55 [deprecated = true]; // grpc-deprecated(dish firmware 2026.11.16, API 45): reserved in dish dump; kept while the router dump still has it
   bool disable_automated_speedtests = 56;
   uint32 channel_5ghz_high = 57;
   .SpaceX.API.Device.WifiConfig.WirelessMode wireless_mode_5ghz_high = 58;
@@ -725,7 +725,7 @@ message WifiConfig {
   bool apply_secure_dns = 1065;
   bool apply_ap_mode = 1066;
   bool apply_disable_mesh_onboarding = 1067;
-  bool apply_use_public_services = 1068 [deprecated = true]; // kept: still in router dump; reserved in dish dump
+  bool apply_use_public_services = 1068 [deprecated = true]; // grpc-deprecated(dish firmware 2026.11.16, API 45): reserved in dish dump; kept while the router dump still has it
   bool apply_disable_automated_speedtests = 1069;
   bool apply_wireless_mode_5ghz_high = 1070;
   bool apply_ht_bandwidth_5ghz_high = 1071;
@@ -1380,7 +1380,7 @@ message Response {
     .SpaceX.API.Device.PingHostResponse ping_host = 1016;
     .SpaceX.API.Device.GetLocationResponse get_location = 1017;
     .SpaceX.API.Device.GetHeapDumpResponse get_heap_dump = 1019;
-    .SpaceX.API.Device.RestartControlResponse restart_control = 1020; // kept: still in router dump; reserved in dish dump
+    .SpaceX.API.Device.RestartControlResponse restart_control = 1020; // grpc-deprecated(dish firmware 2026.11.16, API 45): reserved in dish dump; kept while the router dump still has it
     .SpaceX.API.Device.FuseResponse fuse = 1021;
     .SpaceX.API.Device.GetConnectionsResponse get_connections = 1023 [deprecated = true];
     .SpaceX.API.Device.StartSpeedtestResponse start_speedtest = 1027;
@@ -1893,7 +1893,7 @@ message DishGetStatusResponse {
   .SpaceX.API.Device.AccountShard account_shard = 1051;
   bool mac_flag = 1052;
   .SpaceX.API.Device.NatFlag nat_flag = 1053;
-  .SpaceX.API.Device.DishBatteryStats battery_stats = 1054; // kept: still in router dump; reserved in dish dump
+  .SpaceX.API.Device.DishBatteryStats battery_stats = 1054; // grpc-deprecated(dish firmware 2026.11.16, API 45): reserved in dish dump; kept while the router dump still has it
   bool user_debug_mode_enabled = 1055;
   bool treat_as_metered = 1056;
   float signal_quality = 1057;
@@ -2223,7 +2223,7 @@ message PowerSourceStats {
 message DishBatteryStats {
   uint32 state_of_charge = 1;
   bool is_charging = 2;
-  .SpaceX.API.Device.PowerSource power_source = 3; // kept: still in router dump; reserved in dish dump
+  .SpaceX.API.Device.PowerSource power_source = 3; // grpc-deprecated(dish firmware 2026.11.16, API 45): reserved in dish dump; kept while the router dump still has it
   bool battery_attached = 4;
   float power_w = 5;
   uint32 time_to_charge_minutes = 6;

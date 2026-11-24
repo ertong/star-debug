@@ -13,6 +13,7 @@ import 'package:star_debug/utils/debug_data.dart';
 void _validateStatus(DishGetStatusResponse dish, WifiGetStatusResponse router) {
   expect(dish.signalQuality, closeTo(0.75, 1e-6));
   expect(dish.disablementCode, UtDisablementCode.OUTSIDE_HOME_REGION);
+  // grpc-deprecated(dish firmware 2026.11.16, API 45): REBOOT_REASON_BATTERY_AUTO_OFF.
   expect(dish.rebootReason, RebootReason.REBOOT_REASON_BATTERY_AUTO_OFF);
   expect(dish.alerts.installPending, isTrue);
   expect(router.publicIpv4, '203.0.113.42');
@@ -69,6 +70,7 @@ void main() {
     ]);
     expect(status.signalQuality, closeTo(0.75, 1e-6));
     expect(status.disablementCode, UtDisablementCode.OUTSIDE_HOME_REGION);
+    // grpc-deprecated(dish firmware 2026.11.16, API 45): REBOOT_REASON_BATTERY_AUTO_OFF.
     expect(status.rebootReason, RebootReason.REBOOT_REASON_BATTERY_AUTO_OFF);
 
     var diagnostics = DishGetDiagnosticsResponse.fromBuffer([0x30, 0x11]);
@@ -84,6 +86,7 @@ void main() {
     // battery_ut_power_off_rf_idle_active: tag 1060;
     // legacy battery_stats: tag 1054 {state_of_charge 55}, still sent by
     // firmware that predates power_source_stats.
+    // grpc-deprecated(dish firmware 2026.11.16, API 45): top-level battery_stats (1054).
     var status = DishGetStatusResponse.fromBuffer([
       0x9a, 0x42, 0x08, 0x12, 0x04, 0x08, 0x50, 0x20, 0x01, 0x20, 0x03, //
       0xa0, 0x42, 0x01, //

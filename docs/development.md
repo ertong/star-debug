@@ -87,6 +87,20 @@ icons from `star.debug/` with:
 flutter pub run flutter_launcher_icons
 ```
 
+## Deprecated gRPC fields
+
+Code and tests that use a protobuf field, enum value, or message that Starlink firmware deprecated
+or reserved carry a `grpc-deprecated(<when>)` comment. It names the field and the firmware, API
+version, or proto dump that first deprecated it. Fields that a newer dump reserves but an older
+device dump still serves stay in `_misc/starlink.proto` with the same tag. To drop support,
+search for `grpc-deprecated`, remove the fallback code and its tests, and mark the field `reserved`
+in the proto.
+
+The analyzer does not report uses of deprecated generated members from this package by default.
+To list them, temporarily enable the `deprecated_member_use_from_same_package` lint in
+`analysis_options.yaml` and run `flutter analyze`. Fields kept only by a `grpc-deprecated` proto
+comment are not marked deprecated, so search for those by name.
+
 ## Localization workflow
 
 English is the source catalog in `lib/messages/messages.i18n.yaml`; Ukrainian is in the adjacent

@@ -308,6 +308,8 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
         var power = status.powerSourceStats;
         // Newer firmware reports battery stats inside power_source_stats; older firmware uses
         // the top-level battery_stats field.
+        // grpc-deprecated(dish firmware 2026.11.16, API 45): DishGetStatusResponse battery_stats
+        // (1054) is reserved. Remove the hasBatteryStats() check above and this fallback.
         var stats = power.hasBatteryStats() ? power.batteryStats : status.batteryStats;
         var usbc = power.usbcStats;
         var b = KVWidgetBuilder(context, theme);
@@ -316,6 +318,8 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
         var powerSourceHint = Format.formatEnumHint(M.grpc.DishBatteryStats.power_source__hint, UserPowerSource_AutoEnum.values);
         if (power.hasPowerSource() && power.powerSource != UserPowerSource_AutoEnum.unknown)
           b.kv(M.grpc.DishBatteryStats.power_source, power.powerSource, hint: powerSourceHint);
+        // grpc-deprecated(dish firmware 2026.11.16, API 45): DishBatteryStats power_source (3) is
+        // reserved and enum PowerSource is gone; PowerSourceStats.power_source replaces them.
         else if (stats.hasPowerSource() && stats.powerSource != PowerSource.POWER_SOURCE_UNKNOWN)
           b.kv(M.grpc.DishBatteryStats.power_source, stats.powerSource);
 

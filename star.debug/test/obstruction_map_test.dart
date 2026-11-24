@@ -1251,6 +1251,7 @@ void main() {
         numCols: 3,
         snr: [1, 1, 1, 1, 1, 1, 1, 0, 1],
         mapReferenceFrame: frame,
+        // grpc-deprecated(dish API 17, proto dump 2024-03): min_elevation_deg.
         minElevationDeg: 10,
         maxThetaDeg: 80,
       );
