@@ -76,9 +76,11 @@ K='~/Library/Keychains/stardebug.keychain-db'
 NO_PUSH=1 bash $S run "security find-identity -v -p codesigning $K"
 # Distribution certificate expiry
 NO_PUSH=1 bash $S run "security find-certificate -a -c 'Apple Distribution' -p $K | openssl x509 -noout -subject -enddate"
-# Installed provisioning profiles: name and expiry
-NO_PUSH=1 bash $S run 'for f in ~/Library/MobileDevice/Provisioning\ Profiles/*; do
-  p=$(security cms -D -i "$f" 2>/dev/null); echo "$(plutil -extract ExpirationDate raw -o - - <<<"$p")  $(plutil -extract Name raw -o - - <<<"$p")"; done'
+# Installed provisioning profiles: expiry and name. Current Xcode and match use the UserData
+# folder; MobileDevice holds older copies that can be stale.
+NO_PUSH=1 bash $S run 'for d in ~/Library/Developer/Xcode/UserData/Provisioning\ Profiles ~/Library/MobileDevice/Provisioning\ Profiles; do
+  echo "== $d"; for f in "$d"/*(N); do p=$(security cms -D -i "$f" 2>/dev/null)
+  echo "$(plutil -extract ExpirationDate raw -o - - <<<"$p")  $(plutil -extract Name raw -o - - <<<"$p")"; done; done'
 # Can the Mac read the match repository?
 NO_PUSH=1 bash $S run 'set -a; . ios/.env.default; set +a; git ls-remote "$MATCH_GIT_URL" "$MATCH_GIT_BRANCH"'
 # Install what the match repository currently holds (no Apple login, no portal changes)
