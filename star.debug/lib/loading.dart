@@ -1,7 +1,7 @@
 import 'dart:math' as math;
 import 'dart:math';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class Loading extends StatefulWidget {
   final Future<void> Function(BuildContext)? onInit;

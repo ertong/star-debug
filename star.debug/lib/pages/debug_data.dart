@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:clipboard/clipboard.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/material.dart' hide Notification, Card;
+import 'package:material_ui/material_ui.dart' hide Notification, Card;
 import 'package:star_debug/drawer.dart';
 import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/pages/snapshot.dart';

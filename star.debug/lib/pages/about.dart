@@ -2,7 +2,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:flutter/material.dart' hide Notification, Card;
+import 'package:material_ui/material_ui.dart' hide Notification, Card;
 import 'package:flutter/services.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
@@ -57,10 +57,7 @@ class _AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
   List<Widget> _buildBody() {
     List<Widget> res = [];
 
-    var theme = Theme.of(context);
-
-    var style = MarkdownStyleSheet.fromTheme(theme);
-    style = MarkdownStyleSheet(textScaler: TextScaler.linear(1.2));
+    var style = MarkdownStyleSheet(textScaler: TextScaler.linear(1.2));
 
     res.add(
       Center(

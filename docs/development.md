@@ -182,5 +182,8 @@ documentation, or source control.
 - After switching host operating systems, regenerate ignored package configuration with
   `flutter pub get`; cached paths from another host can fail before tests execute.
 - `msg.sh` needs the existing root `.venv`; unlike `_misc/protoc.sh`, it does not bootstrap it.
+- Import `package:material_ui/material_ui.dart`, not the deprecated
+  `package:flutter/material.dart`. Their `ThemeData` types differ, so a package API that takes
+  the SDK type, such as `MarkdownStyleSheet.fromTheme`, does not accept the app's theme.
 - Check [Architecture](architecture.md) for connection freshness, captured hosts, timestamp units,
   and import compatibility contracts before changing those paths.

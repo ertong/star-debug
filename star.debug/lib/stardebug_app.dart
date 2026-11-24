@@ -1,8 +1,7 @@
 import 'dart:async';
 
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:star_debug/pages/live.dart';
 import 'package:star_debug/preloaded.dart';
 
@@ -47,19 +46,12 @@ class StarDebugAppState extends State<StarDebugApp> {
 
     return MaterialApp(
       scaffoldMessengerKey: R.scaffoldMessengerKey,
-      localizationsDelegates: const [
-        GlobalCupertinoLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
+      localizationsDelegates: GlobalMaterialLocalizations.delegates,
       //debugShowCheckedModeBanner: false,
       navigatorKey: R.navigatorKey,
       supportedLocales: I18n.instance.locales.values,
       locale: I18n.instance.locale,
-      builder: (context, child) => MediaQuery(
-        data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
-        child: child!,
-      ),
+      builder: starDebugAppBuilder,
 
       onGenerateTitle: (BuildContext context) => M.general.app_name,
 
@@ -76,6 +68,19 @@ class StarDebugAppState extends State<StarDebugApp> {
       home: LivePage(),
     );
   }
+}
+
+/// Wraps every route of the app's [MaterialApp].
+Widget starDebugAppBuilder(BuildContext context, Widget? child) {
+  // Passes the theme and localizations to dependencies that still use
+  // package:flutter/material.dart, such as flutter_markdown_plus.
+  // ignore: deprecated_member_use
+  return MaterialUiCompatibilityBridge(
+    child: MediaQuery(
+      data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+      child: child!,
+    ),
+  );
 }
 
 class _MyNavigatorObserver extends NavigatorObserver {

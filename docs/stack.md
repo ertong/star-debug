@@ -17,7 +17,12 @@ The Python utilities support generation and publishing; there is no Python appli
 
 ## Application foundations
 
-Flutter Material/Cupertino widgets provide the UI. The global `R` holds
+The standalone `material_ui` and `cupertino_ui` packages provide the UI; the app does not import
+the deprecated `package:flutter/material.dart` or `package:flutter/cupertino.dart`. Their themes
+and localizations are separate from the SDK libraries, so
+[`starDebugAppBuilder`](../star.debug/lib/stardebug_app.dart) wraps routes in
+`MaterialUiCompatibilityBridge` for dependencies that still use the SDK libraries, such as
+`flutter_markdown_plus`. The global `R` holds
 [`Preloaded`](../star.debug/lib/preloaded.dart), the service owner for preferences, database,
 connection holders, navigation, and platform integration. There is no DI framework or local
 HTTP server. [Architecture](architecture.md) explains initialization and runtime lifetimes.

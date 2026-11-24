@@ -1,5 +1,5 @@
 import 'package:drift/drift.dart' show TableStatements;
-import 'package:flutter/material.dart' hide Notification, Card;
+import 'package:material_ui/material_ui.dart' hide Notification, Card;
 import 'package:star_debug/db/database.dart';
 import 'package:star_debug/drawer.dart';
 import 'package:star_debug/grpc/starlink/network.pbenum.dart';

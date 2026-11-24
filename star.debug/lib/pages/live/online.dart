@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart' hide Notification, Card, ConnectionState;
+import 'package:material_ui/material_ui.dart' hide Notification, Card, ConnectionState;
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/utils/kv_widget.dart';
 

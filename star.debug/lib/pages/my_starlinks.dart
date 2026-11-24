@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:drift/drift.dart' show TableStatements;
-import 'package:flutter/material.dart' hide Notification, Card;
+import 'package:material_ui/material_ui.dart' hide Notification, Card;
 import 'package:star_debug/db/dao/dishes_dao.dart';
 import 'package:star_debug/drawer.dart';
 import 'package:star_debug/grpc/starlink/starlink.pb.dart';
