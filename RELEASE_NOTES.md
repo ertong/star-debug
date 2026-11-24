@@ -1,3 +1,15 @@
+## 1.2b83
+
+### New Features:
+- Add signal quality history graphs to the General and Dish tabs.
+- Store the last 15 minutes of signal quality with snapshots and in Debug JSON imports and exports.
+- Show battery charge, charging state, and time estimates on the General tab.
+- Show power source, USB-C, and battery details in the dish power section.
+
+### Enhancements:
+- Show signal quality as a color-coded percentage.
+- Update Starlink protocol support to 2026.11.16.
+
 ## 1.2b82
 
 ### New Features:
