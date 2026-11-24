@@ -7,9 +7,9 @@ The repository builds one Flutter application from [`star.debug/`](../star.debug
 [`.tool-versions`](../star.debug/.tool-versions) pins Flutter 3.50.1. Dart must satisfy
 `>=3.14.0 <4.0.0`. [`lib/main.dart`](../star.debug/lib/main.dart) is the application entry point.
 
-Android, iOS, macOS, Linux, and Windows runners under the package host that same Dart application;
-they are not separate products. There is no web target. Android uses Gradle/Java with built-in
-Kotlin support, iOS/macOS use Xcode projects, and Linux/Windows use CMake runners.
+Android, iOS, Linux, and Windows runners under the package host that same Dart application;
+they are not separate products. There is no macOS or web target. Android uses Gradle/Java with
+built-in Kotlin support, iOS uses an Xcode project, and Linux/Windows use CMake runners.
 
 Repository-root [`_misc/`](../_misc/) contains protobuf inputs and generation tooling.
 [`_build/`](../_build/) and [`.gitlab-ci.yml`](../.gitlab-ci.yml) contain CI/release tooling.
@@ -34,7 +34,7 @@ HTTP server. [Architecture](architecture.md) explains initialization and runtime
 - `Dio` handles router HTTP probes on all platforms and internet probes on iOS/desktop.
   Android internet probes use a Dart method channel to Java/OkHttp, including DNS-over-HTTPS;
   [`lib/channel/`](../star.debug/lib/channel/) is the Dart boundary. Image clipboard writes use
-  the existing `clipboard` plugin on iOS/macOS/Windows and a small app channel on Android/Linux
+  the existing `clipboard` plugin on iOS/Windows and a small app channel on Android/Linux
   for cache-backed content URIs and the GTK image clipboard respectively.
 - `Drift` provides generated tables/DAOs over native SQLite. `DatabaseHolder` moves execution
   to a background isolate; [`lib/db/`](../star.debug/lib/db/) contains source and generated output.

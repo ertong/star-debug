@@ -39,26 +39,32 @@ class _SelectLangDialogState<TItem> extends State<SelectLangDialog<TItem>> {
           )
         ],
       ),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Divider(
-            color: Colors.grey,
-            height: 4.0,
-          ),
-          for (var lang in I18n.instance.langs.keys)
-            ListTile(
-              contentPadding: EdgeInsets.zero,
-              dense: true,
-              title: Row(
-                children: [
-                  Radio(value: lang, groupValue: I18n.instance.lang, onChanged: (v) => onSelect(lang)),
-                  Text(I18n.instance.langs[lang]!().general.lang),
-                ],
-              ),
-              onTap: () => onSelect(lang),
+      content: RadioGroup<String>(
+        groupValue: I18n.instance.lang,
+        onChanged: (v) {
+          if (v != null) onSelect(v);
+        },
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Divider(
+              color: Colors.grey,
+              height: 4.0,
             ),
-        ],
+            for (var lang in I18n.instance.langs.keys)
+              ListTile(
+                contentPadding: EdgeInsets.zero,
+                dense: true,
+                title: Row(
+                  children: [
+                    Radio<String>(value: lang),
+                    Text(I18n.instance.langs[lang]!().general.lang),
+                  ],
+                ),
+                onTap: () => onSelect(lang),
+              ),
+          ],
+        ),
       ),
     );
   }

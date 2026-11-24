@@ -151,12 +151,13 @@ and built-in Kotlin with compiler `2.4.20`. Compile SDK 37.0 is required by
 `permission_handler_android` 14.x; the app targets API 36.
 
 Android CI selects `ertong/flutter:3.50.1-api37-jdk17`; its image contents are external to this
-repository. macOS CI uses asdf; Windows CI installs the pinned Flutter release in the job
-workspace. The dependency lockfile keeps transitive versions reproducible.
+repository. iOS CI runs on macOS runners with asdf; Windows CI installs the pinned Flutter release
+in the job workspace. The dependency lockfile keeps transitive versions reproducible.
 The clipboard dependency retains its Git pin because published version 3.0.14 lacks the
 Windows include-path fix.
 
-Platform projects live under `star.debug/android`, `ios`, `macos`, `linux`, and `windows`.
+Platform projects live under `star.debug/android`, `ios`, `linux`, and `windows`; there is no macOS
+target.
 Important platform-specific code includes:
 
 - Android `MainActivity.java` and `HttpTester.java` for native internet probes;

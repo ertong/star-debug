@@ -45,8 +45,8 @@ Read the focused documentation before changing a central subsystem:
 - `_misc/` contains protobuf sources and their generation script.
 - `_build/` and `.gitlab-ci.yml` define build, test, and release jobs.
 
-Platform runners are under `star.debug/android`, `ios`, `macos`, `linux`, and `windows`. The project
-does not currently have a web target.
+Platform runners are under `star.debug/android`, `ios`, `linux`, and `windows`. The project does not
+currently have a macOS or web target.
 
 ## Architectural rules
 
