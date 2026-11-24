@@ -1,4 +1,5 @@
-FROM ubuntu:26.04
+# Pinned by digest; bump together with UBUNTU_SNAPSHOT.
+FROM ubuntu:26.04@sha256:d66b366dac61b575bee2aef07e9c26e8070096fbe84a3d4d3eb0da069b5d76db
 #android tools from https://github.com/cirruslabs/docker-images-android/blob/master/sdk/tools/Dockerfile
 
 
@@ -19,9 +20,15 @@ ENV ANDROID_SDK_ROOT=$ANDROID_HOME \
 ENV ANDROID_SDK_TOOLS_VERSION 11076708
 
 ARG JDK_PACKAGE=openjdk-11-jdk
+# Ubuntu archive state to install from (https://snapshot.ubuntu.com). The snapshot is served over
+# HTTPS, so ca-certificates comes from the regular archive first; every other package is pinned.
+ARG UBUNTU_SNAPSHOT=20261124T000000Z
 
 RUN set -o xtrace \
     && cd /opt \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends ca-certificates \
+    && echo "APT::Snapshot \"$UBUNTU_SNAPSHOT\";" > /etc/apt/apt.conf.d/50snapshot \
     && apt-get update \
     && apt-get install -y locales locales-all \
     && apt-get install -y $JDK_PACKAGE \
@@ -40,7 +47,7 @@ RUN set -o xtrace \
     && mkdir -p /root/.android \
     && touch /root/.android/repositories.cfg \
     && yes | sdkmanager --licenses \
-    && sdkmanager platform-tools
+    && sdkmanager platform-tools  # sdkmanager installs only the latest platform-tools
 
 ARG FLUTTER_VERSION
 ARG ANDROID_PACKAGES
