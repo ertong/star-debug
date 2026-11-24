@@ -16,6 +16,7 @@ import 'package:star_debug/controller/conn_controller.dart';
 import 'package:star_debug/controller/conn/dish_connection.dart';
 import 'package:star_debug/controller/conn/router_connection.dart';
 import 'package:star_debug/controller/dish_log_controller.dart';
+import 'package:star_debug/controller/status_series_recorder.dart';
 import 'package:star_debug/db/database.dart';
 import 'package:star_debug/db/database_holder.dart';
 import 'package:star_debug/firebase_options.dart';
@@ -58,6 +59,7 @@ class Preloaded{
   FirebaseAnalytics? analytics;
 
   late DishLogController dishLog = DishLogController();
+  final StatusSeriesRecorder statusSeries = StatusSeriesRecorder();
   ValkyrieController valkyrie = ValkyrieController();
 
   late ConnController conn;
