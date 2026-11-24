@@ -13,7 +13,7 @@ class ObstructionImage {
 
   static const int obstructionLineWidth = 5;
 
-  static double radians(x) => x / 180 * pi;
+  static double radians(num x) => x / 180 * pi;
 
   static final pBg = Paint()
     ..color = Color(0xff0067bc)

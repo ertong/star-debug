@@ -327,7 +327,7 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
           rows.addAll(b.widgets);
       }
 
-      final String hw = status.deviceInfo.hardwareVersion ?? "";
+      final String hw = status.deviceInfo.hardwareVersion;
 
       if (status.hasDeviceInfo())
         rows.addAll(buildDeviceInfoWidget(context, theme, status.deviceInfo, apiVersion: widget.snap.dishApiVersion, opts: opts));
