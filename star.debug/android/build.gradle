@@ -12,7 +12,7 @@ subprojects {
 }
 
 // Compile plugins against the same SDK as the app, including libraries that
-// require API 37.0. Flutter 3.47 still uses the legacy AGP DSL.
+// require API 37.0. Flutter 3.50 still uses the legacy AGP DSL.
 subprojects { subproject ->
     afterEvaluate{
         if((subproject.plugins.hasPlugin('android') || subproject.plugins.hasPlugin('android-library'))) {
