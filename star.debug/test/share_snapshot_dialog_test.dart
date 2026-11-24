@@ -83,7 +83,7 @@ Future<void> _format(WidgetTester tester, String label) async {
   await tester.pumpAndSettle();
 }
 
-Finder _copyButton() => Platform.isAndroid || Platform.isIOS || Platform.isMacOS
+Finder _copyButton() => Platform.isAndroid || Platform.isIOS
     ? find.byTooltip(M.sharing.copy)
     : find.widgetWithText(FilledButton, M.sharing.copy);
 

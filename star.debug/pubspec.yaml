@@ -37,14 +37,13 @@ dependencies:
       ref: 6f8dce7
   time_machine2: ^0.14.0
   flutter_timezone: ^5.1.1
-  upgrader: ^14.0.0
   file_picker: ^13.4.1
   flex_list: ^1.2.0
   grpc: ^5.2.0
   protobuf: ^6.1.0
   fixnum: any
   dio: ^5.11.1
-  syncfusion_flutter_charts: ^35.2.12
+  syncfusion_flutter_charts: ^35.2.13
   recase: 4.1.0
   share_plus: ^13.3.1
   mutex: ^3.1.0

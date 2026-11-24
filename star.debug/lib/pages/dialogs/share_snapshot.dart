@@ -416,8 +416,7 @@ class _ShareSnapshotDialogState extends State<ShareSnapshotDialog> {
       ShareFormat.diagnosticText,
       ShareFormat.inventoryText,
     ];
-    final nativeShare =
-        Platform.isAndroid || Platform.isIOS || Platform.isMacOS;
+    final nativeShare = Platform.isAndroid || Platform.isIOS;
     final enabled =
         !busy && (payload != null || format == ShareFormat.screenshot);
     return Dialog(

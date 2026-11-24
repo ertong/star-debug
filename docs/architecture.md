@@ -199,7 +199,7 @@ and the dialog does not request manual entry. These fields follow the current
 (checked 2026-10-08); the report does not establish whitelist status. Applicant identity and
 organization information remain outside terminal telemetry.
 
-All formats can be copied or saved through the platform file picker, and mobile and macOS users
+All formats can be copied or saved through the platform file picker, and mobile users
 can use the native share sheet. Image actions generate JPEG on demand at the existing 2× resolution,
 with PNG fallback when JPEG encoding is unavailable. JPEG encoding runs in a separate isolate.
 The optional preview is not required; a header action opens an enlarged preview.
@@ -208,7 +208,7 @@ temporary directory per export and await the plugin result without deleting file
 may still read them.
 
 [`ImageClipboard`](../star.debug/lib/channel/image_clipboard.dart) copies JPEG or PNG bytes through the
-existing clipboard plugin on iOS, macOS, and Windows. Android and Linux implement the
+existing clipboard plugin on iOS and Windows. Android and Linux implement the
 `com.stardebug/image_clipboard` channel with `copyImage`, binary `bytes`, and `mimeType` (legacy
 calls default to PNG). Android writes a unique file with the matching `.jpg` or `.png` extension
 under its dedicated `clipboard/` cache directory and publishes a clipboard content
