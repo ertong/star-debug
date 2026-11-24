@@ -7,6 +7,7 @@ import 'package:star_debug/db/database.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/utils/log_utils.dart';
 import 'package:star_debug/utils/snapshot.dart';
+import 'package:star_debug/utils/status_series_codec.dart';
 import 'package:star_debug/utils/wait_notify.dart';
 
 // ignore: unused_element
@@ -118,7 +119,15 @@ class DishLogController {
       obstructionMapApiVersion: Value(snap.obstructionMapApiVersion),
       wifiStatusJson: Value(snap.routerGetStatus?.writeToBuffer()),
       onlineJson: Value(jsonEncode(snap.onlineJson)),
+      statusSeries: Value(_statusSeriesBytes(snap)),
     );
+  }
+
+  Uint8List? _statusSeriesBytes(Snapshot snap) {
+    var series = snap.statusSeries;
+    if (series==null || series.isEmpty)
+      return null;
+    return StatusSeriesCodec.toMsgPack(series);
   }
 
   Future<void> forceStore(Snapshot snap) async {

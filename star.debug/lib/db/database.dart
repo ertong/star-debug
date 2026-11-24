@@ -22,7 +22,7 @@ class Database extends _$Database {
   Database.connect(DatabaseConnection super.connection);
 
   @override
-  int get schemaVersion => 7;
+  int get schemaVersion => 8;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -43,6 +43,10 @@ class Database extends _$Database {
           await m.addColumn(dishLogs, dishLogs.dishObstructionMap);
           await m.addColumn(dishLogs, dishLogs.obstructionMapTs);
           await m.addColumn(dishLogs, dishLogs.obstructionMapApiVersion);
+        }
+
+        if (from >= 3 && from < 8) {
+          await m.addColumn(dishLogs, dishLogs.statusSeries);
         }
 
         if (from >= 3 && from < 7) {

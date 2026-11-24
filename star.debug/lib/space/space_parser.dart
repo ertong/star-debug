@@ -5,6 +5,8 @@ import 'package:star_debug/grpc/starlink/starlink.pb.dart';
 import 'package:star_debug/space/device_app.dart';
 import 'package:star_debug/utils/debug_data.dart';
 import 'package:star_debug/utils/snapshot.dart';
+import 'package:star_debug/utils/status_series.dart';
+import 'package:star_debug/utils/status_series_codec.dart';
 
 class SpaceParser{
 
@@ -31,6 +33,8 @@ class SpaceParser{
   DishGetObstructionMapResponse? dishGetObstructionMap;
   int? obstructionMapTs;
   int? obstructionMapApiVersion;
+
+  StatusSeries? statusSeries;
 
   int? routerTs;
   int? routerApi;
@@ -94,6 +98,8 @@ class SpaceParser{
       p._captureTimestampMs = _timestampMillis(capture["timestamp"]);
       p._dishStatusTimestampMs = _timestampMillis(capture["dishStatusTimestamp"]);
       p._dishStatusTimestampEstimated = capture["dishStatusTimestampEstimated"] == true;
+      // Optional; a malformed series is ignored and never fails the import.
+      p.statusSeries = StatusSeriesCodec.fromJson(capture["statusSeries"]);
     }
 
     if (json["dish"]!=null)
@@ -200,6 +206,7 @@ class SpaceParser{
         dishGetObstructionMap: dishGetObstructionMap,
         obstructionMapTs: obstructionMapTs,
         obstructionMapApiVersion: obstructionMapApiVersion,
+        statusSeries: statusSeries,
         routerTs: routerTs == null ? null : routerTs! * 1000,
         routerGetStatus: routerGetStatus,
         routerFeatures: routerFeatures,

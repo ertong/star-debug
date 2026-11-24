@@ -7,6 +7,8 @@ import 'package:star_debug/space/device_app.dart';
 import 'package:star_debug/utils/obstruction_map_context.dart';
 import 'package:star_debug/utils/share_export.dart';
 import 'package:star_debug/utils/snapshot.dart';
+import 'package:star_debug/utils/status_series.dart';
+import 'package:star_debug/utils/status_series_codec.dart';
 import 'package:star_debug/utils/view_options.dart';
 
 const terminalId = 'ut01234567-89abcdef-01234567';
@@ -55,6 +57,38 @@ Snapshot capture({Map<String, dynamic>? imported}) => Snapshot(
   obstructionMapTs: 98000,
   obstructionMapApiVersion: 41,
   debug_data: imported,
+);
+
+/// [capture] with an app-sampled status series.
+Snapshot seriesCapture(StatusSeries? series) {
+  final base = capture();
+  return Snapshot(
+    timestamp: base.timestamp,
+    dishTs: base.dishTs,
+    dishApiVersion: base.dishApiVersion,
+    dishTsIsEstimated: base.dishTsIsEstimated,
+    dishGetStatus: base.dishGetStatus,
+    routerGetStatus: base.routerGetStatus,
+    dishGetHistory: base.dishGetHistory,
+    dishFeatures: base.dishFeatures,
+    onlineJson: base.onlineJson,
+    dishGetObstructionMap: base.dishGetObstructionMap,
+    obstructionMapTs: base.obstructionMapTs,
+    obstructionMapApiVersion: base.obstructionMapApiVersion,
+    statusSeries: series,
+  );
+}
+
+// Six samples over 22 s with one 14 s gap; one status carries no signal quality.
+StatusSeries signalSeries() => StatusSeries(
+  times: [
+    for (final s in [0, 2, 4, 6, 20, 22]) 1700000000000 + s * 1000,
+  ],
+  signalQuality: [0.9, 0.85, 0.2, null, 0.5, 0.95],
+  gpsSats: [12, 12, 11, 11, null, 12],
+  azimuth: [-12.34, -12.34, -12.31, null, -12.3, -12.3],
+  elevation: [61.5, 61.5, 61.52, null, 61.5, 61.5],
+  reboots: [4],
 );
 
 SharePayload export(
@@ -1033,5 +1067,146 @@ void main() {
     }
     expect(payload.text, isNot(contains('synthetic-password')));
     expect(payload.text, contains('Pop Ping Latency Ms: 0'));
+  });
+
+  test('redacted snapshot keeps the status series under every option', () {
+    final series = signalSeries();
+    final snap = seriesCapture(series);
+    for (final options in [
+      ViewOptions(),
+      ViewOptions()
+        ..hideIds = true
+        ..hideMac = true
+        ..hideIp = true
+        ..hideLocation = true
+        ..hideRouterClients = true,
+    ]) {
+      final redacted = ShareExport.redactedSnapshot(snap, options);
+      expect(redacted.statusSeries, same(series));
+    }
+    expect(
+      ShareExport.redactedSnapshot(capture(), ViewOptions()).statusSeries,
+      isNull,
+    );
+  });
+
+  test('JSON export carries the series and hidden-ID exports only gain it', () {
+    final expected = StatusSeriesCodec.toJson(signalSeries());
+    final hide = ViewOptions()..hideIds = true;
+
+    final visible = jsonDecode(
+      export(seriesCapture(signalSeries()), ViewOptions()).text,
+    );
+    expect(visible['capture']['statusSeries'], expected);
+
+    final hiddenPayload = export(seriesCapture(signalSeries()), hide);
+    expect(hiddenPayload.text, isNot(contains('01234567')));
+    expect(hiddenPayload.filename, isNot(contains('01234567')));
+    final hidden = jsonDecode(hiddenPayload.text) as Map<String, dynamic>;
+    expect(hidden['capture']['statusSeries'], expected);
+    final imported = SpaceParser.ofJson(hidden).toSnapshot().statusSeries!;
+    expect(imported.times, signalSeries().times);
+    expect(imported.signalQuality, signalSeries().signalQuality);
+    expect(imported.reboots, [4]);
+
+    // Apart from the series, a hidden-ID export is what it was without one.
+    final without = jsonDecode(export(capture(), hide).text);
+    expect((without['capture'] as Map).containsKey('statusSeries'), false);
+    (hidden['capture'] as Map).remove('statusSeries');
+    expect(hidden, without);
+  });
+
+  test('imported snapshots export their original series', () {
+    final series = StatusSeriesCodec.toJson(signalSeries());
+    final source = {
+      'capture': {'timestamp': 100, 'statusSeries': series},
+      'dish': {
+        'rawStatus': {
+          'deviceInfo': {'id': terminalId},
+        },
+      },
+    };
+    final snap = SpaceParser.ofJson(source).toSnapshot();
+    expect(snap.statusSeries, isNotNull);
+
+    for (final options in [ViewOptions(), ViewOptions()..hideIds = true]) {
+      final json = jsonDecode(export(snap, options).text);
+      expect(json['capture']['statusSeries'], series);
+    }
+
+    final report = export(
+      snap,
+      ViewOptions()..hideIds = true,
+      ShareFormat.diagnosticText,
+    );
+    expect(report.text, contains('## Signal quality (app-sampled)'));
+    expect(report.text, contains('- Median: 85 %'));
+    expect(report.text, contains('- Timestamp: 100'));
+    // The imported-data section does not list raw samples.
+    expect(report.text, isNot(contains('Status Series')));
+    expect(report.text, isNot(contains('Azimuth Deg')));
+    expect(report.text, isNot(contains('01234567')));
+    expect((source['capture'] as Map).containsKey('statusSeries'), true);
+  });
+
+  test('diagnostics summarize signal quality without identifiers', () {
+    final payload = export(
+      seriesCapture(signalSeries()),
+      ViewOptions()..hideIds = true,
+      ShareFormat.diagnosticText,
+    );
+    final start = payload.text.indexOf('## Signal quality (app-sampled)');
+    expect(start, greaterThan(payload.text.indexOf('## History and events')));
+    final section = payload.text.substring(
+      start,
+      payload.text.indexOf('\n## ', start + 1),
+    );
+    expect(
+      section,
+      '## Signal quality (app-sampled)\n'
+      '\n'
+      '- Window Start: 2023-11-14T22:13:20.000Z\n'
+      '- Window End: 2023-11-14T22:13:42.000Z\n'
+      '- Samples: 6\n'
+      '- Samples With Signal Quality: 5\n'
+      '- Coverage: 36 %\n'
+      '- Median: 85 %\n'
+      '- 10th percentile: 20 %\n'
+      '- Last: 95 %\n'
+      '- Minimum: 20 %\n'
+      '- Maximum: 95 %\n'
+      '- Share at or above good threshold (80 %): 60 %\n'
+      '- Share below fair threshold (25 %): 20 %\n'
+      '- Gaps: 1\n'
+      '- Reboots: 1\n'
+      '- Interpretation: Sampled by the app only while a live view is open; '
+      'thresholds are chosen by the app; shares count samples; time outside '
+      'coverage was not observed and is not an outage\n',
+    );
+    expect(payload.text, isNot(contains('01234567')));
+    expect(payload.text, isNot(contains('Azimuth')));
+    expect(payload.displayText, contains('Signal quality (app-sampled)\n'));
+    expect(payload.displayText, contains('- Median: 85 %'));
+
+    final inventory = export(
+      seriesCapture(signalSeries()),
+      ViewOptions(),
+      ShareFormat.inventoryText,
+    );
+    expect(inventory.text, isNot(contains('Signal quality')));
+  });
+
+  test('diagnostics omit the signal quality section without values', () {
+    final noValues = StatusSeries(
+      times: [1700000000000, 1700000002000],
+      signalQuality: [null, null],
+      gpsSats: [12, 12],
+      azimuth: [null, null],
+      elevation: [null, null],
+    );
+    for (final snap in [capture(), seriesCapture(noValues)]) {
+      final text = export(snap, ViewOptions(), ShareFormat.diagnosticText).text;
+      expect(text, isNot(contains('app-sampled')));
+    }
   });
 }

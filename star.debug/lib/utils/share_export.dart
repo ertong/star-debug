@@ -8,6 +8,8 @@ import 'package:star_debug/utils/debug_data.dart';
 import 'package:star_debug/utils/obstruction_map_context.dart';
 import 'package:star_debug/utils/obstructions.dart';
 import 'package:star_debug/utils/snapshot.dart';
+import 'package:star_debug/utils/status_series.dart';
+import 'package:star_debug/utils/status_series_codec.dart';
 import 'package:star_debug/utils/view_options.dart';
 
 enum ShareFormat { json, screenshot, diagnosticText, inventoryText }
@@ -280,6 +282,10 @@ class ShareExport {
       section('Router features', redacted.routerFeatures);
       section('History and events', redacted.dishGetHistory?.toProto3Json());
       section(
+        'Signal quality (app-sampled)',
+        _signalQualitySummary(redacted.statusSeries),
+      );
+      section(
         'Obstruction map',
         redacted.dishGetObstructionMap?.toProto3Json(),
       );
@@ -368,7 +374,7 @@ class ShareExport {
       // Preserve unfamiliar imported diagnostics alongside normalized statuses.
       section(
         'Imported debug data and application metadata',
-        redacted.debug_data,
+        _withoutSeriesSamples(redacted.debug_data),
       );
       text = report.markdown.toString().trimRight();
       plainText = report.plain.toString().trimRight();
@@ -429,6 +435,8 @@ class ShareExport {
       obstructionMapApiVersion: snap.obstructionMapApiVersion,
       historyTs: snap.historyTs,
       dishGetHistory: clean(snap.dishGetHistory, DishGetHistoryResponse.new),
+      // Immutable and free of identifiers and location; shared as is.
+      statusSeries: snap.statusSeries,
       dishGetLocationGPS: options.hideLocation
           ? null
           : clean(snap.dishGetLocationGPS, GetLocationResponse.new),
@@ -488,6 +496,8 @@ class ShareExport {
         'timestamp': snap.timestamp / 1000,
         if (snap.dishTs != null) 'dishStatusTimestamp': snap.dishTs! / 1000,
         'dishStatusTimestampEstimated': snap.dishTsIsEstimated,
+        if (snap.statusSeries?.isNotEmpty ?? false)
+          'statusSeries': StatusSeriesCodec.toJson(snap.statusSeries!),
       },
       'app': {
         'app': {'version': 'star-debug-$appVersion'},
@@ -525,6 +535,53 @@ class ShareExport {
           if (snap.obstructionMapApiVersion != null)
             'apiVersion': snap.obstructionMapApiVersion,
         },
+    };
+  }
+
+  /// Summary statistics of the app-sampled signal quality; raw samples stay in the JSON export.
+  static Map<String, Object?>? _signalQualitySummary(StatusSeries? series) {
+    final stats = series?.signalQualityStats();
+    if (stats == null) return null;
+    String percent(double value) => '${(value * 100).round()} %';
+    return {
+      'windowStart': _time(stats.startMs),
+      'windowEnd': _time(stats.endMs),
+      'samples': stats.samples,
+      if (stats.valueSamples != stats.samples)
+        'samplesWithSignalQuality': stats.valueSamples,
+      'coverage': percent(stats.coverage),
+      'median': percent(stats.median),
+      '10th percentile': percent(stats.p10),
+      'last': percent(stats.last),
+      'minimum': percent(stats.min),
+      'maximum': percent(stats.max),
+      'Share at or above good threshold ($kSignalQualityGood %)': percent(
+        stats.goodShare,
+      ),
+      'Share below fair threshold ($kSignalQualityFair %)': percent(
+        stats.badShare,
+      ),
+      'gaps': stats.gaps,
+      'reboots': stats.reboots,
+      'interpretation':
+          'Sampled by the app only while a live view is open; thresholds are '
+          'chosen by the app; shares count samples; time outside coverage '
+          'was not observed and is not an outage',
+    };
+  }
+
+  /// The imported series is summarized in its own section, not listed sample by sample.
+  static Map<String, dynamic>? _withoutSeriesSamples(
+    Map<String, dynamic>? data,
+  ) {
+    final capture = data?['capture'];
+    if (capture is! Map || !capture.containsKey('statusSeries')) return data;
+    return {
+      ...data!,
+      'capture': {
+        for (final entry in capture.entries)
+          if (entry.key != 'statusSeries') entry.key: entry.value,
+      },
     };
   }
 
