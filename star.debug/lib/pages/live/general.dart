@@ -12,6 +12,7 @@ import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/pages/dialogs/wifi_setup.dart';
 import 'package:star_debug/pages/view/dish.dart';
 import 'package:star_debug/preloaded.dart';
+import 'package:star_debug/utils/api_helper.dart';
 import 'package:star_debug/utils/kv_widget.dart';
 import 'package:star_debug/utils/log_utils.dart';
 import 'package:time_machine2/time_machine2.dart';
@@ -113,6 +114,14 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
             ok = false;
           }
           b1.kv(M.grpc.DishGetStatus.disablement_code, code, ok: ok);
+        }
+
+        var battery = status.effectiveBatteryStats;
+        if (battery.hasStateOfCharge() || battery.batteryAttached) {
+          var charge = "${battery.stateOfCharge} %";
+          if (battery.isCharging)
+            charge = "$charge · ${M.grpc.DishBatteryStats.is_charging}";
+          b1.kv(M.grpc.DishBatteryStats.state_of_charge, charge);
         }
 
         b.widgets.add(Row(crossAxisAlignment: CrossAxisAlignment.start,children: [
