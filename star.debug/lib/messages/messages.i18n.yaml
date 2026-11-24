@@ -372,6 +372,12 @@ grpc:
     power_save_mode: Power save mode
     power_save_mode__hint: |-
       You can set a sleep mode for your Starlink. Starlink won't provide Internet or melt snow while sleeping.
+    swupdate_reboot_hour: Software update reboot time
+    swupdate_reboot_hour__hint: Hour, in the dish's local time, at which the dish reboots to install downloaded software updates. You can select it in the Starlink app; the default is around 3:00.
+    loss_of_ext_power_auto_off: Auto-off after losing external power
+    loss_of_ext_power_auto_off__hint: When enabled, a dish running on its battery turns off after external power has been lost for the shown time. The behavior is inferred from the protocol; the reboot reason after such a shutdown is BATTERY_LOSS_OF_EXT_POWER_AUTO_OFF.
+    no_burst_auto_off: Auto-off without satellite signal
+    no_burst_auto_off__hint: When enabled, a dish running on its battery turns off after receiving no satellite bursts for the shown time, saving battery when there is no service. The behavior is inferred from the protocol; the reboot reason after such a shutdown is BATTERY_NO_BURST_AUTO_OFF.
 
   DishObstructionStats:
     fraction_obstructed: Fraction obstructed
@@ -472,6 +478,8 @@ grpc:
       - **REBOOT_REQUIRED** - Update is ready, reboot is needed to apply.
       - **DISABLED** - Software updates are disabled.
       - **FAULTED** - Software update process has faulted.
+    seconds_until_swupdate_reboot_possible: Update reboot possible in
+    seconds_until_swupdate_reboot_possible__hint: Time until the dish may reboot to install a software update. The dish reports -1 when no such reboot is pending. The meaning is inferred from the field name.
     is_snr_persistently_low: SNR persistently low
     is_snr_persistently_low__hint: Whether the Signal-to-Noise Ratio has been consistently below acceptable levels. May indicate obstructions or hardware issues.
     has_actuators: Actuators

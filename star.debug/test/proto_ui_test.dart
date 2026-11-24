@@ -161,6 +161,67 @@ void main() {
     expect(find.text('BATTERY'), findsOneWidget);
   });
 
+  testWidgets('config shows auto-off and update reboot settings', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      _testPage(
+        DishWidget(
+          sourceMode: MapSourceMode.stored,
+          snap: Snapshot(
+            timestamp: 1,
+            dishGetStatus: DishGetStatusResponse(
+              secondsUntilSwupdateRebootPossible: 125,
+              config: DishConfig(
+                swupdateRebootHour: 3,
+                noBurstAutoOffEnabled: true,
+                noBurstAutoOffTimeoutSeconds: 900,
+                lossOfExtPowerAutoOffTimeoutSeconds: 300,
+              ),
+            ),
+          ),
+          viewOptions: ViewOptions(),
+        ),
+      ),
+    );
+
+    expect(find.text('03:00'), findsOneWidget);
+    expect(find.text('${M.general.yes}, 15 m 0 s'), findsOneWidget);
+    expect(
+      find.text('${M.grpc.DishConfig.loss_of_ext_power_auto_off}:'),
+      findsOneWidget,
+    );
+    expect(find.text('2 m 5 s'), findsOneWidget);
+
+    await tester.pumpWidget(
+      _testPage(
+        DishWidget(
+          sourceMode: MapSourceMode.stored,
+          snap: Snapshot(
+            timestamp: 1,
+            dishGetStatus: DishGetStatusResponse(
+              secondsUntilSwupdateRebootPossible: -1,
+              config: DishConfig(snowMeltMode: DishConfig_SnowMeltMode.AUTO),
+            ),
+          ),
+          viewOptions: ViewOptions(),
+        ),
+      ),
+    );
+
+    expect(
+      find.text('${M.grpc.DishConfig.swupdate_reboot_hour}:'),
+      findsNothing,
+    );
+    expect(find.text('${M.grpc.DishConfig.no_burst_auto_off}:'), findsNothing);
+    expect(
+      find.text(
+        '${M.grpc.DishGetStatus.seconds_until_swupdate_reboot_possible}:',
+      ),
+      findsNothing,
+    );
+  });
+
   testWidgets('RF action follows the inhibit RF outage cause', (tester) async {
     await tester.pumpWidget(
       _testPage(

@@ -257,6 +257,11 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
           );
         }
 
+        if (status.secondsUntilSwupdateRebootPossible > 0)
+          b.kv(M.grpc.DishGetStatus.seconds_until_swupdate_reboot_possible,
+              Format.sec(status.secondsUntilSwupdateRebootPossible),
+              hint: M.grpc.DishGetStatus.seconds_until_swupdate_reboot_possible__hint);
+
         rows.addAll(b.widgets);
       }
 
@@ -408,6 +413,21 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
               " UTC${DateTimeZone.local.getUtcOffset(Instant.now()).toString("+HH:mm")}",
               hint: M.grpc.DishConfig.power_save_mode__hint);
         }
+
+        if (config.hasSwupdateRebootHour() || config.applySwupdateRebootHour)
+          b.kv(M.grpc.DishConfig.swupdate_reboot_hour, "${config.swupdateRebootHour.toString().padLeft(2, "0")}:00",
+              hint: M.grpc.DishConfig.swupdate_reboot_hour__hint);
+
+        String autoOff(bool enabled, int timeoutSeconds) =>
+            enabled ? "${M.general.yes}, ${Format.sec(timeoutSeconds)}" : M.general.no;
+        if (config.hasLossOfExtPowerAutoOffEnabled() || config.hasLossOfExtPowerAutoOffTimeoutSeconds())
+          b.kv(M.grpc.DishConfig.loss_of_ext_power_auto_off,
+              autoOff(config.lossOfExtPowerAutoOffEnabled, config.lossOfExtPowerAutoOffTimeoutSeconds),
+              hint: M.grpc.DishConfig.loss_of_ext_power_auto_off__hint);
+        if (config.hasNoBurstAutoOffEnabled() || config.hasNoBurstAutoOffTimeoutSeconds())
+          b.kv(M.grpc.DishConfig.no_burst_auto_off,
+              autoOff(config.noBurstAutoOffEnabled, config.noBurstAutoOffTimeoutSeconds),
+              hint: M.grpc.DishConfig.no_burst_auto_off__hint);
 
         rows.addAll(b.widgets);
       }

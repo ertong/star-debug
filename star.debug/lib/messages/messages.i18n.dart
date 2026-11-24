@@ -1592,6 +1592,40 @@ with internet access and dish access. You can find this setting in
   /// ```
   String get power_save_mode__hint =>
       """You can set a sleep mode for your Starlink. Starlink won't provide Internet or melt snow while sleeping.""";
+
+  /// ```dart
+  /// "Software update reboot time"
+  /// ```
+  String get swupdate_reboot_hour => """Software update reboot time""";
+
+  /// ```dart
+  /// "Hour, in the dish's local time, at which the dish reboots to install downloaded software updates. You can select it in the Starlink app; the default is around 3:00."
+  /// ```
+  String get swupdate_reboot_hour__hint =>
+      """Hour, in the dish's local time, at which the dish reboots to install downloaded software updates. You can select it in the Starlink app; the default is around 3:00.""";
+
+  /// ```dart
+  /// "Auto-off after losing external power"
+  /// ```
+  String get loss_of_ext_power_auto_off =>
+      """Auto-off after losing external power""";
+
+  /// ```dart
+  /// "When enabled, a dish running on its battery turns off after external power has been lost for the shown time. The behavior is inferred from the protocol; the reboot reason after such a shutdown is BATTERY_LOSS_OF_EXT_POWER_AUTO_OFF."
+  /// ```
+  String get loss_of_ext_power_auto_off__hint =>
+      """When enabled, a dish running on its battery turns off after external power has been lost for the shown time. The behavior is inferred from the protocol; the reboot reason after such a shutdown is BATTERY_LOSS_OF_EXT_POWER_AUTO_OFF.""";
+
+  /// ```dart
+  /// "Auto-off without satellite signal"
+  /// ```
+  String get no_burst_auto_off => """Auto-off without satellite signal""";
+
+  /// ```dart
+  /// "When enabled, a dish running on its battery turns off after receiving no satellite bursts for the shown time, saving battery when there is no service. The behavior is inferred from the protocol; the reboot reason after such a shutdown is BATTERY_NO_BURST_AUTO_OFF."
+  /// ```
+  String get no_burst_auto_off__hint =>
+      """When enabled, a dish running on its battery turns off after receiving no satellite bursts for the shown time, saving battery when there is no service. The behavior is inferred from the protocol; the reboot reason after such a shutdown is BATTERY_NO_BURST_AUTO_OFF.""";
 }
 
 class DishObstructionStatsGrpcMessages {
@@ -1999,6 +2033,18 @@ class DishGetStatusGrpcMessages {
 - **DISABLED** - Software updates are disabled.
 - **FAULTED** - Software update process has faulted.
 """;
+
+  /// ```dart
+  /// "Update reboot possible in"
+  /// ```
+  String get seconds_until_swupdate_reboot_possible =>
+      """Update reboot possible in""";
+
+  /// ```dart
+  /// "Time until the dish may reboot to install a software update. The dish reports -1 when no such reboot is pending. The meaning is inferred from the field name."
+  /// ```
+  String get seconds_until_swupdate_reboot_possible__hint =>
+      """Time until the dish may reboot to install a software update. The dish reports -1 when no such reboot is pending. The meaning is inferred from the field name.""";
 
   /// ```dart
   /// "SNR persistently low"
@@ -3998,6 +4044,14 @@ with internet access and dish access. You can find this setting in
       """Power save duration minutes""",
   """grpc.DishConfig.power_save_mode""": """Power save mode""",
   """grpc.DishConfig.power_save_mode__hint""": """You can set a sleep mode for your Starlink. Starlink won't provide Internet or melt snow while sleeping.""",
+  """grpc.DishConfig.swupdate_reboot_hour""": """Software update reboot time""",
+  """grpc.DishConfig.swupdate_reboot_hour__hint""": """Hour, in the dish's local time, at which the dish reboots to install downloaded software updates. You can select it in the Starlink app; the default is around 3:00.""",
+  """grpc.DishConfig.loss_of_ext_power_auto_off""":
+      """Auto-off after losing external power""",
+  """grpc.DishConfig.loss_of_ext_power_auto_off__hint""": """When enabled, a dish running on its battery turns off after external power has been lost for the shown time. The behavior is inferred from the protocol; the reboot reason after such a shutdown is BATTERY_LOSS_OF_EXT_POWER_AUTO_OFF.""",
+  """grpc.DishConfig.no_burst_auto_off""":
+      """Auto-off without satellite signal""",
+  """grpc.DishConfig.no_burst_auto_off__hint""": """When enabled, a dish running on its battery turns off after receiving no satellite bursts for the shown time, saving battery when there is no service. The behavior is inferred from the protocol; the reboot reason after such a shutdown is BATTERY_NO_BURST_AUTO_OFF.""",
   """grpc.DishObstructionStats.fraction_obstructed""":
       """Fraction obstructed""",
   """grpc.DishObstructionStats.fraction_obstructed__hint""": """Obstruction fraction reported by the dish. Its calculation is not specified here; do not interpret it as measured sky area or as the map's blocked-cell percentage.""",
@@ -4115,6 +4169,9 @@ with internet access and dish access. You can find this setting in
 - **DISABLED** - Software updates are disabled.
 - **FAULTED** - Software update process has faulted.
 """,
+  """grpc.DishGetStatus.seconds_until_swupdate_reboot_possible""":
+      """Update reboot possible in""",
+  """grpc.DishGetStatus.seconds_until_swupdate_reboot_possible__hint""": """Time until the dish may reboot to install a software update. The dish reports -1 when no such reboot is pending. The meaning is inferred from the field name.""",
   """grpc.DishGetStatus.is_snr_persistently_low""": """SNR persistently low""",
   """grpc.DishGetStatus.is_snr_persistently_low__hint""": """Whether the Signal-to-Noise Ratio has been consistently below acceptable levels. May indicate obstructions or hardware issues.""",
   """grpc.DishGetStatus.has_actuators""": """Actuators""",
