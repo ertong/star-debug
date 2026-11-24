@@ -291,6 +291,27 @@ grpc:
     state_of_charge: Battery charge
     is_charging: Charging
     power_source: Power source
+    power_source__hint: |
+      The possible options are:
+
+      - **usbc** - The dish is powered through its USB-C port.
+      - **battery** - The dish is running on its battery.
+      - **usbc_and_battery** - USB-C power and the battery are both in use.
+    battery_attached: Battery attached
+    power_w: Battery power, W
+    power_w__hint: Battery power reported by the dish. The protocol does not document whether it is charging or discharging power.
+    time_to_charge_minutes: Time to full charge
+    time_to_empty_minutes: Time to empty
+    temperature_c: Battery temperature, °C
+
+  DishUsbcStats:
+    power_w: USB-C power, W
+    max_power_w: USB-C max power, W
+    max_power_w__hint: Maximum power available on the USB-C port, presumably negotiated with the USB Power Delivery source. Starlink recommends a 100 W (20 V / 5 A) USB-PD source for Starlink Mini.
+    source_detected: USB-C power source detected
+    source_detected__hint: A power source is connected to the dish USB-C port.
+    sink_detected: USB-C power consumer detected
+    sink_detected__hint: The dish reports a power-consuming device (sink) on its USB-C port. The meaning is inferred from the field name.
 
   DishReadyStates:
     cady: Clock generator
@@ -391,6 +412,10 @@ grpc:
     nat_flag: NAT
     user_debug_mode_enabled: User debug mode
     treat_as_metered: Metered connection
+    battery_ut_power_off_rf_idle_active: Radio idle before power-off
+    battery_ut_power_off_rf_idle_active__hint: The dish has idled its radio, presumably as part of a battery auto power-off. The meaning is inferred from the field name.
+    battery_ut_insufficient_power_rf_idle_active: Radio idle, insufficient power
+    battery_ut_insufficient_power_rf_idle_active__hint: The dish has idled its radio because the available power is insufficient, for example a weak USB-C source or a low battery. The meaning is inferred from the field name.
 
     downlink_throughput_bps: Downlink Throughput
     uplink_throughput_bps: Uplink Throughput

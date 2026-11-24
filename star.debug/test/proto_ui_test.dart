@@ -1,6 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:star_debug/grpc/starlink/starlink.pb.dart';
+import 'package:star_debug/grpc/starlink/telemetron.pb.dart';
 import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/pages/view/common.dart';
 import 'package:star_debug/pages/view/dish.dart';
@@ -83,6 +84,81 @@ void main() {
       find.text('${M.grpc.DishGpsStats.pnt_filter_convergence_state}:'),
       findsOneWidget,
     );
+  });
+
+  testWidgets('power section prefers power source stats over legacy battery', (
+    tester,
+  ) async {
+    Future<void> pump(DishGetStatusResponse status) => tester.pumpWidget(
+      _testPage(
+        DishWidget(
+          sourceMode: MapSourceMode.stored,
+          snap: Snapshot(timestamp: 1, dishGetStatus: status),
+          viewOptions: ViewOptions(),
+        ),
+      ),
+    );
+
+    await pump(
+      DishGetStatusResponse(
+        powerSourceStats: PowerSourceStats(
+          batteryStats: DishBatteryStats(),
+          usbcStats: DishUsbcStats(),
+        ),
+      ),
+    );
+    expect(find.text(M.header.power), findsNothing);
+
+    await pump(
+      DishGetStatusResponse(
+        batteryStats: DishBatteryStats(stateOfCharge: 10),
+        powerSourceStats: PowerSourceStats(
+          batteryStats: DishBatteryStats(
+            stateOfCharge: 80,
+            batteryAttached: true,
+            timeToEmptyMinutes: 90,
+            temperatureC: 31.5,
+          ),
+          usbcStats: DishUsbcStats(
+            powerW: 24.25,
+            maxPowerW: 100,
+            sourceDetected: true,
+          ),
+          powerSource: UserPowerSource_AutoEnum.usbc_and_battery,
+        ),
+        batteryUtInsufficientPowerRfIdleActive: true,
+      ),
+    );
+    expect(find.text(M.header.power), findsOneWidget);
+    expect(find.text('80 %'), findsOneWidget);
+    expect(find.text('10 %'), findsNothing);
+    expect(find.text('usbc_and_battery'), findsOneWidget);
+    expect(find.text('90 m 0 s'), findsOneWidget);
+    expect(find.text('31.5'), findsOneWidget);
+    expect(find.text('24.3'), findsOneWidget);
+    expect(
+      find.text('${M.grpc.DishUsbcStats.source_detected}:'),
+      findsOneWidget,
+    );
+    expect(find.text('${M.grpc.DishUsbcStats.sink_detected}:'), findsNothing);
+    expect(
+      find.text(
+        '${M.grpc.DishGetStatus.battery_ut_insufficient_power_rf_idle_active}:',
+      ),
+      findsOneWidget,
+    );
+
+    // Older firmware: only the top-level battery stats.
+    await pump(
+      DishGetStatusResponse(
+        batteryStats: DishBatteryStats(
+          stateOfCharge: 55,
+          powerSource: PowerSource.BATTERY,
+        ),
+      ),
+    );
+    expect(find.text('55 %'), findsOneWidget);
+    expect(find.text('BATTERY'), findsOneWidget);
   });
 
   testWidgets('RF action follows the inhibit RF outage cause', (tester) async {

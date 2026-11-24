@@ -278,6 +278,34 @@ grpc:
     state_of_charge: Заряд батареї
     is_charging: Заряджання
     power_source: Джерело живлення
+    power_source__hint: 'Можливі варіанти:
+
+
+      - **usbc** - Антена живиться через порт USB-C.
+
+      - **battery** - Антена працює від акумулятора.
+
+      - **usbc_and_battery** - Використовуються і живлення USB-C, і акумулятор.
+
+      '
+    battery_attached: Акумулятор підключено
+    power_w: Потужність акумулятора, Вт
+    power_w__hint: Потужність акумулятора за даними антени. Протокол не уточнює, чи
+      це потужність заряджання, чи розряджання.
+    time_to_charge_minutes: Час до повного заряду
+    time_to_empty_minutes: Час до розряду
+    temperature_c: Температура акумулятора, °C
+  DishUsbcStats:
+    power_w: Потужність USB-C, Вт
+    max_power_w: Макс. потужність USB-C, Вт
+    max_power_w__hint: Максимальна потужність, доступна на порту USB-C; ймовірно,
+      узгоджена з джерелом USB Power Delivery. Для Starlink Mini Starlink рекомендує
+      джерело USB-PD на 100 Вт (20 В / 5 А).
+    source_detected: Виявлено джерело живлення USB-C
+    source_detected__hint: До порту USB-C антени підключено джерело живлення.
+    sink_detected: Виявлено споживача на USB-C
+    sink_detected__hint: Антена повідомляє про пристрій-споживач (sink) на своєму
+      порту USB-C. Значення виведено з назви поля.
   DishReadyStates:
     cady: Тактовий генератор
     scp: Інтерфейс шини RFFE
@@ -388,6 +416,15 @@ grpc:
     nat_flag: NAT
     user_debug_mode_enabled: Режим налагодження користувача
     treat_as_metered: Тарифіковане з'єднання
+    battery_ut_power_off_rf_idle_active: Радіо в очікуванні перед вимкненням
+    battery_ut_power_off_rf_idle_active__hint: Антена перевела радіо в режим очікування,
+      ймовірно, у межах автоматичного вимкнення під час роботи від акумулятора. Значення
+      виведено з назви поля.
+    battery_ut_insufficient_power_rf_idle_active: 'Радіо в очікуванні: недостатньо
+      живлення'
+    battery_ut_insufficient_power_rf_idle_active__hint: Антена перевела радіо в режим
+      очікування через недостатнє живлення, наприклад слабке джерело USB-C або низький
+      заряд акумулятора. Значення виведено з назви поля.
     downlink_throughput_bps: Downlink Throughput
     uplink_throughput_bps: Uplink Throughput
     pop_ping_drop_rate: PoP ping drop rate

@@ -294,17 +294,56 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
         rows.addAll(b.widgets);
       }
 
-      if (status.hasBatteryStats()) {
-        var stats = status.batteryStats;
+      if (status.hasPowerSourceStats() || status.hasBatteryStats()
+          || status.batteryUtPowerOffRfIdleActive || status.batteryUtInsufficientPowerRfIdleActive) {
+        var power = status.powerSourceStats;
+        // Newer firmware reports battery stats inside power_source_stats; older firmware uses
+        // the top-level battery_stats field.
+        var stats = power.hasBatteryStats() ? power.batteryStats : status.batteryStats;
+        var usbc = power.usbcStats;
         var b = KVWidgetBuilder(context, theme);
         b.header(M.header.power);
 
+        var powerSourceHint = Format.formatEnumHint(M.grpc.DishBatteryStats.power_source__hint, UserPowerSource_AutoEnum.values);
+        if (power.hasPowerSource() && power.powerSource != UserPowerSource_AutoEnum.unknown)
+          b.kv(M.grpc.DishBatteryStats.power_source, power.powerSource, hint: powerSourceHint);
+        else if (stats.hasPowerSource() && stats.powerSource != PowerSource.POWER_SOURCE_UNKNOWN)
+          b.kv(M.grpc.DishBatteryStats.power_source, stats.powerSource);
+
+        if (status.batteryUtPowerOffRfIdleActive)
+          b.kv(M.grpc.DishGetStatus.battery_ut_power_off_rf_idle_active, true, ok: false,
+              hint: M.grpc.DishGetStatus.battery_ut_power_off_rf_idle_active__hint);
+        if (status.batteryUtInsufficientPowerRfIdleActive)
+          b.kv(M.grpc.DishGetStatus.battery_ut_insufficient_power_rf_idle_active, true, ok: false,
+              hint: M.grpc.DishGetStatus.battery_ut_insufficient_power_rf_idle_active__hint);
+
+        if (stats.hasBatteryAttached())
+          b.kv(M.grpc.DishBatteryStats.battery_attached, stats.batteryAttached);
         if (stats.hasStateOfCharge())
           b.kv(M.grpc.DishBatteryStats.state_of_charge, "${stats.stateOfCharge} %");
         if (stats.hasIsCharging())
           b.kv(M.grpc.DishBatteryStats.is_charging, stats.isCharging);
-        if (stats.hasPowerSource() && stats.powerSource != PowerSource.POWER_SOURCE_UNKNOWN)
-          b.kv(M.grpc.DishBatteryStats.power_source, stats.powerSource);
+        if (stats.hasPowerW() && stats.powerW.isFinite)
+          b.kv(M.grpc.DishBatteryStats.power_w, stats.powerW.toStringAsFixed(1),
+              hint: M.grpc.DishBatteryStats.power_w__hint);
+        if (stats.hasTimeToChargeMinutes())
+          b.kv(M.grpc.DishBatteryStats.time_to_charge_minutes, Format.sec(stats.timeToChargeMinutes * 60));
+        if (stats.hasTimeToEmptyMinutes())
+          b.kv(M.grpc.DishBatteryStats.time_to_empty_minutes, Format.sec(stats.timeToEmptyMinutes * 60));
+        if (stats.hasTemperatureC() && stats.temperatureC.isFinite)
+          b.kv(M.grpc.DishBatteryStats.temperature_c, stats.temperatureC.toStringAsFixed(1));
+
+        if (usbc.hasPowerW() && usbc.powerW.isFinite)
+          b.kv(M.grpc.DishUsbcStats.power_w, usbc.powerW.toStringAsFixed(1));
+        if (usbc.hasMaxPowerW() && usbc.maxPowerW.isFinite)
+          b.kv(M.grpc.DishUsbcStats.max_power_w, usbc.maxPowerW.toStringAsFixed(1),
+              hint: M.grpc.DishUsbcStats.max_power_w__hint);
+        if (usbc.sourceDetected)
+          b.kv(M.grpc.DishUsbcStats.source_detected, true,
+              hint: M.grpc.DishUsbcStats.source_detected__hint);
+        if (usbc.sinkDetected)
+          b.kv(M.grpc.DishUsbcStats.sink_detected, true,
+              hint: M.grpc.DishUsbcStats.sink_detected__hint);
 
         if (b.widgets.length > 1)
           rows.addAll(b.widgets);

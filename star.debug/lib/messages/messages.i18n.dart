@@ -966,6 +966,8 @@ class GrpcMessages {
   DishGpsStatsGrpcMessages get DishGpsStats => DishGpsStatsGrpcMessages(this);
   DishBatteryStatsGrpcMessages get DishBatteryStats =>
       DishBatteryStatsGrpcMessages(this);
+  DishUsbcStatsGrpcMessages get DishUsbcStats =>
+      DishUsbcStatsGrpcMessages(this);
   DishReadyStatesGrpcMessages get DishReadyStates =>
       DishReadyStatesGrpcMessages(this);
   DishInitDurationGrpcMessages get DishInitDuration =>
@@ -1259,6 +1261,96 @@ class DishBatteryStatsGrpcMessages {
   /// "Power source"
   /// ```
   String get power_source => """Power source""";
+
+  /// ```dart
+  /// """
+  /// The possible options are:
+  ///
+  /// - **usbc** - The dish is powered through its USB-C port.
+  /// - **battery** - The dish is running on its battery.
+  /// - **usbc_and_battery** - USB-C power and the battery are both in use.
+  /// """
+  /// ```
+  String get power_source__hint => """The possible options are:
+
+- **usbc** - The dish is powered through its USB-C port.
+- **battery** - The dish is running on its battery.
+- **usbc_and_battery** - USB-C power and the battery are both in use.
+""";
+
+  /// ```dart
+  /// "Battery attached"
+  /// ```
+  String get battery_attached => """Battery attached""";
+
+  /// ```dart
+  /// "Battery power, W"
+  /// ```
+  String get power_w => """Battery power, W""";
+
+  /// ```dart
+  /// "Battery power reported by the dish. The protocol does not document whether it is charging or discharging power."
+  /// ```
+  String get power_w__hint =>
+      """Battery power reported by the dish. The protocol does not document whether it is charging or discharging power.""";
+
+  /// ```dart
+  /// "Time to full charge"
+  /// ```
+  String get time_to_charge_minutes => """Time to full charge""";
+
+  /// ```dart
+  /// "Time to empty"
+  /// ```
+  String get time_to_empty_minutes => """Time to empty""";
+
+  /// ```dart
+  /// "Battery temperature, °C"
+  /// ```
+  String get temperature_c => """Battery temperature, °C""";
+}
+
+class DishUsbcStatsGrpcMessages {
+  final GrpcMessages _parent;
+  const DishUsbcStatsGrpcMessages(this._parent);
+
+  /// ```dart
+  /// "USB-C power, W"
+  /// ```
+  String get power_w => """USB-C power, W""";
+
+  /// ```dart
+  /// "USB-C max power, W"
+  /// ```
+  String get max_power_w => """USB-C max power, W""";
+
+  /// ```dart
+  /// "Maximum power available on the USB-C port, presumably negotiated with the USB Power Delivery source. Starlink recommends a 100 W (20 V / 5 A) USB-PD source for Starlink Mini."
+  /// ```
+  String get max_power_w__hint =>
+      """Maximum power available on the USB-C port, presumably negotiated with the USB Power Delivery source. Starlink recommends a 100 W (20 V / 5 A) USB-PD source for Starlink Mini.""";
+
+  /// ```dart
+  /// "USB-C power source detected"
+  /// ```
+  String get source_detected => """USB-C power source detected""";
+
+  /// ```dart
+  /// "A power source is connected to the dish USB-C port."
+  /// ```
+  String get source_detected__hint =>
+      """A power source is connected to the dish USB-C port.""";
+
+  /// ```dart
+  /// "USB-C power consumer detected"
+  /// ```
+  String get sink_detected => """USB-C power consumer detected""";
+
+  /// ```dart
+  /// "The dish reports a power-consuming device (sink) on its USB-C port. The meaning is inferred from the field name."
+  /// ```
+  String get sink_detected__hint =>
+      """The dish reports a power-consuming device (sink) on its USB-C port. The meaning is inferred from the field name.""";
 }
 
 class DishReadyStatesGrpcMessages {
@@ -1709,6 +1801,30 @@ class DishGetStatusGrpcMessages {
   /// "Metered connection"
   /// ```
   String get treat_as_metered => """Metered connection""";
+
+  /// ```dart
+  /// "Radio idle before power-off"
+  /// ```
+  String get battery_ut_power_off_rf_idle_active =>
+      """Radio idle before power-off""";
+
+  /// ```dart
+  /// "The dish has idled its radio, presumably as part of a battery auto power-off. The meaning is inferred from the field name."
+  /// ```
+  String get battery_ut_power_off_rf_idle_active__hint =>
+      """The dish has idled its radio, presumably as part of a battery auto power-off. The meaning is inferred from the field name.""";
+
+  /// ```dart
+  /// "Radio idle, insufficient power"
+  /// ```
+  String get battery_ut_insufficient_power_rf_idle_active =>
+      """Radio idle, insufficient power""";
+
+  /// ```dart
+  /// "The dish has idled its radio because the available power is insufficient, for example a weak USB-C source or a low battery. The meaning is inferred from the field name."
+  /// ```
+  String get battery_ut_insufficient_power_rf_idle_active__hint =>
+      """The dish has idled its radio because the available power is insufficient, for example a weak USB-C source or a low battery. The meaning is inferred from the field name.""";
 
   /// ```dart
   /// "Downlink Throughput"
@@ -3803,6 +3919,26 @@ Moreover, in the case of a moving router, its route can be followed.
   """grpc.DishBatteryStats.state_of_charge""": """Battery charge""",
   """grpc.DishBatteryStats.is_charging""": """Charging""",
   """grpc.DishBatteryStats.power_source""": """Power source""",
+  """grpc.DishBatteryStats.power_source__hint""": """The possible options are:
+
+- **usbc** - The dish is powered through its USB-C port.
+- **battery** - The dish is running on its battery.
+- **usbc_and_battery** - USB-C power and the battery are both in use.
+""",
+  """grpc.DishBatteryStats.battery_attached""": """Battery attached""",
+  """grpc.DishBatteryStats.power_w""": """Battery power, W""",
+  """grpc.DishBatteryStats.power_w__hint""": """Battery power reported by the dish. The protocol does not document whether it is charging or discharging power.""",
+  """grpc.DishBatteryStats.time_to_charge_minutes""": """Time to full charge""",
+  """grpc.DishBatteryStats.time_to_empty_minutes""": """Time to empty""",
+  """grpc.DishBatteryStats.temperature_c""": """Battery temperature, °C""",
+  """grpc.DishUsbcStats.power_w""": """USB-C power, W""",
+  """grpc.DishUsbcStats.max_power_w""": """USB-C max power, W""",
+  """grpc.DishUsbcStats.max_power_w__hint""": """Maximum power available on the USB-C port, presumably negotiated with the USB Power Delivery source. Starlink recommends a 100 W (20 V / 5 A) USB-PD source for Starlink Mini.""",
+  """grpc.DishUsbcStats.source_detected""": """USB-C power source detected""",
+  """grpc.DishUsbcStats.source_detected__hint""":
+      """A power source is connected to the dish USB-C port.""",
+  """grpc.DishUsbcStats.sink_detected""": """USB-C power consumer detected""",
+  """grpc.DishUsbcStats.sink_detected__hint""": """The dish reports a power-consuming device (sink) on its USB-C port. The meaning is inferred from the field name.""",
   """grpc.DishReadyStates.cady""": """Clock generator""",
   """grpc.DishReadyStates.scp""": """RFFE bus interface""",
   """grpc.DishReadyStates.l1l2""": """Modem L1L2""",
@@ -3916,6 +4052,12 @@ with internet access and dish access. You can find this setting in
   """grpc.DishGetStatus.nat_flag""": """NAT""",
   """grpc.DishGetStatus.user_debug_mode_enabled""": """User debug mode""",
   """grpc.DishGetStatus.treat_as_metered""": """Metered connection""",
+  """grpc.DishGetStatus.battery_ut_power_off_rf_idle_active""":
+      """Radio idle before power-off""",
+  """grpc.DishGetStatus.battery_ut_power_off_rf_idle_active__hint""": """The dish has idled its radio, presumably as part of a battery auto power-off. The meaning is inferred from the field name.""",
+  """grpc.DishGetStatus.battery_ut_insufficient_power_rf_idle_active""":
+      """Radio idle, insufficient power""",
+  """grpc.DishGetStatus.battery_ut_insufficient_power_rf_idle_active__hint""": """The dish has idled its radio because the available power is insufficient, for example a weak USB-C source or a low battery. The meaning is inferred from the field name.""",
   """grpc.DishGetStatus.downlink_throughput_bps""": """Downlink Throughput""",
   """grpc.DishGetStatus.uplink_throughput_bps""": """Uplink Throughput""",
   """grpc.DishGetStatus.pop_ping_drop_rate""": """PoP ping drop rate""",

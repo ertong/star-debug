@@ -969,6 +969,8 @@ class GrpcMessagesUk extends GrpcMessages {
       DishGpsStatsGrpcMessagesUk(this);
   DishBatteryStatsGrpcMessagesUk get DishBatteryStats =>
       DishBatteryStatsGrpcMessagesUk(this);
+  DishUsbcStatsGrpcMessagesUk get DishUsbcStats =>
+      DishUsbcStatsGrpcMessagesUk(this);
   DishReadyStatesGrpcMessagesUk get DishReadyStates =>
       DishReadyStatesGrpcMessagesUk(this);
   DishInitDurationGrpcMessagesUk get DishInitDuration =>
@@ -1261,6 +1263,96 @@ class DishBatteryStatsGrpcMessagesUk extends DishBatteryStatsGrpcMessages {
   /// "Джерело живлення"
   /// ```
   String get power_source => """Джерело живлення""";
+
+  /// ```dart
+  /// """
+  /// Можливі варіанти:
+  ///
+  /// - **usbc** - Антена живиться через порт USB-C.
+  /// - **battery** - Антена працює від акумулятора.
+  /// - **usbc_and_battery** - Використовуються і живлення USB-C, і акумулятор.
+  /// """
+  /// ```
+  String get power_source__hint => """Можливі варіанти:
+
+- **usbc** - Антена живиться через порт USB-C.
+- **battery** - Антена працює від акумулятора.
+- **usbc_and_battery** - Використовуються і живлення USB-C, і акумулятор.
+""";
+
+  /// ```dart
+  /// "Акумулятор підключено"
+  /// ```
+  String get battery_attached => """Акумулятор підключено""";
+
+  /// ```dart
+  /// "Потужність акумулятора, Вт"
+  /// ```
+  String get power_w => """Потужність акумулятора, Вт""";
+
+  /// ```dart
+  /// "Потужність акумулятора за даними антени. Протокол не уточнює, чи це потужність заряджання, чи розряджання."
+  /// ```
+  String get power_w__hint =>
+      """Потужність акумулятора за даними антени. Протокол не уточнює, чи це потужність заряджання, чи розряджання.""";
+
+  /// ```dart
+  /// "Час до повного заряду"
+  /// ```
+  String get time_to_charge_minutes => """Час до повного заряду""";
+
+  /// ```dart
+  /// "Час до розряду"
+  /// ```
+  String get time_to_empty_minutes => """Час до розряду""";
+
+  /// ```dart
+  /// "Температура акумулятора, °C"
+  /// ```
+  String get temperature_c => """Температура акумулятора, °C""";
+}
+
+class DishUsbcStatsGrpcMessagesUk extends DishUsbcStatsGrpcMessages {
+  final GrpcMessagesUk _parent;
+  const DishUsbcStatsGrpcMessagesUk(this._parent) : super(_parent);
+
+  /// ```dart
+  /// "Потужність USB-C, Вт"
+  /// ```
+  String get power_w => """Потужність USB-C, Вт""";
+
+  /// ```dart
+  /// "Макс. потужність USB-C, Вт"
+  /// ```
+  String get max_power_w => """Макс. потужність USB-C, Вт""";
+
+  /// ```dart
+  /// "Максимальна потужність, доступна на порту USB-C; ймовірно, узгоджена з джерелом USB Power Delivery. Для Starlink Mini Starlink рекомендує джерело USB-PD на 100 Вт (20 В / 5 А)."
+  /// ```
+  String get max_power_w__hint =>
+      """Максимальна потужність, доступна на порту USB-C; ймовірно, узгоджена з джерелом USB Power Delivery. Для Starlink Mini Starlink рекомендує джерело USB-PD на 100 Вт (20 В / 5 А).""";
+
+  /// ```dart
+  /// "Виявлено джерело живлення USB-C"
+  /// ```
+  String get source_detected => """Виявлено джерело живлення USB-C""";
+
+  /// ```dart
+  /// "До порту USB-C антени підключено джерело живлення."
+  /// ```
+  String get source_detected__hint =>
+      """До порту USB-C антени підключено джерело живлення.""";
+
+  /// ```dart
+  /// "Виявлено споживача на USB-C"
+  /// ```
+  String get sink_detected => """Виявлено споживача на USB-C""";
+
+  /// ```dart
+  /// "Антена повідомляє про пристрій-споживач (sink) на своєму порту USB-C. Значення виведено з назви поля."
+  /// ```
+  String get sink_detected__hint =>
+      """Антена повідомляє про пристрій-споживач (sink) на своєму порту USB-C. Значення виведено з назви поля.""";
 }
 
 class DishReadyStatesGrpcMessagesUk extends DishReadyStatesGrpcMessages {
@@ -1711,6 +1803,30 @@ class DishGetStatusGrpcMessagesUk extends DishGetStatusGrpcMessages {
   /// "Тарифіковане з'єднання"
   /// ```
   String get treat_as_metered => """Тарифіковане з'єднання""";
+
+  /// ```dart
+  /// "Радіо в очікуванні перед вимкненням"
+  /// ```
+  String get battery_ut_power_off_rf_idle_active =>
+      """Радіо в очікуванні перед вимкненням""";
+
+  /// ```dart
+  /// "Антена перевела радіо в режим очікування, ймовірно, у межах автоматичного вимкнення під час роботи від акумулятора. Значення виведено з назви поля."
+  /// ```
+  String get battery_ut_power_off_rf_idle_active__hint =>
+      """Антена перевела радіо в режим очікування, ймовірно, у межах автоматичного вимкнення під час роботи від акумулятора. Значення виведено з назви поля.""";
+
+  /// ```dart
+  /// "Радіо в очікуванні: недостатньо живлення"
+  /// ```
+  String get battery_ut_insufficient_power_rf_idle_active =>
+      """Радіо в очікуванні: недостатньо живлення""";
+
+  /// ```dart
+  /// "Антена перевела радіо в режим очікування через недостатнє живлення, наприклад слабке джерело USB-C або низький заряд акумулятора. Значення виведено з назви поля."
+  /// ```
+  String get battery_ut_insufficient_power_rf_idle_active__hint =>
+      """Антена перевела радіо в режим очікування через недостатнє живлення, наприклад слабке джерело USB-C або низький заряд акумулятора. Значення виведено з назви поля.""";
 
   /// ```dart
   /// "Downlink Throughput"
@@ -3807,6 +3923,28 @@ Map<String, String> get messagesUkMap => {
   """grpc.DishBatteryStats.state_of_charge""": """Заряд батареї""",
   """grpc.DishBatteryStats.is_charging""": """Заряджання""",
   """grpc.DishBatteryStats.power_source""": """Джерело живлення""",
+  """grpc.DishBatteryStats.power_source__hint""": """Можливі варіанти:
+
+- **usbc** - Антена живиться через порт USB-C.
+- **battery** - Антена працює від акумулятора.
+- **usbc_and_battery** - Використовуються і живлення USB-C, і акумулятор.
+""",
+  """grpc.DishBatteryStats.battery_attached""": """Акумулятор підключено""",
+  """grpc.DishBatteryStats.power_w""": """Потужність акумулятора, Вт""",
+  """grpc.DishBatteryStats.power_w__hint""": """Потужність акумулятора за даними антени. Протокол не уточнює, чи це потужність заряджання, чи розряджання.""",
+  """grpc.DishBatteryStats.time_to_charge_minutes""":
+      """Час до повного заряду""",
+  """grpc.DishBatteryStats.time_to_empty_minutes""": """Час до розряду""",
+  """grpc.DishBatteryStats.temperature_c""": """Температура акумулятора, °C""",
+  """grpc.DishUsbcStats.power_w""": """Потужність USB-C, Вт""",
+  """grpc.DishUsbcStats.max_power_w""": """Макс. потужність USB-C, Вт""",
+  """grpc.DishUsbcStats.max_power_w__hint""": """Максимальна потужність, доступна на порту USB-C; ймовірно, узгоджена з джерелом USB Power Delivery. Для Starlink Mini Starlink рекомендує джерело USB-PD на 100 Вт (20 В / 5 А).""",
+  """grpc.DishUsbcStats.source_detected""":
+      """Виявлено джерело живлення USB-C""",
+  """grpc.DishUsbcStats.source_detected__hint""":
+      """До порту USB-C антени підключено джерело живлення.""",
+  """grpc.DishUsbcStats.sink_detected""": """Виявлено споживача на USB-C""",
+  """grpc.DishUsbcStats.sink_detected__hint""": """Антена повідомляє про пристрій-споживач (sink) на своєму порту USB-C. Значення виведено з назви поля.""",
   """grpc.DishReadyStates.cady""": """Тактовий генератор""",
   """grpc.DishReadyStates.scp""": """Інтерфейс шини RFFE""",
   """grpc.DishReadyStates.l1l2""": """Модем L1L2""",
@@ -3922,6 +4060,12 @@ Map<String, String> get messagesUkMap => {
   """grpc.DishGetStatus.user_debug_mode_enabled""":
       """Режим налагодження користувача""",
   """grpc.DishGetStatus.treat_as_metered""": """Тарифіковане з'єднання""",
+  """grpc.DishGetStatus.battery_ut_power_off_rf_idle_active""":
+      """Радіо в очікуванні перед вимкненням""",
+  """grpc.DishGetStatus.battery_ut_power_off_rf_idle_active__hint""": """Антена перевела радіо в режим очікування, ймовірно, у межах автоматичного вимкнення під час роботи від акумулятора. Значення виведено з назви поля.""",
+  """grpc.DishGetStatus.battery_ut_insufficient_power_rf_idle_active""":
+      """Радіо в очікуванні: недостатньо живлення""",
+  """grpc.DishGetStatus.battery_ut_insufficient_power_rf_idle_active__hint""": """Антена перевела радіо в режим очікування через недостатнє живлення, наприклад слабке джерело USB-C або низький заряд акумулятора. Значення виведено з назви поля.""",
   """grpc.DishGetStatus.downlink_throughput_bps""": """Downlink Throughput""",
   """grpc.DishGetStatus.uplink_throughput_bps""": """Uplink Throughput""",
   """grpc.DishGetStatus.pop_ping_drop_rate""": """PoP ping drop rate""",
