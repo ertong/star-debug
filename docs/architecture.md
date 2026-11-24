@@ -106,6 +106,8 @@ Maps then refresh every 30 seconds through that stream and retain their own rece
 If a status reports a different nonempty dish ID, `DishConnection` clears the cached map and its
 receive metadata before notifying listeners, and immediately requests a replacement. The last
 known ID survives statuses with missing IDs within a stream; reconnects start without cached data.
+Each status response is also recorded by the process-wide `StatusSeriesRecorder`, which keeps
+per-dish samples across reconnects; see [Signal quality history](signal_quality_history.md).
 `RouterConnection` requests Wi-Fi status every two seconds and separately probes the router's HTTP
 root for its response code and redirect location.
 
@@ -164,6 +166,16 @@ unknown rather than borrowing the vendor export timestamp. Nonfinite and out-of-
 rejected before conversion. External data without this envelope retains the legacy timestamp rules.
 See the [capture timing tests](../star.debug/test/obstruction_map_capture_timing_test.dart).
 
+The envelope also carries an optional `statusSeries` (see
+[Signal quality history](signal_quality_history.md)): the app-sampled
+[`StatusSeries`](../star.debug/lib/utils/status_series.dart) of the snapshot as decoded JSON, with
+`version`, `t0` in seconds, per-sample offsets `t` in seconds, the value arrays `signalQuality`,
+`azimuthDeg`, `elevationDeg`, and `gpsSats` (`null` for a missing value), and `reboots` sample
+indices. [`StatusSeriesCodec`](../star.debug/lib/utils/status_series_codec.dart) owns this form and
+the MessagePack form used for storage. Import is lenient: an absent, malformed, or unknown-version
+series becomes `null` without failing the import, and an oversized one keeps its most recent
+samples. External debug data has no series.
+
 When adding compatibility for a new debug-data layout, normalize it in `SpaceParser` and add a
 sanitized fixture plus round-trip assertions. Avoid teaching UI widgets about format versions.
 
@@ -180,7 +192,8 @@ in the third content column. Export provenance is separate from the frozen map s
 live captures are labelled live without changing capture-time freshness calculations.
 
 All formats retain the ID, MAC, IP, location, and router-client hide options; location and clients
-are hidden by default. Client hiding removes DHCP leases and known per-client event metadata
+are hidden by default. The status series holds none of these and is copied unchanged.
+Client hiding removes DHCP leases and known per-client event metadata
 as well as client lists. Recognized credential fields, including TLS private keys, are always removed.
 JSON exports decode recognized embedded
 protobufs before removing `_proto`, so binary payloads cannot bypass redaction. Imported metadata
@@ -188,7 +201,9 @@ is retained where possible, and the original snapshot is never modified. Diagnos
 status, configuration, history summaries, obstruction-map context, and online results. Both text
 reports use Markdown: diagnostics have section headings and nested field lists, while inventory
 uses a compact field list. Saved reports use `.md` and `text/markdown`, with escaped values to
-preserve formatting. Preview, clipboard, and native text sharing use plain text rendered from
+preserve formatting. A status series appears in diagnostics as signal quality statistics, not
+samples, and is absent from inventory text.
+Preview, clipboard, and native text sharing use plain text rendered from
 the same redacted fields, preserving literal hardware names and multiline values.
 JSON files use `.json` and `application/json`. Export filenames include the capture time in
 compact UTC form and the dish ID when available and not hidden.
@@ -236,16 +251,19 @@ what is established by schemas and external observations.
 documents directory on the main isolate, then starts a background isolate containing the Drift
 `NativeDatabase`. All callers share one `Database` connection backed by `sqlite.db`.
 
-Schema version 7 has three logical tables:
+Schema version 8 has three logical tables:
 
 - `dishes` stores one row per dish, points to its latest log, and retains the last automatic
   snapshot creation time independently of subsequent log updates;
 - `dish_logs` stores imported JSON and/or protobuf bytes for dish status, history, router status,
-  obstruction maps with reception metadata, and an optional online JSON column;
+  obstruction maps with reception metadata, an optional online JSON column, and the status series
+  as a MessagePack BLOB (`status_series`);
 - `recent_inputs` stores searchable Wi-Fi names and passwords entered through the setup dialog.
 
 `Snapshot.ofRow()` prefers non-null imported debug JSON over all native columns. Import parsing
-reconstructs status and maps, not history, locations, or online results. Live snapshots currently
+reconstructs status, maps, and the status series, not history, locations, or online results.
+A native row reads its series from `status_series`; a malformed value is ignored.
+Live snapshots currently
 do not populate `onlineJson`, so the online storage column does not retain live probe results.
 
 Automatic logging is driven by holder notifications and requires enabled logging, a dish ID,
@@ -272,10 +290,12 @@ latest-log pointer form one transaction.
 Mutations are serialized by a `Mutex`, and UI deletion invalidates the controller's cached records.
 
 Forced and automatic writes share `DishLogController._snapshotToCompanion()` for protobuf payloads,
-map reception metadata, and online JSON. Each caller supplies its own row timestamp and write flags,
+map reception metadata, the status series, and online JSON.
+Each caller supplies its own row timestamp and write flags,
 and preserves its imported-JSON representation: absent debug JSON is SQL `NULL` for forced saves
-and JSON `"null"` for automatic writes. Explicit nullable Drift values clear old map fields during
-updates. The helper does not change scheduling or the imported-JSON precedence in `Snapshot.ofRow()`.
+and JSON `"null"` for automatic writes. Explicit nullable Drift values clear old map
+and series fields during updates.
+The helper does not change scheduling or the imported-JSON precedence in `Snapshot.ofRow()`.
 
 Drift migration behavior is intentionally simple: upgrades from versions below 3 drop `dishes`
 and `dish_logs`, then `createAll()` ensures current objects exist. Upgrades from versions 3–5 add
@@ -283,7 +303,9 @@ the nullable obstruction-map columns without rebuilding existing logs. Upgrades 
 also add the automatic creation timestamp. Because previous creation times are unavailable, it is
 initialized from each dish's latest automatic log timestamp. The migration enforces the 50-log cap
 on automatic entries in existing histories, preserves forced logs, and repairs their latest-log
-pointers. A schema change must be evaluated against that behavior and accompanied by a
+pointers. Upgrades from versions 3–7 add the nullable `status_series` column before that repair,
+leaving existing logs without a series.
+A schema change must be evaluated against that behavior and accompanied by a
 schema-version change and regenerated files.
 
 ## Architectural boundaries

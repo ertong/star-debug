@@ -12,6 +12,8 @@ Starlink applications, and retain snapshots in a local SQLite database.
 - [Obstruction maps](obstruction_maps.md): current map behavior, caches, measurements, and limitations.
 - [Map protocol evidence](obstruction_map_sources.md): schema contracts, external sources, and
   geographic calibration limits. Read this before changing map geometry.
+- [Signal quality history](signal_quality_history.md): app-sampled status series, its storage and
+  export encodings, graphs, and detail view.
 - [Agent guidance](../AGENTS.md): change scope, ownership, conventions, and operational commands.
 
 ## Source map

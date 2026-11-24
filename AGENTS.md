@@ -17,6 +17,8 @@ Read the focused documentation before changing a central subsystem:
 - [`docs/obstruction_maps.md`](docs/obstruction_maps.md) covers current map behavior and limitations.
 - [`docs/obstruction_map_sources.md`](docs/obstruction_map_sources.md) distinguishes obstruction-map
   protocol evidence from projection assumptions; read it before changing map geometry.
+- [`docs/signal_quality_history.md`](docs/signal_quality_history.md) covers the app-sampled status
+  series behind the signal quality graphs, including its storage and export formats.
 
 ## Change scope
 
