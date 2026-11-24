@@ -1,6 +1,6 @@
 ---
 name: remote-mac
-description: Build, test, and upgrade this Flutter project on the remote macOS host over SSH. The skill syncs the local working tree to ~/proj/remote/<project> and runs iOS builds, flutter test or analyze, and Swift package or fastlane gem upgrades there, then brings changes made on the Mac back. Use when asked to build or test on the Mac, check an iOS build, refresh Package.resolved or Gemfile.lock, or sync files to or from the Mac.
+description: Build, test, sign, and upgrade this Flutter project on the remote macOS host over SSH. The skill syncs the local working tree to ~/proj/remote/<project> and runs iOS builds, flutter test or analyze, fastlane lanes with ios/.env.default, and Swift package or fastlane gem upgrades there, then brings changes made on the Mac back. Use when asked to build or test on the Mac, check an iOS build, refresh Package.resolved or Gemfile.lock, sync files to or from the Mac, fix iOS certificates, profiles, or TestFlight uploads, or refresh the Apple session (spaceauth) for CI.
 ---
 
 # Remote Mac builds
@@ -26,6 +26,19 @@ bash .claude/skills/remote-mac/scripts/remote-mac.sh <command> [args]
 If `config.env` is missing, ask the user for the host and account before creating it. To prepare
 a new Mac, follow [MAC_SETUP.md](MAC_SETUP.md).
 
+## Fastlane secrets
+
+Fastlane reads its secrets from `star.debug/ios/.env.default`, which is git-ignored, so `push` never
+copies it. Use the `env` command to keep the local file and the Mac's copy in step:
+
+- `env pull <path>` fetches it from another location on the Mac, such as a checkout there. Ask the
+  user for the path; `~/...` is under the remote home. Without a path it reads the remote copy.
+- `env push` copies the local file to the remote copy, mode 600.
+- `env check` lists the variable names on both sides and whether the copies match.
+
+The `fastlane` and `spaceauth` commands refuse to run until the Mac has the file. For certificates,
+profiles, uploads, keychains, and the CI Apple session, follow [DEPLOYMENT.md](DEPLOYMENT.md).
+
 ## Commands
 
 | Command | Effect |
@@ -39,6 +52,9 @@ a new Mac, follow [MAC_SETUP.md](MAC_SETUP.md).
 | `build [args]` | Push, then `flutter build ios --no-codesign`, by default with `--release` |
 | `upgrade [spm\|gems\|all]` | Push, then re-resolve Swift packages and rebuild (`spm`), or run `bundle update` for fastlane (`gems`) |
 | `run '<command>'` | Push, then run one shell command in the remote `star.debug` |
+| `env [check\|push\|pull [path]]` | Compare, upload, or fetch `ios/.env.default` (names only; values never print) |
+| `fastlane <args>` | Push, then `bundle exec fastlane <args>` in the remote `star.debug/ios` |
+| `spaceauth` | Push, then log in to Apple interactively and print a `FASTLANE_SESSION` for CI (the user runs it) |
 | `shell` | Open an interactive login shell on the Mac (for the user, not for unattended use) |
 
 Set `NO_PUSH=1` to reuse the current remote copy without syncing first.
@@ -75,6 +91,12 @@ Set `NO_PUSH=1` to reuse the current remote copy without syncing first.
 - **Upgrade iOS dependencies:** `upgrade spm` or `upgrade gems`, then `diff` and `pull`. Then
   review the local diff and run the local tests.
 - **Something odd on the Mac:** `run 'flutter doctor -v'`, or `check`.
+- **Signing or upload problems:** run the read-only diagnostics in [DEPLOYMENT.md](DEPLOYMENT.md)
+  first, then follow the matching fix.
+- **Signed TestFlight build, as CI does it:**
+  1. `build`.
+  2. `fastlane beta` with `NO_PUSH=1`, which writes `ios/build/stardebug.ipa`.
+  3. `do_testflight` uploads it; run it only when the user asks.
 
 Pushing is fast after the first sync, because only changed objects are sent. A cold release build
 takes about 2.5 minutes; a warm one takes under a minute.
@@ -97,4 +119,8 @@ takes about 2.5 minutes; a warm one takes under a minute.
   push.
 - Do not edit files on the Mac by hand. Edit locally and push. Only tool output, such as
   lock files, should come back through `pull`.
-- Do not print or commit `config.env`.
+- Do not print or commit `config.env`, `ios/.env.default`, or a `FASTLANE_SESSION`. Use
+  `env check` to see which variables are set.
+- Ask the user before any fastlane step that logs in to Apple, changes the developer portal or
+  the match repository, uploads a build, or deletes keychain items. `spaceauth` and other 2FA
+  prompts need the user's own terminal.

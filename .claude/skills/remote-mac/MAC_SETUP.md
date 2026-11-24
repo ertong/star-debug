@@ -34,7 +34,10 @@ serves the GitLab iOS runner (`_build/ci_ios.yaml`).
    ```
 
    The skill's `setup` command installs the Flutter version from `star.debug/.tool-versions`.
-5. **Disk:** keep at least 20 GB free. Old Flutter versions (`asdf uninstall flutter <version>`)
+5. **match repository:** the build account's SSH key must be able to read the match repository,
+   `MATCH_GIT_URL` in `ios/.env.default`. Write access is needed only for regenerating
+   certificates or profiles. Connect once to accept the host key.
+6. **Disk:** keep at least 20 GB free. Old Flutter versions (`asdf uninstall flutter <version>`)
    and `~/Library/Developer/Xcode/DerivedData` are the usual space to reclaim.
 
 CocoaPods is not needed: the iOS project uses Swift Package Manager.
@@ -44,3 +47,6 @@ CocoaPods is not needed: the iOS project uses Swift Package Manager.
 1. Copy `config.env.example` to `config.env` and set `REMOTE_HOST` and `REMOTE_USER`.
 2. Load the key into ssh-agent, then connect once with `ssh <user>@<host>` to accept the host key.
 3. Run `bash .claude/skills/remote-mac/scripts/remote-mac.sh check`, then `setup`.
+4. For fastlane, get `star.debug/ios/.env.default` and run `env push`. The file comes from the user,
+   or from an existing checkout on the Mac through `env pull <path>`. See
+   [DEPLOYMENT.md](DEPLOYMENT.md).

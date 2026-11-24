@@ -27,6 +27,7 @@ PROJECT_NAME="${PROJECT_NAME:-$(basename "$REPO_ROOT")}"
 APP_DIR="${APP_DIR:-star.debug}"                # Flutter app directory inside the repository
 SSH_OPTS="${SSH_OPTS:-}"
 REMOTE_ENV="${REMOTE_ENV:-}"                     # extra shell code run before remote commands
+ENV_FILE="${ENV_FILE:-ios/.env.default}"         # fastlane secrets, relative to APP_DIR; git-ignored
 
 TARGET="${REMOTE_USER:+$REMOTE_USER@}$REMOTE_HOST"
 REMOTE_DIR="$REMOTE_BASE/$PROJECT_NAME"
@@ -47,8 +48,11 @@ fi
 cd "$REPO_ROOT"
 
 q() { printf '%q' "$1"; }
+# Quote all arguments for a remote command line; prints nothing when there are none.
+qargs() { (( $# )) && printf '%q ' "$@"; return 0; }
 
 # Run a shell script on the Mac in its login environment, from the remote repository root.
+# RSH_TTY=1 allocates a terminal, for prompts that the user answers.
 rsh() {
   local script="$1"
   local prelude="export LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8; "
@@ -59,7 +63,7 @@ rsh() {
     env HOME="$LOCAL_HOME" bash -c "$full"
   else
     # shellcheck disable=SC2086
-    ssh $SSH_OPTS "$TARGET" "zsh -lc $(q "$full")"
+    ssh ${RSH_TTY:+-t} $SSH_OPTS "$TARGET" "zsh -lc $(q "$full")"
   fi
 }
 
@@ -181,6 +185,66 @@ cmd_check() {
       echo 'remote repo: not created yet (created by push)'"
 }
 
+# Print the variable names of a dotenv file read from stdin, never the values.
+env_keys() {
+  awk '/^[A-Za-z_][A-Za-z0-9_]*=/ { k = $0; sub(/=.*/, "", k); v = substr($0, length(k) + 2)
+    print "  " k (v == "" ? " (empty)" : "") }'
+}
+
+# A remote path as shell code: ~/x is under the remote home, a relative path is in the remote repository.
+# shellcheck disable=SC2088
+remote_path() {
+  case "$1" in
+    "~/"*) echo "\"\$HOME\"/$(q "${1#\~/}")" ;;
+    *) q "$1" ;;
+  esac
+}
+
+cmd_env() {
+  local local_file="$APP_DIR/$ENV_FILE" remote_file="~/$REMOTE_DIR/$APP_DIR/$ENV_FILE"
+  local rfile; rfile="$(remote_path "$remote_file")"
+  case "${1:-check}" in
+    check)
+      if [[ -f "$local_file" ]]; then
+        echo "local $local_file:"; env_keys <"$local_file"
+      else echo "local $local_file: missing"; fi
+      local remote_hash
+      remote_hash="$(rsh "[ -f $rfile ] && git hash-object $rfile || true")"
+      if [[ -z "$remote_hash" ]]; then
+        echo "remote $remote_file: missing (run: env push)"
+      elif [[ -f "$local_file" && "$remote_hash" == "$(git hash-object "$local_file")" ]]; then
+        echo "remote $remote_file: same as local"
+      else
+        echo "remote $remote_file: differs from local:"
+        rsh "cat $rfile" | env_keys
+      fi ;;
+    push)
+      [[ -f "$local_file" ]] || die "missing $local_file; fetch it with: env pull <path on the Mac>"
+      ensure_remote_repo
+      rsh "mkdir -p $(remote_path "$(dirname "$remote_file")") && umask 077 && cat > $rfile" <"$local_file"
+      info "copied $local_file to $TARGET:$remote_file" ;;
+    pull)
+      local src="${2:-$remote_file}" tmp
+      tmp="$(mktemp)"
+      rsh "cat $(remote_path "$src")" >"$tmp" || { rm -f "$tmp"; die "cannot read $src on the Mac"; }
+      [[ -s "$tmp" ]] || { rm -f "$tmp"; die "$src on the Mac is empty"; }
+      if [[ -f "$local_file" ]] && ! cmp -s "$tmp" "$local_file"; then
+        rm -f "$tmp"
+        die "local $local_file differs from $src; move it away first"
+      fi
+      chmod 600 "$tmp" && mv "$tmp" "$local_file"
+      git check-ignore -q "$local_file" || info "WARNING: $local_file is not git-ignored"
+      info "copied $src from the Mac to $local_file:"; env_keys <"$local_file" >&2 ;;
+    *) die "env: expected check, push or pull [path]" ;;
+  esac
+}
+
+# Fail unless the remote copy has the fastlane env file.
+require_remote_env() {
+  rsh "[ -f $(remote_path "~/$REMOTE_DIR/$APP_DIR/$ENV_FILE") ]" ||
+    die "the Mac has no $APP_DIR/$ENV_FILE; run: env push"
+}
+
 usage() {
   cat <<EOF
 Usage: $(basename "$0") <command> [args]
@@ -199,9 +263,16 @@ Usage: $(basename "$0") <command> [args]
                         plugins allow and rebuild (spm), and/or bundle update in ios/ (gems);
                         review with diff, bring back with pull
   run '<command>'       push, then run a shell command in the remote $APP_DIR
+  env [check|push|pull [path]]
+                        show the variable names in $APP_DIR/$ENV_FILE here and on the Mac,
+                        copy it to the remote copy, or fetch it from the Mac (default
+                        path: the remote copy; ~/... is under the remote home)
+  fastlane <args>       push, then bundle exec fastlane <args> in the remote ios/
+  spaceauth             push, then log in to Apple with fastlane spaceauth in a terminal;
+                        prints a FASTLANE_SESSION for CI (interactive, for the user)
   shell                 open an interactive login shell in the remote $APP_DIR
 
-Set NO_PUSH=1 to skip the automatic push before test/analyze/build/upgrade/run.
+Set NO_PUSH=1 to skip the automatic push before test/analyze/build/upgrade/run/fastlane.
 EOF
 }
 
@@ -220,12 +291,12 @@ case "$cmd" in
   setup)
     auto_push
     rapp "asdf install && flutter --version && flutter pub get && flutter precache --ios" ;;
-  test) auto_push; rapp "flutter test $(printf '%q ' "$@")" ;;
-  analyze) auto_push; rapp "flutter analyze $(printf '%q ' "$@")" ;;
+  test) auto_push; rapp "flutter test $(qargs "$@")" ;;
+  analyze) auto_push; rapp "flutter analyze $(qargs "$@")" ;;
   build)
     auto_push
     (( $# )) || set -- --release
-    rapp "flutter pub get && flutter build ios --no-codesign $(printf '%q ' "$@")" ;;
+    rapp "flutter pub get && flutter build ios --no-codesign $(qargs "$@")" ;;
   upgrade)
     auto_push
     spm="rm -f"
@@ -241,6 +312,19 @@ case "$cmd" in
   run)
     (( $# == 1 )) || die "run: pass one quoted shell command"
     auto_push; rapp "$1" ;;
+  env) cmd_env "$@" ;;
+  fastlane)
+    (( $# )) || die "fastlane: pass a lane or fastlane arguments"
+    auto_push
+    require_remote_env
+    rapp "cd ios && bundle install --quiet && bundle exec fastlane $(qargs "$@")" ;;
+  spaceauth)
+    [[ -z "$LOCAL_HOME" ]] || die "spaceauth is not available in local test mode"
+    [[ -t 0 && -t 1 ]] || die "spaceauth asks for the Apple ID password and a 2FA code; run it in your own terminal"
+    auto_push
+    require_remote_env
+    RSH_TTY=1 rapp "cd ios && bundle install --quiet && set -a && . ./$(q "${ENV_FILE#ios/}") && set +a &&
+      bundle exec fastlane spaceauth -u \"\$APPLE_ID\"" ;;
   shell)
     [[ -z "$LOCAL_HOME" ]] || die "shell is not available in local test mode"
     # shellcheck disable=SC2086
