@@ -76,8 +76,9 @@ the holder streams; the subscriptions both receive updates and express demand fo
 Use the holder's `reconnect()` for address changes; calling `close()` on a connection alone does not
 cause the holder to construct a replacement on its next tick.
 
-`PooledRequest<T>` retains the latest response, API version, send time, and receive time. Its
-`validData()` method rejects data older than five seconds, but reading `data` directly does not.
+`PooledRequest<T>` retains the latest response, API version, send time, and receive time until
+`clear()` resets them. Its `validData()` method rejects data older than five seconds, but reading
+`data` directly does not.
 Most status widgets intentionally retain the last response and use timestamps or connection state
 to show freshness. Location values in `buildLiveSnapshot()` use `validData()`.
 
@@ -86,7 +87,10 @@ to show freshness. Location values in `buildLiveSnapshot()` use `validData()`.
 [`GrpcConnection`](../star.debug/lib/controller/conn/grpc_connection.dart) owns an insecure
 `ClientChannel`, one bidirectional `DeviceClient.stream`, and a request stream. It listens for
 connectivity changes and recreates its channel and stream after disconnects or errors. It treats a
-status response received in the last 3.5 seconds as ready.
+status response received in the last 3.5 seconds as ready. Each new stream calls
+`resetSessionData()`, which clears the subclass's stream-derived `PooledRequest` data so nothing
+cached from a previous connection is shown or saved for the next one. The router's HTTP probe and
+the connection error log are not stream data and are kept.
 
 The loop guards against stalled resources:
 
@@ -101,7 +105,7 @@ status on each stream immediately requests an obstruction map, including after r
 Maps then refresh every 30 seconds through that stream and retain their own receive timestamp.
 If a status reports a different nonempty dish ID, `DishConnection` clears the cached map and its
 receive metadata before notifying listeners, and immediately requests a replacement. The last
-known ID survives statuses with missing IDs; same-device reconnects retain their cached maps.
+known ID survives statuses with missing IDs within a stream; reconnects start without cached data.
 `RouterConnection` requests Wi-Fi status every two seconds and separately probes the router's HTTP
 root for its response code and redirect location.
 

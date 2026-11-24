@@ -30,6 +30,17 @@ class DishConnection extends GrpcConnection {
   }
 
   @override
+  void resetSessionData() {
+    dishGetStatus.clear();
+    dishGetHistory.clear();
+    dishGetObstructionMap.clear();
+    dishGetLocationGPS.clear();
+    dishGetLocationStarlink.clear();
+    _obstructionMapStream = null;
+    _dishId = null;
+  }
+
+  @override
   Future tickConnected(ClientChannel channel, DeviceClient stub) async {
     int now = DateTime.now().millisecondsSinceEpoch;
     if (dishGetStatus.needSend(now)) {

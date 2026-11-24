@@ -93,6 +93,14 @@ class PooledRequest <T> {
     return data!=null && DateTime.now().millisecondsSinceEpoch-receivedTime<5000;
   }
 
+  /// Forget the response and its timing so a new session starts empty.
+  void clear() {
+    apiVersion = 0;
+    data = null;
+    receivedTime = 0;
+    sentTime = 0;
+  }
+
   void setData(int now, T data, int apiVersion) {
     this.receivedTime = now;
     this.apiVersion = apiVersion;

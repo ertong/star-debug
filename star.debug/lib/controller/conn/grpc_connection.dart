@@ -192,6 +192,7 @@ abstract class GrpcConnection extends BaseConnection {
       final streamChannel = channel;
       final requests = StreamController<ToDevice>();
       reqStream = requests;
+      resetSessionData();
       ResponseStream<FromDevice> stream = stub!.stream(requests.stream);
       subsStream = stream.listen(
             (FromDevice msg) {
@@ -223,6 +224,12 @@ abstract class GrpcConnection extends BaseConnection {
   }
 
   Future tickConnected(ClientChannel channel, DeviceClient stub) async {
+
+  }
+
+  /// Called when a new device stream opens. Each stream is a separate
+  /// session: responses cached from an earlier stream must not carry over.
+  void resetSessionData() {
 
   }
 

@@ -7,9 +7,11 @@ and storage lifetimes are in [Architecture](architecture.md).
 ## Ownership and data flow
 
 - [`DishConnection`](../star.debug/lib/controller/conn/dish_connection.dart) requests a map on the
-  first successful status of each stream, then every 30 seconds. A different nonempty dish ID
-  clears the cached map, reception time, and API version before notification and requests a new
-  map immediately. Missing IDs retain the last known ID; same-device reconnects retain the map.
+  first successful status of each stream, then every 30 seconds. Each new stream starts an empty
+  session: status, history, location, map, and dish ID cached from the previous stream are
+  cleared, so no map carries over between connections. Within a stream, a different nonempty dish
+  ID clears the cached map, reception time, and API version before notification and requests a new
+  map immediately; missing IDs retain the last known ID.
 - [`Snapshot`](../star.debug/lib/utils/snapshot.dart) carries the map, reception time, and API
   version independently of status. Both forced and automatic saves serialize these fields.
 - [`ObstructionMapData`](../star.debug/lib/utils/obstructions.dart) makes an immutable row-major
@@ -67,7 +69,9 @@ Timing rows and freshness warnings appear only when the map is ready to display:
 invalid, unobserved, or dish-reported unready maps show their unavailable state without timing.
 
 `DishTab` refreshes once per second even during stream silence and cancels its timer on disposal.
-Stable dish/map keys retain the map and dialog as status rows disappear and recover. Screenshot
+It shows the live map only while the channel is `ready`; leaving that state removes the map and
+closes its open dialog. While connected, stable dish/map keys retain the map and dialog as status
+rows disappear and recover. Screenshot
 sharing uses frozen source mode. Native rows have only save time for status;
 `Snapshot.dishTsIsEstimated` records that approximation. Imported JSON retains timing provenance.
 Reception age does not establish device ownership or date individual accumulated observations.

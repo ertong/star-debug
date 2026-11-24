@@ -32,6 +32,11 @@ class RouterConnection extends GrpcConnection {
   }
 
   @override
+  void resetSessionData() {
+    wifiGetStatus.clear();
+  }
+
+  @override
   Future tickConnected(ClientChannel channel, DeviceClient stub) async {
     int now = DateTime.now().millisecondsSinceEpoch;
     if (wifiGetStatus.needSend(now)) {

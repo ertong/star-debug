@@ -106,7 +106,8 @@ class _DishTabState extends State<DishTab> with TickerProviderStateMixin {
     }
 
     final statusFresh = conn.dishGetStatus.data!=null && now-conn.dishGetStatus.receivedTime<5000;
-    if (conn.dishGetStatus.data!=null || conn.dishGetObstructionMap.data!=null) {
+    final connected = conn.connState==ConnectionState.ready;
+    if (connected && (conn.dishGetStatus.data!=null || conn.dishGetObstructionMap.data!=null)) {
       rows.add(DishWidget(
         key: Key('live-dish-view'),
         snap: buildLiveSnapshot(),
