@@ -1,5 +1,5 @@
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:star_debug/pages/about.dart';
 import 'package:star_debug/pages/debug_data.dart';
 import 'package:star_debug/pages/live.dart';

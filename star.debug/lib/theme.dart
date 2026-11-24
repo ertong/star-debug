@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class StarDebugTheme {
   static const Color brandBlue = Color(0xFF2878D4);

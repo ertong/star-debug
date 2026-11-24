@@ -1,5 +1,5 @@
 
-import 'package:flutter/material.dart' hide Notification, Card, ConnectionState;
+import 'package:material_ui/material_ui.dart' hide Notification, Card, ConnectionState;
 import 'package:recase/recase.dart';
 import 'package:star_debug/grpc/starlink/starlink.pbgrpc.dart';
 import 'package:star_debug/messages/i18n.dart';

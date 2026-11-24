@@ -56,6 +56,8 @@ dependencies:
   image: ^4.13.1
   google_fonts: ^9.0.0
   webview_flutter: ^4.14.1
+  material_ui: ^1.11.1
+  cupertino_ui: ^1.1.7
 
 dependency_overrides:
 #  build: ^4.0.4 # for i18n as of 4.2.5

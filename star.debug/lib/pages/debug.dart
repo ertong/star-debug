@@ -4,7 +4,7 @@ import 'dart:convert';
 
 import 'package:clipboard/clipboard.dart';
 import 'package:convert/convert.dart' show hex;
-import 'package:flutter/material.dart' hide Notification, Card;
+import 'package:material_ui/material_ui.dart' hide Notification, Card;
 import 'package:grpc/grpc.dart';
 import 'package:star_debug/drawer.dart';
 import 'package:star_debug/grpc/starlink/starlink.pbgrpc.dart';

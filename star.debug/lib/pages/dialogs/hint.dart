@@ -1,7 +1,7 @@
 
 import 'package:clipboard/clipboard.dart';
 import 'package:flex_list/flex_list.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/preloaded.dart';
@@ -62,10 +62,7 @@ class _HintDialogState extends State<HintDialog>
   }
 
   Widget _build(){
-    var theme = Theme.of(context);
-
-    var style = MarkdownStyleSheet.fromTheme(theme);
-    style = MarkdownStyleSheet(textScaler: TextScaler.linear(1.1));
+    var style = MarkdownStyleSheet(textScaler: TextScaler.linear(1.1));
 
     return SizedBox(
       width: MediaQuery.of(context).size.width,
