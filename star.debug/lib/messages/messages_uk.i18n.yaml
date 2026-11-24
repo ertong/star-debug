@@ -128,6 +128,8 @@ live:
   event_overlapping_bss: Мережі, що перекриваються
   status: Стан
   connecting: підключення
+  battery_full_in(t): повна через $t
+  battery_time_left(t): залишилось $t
 header:
   general: Загальне
   signal: Сигнал

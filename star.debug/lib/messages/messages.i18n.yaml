@@ -131,6 +131,8 @@ live:
   event_overlapping_bss: Overlapping networks
   status: Status
   connecting: connecting
+  battery_full_in(t): full in $t
+  battery_time_left(t): $t left
 
 header:
   general: General

@@ -38,6 +38,12 @@ class Format {
       return "${t~/3600} h ${(t~/60)%60} m ${t%60} s";
   }
 
+  static String minutes(int m){
+    if (m<60)
+      return "$m m";
+    return "${m~/60} h ${m%60} m";
+  }
+
   static String secD(double t){
     if (t.isNaN || t.isInfinite)
       return "$t";

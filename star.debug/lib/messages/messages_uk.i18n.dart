@@ -679,6 +679,16 @@ class LiveMessagesUk extends LiveMessages {
   /// "підключення"
   /// ```
   String get connecting => """підключення""";
+
+  /// ```dart
+  /// "повна через $t"
+  /// ```
+  String battery_full_in(t) => """повна через $t""";
+
+  /// ```dart
+  /// "залишилось $t"
+  /// ```
+  String battery_time_left(t) => """залишилось $t""";
 }
 
 class HeaderMessagesUk extends HeaderMessages {

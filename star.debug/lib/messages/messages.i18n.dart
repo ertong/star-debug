@@ -677,6 +677,16 @@ class LiveMessages {
   /// "connecting"
   /// ```
   String get connecting => """connecting""";
+
+  /// ```dart
+  /// "full in $t"
+  /// ```
+  String battery_full_in(t) => """full in $t""";
+
+  /// ```dart
+  /// "$t left"
+  /// ```
+  String battery_time_left(t) => """$t left""";
 }
 
 class HeaderMessages {

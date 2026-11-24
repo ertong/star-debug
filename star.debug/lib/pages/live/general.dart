@@ -13,12 +13,27 @@ import 'package:star_debug/pages/dialogs/wifi_setup.dart';
 import 'package:star_debug/pages/view/dish.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/utils/api_helper.dart';
+import 'package:star_debug/utils/format.dart';
 import 'package:star_debug/utils/kv_widget.dart';
 import 'package:star_debug/utils/log_utils.dart';
 import 'package:time_machine2/time_machine2.dart';
 
 // ignore: unused_element
 const String _TAG="GeneralTab";
+
+/// Battery charge with charging state and, when the dish reports one, the time estimate
+/// that matches it: time to full while charging, otherwise time to empty.
+@visibleForTesting
+String batterySummary(DishBatteryStats battery) {
+  var charge = "${battery.stateOfCharge} %";
+  if (battery.isCharging) {
+    charge = "$charge · ${M.grpc.DishBatteryStats.is_charging}";
+    if (battery.timeToChargeMinutes > 0)
+      charge = "$charge · ${M.live.battery_full_in(Format.minutes(battery.timeToChargeMinutes))}";
+  } else if (battery.timeToEmptyMinutes > 0)
+    charge = "$charge · ${M.live.battery_time_left(Format.minutes(battery.timeToEmptyMinutes))}";
+  return charge;
+}
 
 class GeneralTab extends StatefulWidget {
   const GeneralTab({super.key});
@@ -117,12 +132,8 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
         }
 
         var battery = status.effectiveBatteryStats;
-        if (battery.hasStateOfCharge() || battery.batteryAttached) {
-          var charge = "${battery.stateOfCharge} %";
-          if (battery.isCharging)
-            charge = "$charge · ${M.grpc.DishBatteryStats.is_charging}";
-          b1.kv(M.grpc.DishBatteryStats.state_of_charge, charge);
-        }
+        if (battery.hasStateOfCharge() || battery.batteryAttached)
+          b1.kv(M.grpc.DishBatteryStats.state_of_charge, batterySummary(battery));
 
         b.widgets.add(Row(crossAxisAlignment: CrossAxisAlignment.start,children: [
           ClipRRect(
