@@ -164,7 +164,7 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
         b1.kv(M.grpc.DeviceInfo.id, status.deviceInfo.id);
         b1.kv(M.general.version, status.deviceInfo.softwareVersion);
         if (status.hasPingLatencyMs())
-          b1.kv(M.grpc.WifiGetStatus.ping_latency_ms, status.pingLatencyMs, ok: status.pingLatencyMs<200);
+          b1.kv(M.grpc.WifiGetStatus.ping_latency_ms, status.pingLatencyMs.toStringAsFixed(2), ok: status.pingLatencyMs<200);
         // b1.widgets.add(Text(status.deviceInfo.id));
 
         bt.widgets.add(Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
