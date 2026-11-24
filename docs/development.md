@@ -28,8 +28,8 @@ desktop `ephemeral` directories. On a checkout stored on a Windows drive, a Linu
 Windows SDK in Android Studio would overwrite each other's paths.
 
 [`star.debug/wsl_mounts.sh`](../star.debug/wsl_mounts.sh) gives WSL its own copies: it bind-mounts
-each of these paths, inside WSL only, from `~/.cache/star-debug-wsl/`. Windows keeps seeing its own
-files at the same paths. Run it from WSL as root or with sudo:
+each of these paths, inside WSL only, from the git-ignored `star.debug/.cache/wsl/`. Windows keeps
+seeing its own files at the same paths. Run it from WSL as root or with sudo:
 
 ```sh
 star.debug/wsl_mounts.sh install   # systemd service: mount now and at every WSL start

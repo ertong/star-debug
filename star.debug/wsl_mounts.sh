@@ -2,7 +2,7 @@
 # Gives WSL its own copies of the files Flutter and Gradle write with absolute SDK and
 # pub-cache paths, so the Linux SDK in WSL and the Windows SDK in Android Studio can work on
 # this checkout at the same time. Each path below is bind-mounted, inside WSL only, from a
-# directory on the Linux filesystem; Windows keeps seeing its own files at the same paths.
+# directory in .cache/wsl; Windows keeps seeing its own files at the same paths.
 #
 #   ./wsl_mounts.sh          mount; safe to repeat, needed again after each WSL restart
 #   ./wsl_mounts.sh status   list the paths and whether they are mounted
@@ -10,11 +10,11 @@
 #   ./wsl_mounts.sh install  add a systemd service that mounts at every WSL start (needs systemd)
 #   ./wsl_mounts.sh uninstall
 #
-# WSL copies live in $STAR_DEBUG_WSL_STORE, default ~/.cache/star-debug-wsl/<checkout hash>.
+# WSL copies live in $STAR_DEBUG_WSL_STORE, default .cache/wsl next to this script (git-ignored).
 set -euo pipefail
 
 project="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
-store="${STAR_DEBUG_WSL_STORE:-${XDG_CACHE_HOME:-$HOME/.cache}/star-debug-wsl/$(printf %s "$project" | md5sum | cut -c1-12)}"
+store="${STAR_DEBUG_WSL_STORE:-$project/.cache/wsl}"
 
 dirs=(
   .dart_tool                  # package_config.json, build_runner and flutter_build caches
