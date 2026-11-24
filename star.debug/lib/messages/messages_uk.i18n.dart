@@ -669,6 +669,16 @@ class LiveMessagesUk extends LiveMessages {
   /// "Мережі, що перекриваються"
   /// ```
   String get event_overlapping_bss => """Мережі, що перекриваються""";
+
+  /// ```dart
+  /// "Стан"
+  /// ```
+  String get status => """Стан""";
+
+  /// ```dart
+  /// "підключення"
+  /// ```
+  String get connecting => """підключення""";
 }
 
 class HeaderMessagesUk extends HeaderMessages {
@@ -3896,6 +3906,8 @@ Map<String, String> get messagesUkMap => {
   """live.event_repeater_ids""": """ID ретрансляторів""",
   """live.event_change""": """Зміна""",
   """live.event_overlapping_bss""": """Мережі, що перекриваються""",
+  """live.status""": """Стан""",
+  """live.connecting""": """підключення""",
   """header.general""": """Загальне""",
   """header.signal""": """Сигнал""",
   """header.network""": """Мережа""",

@@ -129,6 +129,8 @@ live:
   event_repeater_ids: Repeater IDs
   event_change: Change
   event_overlapping_bss: Overlapping networks
+  status: Status
+  connecting: connecting
 
 header:
   general: General

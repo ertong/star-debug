@@ -667,6 +667,16 @@ class LiveMessages {
   /// "Overlapping networks"
   /// ```
   String get event_overlapping_bss => """Overlapping networks""";
+
+  /// ```dart
+  /// "Status"
+  /// ```
+  String get status => """Status""";
+
+  /// ```dart
+  /// "connecting"
+  /// ```
+  String get connecting => """connecting""";
 }
 
 class HeaderMessages {
@@ -3892,6 +3902,8 @@ Moreover, in the case of a moving router, its route can be followed.
   """live.event_repeater_ids""": """Repeater IDs""",
   """live.event_change""": """Change""",
   """live.event_overlapping_bss""": """Overlapping networks""",
+  """live.status""": """Status""",
+  """live.connecting""": """connecting""",
   """header.general""": """General""",
   """header.signal""": """Signal""",
   """header.network""": """Network""",

@@ -126,6 +126,8 @@ live:
   event_repeater_ids: ID ретрансляторів
   event_change: Зміна
   event_overlapping_bss: Мережі, що перекриваються
+  status: Стан
+  connecting: підключення
 header:
   general: Загальне
   signal: Сигнал

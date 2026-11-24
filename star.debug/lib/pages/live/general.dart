@@ -97,7 +97,7 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
       var status = R.dish?.dishGetStatus.data;
       b.header(M.general.dish);
       if (dish==null || status==null || dish.isClosed)
-        b.kv("Status", "connecting");
+        b.kv(M.live.status, M.live.connecting);
       else {
         var b1 = KVWidgetBuilder(context, theme);
         b1.kv(M.grpc.DeviceInfo.id, status.deviceInfo.id);
@@ -158,7 +158,7 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
       bt.header(M.general.router);
       if (router==null || status==null || router.isClosed) {
         if (!R.features.routerOptional)
-          bt.kv("Status", "connecting");
+          bt.kv(M.live.status, M.live.connecting);
       } else {
         var b1 = KVWidgetBuilder(context, theme);
         b1.kv(M.grpc.DeviceInfo.id, status.deviceInfo.id);
@@ -202,7 +202,7 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
       var online = R.online;
       b.header(M.general.online);
       if (online==null)
-        b.kv("Status", "connecting");
+        b.kv(M.live.status, M.live.connecting);
       else {
         b.kv(
           M.online.internet,
