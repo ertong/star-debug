@@ -80,7 +80,7 @@ void main() {
         find.text('${M.grpc.DishGetStatus.signal_quality}:'),
         findsOneWidget,
       );
-      expect(find.text('0.0'), findsOneWidget);
+      expect(find.text('0.00'), findsOneWidget);
 
       await tester.pumpWidget(
         _dish(DishGetStatusResponse(signalQuality: 0.75)),

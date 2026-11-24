@@ -400,7 +400,10 @@ grpc:
   DishGetStatus:
     uptime_s: Uptime
     signal_quality: Signal quality
-    signal_quality__hint: Signal quality reported by the dish.
+    signal_quality__hint: |
+      Signal quality reported by the dish, from 0 (no signal) to 1 (ideal signal). It is not a raw SNR value, and how the dish calculates it is not documented.
+
+      Colors are the app's own estimate: green from 0.80, amber from 0.50, red below 0.50. For example, a Starlink Mini under trees reports about 0.5–0.7.
     uptime_s__hint: Time the dish has been running since the last reboot.
     seconds_to_first_nonempty_slot: Seconds to first non-empty slot
     seconds_to_first_nonempty_slot__hint: Time until the dish has its next scheduled communication slot with a satellite.

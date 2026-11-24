@@ -25,6 +25,10 @@ import '../../utils/starlink_model.dart';
 // ignore: unused_element
 const String _TAG="DishWidget";
 
+// App-chosen signal_quality bands (0..1); the dish does not document thresholds.
+const double _SIGNAL_QUALITY_GOOD = 0.8;
+const double _SIGNAL_QUALITY_FAIR = 0.5;
+
 class DishWidget extends StatefulWidget {
   final ViewOptions viewOptions;
   final Snapshot snap;
@@ -470,9 +474,25 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
         var b = KVWidgetBuilder(context, theme);
         b.header(M.header.antenna);
 
-        if (status.hasSignalQuality() && status.signalQuality.isFinite)
-          b.kv(M.grpc.DishGetStatus.signal_quality, status.signalQuality,
-              hint: M.grpc.DishGetStatus.signal_quality__hint);
+        if (status.hasSignalQuality() && status.signalQuality.isFinite) {
+          var quality = status.signalQuality;
+          var key = M.grpc.DishGetStatus.signal_quality;
+          var value = quality.toStringAsFixed(2);
+          var hint = M.grpc.DishGetStatus.signal_quality__hint;
+          if (quality >= _SIGNAL_QUALITY_GOOD)
+            b.kv(key, value, ok: true, hint: hint);
+          else if (quality < _SIGNAL_QUALITY_FAIR)
+            b.kv(key, value, ok: false, hint: hint);
+          else
+            b.kvs(key, value, hint: hint, kw: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.circle, color: Colors.amber, size: 15),
+                SizedBox(width: 4),
+                Text("$key:", style: TextStyle(fontWeight: FontWeight.bold)),
+              ],
+            ));
+        }
 
         if (status.hasBoresightAzimuthDeg())
           b.kv(M.grpc.DishGetStatus.boresight_azimuth_deg, status.boresightAzimuthDeg.toStringAsFixed(2),

@@ -1739,9 +1739,16 @@ class DishGetStatusGrpcMessages {
   String get signal_quality => """Signal quality""";
 
   /// ```dart
-  /// "Signal quality reported by the dish."
+  /// """
+  /// Signal quality reported by the dish, from 0 (no signal) to 1 (ideal signal). It is not a raw SNR value, and how the dish calculates it is not documented.
+  ///
+  /// Colors are the app's own estimate: green from 0.80, amber from 0.50, red below 0.50. For example, a Starlink Mini under trees reports about 0.5–0.7.
+  /// """
   /// ```
-  String get signal_quality__hint => """Signal quality reported by the dish.""";
+  String get signal_quality__hint => """Signal quality reported by the dish, from 0 (no signal) to 1 (ideal signal). It is not a raw SNR value, and how the dish calculates it is not documented.
+
+Colors are the app's own estimate: green from 0.80, amber from 0.50, red below 0.50. For example, a Starlink Mini under trees reports about 0.5–0.7.
+""";
 
   /// ```dart
   /// "Time the dish has been running since the last reboot."
@@ -4120,8 +4127,10 @@ with internet access and dish access. You can find this setting in
       """Whether the obstruction map patches contain valid data.""",
   """grpc.DishGetStatus.uptime_s""": """Uptime""",
   """grpc.DishGetStatus.signal_quality""": """Signal quality""",
-  """grpc.DishGetStatus.signal_quality__hint""":
-      """Signal quality reported by the dish.""",
+  """grpc.DishGetStatus.signal_quality__hint""": """Signal quality reported by the dish, from 0 (no signal) to 1 (ideal signal). It is not a raw SNR value, and how the dish calculates it is not documented.
+
+Colors are the app's own estimate: green from 0.80, amber from 0.50, red below 0.50. For example, a Starlink Mini under trees reports about 0.5–0.7.
+""",
   """grpc.DishGetStatus.uptime_s__hint""":
       """Time the dish has been running since the last reboot.""",
   """grpc.DishGetStatus.seconds_to_first_nonempty_slot""":

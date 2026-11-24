@@ -222,6 +222,37 @@ void main() {
     );
   });
 
+  testWidgets('signal quality is rounded and colored by band', (tester) async {
+    Future<Color?> qualityDot(double quality) async {
+      await tester.pumpWidget(
+        _testPage(
+          DishWidget(
+            sourceMode: MapSourceMode.stored,
+            snap: Snapshot(
+              timestamp: 1,
+              dishGetStatus: DishGetStatusResponse.fromBuffer(
+                DishGetStatusResponse(signalQuality: quality).writeToBuffer(),
+              ),
+            ),
+            viewOptions: ViewOptions(),
+          ),
+        ),
+      );
+      var row = find.ancestor(
+        of: find.text(quality.toStringAsFixed(2)),
+        matching: find.byType(InkWell),
+      );
+      expect(row, findsOneWidget);
+      var dot = find.descendant(of: row, matching: find.byIcon(Icons.circle));
+      return tester.widget<Icon>(dot).color;
+    }
+
+    // 0.52 is stored as float32 and must not print as 0.5199999809265137.
+    expect(await qualityDot(0.52), Colors.amber);
+    expect(await qualityDot(1), Colors.green);
+    expect(await qualityDot(0.3), Colors.red);
+  });
+
   testWidgets('RF action follows the inhibit RF outage cause', (tester) async {
     await tester.pumpWidget(
       _testPage(
