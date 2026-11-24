@@ -20049,6 +20049,7 @@ class DishGetStatusResponse extends $pb.GeneratedMessage {
     $core.bool? userDebugModeEnabled,
     $core.bool? treatAsMetered,
     $core.double? signalQuality,
+    DishUsbcStats? usbcStats,
     PowerSourceStats? powerSourceStats,
     $core.bool? batteryUtPowerOffRfIdleActive,
     $core.bool? batteryUtInsufficientPowerRfIdleActive,
@@ -20123,6 +20124,7 @@ class DishGetStatusResponse extends $pb.GeneratedMessage {
       result.userDebugModeEnabled = userDebugModeEnabled;
     if (treatAsMetered != null) result.treatAsMetered = treatAsMetered;
     if (signalQuality != null) result.signalQuality = signalQuality;
+    if (usbcStats != null) result.usbcStats = usbcStats;
     if (powerSourceStats != null) result.powerSourceStats = powerSourceStats;
     if (batteryUtPowerOffRfIdleActive != null)
       result.batteryUtPowerOffRfIdleActive = batteryUtPowerOffRfIdleActive;
@@ -20240,6 +20242,8 @@ class DishGetStatusResponse extends $pb.GeneratedMessage {
     ..aOB(1056, _omitFieldNames ? '' : 'treatAsMetered')
     ..aD(1057, _omitFieldNames ? '' : 'signalQuality',
         fieldType: $pb.PbFieldType.OF)
+    ..aOM<DishUsbcStats>(1058, _omitFieldNames ? '' : 'usbcStats',
+        subBuilder: DishUsbcStats.create)
     ..aOM<PowerSourceStats>(1059, _omitFieldNames ? '' : 'powerSourceStats',
         subBuilder: PowerSourceStats.create)
     ..aOB(1060, _omitFieldNames ? '' : 'batteryUtPowerOffRfIdleActive')
@@ -20723,46 +20727,57 @@ class DishGetStatusResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(1057)
   void clearSignalQuality() => $_clearField(1057);
 
+  @$pb.TagNumber(1058)
+  DishUsbcStats get usbcStats => $_getN(48);
+  @$pb.TagNumber(1058)
+  set usbcStats(DishUsbcStats value) => $_setField(1058, value);
+  @$pb.TagNumber(1058)
+  $core.bool hasUsbcStats() => $_has(48);
+  @$pb.TagNumber(1058)
+  void clearUsbcStats() => $_clearField(1058);
+  @$pb.TagNumber(1058)
+  DishUsbcStats ensureUsbcStats() => $_ensure(48);
+
   @$pb.TagNumber(1059)
-  PowerSourceStats get powerSourceStats => $_getN(48);
+  PowerSourceStats get powerSourceStats => $_getN(49);
   @$pb.TagNumber(1059)
   set powerSourceStats(PowerSourceStats value) => $_setField(1059, value);
   @$pb.TagNumber(1059)
-  $core.bool hasPowerSourceStats() => $_has(48);
+  $core.bool hasPowerSourceStats() => $_has(49);
   @$pb.TagNumber(1059)
   void clearPowerSourceStats() => $_clearField(1059);
   @$pb.TagNumber(1059)
-  PowerSourceStats ensurePowerSourceStats() => $_ensure(48);
+  PowerSourceStats ensurePowerSourceStats() => $_ensure(49);
 
   @$pb.TagNumber(1060)
-  $core.bool get batteryUtPowerOffRfIdleActive => $_getBF(49);
+  $core.bool get batteryUtPowerOffRfIdleActive => $_getBF(50);
   @$pb.TagNumber(1060)
-  set batteryUtPowerOffRfIdleActive($core.bool value) => $_setBool(49, value);
+  set batteryUtPowerOffRfIdleActive($core.bool value) => $_setBool(50, value);
   @$pb.TagNumber(1060)
-  $core.bool hasBatteryUtPowerOffRfIdleActive() => $_has(49);
+  $core.bool hasBatteryUtPowerOffRfIdleActive() => $_has(50);
   @$pb.TagNumber(1060)
   void clearBatteryUtPowerOffRfIdleActive() => $_clearField(1060);
 
   @$pb.TagNumber(1061)
-  $core.bool get batteryUtInsufficientPowerRfIdleActive => $_getBF(50);
+  $core.bool get batteryUtInsufficientPowerRfIdleActive => $_getBF(51);
   @$pb.TagNumber(1061)
   set batteryUtInsufficientPowerRfIdleActive($core.bool value) =>
-      $_setBool(50, value);
+      $_setBool(51, value);
   @$pb.TagNumber(1061)
-  $core.bool hasBatteryUtInsufficientPowerRfIdleActive() => $_has(50);
+  $core.bool hasBatteryUtInsufficientPowerRfIdleActive() => $_has(51);
   @$pb.TagNumber(1061)
   void clearBatteryUtInsufficientPowerRfIdleActive() => $_clearField(1061);
 
   @$pb.TagNumber(2000)
-  DishConfig get config => $_getN(51);
+  DishConfig get config => $_getN(52);
   @$pb.TagNumber(2000)
   set config(DishConfig value) => $_setField(2000, value);
   @$pb.TagNumber(2000)
-  $core.bool hasConfig() => $_has(51);
+  $core.bool hasConfig() => $_has(52);
   @$pb.TagNumber(2000)
   void clearConfig() => $_clearField(2000);
   @$pb.TagNumber(2000)
-  DishConfig ensureConfig() => $_ensure(51);
+  DishConfig ensureConfig() => $_ensure(52);
 }
 
 /// SpaceX.API.Device.DishObstructionStats is a message:

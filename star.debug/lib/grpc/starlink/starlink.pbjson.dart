@@ -9050,6 +9050,14 @@ const DishGetStatusResponse$json = {
     },
     {'1': 'signal_quality', '3': 1057, '4': 1, '5': 2, '10': 'signalQuality'},
     {
+      '1': 'usbc_stats',
+      '3': 1058,
+      '4': 1,
+      '5': 11,
+      '6': '.SpaceX.API.Device.DishUsbcStats',
+      '10': 'usbcStats'
+    },
+    {
       '1': 'power_source_stats',
       '3': 1059,
       '4': 1,
@@ -9087,9 +9095,8 @@ const DishGetStatusResponse$json = {
     {'1': 1013, '2': 1014},
     {'1': 1046, '2': 1047},
     {'1': 1047, '2': 1048},
-    {'1': 1058, '2': 1059},
   ],
-  '10': ['phy_rx_beam_snr_avg', 't_center', 'usbc_stats'],
+  '10': ['phy_rx_beam_snr_avg', 't_center'],
 };
 
 @$core.Deprecated('Use dishGetStatusResponseDescriptor instead')
@@ -9169,16 +9176,17 @@ final $typed_data.Uint8List dishGetStatusResponseDescriptor = $convert.base64Dec
     'guQVBJLkRldmljZS5EaXNoQmF0dGVyeVN0YXRzUgxiYXR0ZXJ5U3RhdHMSNgoXdXNlcl9kZWJ1'
     'Z19tb2RlX2VuYWJsZWQYnwggASgIUhR1c2VyRGVidWdNb2RlRW5hYmxlZBIpChB0cmVhdF9hc1'
     '9tZXRlcmVkGKAIIAEoCFIOdHJlYXRBc01ldGVyZWQSJgoOc2lnbmFsX3F1YWxpdHkYoQggASgC'
-    'Ug1zaWduYWxRdWFsaXR5ElIKEnBvd2VyX3NvdXJjZV9zdGF0cxijCCABKAsyIy5TcGFjZVguQV'
-    'BJLkRldmljZS5Qb3dlclNvdXJjZVN0YXRzUhBwb3dlclNvdXJjZVN0YXRzEksKI2JhdHRlcnlf'
-    'dXRfcG93ZXJfb2ZmX3JmX2lkbGVfYWN0aXZlGKQIIAEoCFIdYmF0dGVyeVV0UG93ZXJPZmZSZk'
-    'lkbGVBY3RpdmUSXQosYmF0dGVyeV91dF9pbnN1ZmZpY2llbnRfcG93ZXJfcmZfaWRsZV9hY3Rp'
-    'dmUYpQggASgIUiZiYXR0ZXJ5VXRJbnN1ZmZpY2llbnRQb3dlclJmSWRsZUFjdGl2ZRI2CgZjb2'
-    '5maWcY0A8gASgLMh0uU3BhY2VYLkFQSS5EZXZpY2UuRGlzaENvbmZpZ1IGY29uZmlnGmMKFkRv'
-    'd25zdHJlYW1Sb3V0ZXJzRW50cnkSEAoDa2V5GAEgASgJUgNrZXkSMwoFdmFsdWUYAiABKAsyHS'
-    '5TcGFjZVguQVBJLkRldmljZS5Sb3V0ZXJJbmZvUgV2YWx1ZToCOAFKBgjpBxDqB0oGCO4HEO8H'
-    'SgYI9QcQ9gdKBgiWCBCXCEoGCJcIEJgISgYIoggQowhSE3BoeV9yeF9iZWFtX3Nucl9hdmdSCH'
-    'RfY2VudGVyUgp1c2JjX3N0YXRz');
+    'Ug1zaWduYWxRdWFsaXR5EkAKCnVzYmNfc3RhdHMYogggASgLMiAuU3BhY2VYLkFQSS5EZXZpY2'
+    'UuRGlzaFVzYmNTdGF0c1IJdXNiY1N0YXRzElIKEnBvd2VyX3NvdXJjZV9zdGF0cxijCCABKAsy'
+    'Iy5TcGFjZVguQVBJLkRldmljZS5Qb3dlclNvdXJjZVN0YXRzUhBwb3dlclNvdXJjZVN0YXRzEk'
+    'sKI2JhdHRlcnlfdXRfcG93ZXJfb2ZmX3JmX2lkbGVfYWN0aXZlGKQIIAEoCFIdYmF0dGVyeVV0'
+    'UG93ZXJPZmZSZklkbGVBY3RpdmUSXQosYmF0dGVyeV91dF9pbnN1ZmZpY2llbnRfcG93ZXJfcm'
+    'ZfaWRsZV9hY3RpdmUYpQggASgIUiZiYXR0ZXJ5VXRJbnN1ZmZpY2llbnRQb3dlclJmSWRsZUFj'
+    'dGl2ZRI2CgZjb25maWcY0A8gASgLMh0uU3BhY2VYLkFQSS5EZXZpY2UuRGlzaENvbmZpZ1IGY2'
+    '9uZmlnGmMKFkRvd25zdHJlYW1Sb3V0ZXJzRW50cnkSEAoDa2V5GAEgASgJUgNrZXkSMwoFdmFs'
+    'dWUYAiABKAsyHS5TcGFjZVguQVBJLkRldmljZS5Sb3V0ZXJJbmZvUgV2YWx1ZToCOAFKBgjpBx'
+    'DqB0oGCO4HEO8HSgYI9QcQ9gdKBgiWCBCXCEoGCJcIEJgIUhNwaHlfcnhfYmVhbV9zbnJfYXZn'
+    'Ugh0X2NlbnRlcg==');
 
 @$core.Deprecated('Use dishObstructionStatsDescriptor instead')
 const DishObstructionStats$json = {

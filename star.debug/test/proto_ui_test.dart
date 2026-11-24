@@ -150,19 +150,24 @@ void main() {
       findsOneWidget,
     );
 
-    // Older firmware: only the top-level battery stats.
-    // grpc-deprecated(dish firmware 2026.11.16, API 45): top-level battery_stats and
-    // DishBatteryStats.power_source.
+    // Older firmware: only the top-level battery and USB-C stats.
+    // grpc-deprecated(dish firmware 2026.11.16, API 45): top-level battery_stats,
+    // usbc_stats and DishBatteryStats.power_source.
     await pump(
       DishGetStatusResponse(
         batteryStats: DishBatteryStats(
           stateOfCharge: 55,
           powerSource: PowerSource.BATTERY,
         ),
+        usbcStats: DishUsbcStats(sourceDetected: true),
       ),
     );
     expect(find.text('55 %'), findsOneWidget);
     expect(find.text('BATTERY'), findsOneWidget);
+    expect(
+      find.text('${M.grpc.DishUsbcStats.source_detected}:'),
+      findsOneWidget,
+    );
   });
 
   testWidgets('config shows auto-off and update reboot settings', (

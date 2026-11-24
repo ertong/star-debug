@@ -8,6 +8,7 @@ import 'package:star_debug/grpc/starlink/telemetron.pb.dart';
 import 'package:star_debug/grpc/starlink/unlock.pb.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/space/space_parser.dart';
+import 'package:star_debug/utils/api_helper.dart';
 import 'package:star_debug/utils/debug_data.dart';
 
 void _validateStatus(DishGetStatusResponse dish, WifiGetStatusResponse router) {
@@ -101,6 +102,30 @@ void main() {
     expect(status.batteryUtPowerOffRfIdleActive, isTrue);
     expect(status.batteryStats.stateOfCharge, 55);
     expect(status.unknownFields.isEmpty, isTrue);
+    expect(status.effectiveBatteryStats.stateOfCharge, 80);
+  });
+
+  test('legacy top-level power fields are used only as a fallback', () {
+    // grpc-deprecated(dish firmware 2026.11.16, API 45): top-level usbc_stats
+    // (1058) {power_w 12.5, source_detected true} and battery_stats (1054)
+    // {state_of_charge 55}.
+    var legacy = DishGetStatusResponse.fromBuffer([
+      0x92, 0x42, 0x07, 0x0d, 0x00, 0x00, 0x48, 0x41, 0x18, 0x01, //
+      0xf2, 0x41, 0x02, 0x08, 0x37,
+    ]);
+    expect(legacy.unknownFields.isEmpty, isTrue);
+    expect(legacy.effectiveUsbcStats.powerW, 12.5);
+    expect(legacy.effectiveUsbcStats.sourceDetected, isTrue);
+    expect(legacy.effectiveBatteryStats.stateOfCharge, 55);
+
+    var both = legacy.deepCopy()
+      ..powerSourceStats = PowerSourceStats(
+        batteryStats: DishBatteryStats(stateOfCharge: 80),
+        usbcStats: DishUsbcStats(sinkDetected: true),
+      );
+    expect(both.effectiveUsbcStats.sinkDetected, isTrue);
+    expect(both.effectiveUsbcStats.sourceDetected, isFalse);
+    expect(both.effectiveBatteryStats.stateOfCharge, 80);
   });
 
   test('wifi channel lists decode with the dump wire tags', () {

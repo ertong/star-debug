@@ -1897,12 +1897,13 @@ message DishGetStatusResponse {
   bool user_debug_mode_enabled = 1055;
   bool treat_as_metered = 1056;
   float signal_quality = 1057;
+  .SpaceX.API.Device.DishUsbcStats usbc_stats = 1058; // grpc-deprecated(dish firmware 2026.11.16, API 45): reserved in dish dump; seen in no captured dump, type assumed from PowerSourceStats.usbc_stats
   .SpaceX.API.Device.PowerSourceStats power_source_stats = 1059;
   bool battery_ut_power_off_rf_idle_active = 1060;
   bool battery_ut_insufficient_power_rf_idle_active = 1061;
   .SpaceX.API.Device.DishConfig config = 2000;
-  reserved 1001, 1006, 1013, 1046, 1047, 1058;
-  reserved "phy_rx_beam_snr_avg", "t_center", "usbc_stats";
+  reserved 1001, 1006, 1013, 1046, 1047;
+  reserved "phy_rx_beam_snr_avg", "t_center";
 }
 
 //SpaceX.API.Device.DishObstructionStats is a message:

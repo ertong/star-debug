@@ -11,6 +11,7 @@ import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/pages/view/common.dart';
 import 'package:star_debug/widgets/obstruction_map.dart';
 import 'package:star_debug/preloaded.dart';
+import 'package:star_debug/utils/api_helper.dart';
 import 'package:star_debug/utils/format.dart';
 import 'package:star_debug/utils/kv_widget.dart';
 import 'package:star_debug/utils/obstruction_map_context.dart';
@@ -303,15 +304,13 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
         rows.addAll(b.widgets);
       }
 
-      if (status.hasPowerSourceStats() || status.hasBatteryStats()
+      // grpc-deprecated(dish firmware 2026.11.16, API 45): hasBatteryStats() and hasUsbcStats()
+      // check the reserved top-level fields; remove them with effectiveBatteryStats/UsbcStats.
+      if (status.hasPowerSourceStats() || status.hasBatteryStats() || status.hasUsbcStats()
           || status.batteryUtPowerOffRfIdleActive || status.batteryUtInsufficientPowerRfIdleActive) {
         var power = status.powerSourceStats;
-        // Newer firmware reports battery stats inside power_source_stats; older firmware uses
-        // the top-level battery_stats field.
-        // grpc-deprecated(dish firmware 2026.11.16, API 45): DishGetStatusResponse battery_stats
-        // (1054) is reserved. Remove the hasBatteryStats() check above and this fallback.
-        var stats = power.hasBatteryStats() ? power.batteryStats : status.batteryStats;
-        var usbc = power.usbcStats;
+        var stats = status.effectiveBatteryStats;
+        var usbc = status.effectiveUsbcStats;
         var b = KVWidgetBuilder(context, theme);
         b.header(M.header.power);
 
