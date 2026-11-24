@@ -259,7 +259,8 @@ void main() {
     // 0.52 is stored as float32 and must not print as 0.5199999809265137.
     expect(await qualityDot(0.52), Colors.amber);
     expect(await qualityDot(1), Colors.green);
-    expect(await qualityDot(0.3), Colors.red);
+    expect(await qualityDot(0.25), Colors.amber);
+    expect(await qualityDot(0.2), Colors.red);
   });
 
   testWidgets('RF action follows the inhibit RF outage cause', (tester) async {

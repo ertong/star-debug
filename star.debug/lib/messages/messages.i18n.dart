@@ -1284,15 +1284,21 @@ class DishBatteryStatsGrpcMessages {
   String get battery_attached => """Battery attached""";
 
   /// ```dart
+  /// "Whether a battery is attached. Starlink Mini 2 can also run without it."
+  /// ```
+  String get battery_attached__hint =>
+      """Whether a battery is attached. Starlink Mini 2 can also run without it.""";
+
+  /// ```dart
   /// "Battery power, W"
   /// ```
   String get power_w => """Battery power, W""";
 
   /// ```dart
-  /// "Battery power reported by the dish. The protocol does not document whether it is charging or discharging power."
+  /// "Current battery power reported by the dish. The protocol does not document whether the sign differs between charging and discharging."
   /// ```
   String get power_w__hint =>
-      """Battery power reported by the dish. The protocol does not document whether it is charging or discharging power.""";
+      """Current battery power reported by the dish. The protocol does not document whether the sign differs between charging and discharging.""";
 
   /// ```dart
   /// "Time to full charge"
@@ -1320,15 +1326,20 @@ class DishUsbcStatsGrpcMessages {
   String get power_w => """USB-C power, W""";
 
   /// ```dart
+  /// "Current power on the dish USB-C port."
+  /// ```
+  String get power_w__hint => """Current power on the dish USB-C port.""";
+
+  /// ```dart
   /// "USB-C max power, W"
   /// ```
   String get max_power_w => """USB-C max power, W""";
 
   /// ```dart
-  /// "Maximum power available on the USB-C port, presumably negotiated with the USB Power Delivery source. Starlink recommends a 100 W (20 V / 5 A) USB-PD source for Starlink Mini."
+  /// "Maximum power the connected USB-C power supply can deliver. Starlink recommends a 100 W (20 V / 5 A) USB-PD source for Starlink Mini."
   /// ```
   String get max_power_w__hint =>
-      """Maximum power available on the USB-C port, presumably negotiated with the USB Power Delivery source. Starlink recommends a 100 W (20 V / 5 A) USB-PD source for Starlink Mini.""";
+      """Maximum power the connected USB-C power supply can deliver. Starlink recommends a 100 W (20 V / 5 A) USB-PD source for Starlink Mini.""";
 
   /// ```dart
   /// "USB-C power source detected"
@@ -1336,21 +1347,21 @@ class DishUsbcStatsGrpcMessages {
   String get source_detected => """USB-C power source detected""";
 
   /// ```dart
-  /// "A power source is connected to the dish USB-C port."
+  /// "A power supply connected to the USB-C port is charging or powering the dish."
   /// ```
   String get source_detected__hint =>
-      """A power source is connected to the dish USB-C port.""";
+      """A power supply connected to the USB-C port is charging or powering the dish.""";
 
   /// ```dart
-  /// "USB-C power consumer detected"
+  /// "Powering a USB-C device"
   /// ```
-  String get sink_detected => """USB-C power consumer detected""";
+  String get sink_detected => """Powering a USB-C device""";
 
   /// ```dart
-  /// "The dish reports a power-consuming device (sink) on its USB-C port. The meaning is inferred from the field name."
+  /// "The dish supplies power through its USB-C port to a connected device, working as a power bank (Starlink Mini 2)."
   /// ```
   String get sink_detected__hint =>
-      """The dish reports a power-consuming device (sink) on its USB-C port. The meaning is inferred from the field name.""";
+      """The dish supplies power through its USB-C port to a connected device, working as a power bank (Starlink Mini 2).""";
 }
 
 class DishReadyStatesGrpcMessages {
@@ -1742,12 +1753,12 @@ class DishGetStatusGrpcMessages {
   /// """
   /// Signal quality reported by the dish, from 0 (no signal) to 1 (ideal signal). It is not a raw SNR value, and how the dish calculates it is not documented.
   ///
-  /// Colors are the app's own estimate: green from 0.80, amber from 0.50, red below 0.50. For example, a Starlink Mini under trees reports about 0.5–0.7.
+  /// Colors are the app's own estimate: green from 0.80, amber from 0.25, red below 0.25. For example, a Starlink Mini under trees reports about 0.5–0.7.
   /// """
   /// ```
   String get signal_quality__hint => """Signal quality reported by the dish, from 0 (no signal) to 1 (ideal signal). It is not a raw SNR value, and how the dish calculates it is not documented.
 
-Colors are the app's own estimate: green from 0.80, amber from 0.50, red below 0.50. For example, a Starlink Mini under trees reports about 0.5–0.7.
+Colors are the app's own estimate: green from 0.80, amber from 0.25, red below 0.25. For example, a Starlink Mini under trees reports about 0.5–0.7.
 """;
 
   /// ```dart
@@ -4019,19 +4030,21 @@ Moreover, in the case of a moving router, its route can be followed.
 - **usbc_and_battery** - USB-C power and the battery are both in use.
 """,
   """grpc.DishBatteryStats.battery_attached""": """Battery attached""",
+  """grpc.DishBatteryStats.battery_attached__hint""": """Whether a battery is attached. Starlink Mini 2 can also run without it.""",
   """grpc.DishBatteryStats.power_w""": """Battery power, W""",
-  """grpc.DishBatteryStats.power_w__hint""": """Battery power reported by the dish. The protocol does not document whether it is charging or discharging power.""",
+  """grpc.DishBatteryStats.power_w__hint""": """Current battery power reported by the dish. The protocol does not document whether the sign differs between charging and discharging.""",
   """grpc.DishBatteryStats.time_to_charge_minutes""": """Time to full charge""",
   """grpc.DishBatteryStats.time_to_empty_minutes""": """Time to empty""",
   """grpc.DishBatteryStats.temperature_c""": """Battery temperature, °C""",
   """grpc.DishUsbcStats.power_w""": """USB-C power, W""",
+  """grpc.DishUsbcStats.power_w__hint""":
+      """Current power on the dish USB-C port.""",
   """grpc.DishUsbcStats.max_power_w""": """USB-C max power, W""",
-  """grpc.DishUsbcStats.max_power_w__hint""": """Maximum power available on the USB-C port, presumably negotiated with the USB Power Delivery source. Starlink recommends a 100 W (20 V / 5 A) USB-PD source for Starlink Mini.""",
+  """grpc.DishUsbcStats.max_power_w__hint""": """Maximum power the connected USB-C power supply can deliver. Starlink recommends a 100 W (20 V / 5 A) USB-PD source for Starlink Mini.""",
   """grpc.DishUsbcStats.source_detected""": """USB-C power source detected""",
-  """grpc.DishUsbcStats.source_detected__hint""":
-      """A power source is connected to the dish USB-C port.""",
-  """grpc.DishUsbcStats.sink_detected""": """USB-C power consumer detected""",
-  """grpc.DishUsbcStats.sink_detected__hint""": """The dish reports a power-consuming device (sink) on its USB-C port. The meaning is inferred from the field name.""",
+  """grpc.DishUsbcStats.source_detected__hint""": """A power supply connected to the USB-C port is charging or powering the dish.""",
+  """grpc.DishUsbcStats.sink_detected""": """Powering a USB-C device""",
+  """grpc.DishUsbcStats.sink_detected__hint""": """The dish supplies power through its USB-C port to a connected device, working as a power bank (Starlink Mini 2).""",
   """grpc.DishReadyStates.cady""": """Clock generator""",
   """grpc.DishReadyStates.scp""": """RFFE bus interface""",
   """grpc.DishReadyStates.l1l2""": """Modem L1L2""",
@@ -4129,7 +4142,7 @@ with internet access and dish access. You can find this setting in
   """grpc.DishGetStatus.signal_quality""": """Signal quality""",
   """grpc.DishGetStatus.signal_quality__hint""": """Signal quality reported by the dish, from 0 (no signal) to 1 (ideal signal). It is not a raw SNR value, and how the dish calculates it is not documented.
 
-Colors are the app's own estimate: green from 0.80, amber from 0.50, red below 0.50. For example, a Starlink Mini under trees reports about 0.5–0.7.
+Colors are the app's own estimate: green from 0.80, amber from 0.25, red below 0.25. For example, a Starlink Mini under trees reports about 0.5–0.7.
 """,
   """grpc.DishGetStatus.uptime_s__hint""":
       """Time the dish has been running since the last reboot.""",

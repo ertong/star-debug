@@ -28,7 +28,7 @@ const String _TAG="DishWidget";
 
 // App-chosen signal_quality bands (0..1); the dish does not document thresholds.
 const double _SIGNAL_QUALITY_GOOD = 0.8;
-const double _SIGNAL_QUALITY_FAIR = 0.5;
+const double _SIGNAL_QUALITY_FAIR = 0.25;
 
 class DishWidget extends StatefulWidget {
   final ViewOptions viewOptions;
@@ -330,7 +330,8 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
               hint: M.grpc.DishGetStatus.battery_ut_insufficient_power_rf_idle_active__hint);
 
         if (stats.hasBatteryAttached())
-          b.kv(M.grpc.DishBatteryStats.battery_attached, stats.batteryAttached);
+          b.kv(M.grpc.DishBatteryStats.battery_attached, stats.batteryAttached,
+              hint: M.grpc.DishBatteryStats.battery_attached__hint);
         if (stats.hasStateOfCharge())
           b.kv(M.grpc.DishBatteryStats.state_of_charge, "${stats.stateOfCharge} %");
         if (stats.hasIsCharging())
@@ -346,7 +347,8 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
           b.kv(M.grpc.DishBatteryStats.temperature_c, stats.temperatureC.toStringAsFixed(1));
 
         if (usbc.hasPowerW() && usbc.powerW.isFinite)
-          b.kv(M.grpc.DishUsbcStats.power_w, usbc.powerW.toStringAsFixed(1));
+          b.kv(M.grpc.DishUsbcStats.power_w, usbc.powerW.toStringAsFixed(1),
+              hint: M.grpc.DishUsbcStats.power_w__hint);
         if (usbc.hasMaxPowerW() && usbc.maxPowerW.isFinite)
           b.kv(M.grpc.DishUsbcStats.max_power_w, usbc.maxPowerW.toStringAsFixed(1),
               hint: M.grpc.DishUsbcStats.max_power_w__hint);
