@@ -31,13 +31,15 @@ void main() {
           DishGetStatusResponse(signalQuality: quality).writeToBuffer(),
         ),
       );
-      expect(find.text(quality.toStringAsFixed(2)), findsOneWidget);
+      expect(find.text('${(quality * 100).round()} %'), findsOneWidget);
       return tester.widget<Icon>(find.byIcon(Icons.circle)).color;
     }
 
     expect(await dot(0.8), Colors.green);
     expect(await dot(0.52), Colors.amber);
     expect(await dot(0.24), Colors.red);
+    // 0.249 shows as 25 %, so it takes the amber band of the number shown.
+    expect(await dot(0.249), Colors.amber);
   });
 
   testWidgets('signal quality row is omitted when unset or not finite', (

@@ -26,18 +26,19 @@ import '../../utils/starlink_model.dart';
 // ignore: unused_element
 const String _TAG="DishWidget";
 
-// App-chosen signal_quality bands (0..1); the dish does not document thresholds.
-const double _SIGNAL_QUALITY_GOOD = 0.8;
-const double _SIGNAL_QUALITY_FAIR = 0.25;
+// App-chosen signal_quality bands, in percent of the dish's 0..1 value; the dish does not document thresholds.
+const int _SIGNAL_QUALITY_GOOD = 80;
+const int _SIGNAL_QUALITY_FAIR = 25;
 
-/// Adds the signal_quality row, colored by band, when the dish reports a finite value.
+/// Adds the signal_quality row as a percentage, colored by band, when the dish reports a finite value.
 /// Shared by the dish view and the live General tab so both use the same bands.
 void addSignalQualityRow(KVWidgetBuilder b, DishGetStatusResponse status) {
   if (!status.hasSignalQuality() || !status.signalQuality.isFinite)
     return;
-  var quality = status.signalQuality;
+  // Banding the rounded percentage keeps the color consistent with the number shown.
+  var quality = (status.signalQuality * 100).round();
   var key = M.grpc.DishGetStatus.signal_quality;
-  var value = quality.toStringAsFixed(2);
+  var value = "$quality %";
   var hint = M.grpc.DishGetStatus.signal_quality__hint;
   if (quality >= _SIGNAL_QUALITY_GOOD)
     b.kv(key, value, ok: true, hint: hint);

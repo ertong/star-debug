@@ -80,13 +80,13 @@ void main() {
         find.text('${M.grpc.DishGetStatus.signal_quality}:'),
         findsOneWidget,
       );
-      expect(find.text('0.00'), findsOneWidget);
+      expect(find.text('0 %'), findsOneWidget);
 
       await tester.pumpWidget(
         _dish(DishGetStatusResponse(signalQuality: 0.75)),
       );
-      expect(find.text('0.75'), findsOneWidget);
-      expect(find.text('75 %'), findsNothing);
+      expect(find.text('75 %'), findsOneWidget);
+      expect(find.text('0.75'), findsNothing);
       await tester.ensureVisible(
         find.text('${M.grpc.DishGetStatus.signal_quality}:'),
       );

@@ -231,7 +231,9 @@ void main() {
     );
   });
 
-  testWidgets('signal quality is rounded and colored by band', (tester) async {
+  testWidgets('signal quality is shown as a percentage and colored by band', (
+    tester,
+  ) async {
     Future<Color?> qualityDot(double quality) async {
       await tester.pumpWidget(
         _testPage(
@@ -248,7 +250,7 @@ void main() {
         ),
       );
       var row = find.ancestor(
-        of: find.text(quality.toStringAsFixed(2)),
+        of: find.text('${(quality * 100).round()} %'),
         matching: find.byType(InkWell),
       );
       expect(row, findsOneWidget);
@@ -256,7 +258,7 @@ void main() {
       return tester.widget<Icon>(dot).color;
     }
 
-    // 0.52 is stored as float32 and must not print as 0.5199999809265137.
+    // 0.52 is stored as float32 (0.5199999809265137) and must show as 52 %.
     expect(await qualityDot(0.52), Colors.amber);
     expect(await qualityDot(1), Colors.green);
     expect(await qualityDot(0.25), Colors.amber);
