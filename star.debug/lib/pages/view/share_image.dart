@@ -15,6 +15,7 @@ import 'package:time_machine2/time_machine2.dart';
 import 'common.dart';
 import 'dish.dart';
 import 'router.dart';
+import 'status_series_graph.dart';
 
 class ShareImageData {
   final Uint8List bytes;
@@ -221,6 +222,11 @@ class ShareImage extends StatelessWidget {
 
   List<Widget> _buildCharts() {
     List<Widget> items = [];
+    // A graph of less than a minute of samples is noise.
+    items.add(
+      buildSnapshotSeriesGraph(snap, minObservedMs: kStatusSeriesMinGraphMs),
+    );
+
     var history = snap.dishGetHistory;
     if (history == null) return items;
 

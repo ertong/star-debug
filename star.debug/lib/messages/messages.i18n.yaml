@@ -133,6 +133,7 @@ live:
   connecting: connecting
   battery_full_in(t): full in $t
   battery_time_left(t): $t left
+  signal_quality_details: Open signal quality details
 
 header:
   general: General

@@ -687,6 +687,11 @@ class LiveMessages {
   /// "$t left"
   /// ```
   String battery_time_left(t) => """$t left""";
+
+  /// ```dart
+  /// "Open signal quality details"
+  /// ```
+  String get signal_quality_details => """Open signal quality details""";
 }
 
 class HeaderMessages {
@@ -3914,6 +3919,7 @@ Moreover, in the case of a moving router, its route can be followed.
   """live.event_overlapping_bss""": """Overlapping networks""",
   """live.status""": """Status""",
   """live.connecting""": """connecting""",
+  """live.signal_quality_details""": """Open signal quality details""",
   """header.general""": """General""",
   """header.signal""": """Signal""",
   """header.network""": """Network""",

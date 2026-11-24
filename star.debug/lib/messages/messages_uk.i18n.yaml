@@ -130,6 +130,7 @@ live:
   connecting: підключення
   battery_full_in(t): повна через $t
   battery_time_left(t): залишилось $t
+  signal_quality_details: Відкрити деталі якості сигналу
 header:
   general: Загальне
   signal: Сигнал

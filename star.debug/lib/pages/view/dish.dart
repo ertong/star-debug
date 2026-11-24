@@ -16,9 +16,12 @@ import 'package:star_debug/utils/format.dart';
 import 'package:star_debug/utils/kv_widget.dart';
 import 'package:star_debug/utils/obstruction_map_context.dart';
 import 'package:star_debug/utils/snapshot.dart';
+import 'package:star_debug/utils/status_series.dart';
+import 'package:star_debug/utils/status_series_detail.dart';
 import 'package:star_debug/utils/view_options.dart';
 import 'package:time_machine2/time_machine2.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:intl/intl.dart';
 
 import '../../utils/log_utils.dart';
 import '../../utils/starlink_model.dart';
@@ -26,23 +29,19 @@ import '../../utils/starlink_model.dart';
 // ignore: unused_element
 const String _TAG="DishWidget";
 
-// App-chosen signal_quality bands, in percent of the dish's 0..1 value; the dish does not document thresholds.
-const int _SIGNAL_QUALITY_GOOD = 80;
-const int _SIGNAL_QUALITY_FAIR = 25;
-
 /// Adds the signal_quality row as a percentage, colored by band, when the dish reports a finite value.
 /// Shared by the dish view and the live General tab so both use the same bands.
 void addSignalQualityRow(KVWidgetBuilder b, DishGetStatusResponse status) {
   if (!status.hasSignalQuality() || !status.signalQuality.isFinite)
     return;
   // Banding the rounded percentage keeps the color consistent with the number shown.
-  var quality = (status.signalQuality * 100).round();
+  var quality = signalQualityPercent(status.signalQuality);
   var key = M.grpc.DishGetStatus.signal_quality;
   var value = "$quality %";
   var hint = M.grpc.DishGetStatus.signal_quality__hint;
-  if (quality >= _SIGNAL_QUALITY_GOOD)
+  if (quality >= kSignalQualityGood)
     b.kv(key, value, ok: true, hint: hint);
-  else if (quality < _SIGNAL_QUALITY_FAIR)
+  else if (quality < kSignalQualityFair)
     b.kv(key, value, ok: false, hint: hint);
   else
     b.kvs(key, value, hint: hint, kw: Row(
@@ -635,13 +634,16 @@ Widget buildGraph(String name, String unit, int current, int ts, List<double> da
   A.sort();
   double max = A[A.length*95~/100]*1.2;
 
-  var now = Instant.fromEpochMilliseconds(ts).inLocalZone();
-
   return SizedBox(
     height: 120,
     child: SfCartesianChart(
         title: ChartTitle(text: "$name, ${data.last.toStringAsFixed(2)} $unit", textStyle: TextStyle(fontSize: 10)),
-        primaryXAxis: CategoryAxis(),
+        // Sample i of the rotated buffer is ts - (n - 1 - i) seconds, on the time axis of the signal quality graph.
+        primaryXAxis: DateTimeAxis(
+          minimum: DateTime.fromMillisecondsSinceEpoch(ts - data.length*1000),
+          maximum: DateTime.fromMillisecondsSinceEpoch(ts),
+          dateFormat: DateFormat("HH:mm:ss"),
+        ),
         primaryYAxis: NumericAxis(minimum: 0, maximum: max),
         enableAxisAnimation: false,
         // crosshairBehavior: CrosshairBehavior(
@@ -656,14 +658,14 @@ Widget buildGraph(String name, String unit, int current, int ts, List<double> da
           activationMode: ActivationMode.singleTap
         ),
         series: <CartesianSeries>[
-          LineSeries<_GraphPoint, String>(
+          LineSeries<_GraphPoint, DateTime>(
               dataSource:  <_GraphPoint>[
                 for (var i=0; i<data.length; ++i)
                   _GraphPoint(i, data[i]),
               ],
               animationDuration: 0,
               // xValueMapper: (_GraphPoint pt, _) => "${data.length-pt.t}",
-              xValueMapper: (_GraphPoint pt, _) => "${now.subtract(Time(seconds: data.length-pt.t)).toString("HH:mm:ss")}",
+              xValueMapper: (_GraphPoint pt, _) => DateTime.fromMillisecondsSinceEpoch(historySampleTimeMs(ts, data.length, pt.t)),
               yValueMapper: (_GraphPoint pt, _) => pt.value
           )
         ]

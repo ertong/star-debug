@@ -11,6 +11,7 @@ import 'package:star_debug/grpc/starlink/starlink.pbgrpc.dart';
 import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/pages/dialogs/wifi_setup.dart';
 import 'package:star_debug/pages/view/dish.dart';
+import 'package:star_debug/pages/view/status_series_graph.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/utils/api_helper.dart';
 import 'package:star_debug/utils/format.dart';
@@ -54,6 +55,7 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
   int lastGraphTime = 0;
 
   List<Widget> charts = [];
+  final seriesGraph = LiveSeriesGraph(requireMinute: true);
 
   @override
   void initState() {
@@ -83,6 +85,8 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
   }
 
   void buildCharts(){
+    seriesGraph.update(R.dish?.dishGetStatus.data?.deviceInfo.id);
+
     var history = R.dish?.dishGetHistory.data;
     var time = R.dish?.dishGetHistory.receivedTime ?? 0;
     var now = DateTime.now().millisecondsSinceEpoch;
@@ -245,9 +249,12 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
         b.widgets.addAll(bt.widgets);
     }
 
-    if (charts.isNotEmpty)
+    var seriesChart = seriesGraph.chart;
+    if (charts.isNotEmpty || seriesChart!=null)
     {
       b.header(M.general.charts);
+      if (seriesChart!=null)
+        b.widgets.add(seriesChart);
       b.widgets.addAll(charts);
     }
 

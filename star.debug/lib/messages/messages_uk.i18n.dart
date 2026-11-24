@@ -689,6 +689,11 @@ class LiveMessagesUk extends LiveMessages {
   /// "залишилось $t"
   /// ```
   String battery_time_left(t) => """залишилось $t""";
+
+  /// ```dart
+  /// "Відкрити деталі якості сигналу"
+  /// ```
+  String get signal_quality_details => """Відкрити деталі якості сигналу""";
 }
 
 class HeaderMessagesUk extends HeaderMessages {
@@ -3918,6 +3923,7 @@ Map<String, String> get messagesUkMap => {
   """live.event_overlapping_bss""": """Мережі, що перекриваються""",
   """live.status""": """Стан""",
   """live.connecting""": """підключення""",
+  """live.signal_quality_details""": """Відкрити деталі якості сигналу""",
   """header.general""": """Загальне""",
   """header.signal""": """Сигнал""",
   """header.network""": """Мережа""",

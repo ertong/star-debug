@@ -4,6 +4,7 @@ import 'package:star_debug/messages/i18n.dart';
 import 'package:star_debug/pages/dialogs/share_snapshot.dart';
 import 'package:star_debug/pages/view/dish.dart';
 import 'package:star_debug/pages/view/router.dart';
+import 'package:star_debug/pages/view/status_series_graph.dart';
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/routes.dart';
 import 'package:star_debug/space/entity.dart';
@@ -145,6 +146,8 @@ class _SnapshotPageState extends State<SnapshotPage>
 
     if (snap.dishGetStatus != null) {
       List<Widget> charts = [];
+
+      charts.add(buildSnapshotSeriesGraph(snap, expandable: true));
 
       var history = snap.dishGetHistory;
       var historyTs = snap.historyTs;
