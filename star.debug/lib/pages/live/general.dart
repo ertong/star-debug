@@ -131,6 +131,8 @@ class _GeneralTabState extends State<GeneralTab> with TickerProviderStateMixin {
           b1.kv(M.grpc.DishGetStatus.disablement_code, code, ok: ok);
         }
 
+        addSignalQualityRow(b1, status);
+
         var battery = status.effectiveBatteryStats;
         if (battery.hasStateOfCharge() || battery.batteryAttached)
           b1.kv(M.grpc.DishBatteryStats.state_of_charge, batterySummary(battery));

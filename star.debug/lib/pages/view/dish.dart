@@ -30,6 +30,30 @@ const String _TAG="DishWidget";
 const double _SIGNAL_QUALITY_GOOD = 0.8;
 const double _SIGNAL_QUALITY_FAIR = 0.25;
 
+/// Adds the signal_quality row, colored by band, when the dish reports a finite value.
+/// Shared by the dish view and the live General tab so both use the same bands.
+void addSignalQualityRow(KVWidgetBuilder b, DishGetStatusResponse status) {
+  if (!status.hasSignalQuality() || !status.signalQuality.isFinite)
+    return;
+  var quality = status.signalQuality;
+  var key = M.grpc.DishGetStatus.signal_quality;
+  var value = quality.toStringAsFixed(2);
+  var hint = M.grpc.DishGetStatus.signal_quality__hint;
+  if (quality >= _SIGNAL_QUALITY_GOOD)
+    b.kv(key, value, ok: true, hint: hint);
+  else if (quality < _SIGNAL_QUALITY_FAIR)
+    b.kv(key, value, ok: false, hint: hint);
+  else
+    b.kvs(key, value, hint: hint, kw: Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(Icons.circle, color: Colors.amber, size: 15),
+        SizedBox(width: 4),
+        Text("$key:", style: TextStyle(fontWeight: FontWeight.bold)),
+      ],
+    ));
+}
+
 class DishWidget extends StatefulWidget {
   final ViewOptions viewOptions;
   final Snapshot snap;
@@ -479,25 +503,7 @@ class _DishWidgetState extends State<DishWidget> with TickerProviderStateMixin {
         var b = KVWidgetBuilder(context, theme);
         b.header(M.header.antenna);
 
-        if (status.hasSignalQuality() && status.signalQuality.isFinite) {
-          var quality = status.signalQuality;
-          var key = M.grpc.DishGetStatus.signal_quality;
-          var value = quality.toStringAsFixed(2);
-          var hint = M.grpc.DishGetStatus.signal_quality__hint;
-          if (quality >= _SIGNAL_QUALITY_GOOD)
-            b.kv(key, value, ok: true, hint: hint);
-          else if (quality < _SIGNAL_QUALITY_FAIR)
-            b.kv(key, value, ok: false, hint: hint);
-          else
-            b.kvs(key, value, hint: hint, kw: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(Icons.circle, color: Colors.amber, size: 15),
-                SizedBox(width: 4),
-                Text("$key:", style: TextStyle(fontWeight: FontWeight.bold)),
-              ],
-            ));
-        }
+        addSignalQualityRow(b, status);
 
         if (status.hasBoresightAzimuthDeg())
           b.kv(M.grpc.DishGetStatus.boresight_azimuth_deg, status.boresightAzimuthDeg.toStringAsFixed(2),
