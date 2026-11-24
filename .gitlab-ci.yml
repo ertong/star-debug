@@ -1,5 +1,8 @@
-image: ertong/flutter:3.50.1-api37-jdk25
+image: $CI_IMAGE
 variables:
+  # Android CI image, built from _build/docker by _build/ci_image.yaml. The tag names the
+  # Dockerfile's Flutter, Android API and JDK versions; change it whenever _build/docker changes.
+  CI_IMAGE: $CI_REGISTRY_IMAGE/flutter:3.50.1-api37-jdk25
 #  PUB_CACHE: ${CI_PROJECT_DIR}/.cache/.pub-cache
 #  GRADLE_USER_HOME: ${CI_PROJECT_DIR}/.cache/.gradle
 #  GEM_HOME: ${CI_PROJECT_DIR}/.cache/.gem
@@ -8,6 +11,7 @@ variables:
   APP_BASENAME: stardebug
 
 stages:
+  - image
   - test
   - build
   - publish
@@ -18,6 +22,7 @@ before_script:
   - export LANG=en_US.UTF-8
 
 include:
+  - local: _build/ci_image.yaml
   - local: _build/ci_android.yaml
   - local: _build/ci_ios.yaml
   - local: _build/ci_win32.yaml

@@ -12,7 +12,8 @@ they are not separate products. There is no macOS or web target. Android uses Gr
 built-in Kotlin support, iOS uses an Xcode project, and Linux/Windows use CMake runners.
 
 Repository-root [`_misc/`](../_misc/) contains protobuf inputs and generation tooling.
-[`_build/`](../_build/) and [`.gitlab-ci.yml`](../.gitlab-ci.yml) contain CI/release tooling.
+[`_build/`](../_build/) and [`.gitlab-ci.yml`](../.gitlab-ci.yml) contain CI/release tooling,
+including the Dockerfile for the Android CI image.
 The Python utilities support generation and publishing; there is no Python application or backend.
 
 ## Application foundations

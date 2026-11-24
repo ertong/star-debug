@@ -1,0 +1,22 @@
+# Builds the Android CI image into this project's container registry when its tag is missing.
+# The tag never changes content: change the CI_IMAGE tag in .gitlab-ci.yml to rebuild.
+# Needs a runner that allows privileged containers for docker:dind.
+ci_image:
+  stage: image
+  image: docker:29
+  services:
+    - docker:29-dind
+  variables:
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_TLS_CERTDIR: ""
+  before_script:
+    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin "$CI_REGISTRY"
+  script:
+    - |
+      if docker manifest inspect "$CI_IMAGE" > /dev/null 2>&1; then
+        echo "$CI_IMAGE already exists"
+        exit 0
+      fi
+    - >
+      docker build --pull -t "$CI_IMAGE" _build/docker
+    - docker push "$CI_IMAGE"
