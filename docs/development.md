@@ -186,9 +186,15 @@ and built-in Kotlin with compiler `2.4.20`. Compile SDK 37.0 is required by
 fails on Java 17 with `NoSuchMethodError: java.util.List.removeLast()`; debug builds skip it. CI
 uses Java 25, the newest version in Flutter 3.50.1's Java and Gradle compatibility table.
 
-Android CI selects `ertong/flutter:3.50.1-api37-jdk25`; its image contents are external to this
-repository. iOS CI runs on macOS runners with asdf; Windows CI installs the pinned Flutter release
-in the job workspace. The dependency lockfile keeps transitive versions reproducible.
+Android CI runs in an image built from [`_build/docker/Dockerfile`](../_build/docker/Dockerfile).
+The `IMAGE_*` variables in `.gitlab-ci.yml` set its Flutter, Android API, JDK, and SDK packages and
+form its tag, `$CI_REGISTRY_IMAGE/flutter:<flutter>-api<api>-jdk<jdk>`. The `ci_image` job in
+[`_build/ci_image.yaml`](../_build/ci_image.yaml) builds and pushes that tag to the project's
+container registry only when it is missing, so an existing tag is never rebuilt: change a version,
+or add a suffix to the tag, whenever the Dockerfile or package list changes. Keep `IMAGE_FLUTTER`
+in step with `star.debug/.tool-versions`. The job uses `docker:dind` and needs a runner that allows
+privileged containers. iOS CI runs on macOS runners with asdf; Windows CI installs the pinned
+Flutter release in the job workspace. The dependency lockfile keeps transitive versions reproducible.
 The clipboard dependency retains its Git pin because published version 3.0.14 lacks the
 Windows include-path fix.
 
