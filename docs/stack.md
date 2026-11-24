@@ -48,7 +48,7 @@ HTTP server. [Architecture](architecture.md) explains initialization and runtime
 ## Build and support tooling
 
 Flutter builds platform artifacts and resolves locked Dart dependencies. Android uses AGP 9.3.1,
-Gradle 9.5.0, Kotlin compiler 2.4.20, and Java 17 or later; SDK prerequisites are in
+Gradle 9.5.0, Kotlin compiler 2.4.20, and Java 21 through 25; SDK prerequisites are in
 [Development](development.md#platform-and-release-tooling).
 
 [`_misc/protoc.sh`](../_misc/protoc.sh) runs Python `grpcio-tools` with `protoc-gen-dart` to

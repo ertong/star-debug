@@ -180,11 +180,13 @@ rather than relying on it.
 ## Platform and release tooling
 
 Android builds require SDK platform `platforms;android-37.0`, Build Tools `36.0.0`,
-NDK `28.2.13676358`, and Java 17 or later. The project uses AGP `9.3.1`, Gradle `9.5.0`,
+NDK `28.2.13676358`, and Java 21 through 25. The project uses AGP `9.3.1`, Gradle `9.5.0`,
 and built-in Kotlin with compiler `2.4.20`. Compile SDK 37.0 is required by
-`permission_handler_android` 14.x; the app targets API 36.
+`permission_handler_android` 14.x; the app targets API 36. Release builds run Android lint, which
+fails on Java 17 with `NoSuchMethodError: java.util.List.removeLast()`; debug builds skip it. CI
+uses Java 25, the newest version in Flutter 3.50.1's Java and Gradle compatibility table.
 
-Android CI selects `ertong/flutter:3.50.1-api37-jdk17`; its image contents are external to this
+Android CI selects `ertong/flutter:3.50.1-api37-jdk25`; its image contents are external to this
 repository. iOS CI runs on macOS runners with asdf; Windows CI installs the pinned Flutter release
 in the job workspace. The dependency lockfile keeps transitive versions reproducible.
 The clipboard dependency retains its Git pin because published version 3.0.14 lacks the
