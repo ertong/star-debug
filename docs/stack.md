@@ -4,8 +4,8 @@
 
 The repository builds one Flutter application from [`star.debug/`](../star.debug/).
 [`pubspec.yaml`](../star.debug/pubspec.yaml) defines its Dart package and dependencies;
-[`.tool-versions`](../star.debug/.tool-versions) pins Flutter 3.47.6. Dart must satisfy
-`>=3.13.0 <4.0.0`. [`lib/main.dart`](../star.debug/lib/main.dart) is the application entry point.
+[`.tool-versions`](../star.debug/.tool-versions) pins Flutter 3.50.1. Dart must satisfy
+`>=3.14.0 <4.0.0`. [`lib/main.dart`](../star.debug/lib/main.dart) is the application entry point.
 
 Android, iOS, macOS, Linux, and Windows runners under the package host that same Dart application;
 they are not separate products. There is no web target. Android uses Gradle/Java with built-in
@@ -42,8 +42,8 @@ HTTP server. [Architecture](architecture.md) explains initialization and runtime
 
 ## Build and support tooling
 
-Flutter builds platform artifacts and resolves locked Dart dependencies. Android uses AGP 9.1.1,
-Gradle 9.3.1, Kotlin compiler 2.3.20, and Java 17 or later; SDK prerequisites are in
+Flutter builds platform artifacts and resolves locked Dart dependencies. Android uses AGP 9.3.1,
+Gradle 9.5.0, Kotlin compiler 2.4.20, and Java 17 or later; SDK prerequisites are in
 [Development](development.md#platform-and-release-tooling).
 
 [`_misc/protoc.sh`](../_misc/protoc.sh) runs Python `grpcio-tools` with `protoc-gen-dart` to

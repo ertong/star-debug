@@ -7,8 +7,8 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.2.81+81
 
 environment:
-  sdk: '>=3.13.0 <4.0.0'
-  flutter: '>=3.47.6'
+  sdk: '>=3.14.0 <4.0.0'
+  flutter: '>=3.50.1'
 
 dependencies:
   flutter:
@@ -19,7 +19,7 @@ dependencies:
   shared_preferences: any
   logger: ^2.8.0
   path_provider: any
-  drift: ^2.35.1
+  drift: ^2.35.4
   i18n: any
   devicelocale: ^0.9.1
   permission_handler: ^13.0.2
@@ -28,32 +28,32 @@ dependencies:
   json_annotation: ^4.12.0
   package_info_plus: ^10.2.2
   intl: any
-  firebase_core: ^4.15.0
-  firebase_crashlytics: ^5.4.0
-  firebase_analytics: ^12.6.0
+  firebase_core: ^5.2.0
+  firebase_crashlytics: ^6.1.0
+  firebase_analytics: ^13.1.0
   clipboard: # Latest published version, with the Windows include-path fix.
     git:
       url: https://github.com/dongfengweixiao/flutter_clipboard.git
       ref: 6f8dce7
   time_machine2: ^0.14.0
   flutter_timezone: ^5.1.1
-  upgrader: ^13.7.0
-  file_picker: ^13.1.0
+  upgrader: ^14.0.0
+  file_picker: ^13.4.1
   flex_list: ^1.2.0
-  grpc: ^5.1.0
+  grpc: ^5.2.0
   protobuf: ^6.1.0
   fixnum: any
   dio: ^5.11.1
-  syncfusion_flutter_charts: ^35.1.37
+  syncfusion_flutter_charts: ^35.2.12
   recase: 4.1.0
   share_plus: ^13.3.1
   mutex: ^3.1.0
   flutter_markdown_plus: ^1.0.12
   url_launcher: ^6.3.3
-  flutter_email_sender: ^11.1.0
+  flutter_email_sender: ^11.2.0
   convert: ^3.1.2
   screenshot: 3.0.0
-  image: ^4.10.1
+  image: ^4.13.1
   google_fonts: ^9.0.0
   webview_flutter: ^4.14.1
 
@@ -64,10 +64,10 @@ dependency_overrides:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  json_serializable: ^6.14.1
-  build_runner: ^2.16.1
+  json_serializable: ^6.15.2
+  build_runner: ^2.16.2
   flutter_launcher_icons: any
-  drift_dev: ^2.35.1
+  drift_dev: ^2.35.3
 
   # The lint set provided by the package is activated in the `analysis_options.yaml`
   flutter_lints: ^6.0.0

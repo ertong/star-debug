@@ -2,8 +2,8 @@
 
 ## Prerequisites and setup
 
-The Flutter package is [`star.debug/`](../star.debug/). Its `.tool-versions` pins Flutter `3.47.6`,
-and `pubspec.yaml` requires Dart `>=3.13.0 <4.0.0`.
+The Flutter package is [`star.debug/`](../star.debug/). Its `.tool-versions` pins Flutter `3.50.1`,
+and `pubspec.yaml` requires Dart `>=3.14.0 <4.0.0`.
 
 From the repository root:
 
@@ -146,11 +146,11 @@ rather than relying on it.
 ## Platform and release tooling
 
 Android builds require SDK platform `platforms;android-37.0`, Build Tools `36.0.0`,
-NDK `28.2.13676358`, and Java 17 or later. The project uses AGP `9.1.1`, Gradle `9.3.1`,
-and built-in Kotlin with compiler `2.3.20`. Compile SDK 37.0 is required by
+NDK `28.2.13676358`, and Java 17 or later. The project uses AGP `9.3.1`, Gradle `9.5.0`,
+and built-in Kotlin with compiler `2.4.20`. Compile SDK 37.0 is required by
 `permission_handler_android` 14.x; the app targets API 36.
 
-Android CI selects `ertong/flutter:3.47.6-api37-jdk17`; its image contents are external to this
+Android CI selects `ertong/flutter:3.50.1-api37-jdk17`; its image contents are external to this
 repository. macOS CI uses asdf; Windows CI installs the pinned Flutter release in the job
 workspace. The dependency lockfile keeps transitive versions reproducible.
 The clipboard dependency retains its Git pin because published version 3.0.14 lacks the
