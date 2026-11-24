@@ -1,5 +1,5 @@
 # Builds the Android CI image into this project's container registry when its tag is missing.
-# The tag never changes content: bump a version (or add a suffix) in .gitlab-ci.yml to rebuild.
+# The tag never changes content: change the CI_IMAGE tag in .gitlab-ci.yml to rebuild.
 # Needs a runner that allows privileged containers for docker:dind.
 ci_image:
   stage: image
@@ -18,9 +18,5 @@ ci_image:
         exit 0
       fi
     - >
-      docker build --pull
-      --build-arg "FLUTTER_VERSION=$IMAGE_FLUTTER"
-      --build-arg "JDK_PACKAGE=openjdk-$IMAGE_JDK-jdk"
-      --build-arg "ANDROID_PACKAGES=$IMAGE_ANDROID_PACKAGES"
-      -t "$CI_IMAGE" _build/docker
+      docker build --pull -t "$CI_IMAGE" _build/docker
     - docker push "$CI_IMAGE"

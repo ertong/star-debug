@@ -1,14 +1,8 @@
 image: $CI_IMAGE
 variables:
-  # Android CI image, built from _build/docker by _build/ci_image.yaml.
-  IMAGE_FLUTTER: "3.50.1"
-  IMAGE_ANDROID_API: "37"
-  IMAGE_JDK: "25"
-  IMAGE_ANDROID_PACKAGES: >-
-    platforms;android-30 platforms;android-33 platforms;android-34 platforms;android-35
-    platforms;android-36 platforms;android-37.0
-    build-tools;34.0.0 build-tools;35.0.0 build-tools;36.0.0 ndk;28.2.13676358 cmake;3.22.1
-  CI_IMAGE: $CI_REGISTRY_IMAGE/flutter:$IMAGE_FLUTTER-api$IMAGE_ANDROID_API-jdk$IMAGE_JDK
+  # Android CI image, built from _build/docker by _build/ci_image.yaml. The tag names the
+  # Dockerfile's Flutter, Android API and JDK versions; change it whenever _build/docker changes.
+  CI_IMAGE: $CI_REGISTRY_IMAGE/flutter:3.50.1-api37-jdk25
 #  PUB_CACHE: ${CI_PROJECT_DIR}/.cache/.pub-cache
 #  GRADLE_USER_HOME: ${CI_PROJECT_DIR}/.cache/.gradle
 #  GEM_HOME: ${CI_PROJECT_DIR}/.cache/.gem

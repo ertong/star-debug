@@ -19,7 +19,8 @@ ENV ANDROID_SDK_ROOT=$ANDROID_HOME \
 # comes from https://developer.android.com/studio/#command-tools
 ENV ANDROID_SDK_TOOLS_VERSION 11076708
 
-ARG JDK_PACKAGE=openjdk-11-jdk
+# The versions below are named in the CI_IMAGE tag in .gitlab-ci.yml; change the tag with them.
+ARG JDK_PACKAGE=openjdk-25-jdk
 # Ubuntu archive state to install from (https://snapshot.ubuntu.com). The snapshot is served over
 # HTTPS, so ca-certificates comes from the regular archive first; every other package is pinned.
 ARG UBUNTU_SNAPSHOT=20261124T000000Z
@@ -49,8 +50,12 @@ RUN set -o xtrace \
     && yes | sdkmanager --licenses \
     && sdkmanager platform-tools  # sdkmanager installs only the latest platform-tools
 
-ARG FLUTTER_VERSION
-ARG ANDROID_PACKAGES
+# Keep FLUTTER_VERSION in step with star.debug/.tool-versions.
+ARG FLUTTER_VERSION=3.50.1
+ARG ANDROID_PACKAGES="\
+    platforms;android-30 platforms;android-33 platforms;android-34 platforms;android-35 \
+    platforms;android-36 platforms;android-37.0 \
+    build-tools;34.0.0 build-tools;35.0.0 build-tools;36.0.0 ndk;28.2.13676358 cmake;3.22.1"
 
 RUN yes | sdkmanager $ANDROID_PACKAGES
 

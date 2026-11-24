@@ -187,15 +187,17 @@ fails on Java 17 with `NoSuchMethodError: java.util.List.removeLast()`; debug bu
 uses Java 25, the newest version in Flutter 3.50.1's Java and Gradle compatibility table.
 
 Android CI runs in an image built from [`_build/docker/Dockerfile`](../_build/docker/Dockerfile).
-The `IMAGE_*` variables in `.gitlab-ci.yml` set its Flutter, Android API, JDK, and SDK packages and
-form its tag, `$CI_REGISTRY_IMAGE/flutter:<flutter>-api<api>-jdk<jdk>`. The `ci_image` job in
+The Dockerfile sets its Flutter version, JDK, and Android SDK packages. The `CI_IMAGE` tag in
+`.gitlab-ci.yml`, `$CI_REGISTRY_IMAGE/flutter:<flutter>-api<api>-jdk<jdk>`, names those versions
+and must change with them. The `ci_image` job in
 [`_build/ci_image.yaml`](../_build/ci_image.yaml) builds and pushes that tag to the project's
 container registry only when it is missing, so an existing tag is never rebuilt: change a version,
 or add a suffix to the tag, whenever the Dockerfile or package list changes. The Dockerfile pins
 the Ubuntu base image by digest and installs Ubuntu packages from a fixed `UBUNTU_SNAPSHOT` of
 the archive, so a rebuild resolves the same JDK and system packages; only `ca-certificates`,
 needed to reach the snapshot server, and `platform-tools` come in at their current versions.
-Keep `IMAGE_FLUTTER` in step with `star.debug/.tool-versions`. The job uses `docker:dind` and
+Keep the Dockerfile's `FLUTTER_VERSION` in step with `star.debug/.tool-versions`.
+The job uses `docker:dind` and
 needs a runner that allows privileged containers. iOS CI runs on macOS runners with asdf; Windows
 CI installs the pinned Flutter release in the job workspace. The dependency lockfile keeps
 transitive versions reproducible.
