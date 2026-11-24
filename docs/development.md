@@ -20,6 +20,26 @@ network access to the Starlink subnets. The defaults are `192.168.100.1` for the
 Firebase initializes only on Android and iOS. Desktop development does not require Firebase
 startup, but platform plugin availability can still differ.
 
+### One checkout from WSL and Windows
+
+Flutter and Gradle write absolute SDK and pub-cache paths into ignored files such as
+`.dart_tool/package_config.json`, `.flutter-plugins-dependencies`, `android/local.properties`, and
+desktop `ephemeral` directories. On a checkout stored on a Windows drive, a Linux SDK in WSL and a
+Windows SDK in Android Studio would overwrite each other's paths.
+
+[`star.debug/wsl_mounts.sh`](../star.debug/wsl_mounts.sh) gives WSL its own copies: it bind-mounts
+each of these paths, inside WSL only, from `~/.cache/star-debug-wsl/`. Windows keeps seeing its own
+files at the same paths. Run it from WSL as root or with sudo:
+
+```sh
+star.debug/wsl_mounts.sh install   # systemd service: mount now and at every WSL start
+star.debug/wsl_mounts.sh           # or mount once; repeat after each WSL restart
+star.debug/wsl_mounts.sh status
+```
+
+`build-wsl` shares WSL's `build` copy, because `flutter test` reads test assets from
+`build/unit_test_assets` even when `flutter config --build-dir` names another directory.
+
 Follow the [Change scope rules](../AGENTS.md#change-scope): preserve surrounding style and
 pre-existing changes, and review each diff hunk for task relevance.
 
@@ -195,7 +215,8 @@ documentation, or source control.
 
 - Run Flutter, Dart, and fixture-based tests from `star.debug/`, not the repository root.
 - After switching host operating systems, regenerate ignored package configuration with
-  `flutter pub get`; cached paths from another host can fail before tests execute.
+  `flutter pub get`; cached paths from another host can fail before tests execute. For WSL and
+  Windows on one checkout, use [`wsl_mounts.sh`](#one-checkout-from-wsl-and-windows) instead.
 - `msg.sh` needs the existing root `.venv`; unlike `_misc/protoc.sh`, it does not bootstrap it.
 - Import `package:material_ui/material_ui.dart`, not the deprecated
   `package:flutter/material.dart`. Their `ThemeData` types differ, so a package API that takes
