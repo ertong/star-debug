@@ -11,6 +11,7 @@ import 'package:star_debug/utils/log_utils.dart';
 import 'package:star_debug/utils/snapshot.dart';
 
 
+// ignore: unused_element
 const String _TAG = "DebugDataHelper";
 
 class DebugDataHelper {

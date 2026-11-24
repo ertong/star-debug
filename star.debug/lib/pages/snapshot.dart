@@ -15,6 +15,7 @@ import 'package:star_debug/widgets/app_drawer_pop_scope.dart';
 
 import '../utils/kv_widget.dart';
 
+// ignore: unused_element
 const String _TAG = "MainPage";
 
 class SnapshotPage extends StatefulWidget {

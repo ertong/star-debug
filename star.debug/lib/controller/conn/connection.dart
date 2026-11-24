@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:star_debug/utils/log_utils.dart';
 
+// ignore: unused_element
 const String _TAG = "ConnectionHolder";
 
 class BaseConnection {

@@ -12,6 +12,7 @@ import 'package:star_debug/utils/view_options.dart';
 import 'package:star_debug/widgets/connection_error_log.dart';
 import '../view/common.dart';
 
+// ignore: unused_element
 const String _TAG="DishTab";
 
 class DishTab extends StatefulWidget {

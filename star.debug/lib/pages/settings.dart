@@ -9,6 +9,7 @@ import 'dialogs/select_lang.dart';
 import 'settings_subnet.dart';
 import '../widgets/app_surface.dart';
 
+// ignore: unused_element
 const String _TAG = "SettingsPage";
 
 class SettingsPage extends StatefulWidget {

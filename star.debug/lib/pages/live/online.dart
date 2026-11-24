@@ -4,6 +4,7 @@ import 'package:material_ui/material_ui.dart' hide Notification, Card, Connectio
 import 'package:star_debug/preloaded.dart';
 import 'package:star_debug/utils/kv_widget.dart';
 
+// ignore: unused_element
 const String _TAG="OnlineTab";
 
 class OnlineTab extends StatefulWidget {

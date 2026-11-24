@@ -16,6 +16,7 @@ import 'package:star_debug/utils/kv_widget.dart';
 import 'package:star_debug/utils/log_utils.dart';
 import 'package:time_machine2/time_machine2.dart';
 
+// ignore: unused_element
 const String _TAG="GeneralTab";
 
 class GeneralTab extends StatefulWidget {

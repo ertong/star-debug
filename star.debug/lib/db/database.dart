@@ -9,6 +9,7 @@ import 'models/recent_inputs.dart';
 
 part 'database.g.dart';
 
+// ignore: unused_element
 const String _TAG = "Database";
 
 @DriftDatabase(

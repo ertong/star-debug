@@ -15,6 +15,7 @@ import 'package:star_debug/utils/log_utils.dart';
 import 'package:star_debug/utils/obstruction_map_rendering.dart';
 import 'package:star_debug/widgets/app_drawer_pop_scope.dart';
 
+// ignore: unused_element
 const String _TAG = "DebugPage";
 
 class DebugPage extends StatefulWidget {

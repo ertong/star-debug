@@ -11,6 +11,7 @@ import 'package:star_debug/utils/log_utils.dart';
 import 'database.dart';
 
 
+// ignore: unused_element
 const String _TAG = "DatabaseHolder";
 
 class DatabaseHolder {

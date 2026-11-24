@@ -22,6 +22,7 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import '../../utils/log_utils.dart';
 import '../../utils/starlink_model.dart';
 
+// ignore: unused_element
 const String _TAG="DishWidget";
 
 class DishWidget extends StatefulWidget {

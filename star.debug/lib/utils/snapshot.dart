@@ -9,6 +9,7 @@ import 'package:star_debug/space/space_parser.dart';
 import 'package:star_debug/utils/debug_data.dart';
 import 'package:star_debug/utils/log_utils.dart';
 
+// ignore: unused_element
 const String _TAG = "Snapshot";
 
 class Snapshot {

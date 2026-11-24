@@ -5,6 +5,7 @@ import 'package:star_debug/controller/conn/connection.dart';
 import 'package:star_debug/utils/log_utils.dart';
 import 'package:star_debug/utils/wait_notify.dart';
 
+// ignore: unused_element
 const String _TAG = "ConnController";
 
 class ConnController {

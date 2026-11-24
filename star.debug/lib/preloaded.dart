@@ -29,6 +29,7 @@ import 'messages/i18n.dart';
 import 'utils/shared_prefs.dart';
 
 late Preloaded R;
+// ignore: unused_element
 const String _TAG = "Preload";
 
 /// Owns process-wide services that must be ready before [StarDebugApp] is built.

@@ -15,6 +15,7 @@ import 'package:star_debug/utils/snapshot.dart';
 import 'package:star_debug/widgets/app_surface.dart';
 import 'package:star_debug/widgets/app_drawer_pop_scope.dart';
 
+// ignore: unused_element
 const String _TAG = "MainPage";
 
 class DebugDataPage extends StatefulWidget {

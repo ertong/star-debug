@@ -18,6 +18,7 @@ import 'package:star_debug/widgets/app_surface.dart';
 import 'package:star_debug/widgets/app_drawer_pop_scope.dart';
 import 'package:time_machine2/time_machine2.dart';
 
+// ignore: unused_element
 const String _TAG = "MyStarlinksPage";
 
 class MyStarlinksPage extends StatefulWidget {
