@@ -13,6 +13,8 @@ Read the focused documentation before changing a central subsystem:
   debug-data compatibility, and persistence.
 - [`docs/development.md`](docs/development.md) covers generators, tests, platform tooling, and
   common traps.
+- [`docs/upgrade_and_release.md`](docs/upgrade_and_release.md) covers toolchain and dependency
+  upgrades and the pre-release routine.
 - [`docs/README.md`](docs/README.md) is the documentation index and source map.
 - [`docs/obstruction_maps.md`](docs/obstruction_maps.md) covers current map behavior and limitations.
 - [`docs/obstruction_map_sources.md`](docs/obstruction_map_sources.md) distinguishes obstruction-map
