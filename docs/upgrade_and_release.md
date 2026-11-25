@@ -1,209 +1,167 @@
 # Upgrades and releases
 
-This guide covers toolchain and dependency upgrades, then the routine that prepares a release.
-[Development](development.md) describes the current versions, generators, and CI layout; this guide
-lists the steps that change them.
+This guide is the checklist for toolchain and dependency upgrades, followed by the routine that
+prepares a release. [Development](development.md) describes the current versions, generators, and
+CI layout.
 
 ## Branches
 
-Day-to-day work, upgrades included, lands on `base`. `main` is `base` plus release-only files:
-`README.md`, `RELEASE_NOTES.md`, `LICENSE.md`, `_build/reproducible/`, store screenshots in
-`star.debug/_misc/android/` and `ios/`, and the privacy policy. `main` also keeps its own iOS signing settings
-(`DEVELOPMENT_TEAM` and the `com.stardebug` bundle identifier in `project.pbxproj`). Release tags
-such as `1.2b83` point at `main`.
+Upgrades, like other work, land on `base` and reach `main` by merging; do not cherry-pick the same
+change onto both. `main` is `base` plus release-only files (`README.md`, `RELEASE_NOTES.md`,
+`LICENSE.md`, `_build/reproducible/`, store screenshots, and the privacy policy) and its own iOS
+signing settings in `project.pbxproj`. Release tags point at `main`.
 
-## What changed from 1.2b82 to 1.2b83
+## Where versions live
 
-The 1.2b83 upgrade touched every layer and is a useful checklist:
+A version often appears in more than one place. When one changes, check the rest of its row.
 
-| Area | 1.2b82 | 1.2b83 | Where |
-|---|---|---|---|
-| Flutter / Dart | 3.47.6 / 3.13 | 3.50.1 / 3.14 | `.tool-versions`, `pubspec.yaml` `environment` |
-| Firebase plugins | core 4, crashlytics 5, analytics 12 | core 5, crashlytics 6, analytics 13 | `pubspec.yaml` |
-| Design widgets | `flutter/material`, `flutter/cupertino` | `material_ui`, `cupertino_ui` | imports, app builder |
-| Removed | `upgrader`, macOS target | | `pubspec.yaml`, `star.debug/macos/` |
-| AGP / Gradle / Kotlin | 9.1.1 / 9.3.1 / 2.3.20 | 9.3.1 / 9.5.0 / 2.4.20 | `android/settings.gradle`, Gradle wrapper |
-| Google services / Crashlytics Gradle plugins | 4.4.4 / 3.0.6 | 4.6.0 / 3.0.8 | `android/settings.gradle` |
-| Android CI image | `ertong/flutter:…-jdk17` (external) | `_build/docker`, JDK 25, project registry | `.gitlab-ci.yml`, `_build/` |
-| iOS Swift packages | firebase-ios-sdk 12.x | firebase-ios-sdk 13.2.0 | both `Package.resolved` files |
-| fastlane | | 2.242.0 | `ios/Gemfile.lock` |
-| iOS CI | `pod install` | removed: Swift Package Manager, no Podfile | `_build/ci_ios.yaml` |
-| Starlink protocol | 2026-09-24 | 2026-11-16 | `_misc/*.proto` |
-
-Problems found on the way, and the rule each one became:
-
-- Release builds run Android lint and debug builds do not. The new lint crashed on JDK 17 with
-  `NoSuchMethodError: java.util.List.removeLast()`, but only in the tag pipeline. Build a release
-  bundle before tagging (see [Validate](#validate)).
-- Plugins that moved to Swift Package Manager broke `pod install` in iOS CI. Check iOS CI steps
-  when plugins change their iOS packaging.
-- Commits cherry-picked onto both branches conflicted in `Package.resolved` at merge time. Land
-  upgrades on `base` only and reach `main` by merging.
-- `build_runner` stayed at 2.16 because the i18n generator does not yet support `build` 5.
-  `flutter pub outdated` keeps listing such held packages; that is expected.
+| Component | Places that must agree |
+|---|---|
+| Flutter | `star.debug/.tool-versions` (iOS CI installs it with asdf, Windows CI clones it); the `flutter` and Dart `sdk` floors in `pubspec.yaml`; `FLUTTER_VERSION` in `_build/docker/Dockerfile`; the `CI_IMAGE` tag; version notes in `android/build.gradle`, `android/gradle.properties`, `docs/development.md`, and `docs/stack.md` |
+| Dart packages | `pubspec.yaml` and `pubspec.lock`; generated plugin registrants under `linux/` and `windows/`; Git-pinned packages and the reason for each pin |
+| AGP, Gradle, Kotlin | `android/settings.gradle` plugins (AGP, Kotlin, google-services, Crashlytics); `distributionUrl` in the Gradle wrapper; the Kotlin BOM in `android/app/build.gradle`; migration flags in `android/gradle.properties` |
+| Android SDK | `compileSdkVersion`/`compileSdkMinor`, `buildToolsVersion`, `ndkVersion`, and `targetSdkVersion` in `android/app/build.gradle`; the subproject override in `android/build.gradle`; `ANDROID_PACKAGES` in the Dockerfile |
+| JDK | `JDK_PACKAGE` in the Dockerfile; the Java range in `docs/development.md` |
+| CI image | Dockerfile base image digest, `UBUNTU_SNAPSHOT`, and `ANDROID_SDK_TOOLS_VERSION`; the `CI_IMAGE` tag in `.gitlab-ci.yml` |
+| iOS | both `Package.resolved` files; `ios/Gemfile.lock`; `IPHONEOS_DEPLOYMENT_TARGET`; Xcode and asdf on the Mac runner |
+| Windows | `windows/CMakeLists.txt`; runtime DLLs in `windows/dll/`; `_build/ci_win32.yaml` |
+| Starlink protocol | `_misc/*.proto` and generated `lib/grpc/starlink/`; `protoc_plugin` and the unpinned `requirements.txt` tools |
 
 ## Upgrade procedure
 
-Work on `base`. Do one area per commit where practical, in this order.
+Upgrade one area per commit where practical, in the order below. Name held-back packages and the
+reason in the commit message.
+
+### Before starting
+
+- Read the release notes and breaking-change lists for Flutter and for each major dependency
+  version you take.
+- Look up the limits of the target Flutter release in its
+  `packages/flutter_tools/lib/src/android/gradle_utils.dart`: the newest known Gradle, the AGP and
+  Gradle pairs, and the Java and Gradle table (`oneMajorVersionHigherJavaVersion` is the first Java
+  it does not know).
 
 ### Flutter and Dart
 
-1. Read the Flutter release notes and breaking changes between the current and target versions.
-2. Change the version in every place that names it:
-   - `star.debug/.tool-versions`. iOS CI (asdf on the Mac runner) and Windows CI install Flutter
-     from this file.
-   - `pubspec.yaml` `environment`: the `flutter` floor and the Dart `sdk` floor of that release.
-   - `_build/docker/Dockerfile` `FLUTTER_VERSION`, and the `CI_IMAGE` tag in `.gitlab-ci.yml`
-     (see [Android CI image](#android-ci-image)).
-   - Version notes in `android/build.gradle`, `android/gradle.properties`, `docs/development.md`,
-     and `docs/stack.md`. `git grep -n '<old version>'` finds them.
-3. Run `flutter pub get`, then `dart fix --dry-run` and `flutter analyze`. Apply migrations the
-   release calls for; 3.50 needed `dart fix --apply --code=migrate_design_widgets` and the
-   `RadioGroup` migration. Keep each migration in its own commit.
+1. Change every place in the Flutter row above.
+2. Run `flutter pub get` and a first Android, iOS, and Windows build. Flutter's migrators may
+   edit platform files on that build (Gradle flags, CMake rules, Xcode settings). Review those edits
+   and commit them with the upgrade.
+3. Compare the platform runners with a fresh `flutter create` project of the same version, made in
+   a temporary directory, to catch template changes that no migrator applies.
+4. Run `dart fix --dry-run` and `flutter analyze`. Apply API migrations in their own commits.
+   Fix new lints, or adjust `analysis_options.yaml` deliberately, in a separate commit.
 
 ### Dart dependencies
 
-1. `flutter pub outdated` lists upgradable and held packages.
-2. Raise constraints in `pubspec.yaml`, including major versions you intend to take, then run
-   `flutter pub upgrade`. Raise each floor to the resolved version so the lockfile and constraints
-   agree.
-3. Remove dependencies that are no longer used.
-4. Regenerate when generators changed: `dart run build_runner build --delete-conflicting-outputs`.
-5. Commit `pubspec.lock` and changed platform registrants (for example
-   `windows/flutter/generated_plugin_registrant.cc`) with the dependency change.
-6. A plugin major version can change native requirements: Firebase majors move the iOS Swift
-   packages ([iOS](#ios-and-the-mac-host)) and Android Gradle plugins.
+1. Review `flutter pub outdated`, raise constraints, including majors you intend to take, and run
+   `flutter pub upgrade`. Raise each floor to the resolved version.
+2. Remove unused dependencies. Recheck whether each Git pin is still needed.
+3. Rerun generators whose inputs or generator versions changed
+   (`dart run build_runner build --delete-conflicting-outputs`).
+4. Commit `pubspec.lock` and regenerated platform registrants with the change.
+5. Expect native follow-ups from plugin majors: new Swift packages or a higher minimum iOS
+   version, new Gradle plugin versions, or Android manifest changes.
 
-### Android build tools
+### Android
 
-1. Pick AGP, Gradle, and Kotlin versions that the target Flutter release supports.
-   `packages/flutter_tools/lib/src/android/gradle_utils.dart` in the Flutter SDK holds the limits:
-   `maxKnownAndSupportedGradleVersion`, the AGP-to-Gradle table, and the Java-to-Gradle table
-   (`_javaGradleCompatList`, with `oneMajorVersionHigherJavaVersion` as the first unknown Java).
-2. Update `android/settings.gradle` (AGP, Kotlin, google-services, Crashlytics plugins) and
-   `distributionUrl` in `android/gradle/wrapper/gradle-wrapper.properties`.
-3. Update compile SDK, Build Tools, and NDK in `android/app/build.gradle` when a plugin or AGP
-   requires it. Add the same packages to `ANDROID_PACKAGES` in the Dockerfile.
-4. Choose the JDK: the newest version in Flutter's Java table that the AGP release accepts. Set it
-   in the Dockerfile's `JDK_PACKAGE`, and update the Java range in `docs/development.md`.
+1. Choose AGP, Gradle, and Kotlin within the target Flutter release's limits. Update them together
+   with the Kotlin BOM and any `gradle.properties` flags that the new AGP or Flutter requires.
+2. Raise compile SDK, Build Tools, and NDK when AGP or a plugin requires it, in both Gradle files.
+   Raise `targetSdkVersion` to meet Google Play's target-API deadline, and check the behavior
+   changes of that API level, including manifest attributes.
+3. Choose the newest JDK that both the Flutter Java table and AGP accept.
+4. Add any new SDK package or JDK to the CI image (next section).
 
 ### Android CI image
 
-The Android jobs run in `$CI_REGISTRY_IMAGE/flutter:<flutter>-api<api>-jdk<jdk>`, built from
-`_build/docker/Dockerfile` by the `ci_image` job only when the tag is missing.
+Android jobs run in `$CI_REGISTRY_IMAGE/flutter:<flutter>-api<api>-jdk<jdk>`. The `ci_image` job
+builds it from `_build/docker/Dockerfile` and pushes it to the project registry only when the tag is
+missing.
 
-1. Change Flutter, JDK, or SDK packages in the Dockerfile's `ARG` defaults.
-2. To refresh system packages, set `UBUNTU_SNAPSHOT` to a recent UTC timestamp
-   (`YYYYMMDDTHHMMSSZ`) and update the base image digest, which
-   `docker buildx imagetools inspect ubuntu:26.04` prints. Change both together.
-3. Change the `CI_IMAGE` tag in `.gitlab-ci.yml` whenever anything in `_build/docker` changes. Use
-   the new versions, or add a suffix such as `-r2` when the versions stay the same. An existing tag
-   is never rebuilt, so a Dockerfile change under an old tag has no effect.
-4. The first pipeline with a new tag spends about 15–20 minutes building the image. To try it
-   before pushing, build it locally with `docker build -t local/flutter:test _build/docker`.
+1. Edit the Dockerfile `ARG` defaults for Flutter, JDK, and Android SDK packages.
+2. When refreshing system packages, update the base image digest
+   (`docker buildx imagetools inspect ubuntu:<release>`) and `UBUNTU_SNAPSHOT` (a UTC timestamp,
+   `YYYYMMDDTHHMMSSZ`) together. Moving to a new Ubuntu release also means checking package names.
+3. Change the `CI_IMAGE` tag in the same commit as any change under `_build/docker`. Use the new
+   versions, or a suffix such as `-r2` when the versions stay the same. An existing tag is never
+   rebuilt, so a Dockerfile change under an old tag has no effect.
+4. Build the image locally before pushing:
+   `docker build -t local/flutter:test _build/docker`. The first pipeline with a new tag spends
+   about 15–20 minutes building it.
+5. Keep the registry cleanup policy matching the tag pattern, so that superseded images expire.
 
 ### iOS and the Mac host
 
-The iOS project uses Swift Package Manager and has no Podfile. The Mac also runs the GitLab iOS
-runner. The [`remote-mac` skill](../.claude/skills/remote-mac/SKILL.md) automates the steps below;
-its commands run as `bash .claude/skills/remote-mac/scripts/remote-mac.sh <command>`.
+The iOS project uses Swift Package Manager and has no Podfile. The Mac hosts the GitLab iOS runner
+and the [`remote-mac`](../.claude/skills/remote-mac/SKILL.md) skill, which automates these steps.
 
-1. Re-resolve Swift packages after plugin or Flutter changes: build on the Mac with Xcode (or the
-   skill's `upgrade spm`), then commit both `Package.resolved` files.
-2. Update fastlane with `bundle update` in `ios/` (or the skill's `upgrade gems`) and commit
-   `ios/Gemfile.lock`.
-3. Verify with `flutter build ios --release --no-codesign`.
-4. After an Xcode or macOS update, builds and `git` fail on the Mac until you run there:
-
-   ```sh
-   sudo xcodebuild -license accept && sudo xcodebuild -runFirstLaunch
-   ```
-
-   Then re-check `flutter doctor -v`.
-5. Expired Apple sessions break TestFlight uploads; refresh `FASTLANE_SESSION` with
-   the skill's `spaceauth`, which you run interactively. Signing and profile fixes are in the
-   skill's `DEPLOYMENT.md`.
-
-The macOS desktop target was removed in 1.2b83. Do not regenerate it as part of an upgrade.
+1. After Flutter or plugin changes, build on the Mac so Xcode re-resolves Swift packages. Commit
+   both `Package.resolved` files.
+2. Update fastlane with `bundle update` in `ios/` and commit `Gemfile.lock`.
+3. Raise `IPHONEOS_DEPLOYMENT_TARGET` when a plugin requires it.
+4. After an Xcode or macOS update, accept the license and run Xcode's first-launch setup on the
+   Mac before building (`sudo xcodebuild -license accept` and `sudo xcodebuild -runFirstLaunch`).
+5. If the runner is ever regenerated, restore the signing team, bundle identifier, Firebase
+   configuration, and entitlements, and keep `main`'s signing settings when merging.
 
 ### Windows and Linux
 
-Windows CI clones the Flutter release named in `.tool-versions`, so it needs no separate change.
-After dependency upgrades, check that the `clipboard` Git pin is still needed (see
-[Development](development.md#platform-and-release-tooling)) and that `windows/dll/` still matches
-the runtime the build needs. Linux has no CI job; build it locally when its plugins change.
+Apply template changes found in step 3 of [Flutter and Dart](#flutter-and-dart) to
+`windows/CMakeLists.txt` and `linux/`. Check that the runtime DLLs in `windows/dll/` still match
+what the build needs. Linux has no CI job, so build it locally after plugin changes.
 
 ### Starlink protocol
 
-1. Replace `_misc/starlink.proto` and related files with the new dump.
-2. From the repository root, run `bash _misc/protoc.sh`.
-3. Keep fields that a newer dump reserves but older firmware still sends, and tag their uses with
-   `grpc-deprecated(<when>)` ([Deprecated gRPC fields](development.md#deprecated-grpc-fields)).
-4. Extend `test/proto_schema_test.dart` and the debug-data fixtures for new fields.
+1. Replace the `_misc/*.proto` files with the new dump and run `bash _misc/protoc.sh` from the
+   repository root.
+2. Keep fields that the new dump reserves but older firmware still sends, and tag their uses as
+   described in [Deprecated gRPC fields](development.md#deprecated-grpc-fields).
+3. Extend `test/proto_schema_test.dart` and the debug-data fixtures for new fields.
 
 ### Validate
 
-From `star.debug/`:
+1. From `star.debug/`: `flutter test`, `flutter analyze`, and the CI debug APK build
+   (see [Validation](development.md#validation)).
+2. A release bundle in the CI image. Only release builds run Android lint, so a debug build can
+   pass while the tag pipeline fails. From the root of a separate clone, so that build output and
+   the throwaway key stay out of the working checkout:
 
-```sh
-flutter test
-flutter analyze
-flutter build apk --debug --target-platform android-arm,android-arm64,android-x64
-```
+   ```sh
+   docker run --rm -v "$PWD:/builds/p" -w /builds/p/star.debug -e ANDROID_KEY_PASSWORD=pass123 \
+     local/flutter:test bash -c '
+       keytool -genkey -keystore android/release-key.jks -alias key -keyalg RSA -keysize 2048 \
+         -validity 10000 -keypass pass123 -storepass pass123 -dname "cn=Test, c=UA" &&
+       flutter build appbundle'
+   ```
 
-Also build a release bundle in the CI image (`local/flutter:test`, built as in
-[Android CI image](#android-ci-image)), because only release builds run Android lint. Run it from
-the root of a separate clone, so build output and the throwaway signing key stay out of the
-working checkout:
-
-```sh
-docker run --rm -v "$PWD:/builds/p" -w /builds/p/star.debug -e ANDROID_KEY_PASSWORD=pass123 \
-  local/flutter:test bash -c '
-    keytool -genkey -keystore android/release-key.jks -alias key -keyalg RSA -keysize 2048 \
-      -validity 10000 -keypass pass123 -storepass pass123 -dname "cn=Test, c=UA" &&
-    flutter build appbundle'
-```
-
-Check iOS with `flutter build ios --release --no-codesign` on the Mac.
+3. `flutter build ios --release --no-codesign` on the Mac, and a Windows build.
+4. Push `base` and confirm that its pipeline passes, including `ci_image` when the tag is new.
 
 ## Pre-release routine
 
-Version tags look like `1.2b84`. `ci-parse-tag.sh` turns a tag into the build name and number:
-`1.2.84a` and `84` on Android, `1.2.84i` on iOS, and `1.2.84` on Windows.
+Release tags look like `1.2b84`; `ci-parse-tag.sh` turns them into build names and numbers
+(`1.2.84a` and `84` on Android, `1.2.84i` on iOS, `1.2.84` on Windows).
 
-1. **Merge.** Check out `main` and run `git merge --no-ff base` (message `Merge branch 'base'`).
-   Keep `main`'s signing settings in `project.pbxproj` and its release-only files. If
-   `Package.resolved` conflicts, take the side that was resolved on the Mac most recently.
+1. **Merge.** Merge `base` into `main` with `git merge --no-ff base`. Keep `main`'s release-only
+   files and signing settings. If `Package.resolved` conflicts, take the most recent Mac
+   resolution.
 2. **Check.** Run `flutter test` and `flutter analyze` on `main`.
-3. **Release notes.** Add a section to the top of `RELEASE_NOTES.md`:
+3. **Release notes.** Add the new version at the top of `RELEASE_NOTES.md`, using the headings of
+   earlier entries (`### New Features:`, `### Enhancements:`, `### Fixes:`). Build it from
+   `git log --no-merges <previous tag>..main`, keep only user-visible changes, and skip empty
+   headings.
+4. **README.** Update the "as of version" line in `README.md` and the feature list.
+5. **Reproducible build.** Add `_build/reproducible/<build name>.md`, starting from the previous
+   one, and link it from `reproducible_builds.md`. It must name the release tag, the `NAME`,
+   `NUM`, and `BUILD_OPTS` values, and the CI image. Readers may not have access to the project
+   registry, so have them build the image from `_build/docker` at the release tag
+   (`docker build -t star-debug-ci:<tag> _build/docker`) and run the build in it.
+6. **Commit, push, tag.** Push `main`, then the tag. The tag pipeline publishes to the Play internal
+   track when `ANDROID_JKS` is set, to TestFlight when `APPLE` is set, and builds the Windows
+   archive when `DIAWI_TOKEN` is set.
+7. **Watch the tag pipeline.** It is the first run of the release-only steps: signing, the release
+   bundle with Android lint, and store uploads. If it fails before anything is published, fix the
+   problem on `base`, merge again, and move the tag.
 
-   ```markdown
-   ## 1.2b84
-
-   ### New Features:
-   - …
-
-   ### Enhancements:
-   - …
-
-   ### Fixes:
-   - …
-   ```
-
-   Base it on `git log --no-merges <previous tag>..main`, and write user-visible changes only. Omit
-   empty headings. Name protocol updates as "Update Starlink protocol support to <date>". The file
-   uses CRLF line endings; keep them.
-4. **README.** In `README.md`, update "Currently (as of version …)" and add new user-facing
-   capabilities to the feature list.
-5. **Reproducible build.** Copy the previous `_build/reproducible/1.2.<n>a.md` to the new version.
-   Update the tag, `NAME`, `NUM`, `BUILD_OPTS`, and the CI image. Add the link to the list in
-   `_build/reproducible/reproducible_builds.md`, which uses CRLF line endings. The image comes
-   from the project registry, so readers without access build it from `_build/docker` at the
-   release tag: `docker build -t star-debug-ci:<tag> _build/docker`.
-6. **Commit and tag.** Commit with the summary `release notes` or `release docs`, push `main`, then
-   push the tag. The tag pipeline publishes to the Play internal track when the `ANDROID_JKS`
-   variable is set and to TestFlight when `APPLE` is set, and builds the Windows archive when
-   `DIAWI_TOKEN` is set.
-7. **Watch the tag pipeline.** It is the first run of the release-only steps: the release bundle
-   with Android lint, signing, and store uploads. If it fails, fix the problem on `base`, merge
-   again, and move the tag to the fixed commit before it is published anywhere.
+`RELEASE_NOTES.md` and `_build/reproducible/reproducible_builds.md` use CRLF line endings.
