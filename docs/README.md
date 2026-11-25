@@ -9,6 +9,8 @@ Starlink applications, and retain snapshots in a local SQLite database.
 - [Stack](stack.md): repository components, entry points, frameworks, and build tooling.
 - [Architecture](architecture.md): startup, connection lifetimes, snapshots, parsing, and persistence.
 - [Development](development.md): setup, validation, generators, fixtures, and release tooling.
+- [Upgrades and releases](upgrade_and_release.md): Flutter, dependency, build-tool, CI image, and
+  iOS upgrades, and the pre-release routine.
 - [Obstruction maps](obstruction_maps.md): current map behavior, caches, measurements, and limitations.
 - [Map protocol evidence](obstruction_map_sources.md): schema contracts, external sources, and
   geographic calibration limits. Read this before changing map geometry.
